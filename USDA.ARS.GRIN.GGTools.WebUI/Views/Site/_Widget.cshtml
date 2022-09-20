@@ -1,0 +1,32 @@
+﻿@model USDA.ARS.GRIN.GGTools.ViewModelLayer.SiteViewModel
+<div class="card card-default">
+    <div class="card-header">
+        <h3 class="card-title">My Site</h3>
+    </div>
+    <div class="card-body">
+        <strong><i class="fas fa-book mr-1"></i> Name</strong>
+        <p class="text-muted">
+            @Model.Entity.LongName
+        </p>
+        <hr>
+        <strong><i class="fas fa-envelope mr-1"></i> Email</strong>
+        <p class="text-muted">@Model.Entity.EmailAddress</p>
+        <hr>
+        <strong><i class="fas fa-map-marker-alt mr-1"></i> Address</strong>
+        <p class="text-muted">
+            @Model.Entity.PrimaryAddress1<br />
+            @Model.Entity.PrimaryAddress2<br />
+            @Model.Entity.PrimaryAddress3<br />
+            @Model.Entity.PrimaryCity<br />
+        </p>
+        <hr>
+        <strong><i class="far fa-file-alt mr-1"></i> Notes</strong>
+        <p class="text-muted">@Model.Entity.Note</p>
+    </div>
+    <!-- TODO -->
+    @*<div class="card-footer">
+        <a href="@Url.Action("Edit","Site", new { entityId = Model.Entity.ID })" class="btn btn-primary btn-block">
+            Detail
+        </a>
+    </div>*@
+</div>

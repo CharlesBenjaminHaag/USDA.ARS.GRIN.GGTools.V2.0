@@ -1,0 +1,308 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Reflection;
+using System.Data;
+using USDA.ARS.GRIN.Common.DataLayer;
+using USDA.ARS.GRIN.GGTools.AppLayer;
+using USDA.ARS.GRIN.GGTools.DataLayer;
+
+namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
+{
+    public class GenusManager : AppDataManagerBase, IManager<Genus, GenusSearch>
+    {
+        public int Delete(Genus entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Genus Get(int entityId)
+        {
+            Genus genus = new Genus();
+            SQL = "usp_TaxonomyGenus_Select";
+           
+            var parameters = new List<IDbDataParameter> {
+                CreateParameter("taxonomy_genus_id", (object)entityId, false)
+            };
+            genus = GetRecord<Genus>(SQL, CommandType.StoredProcedure, parameters.ToArray());
+            return genus;
+        }
+        public List<Genus> GetSynonyms(int entityId)
+        {
+            SQL = "usp_GGTools_Taxon_GenusSynonyms_Select";
+            var parameters = new List<IDbDataParameter> {
+                CreateParameter("@taxonomy_genus_id", (object)entityId, false)
+            };
+            List<Genus> genera = GetRecords<Genus>(SQL, CommandType.StoredProcedure, parameters.ToArray());
+            return genera;
+        }
+        public List<Genus> GetSubdivisions(string genusName)
+        {
+            SQL = "usp_GGTools_Taxon_GenusSubdivisions_Select";
+            var parameters = new List<IDbDataParameter> {
+                CreateParameter("@genus_name", (object)genusName, false)
+            };
+            List<Genus> genera = GetRecords<Genus>(SQL, CommandType.StoredProcedure, parameters.ToArray());
+            return genera;
+        }
+        public int Insert(Genus entity)
+        {
+            Reset(CommandType.StoredProcedure);
+            Validate<Genus>(entity);
+            SQL = "usp_GGTools_Taxon_Genus_Insert";
+
+            BuildInsertUpdateParameters(entity);
+
+            AddParameter("@out_error_number", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
+            AddParameter("@out_taxonomy_genus_id", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
+
+            RowsAffected = ExecuteNonQuery();
+
+            entity.ID = GetParameterValue<int>("@out_taxonomy_genus_id", -1);
+            int errorNumber = GetParameterValue<int>("@out_error_number", -1);
+
+            if (errorNumber > 0)
+                throw new Exception(errorNumber.ToString());
+
+            return entity.ID;
+        }
+
+        public int InsertInfrageneric(Genus entity)
+        {
+            Reset(CommandType.StoredProcedure);
+            Validate<Genus>(entity);
+            SQL = "usp_GGTools_Taxon_Infrageneric_Insert";
+
+            BuildInfrageneticInsertUpdateParameters(entity);
+
+            AddParameter("@out_error_number", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
+            AddParameter("@out_taxonomy_genus_id", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
+
+            RowsAffected = ExecuteNonQuery();
+
+            entity.ID = GetParameterValue<int>("@out_taxonomy_genus_id", -1);
+            int errorNumber = GetParameterValue<int>("@out_error_number", -1);
+
+            if (errorNumber > 0)
+                throw new Exception(errorNumber.ToString());
+
+            return entity.ID;
+        }
+        public Genus GetGenus(string genusName)
+        {
+            GenusSearch searchEntity = new GenusSearch { Name = genusName };
+
+            SQL = "SELECT * FROM vw_GGTools_Taxon_Genera WHERE Name = @Name AND GenericRank='GENUS'";
+            var parameters = new List<IDbDataParameter> {
+                CreateParameter("Name", (object)searchEntity.Name ?? DBNull.Value, true)
+            };
+            Genus result = GetRecord<Genus>(SQL, parameters.ToArray());
+            return result;
+        }
+
+        public List<Genus> Search(GenusSearch searchEntity)
+        {
+            List<Genus> results = new List<Genus>();
+
+            SQL = "SELECT * FROM vw_GGTools_Taxon_Genera";
+            SQL += " WHERE  (@ID   IS NULL OR ID       =         @ID)";
+            SQL += " AND    (@CreatedByCooperatorID         IS NULL OR CreatedByCooperatorID    =       @CreatedByCooperatorID)";
+            SQL += " AND    (@FamilyMapID                   IS NULL OR FamilyMapID              =       @FamilyMapID)";
+            SQL += " AND    (@FullName                      IS NULL OR FullName                 LIKE    @FullName + '%')";
+            SQL += " AND    (@IsAcceptedName                IS NULL OR IsAcceptedName           =       @IsAcceptedName)";
+            SQL += " AND    (@AcceptedName                  IS NULL OR AcceptedName             LIKE    @AcceptedName + '%')";
+            SQL += " AND    (@Rank                          IS NULL OR Rank                     LIKE    '%' + @Rank + '%')";
+            SQL += " AND    (@Authority                     IS NULL OR Authority                LIKE    '%' + @Authority + '%')";
+            SQL += " AND    (@Note                          IS NULL OR Note                     LIKE    '%' + @Note + '%')";
+            SQL += " ORDER BY Name ";
+
+            var parameters = new List<IDbDataParameter> {
+                CreateParameter("ID", searchEntity.ID > 0 ? (object)searchEntity.ID : DBNull.Value, true),
+                CreateParameter("CreatedByCooperatorID", searchEntity.CreatedByCooperatorID > 0 ? (object)searchEntity.CreatedByCooperatorID : DBNull.Value, true),
+                CreateParameter("FamilyMapID", searchEntity.FamilyID > 0 ? (object)searchEntity.FamilyID : DBNull.Value, true),
+                CreateParameter("FullName", (object)searchEntity.FullName ?? DBNull.Value, true),
+                CreateParameter("IsAcceptedName", (object)searchEntity.IsAcceptedName ?? DBNull.Value, true),
+                CreateParameter("AcceptedName", (object)searchEntity.AcceptedName ?? DBNull.Value, true),
+                CreateParameter("Rank", (object)searchEntity.GenericRank ?? DBNull.Value, true),
+                CreateParameter("Authority", (object)searchEntity.Authority ?? DBNull.Value, true),
+                CreateParameter("Note", (object)searchEntity.Note ?? DBNull.Value, true)
+            };
+
+            results = GetRecords<Genus>(SQL, parameters.ToArray());
+            RowsAffected = results.Count;
+
+            return results;
+        }
+
+        public List<Genus> SearchFolderItems(GenusSearch searchEntity)
+        {
+            List<Genus> results = new List<Genus>();
+
+            SQL = " SELECT vgtcn.* FROM vw_GGTools_Taxon_Genera vgtcn JOIN vw_GGTools_GRINGlobal_AppUserItemLists vgga " +
+                   " ON vgtcn.ID = vgga.EntityID WHERE vgga.TableName = 'taxonomy_genus' ";
+            SQL += "AND  (@FolderID                          IS NULL OR  FolderID       =           @FolderID)";
+
+            var parameters = new List<IDbDataParameter> {
+                CreateParameter("FolderID", searchEntity.FolderID > 0 ? (object)searchEntity.FolderID : DBNull.Value, true)
+            };
+            results = GetRecords<Genus>(SQL, parameters.ToArray());
+            RowsAffected = results.Count;
+            return results;
+        }
+
+        public int Update(Genus entity)
+        {
+            Reset(CommandType.StoredProcedure);
+            Validate<Genus>(entity);
+
+            SQL = "usp_GGTools_Taxon_Genus_Update";
+
+            BuildInsertUpdateParameters(entity);
+            AddParameter("@out_error_number", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
+            RowsAffected = ExecuteNonQuery();
+            int errorNumber = GetParameterValue<int>("@out_error_number", -1);
+            return RowsAffected;
+        }
+
+        public int UpdateInfrageneric(Genus entity)
+        {
+            Reset(CommandType.StoredProcedure);
+            Validate<Genus>(entity);
+
+            SQL = "usp_GGTools_Taxon_Infrageneric_Update";
+
+            BuildInfrageneticInsertUpdateParameters(entity);
+            AddParameter("@out_error_number", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
+            RowsAffected = ExecuteNonQuery();
+            int errorNumber = GetParameterValue<int>("@out_error_number", -1);
+            return RowsAffected;
+        }
+
+        public void BuildInsertUpdateParameters(Genus entity)
+        {
+            if (entity.ID > 0)
+            {
+                AddParameter("taxonomy_genus_id", entity.ID == 0 ? DBNull.Value : (object)entity.ID, true);
+            }
+            AddParameter("current_taxonomy_genus_id", entity.AcceptedID == 0 ? DBNull.Value : (object)entity.AcceptedID, true);
+            AddParameter("taxonomy_family_id", entity.FamilyID == 0 ? DBNull.Value : (object)entity.FamilyID, true);
+            AddParameter("qualifying_code", (object)entity.QualifyingCode ?? DBNull.Value, true);
+            AddParameter("hybrid_code", (object)entity.HybridCode ?? DBNull.Value, true);
+            AddParameter("genus_name", String.IsNullOrEmpty(entity.Name) ? DBNull.Value : (object)entity.Name, true);
+            AddParameter("genus_authority", String.IsNullOrEmpty(entity.Authority) ? DBNull.Value : (object)entity.Authority, true);
+            AddParameter("note", (object)entity.Note ?? DBNull.Value, true);
+
+            if (entity.ID > 0)
+            {
+                AddParameter("modified_by", entity.ModifiedByCooperatorID == 0 ? DBNull.Value : (object)entity.ModifiedByCooperatorID, true);
+            }
+            else
+            {
+                AddParameter("created_by", entity.CreatedByCooperatorID == 0 ? DBNull.Value : (object)entity.CreatedByCooperatorID, true);
+            }
+        }
+
+        public void BuildInfrageneticInsertUpdateParameters(Genus entity)
+        {
+            if (entity.ID > 0)
+            {
+                AddParameter("taxonomy_genus_id", entity.ID == 0 ? DBNull.Value : (object)entity.ID, true);
+            }
+            else
+            {
+                AddParameter("taxonomy_genus_id", entity.ParentID == 0 ? DBNull.Value : (object)entity.ParentID, true);
+            }
+            AddParameter("current_taxonomy_genus_id", entity.AcceptedID == 0 ? DBNull.Value : (object)entity.AcceptedID, true);
+            AddParameter("qualifying_code", (object)entity.QualifyingCode ?? DBNull.Value, true);
+            AddParameter("hybrid_code", (object)entity.HybridCode ?? DBNull.Value, true);
+            AddParameter("subgenus_name", String.IsNullOrEmpty(entity.SubgenusName) ? DBNull.Value : (object)entity.SubgenusName, true);
+            AddParameter("section_name", String.IsNullOrEmpty(entity.SectionName) ? DBNull.Value : (object)entity.SectionName, true);
+            AddParameter("subsection_name", String.IsNullOrEmpty(entity.SubsectionName) ? DBNull.Value : (object)entity.SubsectionName, true);
+            AddParameter("series_name", String.IsNullOrEmpty(entity.SeriesName) ? DBNull.Value : (object)entity.SeriesName, true);
+            AddParameter("subseries_name", String.IsNullOrEmpty(entity.SubseriesName) ? DBNull.Value : (object)entity.SubseriesName, true);
+            AddParameter("note", (object)entity.Note ?? DBNull.Value, true);
+
+            if (entity.ID > 0)
+            {
+                AddParameter("modified_by", entity.ModifiedByCooperatorID == 0 ? DBNull.Value : (object)entity.ModifiedByCooperatorID, true);
+            }
+            else
+            {
+                AddParameter("created_by", entity.CreatedByCooperatorID == 0 ? DBNull.Value : (object)entity.CreatedByCooperatorID, true);
+            }
+        }
+
+        public List<Folder> GetFolders(string tableName)
+        {
+            List<Folder> results = new List<Folder>();
+
+            SQL = "SELECT " +
+                "taxonomy_folder_id AS ID, " +
+                "title AS Title,	" +
+                "category AS Category, " +
+                "description AS Description," +
+                "note AS Note," +
+                "is_shared AS IsShared," +
+                "is_favorite AS IsFavorite," +
+                "data_source_name AS TableName," +
+                "created_date AS CreatedDate," +
+                "modified_date AS ModifiedDate " +
+                "FROM " +
+                "taxonomy_folder tf ";
+            //SQL += "WHERE(@ID   IS NULL         OR   taxonomy_folder_id = @ID)";
+            SQL += "WHERE(@TableName   IS NULL  OR   data_source_name = @TableName)";
+
+            var parameters = new List<IDbDataParameter> {
+                CreateParameter("TableName", (object)tableName ?? DBNull.Value, true),
+            };
+
+            results = GetRecords<Folder>(SQL, parameters.ToArray());
+            RowsAffected = results.Count;
+
+            return results;
+        }
+
+        //REFACTOR CBH, 11/29/21
+        #region Taxonomy Common
+        public virtual List<CodeValue> GetCodeValues(string groupName)
+        {
+            SQL = "usp_GGTools_GRINGlobal_CodeValuesByGroup_Select";
+            var parameters = new List<IDbDataParameter> {
+                CreateParameter("group_name", (object)groupName, false)
+            };
+            List<CodeValue> codeValues = GetRecords<CodeValue>(SQL, CommandType.StoredProcedure, parameters.ToArray());
+            return codeValues;
+        }
+        public virtual List<Cooperator> GetCooperators(string tableName)
+        {
+            SQL = "usp_GGTools_GRINGlobal_CreatedByCooperators_Select";
+            var parameters = new List<IDbDataParameter> {
+                CreateParameter("table_name", (object)tableName, false)
+            };
+            List<Cooperator> cooperators = GetRecords<Cooperator>(SQL, CommandType.StoredProcedure, parameters.ToArray());
+            RowsAffected = cooperators.Count;
+            return cooperators;
+        }
+
+        public List<CodeValue> SearchNotes(string tableName, string note)
+        {
+            // Create SQL to search for rows
+            SQL = "SELECT Value, Description FROM vw_GGTools_Taxon_Notes ";
+            SQL += " WHERE (@Note      IS NULL      OR Description     LIKE     '%' + @Note + '%') ";
+            SQL += " AND   (Value      =            @TableName) ";
+
+            var parameters = new List<IDbDataParameter> {
+                CreateParameter("TableName", (object)tableName ?? DBNull.Value, true),
+                CreateParameter("Note", (object)note ?? DBNull.Value, true),
+            };
+            List<CodeValue> codeValues = GetRecords<CodeValue>(SQL, parameters.ToArray());
+            RowsAffected = codeValues.Count;
+            return codeValues;
+        }
+
+        public void BuildInsertUpdateParameters()
+        {
+            throw new NotImplementedException();
+        }
+        #endregion
+    }
+}

@@ -1,0 +1,242 @@
+﻿@model USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer.GeographyMapViewModel
+@{
+    ViewBag.Title = Model.PageTitle;
+    Layout = "~/Views/Shared/_LayoutAdminLTE3.cshtml";
+}
+
+
+@using (Html.BeginForm("Search", "GeographyMap", FormMethod.Post, new { id = "frmMain" }))
+{
+    @Html.HiddenFor(x => x.EventAction)
+    @Html.HiddenFor(x => x.TableName)
+    @Html.HiddenFor(x => x.TableCode)
+    @Html.HiddenFor(x => x.PageTitle)
+    @Html.HiddenFor(x => x.AuthenticatedUserCooperatorID)
+    @Html.HiddenFor(x => x.ItemIDList)
+    @Html.HiddenFor(x => x.SearchEntity.SaveSearchTitle)
+    @Html.HiddenFor(x => x.SearchEntity.SaveSearchDescription)
+
+    <div class="box box-default">
+        <div class="box-body" style="border:none;">
+            @Html.Partial("~/Views/Taxonomy/GeographyMap/_Detail.cshtml")
+            <div id="section-search-results" class="data-list">
+                @Html.Partial("~/Views/Taxonomy/GeographyMap/_List.cshtml")
+            </div>
+        </div>
+    </div>
+}
+
+@{Html.RenderAction("_Edit", "Folder"); }
+@{Html.RenderAction("RenderLookupModal", "Citation", new { isMultiSelect = "Y" }); }
+@Html.Partial("~/Views/Shared/Modals/_SaveSearch.cshtml")
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        Init();
+        InitDataTable("data-table-geography-map");
+    });
+
+    function Init() {
+        var eventAction = $("#EventAction").val();
+        if (eventAction == "SHOW-SEARCH") {
+            $("#section-search-criteria").show();
+        }
+    }
+
+    $(document).on("click", "[id='btnOpenSaveSearchModal']", function () {
+        $("#EventAction").val("SAVE-SEARCH");
+        $("#modal-save-search").modal("show");
+    });
+
+    $(document).on("click", "[id='btnSaveSearch']", function () {
+        var saveSearchTitle = $("#txtSaveSearchTitle").val();
+        var saveSearchDescription = $("#txtSaveSearchDescription").val();
+
+        $("#SearchEntity_SaveSearchTitle").val(saveSearchTitle);
+        $("#SearchEntity_SaveSearchDescription").val(saveSearchDescription);
+
+        $("#modal-save-search").modal("hide");
+        $("#frmMain").submit();
+    });
+
+
+    $(document).on("click", "[id='btnReset']", function () {
+        Reset("data-table-cwr-map");
+    });
+
+    /*
+     * ===============================================================================
+     * FOLDER MODAL
+     * ===============================================================================
+     */
+    $("#btnOpenFolderModal").click(function () {
+        var selectedItemIdList = GetSelectedEntityIDs("data-table-geography-map");
+
+        //$("#lblFolderEditModalTitle").html("Add " + selectedItemIdList.length + " Selected Record(s) To Folder");
+        $("#modal-folder-edit").modal("show");
+    });
+
+    $("#btnSaveFolder").click(function () {
+        SaveFolder(0);
+    });
+
+    function SaveFolder(folderId) {
+        var link = '@Url.Action("Add", "Folder")';
+        var tableName = $("#TableName").val();
+        var folderName = $("#txtFolderTitle").val();
+        var folderCategory = $("#Entity_Category").val();
+        var folderNewCategory = $("#txtFolderNewCategory").val();
+        var folderDescription = $("#txtFolderDescription").val();
+
+        if ($('#cbxIsFavorite').prop('checked') == true) {
+            isFavorite = true;
+        }
+
+        var selectedItemIdList = GetSelectedEntityIDs("data-table-geography-map");
+
+        var formData = new FormData();
+
+        if (typeof selectedItemIdList != 'undefined') {
+            formData.append("IDList", selectedItemIdList);
+        }
+
+        if ($('#cbxIsFavorite').prop('checked') == true) {
+            formData.append("IsFavorite", true);
+        }
+
+        if ($('#cbxIsShared').prop('checked') == true) {
+            formData.append("IsShared", true);
+        }
+
+        formData.append("FolderID", folderId);
+        formData.append("TableName", tableName);
+        formData.append("FolderName", folderName);
+        formData.append("FolderType", tableName);
+        formData.append("Category", folderCategory);
+        formData.append("NewCategory", folderNewCategory);
+        formData.append("Description", folderDescription);
+
+        $.ajax({
+            url: link,
+            type: 'POST',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (result) {
+                //window.location.href = originalLink;
+            },
+            error: function () {
+                alert("Error in ApplyCitation()");
+            }
+        });
+        $("#modal-folder-edit").modal("hide");
+    }
+
+    function SaveFolderItems(folderId) {
+        var link = '@Url.Action("AddItems", "Folder")';
+        var tableName = $("#TableName").val();
+        var selectedItemIdList = GetSelectedEntityIDs("data-table-cwr-map");
+        var formData = new FormData();
+
+        formData.append("FolderID", folderId);
+        formData.append("TableName", tableName);
+
+        if (typeof selectedItemIdList != 'undefined') {
+            formData.append("IDList", selectedItemIdList);
+        }
+
+        $.ajax({
+            url: link,
+            type: 'POST',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (result) {
+            },
+            error: function () {
+                alert("Error");
+            }
+        });
+        $("#modal-folder-edit").modal("hide");
+    }
+
+    /*
+    * ===================================================================================================
+    * CITATION MODAL
+    * ===================================================================================================
+    */
+
+    $(document).on("click", "[id='btnLookupCitations']", function () {
+        var link = '@Url.Action("Lookup","Citation")';
+        var tableName = $("#TableName").val();
+        var literatureTypeCode = $("#SearchEntity_LiteratureTypeCode").val();
+        var standardAbbreviation = $("#SearchEntity_StandardAbbreviation").val();
+        var abbreviation = $("#SearchEntity_Abbreviation").val();
+        var citationTitle = $("#SearchEntity_CitationTitle").val();
+        var editorAuthorName = $("#SearchEntity_EditorAuthorName").val();
+        var citationYear = $("#SearchEntity_CitationYear").val();
+
+        var formData = new FormData();
+
+        formData.append("TableName", tableName);
+        formData.append("LiteratureTypeCode", literatureTypeCode);
+        formData.append("StandardAbbreviation", standardAbbreviation);
+        formData.append("Abbreviation", abbreviation);
+        formData.append("CitationTitle", citationTitle);
+        formData.append("EditorAuthorName", editorAuthorName);
+        formData.append("CitationYear", citationYear);
+
+        try {
+            $.ajax({
+                url: link,
+                type: 'POST',
+                cache: false,
+                contentType: false,
+                processData: false,
+                data: formData,
+                success: function (response) {
+                    $("#section-citation-lookup-search-results").html(response);
+                }
+            });
+        }
+        catch (ex) {
+        }
+    });
+
+    $(document).on("click", "[id='btnSaveCitations']", function () {
+        SaveCitations();
+    });
+
+    function SaveCitations() {
+        var tableName = $("#TableName").val();
+        var entityId = $("#Entity_ID").val();
+        var formData = new FormData();
+        var selectedItemIdList = GetSelectedEntityIDs("citation-lookup-data-table");
+        var selectedEntityIdList = GetSelectedEntityIDs("data-table-geography-map");
+        var link = '@Url.Action("Add","Citation")';
+        var refreshLink = '@Url.Action("Index","GeographyMap")';
+
+        formData.append("TableName", tableName);
+        formData.append("IDList", selectedItemIdList);
+        formData.append("EntityIDList", selectedEntityIdList);
+
+        $.ajax({
+            url: link,
+            type: 'POST',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (result) {
+                window.location.href = refreshLink;
+            },
+            error: function () {
+
+            }
+        });
+        ("#modal-citation-search").modal("hide");
+    }
+</script>

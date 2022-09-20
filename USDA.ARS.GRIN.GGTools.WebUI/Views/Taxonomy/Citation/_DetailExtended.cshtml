@@ -1,0 +1,63 @@
+﻿@model USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer.CitationViewModelBase
+<div class="card card-default card-outline collapsed-card">
+    <div class="card-header">
+        <h3 class="card-title">Extended Fields</h3>
+        <div class="card-tools">
+            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                <i class="fas fa-plus"></i>
+            </button>
+        </div>
+    </div>
+    <div class="card-body p-3" style="display: none;">
+        <div class="row">
+            <div class="col-sm-1">
+                <div class="form-group form-horizontal">
+                    <label>ID</label>
+                    @Html.TextBoxFor(x=>x.SearchEntity.ID, new { @class="form-control" })
+                </div>
+            </div>
+            <div class="col-sm-1">
+                <div class="form-group form-horizontal">
+                    <label>Reference Title</label>
+                    @Html.TextBoxFor(x => x.SearchEntity.ReferenceTitle, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="form-group form-horizontal">
+                    <label>Taxon Name</label>
+                    @Html.TextBoxFor(x => x.SearchEntity.TaxonName, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="form-group form-horizontal">
+                    <label>Citation Type</label>
+                    @Html.TextBoxFor(x => x.SearchEntity.CitationType, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="col-sm-2">
+                <div class="form-group form-horizontal">
+                    <label>Citation Author Name</label>
+                    @Html.TextBoxFor(x => x.SearchEntity.LiteratureAuthorName, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="form-group form-horizontal">
+                    <label>Volume or Page</label>
+                    @Html.TextBoxFor(x => x.SearchEntity.VolumeOrPage, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="form-group form-horizontal">
+                    <label>DOI Reference</label>
+                    @Html.TextBoxFor(x => x.SearchEntity.DOIReference, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="form-group form-horizontal">
+                    <label>Accepted Name</label>
+                    @Html.DropDownListFor(x=>x.SearchEntity.IsAcceptedName, Model.YesNoOptions, new { @class = "form-control" })
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

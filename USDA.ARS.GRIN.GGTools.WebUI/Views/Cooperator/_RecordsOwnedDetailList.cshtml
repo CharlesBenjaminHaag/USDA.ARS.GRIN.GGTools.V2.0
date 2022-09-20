@@ -1,0 +1,42 @@
+﻿@model USDA.ARS.GRIN.GGTools.ViewModelLayer.CooperatorViewModel
+<div class="col-md-12">
+    <div style="margin-bottom:25px;">
+        <div class="btn-group">
+            <a href="@Url.Action("RecordOwnershipEdit", "Cooperator", new { entityId = Model.Entity.ID })" class="btn btn-default">
+                <i class="fa fa-edit"></i>
+                Re-Assign
+            </a>
+        </div>
+    </div>
+    <div class="row">
+        @if (Model.TotalRecordsOwned > 0)
+        {
+            foreach (var result in Model.DataCollectionReportItems)
+            {
+                if (result.ItemCount > 0)
+                {
+                    <div class="col-md-3 col-sm-6 col-xs-12">
+                        <div class="info-box">
+                            <span class="info-box-icon bg-info"><i class="fa fa-table"></i></span>
+                            <div class="info-box-content">
+                                <span class="info-box-text"><a href="@Url.Action("Index", "Cooperator")">@result.Title</a></span>
+                                <span class="info-box-number">@result.ItemCount</span>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+        }
+        else
+        {
+            <div class="col-md-12">
+                <div class="alert alert-warning alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                    <h5><i class="icon fas fa-exclamation-triangle"></i> No Records Owned</h5>
+                    This cooperator does not currently own any records.
+                </div>
+            </div>
+        }
+        
+    </div>
+</div>

@@ -1,0 +1,54 @@
+﻿@model USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer.LiteratureViewModelBase
+<div class="margin" style="padding-bottom:10px;">
+    <div class="btn-group">
+        <a href="@Url.Action("Add","Literature")" class="btn btn-default">
+            <i class="fas fa-plus"></i> Add
+        </a>
+    </div>
+</div>
+
+<div id="section-controls" class="card card-default">
+    <div class="card-header">
+        <h3 class="card-title">Search Criteria</h3>
+    </div>
+    <div id="section-search-criteria" class="card-body">
+        <div class="row">
+            <div class="col-md-2">
+                <div class="form-group form-horizontal">
+                    <label>Created By</label>
+                    @Html.DropDownListFor(x => x.SearchEntity.CreatedByCooperatorID, Model.Cooperators, "All cooperators", new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group form-horizontal">
+                    <label>Std. Abbrev.</label>
+                    @Html.TextBoxFor(x => x.SearchEntity.StandardAbbreviation, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group form-horizontal">
+                    <label>Reference Title</label>
+                    @Html.TextBoxFor(x => x.SearchEntity.ReferenceTitle, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group form-horizontal">
+                    <label>Author</label>
+                    @Html.TextBoxFor(x => x.SearchEntity.EditorAuthorName, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="col-md-1">
+                <div class="form-group form-horizontal">
+                    <label>Year</label>
+                    @Html.TextBoxFor(x => x.SearchEntity.PublicationYear, new { @class = "form-control" })
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card-footer">
+        <button id="btnReset" type="button" class="btn btn-danger">Reset</button>
+        <button type="submit" class="btn btn-primary float-right">Search</button>
+    </div>
+</div>
+
+

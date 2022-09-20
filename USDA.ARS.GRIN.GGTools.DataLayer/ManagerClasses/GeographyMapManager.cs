@@ -1,0 +1,234 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Reflection;
+using System.Data;
+using USDA.ARS.GRIN.Common.DataLayer;
+using USDA.ARS.GRIN.GGTools.AppLayer;
+using USDA.ARS.GRIN.GGTools.DataLayer;
+
+namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
+{
+    public class GeographyMapManager : AppDataManagerBase, IManager<GeographyMap, GeographyMapSearch>
+    {
+        public virtual int Insert(GeographyMap entity)
+        {
+            Reset(CommandType.StoredProcedure);
+            Validate<GeographyMap>(entity);
+            SQL = "usp_GGTools_Taxon_GeographyMap_Insert";
+
+            BuildInsertUpdateParameters(entity);
+
+            AddParameter("@out_error_number", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
+            AddParameter("@out_taxonomy_geography_map_id", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
+            AddStandardParameters();
+
+            RowsAffected = ExecuteNonQuery(false, "@out_taxonomy_geography_map_id");
+            entity.ID = GetParameterValue<int>("@out_taxonomy_geography_map_id", -1);
+
+            int errorNumber = GetParameterValue<int>("@out_error_number", -1);
+            if (errorNumber > 0)
+            {
+                throw new Exception("SQL Error " + errorNumber.ToString());
+            }
+
+            RowsAffected = entity.ID;
+            return entity.ID;
+        }
+
+        public virtual int Update(GeographyMap entity)
+        {
+            Reset(CommandType.StoredProcedure);
+            Validate<GeographyMap>(entity);
+
+            SQL = "usp_GGTools_Taxon_GeographyMap_Update";
+
+            BuildInsertUpdateParameters(entity);
+            AddParameter("@out_error_number", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
+            RowsAffected = ExecuteNonQuery();
+
+            int errorNumber = GetParameterValue<int>("@out_error_number", -1);
+            if (errorNumber > 0)
+            {
+                throw new Exception("SQL Error " + errorNumber.ToString());
+            }
+
+            return RowsAffected;
+        }
+
+        public int Delete(GeographyMap entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public GeographyMap Get(int entityId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void GetList(int[] idList)
+        { 
+        
+        }
+
+        public List<GeographyMap> Search(GeographyMapSearch searchEntity)
+        {
+            List<GeographyMap> results = new List<GeographyMap>();
+
+            SQL = "SELECT * FROM vw_GGTools_Taxon_GeographyMaps ";
+            SQL += "WHERE (@GeographyDescription        IS NULL OR      GeographyDescription        LIKE  '%' + @GeographyDescription + '%')";
+            SQL += " AND    (@ID                        IS NULL OR      ID                          =       @ID) ";
+            SQL += " AND    (@SpeciesID                 IS NULL OR      SpeciesID                   =           @SpeciesID)";
+            SQL += " AND    (@SpeciesName               IS NULL OR      SpeciesName                 LIKE  '%' + @SpeciesName + '%')";
+            SQL += " AND    (@GeographyDescription      IS NULL OR      GeographyDescription        =           @GeographyDescription)";
+            SQL += " AND    (@GeographyStatusCode       IS NULL OR      GeographyStatusCode         =           @GeographyStatusCode)";
+            SQL += " AND    (@CountryCode               IS NULL OR      CountryCode                 =           @CountryCode)";
+            SQL += " AND    (@CountryName               IS NULL OR      CountryName                 LIKE  '%' + @CountryName + '%')";
+            SQL += " AND    (@Admin1                    IS NULL OR      Admin1                      LIKE  '%' + @Admin1 + '%')";
+            SQL += " AND    (@IsCited                   IS NULL OR      IsCited                      =           @IsCited)";
+            SQL += " AND    (@IsValid                   IS NULL OR      IsValid                      =           @IsValid)";
+            SQL += " AND    (@CreatedByCooperatorID     IS NULL OR      CreatedByCooperatorID        =           @CreatedByCooperatorID)";
+
+            if (!String.IsNullOrEmpty(searchEntity.IDList))
+            {
+                SQL += " AND    SpeciesID IN (" + searchEntity.IDList + ")";
+            }
+
+            if (!String.IsNullOrEmpty(searchEntity.GeographyMapIDList))
+            {
+                SQL += " AND    ID IN (" + searchEntity.GeographyMapIDList + ")";
+            }
+
+            var parameters = new List<IDbDataParameter> {
+                CreateParameter("GeographyDescription", (object)searchEntity.GeographyDescription ?? DBNull.Value, true),
+                CreateParameter("ID", searchEntity.ID > 0 ? (object)searchEntity.ID : DBNull.Value, true),
+                CreateParameter("SpeciesID", searchEntity.SpeciesID > 0 ? (object)searchEntity.SpeciesID : DBNull.Value, true),
+                CreateParameter("SpeciesName", (object)searchEntity.SpeciesName ?? DBNull.Value, true),
+                CreateParameter("GeographyStatusCode", (object)searchEntity.GeographyStatusCode ?? DBNull.Value, true),
+                CreateParameter("CountryCode", (object)searchEntity.CountryCode ?? DBNull.Value, true),
+                CreateParameter("CountryName", (object)searchEntity.CountryName  ?? DBNull.Value, true),
+                CreateParameter("Admin1", (object)searchEntity.Admin1 ?? DBNull.Value, true),
+                CreateParameter("IsCited", (object)searchEntity.IsCited ?? DBNull.Value, true),
+                CreateParameter("IsValid", (object)searchEntity.IsValid ?? DBNull.Value, true),
+                CreateParameter("CreatedByCooperatorID", searchEntity.CreatedByCooperatorID > 0 ? (object)searchEntity.CreatedByCooperatorID : DBNull.Value, true),
+            };
+
+            results = GetRecords<GeographyMap>(SQL, parameters.ToArray());
+            RowsAffected = results.Count;
+
+            return results;
+        }
+
+        public List<GeographyMap> SearchFolderItems(GeographyMapSearch searchEntity)
+        {
+            List<GeographyMap> results = new List<GeographyMap>();
+
+            SQL = " SELECT auil.app_user_item_list_id AS ListID, " +
+                " auil.list_name AS ListName, " +
+                " auil.app_user_item_folder_id AS FolderID, " +
+                " vgtgm.* " +
+                " FROM vw_GGTools_Taxon_GeographyMaps vgtgm " +
+                " JOIN app_user_item_list auil " +
+                " ON vgtgm.ID = auil.id_number " +
+                " WHERE auil.id_type = 'taxonomy_geography_map' ";
+            SQL += "AND  (@FolderID                          IS NULL OR  auil.app_user_item_folder_id       =           @FolderID)";
+
+            var parameters = new List<IDbDataParameter> {
+                CreateParameter("FolderID", searchEntity.FolderID > 0 ? (object)searchEntity.FolderID : DBNull.Value, true)
+            };
+            results = GetRecords<GeographyMap>(SQL, parameters.ToArray());
+            RowsAffected = results.Count;
+            return results;
+        }
+        public int AddCitation(int citationId, int id)
+        {
+            int newCitationId = 0;
+            int errorNumber = 0;
+            Reset(CommandType.StoredProcedure);
+            SQL = "usp_TaxonomyCitationGeographyMapClone_Insert";
+
+            AddParameter("@citation_id", (object)citationId, false);
+            AddParameter(("@taxonomy_geography_map_id"), (object)id, false);
+            AddParameter("@out_error_number", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
+            AddParameter("@out_citation_id", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
+
+            RowsAffected = ExecuteNonQuery();
+
+            // Get the primary key generated from the SQL Server IDENTITY
+            newCitationId = GetParameterValue<int>("out_citation_id", -1);
+            errorNumber = GetParameterValue<int>("@out_error_number", -1);
+
+            return RowsAffected;
+        }
+
+        public void BuildInsertUpdateParameters()
+        {
+            throw new NotImplementedException();
+        }
+
+        #region Taxonomy Common
+
+        public virtual List<Cooperator> GetCooperators(string tableName)
+        {
+            SQL = "usp_GGTools_GRINGlobal_CreatedByCooperators_Select";
+            var parameters = new List<IDbDataParameter> {
+                CreateParameter("table_name", (object)tableName, false)
+            };
+            List<Cooperator> cooperators = GetRecords<Cooperator>(SQL, CommandType.StoredProcedure, parameters.ToArray());
+            RowsAffected = cooperators.Count;
+            return cooperators;
+        }
+        public virtual List<CodeValue> GetCodeValues(string groupName)
+        {
+            SQL = "usp_GGTools_GRINGlobal_CodeValuesByGroup_Select";
+            var parameters = new List<IDbDataParameter> {
+                CreateParameter("group_name", (object)groupName, false)
+            };
+            List<CodeValue> codeValues = GetRecords<CodeValue>(SQL, CommandType.StoredProcedure, parameters.ToArray());
+            RowsAffected = codeValues.Count;
+            return codeValues;
+        }
+
+        public Dictionary<string, string> GetYesNoOptions()
+        {
+            return new Dictionary<string, string>
+            {
+                { "Y", "Yes" },
+                { "N", "No" }
+            };
+        }
+        public Dictionary<string, string> GetTableNames()
+        {
+            return new Dictionary<string, string>
+            {
+                { "taxonomy_family", "Family" },
+                { "taxonomy_genus", "Genus" },
+                { "taxonomy_species", "Species" }
+            };
+        }
+
+        #endregion
+
+        protected virtual void BuildInsertUpdateParameters(GeographyMap entity)
+        {
+            if (entity.ID > 0)
+            {
+                AddParameter("taxonomy_geography_map_id", entity.ID == 0 ? DBNull.Value : (object)entity.ID, true);
+            }
+
+            AddParameter("taxonomy_species_id", entity.SpeciesID == 0 ? DBNull.Value : (object)entity.SpeciesID, true);
+            AddParameter("geography_id", entity.GeographyID == 0 ? DBNull.Value : (object)entity.GeographyID, true);
+            AddParameter("geography_status_code", (object)entity.GeographyStatusCode ?? DBNull.Value, false);
+            AddParameter("citation_id", entity.CitationID == 0 ? DBNull.Value : (object)entity.CitationID, true); ;
+            AddParameter("note", (object)entity.Note ?? DBNull.Value, false);
+
+            if (entity.ID > 0)
+            {
+                AddParameter("modified_by", entity.ModifiedByCooperatorID == 0 ? DBNull.Value : (object)entity.ModifiedByCooperatorID, true);
+            }
+            else
+            {
+                AddParameter("created_by", entity.CreatedByCooperatorID == 0 ? DBNull.Value : (object)entity.CreatedByCooperatorID, true);
+            }
+        }
+    }
+}

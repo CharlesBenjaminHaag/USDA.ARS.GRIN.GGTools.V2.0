@@ -1,0 +1,116 @@
+﻿@model USDA.ARS.GRIN.GGTools.ViewModelLayer.SysUserViewModel
+@{
+    ViewBag.Title = "Browse Groups";
+    Layout = "~/Views/Shared/_LayoutAdminLTE3.cshtml";
+}
+
+<div class="row">
+    <div class="col-md-3">
+        @{ Html.RenderAction("_SelectList", "SysGroupUserMap", new { @sysUserId = Model.Entity.ID }); }
+    </div>
+    <div class="col-md-9">
+        <div class="card card-default">
+            <div class="card-header">
+                <h3 class="card-title"> All Users Permissions</h3>
+            </div>
+            <div class="card-body">
+                <h3>PERMISSIONS</h3>
+            </div>
+        </div>
+    </div>
+</div>
+
+@using (Html.BeginForm("Edit", "SysUser", FormMethod.Post, new { id = "frmEdit" }))
+{
+    @Html.HiddenFor(x => x.PageTitle)
+    @Html.HiddenFor(x => x.IsReadOnly)
+    @Html.HiddenFor(x => x.EventAction)
+    @Html.HiddenFor(x => x.EventValue)
+    @Html.HiddenFor(x => x.TableName)
+    @Html.HiddenFor(x => x.TableCode)
+    @Html.HiddenFor(x => x.Entity.ID)
+    @Html.HiddenFor(x => x.Entity.SysUserID)
+    @Html.HiddenFor(x => x.Entity.UserName)
+    @Html.HiddenFor(x => x.Entity.SysUserName)
+    @Html.HiddenFor(x => x.DisplayUserName)
+    @Html.HiddenFor(x => x.Entity.EmailAddress)
+
+    @*<div class="card card-default edit-controls">
+        <div class="card-header">
+            <h3 class="card-title">Summary</h3>
+        </div>
+        <div class="card-body">
+            @Html.Partial("~/Views/Shared/_ValidationMessages.cshtml")
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label>User Name</label><br />
+                        @Html.TextBoxFor(x => x.DisplayUserName, new { @class = "form-control", @readonly = "readonly", disabled = "disabled" })
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label>Password</label>
+                        @Html.TextBoxFor(x => x.Entity.Password, new { @class = "form-control", @type = "password", autocomplete = "new-password" })
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label>Confirm</label>
+                        @Html.TextBoxFor(x => x.Entity.PasswordConfirm, new { @class = "form-control", @type = "password", autocomplete = "new-password" })
+                    </div>
+                </div>
+
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label>Expires</label>
+                        @Html.TextBoxFor(x => x.Entity.SysUserPasswordExpirationDate, new { @class = "form-control", @readonly = "readonly", disabled = "disabled" })
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="custom-control custom-checkbox">
+                        <input class="custom-control-input" type="checkbox" id="customCheckbox1" value="option1">
+                        <label for="customCheckbox1" class="custom-control-label">Send notification email to cooperator about password change.</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="section-edit-controls" class="card-footer">
+            <button type="button" class="btn btn-danger">Cancel</button>
+
+
+
+            <button type="submit" class="btn btn-primary float-right">Save</button>
+        </div>
+    </div>*@
+}
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        Init();
+    });
+
+    function Init() {
+        var isReadOnly = $("#IsReadOnly").val();
+        if (isReadOnly == "Y") {
+            SetReadOnly();
+        }
+    }
+
+    $(document).ready(function () {
+        $(".row-delete").on("click", function () {
+            var id = $(this).attr("id");
+            alert("DEBUG Delete group " + id);
+        });
+    });
+
+    $('#section-groups ul.nav li').on('click', function () {
+        var selectedSysGroupId = $(this).attr('id');
+        //DEBUG 
+        alert("SEL GRP " + selectedSysGroupId);
+    });
+
+</script>

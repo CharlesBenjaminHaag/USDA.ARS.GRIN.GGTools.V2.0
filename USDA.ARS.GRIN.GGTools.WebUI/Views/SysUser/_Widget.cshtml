@@ -1,0 +1,66 @@
+﻿@model USDA.ARS.GRIN.GGTools.ViewModelLayer.SysUserViewModel
+
+<style type="text/css">
+    .profile-username {
+        text-overflow: ellipsis;
+    }
+</style>
+
+
+@if (Model.Entity.SysUserID > 0)
+{
+    @Html.HiddenFor(x => x.Entity.SysUserID)
+    <div class="card card-default card-outline">
+        <div class="card-body box-profile">
+            <div class="text-center">
+                <img class="profile-user-img img-fluid img-circle" src="~/dist/img/user-default.png" alt="User profile picture">
+            </div>
+            <h3 class="profile-username text-center">@Model.Entity.SysUserName</h3>
+            <p style="border-bottom: 1px solid #ddd; padding-bottom: 15px;" class="text-muted text-center">
+            </p>
+            <strong>Status</strong>
+            <p style="border-bottom: 1px solid #ddd; padding-bottom: 5px;" class="text-muted">
+                @if (Model.Entity.IsEnabled == "Y")
+                {
+                    <span class="badge bg-green">
+                        ENABLED
+                    </span>
+                }
+                else
+                {
+                    <span class="badge bg-red">
+                        DISABLED
+                    </span>
+                }
+            </p>
+
+            <strong><i class="fa fa-calendar margin-r-5"></i> Created</strong>
+            <p style="border-bottom: 1px solid #ddd; padding-bottom: 5px;" class="text-muted">
+                @Model.Entity.CreatedDate
+            </p>
+            @if (Model.Entity.SysUserModifiedDate > DateTime.MinValue)
+            {
+                <strong><i class="fa fa-calendar margin-r-5"></i> Last Modified</strong>
+                <p style="border-bottom: 1px solid #ddd; padding-bottom: 5px;" class="text-muted">
+                    @Model.Entity.SysUserModifiedDate
+                </p>
+            }
+            <strong><i class="fa fa-calendar margin-r-5"></i> Password Expires</strong>
+            <p class="text-muted">
+                @Model.Entity.SysUserPasswordExpirationDate
+            </p>
+        </div>
+        <!-- TODO -->
+        @*<div class="card-footer">
+            <a href="@Url.Action("Edit","SysUser", new { entityId = Model.Entity.SysUserID })" class="btn btn-default btn-block">View Sys User Account</a>
+        </div>*@
+    </div>
+}
+else
+{
+    <div class="alert alert-warning alert-dismissible">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+        <h5><i class="icon fas fa-exclamation-triangle"></i> No Sys User Account</h5>
+        This cooperator must have an enabled sys user account to be able to use the Curator Tool.
+    </div>
+}

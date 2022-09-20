@@ -1,0 +1,232 @@
+﻿<nav class="mt-2">
+    <ul class="nav nav-pills nav-sidebar nav-child-indent flex-column" data-widget="treeview" role="menu" data-accordion="false">
+        <li class="nav-item">
+            <a href="@Url.Action("Index","HOme")" class="nav-link">
+                <i class="nav-icon fas fa-home"></i>
+                <p>Home</p>
+            </a>
+        </li>
+        <li class="nav-item menu-open">
+            <a href="#" class="nav-link ">
+                <i class="nav-icon fas fa-compass"></i>
+                <p>
+                    Navigation
+                    <i class="right fas fa-angle-left"></i>
+                </p>
+            </a>
+            <ul class="nav nav-treeview">
+                <li class="nav-item">
+                    <a href="@Url.Action("Navigate","Home", new { applicationCode = "GGT-NRR"})" class="nav-link">
+                        <i class="fas fa-cogs nav-icon"></i>
+                        <p>NRR Tool</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="@Url.Action("Navigate","Home", new { applicationCode = "GGT-TAX"})" class="nav-link">
+                        <i class="fas fa-cogs nav-icon"></i>
+                        <p>Taxonomy</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="@Url.Action("Navigate","Home", new { applicationCode = "GGT-ARM"})" class="nav-link">
+                        <i class="fas fa-cogs nav-icon"></i>
+                        <p>Users</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="@Url.Action("Navigate","Home", new { applicationCode = "GGT-CUR"})" class="nav-link">
+                        <i class="fas fa-cogs nav-icon"></i>
+                        <p>Curators</p>
+                    </a>
+                </li>
+            </ul>
+        </li>
+        <li class="nav-item">
+            <a href="@Url.Action("Search","Folder")" class="nav-link">
+                <i class="nav-icon fas fa-folder"></i>
+                <p>Folders</p>
+            </a>
+        </li>
+        <li class="nav-header">MANAGE DATA</li>
+        <li class="nav-item">
+            <a href="#" class="nav-link">
+                <i class="nav-icon fas fa-tree"></i>
+                <p>
+                    Crop
+                    <i class="fas fa-angle-left right"></i>
+                </p>
+            </a>
+            <ul class="nav nav-treeview">
+                <li class="nav-item">
+                    <a href="@Url.Action("Index","CropForCWR")" class="nav-link">
+                        <i class="far fas fa-table nav-icon"></i>
+                        <p>Crop For CWR</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="@Url.Action("Index","CWRMap")" class="nav-link">
+                        <i class="far fas fa-table nav-icon"></i>
+                        <p>CWR Map</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="@Url.Action("Index","CWRTrait")" class="nav-link">
+                        <i class="far fas fa-table nav-icon"></i>
+                        <p>CWR Trait</p>
+                    </a>
+                </li>
+            </ul>
+        </li>
+        <li class="nav-item">
+            <a href="@Url.Action("Index","Classification")" class="nav-link">
+                <i class="nav-icon fas fa-table"></i>
+                <p>Order</p>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="@Url.Action("Index","Family")" class="nav-link">
+                <i class="nav-icon fas fa-table"></i>
+                <p>Family</p>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="@Url.Action("Index","Genus")" class="nav-link">
+                <i class="nav-icon fas fa-table"></i>
+                <p>Genus</p>
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a href="#" class="nav-link">
+                <i class="nav-icon fas fa-tree"></i>
+                <p>
+                    Species
+                    <i class="fas fa-angle-left right"></i>
+                </p>
+            </a>
+            <ul class="nav nav-treeview">
+                <li class="nav-item">
+                    <a href="@Url.Action("Index","Species")" class="nav-link">
+                        <i class="far fas fa-table nav-icon"></i>
+                        <p>Species</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="@Url.Action("Index","SynonymMap")" class="nav-link">
+                        <i class="far fas fa-table nav-icon"></i>
+                        <p>Synonyms</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="@Url.Action("Index","CommonName")" class="nav-link">
+                        <i class="far fas fa-table nav-icon"></i>
+                        <p>Common Name</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="@Url.Action("Index","CommonNameLanguage")" class="nav-link">
+                        <i class="far fas fa-table nav-icon"></i>
+                        <p>Language</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="@Url.Action("Index","GeographyMap")" class="nav-link">
+                        <i class="far fas fa-table nav-icon"></i>
+                        <p>Distribution</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="@Url.Action("Index","EconomicUse")" class="nav-link">
+                        <i class="far fas fa-table nav-icon"></i>
+                        <p>Economic Use</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="@Url.Action("Index","RegulationMap")" class="nav-link">
+                        <i class="far fas fa-table nav-icon"></i>
+                        <p>Regulation Map</p>
+                    </a>
+                </li>
+            </ul>
+        </li>
+        <li class="nav-item">
+            <a href="#" class="nav-link">
+                <i class="nav-icon fas fa-book"></i>
+                <p>
+                    Reference
+                    <i class="fas fa-angle-left right"></i>
+                </p>
+            </a>
+            <ul class="nav nav-treeview">
+                <li class="nav-item">
+                    <a href="@Url.Action("Index","Author")" class="nav-link">
+                        <i class="far fas fa-table nav-icon"></i>
+                        <p>Author</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="@Url.Action("Index","Citation")" class="nav-link">
+                        <i class="far fas fa-table nav-icon"></i>
+                        <p>Citation</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="@Url.Action("Index","Literature")" class="nav-link">
+                        <i class="far fas fa-table nav-icon"></i>
+                        <p>Literature</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="@Url.Action("Index","Geography")" class="nav-link">
+                        <i class="far fas fa-table nav-icon"></i>
+                        <p>Geography</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="@Url.Action("Index","Regulation")" class="nav-link">
+                        <i class="far fas fa-table nav-icon"></i>
+                        <p>Regulation</p>
+                    </a>
+                </li>
+            </ul>
+        </li>
+        @*<li class="nav-header">REPORTS</li>
+        <li class="nav-item">
+            <a href="iframe.html" class="nav-link">
+                <i class="nav-icon fas fa-list"></i>
+                <p>REPORT 1</p>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="iframe.html" class="nav-link">
+                <i class="nav-icon fas fa-list"></i>
+                <p>REPORT 2</p>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="iframe.html" class="nav-link">
+                <i class="nav-icon fas fa-list"></i>
+                <p>REPORT 3</p>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="iframe.html" class="nav-link">
+                <i class="nav-icon fas fa-list"></i>
+                <p>REPORT 4</p>
+            </a>
+        </li>*@
+        <li class="nav-header">SYSADMIN</li>
+        <li class="nav-item">
+            <a href="@Url.Action("Index","CodeValue")" class="nav-link">
+                <i class="nav-icon fas fa-table"></i>
+                <p>Code Values</p>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="@Url.Action("Index","Error")" class="nav-link">
+                <i class="nav-icon fas fa-bug"></i>
+                <p>Error Logs</p>
+            </a>
+        </li>
+    </ul>
+</nav>

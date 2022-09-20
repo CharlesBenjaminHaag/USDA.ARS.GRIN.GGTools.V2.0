@@ -1,0 +1,89 @@
+﻿@model USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer.CitationViewModel
+<div id="modal-citation-lookup" class="modal fade" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Citation Lookup</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="card">
+                    <div class="card-header p-2">
+                        <ul class="nav nav-pills">
+                            <li class="nav-item"><a class="nav-link active" href="#activity" data-toggle="tab">Search</a></li>
+                            <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">Add</a></li>
+                        </ul>
+                    </div>
+                    <div class="card-body">
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="activity">
+                                <div id="section-search-criteria">
+                                    <div class="row">
+                                        <div class="col-md-2">
+                                            <div id="form-group">
+                                                <label id="lblStandardAbbreviation">Lit. Type</label>
+                                                @Html.DropDownListFor(x => x.SearchEntity.LiteratureTypeCode, Model.LiteratureTypes, "All types", new { @class = "form-control" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div id="form-group">
+                                                <label id="lblStandardAbbreviation">Standard Abbreviation</label>
+                                                @Html.DropDownListFor(x => x.SearchEntity.StandardAbbreviation, Model.StandardAbbreviations, "All sources", new { @class = "form-control" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div id="form-group">
+                                                <label>Abbreviation</label>
+                                                @Html.TextBoxFor(x => x.SearchEntity.Abbreviation, new { @class = "form-control" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div id="form-group">
+                                                <label>Citation Title</label>
+                                                @Html.TextBoxFor(x => x.SearchEntity.CitationTitle, new { @class = "form-control" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div id="form-group">
+                                                <label>Editor/Author</label>
+                                                @Html.TextBoxFor(x => x.SearchEntity.EditorAuthorName, new { @class = "form-control" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-1">
+                                            <div id="form-group">
+                                                <label>Cit. Year</label>
+                                                @Html.TextBoxFor(x => x.SearchEntity.CitationYear, new { @class = "form-control" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="timeline">
+                                <div class="row">
+                                    <div class="col-md-12">
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <button id="btnLookupCitations" type="button" class="btn btn-default float-right">Search</button>
+                    </div>
+                </div>
+
+                <div id="section-citation-lookup-search-results">
+                </div>
+
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <button id="btnSaveCitations" type="button" class="btn btn-info" data-dismiss="modal">Add Selected Citations</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+

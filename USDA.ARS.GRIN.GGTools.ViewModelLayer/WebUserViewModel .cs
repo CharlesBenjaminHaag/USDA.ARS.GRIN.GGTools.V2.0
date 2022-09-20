@@ -1,0 +1,105 @@
+﻿using System;
+using System.Web.Mvc;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Collections.ObjectModel;
+using System.Text.RegularExpressions;
+using USDA.ARS.GRIN.Common.Library.Email;
+using USDA.ARS.GRIN.Common.Library.Exceptions;
+using USDA.ARS.GRIN.Common.Library.Security;
+using USDA.ARS.GRIN.GGTools.DataLayer;
+
+namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
+{
+
+    public class WebUserViewModel : WebUserViewModelBase
+    {
+        public WebUser Get(string userName)
+        {
+            //TODO
+            return Entity;
+        }
+        
+        public void GetGroups(int sysUserId)
+        {
+            using (WebUserManager mgr = new WebUserManager())
+            {
+                try
+                {
+                    DataCollectionGroups = new Collection<SysGroupUserMap>(mgr.SelectGroups(sysUserId));
+                    RowsAffected = mgr.RowsAffected;
+                    if (RowsAffected == 1)
+                    {
+                        Entity = DataCollection[0];
+                    }
+                }
+                catch (Exception ex)
+                {
+                    PublishException(ex);
+                    throw ex;
+                }
+            }
+        }
+
+        public int Search()
+        {
+            using (WebUserManager mgr = new WebUserManager())
+            {
+                try
+                {
+                    DataCollection = new Collection<WebUser>(mgr.Search(SearchEntity));
+                    RowsAffected = mgr.RowsAffected;
+                    if (RowsAffected > 0)
+                    {
+                        Entity = DataCollection[0];
+                    }
+                }
+                catch (Exception ex)
+                {
+                    PublishException(ex);
+                    throw ex;
+                }
+                return mgr.RowsAffected;
+            }
+        }
+
+        public int Insert()
+        {
+            using (WebUserManager mgr = new WebUserManager())
+            {
+                try
+                {
+                    //Entity.WebUserPassword = GetSecurePassword(Entity.WebUserPassword);
+                    Entity.ID = mgr.Insert(Entity);
+                }
+                catch (Exception ex)
+                {
+                    PublishException(ex);
+                    throw ex;
+                }
+                return Entity.ID;
+            }
+        }
+
+        public override bool Validate()
+        {
+            if (String.IsNullOrEmpty(Entity.WebUserName))
+            {
+                UserMessage = "Please enter your user name.";
+                ValidationMessages.Add(new Common.Library.ValidationMessage { Message = "Please enter your user name." });
+                return false;
+            }
+                
+            //if (Entity.Password != Entity.we)
+            //{
+            //    UserMessage = "The passwords that you have entered do not match.";
+            //    ValidationMessages.Add(new Common.Library.ValidationMessage { Message = "The passwords that you have entered do not match." });
+            //    return false;
+            //}
+           return true;
+        }
+    }
+}
+

@@ -1,0 +1,45 @@
+﻿@model USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer.AuthorViewModel
+<div class="card card-default">
+    <div class="card-header">
+        <h3 class="card-title">Search Results (@Model.DataCollection.Count)</h3>
+        <div class="card-tools">
+            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                <i class="fas fa-minus"></i>
+            </button>
+        </div>
+    </div>
+    <!-- /.box-header -->
+    <div class="card-body">
+        <table id="data-table-author" class="table table-striped">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>ID</th>
+                    <th>Short Name</th>
+                    <th>Full Name</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var result in Model.DataCollection)
+                {
+                    <tr>
+                        <td>@result.ID</td>
+                        <td>@result.ID</td>
+                        <td>@result.ShortName</td>
+                        <td>@Html.Raw(result.FullName)</td>
+                        <td style="text-align:right;">
+                            <a href="@Url.Action("Edit", "Author", new { entityId = result.ID })" class="btn btn-primary btn-sm pull-right row-edit">
+                                <i class="fa fa-edit"></i>
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+</script>

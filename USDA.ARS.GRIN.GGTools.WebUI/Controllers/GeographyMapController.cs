@@ -1,0 +1,259 @@
+﻿using System.Web.Mvc;
+using System;
+using System.Collections.Generic;
+using USDA.ARS.GRIN.GGTools.ViewModelLayer;
+using USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer;
+using USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer;
+using USDA.ARS.GRIN.GGTools.DataLayer;
+using USDA.ARS.GRIN.GGTools.WebUI;
+using NLog;
+
+namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
+{
+    [GrinGlobalAuthentication]
+    public class GeographyMapController : BaseController, IController<GeographyMapViewModel>
+    {
+        protected static string BASE_PATH = "~/Views/Taxonomy/GeographyMap/";
+        private static readonly Logger Log = LogManager.GetCurrentClassLogger();
+
+        public ActionResult Index()
+        {
+            try
+            {
+                GeographyMapViewModel viewModel = new GeographyMapViewModel();
+
+                viewModel.PageTitle = "Distribution Search";
+                viewModel.TableName = "taxonomy_geography_map";
+                viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
+                viewModel.SearchCountries(new GeographySearch());
+                viewModel.Countries = new SelectList(viewModel.DataCollectionCountries, "CountryCode", "CountryName");
+
+                if (TempData.ContainsKey("GEO-MAP-SEARCH"))
+                {
+                    viewModel.SearchEntity = TempData["GEO-MAP-SEARCH"] as GeographyMapSearch;
+                    viewModel.Search();
+                }
+
+                return View(BASE_PATH + "Index.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return RedirectToAction("InternalServerError", "Error");
+            }
+        }
+
+        [HttpPost]
+        public ActionResult Search(GeographyMapViewModel viewModel)
+        {
+            try 
+            {
+                if (viewModel.EventAction == "SAVE-SEARCH")
+                {
+                    viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
+                    viewModel.SaveSearch();
+                    Session["taxonomy_geography_map_SEARCH"] = viewModel.SearchEntity;
+                    viewModel.SearchCountries(new GeographySearch());
+                    viewModel.Countries = new SelectList(viewModel.DataCollectionCountries, "CountryCode", "CountryName");
+                }
+                else
+                {
+                    viewModel.SearchEntity.IsValid = viewModel.SearchEntity.IsValidOption == true ? "Y" : null;
+                    viewModel.Search();
+                    viewModel.SearchCountries(new GeographySearch());
+                    viewModel.Countries = new SelectList(viewModel.DataCollectionCountries, "CountryCode", "CountryName");
+                    ModelState.Clear();
+                }
+                return View(BASE_PATH + "Index.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return RedirectToAction("InternalServerError", "Error");
+            }
+        }
+
+        public ActionResult RunSavedSearch(int id)
+        {
+            AppUserDynamicQueryViewModel viewModel = new AppUserDynamicQueryViewModel();
+            viewModel.Get(id);
+            GeographyMapSearch geographyMapSearch = viewModel.Deserialize<GeographyMapSearch>(viewModel.Entity.QuerySyntax);
+            TempData["GEO-MAP-SEARCH"] = geographyMapSearch;
+            return RedirectToAction("Index", "GeographyMap");
+        }
+        public PartialViewResult _List(string eventValue = "", int entityId = 0)
+        {
+            try
+            {
+                GeographyMapViewModel viewModel = new GeographyMapViewModel();
+                viewModel.SearchEntity = new GeographyMapSearch { SpeciesID = entityId };
+                viewModel.Search();
+                return PartialView(BASE_PATH + "_List.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
+        }
+
+        [HttpPost]
+        public PartialViewResult Add(FormCollection formCollection)
+        {
+            GeographyMapViewModel viewModel = new GeographyMapViewModel();
+            viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
+
+            try
+            {
+                viewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
+
+                if (!String.IsNullOrEmpty(formCollection["SpeciesID"]))
+                {
+                    viewModel.Entity.SpeciesID = Int32.Parse(formCollection["SpeciesID"]);
+                }
+                if (!String.IsNullOrEmpty(formCollection["IDList"]))
+                {
+                    viewModel.Entity.ItemIDList = formCollection["IDList"];
+                }
+                viewModel.Insert();
+                return PartialView(BASE_PATH + "_EditList.cshtml", viewModel);
+
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
+        }
+        public ActionResult Add()
+        {
+            try
+            {
+                GeographyMapViewModel viewModel = new GeographyMapViewModel();
+                viewModel.TableName = "taxonomy_geography_map";
+                viewModel.PageTitle = "Add Distribution";
+                viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
+
+                GeographyViewModel geographyViewModel = new GeographyViewModel();
+                viewModel.Countries = new SelectList(geographyViewModel.GetCountries(), "CountryCode", "CountryName");
+
+                return View(BASE_PATH + "Edit.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return RedirectToAction("InternalServerError", "Error");
+            }
+        }
+
+        public ActionResult Edit(int entityId)
+        {
+            try
+            {
+                GeographyMapViewModel viewModel = new GeographyMapViewModel();
+                viewModel.TableName = "taxonomy_geography_map";
+                viewModel.Get(entityId);
+                viewModel.PageTitle = String.Format("Edit Distribution [{0}]: {1}", entityId, viewModel.Entity.GeographyDescription + " to " + viewModel.Entity.SpeciesName);
+          
+                GeographyViewModel geographyViewModel = new GeographyViewModel();
+                viewModel.Countries = new SelectList(geographyViewModel.GetCountries(),"CountryCode","CountryName");
+
+                return View(BASE_PATH + "Edit.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return RedirectToAction("InternalServerError", "Error");
+            }
+        }
+
+        [HttpPost]
+        public ActionResult Edit(GeographyMapViewModel viewModel)
+        {
+            try
+            {
+                if (!viewModel.Validate())
+                {
+                    if (viewModel.ValidationMessages.Count > 0) return View(viewModel);
+                }
+
+                if (viewModel.Entity.ID == 0)
+                {
+                    viewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
+                    viewModel.Insert();
+                }
+                else
+                {
+                    viewModel.Entity.ModifiedByCooperatorID = AuthenticatedUser.CooperatorID;
+                    viewModel.Update();
+                }
+                return RedirectToAction("Edit", "GeographyMap", new { entityId = viewModel.Entity.ID });
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return RedirectToAction("InternalServerError", "Error");
+            }
+        }
+
+        public ActionResult Map(int entityId = 0)
+        {
+            try
+            {
+                GeographyMapViewModel viewModel = new GeographyMapViewModel();
+                viewModel.PageTitle = "Map Geographies";
+                viewModel.EventValue = "species";
+                viewModel.Entity.SpeciesID = entityId;
+                viewModel.Entity.TableName = "taxonomy_species";
+                return View(viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return RedirectToAction("InternalServerError", "Error");
+            }
+        }
+    
+
+        public ActionResult Delete(int entityId)
+        {
+            throw new NotImplementedException();
+        }
+
+ 
+        public PartialViewResult FolderItems(int folderId)
+        {
+            try
+            {
+                GeographyMapViewModel viewModel = new GeographyMapViewModel();
+                viewModel.EventAction = "SEARCH";
+                viewModel.EventValue = "FOLDER";
+                viewModel.SearchEntity.FolderID = folderId;
+                viewModel.SearchFolderItems();
+                ModelState.Clear();
+                return PartialView("~/Views/GeographyMap/_List.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
+        }
+
+        // ======================================================================================
+        // MODALS 
+        // ======================================================================================
+        public ActionResult RenderLookupModal()
+        {
+            GeographyMapViewModel viewModel = new GeographyMapViewModel();
+            return PartialView("~/Views/GeographyMap/Modals/_Lookup.cshtml", viewModel);
+        }
+
+        [HttpPost]
+        public PartialViewResult FolderItems(FormCollection formCollection)
+        {
+            throw new NotImplementedException();
+        }
+
+    }
+}

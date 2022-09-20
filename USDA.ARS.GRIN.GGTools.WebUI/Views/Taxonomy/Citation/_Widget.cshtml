@@ -1,0 +1,22 @@
+﻿@model USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer.CitationViewModel
+@if (Model.Entity.ID > 0)
+{
+    <div class="info-box">
+        <span class="info-box-icon bg-info"><i class="far fa-copy"></i></span>
+        <div class="info-box-content">
+            <span class="info-box-text"><a href="@Url.Action("Edit","Citation", new { @entityId = Model.Entity.ID })">Citation</a></span>
+            <span class="info-box-number">
+                @Html.Raw(Model.Entity.CitationText)
+                <span class="citation-edit-control-sm float-right">
+                    <button id="btnDeleteCitations" type="button" class="btn btn-default btn-sm">
+                        Remove
+                    </button></span>
+                <span class="citation-edit-control-sm float-right">
+                    <button id="" type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#modal-citation-lookup">
+                        Change
+                    </button>
+                </span>
+            </span>
+        </div>
+    </div>
+ }

@@ -1,0 +1,162 @@
+﻿@model USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer.CropForCWRViewModel
+@{
+    ViewBag.Title = Model.PageTitle;
+    Layout = "~/Views/Shared/_LayoutAdminLTE3.cshtml";
+}
+
+@using (Html.BeginForm("Search", "CropForCWR", FormMethod.Post, new { id = "frmMain" }))
+{
+    @Html.HiddenFor(x => x.EventAction)
+    @Html.HiddenFor(x => x.EventValue)
+    @Html.HiddenFor(x => x.TableName)
+    @Html.HiddenFor(x => x.TableCode)
+    @Html.HiddenFor(x => x.PageTitle)
+    @Html.HiddenFor(x => x.AuthenticatedUserCooperatorID)
+    @Html.HiddenFor(x => x.ItemIDList)
+    @Html.Partial("~/Views/Taxonomy/CropForCWR/_Detail.cshtml")
+}
+@Html.Partial("~/Views/Taxonomy/CropForCWR/_List.cshtml")
+@{Html.RenderAction("_Edit", "Folder", new { @tableName = "taxonomy_cwr_crop" }); }
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        Init();
+        SetExtendedFields();
+    });
+
+    function Init() {
+    }
+
+    /*
+     * ===============================================================================
+     * FOLDER MODAL
+     * ===============================================================================
+     */
+    $("#btnOpenFolderModal").click(function () {
+        $("#modal-folder-edit").modal("show");
+    });
+
+    $("#btnAddFolder").click(function () {
+        AddFolder(0);
+    });
+
+    $("#btnUpdateFolder").click(function () {
+        var selectedItemIdList = GetSelectedEntityIDs("data-table-available-folders");
+        UpdateFolder(selectedItemIdList);
+    });
+
+    function UpdateFolder(folderId) {
+        var link = '@Url.Action("Update", "Folder")';
+        var tableName = $("#TableName").val();
+        var selectedItemIdList = GetSelectedEntityIDs("data-table-crop-for-cwr");
+        var formData = new FormData();
+
+        formData.append("IDList", selectedItemIdList);
+        formData.append("FolderID", folderId);
+        formData.append("TableName", tableName);
+
+        $.ajax({
+            url: link,
+            type: 'POST',
+            cache: false,
+            dataType: 'json',
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (data) {
+                /*console.log(data);*/
+                /*ConfirmFolderSave(data.folder.FolderName);*/
+            },
+            error: function (ex) {
+            }
+        });
+        $("#modal-folder-edit").modal("hide");
+    }
+
+    function AddFolder(folderId) {
+        var link = '@Url.Action("Add", "Folder")';
+        var tableName = $("#TableName").val();
+        var folderName = $("#txtFolderTitle").val();
+        var folderCategory = $("#Entity_Category").val();
+        var folderNewCategory = $("#txtFolderNewCategory").val();
+        var folderDescription = $("#txtFolderDescription").val();
+        var selectedItemIdList = GetSelectedEntityIDs("data-table-crop-for-cwr");
+        var formData = new FormData();
+
+        if ($('#cbxIsFavorite').prop('checked') == true) {
+            isFavorite = true;
+        }
+
+        if (typeof selectedItemIdList != 'undefined') {
+            formData.append("IDList", selectedItemIdList);
+        }
+
+        if ($('#cbxIsFavorite').prop('checked') == true) {
+            formData.append("IsFavorite", true);
+        }
+
+        if ($('#cbxIsShared').prop('checked') == true) {
+            formData.append("IsShared", true);
+        }
+
+        formData.append("FolderID", folderId);
+        formData.append("TableName", tableName);
+        formData.append("FolderName", folderName);
+        formData.append("FolderType", tableName);
+        formData.append("Category", folderCategory);
+        formData.append("NewCategory", folderNewCategory);
+        formData.append("Description", folderDescription);
+
+        $.ajax({
+            url: link,
+            type: 'POST',
+            cache: false,
+            dataType: 'json',
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (data) {
+                /*console.log(data);*/
+                /*ConfirmFolderSave(data.folder.FolderName);*/
+            },
+            error: function (ex) {
+            }
+        });
+        $("#modal-folder-edit").modal("hide");
+    }
+
+    function ConfirmFolderSave(folderTitle) {
+        $("#new-folder-name").html(folderTitle);
+        $("#alert-folder-confirmation").show();
+    }
+
+    function SaveFolderItems(folderId) {
+        var link = '@Url.Action("AddItems", "Folder")';
+        var tableName = $("#TableName").val();
+        var selectedItemIdList = GetSelectedEntityIDs("data-table-order");
+        var formData = new FormData();
+
+        formData.append("FolderID", folderId);
+        formData.append("TableName", tableName);
+
+        if (typeof selectedItemIdList != 'undefined') {
+            formData.append("IDList", selectedItemIdList);
+        }
+
+        $.ajax({
+            url: link,
+            type: 'POST',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (result) {
+            },
+            error: function () {
+                alert("Error");
+            }
+        });
+        $("#modal-folder-edit").modal("hide");
+    }
+</script>

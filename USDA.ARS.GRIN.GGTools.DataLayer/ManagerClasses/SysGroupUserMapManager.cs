@@ -1,0 +1,58 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Reflection;
+using System.Data;
+using USDA.ARS.GRIN.Common.DataLayer;
+using USDA.ARS.GRIN.GGTools.AppLayer;
+using USDA.ARS.GRIN.GGTools.DataLayer;
+
+
+namespace USDA.ARS.GRIN.GGTools.DataLayer 
+{
+    public class SysGroupUserMapManager : AppDataManagerBase, IManager<SysGroupUserMap, SysGroupUserMapSearch>
+    {
+        public void BuildInsertUpdateParameters()
+        {
+            throw new NotImplementedException();
+        }
+
+        public int Delete(SysGroupUserMap entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public SysGroupUserMap Get(int entityId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int Insert(SysGroupUserMap entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<SysGroupUserMap> Search(SysGroupUserMapSearch searchEntity)
+        {
+            List<SysGroupUserMap> sysGroupUserMaps = new List<SysGroupUserMap>();
+
+            SQL = " SELECT * FROM vw_GGTools_GRINGlobal_SysGroupUserMaps";
+            SQL += " WHERE  (@SysUserID         IS NULL OR  SysUserID       = @SysUserID)";
+            SQL += " AND    (@SysGroupID        IS NULL OR  SysGroupID      = @SysGroupID)";
+
+            var parameters = new List<IDbDataParameter> {
+                CreateParameter("SysUserID", searchEntity.SysUserID > 0 ? (object)searchEntity.SysUserID : DBNull.Value, true),
+                CreateParameter("SysGroupID", searchEntity.SysGroupID > 0 ? (object)searchEntity.SysGroupID : DBNull.Value, true)
+            };
+
+            sysGroupUserMaps = GetRecords<SysGroupUserMap>(SQL, parameters.ToArray());
+            parameters.Clear();
+            RowsAffected = sysGroupUserMaps.Count;
+            return sysGroupUserMaps;
+        }
+
+        public int Update(SysGroupUserMap entity)
+        {
+            throw new NotImplementedException();
+        }
+    }
+}

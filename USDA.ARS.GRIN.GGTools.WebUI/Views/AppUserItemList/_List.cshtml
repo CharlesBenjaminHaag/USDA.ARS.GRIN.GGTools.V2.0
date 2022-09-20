@@ -1,0 +1,38 @@
+﻿@model USDA.ARS.GRIN.GGTools.ViewModelLayer.AppUserItemListViewModel
+<table id="data-table-app-user-item-lists" class="table table-striped search-results" style=" width:100%;">
+    <thead>
+        <tr>
+            <th>Sort Order</th>
+            <th>Item Title</th>
+            <th>Created</th>
+            <th>Last Modified</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var result in Model.DataCollection)
+        {
+            <tr>
+                <td>
+                    @result.SortOrder
+                </td>
+                <td>@result.ItemTitle</td>
+                <td>
+                    @result.CreatedDate.ToShortDateString() at @result.CreatedDate.ToShortTimeString()
+                </td>
+                <td>
+                    @if (result.ModifiedDate > DateTime.MinValue)
+                    {
+                        @result.ModifiedDate.ToShortDateString()
+                    }
+                </td>
+                <td>
+                    <a href="@Url.Action("DeleteItem", "AppUserItemList", new { entityId = result.IDNumber })" class="btn btn-danger btn-sm pull-right row-edit" style="margin-left:5px;">
+                        <i class="fa fa-trash"></i> Remove
+                    </a>
+                    
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

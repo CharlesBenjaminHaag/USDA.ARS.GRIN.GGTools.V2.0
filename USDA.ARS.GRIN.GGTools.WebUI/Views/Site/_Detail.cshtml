@@ -1,0 +1,68 @@
+﻿@model USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer.CodeValueViewModelBase
+
+<div id="section-controls" class="box box-default collapsed-box" style="border:none;">
+    <div class="box-header">
+        <div class="mailbox-controls">
+            <div class="btn-group">
+                <a href="@Url.Action("Add","CodeValue")" class="btn btn-default"><i class="fa fa-plus"></i></a>
+                <button type="button" id="btnSelectAll" class="btn btn-default">
+                    <i class="fa fa-check"></i>
+                </button>
+                <button type="button" id="btnDeSelectAll" class="btn btn-default">
+                    <i class="fa fa-check-circle-o"></i>
+                </button>
+            </div>
+            <div class="btn-group">
+            </div>
+            <div class="btn-group">
+                <button id="btnOpenFolderModal" type="button" class="btn btn-default"><i class="fa fa-folder"></i></button>
+                <button type="button" id="btnAddCitationBatch" class="btn btn-default"><i class="fa fa-book"></i></button>
+                <button type="button" id="btnAddGeographyBatch" class="btn btn-default"><i class="fa fa-globe"></i></button>
+                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#modal-tag-select"><i class="fa fa-tag"></i></button>
+            </div>
+            <div class="btn-group pull-right">
+                <button id="btnToggleFilterView" type="button" class="btn btn-default pull-right" data-widget="collapse">
+                    <span class="toolbar-text"><i class="fa fa-filter"></i></span>
+                </button>
+            </div>
+        </div>
+    </div>
+    <!-- /.box-header -->
+    <div id="section-search-criteria" class="box-body" style="display: none; padding-left: 0px; padding-top:15px; padding-bottom: 10px; margin-top: 0px; border-top: 1px solid #e8e8e8;">
+        <!-- Search criteria -->
+        <div class="row">
+            <div class="col-md-2">
+                <div class="form-group form-horizontal">
+                    <label>Group</label>
+                    @Html.DropDownListFor(x => x.SearchEntity.GroupName, Model.Groups, "Any Groups", new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group form-horizontal">
+                    <label>Code</label>
+                    @Html.TextBoxFor(x => x.SearchEntity.Value, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group form-horizontal">
+                    <label>Title</label>
+                    @Html.TextBoxFor(x => x.SearchEntity.Title, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group form-horizontal">
+                    <label>Description</label>
+                    @Html.TextBoxFor(x => x.SearchEntity.Description, new { @class = "form-control" })
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="btn-group pull-right" style="padding-top:15px;">
+                    <button id="btnReset" class="btn btn-danger">Reset</button>
+                    <button id="btnSubmitSearch" type="submit" class="btn btn-default">Search</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

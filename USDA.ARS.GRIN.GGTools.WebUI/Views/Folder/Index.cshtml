@@ -1,0 +1,171 @@
+﻿@model USDA.ARS.GRIN.GGTools.ViewModelLayer.FolderViewModel
+@{
+    ViewBag.Title = Model.PageTitle;
+    Layout = "~/Views/Shared/_LayoutAdminLTE3.cshtml";
+}
+<div class="row">
+    <div class="col-md-3">
+        <div class="card card-default">
+            <div class="card-header">
+                <h3 class="card-title">Data Types (@Model.DataCollectionFolderTypes.Count)</h3>
+                <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                        <i class="fas fa-minus"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="card-body">
+                <div id="section-status-list" class="list-group">
+                    @foreach (var result in Model.DataCollectionFolderTypes)
+                    {
+                        <label class="list-group-item ggtools-selector bg-gray-light">
+                            <input type="checkbox" class="form-check-input" style="opacity:1; margin-right:5px;" id="@result.Title">
+                            <span class="ggtools-selector-label">@result.Title</span>
+                        </label>
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="card card-default">
+            <div class="card-header">
+                <h3 class="card-title">Categories (@Model.DataCollectionFolderCategories.Count)</h3>
+                <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                        <i class="fas fa-minus"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="card-body">
+                <div id="section-user-list" class="list-group">
+                    @foreach (var result in Model.DataCollectionFolderCategories)
+                    {
+                        <label class="list-group-item ggtools-selector bg-gray-light">
+                            <input type="checkbox" class="form-check-input" id="@result.Title">
+                            <span class="ggtools-selector-label">
+                                @result.Title
+                            </span>
+                        </label>
+
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="section-user-folders" class="col-md-9">
+        <div class="card">
+            <div class="card-header p-2">
+                <ul class="nav nav-pills">
+                    <li class="nav-item"><a class="nav-link active" href="#activity" data-toggle="tab">My Folders</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">Shared With Me</a></li>
+                </ul>
+            </div>
+            <div class="card-body">
+                <div class="tab-content">
+                    <div class="tab-pane active" id="activity">
+                        @Html.Partial("~/Views/Folder/_List.cshtml")
+                    </div>
+                    <div class="tab-pane" id="timeline">
+                        @Html.Partial("~/Views/Folder/_ListShared.cshtml")
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+     
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        Init();
+    });
+
+    function Init() {
+        var tabName = $("#section-user-tabs ul li:first").attr('id');
+        LoadUserLists(tabName);
+    }
+
+    $('#section-user-tabs ul.nav li').on('click', function () {
+        var tabName = $(this).attr('id');
+        LoadUserLists(tabName);
+    });
+
+    $('#section-user-lists ul.nav li').on('click', function () {
+        var id = $(this).attr('id');
+        //TODO
+    });
+
+    /*================================================================================
+    * Populates the list of GRIN-Global (CT) folders
+    *================================================================================
+    */
+    function LoadUserLists(listName) {
+        var link = '@Url.Action("_List", "AppUserItemList")';
+        var formData = new FormData();
+
+        formData.append("TabName", listName);
+
+        $.ajax({
+            url: link,
+            type: 'POST',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (response) {
+                $("#user-tab-name").html(listName);
+                $("#section-user-lists-data").html(response);
+            }
+        });
+    }
+
+    /*================================================================================
+     * Populates the list of Taxonomy-specific folders
+     *================================================================================
+    */
+    function LoadUserFolders() {
+        var link = '@Url.Action("_List", "Folder")';
+        var formData = new FormData();
+
+        formData.append("TabName", listName);
+
+        $.ajax({
+            url: link,
+            type: 'POST',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (response) {
+                $("#user-tab-name").html(listName);
+                $("#section-user-lists-data").html(response);
+            }
+        });
+    }
+
+
+    function LoadFolderItems(folderTypeDescription, folderId)  {
+        var link = '@Url.Action("FolderItems", "CONTROLLER_NAME")';
+        link = link.replace("CONTROLLER_NAME", folderTypeDescription);
+
+        var formData = new FormData();
+        formData.append("FolderID", folderId);
+
+        $.ajax({
+            url: link,
+            type: 'POST',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (response) {
+                $("#section-folder-items").html(response);
+            },
+            error: function (jqXHR) {
+                alert("Error loading folder contents");
+            }
+        });
+    }
+
+</script>

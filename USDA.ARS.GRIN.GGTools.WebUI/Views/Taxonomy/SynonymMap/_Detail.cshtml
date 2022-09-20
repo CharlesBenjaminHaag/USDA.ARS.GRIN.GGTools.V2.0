@@ -1,0 +1,44 @@
+﻿@model USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer.SynonymMapViewModelBase
+<div id="section-search-criteria" class="card card-default">
+    <div class="card-header">
+        <div class="btn-group">
+            <a href="@Url.Action("Add","SynonymMap")" class="btn btn-default btn-sm"><i class="fa fa-plus"></i> New</a>
+        </div>
+        <div class="btn-group">
+            <button id="btnOpenFolderModal" type="button" class="btn btn-default btn-sm"><i class="fa fa-folder"></i></button>
+        </div>
+    </div>    
+    <div id="section-search-criteria" class="card-body">
+        <div class="row">
+            <div class="col-md-2">
+                <div class="form-group form-horizontal">
+                    <label>Created By</label>
+                    @Html.DropDownListFor(x => x.SearchEntity.CreatedByCooperatorID, Model.Cooperators, "All Cooperators", new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label>Species Name</label>
+                    @Html.TextBoxFor(x=>x.SearchEntity.SpeciesNameSubject, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group form-horizontal">
+                    <label>Synonym Code</label>
+                    @Html.DropDownListFor(x => x.SearchEntity.SynonymCode, Model.SynonymCodes, "All Codes", new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label>Mapped Species</label>
+                    @Html.TextBoxFor(x => x.SearchEntity.SpeciesNamePredicate, new { @class = "form-control" })
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card-footer">
+        <button id="btnReset" type="button" class="btn btn-danger">Reset</button>
+        <button id="btnSubmitSearch" type="submit" class="btn btn-primary float-right">Search</button>
+    </div>
+</div>
+

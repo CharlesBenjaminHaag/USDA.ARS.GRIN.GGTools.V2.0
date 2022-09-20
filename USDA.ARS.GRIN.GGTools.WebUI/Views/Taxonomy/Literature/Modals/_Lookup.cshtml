@@ -1,0 +1,81 @@
+﻿<div class="modal fade" id="modal-literature-lookup" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">
+                    <i class="fas fa-search"></i>
+                    Literature Lookup
+                </h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-2">
+                        <div class="form-group form-horizontal">
+                            <label>Type</label>
+                            <select id="ddlType" class="form-control">
+                                <option value="JOURNAL">JOURNAL</option>
+                                <option value="ARTICLE">ARTICLE</option>
+                                <option value="PERIODICAL">PERIODICAL</option>
+                                <option value="BOOK">BOOK</option>
+                                <option value="URL">URL</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group form-horizontal">
+                            <label>Abbreviation</label>
+                            <input id="txtAbbreviation" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group form-horizontal">
+                            <label>Reference Title</label>
+                            <input id="txtReferenceTitle" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group form-horizontal">
+                            <label>Author</label>
+                            <input id="txtEditorAuthorName" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="col-md-1">
+                        <div class="form-group form-horizontal">
+                            <label>Year</label>
+                            <input id="txtPublicationYear" class="form-control" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <button id="btnLookupLiterature" class="btn btn-default float-right">Search</button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div id="section-literature-lookup-search-results" class="col-md-12">
+                        <!--SEARCH RESULTS HERE-->
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button id="btnSaveLiterature" type="button" class="btn btn-info" data-dismiss="modal">Add Selected Literature</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        $(document).on("click", "[id='btnLookupLiterature']", function () {
+            var link = '@Url.Action("Lookup", "Literature")';
+            LookupLiterature(link);
+        });
+
+        $(document).on("click", "[id='btnSaveLiterature']", function () {
+            SaveLiterature();
+        });
+    });
+</script>

@@ -1,0 +1,50 @@
+﻿<div id="modal-family-lookup" class="modal fade" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Family Lookup</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <label>Name</label>
+                        <input type="text" id="txtLookupFamilyName" class="form-control" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="custom-control custom-checkbox">
+                            <input class="custom-control-input" type="checkbox" id="customCheckbox1" value="option1">
+                            <label for="customCheckbox1" class="custom-control-label">Search accepted names only.</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <button id="btnLookupFamily" class="btn btn-default float-right">Search</button>
+                    </div>
+                </div>
+                <div id="section-family-lookup-search-results">
+
+                </div>
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <button id="btnSaveFamily" type="button" class="btn btn-info" data-dismiss="modal">Add Selected Family</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).on("click", "[id='btnLookupFamily']", function () {
+        var link = '@Url.Action("Lookup","Family")';
+        SearchFamily(link);
+    });
+
+    $(document).on("click", "[id='btnSaveFamily']", function () {
+        SaveFamily();
+    });
+</script>

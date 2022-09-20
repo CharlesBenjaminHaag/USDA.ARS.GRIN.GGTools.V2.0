@@ -1,0 +1,77 @@
+﻿@model USDA.ARS.GRIN.GGTools.ViewModelLayer.SysErrorViewModel
+<div class="box box-default">
+    <div class="box-header with-border">
+        <h3 class="box-title">DB Errors</h3>
+        <div class="box-tools pull-right">
+            <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                <i class="fa fa-minus"></i>
+            </button>
+            @*<div class="btn-group">
+                    <button type="button" class="btn btn-box-tool dropdown-toggle" data-toggle="dropdown">
+                        <i class="fa fa-wrench"></i>
+                    </button>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="#">Action</a></li>
+                        <li><a href="#">Another action</a></li>
+                        <li><a href="#">Something else here</a></li>
+                        <li class="divider"></li>
+                        <li><a href="#">Separated link</a></li>
+                    </ul>
+                </div>*@
+        </div>
+    </div>
+    <div class="box-body" style="border:none;">
+        <table id="data-table-sys-db-error" class="table table-responsive table-striped ggtools-table" style=" width:100%;">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th width="5%">ID</th>
+                    <th>Date</th>
+                    <th>User Name</th>
+                    <th>Error Number</th>
+                    <th>State</th>
+                    <th>Severity</th>
+                    <th>Error Line</th>
+                    <th>Stored Procedure</th>
+                    <th>Error Message</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var result in Model.DataCollectionSysDBErrors)
+                {
+                    <tr>
+                        <td>
+                            @result.ErrorID
+                        </td>
+                        <td>
+                            <span class="label bg-aqua">@result.ErrorID</span>
+                        </td>
+                        <td>@result.ErrorDateTime</td>
+                        <td>
+                            @result.UserName
+                        </td>
+                        <td>
+                            @result.ErrorNumber
+                        </td>
+                        <td>
+                            @result.ErrorState
+                        </td>
+                        <td>
+                            @result.ErrorSeverity
+                        </td>
+                        <td>
+                            @result.ErrorLine
+                        </td>
+                        <td>
+                            @result.ErrorProcedure
+                        </td>
+                        <td>
+                            @result.ErrorMessage
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+

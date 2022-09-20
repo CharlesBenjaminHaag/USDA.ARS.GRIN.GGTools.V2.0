@@ -1,0 +1,193 @@
+﻿using System.Web.Mvc;
+using System;
+using System.Collections.Generic;
+using USDA.ARS.GRIN.GGTools.WebUI;
+using USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer;
+using USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer;
+using NLog;
+
+namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
+{
+    [GrinGlobalAuthentication]
+    public class CommonNameController : BaseController
+    {
+        protected static string BASE_PATH = "~/Views/Taxonomy/CommonName/";
+        private static readonly Logger Log = LogManager.GetCurrentClassLogger();
+      
+        public ActionResult Add(int genusId = 0, int speciesId = 0)
+        {
+            try
+            {
+                CommonNameViewModel viewModel = new CommonNameViewModel();
+                viewModel.TableName = "taxonomy_common_name";
+                viewModel.PageTitle = "Add Common Name";
+                viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
+
+                if (speciesId > 0)
+                {
+                    SpeciesViewModel speciesViewModel = new SpeciesViewModel();
+                    speciesViewModel.SearchEntity = new SpeciesSearch { ID = speciesId };
+                    speciesViewModel.Search();
+                    viewModel.Entity.SpeciesID = speciesViewModel.Entity.ID;
+                    viewModel.Entity.SpeciesName = speciesViewModel.Entity.FullName;
+                }
+                else
+                {
+                    GenusViewModel genusViewModel = new GenusViewModel();
+                    genusViewModel.SearchEntity = new GenusSearch { ID = genusId };
+                    genusViewModel.Search();
+                    viewModel.Entity.GenusID = genusViewModel.Entity.ID;
+                    viewModel.Entity.GenusName = genusViewModel.Entity.Name;
+                }
+
+                return View(BASE_PATH + "Edit.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return RedirectToAction("InternalServerError", "Error");
+            }
+        }
+
+        public ActionResult Delete(int entityId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public ActionResult Edit(int entityId)
+        {
+            try
+            {
+                CommonNameViewModel viewModel = new CommonNameViewModel();
+                viewModel.TableName = "taxonomy_common_name";
+                if (entityId > 0)
+                {
+                    viewModel.Get(entityId);
+                    viewModel.EventAction = "Edit";
+                    viewModel.PageTitle = String.Format("Edit Common Name [{0}]: {1}, {2}", entityId, viewModel.Entity.SpeciesName, viewModel.Entity.Name);
+                }
+                else
+                {
+                    viewModel.EventAction = "Add";
+                    viewModel.PageTitle = "Add Common Name";
+                }
+                return View(BASE_PATH + "Edit.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return RedirectToAction("InternalServerError", "Error");
+            }
+        }
+
+        [HttpPost]
+        public ActionResult Edit(CommonNameViewModel viewModel)
+        {
+            try
+            {
+                if (!viewModel.Validate())
+                {
+                    if (viewModel.ValidationMessages.Count > 0) return View(BASE_PATH + "Edit.cshtml", viewModel);
+                }
+
+                if (viewModel.Entity.ID == 0)
+                {
+                    viewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
+                    viewModel.Insert();
+                }
+                else
+                {
+                    viewModel.Entity.ModifiedByCooperatorID = AuthenticatedUser.CooperatorID;
+                    viewModel.Update();
+                }
+                return RedirectToAction("Edit", "CommonName", new { entityId = viewModel.Entity.ID });
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return RedirectToAction("InternalServerError", "Error");
+            }
+        }
+
+        public PartialViewResult FolderItems(int folderId)
+        {
+            try
+            {
+                CommonNameViewModel viewModel = new CommonNameViewModel();
+                viewModel.EventAction = "SEARCH";
+                viewModel.EventValue = "FOLDER";
+                viewModel.SearchEntity.FolderID = folderId;
+                viewModel.SearchFolderItems();
+                ModelState.Clear();
+                return PartialView(BASE_PATH + "_List.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml","Error");
+            }
+        }
+
+        public ActionResult Index()
+        {
+            try
+            {
+                CommonNameViewModel viewModel = new CommonNameViewModel();
+                viewModel.PageTitle = "Common Name Search";
+                viewModel.TableCode = "taxonomy_common_name";
+                return View(BASE_PATH + "Index.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return RedirectToAction("InternalServerError", "Error");
+            }
+        }
+
+        public PartialViewResult SearchNotes(string searchText)
+        {
+            throw new NotImplementedException();
+        }
+
+        public ActionResult Search(CommonNameViewModel viewModel)
+        {
+            try
+            {
+                viewModel.Search();
+                ModelState.Clear();
+                return View(BASE_PATH + "Index.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return RedirectToAction("InternalServerError", "Error");
+            }
+        }
+
+        public PartialViewResult _List(int genusId = 0, int speciesId = 0)
+        {
+            CommonNameViewModel viewModel = new CommonNameViewModel();
+            CommonNameSearch search = new CommonNameSearch();
+            viewModel.SearchEntity.GenusID = genusId;
+            viewModel.SearchEntity.SpeciesID = speciesId;
+            viewModel.Search();
+            return PartialView(BASE_PATH + "_List.cshtml", viewModel);
+        }
+
+        // ======================================================================================
+        // MODALS 
+        // ======================================================================================
+        public ActionResult RenderEditModal(int speciesId = 0)
+        {
+            CommonNameViewModel viewModel = new CommonNameViewModel();
+            viewModel.Entity.SpeciesID = speciesId;
+            return PartialView("~/Views/EconomicUse/Modals/_Edit.cshtml", viewModel);
+        }
+
+        [HttpPost]
+        public JsonResult Add(FormCollection coll)
+        {
+            return null;
+        }
+    }
+}

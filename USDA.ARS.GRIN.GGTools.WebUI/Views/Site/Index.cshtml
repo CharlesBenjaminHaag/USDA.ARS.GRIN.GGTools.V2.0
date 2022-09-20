@@ -1,0 +1,30 @@
+﻿@model USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer.CodeValueViewModel
+@{
+    ViewBag.Title = "Code Value Search";
+    Layout = "~/Views/Shared/_LayoutAdminLTE.cshtml";
+}
+
+@Html.Partial("~/Views/Shared/_UnderConstruction.cshtml")
+
+@using (Html.BeginForm("Search", "CodeValue", FormMethod.Post, new { id = "frmMain" }))
+{
+    <div class="box box-default">
+        <div class="box-body" style="border:none;">
+            @Html.Partial("~/Views/CodeValue/_Detail.cshtml")
+            <div id="section-species-data">
+                @Html.Partial("~/Views/CodeValue/_List.cshtml")
+            </div>
+            <div class="box-footer no-padding">
+            </div>
+        </div>
+    </div>
+}
+
+<script type="text/javascript">
+    $(function () {
+        $('#loader').click(function () {
+            var url = $(this).data('request-url');
+            alert(url);
+        });
+    });
+</script>

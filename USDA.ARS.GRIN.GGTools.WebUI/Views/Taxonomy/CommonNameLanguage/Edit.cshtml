@@ -1,0 +1,276 @@
+﻿@model USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer.CommonNameLanguageViewModel
+@{
+    ViewBag.Title = Model.PageTitle;
+    Layout = "~/Views/Shared/_LayoutAdminLTE3.cshtml";
+}
+
+@using (Html.BeginForm("Edit", "CommonNameLanguage", FormMethod.Post, new { id = "frmEdit" }))
+{
+    @Html.HiddenFor(x => x.PageTitle)
+    @Html.HiddenFor(x => x.EventAction)
+    @Html.HiddenFor(x => x.EventValue)
+    @Html.HiddenFor(x => x.TableName)
+    @Html.HiddenFor(x => x.TableCode)
+    @Html.HiddenFor(x => x.Entity.ID)
+    @Html.Partial("~/Views/Shared/_RevisionHistory.cshtml")
+
+    <div class="card card-default">
+        <div class="card-header">
+            <div class="btn-group">
+                <button type="button" class="btn btn-default btn-sm pull-right" data-toggle="modal" data-target="#modal-note-lookup">
+                    <i class="fa fa-search margin-r-5"></i>
+                    Notes
+                </button>
+            </div>
+        </div>
+        <div class="card-body">
+            @Html.Partial("~/Views/Shared/_ValidationMessages.cshtml")
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label>Name</label>
+                        @Html.TextBoxFor(x => x.Entity.LanguageName, new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label>Simplified Name</label>
+                        @Html.TextBoxFor(x => x.Entity.LanguageSimplifiedName, new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label>Transcription</label>
+                        @Html.TextBoxFor(x => x.Entity.LanguageTranscription, new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group form-horizontal">
+                        <label>Country</label>
+                        @Html.DropDownListFor(x => x.Entity.CountryCode, Model.Countries, "All Countries", new { @class = "form-control" })
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12" style="margin-top:1.0em;">
+                    <label>Note</label>
+                    @Html.TextAreaFor(x => x.Entity.Note, new { @id = "txtNote", @class = "form-control" })
+                </div>
+            </div>
+        </div>
+        <div class="card-footer">
+            <a href="@Url.Action("Refresh")" class="btn btn-danger">Cancel</a>
+            <button type="submit" class="btn btn-default float-right">Save</button>
+        </div>
+    </div>
+}
+
+@Html.Partial("~/Views/Taxonomy/Genus/Modals/_Lookup.cshtml")
+@Html.Partial("~/Views/Taxonomy/Species/Modals/_Lookup.cshtml")
+@Html.Partial("~/Views/Shared/Modals/_NoteLookup2.cshtml")
+
+@if (Model.Entity.ID > 0)
+{
+    { Html.RenderAction("RenderWidget", "Citation", new { entityId = Model.Entity.CitationID }); }
+}
+@{Html.RenderAction("RenderLookupModal", "Citation"); }
+
+<script>
+    $(document).ready(function () {
+        Init();
+        /*InitializeCKEditor();*/
+    });
+
+    function Init() {
+    }
+
+    /*
+    * ===================================================================================================
+    * GENUS LOOKUP MODAL
+    * ===================================================================================================
+    */
+    $("#btnOpenGenusLookupModal").click(function () {
+        $("#lblGenusLookupTitle").html("Type Genus Search");
+        $('#hfCurrentAction').val($(this).data("ggtools-action"));
+        $('#hfCurrentValue').val($(this).data("ggtools-value"));
+        $('#modal-genus-lookup').modal('show');
+    });
+
+    $("#btnLookupGenus").click(function () {
+        var genusName = $("#txtLookupGenusName").val();
+        var isAcceptedName = "";
+
+        if ($("#cbxLookupGenusAcceptedNames").prop("checked") == true) {
+            isAcceptedName = "Y";
+        }
+
+        var actionUrl = '@Url.Action("Lookup","Genus")';
+        SearchGenus(actionUrl, genusName, isAcceptedName, "Y");
+    });
+
+    function SearchGenus(actionUrl, genusName, isAcceptedName, isSingleSelect) {
+        var formData = new FormData();
+        formData.append("LookupGenusName", genusName);
+        formData.append("IsAcceptedName", isAcceptedName);
+        formData.append("IsSingleSelect", isSingleSelect);
+
+        $.ajax({
+            url: actionUrl,
+            type: 'POST',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (response) {
+                $("#section-genus-lookup-search-results").html(response);
+            }
+        });
+    }
+
+    function SelectGenus(ID, genusText) {
+        $('#modal-genus-lookup').modal('hide');
+        $("#Entity_GenusName").val(genusText);
+        $("#Entity_GenusID").val(ID);
+    }
+
+    $("#btnAddGenus").click(function () {
+        var link = '@Url.Action("Add","Genus", new { familyId = Model.Entity.ID })';
+        var typeGenusId = $("#Entity_TypeGenusID").val();
+        if (typeGenusId == 0) {
+            $("#modal-type-genus-prompt").modal("show");
+        }
+        else {
+            window.location.href = link;
+        }
+    });
+
+    /*
+    * ===================================================================================================
+    * SPECIES MODAL
+    * ===================================================================================================
+    */
+
+    $(document).on("click", "[id='btnLookupSpecies']", function () {
+        SearchSpecies();
+    });
+
+    function SearchSpecies() {
+        var link = '@Url.Action("Lookup","Species")';
+        var lookupSpeciesName = $("#txtLookupSpeciesName").val();
+        var formData = new FormData();
+
+        formData.append("SpeciesName", lookupSpeciesName);
+
+        $.ajax({
+            url: link,
+            type: 'POST',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (response) {
+                $("#section-species-lookup-search-results").html(response);
+            }
+        });
+    }
+
+    $(document).on("click", "[id='btnSaveSpecies']", function () {
+        SaveSpecies();
+    });
+
+    function SaveSpecies() {
+        var selectedItemIdList = GetSelectedEntityIDs("data-table-species-lookup");
+        var selectedSpeciesNameList = GetSelectedEntityLabels("data-table-species-lookup");
+        //DEBUG
+        alert("DEBUG SPECIES ID " + selectedItemIdList + " AND NAME " + selectedSpeciesNameList);
+        $("#Entity_SpeciesID").val(selectedItemIdList);
+        $("#Entity_SpeciesName").val(selectedSpeciesNameList);
+
+        /*$("#modal-species-lookup").modal("hide");*/
+    }
+
+    /*
+    * ===================================================================================================
+    * CITATION MODAL
+    * ===================================================================================================
+    */
+
+    $(document).on("click", "[id='btnLookupCitations']", function () {
+        var link = '@Url.Action("Lookup","Citation")';
+        LookupCitations(link);
+    });
+
+    $(document).on("click", "[id='btnSaveCitations']", function () {
+        SaveCitations();
+    });
+
+    $(document).on("click", "[id='btnDeleteCitations']", function () {
+        DeleteCitations();
+    });
+
+    function SaveCitations() {
+        var tableName = $("#TableName").val();
+        var entityId = $("#Entity_ID").val();
+        var formData = new FormData();
+        var selectedItemIdList = GetSelectedEntityIDs("citation-lookup-data-table");
+        var link = '@Url.Action("AddReference","Citation")';
+        var refreshLink = '@Url.Action("Edit","CommonName")' + '?entityId=' + entityId;
+
+        formData.append("TableName", tableName);
+        formData.append("EntityID", entityId);
+        formData.append("IDList", selectedItemIdList);
+
+        $.ajax({
+            url: link,
+            type: 'POST',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (result) {
+                $("#modal-citation-search").modal("hide");
+                window.location.href = refreshLink;
+            },
+            error: function () {
+
+            }
+        });
+    }
+
+    function DeleteCitations() {
+        var tableName = $("#TableName").val();
+        var entityId = $("#Entity_ID").val();
+        var formData = new FormData();
+        var selectedItemIdList = "0";
+        var link = '@Url.Action("DeleteReference","Citation")';
+        var refreshLink = '@Url.Action("Edit","CommonName")' + '?entityId=' + entityId;
+
+        formData.append("TableName", tableName);
+        formData.append("EntityID", entityId);
+        formData.append("IDList", selectedItemIdList);
+
+        $.ajax({
+            url: link,
+            type: 'POST',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (result) {
+                $("#modal-citation-search").modal("hide");
+                window.location.href = refreshLink;
+            },
+            error: function () {
+
+            }
+        });
+    }
+
+    function GetCitation(id) {
+
+    }
+</script>
+
+
+
+

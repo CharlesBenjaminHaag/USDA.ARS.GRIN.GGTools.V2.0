@@ -1,0 +1,71 @@
+﻿@model USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer.GeographyMapViewModel
+<div class="card card-default">
+    <div class="card-header">
+        <h3 class="card-title">Distribution (@Model.DataCollection.Count)</h3>
+        <div class="card-tools">
+            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                <i class="fas fa-minus"></i>
+            </button>
+        </div>
+    </div>
+    <div class="card-body">
+        <div id="section-search-results" class="data-list">
+            <table id="data-table-geography-map" class="table table-striped ggtools-table">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th width="5%">ID</th>
+                        <th>Species Name</th>
+                        <th>Status</th>
+                        <th>Citation</th>
+                        <th>Country</th>
+                        <th>Admin 1</th>
+                        <th>Note</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.DataCollection.Count() > 0)
+                    {
+                        foreach (var result in Model.DataCollection)
+                        {
+                            <tr>
+                                <td>
+                                    @result.ID
+                                </td>
+                                <td>
+                                    @result.ID
+                                </td>
+                                <td>
+                                    <a href="@Url.Action("Edit","Species", new { @entityId = result.SpeciesID })">
+                                        @result.SpeciesName
+                                    </a>
+                                </td>
+                                <td>
+                                    @result.GeographyStatusDescription
+                                </td>
+                                <td>@Html.Raw(result.CitationText)</td>
+                                <td>@result.CountryName</td>
+                                <td>@result.Admin1</td>
+                                <td>@Html.Raw(result.Note)</td>
+                                <td>
+                                    <a href="@Url.Action("Edit", "GeographyMap", new { entityId = result.ID })" class="btn btn-primary btn-sm pull-right row-edit">
+                                        <i class="fa fa-edit"></i>
+                                    </a>
+                                    @*@if (Model.Action == "Folder")
+                                        {
+                                            <button id="btnDeleteFolderItem_@cropForCWR.ReferenceID" class="btn btn-danger btn-sm pull-right row-edit margin-r-5">
+                                                <i class="fa fa-trash"></i> Remove From Folder
+                                            </button>
+                                        }*@
+                                </td>
+                            </tr>
+                        }
+                    }
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+

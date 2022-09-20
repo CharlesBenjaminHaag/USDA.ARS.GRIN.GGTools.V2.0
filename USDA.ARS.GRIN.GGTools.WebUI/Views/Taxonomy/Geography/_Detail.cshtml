@@ -1,0 +1,74 @@
+﻿@model USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer.GeographyViewModelBase
+<div class="card">
+    <div class="card-header p-2">
+        <ul class="nav nav-pills">
+            <li class="nav-item"><a class="nav-link active" href="#activity" data-toggle="tab">Search Criteria</a></li>
+            <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">Saved Searches</a></li>
+        </ul>
+    </div>
+    <div class="card-body">
+        <div class="tab-content">
+            <div class="tab-pane active" id="activity">
+                <div class="row">
+                    <div class="col-md-2">
+                        <div class="form-group form-horizontal">
+                            <label>Created By</label>
+                            @Html.DropDownListFor(x => x.SearchEntity.CreatedByCooperatorID, Model.Cooperators, "All cooperators", new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group form-horizontal">
+                            <label>Continent</label>
+                            @Html.DropDownListFor(x => x.SearchEntity.ContinentRegionID, Model.Continents, "All continents", new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group form-horizontal">
+                            <label>Subcontinents</label>
+                            @Html.DropDownListFor(x => x.SearchEntity.SubContinentRegionID, Model.SubContinents, "All subcontinents", new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group form-horizontal">
+                            <label>Country</label>
+                            @Html.DropDownListFor(x => x.SearchEntity.CountryCode, Model.Countries, "All countries", new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="col-md-1">
+                        <div class="form-group form-horizontal">
+                            <label>IsValid</label>
+                            @Html.DropDownListFor(x => x.SearchEntity.IsValid, Model.YesNoOptions, "Either", new { @class = "form-control" })
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <button id="btnReset" type="button" class="btn btn-danger">Reset</button>
+                    <div class="btn-group float-right">
+                        <button type="submit" class="btn btn-info">Search</button>
+                        <button type="button" class="btn btn-info dropdown-toggle dropdown-icon" data-toggle="dropdown" aria-expanded="false">
+                            <span class="sr-only">Toggle Dropdown</span>
+                        </button>
+                        <div class="dropdown-menu" role="menu" style="">
+                            <a id="btnSaveSearch" class="dropdown-item" href="#">Save Search</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane" id="timeline">
+                <div class="row">
+                    <div class="col-md-12">
+                        @{Html.RenderAction("_List", "AppUserDynamicQuery"); }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+

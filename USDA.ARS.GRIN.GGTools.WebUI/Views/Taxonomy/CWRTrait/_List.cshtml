@@ -1,0 +1,78 @@
+﻿@model USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer.CWRTraitViewModel
+
+<div id="section-search-results" class="card card-default">
+    <div class="card-header">
+        <h3 class="card-title">CWR Traits (@Model.DataCollection.Count)</h3>
+        <div class="card-tools">
+            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                <i class="fas fa-minus"></i>
+            </button>
+        </div>
+    </div>
+    <div class="card-body">
+        <table id="data-table-cwr-trait" class="table table-striped" style=" width:100%;">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th width="5%">ID</th>
+                    <th>Genepool Code</th>
+                    <th>Crop For CWR Name</th>
+                    <th>Species Name</th>
+                    <th>Trait Class</th>
+                    <th>Breeding Type</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.DataCollection != null)
+                {
+                    if (Model.DataCollection.Count() > 0)
+                    {
+                        foreach (var result in Model.DataCollection)
+                        {
+                            <tr>
+                                <td>
+                                    @result.ID
+                                </td>
+                                <td>
+                                    @result.ID
+                                </td>
+                                <td>@result.GenepoolCode</td>
+                                <td>
+                                    <a href="@Url.Action("Edit", "CropForCWR", new { entityId = result.CropForCWRID })">
+                                        @result.CropForCWRName
+                                    </a>
+                                </td>
+                                <td>
+                                    <a href="@Url.Action("Edit", "Species", new { entityId = result.SpeciesID })">
+                                        @result.SpeciesName
+                                    </a>
+                                </td>
+                                <td>@result.TraitClassTitle</td>
+                                <td>@result.BreedingTypeTitle</td>
+                                <td style="text-align:right;">
+                                    <a href="@Url.Action("Edit", "CWRTrait", new { entityId = result.ID })" class="btn btn-primary btn-sm pull-right row-edit">
+                                        <i class="fa fa-edit"></i>
+                                    </a>
+                                    @*@if (Model.Action == "Folder")
+                                        {
+                                            <button id="btnDeleteFolderItem_@cropForCWR.ReferenceID" class="btn btn-danger btn-sm pull-right row-edit margin-r-5">
+                                                <i class="fa fa-trash"></i> Remove From Folder
+                                            </button>
+                                        }*@
+                                </td>
+                            </tr>
+                        }
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        Init();
+        InitDataTable("data-table-cwr-trait");
+    });
+</script>
+

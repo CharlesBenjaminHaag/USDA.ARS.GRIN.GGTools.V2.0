@@ -1,0 +1,147 @@
+﻿@model USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer.CWRTraitViewModel
+@{
+    ViewBag.Title = Model.PageTitle;
+    Layout = "~/Views/Shared/_LayoutAdminLTE3.cshtml";
+}
+
+@using (Html.BeginForm("Search", "CWRTrait", FormMethod.Post, new { id = "frmMain" }))
+{
+    @Html.HiddenFor(x => x.EventAction)
+    @Html.HiddenFor(x => x.EventValue)
+    @Html.HiddenFor(x => x.TableName)
+    @Html.HiddenFor(x => x.TableCode)
+    @Html.HiddenFor(x => x.PageTitle)
+    @Html.HiddenFor(x => x.AuthenticatedUserCooperatorID)
+    @Html.HiddenFor(x => x.ItemIDList)
+    @Html.Partial("~/Views/Taxonomy/CWRTrait/_Detail.cshtml")
+}
+@Html.Partial("~/Views/Taxonomy/CWRTrait/_List.cshtml")
+@{Html.RenderAction("_Edit", "Folder"); }
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        Init();
+        SetExtendedFields();
+    });
+
+    function Init() {
+        var eventAction = $("#EventAction").val();
+        if (eventAction == "SHOW-SEARCH") {
+            $("#section-search-criteria").show();
+        }
+    }
+
+    //$(document).on("click", "[id='btnSubmitSearch']", function () {
+    //    event.preventDefault();
+    //    if ($("#section-search-criteria").is(":visible")) {
+    //        $("#EventAction").val("SHOW-SEARCH");
+    //    }
+    //    $("#frmMain").submit();
+    //});
+
+    /*
+     * ===============================================================================
+     * FOLDER MODAL
+     * ===============================================================================
+     */
+    $("#btnOpenFolderModal").click(function () {
+        var selectedItemIdList = GetSelectedEntityIDs("data-table-cwr-trait");
+        $("#modal-folder-edit").modal("show");
+    });
+
+    $("#btnSaveFolder").click(function () {
+        SaveFolder(0);
+    });
+
+    function SaveFolder(folderId) {
+        var link = '@Url.Action("Add", "Folder")';
+        var tableName = $("#TableName").val();
+        var folderName = $("#txtFolderTitle").val();
+        var folderCategory = $("#Entity_Category").val();
+        var folderNewCategory = $("#txtFolderNewCategory").val();
+        var folderDescription = $("#txtFolderDescription").val();
+
+        if ($('#cbxIsFavorite').prop('checked') == true) {
+            isFavorite = true;
+        }
+
+        var selectedItemIdList = GetSelectedEntityIDs("data-table-cwr-trait");
+
+        var formData = new FormData();
+
+        if (typeof selectedItemIdList != 'undefined') {
+            formData.append("IDList", selectedItemIdList);
+        }
+
+        if ($('#cbxIsFavorite').prop('checked') == true) {
+            formData.append("IsFavorite", true);
+        }
+
+        if ($('#cbxIsShared').prop('checked') == true) {
+            formData.append("IsShared", true);
+        }
+
+        formData.append("FolderID", folderId);
+        formData.append("TableName", tableName);
+        formData.append("FolderName", folderName);
+        formData.append("FolderType", tableName);
+        formData.append("Category", folderCategory);
+        formData.append("NewCategory", folderNewCategory);
+        formData.append("Description", folderDescription);
+
+        $.ajax({
+            url: link,
+            type: 'POST',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (result) {
+                //window.location.href = originalLink;
+            },
+            error: function () {
+                alert("Error in ApplyCitation()");
+            }
+        });
+        $("#modal-folder-edit").modal("hide");
+    }
+
+    function SaveFolderItems(folderId) {
+        var link = '@Url.Action("AddItems", "Folder")';
+        var tableName = $("#TableName").val();
+        var selectedItemIdList = GetSelectedEntityIDs("data-table-cwr-trait");
+        var formData = new FormData();
+
+        formData.append("FolderID", folderId);
+        formData.append("TableName", tableName);
+
+        if (typeof selectedItemIdList != 'undefined') {
+            formData.append("IDList", selectedItemIdList);
+        }
+
+        $.ajax({
+            url: link,
+            type: 'POST',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (result) {
+            },
+            error: function () {
+                alert("Error");
+            }
+        });
+        $("#modal-folder-edit").modal("hide");
+    }
+
+    function GetSelectedEntityIDs(tableName) {
+        var table = $('#' + tableName).DataTable();
+        var ids = $.map(table.rows('.selected').data(), function (item) {
+            return item[0]
+        });
+        console.log(ids)
+        return ids;
+    }
+</script>

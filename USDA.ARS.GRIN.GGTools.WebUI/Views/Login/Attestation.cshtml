@@ -1,0 +1,56 @@
+﻿@model USDA.ARS.GRIN.GGTools.ViewModelLayer.SysUserViewModel
+@{
+    Layout = "~/Views/Shared/_LayoutAdminLTE3Login.cshtml";
+}
+<div class="login-box" style="width:600px;">
+    <div class="card card-outline ">
+        <div class="card-header text-center">
+            <a href="../../index2.html" class="h1"><b>GG</b>Tools</a>
+        </div>
+        <div class="card-body">
+            @using (Html.BeginForm("Index", "Home", FormMethod.Post, new { id = "frmLogin" }))
+            {
+                @*<div style="margin-bottom:10px;"><h3 style="margin:0px; padding:0px;">Notice</h3></div>*@
+                <div class="form-group has-feedback">
+                    <p>
+                        You are accessing a U.S. Government information system, which includes (1) this computer, (2) this computer network,
+                        (3) all computers connected to this network, and (4) all devices and storage media attached to this network
+                        or to a computer on this network.  This information system is provided for U.S. Government-authorized use only.
+                        Unauthorized or improper use of this system may result in disciplinary action, as well as civil and criminal penalties.
+                    </p>
+                    <p>
+                        By using this information system, you understand and consent to the following:
+                        You have no reasonable expectation of privacy regarding any communications or data transiting or stored on
+                        this information system. At any time, the government may for any lawful government purpose monitor,
+                        intercept, search, and seize any communication or data transiting or stored on this information system.
+                        Any communications or data transiting or stored on this information system may be disclosed or
+                        used for any lawful government purpose.
+                    </p>
+                    <p>
+                        Your consent is final and irrevocable.  You may not rely on any statements or informal policies
+                        purporting to provide you with any expectation of privacy regarding communications on this system,
+                        whether oral or written, by your supervisor or any other official, except USDA's Chief Information Officer.
+                    </p>
+                </div>
+                <div class="row">
+                    <!-- /.col -->
+                    <div class="col-md-6">
+                        <a href="@Url.Action("Logout", "Login")" id="btCancelLogin" class="btn btn-default btn-block btn-flat">
+                            Cancel
+                        </a>
+                    </div>
+                    <div class="col-md-6">
+                        <button id="btnLogin" type="submit" class="btn btn-primary btn-block btn-flat" data-pdsa-action="submit">Continue</button>
+                    </div>
+                    <!-- /.col -->
+                </div>
+            }
+        </div>
+        <div class="card-footer">Version @AppInfo.GetVersion()</div>
+    </div>
+</div>
+
+
+
+
+

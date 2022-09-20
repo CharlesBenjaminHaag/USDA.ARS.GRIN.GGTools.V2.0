@@ -1,0 +1,150 @@
+﻿@model USDA.ARS.GRIN.GGTools.ViewModelLayer.FolderViewModel
+<div class="modal fade" id="modal-folder-edit" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">
+                    <i class="fas fa-search"></i>
+                    Folder DEBUG
+                </h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="card">
+                    <div class="card-header p-2">
+                        <ul class="nav nav-pills">
+                            <li class="nav-item"><a class="nav-link active" href="#folder-create" data-toggle="tab">Create Folder</a></li>
+                            <li class="nav-item"><a class="nav-link" href="#folder-select" data-toggle="tab">Select Folder</a></li>
+                        </ul>
+                    </div>
+                    <div class="card-body">
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="folder-create">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label>Name</label>
+                                            <input type="text" id="txtFolderTitle" class="form-control">
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label>Category</label>
+                                                        @Html.DropDownListFor(x => x.Entity.Category, Model.Categories, "Select value", new { @class = "form-control" })
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label>Add Category</label>
+                                                    <input type="text" id="txtFolderNewCategory" class="form-control">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Description</label>
+                                            <textarea id="txtFolderDescription" class="form-control" rows="3"></textarea>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="input-group">
+                                                <input type="text" disabled="" readonly class="form-control" value="Add to Favorites">
+                                                <span class="input-group-addon">
+                                                    <input id="cbxIsFavorite" type="checkbox" checked="checked">
+                                                </span>
+                                            </div>
+                                            <div class="input-group">
+                                                <input type="text" disabled="" readonly class="form-control" value="Share folder">
+                                                <span class="input-group-addon">
+                                                    <input id="cbxIsShared" type="checkbox">
+                                                </span>
+                                            </div>
+
+                                            <div id="section-folder-sharing" style="display:none; margin-top:20px;">
+                                                <label>Share With User(s):</label>
+                                                <div class="form-group">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon">
+                                                            <input id="cbxIsFavorite" type="checkbox">
+                                                        </span>
+                                                        <input type="text" disabled="" readonly class="form-control" value="Leon, Blanca">
+                                                    </div>
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon">
+                                                            <input id="cbxIsFavorite" type="checkbox">
+                                                        </span>
+                                                        <input type="text" disabled="" readonly class="form-control" value="Friedman, Jennifer">
+                                                    </div>
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon">
+                                                            <input id="cbxIsFavorite" type="checkbox">
+                                                        </span>
+                                                        <input type="text" disabled="" readonly class="form-control" value="Schori, Melanie">
+                                                    </div>
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon">
+                                                            <input id="cbxIsFavorite" type="checkbox">
+                                                        </span>
+                                                        <input type="text" disabled="" readonly class="form-control" value="Wiertsma, John">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <button id="btnAddFolder" class="btn btn-primary float-right">Save</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="folder-select">
+                                <div class="row">
+                                    <div class="col-md-12">
+
+                                        <table id="data-table-available-folders" class="table table-striped" style="width:100%;">
+                                            <thead>
+                                                <tr>
+                                                    <th></th>
+                                                    <th>Title</th>
+                                                    <th>Created</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach (var result in Model.DataCollectionAvailableFolders)
+                                                {
+                                                    <tr>
+                                                        <td>@result.ID</td>
+                                                        <td>@result.FolderName</td>
+                                                        <td>@result.CreatedDate.ToShortDateString()</td>
+                                                    </tr>
+                                                }
+                                            </tbody>
+                                        </table>
+                                        </div>
+                                </div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <button id="btnUpdateFolder" class="btn btn-primary margin-top-10">Add Records to Selected Folder</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        InitDataTableLight("data-table-available-folders");
+    });
+</script>
+

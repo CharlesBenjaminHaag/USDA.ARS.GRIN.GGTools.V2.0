@@ -1,0 +1,118 @@
+﻿@model USDA.ARS.GRIN.GGTools.ViewModelLayer.HomeViewModel
+@{
+    ViewBag.Title = "Home Page";
+    Layout = "~/Views/Shared/_LayoutAdminLTE3.cshtml";
+}
+
+<div class="row">
+    <div class="col-lg-3 col-6">
+
+        <div class="small-box bg-info">
+            <div class="inner">
+                <h3>GGT-ARM</h3>
+                <p>Access Rights Management</p>
+            </div>
+            <div class="icon">
+                <i class="fas fa-user-cog"></i>
+            </div>
+            <a href="@Url.Action("Navigate","Home", new { applicationCode = "GGT-ARM"})" class="small-box-footer">
+                Launch <i class="fas fa-arrow-circle-right"></i>
+            </a>
+        </div>
+    </div>
+    <div class="col-lg-3 col-6">
+        <div class="small-box bg-success">
+            <div class="inner">
+                <h3>GGT-TAX</h3>
+                <p>Taxonomy Editor</p>
+            </div>
+            <div class="icon">
+                <i class="fas fa-leaf"></i>
+            </div>
+            <a href="@Url.Action("Navigate","Home", new { applicationCode = "GGT-TAX"})" class="small-box-footer">
+                Launch <i class="fas fa-arrow-circle-right"></i>
+            </a>
+        </div>
+    </div>
+    <div class="col-lg-3 col-6">
+        <div class="small-box bg-warning bg-purple">
+            <div class="inner">
+                <h3>GGT-CUR</h3>
+                <p>Curators</p>
+            </div>
+            <div class="icon">
+                <i class="fas fa-tree"></i>
+            </div>
+            <a href="@Url.Action("Navigate","Home", new { applicationCode = "GGT-CUR"})" class="small-box-footer">
+                Launch <i class="fas fa-arrow-circle-right"></i>
+            </a>
+        </div>
+    </div>
+    <div class="col-lg-3 col-6">
+
+        <div class="small-box bg-danger">
+            <div class="inner">
+                <h3>GGT-NRR</h3>
+                <p>NRR Tool</p>
+            </div>
+            <div class="icon">
+                <i class="fas fa-angry"></i>
+            </div>
+            <a href="@Url.Action("Navigate","Home", new { applicationCode = "GGT-NRR"})" class="small-box-footer">
+                Launch <i class="fas fa-arrow-circle-right"></i>
+            </a>
+        </div>
+    </div>
+
+</div>
+
+<div class="row">
+    <div class="col-md-3">
+        @{Html.RenderAction("RenderWidget", "Cooperator", new { cooperatorId = Model.CooperatorID }); }
+        @{Html.RenderAction("RenderWidget", "Site", new { siteId = Model.SiteID }); }
+    </div>
+    <div class="col-md-9">
+        @{Html.RenderAction("_ListBySite", "Cooperator", new { siteId = Model.SiteID }); }
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#section-tabs-folders li").removeClass("active");
+        $('ul#section-tabs-folders li:first').addClass("active");
+    });
+
+    $(".nav-item").on('click', function () {
+        var id = $(this).attr('id');
+        //LoadFolderItems(id);
+    });
+
+    function LoadFolderItems(folderId) {
+        try {
+            var link = '@Url.Action("_ItemList","Folder")';
+            var formData = new FormData();
+
+            formData.append("FolderID", folderId);
+
+            $.ajax({
+                url: link,
+                type: 'POST',
+                cache: false,
+                contentType: false,
+                processData: false,
+                data: formData,
+                success: function (response) {
+                    $("#section-folder-items").html(response);
+                    //$('#section-child-data-search-results table').DataTable(
+                    //    {
+                    //        responsive: true
+                    //    }
+                    //);
+                }
+            });
+        }
+        catch (exception) {
+            alert("ERROR: " + exception);
+        }
+    }
+
+</script>

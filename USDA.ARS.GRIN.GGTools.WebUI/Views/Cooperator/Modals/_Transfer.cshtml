@@ -1,0 +1,39 @@
+﻿@model USDA.ARS.GRIN.GGTools.ViewModelLayer.CooperatorViewModelBase
+<div id="modal-cooperator-data-transfer" class="modal fade" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Transfer Data</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="section-search-criteria">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>Transfer To</label>
+                                <div class="input-group">
+                                    @Html.DropDownListFor(x => x.Entity.CurrentCooperatorID, Model.Cooperators, "Select a cooperator", new { @class = "form-control" })
+                                    <span class="input-group-btn">
+                                        <button id="btnBeginTransfer" type="button" data-toggle="modal" data-target="#modal-species-lookup" class="btn btn-default btn-flat">
+                                            <i class="fa fa-gears"></i> Begin Transfer
+                                        </button>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="section-data-transfer-results">
+
+                </div>
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+

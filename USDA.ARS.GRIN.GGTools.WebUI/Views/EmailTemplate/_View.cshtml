@@ -1,0 +1,31 @@
+﻿@model USDA.ARS.GRIN.GGTools.ViewModelLayer.EmailTemplateViewModel
+<div class="box box-primary">
+    <div class="box-header with-border">
+        <h3 class="box-title">@Model.Entity.Title</h3>
+    </div>
+    <div class="box-body no-padding">
+        <div class="mailbox-read-info">
+            <h3>@Model.Entity.Subject</h3>
+            <h5>
+                @Model.Entity.EmailFrom
+                <span class="mailbox-read-time pull-right">Last edited @Model.Entity.ModifiedDate</span>
+            </h5>
+        </div>
+
+        <div class="mailbox-controls with-border" style="padding:15px;">
+            
+        </div>
+        <div class="mailbox-read-message">
+            @Html.Raw(Model.Entity.Body)
+        </div>
+    </div>
+    <div class="box-footer">
+    </div>
+    <div class="box-footer">
+        <div class="btn-group pull-right">
+            <a href="@Url.Action("Edit","EmailTemplate", new { @entityId = Model.Entity.ID })" class="btn btn-default">
+                <i class="fa fa-edit"></i>Edit Template
+            </a>
+        </div>
+    </div>
+</div>

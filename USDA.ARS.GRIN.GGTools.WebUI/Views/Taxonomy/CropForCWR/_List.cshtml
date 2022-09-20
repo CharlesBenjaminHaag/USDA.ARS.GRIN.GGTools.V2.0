@@ -1,0 +1,84 @@
+﻿@model USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer.CropForCWRViewModel
+<div class="card card-default">
+    <div class="card-header">
+        <h3 class="card-title">Search Results (@Model.DataCollection.Count)</h3>
+        <div class="card-tools">
+            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                <i class="fas fa-minus"></i>
+            </button>
+        </div>
+    </div>
+    <!-- /.box-header -->
+    <div class="card-body">
+        <table id="data-table-crop-for-cwr" class="table table-striped ggtools-table">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th width="5%">ID</th>
+                    <th>Name</th>
+                    <th><span style="text-align:center;">CWR Maps</span></th>
+                    <th>Created</th>
+                    <th>Created By</th>
+                    <th>Last Modified</th>
+                    <th>Modified By</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.DataCollection != null)
+                {
+                    if (Model.DataCollection.Count() > 0)
+                    {
+                        foreach (var result in Model.DataCollection)
+                        {
+                            <tr>
+                                <td>
+                                    @result.ID
+                                </td>
+                                <td>
+                                    @result.ID
+                                </td>
+                                <td>@result.CropForCWRName</td>
+                                <td>
+                                    <span style="text-align:center;">@result.RelatedItemCount</span>
+                                </td>
+                                <td>
+                                    @result.CreatedDate.ToShortDateString()
+                                </td>
+                                <td>
+                                    @result.CreatedByCooperatorName
+                                </td>
+                                <td>
+                                    @if (result.ModifiedDate > DateTime.MinValue)
+                                    {
+                                        @result.ModifiedDate.ToShortDateString()
+                                    }
+                                </td>
+                                <td>
+                                    @result.ModifiedByCooperatorName
+                                </td>
+                                <td>
+                                    <a href="@Url.Action("Edit", "CropForCWR", new { entityId = result.ID })" class="btn btn-default btn-sm pull-right row-edit">
+                                        Edit
+                                    </a>
+                                    @*@if (Model.Action == "Folder")
+                                        {
+                                            <button id="btnDeleteFolderItem_@cropForCWR.ReferenceID" class="btn btn-danger btn-sm pull-right row-edit margin-r-5">
+                                                <i class="fa fa-trash"></i> Remove From Folder
+                                            </button>
+                                        }*@
+                                </td>
+                            </tr>
+                        }
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        Init();
+        InitDataTable("data-table-crop-for-cwr");
+    });
+</script>

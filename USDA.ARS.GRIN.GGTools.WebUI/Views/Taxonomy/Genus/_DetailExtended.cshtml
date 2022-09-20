@@ -1,0 +1,39 @@
+﻿@model USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer.GenusViewModel
+<div class="box box-default collapsed-box">
+    <div class="box-header with-border">
+        <h3 class="box-title extended-title">Extended Fields</h3>
+        <div class="box-tools pull-right">
+            <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                <i class="fa fa-plus"></i>
+            </button>
+        </div>
+    </div>
+    <div class="box-body" style="display: none;">
+        <div class="row">
+            <div class="col-sm-1">
+                <div class="form-group form-horizontal">
+                    <label>ID</label>
+                    @Html.TextBoxFor(x => x.SearchEntity.ID, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group form-horizontal">
+                    <label>Note</label>
+                    @Html.TextBoxFor(x => x.SearchEntity.Note, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group form-horizontal">
+                    <label>Accepted Name</label>
+                    @Html.TextBoxFor(x => x.SearchEntity.AcceptedName, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group form-horizontal">
+                    <label>Authority</label>
+                    @Html.TextBoxFor(x => x.SearchEntity.Authority, new { @class = "form-control" })
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

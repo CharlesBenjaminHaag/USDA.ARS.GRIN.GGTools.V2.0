@@ -1,0 +1,42 @@
+﻿@model USDA.ARS.GRIN.GGTools.ViewModelLayer.SysErrorViewModel
+@{
+    ViewBag.Title = Model.PageTitle;
+    Layout = "~/Views/Shared/_LayoutAdminLTE.cshtml";
+}
+
+@using (Html.BeginForm("Search", "Error", FormMethod.Post, new { id = "frmMain" }))
+{
+    @Html.HiddenFor(x => x.EventAction)
+    @Html.HiddenFor(x => x.TableName)
+    @Html.HiddenFor(x => x.TableCode)
+    @Html.HiddenFor(x => x.PageTitle)
+    @Html.HiddenFor(x => x.AuthenticatedUserCooperatorID)
+    @Html.HiddenFor(x => x.ItemIDList)
+    @Html.Partial("~/Views/Error/_AppErrorList.cshtml")
+    @Html.Partial("~/Views/Error/_DBErrorList.cshtml")
+}
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        Init();
+        InitDataTable("data-table-sys-app-error");
+        InitDataTable("data-table-sys-db-error");
+    });
+
+    function Init() {
+    }
+
+    $(document).on("click", "[id='btnReset']", function () {
+        Reset();
+    });
+
+    function GetSelectedEntityIDs(tableName) {
+        var table = $('#' + tableName).DataTable();
+        var ids = $.map(table.rows('.selected').data(), function (item) {
+            return item[0]
+        });
+        console.log(ids)
+        return ids;
+    }
+</script>

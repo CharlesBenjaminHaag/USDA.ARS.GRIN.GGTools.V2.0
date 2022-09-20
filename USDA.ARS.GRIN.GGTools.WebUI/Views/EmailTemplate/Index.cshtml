@@ -1,0 +1,117 @@
+﻿@model USDA.ARS.GRIN.GGTools.ViewModelLayer.EmailTemplateViewModel
+@{
+    ViewBag.Title = Model.PageTitle;
+    Layout = "~/Views/Shared/_LayoutAdminLTE.cshtml";
+}
+
+<style>
+    .mailbox-controls {
+        margin-bottom: 10px;
+        padding: 0px;
+    }
+</style>
+
+<style>
+    .users-list img {
+        width: 90px;
+        height: 90px;
+    }
+
+    .info-box {
+        background-color: #e2e4ea;
+    }
+
+    .dashboard-link {
+        color: white;
+        text-decoration: underline;
+    }
+
+        .dashboard-link a, a:hover {
+            color: white;
+        }
+
+    /*#section-totals-by-status a:link, a:visited {
+        color: white;
+    }*/
+</style>
+
+<section class="content">
+    <div class="row">
+        <div class="col-md-3">
+            <div class="box box-solid">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Templates</h3>
+                    <div class="box-tools">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                            <i class="fa fa-minus"></i>
+                        </button>
+                    </div>
+                </div>
+                <div id="section-template-list" class="box-body no-padding">
+                    <ul class="nav nav-pills nav-stacked">
+                        @foreach (var emailTemplate in Model.DataCollection)
+                        {
+                            <li id="@emailTemplate.ID">
+                                <a href="#">
+                                    <i class="fa fa-envelope"></i> @emailTemplate.Title
+                                    @*<span class="pull-right">Standard rejection template</span>*@
+                                </a>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- /.col -->
+        <div class="col-md-9">
+            <div id="section-template-view">
+            </div>
+        </div>
+    </div>
+</section>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        Init();
+    });
+
+    function Init() {
+        var firstItem = $("#section-template-list ul li:first");
+        var itemId = $(firstItem).attr('id');
+        LoadData(itemId);
+    }
+
+    $(function () {
+        $('#section-template-list ul.nav li').on('click', function () {
+
+            $(this).parent().find('li.active').removeClass('active');
+            $(this).addClass('active');
+            var itemId = $(this).attr('id');
+            LoadData(itemId);
+        });
+    });
+
+    function LoadData(id)
+    {
+        var $getStatusElement = $('li#' + id);
+        $getStatusElement.addClass('active');
+
+        var link = '@Url.Action("View", "EmailTemplate")';
+
+        $.ajax(
+            {
+                type: 'POST',
+                url: link,
+                data: { entityId: id },
+                success:
+                    function (response) {
+                        $("#section-template-view").html(response);
+                    },
+                error:
+                    function (response) {
+                        console.log(response);
+                    }
+            });
+    }
+
+</script>

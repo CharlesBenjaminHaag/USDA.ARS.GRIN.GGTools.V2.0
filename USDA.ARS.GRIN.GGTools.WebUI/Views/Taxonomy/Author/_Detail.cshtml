@@ -1,0 +1,61 @@
+﻿@model USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer.AuthorViewModelBase
+
+
+<div class="card">
+    <div class="card-header p-2">
+        <ul class="nav nav-pills">
+            <li class="nav-item"><a class="nav-link active" href="#activity" data-toggle="tab">Search Criteria</a></li>
+            <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">Saved Searches</a></li>
+        </ul>
+    </div>
+    <div class="card-body">
+        <div class="tab-content">
+            <div class="tab-pane active" id="activity">
+                <div class="row">
+                    <div class="col-md-5">
+                        <div class="form-group">
+                            <label>Short Name</label>
+                            <div class="input-group">
+                                @Html.TextBoxFor(x => x.SearchEntity.ShortName, new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <span>
+                            <input id="cbxIsAcceptedNameSubject" type="checkbox">
+                            <label>Exact Match</label>
+                        </span>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Full Name</label>
+                            @Html.TextBoxFor(x => x.SearchEntity.FullName, new { @class = "form-control" })
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <button id="btnReset" type="button" class="btn btn-danger">Reset</button>
+                    <div class="btn-group float-right">
+                        <button type="submit" class="btn btn-info">Search</button>
+                        <button type="button" class="btn btn-info dropdown-toggle dropdown-icon" data-toggle="dropdown" aria-expanded="false">
+                            <span class="sr-only">Toggle Dropdown</span>
+                        </button>
+                        <div class="dropdown-menu" role="menu" style="">
+                            <a id="btnSaveSearch" class="dropdown-item" href="#">Save Search</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane" id="timeline">
+                <div class="row">
+                    <div class="col-md-12">
+                        @{Html.RenderAction("_List", "AppUserDynamicQuery"); }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+

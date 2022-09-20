@@ -1,0 +1,53 @@
+﻿@model USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer.CommonNameLanguageViewModel
+@{
+    ViewBag.Title = Model.PageTitle;
+    Layout = "~/Views/Shared/_LayoutAdminLTE3.cshtml";
+}
+
+@using (Html.BeginForm("Search", "CommonNameLanguage", FormMethod.Post, new { id = "frmMain" }))
+{
+    @Html.HiddenFor(x => x.EventAction)
+    @Html.HiddenFor(x => x.TableName)
+    @Html.HiddenFor(x => x.TableCode)
+    @Html.HiddenFor(x => x.PageTitle)
+    @Html.HiddenFor(x => x.AuthenticatedUserCooperatorID)
+    @Html.HiddenFor(x => x.ItemIDList)
+    @Html.Partial("~/Views/Taxonomy/CommonNameLanguage/_Detail.cshtml")
+}
+@Html.Partial("~/Views/Taxonomy/CommonNameLanguage/_List.cshtml")
+@{Html.RenderAction("_Edit", "Folder"); }
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        Init();
+        InitDataTable();
+        //Initialize Select2 Elements
+        //$('.select2').select2();
+    });
+
+    function Init() {
+        var eventAction = $("#EventAction").val();
+        if (eventAction == "SHOW-SEARCH") {
+            $("#section-search-criteria").show();
+        }
+
+        // Set default view
+        //$("#ddlDataRangeFilter").val("RA");
+        //$("#frmMain").submit();
+    }
+
+
+    $(document).on("click", "[id='btnSubmitSearch']", function () {
+        event.preventDefault();
+        if ($("#section-search-criteria").is(":visible")) {
+            $("#EventAction").val("SHOW-SEARCH");
+        }
+        $("#frmMain").submit();
+    });
+
+    $(document).on("click", "[id='btnReset']", function () {
+        Reset();
+    });
+
+</script>

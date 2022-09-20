@@ -1,0 +1,208 @@
+﻿@model USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer.CWRTraitViewModel
+@{
+    ViewBag.Title = Model.PageTitle;
+    Layout = "~/Views/Shared/_LayoutAdminLTE3.cshtml";
+}
+@Html.Partial("~/Views/Shared/_RevisionHistory.cshtml")
+@using (Html.BeginForm("Edit", "CWRTrait", FormMethod.Post, new { id = "frmEdit" }))
+{
+    @Html.HiddenFor(x => x.PageTitle)
+    @Html.HiddenFor(x => x.EventAction)
+    @Html.HiddenFor(x => x.EventValue)
+    @Html.HiddenFor(x => x.TableName)
+    @Html.HiddenFor(x => x.TableCode)
+    @Html.HiddenFor(x => x.Entity.ID)
+    @Html.HiddenFor(x => x.Entity.CitationID)
+
+    <div class="card card-default">
+        <div class="card-header">
+            @if (Model.Entity.ID > 0)
+            {
+                <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#modal-citation-lookup"><i class="fa fa-plus"></i> Citation</button>
+            }
+            <div class="btn-group">
+                <button type="button" class="btn btn-default btn-sm pull-right" data-toggle="modal" data-target="#modal-note-lookup">
+                    <i class="fa fa-search margin-r-5"></i>
+                    Notes
+                </button>
+            </div>
+        </div>
+        <div class="card-body">
+            @Html.Partial("~/Views/Shared/_ValidationMessages.cshtml")
+            <div class="row">
+                <div class="col-md-5">
+                    <div class="form-group">
+                        <label>CWR Map</label>
+                        @Html.DropDownListFor(x => x.Entity.CWRMapID, Model.CWRMaps, "Select value", new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group form-horizontal">
+                        <label>Trait Class</label>
+                        @Html.DropDownListFor(x => x.Entity.TraitClassCode, Model.TraitClassCodes, "All codes", new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group form-horizontal">
+                        <label>Breeding Type</label>
+                        @Html.DropDownListFor(x => x.Entity.BreedingTypeCode, Model.BreedingTypeCodes, "All codes", new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="col-md-1">
+                    <div class="form-group clearfix" style="margin-top:40px;">
+                        <div class="icheck-primary d-inline">
+                            @Html.CheckBoxFor(x => x.Entity.IsPotentialOption, new { id = "cbxIsPotential" })
+                            <label for="cbxIsPotential">
+                                Potential
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group form-horizontal">
+                        <label>Breeding Usage Note</label>
+                        @Html.TextBoxFor(x => x.Entity.BreedingUsageNote, new { @class = "form-control" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <label>Note</label>
+                    @Html.TextAreaFor(x => x.Entity.Note, new { @id = "txtNote", @class = "form-control" })
+                </div>
+            </div>
+        </div>
+        <div class="card-footer">
+            <a href="@Url.Action("Refresh")" class="btn btn-danger">Cancel</a>
+            <button type="submit" class="btn btn-default float-right">Save</button>
+        </div>
+    </div>
+}
+
+@if (Model.Entity.ID > 0)
+{
+    { Html.RenderAction("RenderWidget", "Citation", new { entityId = Model.Entity.CitationID }); }
+}
+@Html.Partial("~/Views/Shared/Modals/_NoteLookup.cshtml")
+@{Html.RenderAction("RenderLookupModal", "Citation", new { isMultiSelect = "N" }); }
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        Init();
+    //    InitializeCKEditor();
+    });
+
+    function Init() {
+
+    }
+
+    /*
+    * ===================================================================================================
+    * CITATION MODAL
+    * ===================================================================================================
+    */
+    $(document).on("click", "[id='btnOpenCitationModal']", function () {
+        $("#modal-citation-search").modal("show");
+    });
+
+    $(document).on("click", "[id='btnLookupCitations']", function () {
+        var link = '@Url.Action("Lookup","Citation")';
+
+        var abbreviatedLiteratureSource = $("#Entity_Abbreviation").val();
+        var citationTitle = $("#Entity_CitationTitle").val();
+        var editorAuthorName = $("#Entity_EditorAuthorName").val();
+        var citationYear = $("#Entity_CitationYear").val();
+        var formData = new FormData();
+
+        formData.append("TableName", "taxonomy_species");
+        formData.append("AbbreviatedLiteratureSource", abbreviatedLiteratureSource);
+        formData.append("CitationTitle", citationTitle);
+        formData.append("EditorAuthorName", editorAuthorName);
+        formData.append("CitationYear", citationYear);
+
+        try {
+            $.ajax({
+                url: link,
+                type: 'POST',
+                cache: false,
+                contentType: false,
+                processData: false,
+                data: formData,
+                success: function (response) {
+                    $("#section-citation-lookup-search-results").html(response);
+                }
+            });
+        }
+        catch (ex) {
+            //ErrorHandler(ex);
+        }
+    });
+
+    function SaveCitation(citationId) {
+        $("#Entity_CitationID").val(citationId);
+        $("#modal-citation-search").modal("hide");
+        $("#frmEdit").submit();
+    }
+
+    function AddCitation() {
+        var link = '@Url.Action("AddCitation","CWRMap")';
+        var entityId = $("#Entity_ID").val();
+        var citationAuthorName = $("#txtCitationAuthorName").val();
+        var citationYear= $("#txtCitationYear").val();
+        var volumePage = $("#txtVolumePage").val();
+        var doiReference = $("#txtDOIReference").val();
+        var referenceTitle = $("#txtReferenceTitle").val();
+        var description = $("#txtDescription").val();
+
+        var formData = new FormData();
+
+        formData.append("EntityID", entityId);
+        formData.append("CitationAuthorName", citationAuthorName);
+        formData.append("CitationYear", citationYear);
+        formData.append("VolumePage", volumePage);
+        formData.append("DOIReference", doiReference);
+        formData.append("ReferenceTitle", referenceTitle);
+        formData.append("Description", description);
+
+        try {
+            $.ajax({
+                url: link,
+                type: 'POST',
+                cache: false,
+                contentType: false,
+                processData: false,
+                data: formData,
+                success: function (data) {
+                    var citationId = data.citationId;
+                    SaveCitation(citationId);
+                }
+            });
+        }
+        catch (ex) {
+            //ErrorHandler(ex);
+        }
+    }
+
+    $(document).on("click", "[id='btnAddCitation']", function () {
+        AddCitation();
+    });
+
+    /*
+    * ===================================================================================================
+    * NOTE LOOKUP MODAL
+    * ===================================================================================================
+    */
+
+    $("#btnLookupNote").click(function () {
+        var link = '@Url.Action("Lookup","Note")';
+        SearchNotes(link);
+    });
+
+    $("#btnSaveNote").click(function () {
+        var selectedNote = GetSelectedNote("data-table-note-lookup");
+        $("#txtNote").val(selectedNote);
+    });
+</script>

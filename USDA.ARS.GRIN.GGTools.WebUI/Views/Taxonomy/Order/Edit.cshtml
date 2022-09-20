@@ -1,0 +1,168 @@
+﻿@model USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer.ClassificationViewModel
+@{
+    ViewBag.Title = Model.PageTitle;
+    Layout = "~/Views/Shared/_LayoutAdminLTE3.cshtml";
+}
+@Html.Partial("~/Views/Shared/_RevisionHistory.cshtml")
+@using (Html.BeginForm("Edit", "Classification", FormMethod.Post, new { id = "frmMain" }))
+{
+    @Html.HiddenFor(x => x.PageTitle)
+    @Html.HiddenFor(x => x.EventAction)
+    @Html.HiddenFor(x => x.EventValue)
+    @Html.HiddenFor(x => x.TableName)
+    @Html.HiddenFor(x => x.TableCode)
+    @Html.HiddenFor(x => x.Entity.ID)
+    @Html.Partial("~/Views/Shared/_ValidationMessages.cshtml")
+    <div class="card card-default">
+        <div class="card-header">
+            
+            <div class="btn-group">
+                <a href="@Url.Action("Add","Family", new { @rank = "family", @orderId = Model.Entity.ID })" class="btn btn-default btn-sm"><i class="fa fa-plus"></i> Family</a>
+            </div>
+            <div class="btn-group">
+                <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#modal-citation-lookup">
+                    <i class="fa fa-book"></i>
+                </button>
+            </div>
+            <div class="btn-group">
+                <button type="button" class="btn btn-default btn-sm pull-right" data-toggle="modal" data-target="#modal-note-lookup">
+                    <i class="fa fa-search margin-r-5"></i>
+                    Notes
+                </button>
+            </div>
+        </div>
+        <div class="card-body">
+            @Html.Partial("~/Views/Shared/_ValidationMessages.cshtml")
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>Order</label>
+                        @Html.TextBoxFor(x => x.Entity.OrderName, new { @class = "form-control" })
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <label>Note</label>
+                    @Html.TextAreaFor(x => x.Entity.Note, new { @id = "txtNote", @class = "form-control" })
+
+                </div>
+            </div>
+        </div>
+        <div class="card-footer">
+            <a href="@Url.Action("Refresh")" class="btn btn-danger">Cancel</a>
+            <button type="submit" class="btn btn-primary float-right">Save</button>
+        </div>
+    </div>
+}
+
+@if (Model.Entity.ID > 0)
+{
+    { Html.RenderAction("_List", "Family", new { @eventValue = "family", @orderId = Model.Entity.ID }); }
+}
+@*@if (Model.Entity.ID > 0)
+{
+    Html.RenderAction("Lookup", "Citation");
+}*@
+@Html.Partial("~/Views/Shared/Modals/_NoteLookup.cshtml")
+@*@Html.Partial("~/Views/Classification/ChildData/_Families.cshtml")*@
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        InitDataTableGeneric("table.ggtools-table");
+    });
+
+    /*
+    * ===================================================================================================
+    * NOTE LOOKUP MODAL
+    * ===================================================================================================
+    */
+
+    $("#btnLookupNote").click(function () {
+        SearchNotes();
+    });
+
+    function SearchNotes() {
+        var link = '@Url.Action("Lookup","Note")';
+        var tableName = $("#TableName").val();
+        var noteText = $("#txtLookupNote").val();
+
+        var formData = new FormData();
+
+        formData.append("TableName", tableName);
+        formData.append("Note", noteText);
+
+        $.ajax({
+            url: link,
+            type: 'POST',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (response) {
+                $("#section-lookup-note-search-results").html(response);
+            },
+            error: function () {
+                alert("Error");
+            }
+        });
+    }
+
+    $(document).on("click", ".note-selector", function () {
+        $('#modal-note-lookup').modal('hide');
+        var selectedNote = $(this).val();
+        CKEDITOR.instances["txtNote"].setData(selectedNote);
+    });
+
+   /*
+   * ===================================================================================================
+   * FAMILY LOOKUP MODAL
+   * ===================================================================================================
+   */
+
+    $("#btnLookupFamily").click(function () {
+        var btnId = $(this).attr("id");
+        var action = $(this).data("ggtools-action");
+        var familyName = $("#txtLookupFamilyName").val();
+        var isAcceptedName = "";
+
+        if ($("#cbxLookupFamilyAcceptedNames").prop("checked") == true) {
+            isAcceptedName = "Y";
+        }
+
+        var actionUrl = '@Url.Action("Lookup","Family")';
+        SearchFamily(actionUrl, familyName, isAcceptedName);
+    });
+
+    $("#btnLinkSelectedFamilies").click(function () {
+        var entityId = $("#Entity_ID").val();
+        var selectedItemIDList = GetSelectedEntityIDs("data-table-family-lookup");
+        var refreshLink = '@Url.Action("Edit","Classification",new { entityId = Model.Entity.ID })';
+        var link = '@Url.Action("MapFamilies","Classification")';
+        var formData = new FormData();
+
+        formData.append("ID", entityId);
+        if (typeof selectedItemIDList != 'undefined') {
+            formData.append("IDList", selectedItemIDList);
+        }
+
+        $.ajax({
+            url: link,
+            type: 'POST',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (result) {
+                window.location.href = refreshLink;
+            },
+            error: function () {
+                alert("Error");
+            }
+        });
+        $("#modal-family-lookup").modal("hide");
+    });
+</script>
+
+

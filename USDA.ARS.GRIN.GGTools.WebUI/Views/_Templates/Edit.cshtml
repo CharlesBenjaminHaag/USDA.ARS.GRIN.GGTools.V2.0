@@ -1,0 +1,124 @@
+﻿@{
+    ViewBag.Title = Model.PageTitle;
+    Layout = "~/Views/Shared/_LayoutAdminLTE.cshtml";
+}
+
+@using (Html.BeginForm("Edit", "CropForCWR", FormMethod.Post, new { id = "frmEdit" }))
+{
+    @*@Html.HiddenFor(x => x.PageTitle)
+    @Html.HiddenFor(x => x.EventAction)
+    @Html.HiddenFor(x => x.EventValue)
+    @Html.HiddenFor(x => x.TableName)
+    @Html.HiddenFor(x => x.TableCode)
+    @Html.HiddenFor(x => x.Entity.ID)*@
+    <div class="box box-default">
+        <div class="box-header with-border">
+            <i class="fa fa-info"></i>
+            <h3 class="box-title">Summary</h3>
+            <div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                    <i class="fa fa-minus"></i>
+                </button>
+            </div>
+        </div>
+        <div id="section-input-fields" class="box-body">
+            <div class="mailbox-controls no-padding">
+                <div class="btn-group">
+                    <button type="button" class="btn btn-default btn-sm pull-right" data-toggle="modal" data-target="#modal-note-lookup">
+                        <i class="fa fa-search margin-r-5"></i>
+                        Notes
+                    </button>
+                </div>
+                @if (Model.Entity.ID > 0)
+                {
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-default btn-sm pull-right" data-toggle="modal" data-target="#modal-species-lookup">
+                            <i class="fa fa-plus margin-r-5"></i>
+                            CWR Map
+                        </button>
+                    </div>
+                }
+                <div class="btn-group pull-right">
+                    @Html.Partial("~/Views/Shared/_RevisionHistory.cshtml")
+                </div>
+            </div>
+            @Html.ValidationSummary()
+            <div class="row">
+                <div class="col-md-12">
+                    <label>Name</label>
+                    @*@Html.TextBoxFor(x => x.Entity.CropForCWRName, new { @class = "form-control" })*@
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12" style="margin-top:1.0em;">
+                    <label>Note</label>
+                    @*@Html.TextAreaFor(x => x.Entity.Note, new { @id = "txtNote", @class = "form-control" })*@
+                </div>
+            </div>
+        </div>
+        <div class="box-footer">
+            <a href="@Url.Action("Refresh")" class="btn btn-danger pull-left"><i class="fa fa-undo margin-r-5"></i>Cancel</a>
+            <button type="submit" class="btn btn-primary pull-right"><i class="fa fa-save margin-r-5"></i> Save</button>
+        </div>
+    </div>
+}
+
+@if (Model.Entity.ID > 0)
+{
+    //{ Html.RenderAction("_List", "CWRMap", new { cropForCwrId = Model.Entity.ID }); }
+}
+
+@*@Html.Partial("~/Views/Taxonomy/Species/Modals/_Lookup.cshtml")*@
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        Init();
+        /*InitDataTable("data-table-cwr-map");*/
+        InitializeCKEditor();
+    });
+
+    function Init() {
+        $(".cwr-map-options").hide();
+    }
+
+    /*
+    * ===================================================================================================
+    * NOTE LOOKUP MODAL
+    * ===================================================================================================
+    */
+
+    $("#btnLookupNote").click(function () {
+        SearchNotes();
+    });
+
+    function SearchNotes() {
+        var link = '@Url.Action("Lookup","Note")';
+        var tableName = $("#TableName").val();
+        var note = $("#txtLookupNote").val();
+
+        var formData = new FormData();
+        formData.append("TableName", tableName);
+        formData.append("Note", note);
+
+        $.ajax({
+            url: link,
+            type: 'POST',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (response) {
+                $("#section-lookup-note-search-results").html(response);
+            },
+            error: function () {
+                alert("Error");
+            }
+        });
+    }
+
+    $(document).on("click", ".note-selector", function () {
+        $('#modal-note-lookup').modal('hide');
+        var selectedNote = $(this).val();
+        CKEDITOR.instances["txtNote"].setData(selectedNote);
+    });
+</script>

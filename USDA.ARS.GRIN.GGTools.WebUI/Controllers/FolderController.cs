@@ -1,0 +1,630 @@
+﻿using System.Web.Mvc;
+using System;
+using System.Collections.Generic;
+using USDA.ARS.GRIN.GGTools.WebUI;
+using USDA.ARS.GRIN.GGTools.DataLayer;
+using USDA.ARS.GRIN.GGTools.ViewModelLayer;
+using USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer;
+using USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer;
+using NLog;
+
+
+namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
+{
+    public class FolderController : BaseController, IController<FolderViewModel>
+    {
+        protected static string BASE_PATH = "~/Views/Folder/";
+        private static readonly Logger Log = LogManager.GetCurrentClassLogger();
+        
+        public ActionResult Index()
+        {
+            FolderViewModel viewModel = new FolderViewModel();
+
+            try
+            {
+                viewModel.PageTitle = "My Folders";
+                viewModel.AuthenticatedUser = AuthenticatedUser;
+                viewModel.GetFolderTypes(AuthenticatedUser.CooperatorID);
+                viewModel.GetFolderCategories(AuthenticatedUser.CooperatorID);
+                viewModel.GetFolderTypes(AuthenticatedUser.CooperatorID);
+                
+                // Get user's folders
+                viewModel.SearchEntity = new FolderSearch { CreatedByCooperatorID = AuthenticatedUser.CooperatorID };
+                viewModel.Search();
+
+                // Get folders shared with user
+                viewModel.GetSharedFolders(AuthenticatedUser.CooperatorID);
+
+                viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
+                return View(BASE_PATH + "Index.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return RedirectToAction("InternalServerError", "Error");
+            }
+        }
+        public ActionResult Search()
+        {
+            FolderViewModel viewModel = new FolderViewModel();
+
+            try
+            {
+                viewModel.PageTitle = "Folder Search";
+                viewModel.GetFolderTypes(AuthenticatedUser.CooperatorID);
+                viewModel.GetFolderCategories(AuthenticatedUser.CooperatorID);
+                viewModel.GetFolderTypes(AuthenticatedUser.CooperatorID);
+                viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
+                return View("~/Views/Folder/Search.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return RedirectToAction("InternalServerError", "Error");
+            }
+        }
+
+        [HttpPost]
+        public ActionResult Search(FolderViewModel viewModel)
+        {
+            try
+            {
+                viewModel.Search();
+                viewModel.GetFolderTypes(AuthenticatedUser.CooperatorID);
+                viewModel.GetFolderCategories(AuthenticatedUser.CooperatorID);
+                return View("~/Views/Folder/Search.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return RedirectToAction("InternalServerError", "Error");
+            }
+        }
+
+        [HttpPost]
+        public ActionResult _Lookup(FormCollection formCollection)
+        {
+            FolderViewModel viewModel = new FolderViewModel();
+
+            if (!String.IsNullOrEmpty(formCollection["Category"]))
+            {
+                viewModel.SearchEntity.Category = formCollection["Category"];
+            }
+
+            if (!String.IsNullOrEmpty(formCollection["CreatedByCooperatorID"]))
+            {
+                viewModel.SearchEntity.CreatedByCooperatorID = Int32.Parse(formCollection["CreatedByCooperatorID"]);
+            }
+
+            if (!String.IsNullOrEmpty(formCollection["SelectedTypeList"]))
+            {
+                viewModel.SearchEntity.TypeList = formCollection["SelectedTypeList"];
+            }
+
+            if (!String.IsNullOrEmpty(formCollection["SelectedCategoryList"]))
+            {
+                viewModel.SearchEntity.CategoryList = formCollection["SelectedCategoryList"];
+            }
+
+            viewModel.Search();
+            return PartialView("~/Views/Folder/Modals/_ItemList.cshtml", viewModel);
+        }
+
+        public PartialViewResult _List(int cooperatorId = 0)
+        {
+            FolderViewModel viewModel = new FolderViewModel();
+            viewModel.SearchEntity.CreatedByCooperatorID = cooperatorId;
+            viewModel.Search();
+            return PartialView("~/Views/Folder/_List.cshtml", viewModel);
+        }
+
+        [HttpPost]
+        public ActionResult _List(FormCollection formCollection)
+        {
+            FolderViewModel viewModel = new FolderViewModel();
+
+            if (!String.IsNullOrEmpty(formCollection["FolderType"]))
+            {
+                viewModel.SearchEntity.FolderType = formCollection["FolderType"];
+            }
+
+            FolderSearch folderSearch = new FolderSearch();
+            folderSearch.FolderType = "";
+            viewModel.Search();
+
+            //viewModel.GetFolderItems(folderId);
+            return PartialView("~/Views/Folder/_List.cshtml", viewModel);
+        }
+
+        [HttpPost]
+        public ActionResult _ItemList(FormCollection formCollection)
+        {
+            int folderId = 0;
+
+            if (!String.IsNullOrEmpty(formCollection["FolderID"]))
+            {
+                //string DEBUG = formCollection["FolderID"];
+                //folderId = Int32.Parse(formCollection["FolderID"]);
+            }
+
+            FolderViewModel viewModel = new FolderViewModel();
+            viewModel.GetFolderItems(folderId);
+            return PartialView("~/Views/Folder/Modals/_ItemList.cshtml", viewModel);
+        }
+
+        [HttpPost]
+        public ActionResult _ListAvailableCollaborators(FormCollection formCollection)
+        {
+            FolderViewModel viewModel = new FolderViewModel();
+
+            if (!String.IsNullOrEmpty(formCollection["FolderID"]))
+            {
+                viewModel.Entity.ID = Int32.Parse(formCollection["FolderID"]);
+            }
+            viewModel.GetAvailableCollaborators();
+            return PartialView("~/Views/Folder/_ListAvailableCollaborators.cshtml", viewModel);
+        }
+
+        [HttpPost]
+        public ActionResult _ListCurrentCollaborators(FormCollection formCollection)
+        {
+            FolderViewModel viewModel = new FolderViewModel();
+
+            if (!String.IsNullOrEmpty(formCollection["FolderID"]))
+            {
+                viewModel.Entity.ID = Int32.Parse(formCollection["FolderID"]);
+            }
+            viewModel.GetCurrentCollaborators();
+            return PartialView("~/Views/Folder/_ListCurrentCollaborators.cshtml", viewModel);
+        }
+
+        public PartialViewResult _RenderCurrentCollaboratorWidget(int folderId)
+        {
+            FolderViewModel viewModel = new FolderViewModel();
+            viewModel.Entity.ID = folderId;
+            viewModel.GetCurrentCollaborators();
+            return PartialView("~/Views/Folder/_WidgetCurrentCollaborators.cshtml", viewModel);
+        }
+        public ActionResult Add()
+        {
+            throw new NotImplementedException();
+        }
+        
+        [HttpPost]
+        public JsonResult Add(FormCollection coll)
+        {
+            FolderViewModel viewModel = new FolderViewModel();
+            viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
+
+            try
+            {
+                viewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
+
+                if (!String.IsNullOrEmpty(coll["FolderID"]))
+                {
+                    viewModel.Entity.ID = Int32.Parse(coll["FolderID"]);
+                }
+
+                if (!String.IsNullOrEmpty(coll["IDList"]))
+                {
+                    viewModel.Entity.ItemIDList = coll["IDList"];
+                }
+
+                if (!String.IsNullOrEmpty(coll["TableName"]))
+                {
+                    viewModel.Entity.TableName = coll["TableName"];
+                }
+
+                if (!String.IsNullOrEmpty(coll["FolderName"]))
+                {
+                    viewModel.Entity.FolderName = coll["FolderName"];
+                }
+
+                if (!String.IsNullOrEmpty(coll["FolderType"]))
+                {
+                    viewModel.Entity.FolderType = coll["FolderType"];
+                }
+
+                if (!String.IsNullOrEmpty(coll["NewCategory"]))
+                {
+                    viewModel.Entity.Category = coll["NewCategory"];
+                }
+                else
+                {
+                    if (!String.IsNullOrEmpty(coll["Category"]))
+                    {
+                        viewModel.Entity.Category = coll["Category"];
+                    }
+                }
+
+                if (!String.IsNullOrEmpty(coll["Description"]))
+                {
+                    viewModel.Entity.Description = coll["Description"];
+                }
+
+                if (!String.IsNullOrEmpty(coll["IsFavorite"]))
+                {
+                    viewModel.Entity.IsFavorite = Boolean.Parse(coll["IsFavorite"]);
+                }
+
+                if (viewModel.Entity.ID == 0)
+                {
+                    viewModel.Insert();
+                }
+                else
+                {
+                    viewModel.Update();
+                }
+
+                // TEST Return new folder as JSON
+                viewModel.SearchEntity.ID = viewModel.Entity.ID;
+                viewModel.Search();
+                return Json( new { folder = viewModel.Entity }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return Json(new { success = false }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        [HttpPost]
+        public JsonResult Update(FormCollection coll)
+        {
+            FolderViewModel viewModel = new FolderViewModel();
+            viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
+
+            try
+            {
+                viewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
+
+                if (!String.IsNullOrEmpty(coll["FolderID"]))
+                {
+                    viewModel.Entity.ID = Int32.Parse(coll["FolderID"]);
+                }
+
+                if (!String.IsNullOrEmpty(coll["IDList"]))
+                {
+                    viewModel.Entity.ItemIDList = coll["IDList"];
+                }
+
+                if (!String.IsNullOrEmpty(coll["TableName"]))
+                {
+                    viewModel.Entity.TableName = coll["TableName"];
+                    viewModel.Entity.FolderType = coll["TableName"];
+                }
+
+                viewModel.InsertFolderItems();
+
+                // TEST Return new folder as JSON
+                viewModel.SearchEntity.ID = viewModel.Entity.ID;
+                viewModel.Search();
+                return Json(new { folder = viewModel.Entity }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return Json(new { success = false }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        [HttpPost]
+        public JsonResult AddCollaborators(FormCollection coll)
+        {
+            FolderViewModel viewModel = new FolderViewModel();
+
+            try
+            {
+                if (!String.IsNullOrEmpty(coll["FolderID"]))
+                {
+                    viewModel.Entity.ID = Int32.Parse(coll["FolderID"]);
+                }
+
+                if (!String.IsNullOrEmpty(coll["IDList"]))
+                {
+                    viewModel.ItemIDList = coll["IDList"];
+                }
+                //TODO
+                viewModel.InsertCollaborators();
+                return Json(new { success = true }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return Json(new { success = false }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        [HttpPost]
+        public JsonResult DeleteCollaborators(FormCollection coll)
+        {
+            FolderViewModel viewModel = new FolderViewModel();
+
+            try
+            {
+                if (!String.IsNullOrEmpty(coll["FolderID"]))
+                {
+                    viewModel.Entity.ID = Int32.Parse(coll["FolderID"]);
+                }
+
+                if (!String.IsNullOrEmpty(coll["IDList"]))
+                {
+                    viewModel.ItemIDList = coll["IDList"];
+                }
+                viewModel.DeleteCollaborators();
+                return Json(new { success = true }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return Json(new { success = false }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        //[HttpPost]
+        //public PartialViewResult AddWidget(FormCollection coll)
+        //{
+        //    FolderViewModel viewModel = new FolderViewModel();
+        //    viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
+
+        //    try
+        //    {
+        //        viewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
+
+        //        if (!String.IsNullOrEmpty(coll["FolderID"]))
+        //        {
+        //            viewModel.Entity.ID = Int32.Parse(coll["FolderID"]);
+        //        }
+
+        //        if (!String.IsNullOrEmpty(coll["IDList"]))
+        //        {
+        //            viewModel.Entity.ItemIDList = coll["IDList"];
+        //        }
+
+        //        if (!String.IsNullOrEmpty(coll["TableName"]))
+        //        {
+        //            viewModel.Entity.TableName = coll["TableName"];
+        //        }
+
+        //        if (!String.IsNullOrEmpty(coll["FolderName"]))
+        //        {
+        //            viewModel.Entity.FolderName = coll["FolderName"];
+        //        }
+
+        //        if (!String.IsNullOrEmpty(coll["FolderType"]))
+        //        {
+        //            viewModel.Entity.FolderType = coll["FolderType"];
+        //        }
+
+        //        if (!String.IsNullOrEmpty(coll["NewCategory"]))
+        //        {
+        //            viewModel.Entity.Category = coll["NewCategory"];
+        //        }
+        //        else
+        //        {
+        //            if (!String.IsNullOrEmpty(coll["Category"]))
+        //            {
+        //                viewModel.Entity.Category = coll["Category"];
+        //            }
+        //        }
+
+        //        if (!String.IsNullOrEmpty(coll["Description"]))
+        //        {
+        //            viewModel.Entity.Description = coll["Description"];
+        //        }
+
+        //        if (!String.IsNullOrEmpty(coll["IsFavorite"]))
+        //        {
+        //            viewModel.Entity.IsFavorite = Boolean.Parse(coll["IsFavorite"]);
+        //        }
+
+        //        if (viewModel.Entity.ID == 0)
+        //        {
+        //            viewModel.Insert();
+        //        }
+        //        else
+        //        {
+        //            viewModel.Update();
+        //        }
+
+        //        //TODO Retrieve new/updated folder
+        //        viewModel.SearchEntity.ID = viewModel.Entity.ID;
+        //        viewModel.Search();
+        //        return PartialView("~/Views/Folder/_Widget.cshtml", viewModel);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Log.Error(ex);
+        //        return PartialView("~/Views/Error/_InternalServerError.cshtml", viewModel);
+        //    }
+        //}
+
+        //public PartialViewResult GetWidget(int entityId)
+        //{
+        //    FolderViewModel viewModel = new FolderViewModel();
+        //    //TODO
+        //    return PartialView("~/Views/Folder/_Widget.cshtml", viewModel);
+        //}
+
+        [HttpPost]
+        public JsonResult AddItems(FormCollection coll)
+        {
+            FolderViewModel viewModel = new FolderViewModel();
+            viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
+
+            try
+            {
+                viewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
+
+                if (!String.IsNullOrEmpty(coll["FolderID"]))
+                {
+                    viewModel.SearchEntity.ID = Int32.Parse(coll["FolderID"]);
+                }
+
+                viewModel.Get(viewModel.SearchEntity.ID);
+
+                if (!String.IsNullOrEmpty(coll["IDList"]))
+                {
+                    viewModel.Entity.ItemIDList = coll["IDList"];
+                }
+                
+                viewModel.InsertFolderItems();
+
+                return Json(new { success = true }, JsonRequestBehavior.AllowGet);
+            }
+#pragma warning disable CS0168 // The variable 'ex' is declared but never used
+            catch (Exception ex)
+#pragma warning restore CS0168 // The variable 'ex' is declared but never used
+            {
+                return Json(new { success = false }, JsonRequestBehavior.AllowGet);
+            }
+
+        }
+      
+        //[HttpPost]
+        //public ActionResult RenderMyFoldersWidget()
+        //{
+        //    FolderViewModel viewModel = new FolderViewModel();
+
+        //    FolderSearch folderSearch = new FolderSearch();
+        //    folderSearch.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
+        //    viewModel.Search();
+        //    return PartialView("~/Views/Folder/_MyFoldersWidget.cshtml", viewModel);
+        //}
+
+        public ActionResult _Edit(string tableName)
+        {
+            FolderViewModel viewModel = new FolderViewModel(AuthenticatedUser.CooperatorID, tableName);
+            viewModel.GetFolderCategories(AuthenticatedUser.CooperatorID);
+            viewModel.GetAvailableFolders(AuthenticatedUser.CooperatorID, tableName);
+            return PartialView("~/Views/Folder/Modals/_Edit.cshtml", viewModel);
+        }
+
+        public ActionResult Edit(int entityId)
+        {
+            try
+            {
+                FolderViewModel viewModel = new FolderViewModel();
+                viewModel.TableName = "app_user_item_folder";
+                viewModel.AuthenticatedUser = AuthenticatedUser;
+                viewModel.GetFolderCategories(AuthenticatedUser.CooperatorID);
+
+                if (entityId > 0)
+                {
+                    viewModel.Get(entityId);
+
+                    //TODO
+                    //Get list of available collaborators (i.e., not currently sharing this folder)
+                    //Get list of existing collaborators 
+                    
+                    viewModel.PageTitle = String.Format("Edit Folder: {0}", viewModel.Entity.FolderName);
+                }
+                else
+                {
+                    viewModel.PageTitle = String.Format("Add Folder");
+                }
+                return View(viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return RedirectToAction("InternalServerError", "Error");
+            }
+        }
+
+        [HttpPost]
+        public ActionResult Edit(FolderViewModel viewModel)
+        {
+            try
+            {
+                if (viewModel.EventAction == "DELETE")
+                {
+                    viewModel.Entity.TableName = viewModel.TableName;
+                    viewModel.Delete();
+                    return RedirectToAction("Index", "Home");
+                }
+                else
+                {
+
+                    if (!viewModel.Validate())
+                    {
+                        if (viewModel.ValidationMessages.Count > 0) return View(viewModel);
+                    }
+
+                    if (!String.IsNullOrEmpty(viewModel.Entity.AlternateCategory))
+                    {
+                        viewModel.Entity.Category = viewModel.Entity.AlternateCategory;
+                    }
+
+                    if (viewModel.Entity.ID == 0)
+                    {
+                        viewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
+                        viewModel.Insert();
+                    }
+                    else
+                    {
+                        viewModel.Entity.ModifiedByCooperatorID = AuthenticatedUser.CooperatorID;
+                        viewModel.Update();
+                    }
+                    return RedirectToAction("Edit", "Folder", new { entityId = viewModel.Entity.ID });
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return RedirectToAction("InternalServerError", "Error");
+            }
+        }
+
+        public ActionResult Delete(int entityId)
+        {
+            try 
+            {
+                FolderViewModel viewModel = new FolderViewModel();
+                viewModel.Entity.ID = entityId;
+                viewModel.Delete();
+                return RedirectToAction("Index","Home");
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return RedirectToAction("InternalServerError", "Error");
+            }
+        }
+
+        //public PartialViewResult SearchNotes(string searchText)
+        //{
+        //    throw new NotImplementedException();
+        //}
+
+        public PartialViewResult FolderItems(int entityId, string tableCode)
+        {
+            //try
+            //{
+            //    CropForCWRViewModel viewModel = new CropForCWRViewModel();
+            //    viewModel.EventAction = "SEARCH";
+            //    viewModel.EventValue = "FOLDER";
+            //    viewModel.SearchEntity.FolderID = folderId;
+            //    viewModel.SearchFolderItems();
+            //    ModelState.Clear();
+            //    return PartialView("~/Views/CropForCWR/_List.cshtml", viewModel);
+            //}
+            //catch (Exception ex)
+            //{
+            //    Log.Error(ex);
+            //    return null;
+            //}
+            //TODO
+            //Get folder details (incl. table name)
+            //re-route based on data
+            
+            return PartialView("~/Views/Shared/_UnderConstruction.cshtml");
+        }
+      
+        [HttpPost]
+        public PartialViewResult FolderItems(FormCollection formCollection)
+        {
+            throw new NotImplementedException();
+        }
+    }
+}

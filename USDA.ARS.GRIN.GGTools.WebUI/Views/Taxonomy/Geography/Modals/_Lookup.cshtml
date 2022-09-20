@@ -1,0 +1,105 @@
+﻿@model USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer.GeographyViewModelBase
+<div class="modal fade" id="modal-geography-lookup" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">
+                    <i class="fas fa-search"></i>
+                    Geography Lookup
+                </h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-group form-horizontal">
+                            <label>Continent</label>
+                            @Html.DropDownListFor(x => x.SearchEntity.ContinentRegionID, Model.Continents, "All continents", new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group form-horizontal">
+                            <label>Subcontinents</label>
+                            @Html.DropDownListFor(x => x.SearchEntity.SubContinentRegionID, Model.SubContinents, "All subcontinents", new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group form-horizontal">
+                            <label>Country</label>
+                            @Html.DropDownListFor(x => x.SearchEntity.CountryCode, Model.Countries, "All countries", new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="col-md-1">
+                        <div class="form-group form-horizontal">
+                            <label>IsValid</label>
+                            @Html.DropDownListFor(x => x.SearchEntity.IsValid, Model.YesNoOptions, "Either", new { @class = "form-control" })
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <button id="btnLookupGeography" class="btn btn-default float-right">Search</button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div id="section-geography-lookup-search-results" class="col-md-12">
+                        <!--SEARCH RESULTS HERE-->
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button id="btnSaveGeography" type="button" class="btn btn-info" data-dismiss="modal">Add Selected Geography</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $("#btnLookupGeography").click(function () {
+        SearchGeography();
+    });
+
+    function SearchGeography() {
+        var link = '@Url.Action("Lookup","Geography")';
+        var continentRegionID = $("#SearchEntity_ContinentRegionID").val();
+        var subContinentRegionID = $("#SearchEntity_SubContinentRegionID").val();
+        var countryCode = $("#SearchEntity_CountryCode").val();
+        var isValid = $("#SearchEntity_IsValid").val();
+
+        var formData = new FormData();
+        
+        formData.append("ContinentRegionID", continentRegionID);
+        formData.append("SubContinentRegionID", subContinentRegionID);
+        formData.append("CountryCode", countryCode);
+        formData.append("IsValid", isValid);
+
+        $.ajax({
+            url: link,
+            type: 'POST',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (response) {
+                $("#section-geography-lookup-search-results").html(response);
+            },
+            error: function () {
+                alert("Error searching geography");
+            }
+        });
+    }
+
+    $("#btnSaveGeography").click(function () {
+        $('#modal-geography-lookup').modal('hide');
+        var selectedItemIdList = GetSelectedEntityIDs("data-table-geography-lookup");
+        var selectedItemNameList = GetSelectedEntityText("data-table-geography-lookup");
+
+        //DEBUG
+        alert("ID " + selectedItemIdList + " TEXT " + selectedItemNameList);
+
+        $("#Entity_GeographyID").val(selectedItemIdList);
+        $("#Entity_GeographyDescription").val(selectedItemNameList);
+    });
+</script>

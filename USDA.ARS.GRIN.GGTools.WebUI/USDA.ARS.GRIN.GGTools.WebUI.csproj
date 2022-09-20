@@ -1,0 +1,688 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{BE0916C1-1F82-4CDE-A60A-A14D893DD196}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>USDA.ARS.GRIN.GGTools.WebUI</RootNamespace>
+    <AssemblyName>USDA.ARS.GRIN.GGTools.WebUI</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+    <UseIISExpress>true</UseIISExpress>
+    <Use64BitIISExpress />
+    <IISExpressSSLPort>44377</IISExpressSSLPort>
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="DevExtreme.AspNet.Mvc">
+      <HintPath>..\..\..\..\Program Files\DevExpress 22.1\DevExtreme\System\DevExtreme\Bin\AspNet\DevExtreme.AspNet.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <HintPath>..\USDA.ARS.GRIN.GGTools.V2\packages\NLog.5.0.1\lib\net46\NLog.dll</HintPath>
+    </Reference>
+    <Reference Include="NLog.Database, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <HintPath>..\USDA.ARS.GRIN.GGTools.V2\packages\NLog.Database.5.0.1\lib\net46\NLog.Database.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http">
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest">
+    </Reference>
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>packages\Microsoft.AspNet.Mvc.5.2.7\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Optimization">
+      <HintPath>packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>packages\Microsoft.AspNet.Razor.3.2.7\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGrease">
+      <Private>True</Private>
+      <HintPath>packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
+    </Reference>
+    <Reference Include="Antlr3.Runtime">
+      <Private>True</Private>
+      <HintPath>packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform">
+      <HintPath>packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AppInfo.cs" />
+    <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="AuthenticatedUserSession.cs" />
+    <Compile Include="Controllers\AccessionController.cs" />
+    <Compile Include="Controllers\AccessionInventoryAttachmentController.cs" />
+    <Compile Include="Controllers\AccessionIPRController.cs" />
+    <Compile Include="Controllers\AppUserDynamicQueryController.cs" />
+    <Compile Include="Controllers\AppUserItemListController.cs" />
+    <Compile Include="Controllers\AuthorController.cs" />
+    <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\CitationController.cs" />
+    <Compile Include="Controllers\ClassificationController.cs" />
+    <Compile Include="Controllers\CodeValueController.cs" />
+    <Compile Include="Controllers\CommonNameController.cs" />
+    <Compile Include="Controllers\CommonNameLanguageController.cs" />
+    <Compile Include="Controllers\CooperatorController.cs" />
+    <Compile Include="Controllers\CropForCWRController.cs" />
+    <Compile Include="Controllers\CropGermplasmCommitteeDocumentController.cs" />
+    <Compile Include="Controllers\CWRMapController.cs" />
+    <Compile Include="Controllers\CWRTraitController.cs" />
+    <Compile Include="Controllers\EconomicUseController.cs" />
+    <Compile Include="Controllers\EmailTemplateController.cs" />
+    <Compile Include="Controllers\ErrorController.cs" />
+    <Compile Include="Controllers\FamilyController.cs" />
+    <Compile Include="Controllers\FolderController.cs" />
+    <Compile Include="Controllers\GenusController.cs" />
+    <Compile Include="Controllers\GeographyController.cs" />
+    <Compile Include="Controllers\GeographyMapController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\IController.cs" />
+    <Compile Include="Controllers\InventoryController.cs" />
+    <Compile Include="Controllers\InventoryMaintenancePolicyController.cs" />
+    <Compile Include="Controllers\LanguageController.cs" />
+    <Compile Include="Controllers\LiteratureController.cs" />
+    <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\MainController.cs" />
+    <Compile Include="Controllers\NoteController.cs" />
+    <Compile Include="Controllers\OrderController.cs" />
+    <Compile Include="Controllers\PortalController.cs" />
+    <Compile Include="Controllers\RegulationController.cs" />
+    <Compile Include="Controllers\RegulationMapController.cs" />
+    <Compile Include="Controllers\ReportsController.cs" />
+    <Compile Include="Controllers\SiteAdminController.cs" />
+    <Compile Include="Controllers\SiteController.cs" />
+    <Compile Include="Controllers\SpeciesController.cs" />
+    <Compile Include="Controllers\SubfamilyController.cs" />
+    <Compile Include="Controllers\SubtribeController.cs" />
+    <Compile Include="Controllers\SynonymMapController.cs" />
+    <Compile Include="Controllers\SysGroupUserMapController.cs" />
+    <Compile Include="Controllers\SysUserController.cs" />
+    <Compile Include="Controllers\TribeController.cs" />
+    <Compile Include="Controllers\WebCooperatorController.cs" />
+    <Compile Include="Controllers\WebOrderController.cs" />
+    <Compile Include="Controllers\WebUserController.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="GRINGlobalAuthenticationFilter.cs" />
+    <Compile Include="Helpers\HtmlImageHelper.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\bootstrap-theme.css" />
+    <Content Include="Content\bootstrap-theme.min.css" />
+    <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\bower_components\bootstrap\dist\css\bootstrap.min.css" />
+    <Content Include="Content\bower_components\bootstrap\dist\js\bootstrap.min.js" />
+    <Content Include="Content\bower_components\font-awesome\css\font-awesome.min.css" />
+    <Content Include="Content\bower_components\jquery-ui\jquery-ui.min.js" />
+    <Content Include="Content\bower_components\jquery\dist\jquery.min.js" />
+    <Content Include="Content\dist\css\AdminLTE.css" />
+    <Content Include="Content\dist\css\bootstrap-switch.min.css" />
+    <Content Include="Content\dist\css\skins\_all-skins.min.css" />
+    <Content Include="Content\dist\img\cbh_bc_headshot.jpg" />
+    <Content Include="Content\dist\img\default-50x50.gif" />
+    <Content Include="Content\dist\js\bootstrap-switch.min.js" />
+    <Content Include="dist\css\portal.css" />
+    <Content Include="dist\img\GGlogo-color-sm.gif" />
+    <Content Include="Content\dist\img\icons.png" />
+    <Content Include="Content\dist\img\Kinard.Gary_TO_CROP.jpg" />
+    <Content Include="Content\dist\img\Melanie-Schori.jpg" />
+    <Content Include="Content\dist\img\NOM-MelanieSchori.jpg" />
+    <Content Include="Content\dist\img\Reisinger.Marty.jpg" />
+    <Content Include="Content\dist\img\search-icon.png" />
+    <Content Include="dist\img\GGlogo.gif" />
+    <Content Include="dist\img\gringlobal-logo.jfif" />
+    <Content Include="dist\img\user-default.png" />
+    <Content Include="Content\dist\js\adminlte.js" />
+    <Content Include="Content\dist\js\ggtools.js" />
+    <Content Include="dist\css\adminlte.css" />
+    <Content Include="dist\img\AdminLTELogo.png" />
+    <Content Include="dist\img\avatar.png" />
+    <Content Include="dist\img\avatar2.png" />
+    <Content Include="dist\img\avatar3.png" />
+    <Content Include="dist\img\avatar4.png" />
+    <Content Include="dist\img\avatar5.png" />
+    <Content Include="dist\img\boxed-bg.jpg" />
+    <Content Include="dist\img\boxed-bg.png" />
+    <Content Include="dist\img\default-150x150.png" />
+    <Content Include="dist\img\icons.png" />
+    <Content Include="dist\img\photo1.png" />
+    <Content Include="dist\img\photo2.png" />
+    <Content Include="dist\img\photo3.jpg" />
+    <Content Include="dist\img\photo4.jpg" />
+    <Content Include="dist\img\prod-1.jpg" />
+    <Content Include="dist\img\prod-2.jpg" />
+    <Content Include="dist\img\prod-3.jpg" />
+    <Content Include="dist\img\prod-4.jpg" />
+    <Content Include="dist\img\prod-5.jpg" />
+    <Content Include="dist\img\user1-128x128.jpg" />
+    <Content Include="dist\img\user2-160x160.jpg" />
+    <Content Include="dist\img\user3-128x128.jpg" />
+    <Content Include="dist\img\user4-128x128.jpg" />
+    <Content Include="dist\img\user5-128x128.jpg" />
+    <Content Include="dist\img\user6-128x128.jpg" />
+    <Content Include="dist\img\user7-128x128.jpg" />
+    <Content Include="dist\img\user8-128x128.jpg" />
+    <Content Include="dist\js\adminlte.js" />
+    <Content Include="dist\js\demo.js" />
+    <Content Include="favicon.ico" />
+    <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Global.asax" />
+    <Content Include="Content\Site.css" />
+    <Content Include="plugins\bootstrap\js\bootstrap.bundle.min.js" />
+    <Content Include="plugins\bootstrap\js\bootstrap.min.js" />
+    <Content Include="plugins\fontawesome-free\css\all.css" />
+    <Content Include="plugins\fontawesome-free\css\all.min.css" />
+    <Content Include="plugins\fontawesome-free\css\brands.css" />
+    <Content Include="plugins\fontawesome-free\css\brands.min.css" />
+    <Content Include="plugins\fontawesome-free\css\fontawesome.css" />
+    <Content Include="plugins\fontawesome-free\css\fontawesome.min.css" />
+    <Content Include="plugins\fontawesome-free\css\regular.css" />
+    <Content Include="plugins\fontawesome-free\css\regular.min.css" />
+    <Content Include="plugins\fontawesome-free\css\solid.css" />
+    <Content Include="plugins\fontawesome-free\css\solid.min.css" />
+    <Content Include="plugins\fontawesome-free\css\svg-with-js.css" />
+    <Content Include="plugins\fontawesome-free\css\svg-with-js.min.css" />
+    <Content Include="plugins\fontawesome-free\css\v4-shims.css" />
+    <Content Include="plugins\fontawesome-free\css\v4-shims.min.css" />
+    <Content Include="plugins\fontawesome-free\webfonts\fa-brands-400.svg" />
+    <Content Include="plugins\fontawesome-free\webfonts\fa-regular-400.svg" />
+    <Content Include="plugins\fontawesome-free\webfonts\fa-solid-900.svg" />
+    <Content Include="plugins\jquery\jquery.min.js" />
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="nlog.config" />
+    <Content Include="dist\css\adminlte.css.map" />
+    <Content Include="plugins\fontawesome-free\webfonts\fa-brands-400.eot" />
+    <Content Include="plugins\fontawesome-free\webfonts\fa-brands-400.ttf" />
+    <Content Include="plugins\fontawesome-free\webfonts\fa-brands-400.woff" />
+    <Content Include="plugins\fontawesome-free\webfonts\fa-brands-400.woff2" />
+    <Content Include="plugins\fontawesome-free\webfonts\fa-regular-400.eot" />
+    <Content Include="plugins\fontawesome-free\webfonts\fa-regular-400.ttf" />
+    <Content Include="plugins\fontawesome-free\webfonts\fa-regular-400.woff" />
+    <Content Include="plugins\fontawesome-free\webfonts\fa-regular-400.woff2" />
+    <Content Include="plugins\fontawesome-free\webfonts\fa-solid-900.eot" />
+    <Content Include="plugins\fontawesome-free\webfonts\fa-solid-900.ttf" />
+    <Content Include="plugins\fontawesome-free\webfonts\fa-solid-900.woff" />
+    <Content Include="plugins\fontawesome-free\webfonts\fa-solid-900.woff2" />
+    <Content Include="Edit.cshtml" />
+    <None Include="Scripts\jquery-3.4.1.intellisense.js" />
+    <Content Include="Scripts\jquery-3.4.1.js" />
+    <Content Include="Scripts\jquery-3.4.1.min.js" />
+    <Content Include="Scripts\jquery-3.4.1.slim.js" />
+    <Content Include="Scripts\jquery-3.4.1.slim.min.js" />
+    <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.validate.js" />
+    <Content Include="Scripts\jquery.validate.min.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Web.config" />
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Views\Web.config" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Home\About.cshtml" />
+    <Content Include="Views\Home\Contact.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Shared\_LayoutAdminLTE.cshtml" />
+    <Content Include="Views\Login\AccountRequest.cshtml" />
+    <Content Include="Views\Login\Attestation.cshtml" />
+    <Content Include="Views\Login\Confirmation.cshtml" />
+    <Content Include="Views\Login\Index.cshtml" />
+    <Content Include="Views\Login\PasswordReset.cshtml" />
+    <Content Include="Views\Login\RequestPasswordReset.cshtml" />
+    <Content Include="Views\Login\ResetPassword.cshtml" />
+    <Content Include="Views\Login\ResetPasswordConfirm.cshtml" />
+    <Content Include="Views\Login\_SysUser.cshtml" />
+    <Content Include="Views\Cooperator\Edit.cshtml" />
+    <Content Include="Views\Cooperator\Index.cshtml" />
+    <Content Include="Views\Cooperator\_Detail.cshtml" />
+    <Content Include="Views\Cooperator\_DetailList.cshtml" />
+    <Content Include="Views\Cooperator\_List.cshtml" />
+    <Content Include="Views\Cooperator\_Widget.cshtml" />
+    <Content Include="Views\SysUser\_Widget.cshtml" />
+    <Content Include="Views\WebOrder\Index.cshtml" />
+    <Content Include="Views\WebOrder\View.cshtml" />
+    <Content Include="Views\WebOrder\_Detail.cshtml" />
+    <Content Include="Views\WebOrder\_List.cshtml" />
+    <Content Include="Views\SysUser\Group\_Widget.cshtml" />
+    <Content Include="Views\SysUser\Modals\_Edit.cshtml" />
+    <Content Include="Views\SysUser\Modals\_ResetPassword.cshtml" />
+    <Content Include="Views\Cooperator\Modals\_CopyAddress.cshtml" />
+    <Content Include="Views\Shared\_RevisionHistory.cshtml" />
+    <Content Include="Views\Shared\_UnderConstruction.cshtml" />
+    <Content Include="Views\Shared\_ValidationMessages.cshtml" />
+    <Content Include="Views\Cooperator\_AppUserItemList.cshtml" />
+    <Content Include="Views\Cooperator\_RecordsOwnedListTarget.cshtml" />
+    <Content Include="Views\Taxonomy\CropForCWR\Edit.cshtml" />
+    <Content Include="Views\Taxonomy\CropForCWR\Index.cshtml" />
+    <Content Include="Views\Taxonomy\CropForCWR\_Detail.cshtml" />
+    <Content Include="Views\Taxonomy\CropForCWR\_List.cshtml" />
+    <Content Include="Views\Taxonomy\CropForCWR\_SelectList.cshtml" />
+    <Content Include="Views\Shared\Partial\_MainSidebarTaxonomy.cshtml" />
+    <Content Include="Views\Shared\Partial\_MainSidebarOrders.cshtml" />
+    <Content Include="Views\Shared\Partial\_MainSidebarCurator.cshtml" />
+    <Content Include="Views\Shared\Partial\_MainSidebar.cshtml" />
+    <Content Include="Views\Taxonomy\CWRMap\Edit.cshtml" />
+    <Content Include="Views\Taxonomy\CWRMap\Index.cshtml" />
+    <Content Include="Views\Taxonomy\CWRMap\Map.cshtml" />
+    <Content Include="Views\Taxonomy\CWRMap\_Detail.cshtml" />
+    <Content Include="Views\Taxonomy\CWRMap\_List.cshtml" />
+    <Content Include="Views\Taxonomy\CWRMap\_SelectList.cshtml" />
+    <Content Include="Views\Taxonomy\CWRTrait\Edit.cshtml" />
+    <Content Include="Views\Taxonomy\CWRTrait\Index.cshtml" />
+    <Content Include="Views\Taxonomy\CWRTrait\_Detail.cshtml" />
+    <Content Include="Views\Taxonomy\CWRTrait\_List.cshtml" />
+    <Content Include="Views\Shared\Modals\_NoteLookup.cshtml" />
+    <Content Include="Views\Shared\Modals\_NoteSelectList.cshtml" />
+    <Content Include="Views\Taxonomy\CWRMap\Modals\_Lookup.cshtml" />
+    <Content Include="Views\Taxonomy\CWRMap\Modals\_SelectList.cshtml" />
+    <Content Include="Views\Taxonomy\Species\Edit.cshtml" />
+    <Content Include="Views\Taxonomy\Species\Index.cshtml" />
+    <Content Include="Views\Taxonomy\Species\_List.cshtml" />
+    <Content Include="Views\Taxonomy\Species\Modals\_Lookup.cshtml" />
+    <Content Include="Views\Taxonomy\Species\Modals\_SelectList.cshtml" />
+    <Content Include="Views\Folder\Edit.cshtml" />
+    <Content Include="Views\Folder\Index.cshtml" />
+    <Content Include="Views\Folder\_List.cshtml" />
+    <Content Include="Views\Folder\_SelectList.cshtml" />
+    <Content Include="Views\Folder\_Widget.cshtml" />
+    <Content Include="Views\Folder\_MyFoldersWidget.cshtml" />
+    <Content Include="Views\Folder\Modals\_Edit.cshtml" />
+    <Content Include="Views\Folder\Modals\_ItemList.cshtml" />
+    <Content Include="Views\Error\Index.cshtml" />
+    <Content Include="Views\Error\InternalServerError.cshtml" />
+    <Content Include="Views\Error\NotFound.cshtml" />
+    <Content Include="Views\Error\_AppErrorList.cshtml" />
+    <Content Include="Views\Error\_DBErrorList.cshtml" />
+    <Content Include="Views\Error\_Detail.cshtml" />
+    <Content Include="Views\Error\_InternalServerError.cshtml" />
+    <Content Include="Views\Taxonomy\Family\Edit.cshtml" />
+    <Content Include="Views\Taxonomy\Family\Index.cshtml" />
+    <Content Include="Views\Taxonomy\Family\_DetailExtended.cshtml" />
+    <Content Include="Views\Taxonomy\Family\_List.cshtml" />
+    <Content Include="Views\Taxonomy\Family\_Detail.cshtml" />
+    <Content Include="Views\Taxonomy\Family\Modals\_InfrafamilialTaxonEdit.cshtml" />
+    <Content Include="Views\Taxonomy\Family\Modals\_InfrafamilialTaxonEditGrid.cshtml" />
+    <Content Include="Views\Taxonomy\Family\Modals\_Lookup.cshtml" />
+    <Content Include="Views\Taxonomy\Family\Modals\_SelectList.cshtml" />
+    <Content Include="Views\Taxonomy\Family\Modals\_TypeGenusPrompt.cshtml" />
+    <Content Include="Views\Taxonomy\Genus\Edit.cshtml" />
+    <Content Include="Views\Taxonomy\Genus\Index.cshtml" />
+    <Content Include="Views\Taxonomy\Genus\_DetailExtended.cshtml" />
+    <Content Include="Views\Taxonomy\Genus\_List.cshtml" />
+    <Content Include="Views\Taxonomy\Genus\_Detail.cshtml" />
+    <Content Include="Views\Taxonomy\Genus\Modals\_Lookup.cshtml" />
+    <Content Include="Views\Taxonomy\Genus\Modals\_SelectList.cshtml" />
+    <Content Include="Views\WebOrder\Modals\_Approve.cshtml" />
+    <Content Include="Views\WebOrder\Modals\_BatchEdit.cshtml" />
+    <Content Include="Views\WebOrder\Modals\_Deny.cshtml" />
+    <Content Include="Views\WebOrder\Modals\_EmailCurators.cshtml" />
+    <Content Include="Views\WebOrder\Modals\_EmailRequestor.cshtml" />
+    <Content Include="Views\WebOrder\Modals\_EndReview.cshtml" />
+    <Content Include="Views\WebOrder\Modals\_Note.cshtml" />
+    <Content Include="Views\WebOrder\Modals\_SetCooperatorStatus.cshtml" />
+    <Content Include="Views\WebOrder\Dashboard\_List.cshtml" />
+    <Content Include="Views\WebOrder\Dashboard\_ListByStatus.cshtml" />
+    <Content Include="Views\WebOrder\Dashboard.cshtml" />
+    <Content Include="Views\AccessionInventoryAttachment\Edit.cshtml" />
+    <Content Include="Views\AccessionInventoryAttachment\Index.cshtml" />
+    <Content Include="Views\AccessionInventoryAttachment\_Detail.cshtml" />
+    <Content Include="Views\AccessionInventoryAttachment\_List.cshtml" />
+    <Content Include="Views\AccessionInventoryAttachment\Modals\_Validate.cshtml" />
+    <Content Include="Views\AccessionInventoryAttachment\Modals\_ValidateHeader.cshtml" />
+    <Content Include="Views\WebCooperator\_Detail.cshtml" />
+    <Content Include="Views\WebCooperator\_List.cshtml" />
+    <Content Include="Views\WebCooperator\Edit.cshtml" />
+    <Content Include="Views\WebCooperator\Index.cshtml" />
+    <Content Include="Views\WebCooperator\_Widget.cshtml" />
+    <Content Include="Views\WebUser\_Widget.cshtml" />
+    <Content Include="Views\Shared\Partial\_MainSidebarNRR.cshtml" />
+    <Content Include="Views\_Templates\Edit.cshtml" />
+    <Content Include="Views\_Templates\_List.cshtml" />
+    <Content Include="Views\Accession\Index.cshtml" />
+    <Content Include="Views\AccessionIPR\Index.cshtml" />
+    <Content Include="Views\InventoryMaintenancePolicy\Index.cshtml" />
+    <Content Include="Views\Inventory\Index.cshtml" />
+    <Content Include="Views\Order\Index.cshtml" />
+    <Content Include="Views\Shared\Partial\_MainSidebarCooperator.cshtml" />
+    <Content Include="Views\Reports\Index.cshtml" />
+    <Content Include="Views\Reports\Partial\_DynamicList.cshtml" />
+    <Content Include="Views\Reports\Partial\_OrderTroubleshootingList.cshtml" />
+    <Content Include="Views\EmailTemplate\Edit.cshtml" />
+    <Content Include="Views\EmailTemplate\Index.cshtml" />
+    <Content Include="Views\EmailTemplate\_Detail.cshtml" />
+    <Content Include="Views\EmailTemplate\_List.cshtml" />
+    <Content Include="Views\EmailTemplate\_View.cshtml" />
+    <Content Include="Views\Taxonomy\Author\Edit.cshtml" />
+    <Content Include="Views\Taxonomy\Author\Index.cshtml" />
+    <Content Include="Views\Taxonomy\Author\_Detail.cshtml" />
+    <Content Include="Views\Taxonomy\Author\_List.cshtml" />
+    <Content Include="Views\Taxonomy\Citation\Edit.cshtml" />
+    <Content Include="Views\Taxonomy\Citation\Index.cshtml" />
+    <Content Include="Views\Taxonomy\Citation\_Detail.cshtml" />
+    <Content Include="Views\Taxonomy\Citation\_List.cshtml" />
+    <Content Include="Views\Taxonomy\CommonName\Edit.cshtml" />
+    <Content Include="Views\Taxonomy\CommonName\Index.cshtml" />
+    <Content Include="Views\Taxonomy\CommonName\_Detail.cshtml" />
+    <Content Include="Views\Taxonomy\CommonName\_Edit.cshtml" />
+    <Content Include="Views\Taxonomy\CommonName\_List.cshtml" />
+    <Content Include="Views\Taxonomy\CommonNameLanguage\Edit.cshtml" />
+    <Content Include="Views\Taxonomy\CommonNameLanguage\Index.cshtml" />
+    <Content Include="Views\Taxonomy\CommonNameLanguage\_Detail.cshtml" />
+    <Content Include="Views\Taxonomy\CommonNameLanguage\_List.cshtml" />
+    <Content Include="Views\Taxonomy\Geography\Edit.cshtml" />
+    <Content Include="Views\Taxonomy\Geography\Index.cshtml" />
+    <Content Include="Views\Taxonomy\Geography\Search.cshtml" />
+    <Content Include="Views\Taxonomy\Geography\_Detail.cshtml" />
+    <Content Include="Views\Taxonomy\Geography\_List.cshtml" />
+    <Content Include="Views\Taxonomy\GeographyMap\Edit.cshtml" />
+    <Content Include="Views\Taxonomy\GeographyMap\Index.cshtml" />
+    <Content Include="Views\Taxonomy\GeographyMap\_Detail.cshtml" />
+    <Content Include="Views\Taxonomy\GeographyMap\_List.cshtml" />
+    <Content Include="Views\Taxonomy\Literature\Edit.cshtml" />
+    <Content Include="Views\Taxonomy\Literature\Index.cshtml" />
+    <Content Include="Views\Taxonomy\Literature\_Detail.cshtml" />
+    <Content Include="Views\Taxonomy\Literature\_List.cshtml" />
+    <Content Include="Views\Taxonomy\Order\Edit.cshtml" />
+    <Content Include="Views\Taxonomy\Order\Index.cshtml" />
+    <Content Include="Views\Taxonomy\Order\_Detail.cshtml" />
+    <Content Include="Views\Taxonomy\Order\_List.cshtml" />
+    <Content Include="Views\Taxonomy\Regulation\Edit.cshtml" />
+    <Content Include="Views\Taxonomy\Regulation\Index.cshtml" />
+    <Content Include="Views\Taxonomy\Regulation\_Detail.cshtml" />
+    <Content Include="Views\Taxonomy\Regulation\_List.cshtml" />
+    <Content Include="Views\Taxonomy\RegulationMap\Edit.cshtml" />
+    <Content Include="Views\Taxonomy\RegulationMap\Index.cshtml" />
+    <Content Include="Views\Taxonomy\RegulationMap\_Detail.cshtml" />
+    <Content Include="Views\Taxonomy\RegulationMap\_List.cshtml" />
+    <Content Include="Views\AppUserItemList\Index.cshtml" />
+    <Content Include="Views\CodeValue\Index.cshtml" />
+    <Content Include="Views\CodeValue\_Detail.cshtml" />
+    <Content Include="Views\CodeValue\_List.cshtml" />
+    <Content Include="Views\Site\_Detail.cshtml" />
+    <Content Include="Views\Site\_List.cshtml" />
+    <Content Include="Views\Site\Index.cshtml" />
+    <Content Include="Views\Taxonomy\Citation\_Widget.cshtml" />
+    <Content Include="Views\Shared\_LayoutUSWDS.cshtml" />
+    <Content Include="Views\Shared\_LayoutAdminLTE3.cshtml" />
+    <Content Include="Views\Shared\_LayoutAdminLTE3Login.cshtml" />
+    <Content Include="Views\Shared\Sidebars\_MainSidebar.cshtml" />
+    <Content Include="Views\Shared\Sidebars\_MainSidebarTaxonomy.cshtml" />
+    <Content Include="Views\AppUserItemList\_Widget.cshtml" />
+    <Content Include="Views\Taxonomy\Citation\Modals\_Lookup.cshtml" />
+    <Content Include="Views\Taxonomy\Citation\Modals\_SelectList.cshtml" />
+    <Content Include="Views\Taxonomy\Species\_Detail.cshtml" />
+    <Content Include="Views\Taxonomy\Species\_DetailExtended.cshtml" />
+    <Content Include="Views\Taxonomy\Species\Partial\_MenuIndex.cshtml" />
+    <Content Include="Views\Taxonomy\Partial\_MenuIndex.cshtml" />
+    <Content Include="Views\Taxonomy\Species\Partial\_MenuEdit.cshtml" />
+    <Content Include="Views\Shared\Partial\_MenuIndex.cshtml" />
+    <Content Include="Views\Taxonomy\SynonymMap\Add.cshtml" />
+    <Content Include="Views\Taxonomy\SynonymMap\Edit.cshtml" />
+    <Content Include="Views\Taxonomy\SynonymMap\Index.cshtml" />
+    <Content Include="Views\Taxonomy\SynonymMap\_Detail.cshtml" />
+    <Content Include="Views\Taxonomy\SynonymMap\_List.cshtml" />
+    <Content Include="Views\Taxonomy\Species\_SelectListPredicate.cshtml" />
+    <Content Include="Views\Taxonomy\Species\_SelectListSubject.cshtml" />
+    <Content Include="Views\Taxonomy\Species\_SynonymMapList.cshtml" />
+    <Content Include="Views\Taxonomy\EconomicUse\Edit.cshtml" />
+    <Content Include="Views\Taxonomy\EconomicUse\Index.cshtml" />
+    <Content Include="Views\Taxonomy\EconomicUse\_Detail.cshtml" />
+    <Content Include="Views\Taxonomy\EconomicUse\_List.cshtml" />
+    <Content Include="Views\Taxonomy\EconomicUse\Modals\_Edit.cshtml" />
+    <Content Include="Views\Taxonomy\EconomicUse\Modals\_Lookup.cshtml" />
+    <Content Include="Views\Taxonomy\EconomicUse\Modals\_SelectList.cshtml" />
+    <Content Include="Views\WebOrder\Board.cshtml" />
+    <Content Include="Views\SysUser\Edit.cshtml" />
+    <Content Include="Views\SysUser\Index.cshtml" />
+    <Content Include="Views\Taxonomy\SynonymMap\_BatchList.cshtml" />
+    <Content Include="Views\Portal\Index.cshtml" />
+    <Content Include="Views\Portal\Login.cshtml" />
+    <Content Include="Views\Portal\Overview.cshtml" />
+    <Content Include="Views\Login\ResetPasswordFinal.cshtml" />
+    <Content Include="Views\WebOrder\_TEST.cshtml" />
+    <Content Include="Views\CodeValue\Edit.cshtml" />
+    <Content Include="Views\Folder\_Detail.cshtml" />
+    <Content Include="Views\Login\Error.cshtml" />
+    <Content Include="Views\Shared\Sidebars\_MainSidebarARM.cshtml" />
+    <Content Include="Views\SysGroup\Index.cshtml" />
+    <Content Include="Views\SysGroup\Edit.cshtml" />
+    <Content Include="Views\SysGroup\_Detail.cshtml" />
+    <Content Include="Views\SysGroup\_List.cshtml" />
+    <Content Include="Views\SysGroupUserMap\_List.cshtml" />
+    <Content Include="Views\AppUserDynamicQuery\_List.cshtml" />
+    <Content Include="Views\Taxonomy\Citation\Modals\_Detail.cshtml" />
+    <Content Include="Views\Cooperator\Transfer.cshtml" />
+    <Content Include="Views\Cooperator\Modals\_Transfer.cshtml" />
+    <Content Include="Views\Cooperator\_RecordsOwnedDetailList.cshtml" />
+    <Content Include="Views\Cooperator\_RecordsOwnedListSource.cshtml" />
+    <Content Include="Views\Taxonomy\Citation\_DetailExtended.cshtml" />
+    <Content Include="Views\SysGroupUserMap\_SelectList.cshtml" />
+    <Content Include="Views\SysGroupUserMap\_SysPermissionList.cshtml" />
+    <Content Include="Views\SysGroupUserMap\_SysPermissionFieldList.cshtml" />
+    <Content Include="Views\SysGroup\_Widget.cshtml" />
+    <Content Include="Views\Taxonomy\Citation\_NotCited.cshtml" />
+    <Content Include="Views\Shared\Modals\_SaveSearch.cshtml" />
+    <Content Include="Views\Site\_Widget.cshtml" />
+    <Content Include="Views\Site\Edit.cshtml" />
+    <Content Include="Views\Taxonomy\Literature\Modals\_Lookup.cshtml" />
+    <Content Include="Views\Taxonomy\Literature\Modals\_SelectList.cshtml" />
+    <Content Include="Views\Shared\Sidebars\_MainSidebarNRR.cshtml" />
+    <Content Include="Views\Taxonomy\Author\Modals\_Lookup.cshtml" />
+    <Content Include="Views\Taxonomy\Author\Modals\_SelectList.cshtml" />
+    <Content Include="Views\Taxonomy\Species\Modals\_LookupProtologue.cshtml" />
+    <Content Include="Views\Taxonomy\Species\Modals\_SelectListProtologue.cshtml" />
+    <Content Include="Views\Taxonomy\Family\EditSubfamily.cshtml" />
+    <Content Include="Views\Taxonomy\Family\EditSubtribe.cshtml" />
+    <Content Include="Views\Taxonomy\Family\EditTribe.cshtml" />
+    <Content Include="Views\Folder\Search.cshtml" />
+    <Content Include="Views\AppUserItemList\_List.cshtml" />
+    <Content Include="Views\Cooperator\_SelectList.cshtml" />
+    <Content Include="Views\Folder\_ListShared.cshtml" />
+    <Content Include="Views\Folder\_ListCurrentCollaborators.cshtml" />
+    <Content Include="Views\Folder\_ListAvailableCollaborators.cshtml" />
+    <Content Include="Views\Folder\_WidgetCurrentCollaborators.cshtml" />
+    <Content Include="Views\SiteAdmin\_Detail.cshtml" />
+    <Content Include="Views\SiteAdmin\Edit.cshtml" />
+    <Content Include="Views\SiteAdmin\Index.cshtml" />
+    <Content Include="Views\CropGermplasmCommitteeDocument\Index.cshtml" />
+    <Content Include="Views\CropGermplasmCommitteeDocument\_Detail.cshtml" />
+    <Content Include="Views\CropGermplasmCommitteeDocument\Edit.cshtml" />
+    <Content Include="Views\CropGermplasmCommitteeDocument\_List.cshtml" />
+    <Content Include="Views\Folder\Edit_BACKUP.cshtml" />
+    <Content Include="Views\Taxonomy\CropForCWR\_DetailExtended.cshtml" />
+    <Content Include="Views\Taxonomy\Genus\_ListSynonyms.cshtml" />
+    <Content Include="Views\Taxonomy\Genus\_ListSubdivisions.cshtml" />
+    <Content Include="Views\Taxonomy\Family\_ListSubdivisions.cshtml" />
+    <Content Include="Views\Taxonomy\Family\_ListSynonyms.cshtml" />
+    <Content Include="Views\Shared\Modals\_NoteLookup2.cshtml" />
+    <Content Include="Views\Error\SystemError.cshtml" />
+    <Content Include="Views\Error\Error404.cshtml" />
+    <Content Include="Views\Taxonomy\Geography\Modals\_Lookup.cshtml" />
+    <Content Include="Views\Taxonomy\Geography\Modals\_SelectList.cshtml" />
+    <Content Include="Views\Taxonomy\CWRMap\_DetailExtended.cshtml" />
+    <Content Include="Views\Taxonomy\CWRTrait\_DetailExtended.cshtml" />
+    <Content Include="Views\Taxonomy\Order\_DetailExtended.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+    <Folder Include="Content\bower_components\font-awesome\fonts\" />
+    <Folder Include="Content\dist\js\pages\" />
+    <Folder Include="Models\" />
+    <Folder Include="Views\Demo\" />
+    <Folder Include="Views\Main\" />
+    <Folder Include="Views\Taxonomy\Shared\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Content\bootstrap.min.css.map" />
+    <Content Include="Content\bootstrap.css.map" />
+    <Content Include="Content\bootstrap-theme.min.css.map" />
+    <Content Include="Content\bootstrap-theme.css.map" />
+    <None Include="packages.config" />
+    <Content Include="Scripts\jquery-3.4.1.slim.min.map" />
+    <Content Include="Scripts\jquery-3.4.1.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\USDA.ARS.GRIN.Common.DataLayer.SqlServer\USDA.ARS.GRIN.Common.DataLayer.SqlServer.csproj">
+      <Project>{ab887e72-bd5e-47d2-b4f9-4323cb43e607}</Project>
+      <Name>USDA.ARS.GRIN.Common.DataLayer.SqlServer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\USDA.ARS.GRIN.Common.DataLayer\USDA.ARS.GRIN.Common.DataLayer.csproj">
+      <Project>{4d384f7b-0650-4d28-824c-963aad902dcd}</Project>
+      <Name>USDA.ARS.GRIN.Common.DataLayer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\USDA.ARS.GRIN.Common.Library\USDA.ARS.GRIN.Common.Library.csproj">
+      <Project>{79ce8eb3-0993-4b8d-a6e4-9d89ca7fe4ee}</Project>
+      <Name>USDA.ARS.GRIN.Common.Library</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\USDA.ARS.GRIN.GGTools.AppLayer\USDA.ARS.GRIN.GGTools.AppLayer.csproj">
+      <Project>{ca168b27-64aa-4258-aa66-6bd1bed5ecef}</Project>
+      <Name>USDA.ARS.GRIN.GGTools.AppLayer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\USDA.ARS.GRIN.GGTools.DataLayer\USDA.ARS.GRIN.GGTools.DataLayer.csproj">
+      <Project>{902c87a6-fb1f-4c16-b816-5f7678b1ef01}</Project>
+      <Name>USDA.ARS.GRIN.GGTools.DataLayer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\USDA.ARS.GRIN.GGTools.ViewModelLayer\USDA.ARS.GRIN.GGTools.ViewModelLayer.csproj">
+      <Project>{9460dc16-3013-4028-9403-3541e1235771}</Project>
+      <Name>USDA.ARS.GRIN.GGTools.ViewModelLayer</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>65480</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>https://localhost:44377/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target> -->
+</Project>

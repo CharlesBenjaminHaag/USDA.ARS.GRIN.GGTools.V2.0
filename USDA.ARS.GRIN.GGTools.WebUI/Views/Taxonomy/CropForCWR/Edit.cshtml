@@ -1,0 +1,125 @@
+﻿@model USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer.CropForCWRViewModel
+@{
+    ViewBag.Title = Model.PageTitle;
+    Layout = "~/Views/Shared/_LayoutAdminLTE3.cshtml";
+}
+@Html.Partial("~/Views/Shared/_RevisionHistory.cshtml")
+@using (Html.BeginForm("Edit", "CropForCWR", FormMethod.Post, new { id = "frmEdit" }))
+{
+    @Html.HiddenFor(x => x.PageTitle)
+    @Html.HiddenFor(x => x.EventAction)
+    @Html.HiddenFor(x => x.EventValue)
+    @Html.HiddenFor(x => x.TableName)
+    @Html.HiddenFor(x => x.TableCode)
+    @Html.HiddenFor(x => x.Entity.ID)
+    @Html.HiddenFor(x=> x.Entity.RelatedItemCount)
+    <div class="card card-default">
+        <div class="card-header">
+            @if (Model.Entity.ID > 0)
+            {
+                <div class="btn-group">
+                    <a href="@Url.Action("Add","CWRMap", new { cropForCwrId = Model.Entity.ID })" , class="btn btn-default btn-sm pull-right">
+                        <i class="fa fa-plus margin-r-5"></i>
+                        CWR Map
+                    </a>
+                </div>
+            }
+            @*<div class="btn-group">
+            <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#modal-citation-lookup">
+                <i class="fa fa-book"></i>
+            </button>
+        </div>*@
+            <div class="btn-group">
+                <button type="button" class="btn btn-default btn-sm pull-right" data-toggle="modal" data-target="#modal-note-lookup">
+                    <i class="fa fa-search margin-r-5"></i>
+                    Notes
+                </button>
+            </div>
+            <a href="https://npgsdev.ars-grin.gov/gringlobal/taxon/cwrcropdetail?id=@Model.Entity.ID&type=crop" target="_blank" class="btn btn-info btn-sm float-right">
+                <i class="fa fa-globe"></i>
+                View Public Website
+            </a>
+        </div>
+        <div class="card-body">
+            @Html.Partial("~/Views/Shared/_ValidationMessages.cshtml")
+            <div class="row">
+                <div class="col-md-12">
+                    <label>Name</label>
+                    @Html.TextBoxFor(x => x.Entity.CropForCWRName, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(x => x.Entity.CropForCWRName, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12" style="margin-top:1.0em;">
+                    <label>Note</label>
+                    @Html.TextAreaFor(x => x.Entity.Note, new { @id = "txtNote", @class = "form-control" })
+                </div>
+            </div>
+        </div>
+        <div class="card-footer">
+            <a href="@Url.Action("Refresh")" class="btn btn-default">Cancel</a>
+            @*<a id="btnDelete" href="@Url.Action("Delete","CropForCWR")" class="btn btn-danger">Delete</a>*@
+            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modal-delete-confirm">
+                Delete
+            </button>
+            <button type="submit" class="btn btn-primary float-right">Save</button>
+        </div>
+    </div>
+}
+
+<!-- BEGIN DEL CONFIRM-->
+<div class="modal fade" id="modal-delete-confirm" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content bg-danger">
+            <div class="modal-header">
+                <h4 class="modal-title">Please Confirm</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                @if (Model.Entity.RelatedItemCount > 0)
+                {
+                    <p>
+                        <span style="font-weight:bold;">Note:</span>
+                        There are currently @Model.Entity.RelatedItemCount records in GRIN that are linked to this record. You will have to remove, or reassign, these records before deleting this one.
+                    </p>
+                }
+                else
+                {
+                    <p>This will permanently delete this record from the GRIN database. Are you sure?</p>
+                }
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-outline-light" data-dismiss="modal">Cancel</button>
+                <button id="btnDeleteConfirm" type="button" class="btn btn-outline-light" data-dismiss="modal">Yes, Please Continue</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--END DEL CONFIRM -->
+
+@if (Model.Entity.ID > 0)
+{
+    { Html.RenderAction("_List", "CWRMap", new { cropForCwrId = Model.Entity.ID }); }
+}
+
+@Html.Partial("~/Views/Shared/Modals/_NoteLookup2.cshtml")
+@Html.Partial("~/Views/Taxonomy/Species/Modals/_Lookup.cshtml")
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        Init();
+        /*InitializeCKEditor();*/
+    });
+
+    function Init() {
+        $(".cwr-map-options").hide();
+    }
+
+    $("#btnDeleteConfirm").click(function () {
+        var refreshLink = '@Url.Action("Index","CropForCWR")';
+        window.location.href = refreshLink;
+
+    });
+</script>

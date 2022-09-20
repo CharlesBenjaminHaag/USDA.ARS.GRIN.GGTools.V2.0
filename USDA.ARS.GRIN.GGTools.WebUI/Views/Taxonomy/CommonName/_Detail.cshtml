@@ -1,0 +1,70 @@
+﻿@model USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer.CommonNameViewModelBase
+<div id="section-controls" class="card card-default" style="border:none;">
+    <div class="card-header">
+        <div class="margin">
+            <div class="btn-group">
+                <a href="@Url.Action("Add","CommonName")" class="btn btn-default btn-sm">
+                    <i class="fas fa-plus"></i> Add
+                </a>
+            </div>
+            <div class="btn-group">
+                <button id="btnOpenFolderModal" type="button" class="btn btn-default btn-sm"><i class="fa fa-folder"></i></button>
+            </div>
+        </div>
+    </div>
+    <!-- /.box-header -->
+    <div id="section-search-criteria" class="card-body">
+        <div class="row">
+            <div class="col-md-2">
+                <div class="form-group form-horizontal">
+                    <label>Created By</label>
+                    @Html.DropDownListFor(x => x.SearchEntity.CreatedByCooperatorID, Model.Cooperators, "All Cooperators", new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label>Genus Name</label>
+                    @Html.TextBoxFor(x => x.SearchEntity.GenusName, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label>Species Name</label>
+                    @Html.TextBoxFor(x => x.SearchEntity.SpeciesName, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label>Name</label>
+                    @Html.TextBoxFor(x => x.SearchEntity.Name, new { @class = "form-control" })
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label>Language Description</label>
+                    @Html.TextBoxFor(x => x.SearchEntity.LanguageDescription, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label>Transcription</label>
+                    @Html.TextBoxFor(x => x.SearchEntity.SimplifiedName, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label>Note</label>
+                    @Html.TextBoxFor(x => x.SearchEntity.Note, new { @class = "form-control" })
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="card-footer">
+        <button id="btnReset" type="button" class="btn btn-danger">Reset</button>
+        <button type="submit" class="btn btn-primary float-right">Search</button>
+    </div>
+</div>
+

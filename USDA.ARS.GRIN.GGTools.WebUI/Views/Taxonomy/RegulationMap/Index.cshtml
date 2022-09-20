@@ -1,0 +1,67 @@
+﻿@model USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer.RegulationMapViewModel
+@{
+    ViewBag.Title = Model.PageTitle;
+    Layout = "~/Views/Shared/_LayoutAdminLTE3.cshtml";
+}
+
+@using (Html.BeginForm("Search", "RegulationMap", FormMethod.Post, new { id = "frmMain" }))
+{
+    @Html.HiddenFor(x => x.EventAction)
+    @Html.HiddenFor(x => x.TableName)
+    @Html.HiddenFor(x => x.TableCode)
+    @Html.HiddenFor(x => x.PageTitle)
+    @Html.HiddenFor(x => x.AuthenticatedUserCooperatorID)
+    @Html.HiddenFor(x => x.ItemIDList)
+    @Html.HiddenFor(x => x.AuthenticatedUserCooperatorID)
+    @Html.Partial("~/Views/Taxonomy/RegulationMap/_Detail.cshtml")
+}
+@Html.Partial("~/Views/Taxonomy/RegulationMap/_List.cshtml")
+@{Html.RenderAction("_Edit", "Folder", new { tableName = Model.TableName }); }
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        Init();
+    });
+
+    function Init() {
+        var searchType = $("#SearchEntity_TableName").val();
+        var formGroupName = "#form-group-" + searchType;
+        $(".overlay").hide();
+        $("#form-group-taxonomy_family").hide();
+        $("#form-group-taxonomy_genus").hide();
+        $("#form-group-taxonomy_species").hide();
+        $(formGroupName).show();
+    }
+
+    /*
+    ===========================================================================
+    SPECIES MODAL
+    ===========================================================================
+    */
+    $(document).on("click", "[id='btnSearchSpecies']", function () {
+        var link = '@Url.Action("SpeciesSearch", "Taxonomy")';
+        var isAcceptedName = $('#IsAcceptedName').is(':checked');
+
+        var formData = new FormData();
+        formData.append("FullName", $("#FullName").val());
+        formData.append("IsAcceptedName", isAcceptedName);
+        formData.append("ResultsFormat", "2");
+        $.ajax({
+            url: link,
+            type: 'POST',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (response) {
+                $("#section-species-search-results").html(response);
+            }
+        });
+    });
+
+    function SelectSpecies(ID, speciesText) {
+        $('#modal-species-lookup').modal('hide');
+        $("#SearchEntity_SpeciesName").val(speciesText);
+        $("#SearchEntity_SpeciesID").val(ID);
+    }
+</script>

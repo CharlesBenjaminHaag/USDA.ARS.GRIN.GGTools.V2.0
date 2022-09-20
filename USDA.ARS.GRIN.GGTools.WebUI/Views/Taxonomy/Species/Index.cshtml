@@ -1,0 +1,197 @@
+﻿@model USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer.SpeciesViewModel
+@{
+    ViewBag.Title = Model.PageTitle;
+    ViewBag.ID = Model.ID;
+    Layout = "~/Views/Shared/_LayoutAdminLTE3.cshtml";
+}
+
+@using (Html.BeginForm("Search", "Species", FormMethod.Post, new { id = "frmMain" }))
+{
+    @Html.HiddenFor(x => x.EventAction)
+    @Html.HiddenFor(x => x.TableName)
+    @Html.HiddenFor(x => x.TableCode)
+    @Html.HiddenFor(x => x.PageTitle)
+    @Html.HiddenFor(x => x.AuthenticatedUserCooperatorID)
+    @Html.HiddenFor(x => x.ItemIDList)
+    @Html.HiddenFor(x => x.AuthenticatedUserCooperatorID)
+    @Html.Partial("~/Views/Taxonomy/Species/_Detail.cshtml")
+}
+
+<div id="section-search-results" class="data-list">
+    @Html.Partial("~/Views/Taxonomy/Species/_List.cshtml")
+</div>
+
+@{Html.RenderAction("_Edit", "Folder"); }
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        Init();
+    });
+
+    
+
+    function Init() {
+        var eventAction = $("#EventAction").val();
+        if (eventAction == "SHOW-SEARCH") {
+            $("#section-search-criteria").show();
+            $("#btnShowAggregateChildData").prop("disabled", false);
+        }
+        else {
+            $("#btnShowAggregateChildData").prop("disabled", true);
+        }
+    }
+
+    $(document).on("click", "[id='btnSubmitSearch']", function () {
+        $("#frmMain").submit();
+    });
+
+    $(document).on("click", "[id='btnReset']", function () {
+        Reset();
+    });
+
+    /*
+    * ===================================================================================================
+    * INFRASPECIFIC CONTROLS
+    * ===================================================================================================
+    */
+    $("#Entity_Rank").change(function () {
+        var selectedRank = this.value;
+        SetInfraspecificControls(selectedRank);
+    });
+
+    function SetInfraspecificControls(rank) {
+        var sectionName = "#section-infraspecific-" + rank.toLowerCase();
+        var sectionAuthority = sectionName + "-authority";
+        var sectionHybrid = "#section-hybrid-" + rank.toLowerCase();
+        var isAcceptedName = $("#Entity_IsAcceptedName").val();
+
+        if (isAcceptedName == "Y") {
+            $(".accepted").hide();
+        }
+        else {
+            $(".accepted").show();
+        }
+
+        $(".infra").hide();
+        $(sectionName).show();
+        $(sectionAuthority).show();
+        $(sectionHybrid).show();
+    }
+
+
+    /*
+    * ===============================================================================
+    * FOLDER MODAL
+    * ===============================================================================
+    */
+    $("#btnOpenFolderModal").click(function () {
+        var selectedItemIdList = GetSelectedEntityIDs("data-table-species");
+        $("#modal-folder-edit").modal("show");
+    });
+
+    $("#btnSaveFolder").click(function () {
+        SaveFolder(0);
+    });
+
+    $(document).on("click", "[id*='cbxIsShared']", function () {
+        if ($('#cbxIsShared').prop('checked') == true) {
+            $("#section-folder-sharing").show();
+        }
+        else {
+            $("#section-folder-sharing").hide();
+        }
+    });
+
+    function SaveFolder(folderId) {
+        var link = '@Url.Action("Add", "Folder")';
+        var tableName = $("#TableName").val();
+        var folderName = $("#txtFolderTitle").val();
+        var folderCategory = $("#Entity_Category").val();
+        var folderNewCategory = $("#txtFolderNewCategory").val();
+        var folderDescription = $("#txtFolderDescription").val();
+
+        if ($('#cbxIsFavorite').prop('checked') == true) {
+            isFavorite = true;
+        }
+
+        var selectedItemIdList = GetSelectedEntityIDs("data-table-species");
+
+        var formData = new FormData();
+
+        if (typeof selectedItemIdList != 'undefined') {
+            formData.append("IDList", selectedItemIdList);
+        }
+
+        if ($('#cbxIsFavorite').prop('checked') == true) {
+            formData.append("IsFavorite", true);
+        }
+
+        if ($('#cbxIsShared').prop('checked') == true) {
+            formData.append("IsShared", true);
+        }
+
+        formData.append("FolderID", folderId);
+        formData.append("TableName", tableName);
+        formData.append("FolderName", folderName);
+        formData.append("FolderType", tableName);
+        formData.append("Category", folderCategory);
+        formData.append("NewCategory", folderNewCategory);
+        formData.append("Description", folderDescription);
+
+        $.ajax({
+            url: link,
+            type: 'POST',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (result) {
+                //window.location.href = originalLink;
+            },
+            error: function () {
+                alert("Error in ApplyCitation()");
+            }
+        });
+        $("#modal-folder-edit").modal("hide");
+    }
+
+
+    function SaveFolderItems(folderId) {
+        var link = '@Url.Action("AddItems", "Folder")';
+        var tableName = $("#TableName").val();
+        var selectedItemIdList = GetSelectedEntityIDs("data-table-species");
+        var formData = new FormData();
+
+        formData.append("FolderID", folderId);
+        formData.append("TableName", tableName);
+
+        if (typeof selectedItemIdList != 'undefined') {
+            formData.append("IDList", selectedItemIdList);
+        }
+
+        $.ajax({
+            url: link,
+            type: 'POST',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (result) {
+            },
+            error: function () {
+                alert("Error");
+            }
+        });
+        $("#modal-folder-edit").modal("hide");
+    }
+
+    function GetSelectedEntityIDs(tableName) {
+        var table = $('#' + tableName).DataTable();
+        var ids = $.map(table.rows('.selected').data(), function (item) {
+            return item[0]
+        });
+        console.log(ids)
+        return ids;
+    }
+</script>

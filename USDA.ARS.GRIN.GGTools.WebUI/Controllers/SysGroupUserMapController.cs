@@ -1,0 +1,78 @@
+﻿using System;
+using System.Web.Mvc;
+using USDA.ARS.GRIN.GGTools.DataLayer;
+using USDA.ARS.GRIN.GGTools.ViewModelLayer;
+using NLog;
+
+namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
+{
+    public class SysGroupUserMapController : BaseController, IController<SysGroupUserMap>
+    {
+        private static readonly Logger Log = LogManager.GetCurrentClassLogger();
+        public ActionResult Delete(int entityId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public ActionResult Edit(int entityId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public ActionResult Edit(SysGroupUserMap viewModel)
+        {
+            throw new NotImplementedException();
+        }
+
+        public PartialViewResult FolderItems(FormCollection formCollection)
+        {
+            throw new NotImplementedException();
+        }
+
+        // GET: SysGroupUserMap
+        public ActionResult Index()
+        {
+            return View();
+        }
+
+        public ActionResult Search(SysGroupUserMap viewModel)
+        {
+            throw new NotImplementedException();
+        }
+
+        public PartialViewResult _List(int sysUserId = 0, int sysGroupId = 0)
+        {
+            SysGroupUserMapViewModel viewModel = new SysGroupUserMapViewModel();            
+            try
+            {
+                viewModel.SearchEntity.SysUserID = sysUserId;
+                viewModel.SearchEntity.SysGroupID = sysGroupId;
+                viewModel.Search();
+                return PartialView(viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
+        }
+
+        public PartialViewResult _SelectList(int sysUserId = 0, int sysGroupId = 0)
+        {
+            SysGroupUserMapViewModel viewModel = new SysGroupUserMapViewModel();
+            try
+            {
+                viewModel.SearchEntity.SysUserID = sysUserId;
+                viewModel.SearchEntity.SysGroupID = sysGroupId;
+                viewModel.Search();
+                return PartialView(viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
+        }
+
+    }
+}

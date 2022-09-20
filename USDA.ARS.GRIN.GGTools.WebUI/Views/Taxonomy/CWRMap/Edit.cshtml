@@ -1,0 +1,240 @@
+﻿@model USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer.CWRMapViewModel
+@{
+    ViewBag.Title = Model.PageTitle;
+    Layout = "~/Views/Shared/_LayoutAdminLTE3.cshtml";
+}
+@Html.Partial("~/Views/Shared/_RevisionHistory.cshtml")
+@using (Html.BeginForm("Edit", "CWRMap", FormMethod.Post, new { id = "frmEdit" }))
+{
+    @Html.HiddenFor(x => x.PageTitle)
+    @Html.HiddenFor(x => x.EventAction)
+    @Html.HiddenFor(x => x.EventValue)
+    @Html.HiddenFor(x => x.TableName)
+    @Html.HiddenFor(x => x.TableCode)
+    @Html.HiddenFor(x => x.Entity.ID)
+    @Html.HiddenFor(x => x.Entity.IsCrop)
+    <div class="card card-default">
+        <div class="card-header">
+            @if (Model.Entity.ID > 0)
+            {
+                <div class="btn-group">
+                    <a href="@Url.Action("Add", "CWRTrait", new { cwrMapId = Model.Entity.ID })" , class="btn btn-default btn-sm pull-right">
+                        <i class="fa fa-plus margin-r-5"></i>
+                        CWR Trait
+                    </a>
+                </div>
+                <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#modal-citation-lookup">Add Citation</button>
+            }
+            <div class="btn-group">
+                <button type="button" class="btn btn-default btn-sm pull-right" data-toggle="modal" data-target="#modal-note-lookup">
+                    <i class="fa fa-search margin-r-5"></i>
+                    Notes
+                </button>
+            </div>
+        </div>
+        <div class="card-body">
+            @Html.Partial("~/Views/Shared/_ValidationMessages.cshtml")
+
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label>Crop For CWR</label>
+                        @Html.DropDownListFor(x => x.Entity.CropForCWRID, Model.CropsForCWR, "Select value", new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>Species</label>
+                        <div class="input-group">
+                            @Html.TextBoxFor(x => x.Entity.SpeciesName, new { @class = "form-control" })
+                            @Html.HiddenFor(x => x.Entity.SpeciesID)
+                            <!--TODO-->
+                            @*<span class="input-group-btn">
+                                <a href="@Url.Action("Edit", "Species", new { @entityId = Model.Entity.SpeciesID })" class="btn btn-default btn-flat">
+                                    <i class="fa fa-link"></i>
+                                </a>
+                            </span>*@
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-default btn-flat" data-toggle="modal" data-target="#modal-species-lookup">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group form-horizontal">
+                        <label>Genepool Code</label>
+                        @Html.DropDownListFor(x => x.Entity.GenepoolCode, Model.GenepoolCodes, "All Genepool Codes", new { @class = "form-control" })
+                    </div>
+                </div>
+                <div id="section-common-name" class="col-md-3">
+                    <div class="form-group form-horizontal">
+                        <label>Crop Common Name</label>
+                        @Html.TextBoxFor(x => x.Entity.CropCommonName, new { @class = "form-control" })
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-1">
+                    <div class="form-group clearfix">
+                        <div class="icheck-primary d-inline">
+                            @Html.CheckBoxFor(x => x.Entity.IsCropOption, new { id = "cbxIsCrop" })
+                            <label for="cbxIsCrop">
+                                Crop
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div id="section-is-graftstock" class="col-md-1 non-crop">
+                    <div class="form-group clearfix">
+                        <div class="icheck-primary d-inline">
+                            @Html.CheckBoxFor(x => x.Entity.IsGraftStockOption, new { id = "cbxIsGraftstock" })
+                            <label for="cbxIsGraftstock">
+                                Graftstock
+                            </label>
+                        </div>
+                    </div>
+                </div id="section-is-potential">
+                <div id="section-is-potential" class="col-md-1 non-crop">
+                    <div class="form-group clearfix">
+                        <div class="icheck-primary d-inline">
+                            @Html.CheckBoxFor(x => x.Entity.IsPotentialOption, new { id = "cbxIsPotential" })
+                            <label for="cbxIsPotential">
+                                Potential
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <label>Note</label>
+                    @Html.TextAreaFor(x => x.Entity.Note, new { @id = "txtNote", @class = "form-control" })
+                </div>
+            </div>
+        </div>
+        <div class="card-footer">
+            <a href="@Url.Action("Refresh")" class="btn btn-danger">Cancel</a>
+            <button type="submit" class="btn btn-info float-right">Save</button>
+        </div>
+    </div>
+}
+
+@if (Model.Entity.ID > 0)
+{
+    { Html.RenderAction("_List", "CWRTrait", new { cwrMapId = Model.Entity.ID }); }
+    { Html.RenderAction("RenderWidget", "Citation", new { entityId = Model.Entity.CitationID }); }
+}
+@Html.Partial("~/Views/Shared/Modals/_NoteLookup.cshtml")
+@Html.Partial("~/Views/Taxonomy/Species/Modals/_Lookup.cshtml")
+@{Html.RenderAction("RenderLookupModal", "Citation", new { isMultiSelect = "N" }); }
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        Init();
+        /*InitializeCKEditor();*/
+    });
+
+    function Init() {
+        InitCropCommonNameField();
+
+        ////DEBUG
+        //ClassicEditor
+        //    .create(document.querySelector('#editor'))
+        //    .then(editor => {
+        //        theEditor = editor;
+
+        //    })
+        //    .catch(error => {
+        //        console.error(error);
+        //    });
+    }
+
+    /*
+    * ===================================================================================================
+    * COMMON NAME
+    * ===================================================================================================
+    */
+    function InitCropCommonNameField() {
+        var isCrop = $("#Entity_IsCrop").val();
+
+        if (isCrop == "Y") {
+            $("#section-common-name").show();
+            $("#section-is-potential").hide();
+            $("#section-is-graftstock").hide();
+        }
+        else {
+            $("#section-common-name").hide();
+            $("#section-is-potential").show();
+            $("#section-is-graftstock").show();
+        }
+    }
+
+    $(function () {
+        $("#cbxIsCrop").click(function () {
+            if ($(this).is(":checked")) {
+                $("#section-common-name").show();
+                $("#section-is-potential").hide();
+                $("#section-is-graftstock").hide();
+            } else {
+                $("#section-common-name").hide();
+                $("#Entity_CropCommonName").val("");
+                $("#section-is-potential").show();
+                $("#section-is-graftstock").show();
+            }
+        });
+    });
+
+    /*
+    * ===================================================================================================
+    * CITATION MODAL
+    * ===================================================================================================
+    */
+
+    $(document).on("click", "[id='btnLookupCitations']", function () {
+        var link = '@Url.Action("Lookup","Citation")';
+        LookupCitations(link);
+    });
+
+    $(document).on("click", "[id='btnSaveCitations']", function () {
+        var link = '@Url.Action("AddReference","Citation")';
+
+        SaveCitations(link);
+    });
+
+    $(document).on("click", "[id='btnAddCitation']", function () {
+        //TODO AddCitation();
+    });
+
+    /*
+    * ===================================================================================================
+    * SPECIES MODAL
+    * ===================================================================================================
+    */
+
+    $(document).on("click", "[id='btnLookupSpecies']", function () {
+        var link = '@Url.Action("Lookup","Species")';
+        SearchSpecies(link);
+    });
+
+    $(document).on("click", "[id='btnSaveSpecies']", function () {
+        SaveSpecies();
+    });
+
+    /*
+    * ===================================================================================================
+    * NOTE LOOKUP MODAL
+    * ===================================================================================================
+    */
+
+    $("#btnLookupNote").click(function () {
+        var link = '@Url.Action("Lookup","Note")';
+        SearchNotes(link);
+    });
+
+    $("#btnSaveNote").click(function () {
+        var selectedNote = GetSelectedNote("data-table-note-lookup");
+        $("#txtNote").val(selectedNote);
+    });
+</script>
