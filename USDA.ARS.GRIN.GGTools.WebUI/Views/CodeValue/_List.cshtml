@@ -13,12 +13,14 @@
             <thead>
                 <tr>
                     <th></th>
-                    <th>Group Name</th>
                     <th>Code Value ID</th>
+                    <th>Group Name</th>
                     <th>Code</th>
                     <th>Code Value Lang ID</th>
                     <th>Title</th>
+                    <th>Description</th>
                     <th>Created</th>
+                    <th>Last Modified</th>
                     <th></th>
                 </tr>
             </thead>
@@ -31,14 +33,21 @@
                             <td>
                                 @result.ID
                             </td>
-                            <td>@Html.Raw(result.GroupName)</td>
                             <td>@result.CodeValueID</td>
+                            <td>@Html.Raw(result.GroupName)</td>
                             <td>@result.Code</td>
                             <td>@result.CodeValueLangID</td>
                             <td>
                                 @result.CodeTitle
                             </td>
+                            <td>@result.CodeDescription</td>
                             <td>@result.CreatedDate.ToShortDateString()</td>
+                            <td>
+                                @if (result.ModifiedDate > DateTime.MinValue)
+                                { 
+                                    @result.ModifiedDate.ToShortDateString()
+                                }
+                            </td>
                             <td class="table-col-align-right">
                                 <a href="@Url.Action("Edit", "CodeValue", new { entityId = result.CodeValueID })" class="btn btn-primary btn-sm pull-right row-edit">
                                     <i class="fa fa-edit"></i>
