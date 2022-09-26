@@ -53,20 +53,34 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             List<Literature> results = new List<Literature>();
 
             SQL = "SELECT * FROM vw_GGTools_Taxon_Literature ";
-            SQL += " WHERE (@StandardAbbreviation    IS NULL OR StandardAbbreviation       LIKE  '%' +   @StandardAbbreviation + '%')";
-            SQL += " AND   (@ReferenceTitle          IS NULL OR ReferenceTitle             LIKE  '%' +   @ReferenceTitle + '%')";
-            SQL += " AND   (@Author                  IS NULL OR EditorAuthorName           LIKE  '%' +   @Author + '%')";
-            SQL += " AND   (@PublicationYear         IS NULL OR PublicationYear            LIKE  '%' +   @PublicationYear + '%')";
-            SQL += " AND   (@CreatedByCooperatorID   IS NULL OR   CreatedByCooperatorID    =             @CreatedByCooperatorID)";
-            SQL += " AND   (@ID                      IS NULL OR   ID                       =             @ID)";
+            SQL += " WHERE (@StandardAbbreviation       IS NULL OR StandardAbbreviation     LIKE    '%' +   @StandardAbbreviation + '%')";
 
+            SQL += " AND    (@ID                        IS NULL OR ID                       =       @ID)";
+            SQL += " AND    (@CreatedByCooperatorID     IS NULL OR CreatedByCooperatorID    =       @CreatedByCooperatorID)";
+            SQL += " AND    (@CreatedDate               IS NULL OR CreatedDate              =       @CreatedDate)";
+            SQL += " AND    (@ModifiedByCooperatorID    IS NULL OR ModifiedByCooperatorID   =       @ModifiedByCooperatorID)";
+            SQL += " AND    (@ModifiedDate              IS NULL OR ModifiedDate             =       @ModifiedDate)";
+            SQL += " AND    (@Note                      IS NULL OR Note                     LIKE    '%' + @Note + '%')";
+
+            SQL += " AND    (@StandardAbbreviation      IS NULL OR StandardAbbreviation     LIKE  '%' +   @StandardAbbreviation + '%')";
+            SQL += " AND    (@LiteratureTypeCode        IS NULL OR LiteratureTypeCode       =       @LiteratureTypeCode)";
+            SQL += " AND    (@ReferenceTitle            IS NULL OR ReferenceTitle           LIKE  '%' +   @ReferenceTitle + '%')";
+            SQL += " AND    (@Author                    IS NULL OR EditorAuthorName         LIKE  '%' +   @Author + '%')";
+            SQL += " AND    (@PublicationYear           IS NULL OR PublicationYear          LIKE  '%' +   @PublicationYear + '%')";
+            
             var parameters = new List<IDbDataParameter> {
                 CreateParameter("ID", searchEntity.ID > 0 ? (object)searchEntity.ID : DBNull.Value, true),
+                CreateParameter("CreatedByCooperatorID", searchEntity.CreatedByCooperatorID > 0 ? (object)searchEntity.CreatedByCooperatorID : DBNull.Value, true),
+                CreateParameter("CreatedDate", searchEntity.CreatedDate > DateTime.MinValue ? (object)searchEntity.CreatedDate : DBNull.Value, true),
+                CreateParameter("ModifiedByCooperatorID", searchEntity.ModifiedByCooperatorID > 0 ? (object)searchEntity.ModifiedByCooperatorID : DBNull.Value, true),
+                CreateParameter("ModifiedDate", searchEntity.ModifiedDate > DateTime.MinValue ? (object)searchEntity.ModifiedDate : DBNull.Value, true),
+                CreateParameter("Note", (object)searchEntity.Note ?? DBNull.Value, true),
+
                 CreateParameter("StandardAbbreviation", (object)searchEntity.StandardAbbreviation ?? DBNull.Value, true),
+                CreateParameter("LiteratureTypeCode", (object)searchEntity.TypeCode ?? DBNull.Value, true),
                 CreateParameter("ReferenceTitle", (object)searchEntity.ReferenceTitle  ?? DBNull.Value, true),
                 CreateParameter("Author", (object)searchEntity.EditorAuthorName  ?? DBNull.Value, true),
                 CreateParameter("PublicationYear", (object)searchEntity.PublicationYear  ?? DBNull.Value, true),
-                CreateParameter("CreatedByCooperatorID", searchEntity.CreatedByCooperatorID > 0 ? (object)searchEntity.CreatedByCooperatorID : DBNull.Value, true),
             };
             results = GetRecords<Literature>(SQL, parameters.ToArray());
             RowsAffected = results.Count;

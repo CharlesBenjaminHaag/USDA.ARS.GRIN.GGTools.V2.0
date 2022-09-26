@@ -14,17 +14,14 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         {
             throw new NotImplementedException();
         }
-
         public int Delete(Author entity)
         {
             throw new NotImplementedException();
         }
-
         public Author Get(int entityId)
         {
             throw new NotImplementedException();
         }
-
         public int Insert(Author entity)
         {
             Reset(CommandType.StoredProcedure);
@@ -44,13 +41,18 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             }
             return RowsAffected;
         }
-
         public List<Author> Search(AuthorSearch searchEntity)
         {
             List<Author> results = new List<Author>();
 
             SQL = "SELECT * FROM vw_GGTools_Taxon_Authors";
             SQL += " WHERE  (@ID                IS NULL     OR  ID = @ID) ";
+            SQL += " AND    (@CreatedByCooperatorID         IS NULL OR CreatedByCooperatorID    =       @CreatedByCooperatorID)";
+            SQL += " AND    (@CreatedDate                   IS NULL OR CreatedDate              =       @CreatedDate)";
+            SQL += " AND    (@ModifiedByCooperatorID        IS NULL OR ModifiedByCooperatorID   =       @ModifiedByCooperatorID)";
+            SQL += " AND    (@ModifiedDate                  IS NULL OR ModifiedDate             =       @ModifiedDate)";
+            SQL += " AND    (@Note                          IS NULL OR Note                     LIKE    '%' + @Note + '%')";
+
             SQL += " AND    (@FullName          IS NULL     OR FullName         LIKE    '%' + @FullName + '%')";
 
             if (searchEntity.IsShortNameExactMatch == "Y")
@@ -64,6 +66,12 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             
             var parameters = new List<IDbDataParameter> {
                 CreateParameter("ID", searchEntity.ID > 0 ? (object)searchEntity.ID : DBNull.Value, true),
+                CreateParameter("CreatedByCooperatorID", searchEntity.CreatedByCooperatorID > 0 ? (object)searchEntity.CreatedByCooperatorID : DBNull.Value, true),
+                CreateParameter("CreatedDate", searchEntity.CreatedDate > DateTime.MinValue ? (object)searchEntity.CreatedDate : DBNull.Value, true),
+                CreateParameter("ModifiedByCooperatorID", searchEntity.ModifiedByCooperatorID > 0 ? (object)searchEntity.ModifiedByCooperatorID : DBNull.Value, true),
+                CreateParameter("ModifiedDate", searchEntity.ModifiedDate > DateTime.MinValue ? (object)searchEntity.ModifiedDate : DBNull.Value, true),
+                CreateParameter("Note", (object)searchEntity.Note ?? DBNull.Value, true),
+               
                 CreateParameter("FullName", (object)searchEntity.FullName ?? DBNull.Value, true),
                 CreateParameter("ShortName", (object)searchEntity.ShortName ?? DBNull.Value, true)
             };
@@ -72,7 +80,6 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             RowsAffected = results.Count;
             return results;
         }
-
         public List<Author> SearchFolderItems(AuthorSearch searchEntity)
         {
             List<Author> results = new List<Author>();
@@ -112,7 +119,6 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             results = GetRecords<Author>(SQL, parameters.ToArray());
             return results;
         }
-
         public int Update(Author entity)
         {
             Reset(CommandType.StoredProcedure);
@@ -135,7 +141,6 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             RowsAffected = cooperators.Count;
             return cooperators;
         }
-
         protected void BuildInsertUpdateParameters(Author entity)
         {
             if (entity.ID > 0)

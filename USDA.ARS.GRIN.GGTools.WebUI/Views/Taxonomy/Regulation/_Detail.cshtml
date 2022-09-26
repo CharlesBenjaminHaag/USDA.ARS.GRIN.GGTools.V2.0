@@ -11,7 +11,6 @@
     <div class="card-body">
         <div class="tab-content">
             <div class="tab-pane active" id="activity">
-
                 <div class="margin" style="margin-bottom:10px;">
                     <div class="btn-group">
                         <a href="@Url.Action("Add","Regulation")" class="btn btn-default btn-sm"><i class="fa fa-plus"></i> New</a>
@@ -20,7 +19,6 @@
                         <button id="btnOpenFolderModal" type="button" class="btn btn-default btn-sm"><i class="fa fa-folder"></i></button>
                     </div>
                 </div>
-
                 <div class="row">
                     <div class="col-md-2">
                         <div class="form-group form-horizontal">
@@ -53,6 +51,7 @@
                         </div>
                     </div>
                 </div>
+                @Html.Partial("~/Views/Taxonomy/Regulation/_DetailExtended.cshtml")
                 <div>
                     <button id="btnReset" type="button" class="btn btn-danger">Reset</button>
                     <div class="btn-group float-right">

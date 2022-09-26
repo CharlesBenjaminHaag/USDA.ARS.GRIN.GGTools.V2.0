@@ -158,11 +158,11 @@ function Reset() {
 $(document).on("click", "[id='btnShowHideExtendedFields']", function () {
     var eventValue = $("#EventValue").val();
     if (eventValue == "EXTENDED") {
-        alert("DEBUG HIDE EXTENDED");
+        /*alert("DEBUG HIDE EXTENDED");*/
         $("#EventValue").val("");
     }
     else {
-        alert("DEBUG SHOW EXTENDED");
+        /*alert("DEBUG SHOW EXTENDED");*/
         $("#EventValue").val("EXTENDED");
     }
 });

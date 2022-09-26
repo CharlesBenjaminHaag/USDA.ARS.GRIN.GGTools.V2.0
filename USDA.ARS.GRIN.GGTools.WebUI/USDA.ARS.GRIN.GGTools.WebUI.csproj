@@ -596,6 +596,15 @@
     <Content Include="Views\Taxonomy\CWRMap\_DetailExtended.cshtml" />
     <Content Include="Views\Taxonomy\CWRTrait\_DetailExtended.cshtml" />
     <Content Include="Views\Taxonomy\Order\_DetailExtended.cshtml" />
+    <Content Include="Views\Taxonomy\CommonName\_DetailExtended.cshtml" />
+    <Content Include="Views\Taxonomy\CommonNameLanguage\_DetailExtended.cshtml" />
+    <Content Include="Views\Taxonomy\EconomicUse\_DetailExtended.cshtml" />
+    <Content Include="Views\Taxonomy\GeographyMap\_DetailExtended.cshtml" />
+    <Content Include="Views\Taxonomy\RegulationMap\_DetailExtended.cshtml" />
+    <Content Include="Views\Taxonomy\Regulation\_DetailExtended.cshtml" />
+    <Content Include="Views\Taxonomy\Geography\_DetailExtended.cshtml" />
+    <Content Include="Views\Taxonomy\Literature\_DetailExtended.cshtml" />
+    <Content Include="Views\Taxonomy\Author\_DetailExtended.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

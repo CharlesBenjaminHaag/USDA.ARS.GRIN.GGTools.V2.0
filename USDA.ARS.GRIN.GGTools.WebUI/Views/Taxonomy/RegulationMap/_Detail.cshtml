@@ -9,7 +9,7 @@
     </div>
     <div class="card-body">
         <div class="tab-content">
-            <div class="tab-pane active" id="activity">
+            <div class="tab-pane active" id="section-search-criteria">
                 <div class="margin" style="margin-bottom:10px;">
                     <div class="btn-group">
                         <a class="btn btn-default btn-sm" href="@Url.Action("Add","RegulationMap")"><i class="fa fa-plus"></i> New</a>
@@ -25,12 +25,6 @@
                             @Html.DropDownListFor(x => x.SearchEntity.CreatedByCooperatorID, Model.Cooperators, "Any Cooperator", new { @class = "form-control" })
                         </div>
                     </div>
-                    <!--<div class="col-md-3">
-            <div id="form-group">
-                <label id="lblStandardAbbreviation">Geography</label>-->
-                    @*@Html.DropDownListFor(x => x.SearchEntity.GeographyID, Model.States, "All states", new { @class = "form-control" })*@
-                    <!--</div>
-        </div>-->
                     <div class="col-md-3">
                         <div class="form-group form-horizontal">
                             <label>Type</label>
@@ -44,8 +38,10 @@
                         </div>
                     </div>
                     <div class="col-md-1">
-                        <label>Taxon Type</label>
-                        @Html.DropDownListFor(x => x.SearchEntity.TableName, Model.TableNames, "All types", new { @class = "form-control" })
+                        <div class="form-group">
+                            <label>Taxon Type</label>
+                            @Html.DropDownListFor(x => x.SearchEntity.TableName, Model.TableNames, "All types", new { @class = "form-control" })
+                        </div>
                     </div>
                     <div class="col-md-3">
                         <div class="form-group form-horizontal">
@@ -54,13 +50,13 @@
                         </div>
                     </div>
                     <div class="col-md-1">
-                        <label>Exempt</label>
-                        @Html.DropDownListFor(x => x.SearchEntity.IsExempt, Model.YesNoOptions, "Either", new { @class = "form-control" })
+                        <div class="form-group">
+                            <label>Exempt</label>
+                            @Html.DropDownListFor(x => x.SearchEntity.IsExempt, Model.YesNoOptions, "Either", new { @class = "form-control" })
+                        </div>
                     </div>
-
                 </div>
-
-
+                @Html.Partial("~/Views/Taxonomy/RegulationMap/_DetailExtended.cshtml")
                 <div>
                     <button id="btnReset" type="button" class="btn btn-danger">Reset</button>
                     <div class="btn-group float-right">

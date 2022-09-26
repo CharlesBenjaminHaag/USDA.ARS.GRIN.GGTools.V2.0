@@ -28,11 +28,12 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
 
             using (CitationManager mgr = new CitationManager())
             {
-                //Cooperators = new SelectList(mgr.GetCooperators("citation"), "ID", "FullName");
+                Cooperators = new SelectList(mgr.GetCooperators("citation"), "ID", "FullName");
                 TableNames = new SelectList(mgr.GetTableNames(), "Key", "Value");
                 YesNoOptions = new SelectList(mgr.GetYesNoOptions(), "Key", "Value");
                 StandardAbbreviations = new SelectList(GetStandardAbbreviations(), "Value", "Title");
                 LiteratureTypes = new SelectList(mgr.GetCodeValues("LITERATURE_TYPE"), "Value", "Title");
+                CitationTypes = new SelectList(mgr.GetCodeValues("CITATION_TYPE"), "Value", "Title");
             }
         }
 
@@ -91,5 +92,6 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
         public SelectList TableNames { get; set; }
         public SelectList StandardAbbreviations { get; set; }
         public SelectList LiteratureTypes { get; set; }
+        public SelectList CitationTypes { get; set; }
     }
 }

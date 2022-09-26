@@ -16,8 +16,14 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         public string CountryCode { get; set; }
         public string StateCode { get; set; }
         public string StateName { get; set; }
+        public string Admin1 { get; set; }
+        public string Admin1Abbrev { get; set; }
         public string Admin1TypeCode { get; set; }
+        public string Admin1TypeDescription { get; set; }
+        public string Admin2 { get; set; }
+        public string Admin2Abbrev { get; set; }
         public string Admin2TypeCode { get; set; }
+        public string Admin2TypeDescription { get; set; }
         public string IsValid { get; set; }
         public string Title { get; set; }
         public string ContinentIDList { get; set; }

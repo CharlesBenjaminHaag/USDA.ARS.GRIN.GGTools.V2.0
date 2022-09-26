@@ -37,15 +37,21 @@
                                     <td>
                                         @result.ID
                                     </td>
-                                    <td><a href="@Url.Action("Edit","Genus", new { @entityId = result.ID })">@Html.Raw(result.Name)</a></td>
                                     <td>
-                                        @Html.Raw(result.FamilyAssembledName)
+                                        <a href="@Url.Action("Edit","Genus", new { @entityId = result.ID })">
+                                            @Html.Raw(result.AssembledName)
+                                        </a>
                                     </td>
                                     <td>
-                                        @result.QualifyingCode
+                                        <a href="@Url.Action("Edit","Family", new { @entityId = result.FamilyID })">
+                                            @Html.Raw(result.FamilyAssembledName)
+                                        </a>
                                     </td>
                                     <td>
-                                        @result.HybridCode
+                                        @result.QualifyingCodeTitle
+                                    </td>
+                                    <td>
+                                        @result.HybridCodeTitle
                                     </td>
                                     <td style="text-align:center;">@Html.Raw(Model.FormatBoolean(result.IsAcceptedName))</td>
                                     <td style="text-align:right;">

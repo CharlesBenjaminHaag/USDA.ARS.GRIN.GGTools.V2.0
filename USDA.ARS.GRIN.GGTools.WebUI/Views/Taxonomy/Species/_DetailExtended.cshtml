@@ -17,6 +17,32 @@
                     @Html.TextBoxFor(x => x.SearchEntity.ID, new { @class = "form-control" })
                 </div>
             </div>
+            <div class="col-md-2">
+                <div class="form-group form-horizontal">
+                    <label>Created Date</label>
+                    @Html.TextBoxFor(x => x.SearchEntity.CreatedDate, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group form-horizontal">
+                    <label>Modified By</label>
+                    @Html.DropDownListFor(x => x.SearchEntity.ModifiedByCooperatorID, Model.Cooperators, "All Cooperators", new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group form-horizontal">
+                    <label>Modified Date</label>
+                    @Html.TextBoxFor(x => x.SearchEntity.ModifiedDate, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="col-md-5">
+                <div class="form-group form-horizontal">
+                    <label>Note</label>
+                    @Html.TextBoxFor(x => x.SearchEntity.Note, new { @class = "form-control" })
+                </div>
+            </div>
+        </div>
+        <div class="row">
             <div class="col-sm-1">
                 <div class="form-group form-horizontal">
                     <label>Current ID</label>
@@ -123,12 +149,6 @@
                 <div class="form-group form-horizontal">
                     <label>Forma Rank Type</label>
                     @Html.DropDownListFor(x => x.SearchEntity.FormaRankType, Model.FormaRankTypes, "All types", new { @class = "form-control" })
-                </div>
-            </div>
-            <div class="col-sm-3">
-                <div class="form-group form-horizontal">
-                    <label>Note</label>
-                    @Html.TextBoxFor(x => x.SearchEntity.Note, new { @class = "form-control" })
                 </div>
             </div>
             <div class="col-sm-3">

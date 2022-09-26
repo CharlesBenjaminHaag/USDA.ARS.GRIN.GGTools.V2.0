@@ -79,7 +79,7 @@
                         <div class="col-md-2">
                             <div class="form-group clearfix" style="margin-top:40px;">
                                 <div class="icheck-primary d-inline">
-                                    @Html.CheckBoxFor(x=>x.SearchEntity.IsValidOption, new { @id = "checkboxPrimary1" })
+                                    @Html.CheckBoxFor(x => x.SearchEntity.IsValidOption, new { @id = "checkboxPrimary1" })
                                     <label for="checkboxPrimary1">
                                         Search Valid Countries Only
                                     </label>
@@ -87,6 +87,7 @@
                             </div>
                         </div>
                     </div>
+                    @Html.Partial("~/Views/Taxonomy/GeographyMap/_DetailExtended.cshtml")
                 </div>
                 <div>
                     <button id="btnReset" type="button" class="btn btn-danger">Reset</button>

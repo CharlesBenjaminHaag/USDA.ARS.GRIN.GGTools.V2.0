@@ -3,10 +3,10 @@
     ViewBag.Title = Model.PageTitle;
     Layout = "~/Views/Shared/_LayoutAdminLTE3.cshtml";
 }
-
 @using (Html.BeginForm("Search", "RegulationMap", FormMethod.Post, new { id = "frmMain" }))
 {
     @Html.HiddenFor(x => x.EventAction)
+    @Html.HiddenFor(x => x.EventValue)
     @Html.HiddenFor(x => x.TableName)
     @Html.HiddenFor(x => x.TableCode)
     @Html.HiddenFor(x => x.PageTitle)
@@ -21,6 +21,7 @@
 <script type="text/javascript">
     $(document).ready(function () {
         Init();
+        SetExtendedFields();
     });
 
     function Init() {

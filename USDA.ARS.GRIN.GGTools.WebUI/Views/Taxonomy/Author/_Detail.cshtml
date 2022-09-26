@@ -1,6 +1,4 @@
 ﻿@model USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer.AuthorViewModelBase
-
-
 <div class="card">
     <div class="card-header p-2">
         <ul class="nav nav-pills">
@@ -31,6 +29,7 @@
                         </div>
                     </div>
                 </div>
+                @Html.Partial("~/Views/Taxonomy/Author/_DetailExtended.cshtml")
                 <div>
                     <button id="btnReset" type="button" class="btn btn-danger">Reset</button>
                     <div class="btn-group float-right">

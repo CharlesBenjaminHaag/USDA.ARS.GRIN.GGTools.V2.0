@@ -7,6 +7,7 @@
 @using (Html.BeginForm("Search", "Literature", FormMethod.Post, new { id = "frmMain" }))
 {
     @Html.HiddenFor(x => x.EventAction)
+    @Html.HiddenFor(x => x.EventValue)
     @Html.HiddenFor(x => x.TableName)
     @Html.HiddenFor(x => x.TableCode)
     @Html.HiddenFor(x => x.PageTitle)
@@ -21,6 +22,7 @@
 
     $(document).ready(function () {
         Init();
+        SetExtendedFields();
     });
 
     function Init() {

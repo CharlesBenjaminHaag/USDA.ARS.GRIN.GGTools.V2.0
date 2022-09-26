@@ -47,6 +47,8 @@
                                     @Html.TextBoxFor(x => x.SearchEntity.CitationTitle, new { @class = "form-control" })
                                 </div>
                             </div>
+                        </div>
+                        <div class="row">
                             <div class="col-md-3">
                                 <div id="form-group">
                                     <label>Editor/Author</label>
@@ -54,12 +56,14 @@
                                 </div>
                             </div>
                             <div class="col-md-1">
-                                <div id="form-group">
+                                <div id="form-group form-group-horizontal">
                                     <label>Cit. Year</label>
                                     @Html.TextBoxFor(x => x.SearchEntity.CitationYear, new { @class = "form-control" })
                                 </div>
                             </div>
                         </div>
+                        <br />
+                        @Html.Partial("~/Views/Taxonomy/Citation/_DetailExtended.cshtml")
                     }
                 </div>
                 <div>

@@ -13,10 +13,36 @@
             <div class="col-sm-1">
                 <div class="form-group form-horizontal">
                     <label>ID</label>
-                    @Html.TextBoxFor(x=>x.SearchEntity.ID, new { @class="form-control" })
+                    @Html.TextBoxFor(x => x.SearchEntity.ID, new { @class = "form-control" })
                 </div>
             </div>
-            <div class="col-sm-1">
+            <div class="col-md-2">
+                <div class="form-group form-horizontal">
+                    <label>Created Date</label>
+                    @Html.TextBoxFor(x => x.SearchEntity.CreatedDate, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group form-horizontal">
+                    <label>Modified By</label>
+                    @Html.DropDownListFor(x => x.SearchEntity.ModifiedByCooperatorID, Model.Cooperators, "All Cooperators", new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group form-horizontal">
+                    <label>Modified Date</label>
+                    @Html.TextBoxFor(x => x.SearchEntity.ModifiedDate, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="col-md-5">
+                <div class="form-group form-horizontal">
+                    <label>Note</label>
+                    @Html.TextBoxFor(x => x.SearchEntity.Note, new { @class = "form-control" })
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-3">
                 <div class="form-group form-horizontal">
                     <label>Reference Title</label>
                     @Html.TextBoxFor(x => x.SearchEntity.ReferenceTitle, new { @class = "form-control" })
@@ -24,17 +50,11 @@
             </div>
             <div class="col-sm-3">
                 <div class="form-group form-horizontal">
-                    <label>Taxon Name</label>
-                    @Html.TextBoxFor(x => x.SearchEntity.TaxonName, new { @class = "form-control" })
+                    <label>Citation Type</label>
+                    @Html.DropDownListFor(x => x.SearchEntity.CitationType, Model.CitationTypes, "All Types", new { @class = "form-control" })
                 </div>
             </div>
             <div class="col-sm-3">
-                <div class="form-group form-horizontal">
-                    <label>Citation Type</label>
-                    @Html.TextBoxFor(x => x.SearchEntity.CitationType, new { @class = "form-control" })
-                </div>
-            </div>
-            <div class="col-sm-2">
                 <div class="form-group form-horizontal">
                     <label>Citation Author Name</label>
                     @Html.TextBoxFor(x => x.SearchEntity.LiteratureAuthorName, new { @class = "form-control" })
@@ -55,7 +75,25 @@
             <div class="col-sm-3">
                 <div class="form-group form-horizontal">
                     <label>Accepted Name</label>
-                    @Html.DropDownListFor(x=>x.SearchEntity.IsAcceptedName, Model.YesNoOptions, new { @class = "form-control" })
+                    @Html.DropDownListFor(x => x.SearchEntity.IsAcceptedName, Model.YesNoOptions, "Either", new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="form-group form-horizontal">
+                    <label>Family Name</label>
+                    @Html.TextBoxFor(x => x.SearchEntity.FamilyName, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="form-group form-horizontal">
+                    <label>Genus Name</label>
+                    @Html.TextBoxFor(x => x.SearchEntity.GenusName, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="form-group form-horizontal">
+                    <label>Species Name</label>
+                    @Html.TextBoxFor(x => x.SearchEntity.SpeciesName, new { @class = "form-control" })
                 </div>
             </div>
         </div>

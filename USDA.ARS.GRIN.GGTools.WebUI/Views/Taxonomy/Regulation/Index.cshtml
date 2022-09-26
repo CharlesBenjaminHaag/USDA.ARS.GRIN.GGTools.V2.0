@@ -7,6 +7,7 @@
 @using (Html.BeginForm("Search", "Regulation", FormMethod.Post, new { id = "frmMain" }))
 {
     @Html.HiddenFor(x => x.EventAction)
+    @Html.HiddenFor(x => x.EventValue)
     @Html.HiddenFor(x => x.TableName)
     @Html.HiddenFor(x => x.TableCode)
     @Html.HiddenFor(x => x.PageTitle)
@@ -31,25 +32,9 @@
 
     $(document).ready(function () {
         Init();
+        SetExtendedFields();
     });
 
     function Init() {
-        var eventAction = $("#EventAction").val();
-        if (eventAction == "SHOW-SEARCH") {
-            $("#section-search-criteria").show();
-        }
     }
-
-    $(document).on("click", "[id='btnSubmitSearch']", function () {
-        event.preventDefault();
-        if ($("#section-search-criteria").is(":visible")) {
-            $("#EventAction").val("SHOW-SEARCH");
-        }
-        $("#frmMain").submit();
-    });
-
-    $(document).on("click", "[id='btnReset']", function () {
-        Reset();
-    });
-
 </script>

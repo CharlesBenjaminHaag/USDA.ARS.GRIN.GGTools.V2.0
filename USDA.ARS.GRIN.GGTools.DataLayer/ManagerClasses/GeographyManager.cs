@@ -54,19 +54,26 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             string whereClause = String.Empty;
 
             SQL = " SELECT * FROM vw_GGTools_GRINGlobal_Geographies ";
-            SQL += " WHERE  (@CreatedByCooperatorID     IS NULL OR   CreatedByCooperatorID      =       @CreatedByCooperatorID)";
-            SQL += " AND    (@ID                        IS NULL OR   ID                         =       @ID)";
+            // EXTENDED
+            SQL += " WHERE  (@ID   IS NULL OR ID       =         @ID)";
+            SQL += " AND    (@CreatedByCooperatorID         IS NULL OR CreatedByCooperatorID    =       @CreatedByCooperatorID)";
+            SQL += " AND    (@CreatedDate                   IS NULL OR CreatedDate              =       @CreatedDate)";
+            SQL += " AND    (@ModifiedByCooperatorID        IS NULL OR ModifiedByCooperatorID   =       @ModifiedByCooperatorID)";
+            SQL += " AND    (@ModifiedDate                  IS NULL OR ModifiedDate             =       @ModifiedDate)";
+            SQL += " AND    (@Note                          IS NULL OR Note                     LIKE    '%' + @Note + '%')";
+
             SQL += " AND    (@CountryCode               IS NULL OR   CountryCode                =       @CountryCode)";
             SQL += " AND    (@ContinentRegionID         IS NULL OR   ContinentRegionID          =       @ContinentRegionID)";
             SQL += " AND    (@SubContinentRegionID      IS NULL OR   SubContinentRegionID       =       @SubContinentRegionID)";
             SQL += " AND    (@IsValid                   IS NULL OR   IsValid                    =       @IsValid)";
 
-            //if (searchEntity.IsUSOnly == "Y")
-            //{
-            //    SQL += " AND CountryCode IN ('165','USA')";
-            //    SQL += " AND Admin1TypeCode IN ('107','23')";
-            //    SQL += " AND Admin2 IS NULL";
-            //}
+            // EXTENDED
+            SQL += " AND    (@Admin1 IS NULL OR Admin1 COLLATE Latin1_General_CI_AI LIKE '%' + @Admin1 + '%')";
+            SQL += " AND    (@Admin1Abbrev IS NULL OR Admin1Abbrev LIKE '%' + @Admin1Abbrev + '%')";
+            SQL += " AND    (@Admin1TypeCode IS NULL OR Admin1TypeCode = @Admin1TypeCode)";
+            SQL += " AND    (@Admin2 IS NULL OR Admin2 COLLATE Latin1_General_CI_AI LIKE '%' + @Admin2 + '%')";
+            SQL += " AND    (@Admin2Abbrev IS NULL OR Admin2Abbrev LIKE '%' + @Admin2Abbrev + '%')";
+            SQL += " AND    (@Admin2TypeCode IS NULL OR Admin2TypeCode = @Admin2TypeCode)";
 
             if (!String.IsNullOrEmpty(searchEntity.ContinentIDList))
             {
@@ -99,12 +106,26 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             SQL += " ORDER BY Continent, SubContinent, CountryDescription ";
 
             var parameters = new List<IDbDataParameter> {
-                CreateParameter("CreatedByCooperatorID", searchEntity.CreatedByCooperatorID > 0 ? (object)searchEntity.CreatedByCooperatorID : DBNull.Value, true),
+                //EXTENDED
                 CreateParameter("ID", searchEntity.ID > 0 ? (object)searchEntity.ID : DBNull.Value, true),
+                CreateParameter("CreatedByCooperatorID", searchEntity.CreatedByCooperatorID > 0 ? (object)searchEntity.CreatedByCooperatorID : DBNull.Value, true),
+                CreateParameter("CreatedDate", searchEntity.CreatedDate > DateTime.MinValue ? (object)searchEntity.CreatedDate : DBNull.Value, true),
+                CreateParameter("ModifiedByCooperatorID", searchEntity.ModifiedByCooperatorID > 0 ? (object)searchEntity.ModifiedByCooperatorID : DBNull.Value, true),
+                CreateParameter("ModifiedDate", searchEntity.ModifiedDate > DateTime.MinValue ? (object)searchEntity.ModifiedDate : DBNull.Value, true),
+                CreateParameter("Note", (object)searchEntity.Note ?? DBNull.Value, true),
+
                 CreateParameter("ContinentRegionID", searchEntity.ContinentRegionID > 0 ? (object)searchEntity.ContinentRegionID : DBNull.Value, true),
                 CreateParameter("SubContinentRegionID", searchEntity.SubContinentRegionID > 0 ? (object)searchEntity.SubContinentRegionID : DBNull.Value, true),
                 CreateParameter("CountryCode", (object)searchEntity.CountryCode ?? DBNull.Value, true),
                 CreateParameter("IsValid", (object)searchEntity.IsValid ?? DBNull.Value, true),
+                
+                //EXTENDED 
+                CreateParameter("Admin1", (object)searchEntity.Admin1 ?? DBNull.Value, true),
+                CreateParameter("Admin1Abbrev", (object)searchEntity.Admin1Abbrev ?? DBNull.Value, true),
+                CreateParameter("Admin1TypeCode", (object)searchEntity.Admin1TypeCode ?? DBNull.Value, true),
+                CreateParameter("Admin2", (object)searchEntity.Admin2 ?? DBNull.Value, true),
+                CreateParameter("Admin2Abbrev", (object)searchEntity.Admin2Abbrev ?? DBNull.Value, true),
+                CreateParameter("Admin2TypeCode", (object)searchEntity.Admin2TypeCode ?? DBNull.Value, true),
             };
 
             results = GetRecords<Geography>(SQL, parameters.ToArray());

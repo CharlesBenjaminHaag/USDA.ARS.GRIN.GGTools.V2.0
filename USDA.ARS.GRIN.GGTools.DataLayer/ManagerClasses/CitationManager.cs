@@ -31,7 +31,6 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
 
             return entity.ID;
         }
-
         public int InsertClone(Citation entity)
         {
             Reset(CommandType.StoredProcedure);
@@ -57,7 +56,6 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
 
             return entity.ID;
         }
-
         public int Update(Citation entity)
         {
             Reset(CommandType.StoredProcedure);
@@ -77,7 +75,6 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
 
             return RowsAffected;
         }
-
         public int UpdateReference(string tableName, int entityId, int citationId, int modifiedBy)
         {
             Reset(CommandType.StoredProcedure);
@@ -98,12 +95,10 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
 
             return RowsAffected;
         }
-
         public int Delete(Citation entity)
         {
             throw new NotImplementedException();
         }
-
         public int DeleteReference(string tableName, int entityId, int modifiedBy)
         {
             Reset(CommandType.StoredProcedure);
@@ -126,27 +121,34 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         {
             return null;
         }
-
         public List<Citation> Search(CitationSearch searchEntity)
         {
             List<Citation> results = new List<Citation>();
 
             SQL = "SELECT * FROM vw_GGTools_Taxon_Citations ";
-            SQL += " WHERE      (@ID                            IS NULL OR ID                           =       @ID)";
-            SQL += " AND        (@LiteratureTypeCode            IS NULL OR LiteratureTypeCode           =       @LiteratureTypeCode)";
-            SQL += " AND        (@FamilyID                      IS NULL OR FamilyID                     =       @FamilyID)";
-            SQL += " AND        (@GenusID                       IS NULL OR GenusID                      =       @GenusID)";
-            SQL += " AND        (@SpeciesID                     IS NULL OR SpeciesID                    =       @SpeciesID)";
-            SQL += " AND        (@TableName                     IS NULL OR TableName                    =       @TableName) ";
-            SQL += " AND        (@CreatedByCooperatorID         IS NULL OR CreatedByCooperatorID        =       @CreatedByCooperatorID)";
-            SQL += " AND        (@StandardAbbreviation          IS NULL OR StandardAbbreviation         =       @StandardAbbreviation)";
-            SQL += " AND        (@Abbreviation                  IS NULL OR Abbreviation                 LIKE    '%' + @Abbreviation + '%')";
-            SQL += " AND        (@CitationTitle                 IS NULL OR CitationTitle                LIKE    '%' + @CitationTitle + '%')";
-            SQL += " AND        (@CitationAuthorName            IS NULL OR CitationAuthorName           LIKE    '%' + @CitationAuthorName + '%')";
-            SQL += " AND        (@CitationYear                  IS NULL OR CitationYear                 LIKE    '%' + @CitationYear + '%')";
-            SQL += " AND        (@CitationType                  IS NULL OR CitationType                 =       @CitationType)";
-            SQL += " AND        (@Note                          IS NULL OR Note                         LIKE    '%' + @Note + '%')";
-            SQL += " AND        (@ReferenceTitle                IS NULL OR ReferenceTitle               LIKE    '%' + @ReferenceTitle + '%')";
+
+            SQL += " WHERE      (@ID                            IS NULL OR ID                       =       @ID)";
+            SQL += " AND        (@CreatedByCooperatorID         IS NULL OR CreatedByCooperatorID    =       @CreatedByCooperatorID)";
+            SQL += " AND        (@CreatedDate                   IS NULL OR CreatedDate              =       @CreatedDate)";
+            SQL += " AND        (@ModifiedByCooperatorID        IS NULL OR ModifiedByCooperatorID   =       @ModifiedByCooperatorID)";
+            SQL += " AND        (@ModifiedDate                  IS NULL OR ModifiedDate             =       @ModifiedDate)";
+            SQL += " AND        (@Note                          IS NULL OR Note                     LIKE    '%' + @Note + '%')";
+
+            SQL += " AND        (@LiteratureID                  IS NULL OR LiteratureID             =       @LiteratureID)";
+            SQL += " AND        (@LiteratureTypeCode            IS NULL OR LiteratureTypeCode       =       @LiteratureTypeCode)";
+            SQL += " AND        (@FamilyID                      IS NULL OR FamilyID                 =       @FamilyID)";
+            SQL += " AND        (@GenusID                       IS NULL OR GenusID                  =       @GenusID)";
+            SQL += " AND        (@SpeciesID                     IS NULL OR SpeciesID                =       @SpeciesID)";
+            SQL += " AND        (@FamilyName                    IS NULL OR FamilyName               =       @FamilyName) ";
+            SQL += " AND        (@GenusName                     IS NULL OR GenusName                =       @GenusName) ";
+            SQL += " AND        (@SpeciesName                    IS NULL OR SpeciesName              =       @SpeciesName) ";
+            SQL += " AND        (@StandardAbbreviation          IS NULL OR StandardAbbreviation     =       @StandardAbbreviation)";
+            SQL += " AND        (@Abbreviation                  IS NULL OR Abbreviation             LIKE    '%' + @Abbreviation + '%')";
+            SQL += " AND        (@CitationTitle                 IS NULL OR CitationTitle            LIKE    '%' + @CitationTitle + '%')";
+            SQL += " AND        (@EditorAuthorName              IS NULL OR EditorAuthorName         LIKE    '%' + @EditorAuthorName + '%')";
+            SQL += " AND        (@CitationYear                  IS NULL OR CitationYear             LIKE    '%' + @CitationYear + '%')";
+            SQL += " AND        (@CitationType                  IS NULL OR CitationType             =       @CitationType)";
+            SQL += " AND        (@ReferenceTitle                IS NULL OR ReferenceTitle           LIKE    '%' + @ReferenceTitle + '%')";
 
             if (!String.IsNullOrEmpty(searchEntity.FamilyIDList))
             {
@@ -173,19 +175,26 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
 
             var parameters = new List<IDbDataParameter> {
                 CreateParameter("ID", searchEntity.ID > 0 ? (object)searchEntity.ID : DBNull.Value, true),
+                CreateParameter("CreatedByCooperatorID", searchEntity.CreatedByCooperatorID > 0 ? (object)searchEntity.CreatedByCooperatorID : DBNull.Value, true),
+                CreateParameter("CreatedDate", searchEntity.CreatedDate > DateTime.MinValue ? (object)searchEntity.CreatedDate : DBNull.Value, true),
+                CreateParameter("ModifiedByCooperatorID", searchEntity.ModifiedByCooperatorID > 0 ? (object)searchEntity.ModifiedByCooperatorID : DBNull.Value, true),
+                CreateParameter("ModifiedDate", searchEntity.ModifiedDate > DateTime.MinValue ? (object)searchEntity.ModifiedDate : DBNull.Value, true),
+                CreateParameter("Note", (object)searchEntity.Note ?? DBNull.Value, true),
+
+                CreateParameter("LiteratureID", searchEntity.LiteratureID > 0 ? (object)searchEntity.LiteratureID : DBNull.Value, true),
                 CreateParameter("LiteratureTypeCode", (object)searchEntity.LiteratureTypeCode ?? DBNull.Value, true),
                 CreateParameter("FamilyID", searchEntity.FamilyID > 0 ? (object)searchEntity.FamilyID : DBNull.Value, true),
                 CreateParameter("GenusID", searchEntity.GenusID > 0 ? (object)searchEntity.GenusID : DBNull.Value, true),
                 CreateParameter("SpeciesID", searchEntity.SpeciesID > 0 ? (object)searchEntity.SpeciesID : DBNull.Value, true),
-                CreateParameter("TableName", (object)searchEntity.TableName ?? DBNull.Value, true),
-                CreateParameter("CreatedByCooperatorID", searchEntity.CreatedByCooperatorID > 0 ? (object)searchEntity.CreatedByCooperatorID : DBNull.Value, true),
+                CreateParameter("FamilyName", (object)searchEntity.FamilyName ?? DBNull.Value, true),
+                CreateParameter("GenusName", (object)searchEntity.GenusName ?? DBNull.Value, true),
+                CreateParameter("SpeciesName", (object)searchEntity.SpeciesName ?? DBNull.Value, true),
                 CreateParameter("StandardAbbreviation", (object)searchEntity.StandardAbbreviation ?? DBNull.Value, true),
                 CreateParameter("Abbreviation", (object)searchEntity.Abbreviation ?? DBNull.Value, true),
                 CreateParameter("CitationTitle", (object)searchEntity.CitationTitle ?? DBNull.Value, true),
-                CreateParameter("CitationAuthorName", (object)searchEntity.EditorAuthorName ?? DBNull.Value, true),
+                CreateParameter("EditorAuthorName", (object)searchEntity.EditorAuthorName ?? DBNull.Value, true),
                 CreateParameter("CitationYear", (object)searchEntity.CitationYear ?? DBNull.Value, true),
                 CreateParameter("CitationType", (object)searchEntity.CitationType ?? DBNull.Value, true),
-                CreateParameter("Note", (object)searchEntity.Note ?? DBNull.Value, true),
                 CreateParameter("ReferenceTitle", (object)searchEntity.ReferenceTitle ?? DBNull.Value, true)
             };
 
@@ -194,8 +203,6 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
 
             return results;
         }
-
-
         public List<Citation> SearchFolderItems(CitationSearch searchEntity)
         {
             List<Citation> results = new List<Citation>();
@@ -221,7 +228,6 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         {
             throw new NotImplementedException();
         }
-
         public void BuildInsertUpdateParameters(Citation entity)
         {
             if (entity.ID > 0)
@@ -260,7 +266,6 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
                 AddParameter("created_by", entity.CreatedByCooperatorID == 0 ? DBNull.Value : (object)entity.CreatedByCooperatorID, true);
             }
         }
-
         public virtual List<Cooperator> GetCooperators(string tableName)
         {
             SQL = "usp_GGTools_GRINGlobal_CreatedByCooperators_Select";
@@ -302,7 +307,6 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             RowsAffected = codeValues.Count;
             return codeValues;
         }
-
         public List<CodeValue> GetAbbreviations()
         {
             List<CodeValue> codeValues = new List<CodeValue>();

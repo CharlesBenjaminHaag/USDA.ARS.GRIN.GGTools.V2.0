@@ -3,12 +3,11 @@
     ViewBag.Title = Model.PageTitle;
     Layout = "~/Views/Shared/_LayoutAdminLTE3.cshtml";
 }
-
-
 @using (Html.BeginForm("Search", "GeographyMap", FormMethod.Post, new { id = "frmMain" }))
 {
     @Html.HiddenFor(x => x.EventAction)
-    @Html.HiddenFor(x => x.TableName)
+    @Html.HiddenFor(x => x.EventValue)
+    @Html.HiddenFor(x => x.EventAction)
     @Html.HiddenFor(x => x.TableCode)
     @Html.HiddenFor(x => x.PageTitle)
     @Html.HiddenFor(x => x.AuthenticatedUserCooperatorID)
@@ -34,36 +33,11 @@
 
     $(document).ready(function () {
         Init();
-        InitDataTable("data-table-geography-map");
+        SetExtendedFields();
     });
 
     function Init() {
-        var eventAction = $("#EventAction").val();
-        if (eventAction == "SHOW-SEARCH") {
-            $("#section-search-criteria").show();
-        }
     }
-
-    $(document).on("click", "[id='btnOpenSaveSearchModal']", function () {
-        $("#EventAction").val("SAVE-SEARCH");
-        $("#modal-save-search").modal("show");
-    });
-
-    $(document).on("click", "[id='btnSaveSearch']", function () {
-        var saveSearchTitle = $("#txtSaveSearchTitle").val();
-        var saveSearchDescription = $("#txtSaveSearchDescription").val();
-
-        $("#SearchEntity_SaveSearchTitle").val(saveSearchTitle);
-        $("#SearchEntity_SaveSearchDescription").val(saveSearchDescription);
-
-        $("#modal-save-search").modal("hide");
-        $("#frmMain").submit();
-    });
-
-
-    $(document).on("click", "[id='btnReset']", function () {
-        Reset("data-table-cwr-map");
-    });
 
     /*
      * ===============================================================================

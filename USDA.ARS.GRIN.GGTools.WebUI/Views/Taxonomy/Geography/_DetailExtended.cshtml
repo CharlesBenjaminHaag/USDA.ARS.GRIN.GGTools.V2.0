@@ -1,5 +1,4 @@
-﻿@model USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer.GenusViewModel
-
+﻿@model USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer.GeographyViewModelBase
 <div id="section-extended-search-fields" class="card card-default card-outline collapsed-card">
     <div class="card-header">
         <h3 class="card-title">Extended Fields</h3>
@@ -41,52 +40,30 @@
                     @Html.TextBoxFor(x => x.SearchEntity.Note, new { @class = "form-control" })
                 </div>
             </div>
-            </div>
-        <div class="row">
-            <div class="col-md-3">
-                <div class="form-group form-horizontal">
-                    <label>Accepted Name</label>
-                    @Html.TextBoxFor(x => x.SearchEntity.AcceptedName, new { @class = "form-control" })
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="form-group form-horizontal">
-                    <label>Authority</label>
-                    @Html.TextBoxFor(x => x.SearchEntity.Authority, new { @class = "form-control" })
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="form-group form-horizontal">
-                    <label>Subgenus</label>
-                    @Html.TextBoxFor(x => x.SearchEntity.SubgenusName, new { @class = "form-control" })
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="form-group form-horizontal">
-                    <label>Section</label>
-                    @Html.TextBoxFor(x => x.SearchEntity.SectionName, new { @class = "form-control" })
-                </div>
-            </div>
         </div>
         <div class="row">
             <div class="col-md-3">
                 <div class="form-group form-horizontal">
-                    <label>Subsection</label>
-                    @Html.TextBoxFor(x => x.SearchEntity.SubSectionName, new { @class = "form-control" })
+                    <label>Admin1</label>
+                    @Html.TextBoxFor(x => x.SearchEntity.Admin1, new { @class = "form-control" })
                 </div>
             </div>
             <div class="col-md-3">
                 <div class="form-group form-horizontal">
-                    <label>Series</label>
-                    @Html.TextBoxFor(x => x.SearchEntity.SeriesName, new { @class = "form-control" })
+                    <label>Admin1 Abbrev</label>
+                    @Html.TextBoxFor(x => x.SearchEntity.Admin1Abbrev, new { @class = "form-control" })
                 </div>
             </div>
-        </div>
-        <div class="row">
             <div class="col-md-3">
                 <div class="form-group form-horizontal">
-                    <label>Subseries</label>
-                    @Html.TextBoxFor(x => x.SearchEntity.SubseriesName, new { @class = "form-control" })
+                    <label>Admin1 Type</label>
+                    @Html.TextBoxFor(x => x.SearchEntity.Admin1TypeCode, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group form-horizontal">
+                    <label>Admin2</label>
+                    @Html.TextBoxFor(x => x.SearchEntity.Admin2, new { @class = "form-control" })
                 </div>
             </div>
         </div>

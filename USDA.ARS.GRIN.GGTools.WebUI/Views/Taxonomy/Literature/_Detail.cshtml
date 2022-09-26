@@ -19,6 +19,12 @@
                     @Html.DropDownListFor(x => x.SearchEntity.CreatedByCooperatorID, Model.Cooperators, "All cooperators", new { @class = "form-control" })
                 </div>
             </div>
+            <div class="col-md-2">
+                <div id="section-family-type" class="form-group form-horizontal">
+                    <label>Type</label>
+                    @Html.DropDownListFor(x => x.SearchEntity.TypeCode, Model.LiteratureTypes, "All Types", new { @class = "form-control" })
+                </div>
+            </div>
             <div class="col-md-3">
                 <div class="form-group form-horizontal">
                     <label>Std. Abbrev.</label>
@@ -44,6 +50,7 @@
                 </div>
             </div>
         </div>
+        @Html.Partial("~/Views/Taxonomy/Literature/_DetailExtended.cshtml")
     </div>
     <div class="card-footer">
         <button id="btnReset" type="button" class="btn btn-danger">Reset</button>

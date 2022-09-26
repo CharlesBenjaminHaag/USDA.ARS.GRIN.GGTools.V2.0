@@ -24,16 +24,6 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             throw new NotImplementedException();
         }
 
-        //public List<Citation> GetAvailableCitations(int speciesId)
-        //{
-        //    SQL = "usp_TaxonomySpeciesCitationsWithSynonyms_Select";
-        //    var parameters = new List<IDbDataParameter> {
-        //        CreateParameter("taxonomy_species_id", (object)speciesId, false)
-        //    };
-        //    List<Citation> citations = GetRecords<Citation>(SQL, CommandType.StoredProcedure, parameters.ToArray());
-        //    return citations;
-        //}
-
         public virtual int Insert(CommonName entity)
         {
             Reset(CommandType.StoredProcedure);
@@ -84,8 +74,14 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             List<CommonName> results = new List<CommonName>();
 
             SQL = "SELECT * FROM vw_GGTools_Taxon_CommonNames ";
-           
-            SQL += " WHERE  (@ID                    IS NULL OR  ID = @ID) ";
+
+            SQL += " WHERE  (@ID   IS NULL OR ID       =         @ID)";
+            SQL += " AND    (@CreatedByCooperatorID         IS NULL OR CreatedByCooperatorID    =       @CreatedByCooperatorID)";
+            SQL += " AND    (@CreatedDate                   IS NULL OR CreatedDate              =       @CreatedDate)";
+            SQL += " AND    (@ModifiedByCooperatorID        IS NULL OR ModifiedByCooperatorID   =       @ModifiedByCooperatorID)";
+            SQL += " AND    (@ModifiedDate                  IS NULL OR ModifiedDate             =       @ModifiedDate)";
+            SQL += " AND    (@Note                          IS NULL OR Note                     LIKE    '%' + @Note + '%')";
+
             SQL += " AND    (@GenusID               IS NULL OR  GenusID = @GenusID) ";
             SQL += " AND    (@SpeciesID             IS NULL OR  SpeciesID = @SpeciesID) ";
             SQL += " AND    (@CreatedByCooperatorID IS NULL OR  CreatedByCooperatorID = @CreatedByCooperatorID)";
@@ -96,19 +92,22 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             SQL += " AND    (@Name                  IS NULL OR  Name                        LIKE    '%' + @Name + '%') ";
             SQL += " AND    (@LanguageDescription   IS NULL OR  LanguageDescription         LIKE    '%' + @LanguageDescription + '%') ";
             SQL += " AND    (@SimplifiedName        IS NULL OR  SimplifiedName              LIKE    '%' + @SimplifiedName + '%') ";
-            SQL += " AND    (@Note                  IS NULL OR  Note                        LIKE    '%' + @Note + '%') ";
-
+     
             var parameters = new List<IDbDataParameter> {
                 CreateParameter("ID", searchEntity.ID > 0 ? (object)searchEntity.ID : DBNull.Value, true),
+                CreateParameter("CreatedByCooperatorID", searchEntity.CreatedByCooperatorID > 0 ? (object)searchEntity.CreatedByCooperatorID : DBNull.Value, true),
+                CreateParameter("CreatedDate", searchEntity.CreatedDate > DateTime.MinValue ? (object)searchEntity.CreatedDate : DBNull.Value, true),
+                CreateParameter("ModifiedByCooperatorID", searchEntity.ModifiedByCooperatorID > 0 ? (object)searchEntity.ModifiedByCooperatorID : DBNull.Value, true),
+                CreateParameter("ModifiedDate", searchEntity.ModifiedDate > DateTime.MinValue ? (object)searchEntity.ModifiedDate : DBNull.Value, true),
+                CreateParameter("Note", (object)searchEntity.Note ?? DBNull.Value, true),
+
                 CreateParameter("GenusID", searchEntity.GenusID > 0 ? (object)searchEntity.GenusID : DBNull.Value, true),
                 CreateParameter("SpeciesID", searchEntity.SpeciesID > 0 ? (object)searchEntity.SpeciesID : DBNull.Value, true),
-                CreateParameter("CreatedByCooperatorID", searchEntity.CreatedByCooperatorID > 0 ? (object)searchEntity.CreatedByCooperatorID : DBNull.Value, true),
                 CreateParameter("GenusName", (object)searchEntity.GenusName ?? DBNull.Value, true),
                 CreateParameter("SpeciesName", (object)searchEntity.SpeciesName ?? DBNull.Value, true),
                 CreateParameter("Name", (object)searchEntity.Name ?? DBNull.Value, true),
                 CreateParameter("LanguageDescription", (object)searchEntity.LanguageDescription ?? DBNull.Value, true),
                 CreateParameter("SimplifiedName", (object)searchEntity.SimplifiedName ?? DBNull.Value, true),
-                CreateParameter("Note", (object)searchEntity.Note ?? DBNull.Value, true)
             };
 
             results = GetRecords<CommonName>(SQL, parameters.ToArray());

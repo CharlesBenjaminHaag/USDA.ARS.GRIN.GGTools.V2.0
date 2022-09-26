@@ -63,21 +63,43 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             List<Regulation> results = new List<Regulation>();
 
             SQL = "SELECT*  FROM vw_GGTools_Taxon_Regulations ";
-            SQL += " WHERE  (@CreatedByCooperatorID     IS NULL OR   CreatedByCooperatorID      =   @CreatedByCooperatorID)";
-            SQL += " AND    (@ID                        IS NULL OR   ID                         =   @ID)";
+
+            // EXTENDED
+            SQL += " WHERE      (@ID                            IS NULL OR ID                       =       @ID)";
+            SQL += " AND        (@CreatedByCooperatorID         IS NULL OR CreatedByCooperatorID    =       @CreatedByCooperatorID)";
+            SQL += " AND        (@CreatedDate                   IS NULL OR CreatedDate              =       @CreatedDate)";
+            SQL += " AND        (@ModifiedByCooperatorID        IS NULL OR ModifiedByCooperatorID   =       @ModifiedByCooperatorID)";
+            SQL += " AND        (@ModifiedDate                  IS NULL OR ModifiedDate             =       @ModifiedDate)";
+            SQL += " AND    (@Note                          IS NULL OR Note                     LIKE    '%' + @Note + '%')";
+
             SQL += " AND    (@GeographyID               IS NULL OR   GeographyID                =   @GeographyID)";
             SQL += " AND    (@RegulationTypeCode        IS NULL OR   RegulationTypeCode         =   @RegulationTypeCode)";
             SQL += " AND    (@RegulationLevelCode       IS NULL OR   RegulationLevelCode        =   @RegulationLevelCode)";
             SQL += " AND    (@Description               IS NULL OR   Description                =   @Description)";
+
+            // EXTENDED
+            SQL += " AND    (@URL1                      IS NULL OR URL1                     LIKE    '%' + @URL1 + '%')";
+            SQL += " AND    (@URL2                      IS NULL OR URL2                     LIKE    '%' + @URL2 + '%')";
+
             SQL += " ORDER BY AssembledName ASC";
             
             var parameters = new List<IDbDataParameter> {
-                CreateParameter("CreatedByCooperatorID", searchEntity.CreatedByCooperatorID > 0 ? (object)searchEntity.CreatedByCooperatorID : DBNull.Value, true),
+                // EXTENDED
                 CreateParameter("ID", searchEntity.ID > 0 ? (object)searchEntity.ID : DBNull.Value, true),
+                CreateParameter("CreatedByCooperatorID", searchEntity.CreatedByCooperatorID > 0 ? (object)searchEntity.CreatedByCooperatorID : DBNull.Value, true),
+                CreateParameter("CreatedDate", searchEntity.CreatedDate > DateTime.MinValue ? (object)searchEntity.CreatedDate : DBNull.Value, true),
+                CreateParameter("ModifiedByCooperatorID", searchEntity.ModifiedByCooperatorID > 0 ? (object)searchEntity.ModifiedByCooperatorID : DBNull.Value, true),
+                CreateParameter("ModifiedDate", searchEntity.ModifiedDate > DateTime.MinValue ? (object)searchEntity.ModifiedDate : DBNull.Value, true),
+                CreateParameter("Note", (object)searchEntity.Note ?? DBNull.Value, true),
+
                 CreateParameter("GeographyID", searchEntity.GeographyID > 0 ? (object)searchEntity.GeographyID : DBNull.Value, true),
                 CreateParameter("RegulationTypeCode", (object)searchEntity.RegulationTypeCode ?? DBNull.Value, true),
                 CreateParameter("RegulationLevelCode", (object)searchEntity.RegulationLevelCode ?? DBNull.Value, true),
                 CreateParameter("Description", (object)searchEntity.Description ?? DBNull.Value, true),
+
+               // EXTENDED
+               CreateParameter("URL1", (object)searchEntity.URL1 ?? DBNull.Value, true),
+               CreateParameter("URL2", (object)searchEntity.URL2 ?? DBNull.Value, true),
             };
 
             results = GetRecords<Regulation>(SQL, parameters.ToArray());

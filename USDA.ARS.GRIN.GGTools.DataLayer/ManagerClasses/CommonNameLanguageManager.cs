@@ -56,7 +56,14 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
 
             SQL = "SELECT * FROM vw_GGTools_Taxon_CommonNameLanguages ";
             SQL += " WHERE(@CreatedByCooperatorID     IS NULL OR CreatedByCooperatorID = @CreatedByCooperatorID)";
-            SQL += " AND(@ID                        IS NULL OR ID = @ID)";
+            
+            SQL += " AND  (@ID   IS NULL OR ID       =         @ID)";
+            SQL += " AND    (@CreatedByCooperatorID         IS NULL OR CreatedByCooperatorID    =       @CreatedByCooperatorID)";
+            SQL += " AND    (@CreatedDate                   IS NULL OR CreatedDate              =       @CreatedDate)";
+            SQL += " AND    (@ModifiedByCooperatorID        IS NULL OR ModifiedByCooperatorID   =       @ModifiedByCooperatorID)";
+            SQL += " AND    (@ModifiedDate                  IS NULL OR ModifiedDate             =       @ModifiedDate)";
+            SQL += " AND    (@Note                          IS NULL OR Note                     LIKE    '%' + @Note + '%')";
+
             SQL += " AND(@LanguageName              IS NULL OR LanguageName             LIKE '%' + @LanguageName + '%')";
             SQL += " AND(@LanguageSimplifiedName    IS NULL OR LanguageSimplifiedName   LIKE '%' + @LanguageSimplifiedName + '%')";
             SQL += " AND(@LanguageTranscription     IS NULL OR LanguageTranscription    LIKE '%' + @LanguageTranscription + '%')";
@@ -66,8 +73,13 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
 
             var parameters = new List<IDbDataParameter>
             {
-                CreateParameter("CreatedByCooperatorID", searchEntity.CreatedByCooperatorID > 0 ? (object)searchEntity.CreatedByCooperatorID : DBNull.Value, true),
                 CreateParameter("ID", searchEntity.ID > 0 ? (object)searchEntity.ID : DBNull.Value, true),
+                CreateParameter("CreatedByCooperatorID", searchEntity.CreatedByCooperatorID > 0 ? (object)searchEntity.CreatedByCooperatorID : DBNull.Value, true),
+                CreateParameter("CreatedDate", searchEntity.CreatedDate > DateTime.MinValue ? (object)searchEntity.CreatedDate : DBNull.Value, true),
+                CreateParameter("ModifiedByCooperatorID", searchEntity.ModifiedByCooperatorID > 0 ? (object)searchEntity.ModifiedByCooperatorID : DBNull.Value, true),
+                CreateParameter("ModifiedDate", searchEntity.ModifiedDate > DateTime.MinValue ? (object)searchEntity.ModifiedDate : DBNull.Value, true),
+                CreateParameter("Note", (object)searchEntity.Note ?? DBNull.Value, true),
+
                 CreateParameter("LanguageName", (object)searchEntity.LanguageName ?? DBNull.Value, true),
                 CreateParameter("LanguageSimplifiedName", (object)searchEntity.LanguageSimplifiedName ?? DBNull.Value, true),
                 CreateParameter("LanguageTranscription", (object)searchEntity.LanguageTranscription ?? DBNull.Value, true),
