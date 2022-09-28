@@ -1,4 +1,8 @@
-﻿<nav class="mt-2">
+﻿
+
+<input id="txtDEBUG" type="text" />
+
+<nav class="mt-2">
     <ul class="nav nav-pills nav-sidebar nav-child-indent flex-column" data-widget="treeview" role="menu" data-accordion="false">
         <li class="nav-item">
             <a href="@Url.Action("Index","HOme")" class="nav-link">
@@ -48,7 +52,7 @@
             </a>
         </li>
         <li class="nav-header">MANAGE DATA</li>
-        <li class="nav-item">
+        <li id="nav-crop" class="nav-item">
             <a href="#" class="nav-link">
                 <i class="nav-icon fas fa-tree"></i>
                 <p>
@@ -83,20 +87,19 @@
                 <p>Order</p>
             </a>
         </li>
-        <li class="nav-item">
+        <li id="nav-family" class="nav-item">
             <a href="@Url.Action("Index","Family")" class="nav-link">
                 <i class="nav-icon fas fa-table"></i>
                 <p>Family</p>
             </a>
         </li>
-        <li class="nav-item">
+        <li id="nav-genus" class="nav-item">
             <a href="@Url.Action("Index","Genus")" class="nav-link">
                 <i class="nav-icon fas fa-table"></i>
                 <p>Genus</p>
             </a>
         </li>
-
-        <li class="nav-item">
+        <li id="nav-species" class="nav-item">
             <a href="#" class="nav-link">
                 <i class="nav-icon fas fa-tree"></i>
                 <p>
@@ -104,7 +107,7 @@
                     <i class="fas fa-angle-left right"></i>
                 </p>
             </a>
-            <ul class="nav nav-treeview">
+            <ul id="nav-species-submenu" class="nav nav-treeview">
                 <li class="nav-item">
                     <a href="@Url.Action("Index","Species")" class="nav-link">
                         <i class="far fas fa-table nav-icon"></i>
@@ -230,3 +233,48 @@
         </li>
     </ul>
 </nav>
+<script type="text/javascript">
+    $(".nav-item").on('click', function (event) {
+        var id = $(this).attr('id');
+        AddActiveMenu(id);
+    });
+
+    function AddActiveMenu(controlId) {
+        var menuItemString = $("#txtDEBUG").val();
+        var menuItemArray = [];
+
+        if (menuItemString.length > 0) {
+            menuItemArray = menuItemString.split(',');
+        }
+        
+        $("#txtDEBUG").val(controlId);
+    }
+
+    function GetActiveMenu() {
+        var activeMenu = $("#txtDEBUG").val();
+        $(activeMenu).addClass("menu-is-opening menu-open");
+        $(activeMenu + "-submenu").css("display", "block");
+    }
+
+    //function SetCookieValue(cookieName, cookieValue) {
+    //    var d = new Date();
+    //    var hour = 2;
+    //    d.setTime(d.getTime() + (hour * 60 * 60 * 1000));
+    //    var cookieExpireDate = "expires=" + d.toString();
+    //    document.cookie = cookieName + "=" + cookieValue + "; " + cookieExpireDate;
+    //}
+
+    //function GetCookieValue(name) {
+    //    cookieList = document.cookie.split('; ');
+
+    //    //DEBUG
+    //    alert("DEBUG COOKIES " + cookieList.length);
+
+    //    cookies = {};
+    //    for (i = cookieList.length - 1; i >= 0; i--) {
+    //        cookie = cookieList[i].split('=');
+    //        cookies[cookie[0]] = cookie[1];
+    //    }
+    //    return cookies[name];
+    //}
+</script>

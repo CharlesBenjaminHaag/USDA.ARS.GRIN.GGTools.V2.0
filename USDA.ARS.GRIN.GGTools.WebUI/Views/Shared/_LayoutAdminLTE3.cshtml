@@ -10,7 +10,7 @@
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="~/plugins/fontawesome-free/css/all.min.css">
     <!-- overlayScrollbars -->
-    <link rel="stylesheet" href="~/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+    @*<link rel="stylesheet" href="~/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">*@
     <!-- Theme style -->
     <link rel="stylesheet" href="~/dist/css/adminlte.css">
     <!-- iCheck -->
@@ -45,9 +45,9 @@
     @Scripts.Render("~/ggtools/js")
 
     <!-- CK Editor -->
-    <script src="https://cdn.ckeditor.com/4.16.0/standard/ckeditor.js"></script>
+    @*<script src="https://cdn.ckeditor.com/4.16.0/standard/ckeditor.js"></script>*@
     @*<script src="https://cdn.ckeditor.com/ckeditor5/35.0.1/classic/ckeditor.js"></script>*@
-    <script src="~/Content/dist/js/bootstrap-switch.min.js"></script>
+    @*<script src="~/Content/dist/js/bootstrap-switch.min.js"></script>*@
 </head>
 <body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed" style="background-color: #f4f6f9;">
     <div class="wrapper">
@@ -155,25 +155,6 @@
                     <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                         <span class="dropdown-item dropdown-header">@AppInfo.GetAuthenticatedUser().FullName</span>
                         <div class="dropdown-divider"></div>
-                        <a href="#" class="dropdown-item">
-                            <i class="fas fa-clock mr-2"></i> @*Session Began: @Session["SESSION_START_TIME"].ToString()*@
-                            <span class="float-right text-muted text-sm"></span>
-                        </a>
-                        <div class="dropdown-divider"></div>
-                        <a href="#" class="dropdown-item">
-                            <i class="fas fa-clock mr-2"></i> Session Expires: @*@Session["SESSION_EXPIRATION_TIME"].ToString()*@
-                            <span class="float-right text-muted text-sm"></span>
-                        </a>
-                        <div class="dropdown-divider"></div>
-                        <a href="#" class="dropdown-item">
-                            <div id="countDown"></div>
-                        </a>
-
-                        @*<div class="dropdown-divider"></div>
-                        <a href="#" class="dropdown-item">
-                            <i class="fas fa-file mr-2"></i> 3 new reports
-                            <span class="float-right text-muted text-sm">2 days</span>
-                        </a>*@
                         <div class="dropdown-divider"></div>
                         <a href="@Url.Action("Logout","Login")" class="dropdown-item dropdown-footer">Log Off</a>
                     </div>
@@ -208,7 +189,9 @@
                         <img src="~/dist/img/user-default.png" class="img-circle elevation-2" alt="User Image">
                     </div>
                     <div class="info">
-                        <a href="#" class="d-block">@AppInfo.GetAuthenticatedUser().FullName</a>
+                        <a href="#" class="d-block">
+                            @AppInfo.GetAuthenticatedUser().FullName
+                        </a>
                     </div>
                 </div>
                 <!-- SidebarSearch Form -->
@@ -296,23 +279,23 @@
     <!-- Bootstrap -->
     <script src="~/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
     <!-- overlayScrollbars -->
-    <script src="plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+    @*<script src="plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>*@
     <!-- AdminLTE App -->
     <script src="~/dist/js/adminlte.js"></script>
 
     <!-- PAGE PLUGINS -->
     <!-- jQuery Mapael -->
-    <script src="plugins/jquery-mousewheel/jquery.mousewheel.js"></script>
-    <script src="plugins/raphael/raphael.min.js"></script>
+    @*<script src="plugins/jquery-mousewheel/jquery.mousewheel.js"></script>*@
+    @*<script src="plugins/raphael/raphael.min.js"></script>
     <script src="plugins/jquery-mapael/jquery.mapael.min.js"></script>
-    <script src="plugins/jquery-mapael/maps/usa_states.min.js"></script>
+    <script src="plugins/jquery-mapael/maps/usa_states.min.js"></script>*@
     <!-- ChartJS -->
-    <script src="plugins/chart.js/Chart.min.js"></script>
+    @*<script src="plugins/chart.js/Chart.min.js"></script>*@
 
     <!-- AdminLTE for demo purposes -->
-    <script src="~/dist/js/demo.js"></script>
+    @*<script src="~/dist/js/demo.js"></script>*@
     <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-    <script src="~/dist/js/pages/dashboard2.js"></script>
+    @*<script src="~/dist/js/pages/dashboard2.js"></script>*@
 
     <!-- Datatables -->
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
@@ -322,42 +305,3 @@
 
 </body>
 </html>
-<script type="text/javascript">
-
-    $(document).ready(function () {
-
-                var time = 1440 * 1000 * 60;
-                var timeout;
-                var isLogout = false;
-
-                timeout = setTimeout(function() {
-                    //Things you need to do
-                        isLogout = true;
-
-                }, time);
-
-                $(document).on('click', function () {
-                    if (!isLogout) {
-                        clearTimeout(timeout);
-                        timeout = setTimeout(function() {
-                            //Things you need to do
-                             isLogout = true;
-                        }, time);
-                    }
-                });
-            });
-
-    @*var sessionTimout = @Session["SESSION_EXPIRATION_TIME"].ToString();
-    var approximateStart = new Date();
-    var notifyAfter = new Date(approximateStart + (sessionTimout - 1)*60*1000);
-    function startCountDown() {
-        setTimout(function () {
-            var now = new Date();
-            document.getElementById('countDown').style.display = 'inline';
-            document.getElementById('countDown').innerHTML = "Countdown: " + now.getMinutes();
-            if (now >= notifyAfter)
-                alert('About to expire...');
-        }, 5000);
-    }
-    document.onload=startCountDown;*@
-</script>

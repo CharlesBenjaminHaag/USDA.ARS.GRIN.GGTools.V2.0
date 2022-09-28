@@ -128,7 +128,7 @@
 }
 @Html.Partial("~/Views/Shared/Modals/_NoteLookup.cshtml")
 @Html.Partial("~/Views/Taxonomy/Species/Modals/_Lookup.cshtml")
-@{Html.RenderAction("RenderLookupModal", "Citation", new { isMultiSelect = "N" }); }
+@{Html.RenderAction("RenderLookupModal", "Citation", new {speciesId = Model.Entity.SpeciesID, isMultiSelect = "N" }); }
 
 <script type="text/javascript">
     $(document).ready(function () {
@@ -184,27 +184,6 @@
                 $("#section-is-graftstock").show();
             }
         });
-    });
-
-    /*
-    * ===================================================================================================
-    * CITATION MODAL
-    * ===================================================================================================
-    */
-
-    $(document).on("click", "[id='btnLookupCitations']", function () {
-        var link = '@Url.Action("Lookup","Citation")';
-        LookupCitations(link);
-    });
-
-    $(document).on("click", "[id='btnSaveCitations']", function () {
-        var link = '@Url.Action("AddReference","Citation")';
-
-        SaveCitations(link);
-    });
-
-    $(document).on("click", "[id='btnAddCitation']", function () {
-        //TODO AddCitation();
     });
 
     /*

@@ -36,7 +36,7 @@
     }
 </style>
 
-<div class="card bg-primary collapsed-card">
+@*<div class="card bg-primary collapsed-card">
     <div class="card-header">
         <h3 class="card-title">Malus</h3>
         <div class="card-tools">
@@ -81,9 +81,7 @@
         </div>
     
     </div>
-</div>
-
-
+</div>*@
 
 @if (Model.ParentEntity.ID > 0)
 {
@@ -419,7 +417,7 @@
 @if (Model.Entity.ID > 0)
 {
     //{ Html.RenderAction("_ConspecificList", "Species", new { @eventValue = Model.EventValue, @entityId = Model.Entity.ID }); }
-    { Html.RenderAction("_List", "CommonName", new { @eventValue = Model.EventValue, @entityId = Model.Entity.ID }); }
+    //{ Html.RenderAction("_List", "CommonName", new { @eventValue = Model.EventValue, @entityId = Model.Entity.ID }); }
     //{ Html.RenderAction("_List", "EconomicUse", new { @entityId = Model.Entity.ID }); }
     //{ Html.RenderAction("_List", "GeographyMap", new { @entityId = Model.Entity.ID }); }
     //{ Html.RenderAction("_List", "RegulationMap", new { @speciesId = Model.Entity.ID }); }

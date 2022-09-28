@@ -1,11 +1,12 @@
 ﻿@model USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer.CitationViewModelBase
 @if (Model.DataCollection.Count > 0)
 {
-    <table id="citation-lookup-data-table" class="table table-responsive table-striped" style="margin-top:25px; width:100%;">
+    <table id="citation-lookup-data-table" class="table table-striped" style="margin-top:25px; width:100%;">
         <thead>
             <tr>
                 <th></th>
                 <th width="5%">ID</th>
+                <th>Taxon</th>
                 <th>Citation Text</th>
             </tr>
         </thead>
@@ -21,6 +22,9 @@
                         <td>
                             @result.ID
                         </td>
+                            <td>
+                                @result.SpeciesName
+                            </td>
                         <td>@Html.Raw(result.CitationText)</td>
                 @*@if (Model.IsMultiSelect == "N")
                 {

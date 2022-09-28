@@ -317,10 +317,20 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
         // ======================================================================================
         // MODALS 
         // ======================================================================================
-        public PartialViewResult RenderLookupModal(string isMultiSelect = "")
+        public PartialViewResult RenderLookupModal(int familyId = 0, int genusId = 0, int speciesId = 0, string isMultiSelect = "")
         {
             CitationViewModel viewModel = new CitationViewModel();
             viewModel.IsMultiSelect = isMultiSelect;
+
+            // If we are dealing with an entity with a parent taxon, retrieve a list of all citations currently linked
+            // to that taxon.
+            if (familyId + genusId + speciesId > 0)
+            {
+                viewModel.SearchEntity.FamilyID = familyId;
+                viewModel.SearchEntity.GenusID = genusId;
+                viewModel.SearchEntity.SpeciesID = speciesId;
+                viewModel.Search();
+            }
             return PartialView(BASE_PATH + "/Modals/_Lookup.cshtml", viewModel);
         }
 

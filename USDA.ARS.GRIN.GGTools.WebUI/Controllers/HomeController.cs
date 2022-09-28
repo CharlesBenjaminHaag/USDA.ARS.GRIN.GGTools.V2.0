@@ -22,6 +22,13 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             return View(viewModel);
         }
 
+        public JsonResult SetActiveNavMenu(FormCollection formCollection)
+        {
+
+
+            return null;
+        }
+
         public ActionResult Navigate(string applicationCode)
         {
             Session["APP_CONTEXT"] = applicationCode;

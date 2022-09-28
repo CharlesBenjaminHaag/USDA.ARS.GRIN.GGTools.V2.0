@@ -23,6 +23,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
         /// <returns></returns>
         [HttpPost]
         [ValidateInput(true)]
+        [ValidateAntiForgeryToken]
         public ActionResult Index(SysUserViewModel vm) 
         {
             try
@@ -85,6 +86,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
         /// <param name="viewModel"></param>
         /// <returns></returns>
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult RequestPasswordReset(SysUserViewModel viewModel)
         {
             viewModel.SearchEntity.UserName = viewModel.Entity.UserName;
@@ -130,6 +132,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult ResetPassword(SysUserViewModel viewModel)
         {
             if (!viewModel.Validate())

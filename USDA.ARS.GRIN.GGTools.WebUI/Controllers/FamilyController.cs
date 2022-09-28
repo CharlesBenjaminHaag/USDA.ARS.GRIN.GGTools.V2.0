@@ -372,8 +372,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             }
         }
 
-        // GET: FamilyMap
-        public ActionResult Index(string eventValue = "")
+        public ActionResult Index()
         {
             FamilyMapViewModel viewModel = new FamilyMapViewModel();
 
@@ -563,12 +562,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             }
             return null;
         }
-
-        [HttpPost]
-        public ActionResult Index()
-        {
-            throw new NotImplementedException();
-        }
+       
 
         [HttpPost]
         public PartialViewResult FolderItems(FormCollection formCollection)

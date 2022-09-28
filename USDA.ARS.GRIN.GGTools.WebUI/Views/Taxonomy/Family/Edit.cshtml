@@ -142,9 +142,9 @@
 
 @if (Model.Entity.ID > 0)
 {
-    Html.RenderAction("_ListSynonyms", "Family", new {  @familyId = Model.Entity.FamilyID });
-    Html.RenderAction("_ListSubdivisions", "Family", new { @familyId = Model.Entity.FamilyID });
-    Html.RenderAction("_List", "Genus", new { @familyId = Model.Entity.ID });
+    //Html.RenderAction("_ListSynonyms", "Family", new {  @familyId = Model.Entity.FamilyID });
+    //Html.RenderAction("_ListSubdivisions", "Family", new { @familyId = Model.Entity.FamilyID });
+    //Html.RenderAction("_List", "Genus", new { @familyId = Model.Entity.ID });
     //Html.RenderAction("_List", "Citation", new { @familyId = Model.Entity.ID });
 }
 
@@ -170,39 +170,7 @@
     $("#btnSaveDraft").click(function () {
         $('#EventAction').val('SAVE-DRAFT');
     });
-
-    /*
-    * ===============================================================================================================
-    * ORDER LOOKUP MODAL
-    * ===============================================================================================================
-    */
-    @*$("#btnOpenOrderLookupModal").click(function () {
-        $('#modal-order-lookup').modal('show');
-    });
-
-     $("#btnLookupOrder").click(function () {
-        var orderName = $("#txtLookupOrderName").val();
-        var actionUrl = '@Url.Action("Lookup","Order")';
-        SearchOrder(actionUrl, orderName);
-    });
-
-    function SearchOrder(actionUrl, orderName) {
-        var formData = new FormData();
-        formData.append("LookupOrderName", orderName);
-
-        $.ajax({
-            url: actionUrl,
-            type: 'POST',
-            cache: false,
-            contentType: false,
-            processData: false,
-            data: formData,
-            success: function (response) {
-                $("#section-family-search-results").html(response);
-            }
-        });
-    }*@
-
+   
      /*
     * ===================================================================================================
     * AUTHORITY LOOKUP MODAL
