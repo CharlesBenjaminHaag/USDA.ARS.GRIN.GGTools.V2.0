@@ -27,12 +27,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI
             var exception = Server.GetLastError();
             Log.Error(exception, exception.Message);
 
-            //if (exception.GetType() == typeof(HttpException))
-            //{
-            //    Response.Redirect("NotFound");
-            //}
 
-            
             //var httpContext = ((HttpApplication)sender).Context;
             //httpContext.Response.Clear();
             //httpContext.ClearError();

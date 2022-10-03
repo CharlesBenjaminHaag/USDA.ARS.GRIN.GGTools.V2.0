@@ -9,7 +9,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
         /// <summary>
         /// Display the login window.
         /// </summary>
-        /// <returns></returns>
+        ///    /// returns></returns>
         public ActionResult Index()
         {
             SysUserViewModel vm = new SysUserViewModel();
