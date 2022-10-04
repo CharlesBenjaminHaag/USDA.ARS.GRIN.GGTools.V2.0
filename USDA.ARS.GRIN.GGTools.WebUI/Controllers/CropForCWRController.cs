@@ -136,14 +136,12 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 return RedirectToAction("InternalServerError", "Error");
             }
         }
-          
-        // GET: CropForCWR/Delete/5
-        public ActionResult Delete(int id)
+
+        [HttpPost]
+        public ActionResult Delete(FormCollection formCollection)
         {
             return View();
         }
-
-        
 
         [HttpPost]
         public PartialViewResult LookupNotes(FormCollection formCollection)
@@ -164,8 +162,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             viewModel.SearchNotes();
             return PartialView(partialViewName, viewModel);
         }
-        
-        [HttpPost]
+               
         public PartialViewResult FolderItems(int folderId)
         {
             CropForCWRViewModel viewModel = new CropForCWRViewModel();
@@ -184,6 +181,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             }
         }
 
+        [HttpPost]
         public PartialViewResult FolderItems(FormCollection formCollection)
         {
             CropForCWRViewModel viewModel = new CropForCWRViewModel();

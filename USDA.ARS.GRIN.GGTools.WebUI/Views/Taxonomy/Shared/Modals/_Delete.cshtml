@@ -1,0 +1,66 @@
+﻿<div class="modal fade" id="modal-delete-confirm" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content bg-danger">
+            <div class="modal-header">
+                <h4 class="modal-title">Please Confirm</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                @*@if (Model.Entity.RelatedItemCount > 0)
+                {
+                    <p>
+                        <span style="font-weight:bold;">Note:</span>
+                        There are currently @Model.Entity.RelatedItemCount records in GRIN that are linked to this record. You will have to remove, or reassign, these records before deleting this one.
+                    </p>
+                }
+                else
+                {*@
+                    <p>This will permanently delete this record from the GRIN database. Are you sure?</p>
+                @*}*@
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-outline-light" data-dismiss="modal">Cancel</button>
+                <button id="btnDeleteConfirm" type="button" class="btn btn-outline-light" data-dismiss="modal">Yes, Please Continue</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $("#btnDelete").click(function () {
+        $("#modal-delete-confirm").modal("show");
+    });
+
+    $("#btnDeleteConfirm").click(function () {
+        var refreshLink = '@Url.Action("Index","CropForCWR")';
+        Delete();
+        window.location.href = refreshLink;
+    });
+
+    function Delete() {
+        var link = '@Url.Action("Delete","CropForCWR")';
+        var tableName = $("#TableName").val();
+        var entityId = $("#Entity_ID").val();
+        var formData = new FormData();
+
+        formData.append("TableName", tableName);
+        formData.append("EntityID", entityId);
+
+        $.ajax({
+            url: link,
+            type: 'POST',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (response) {
+                // TODO CONFIRM
+                alert("DEBUG DELETE DONE");
+            },
+            error: function () {
+                alert("Error");
+            }
+        });
+    }
+</script>

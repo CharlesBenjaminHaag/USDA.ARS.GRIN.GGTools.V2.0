@@ -255,5 +255,9 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             throw new NotImplementedException();
         }
 
+        public ActionResult Delete(FormCollection formCollection)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

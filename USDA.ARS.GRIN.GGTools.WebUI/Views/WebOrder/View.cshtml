@@ -13,8 +13,6 @@
         margin-top:15px;
     }
 </style>
-
-<!-- MAIN SECTION -->
 <div class="row">
     <div class="col-md-3">
         <div class="card bg-light d-flex flex-fill">
@@ -111,7 +109,7 @@
 
                         <div class="margin" style="margin-bottom:25px;">
                             <div class="btn-group">
-                                <button type="button" id="btnOpenAddNoteModal" class="btn btn-default" data-toggle="modal" data-target="#modal-note">
+                                <button type="button" id="btnOpenAddNoteModal" class="btn btn-default btn-sm" data-toggle="modal" data-target="#modal-note">
                                     <i class="fa fa-edit margin-r-5"></i>
                                     Add Note
                                 </button>
@@ -119,71 +117,65 @@
                             @if (Model.AuthenticatedUserWebUserID == Model.Entity.OwnedByWebUserID)
                             {
                                 <div class="btn-group">
-                                    <button id="btnOpenEmailRequestorsModal" type="button" class="btn btn-default margin-r-5" data-toggle="modal" data-target="#modal-email-requestor">
+                                    <button id="btnOpenEmailRequestorsModal" type="button" class="btn btn-default btn-sm margin-r-5" data-toggle="modal" data-target="#modal-email-requestor">
                                         <i class="fa fa-envelope margin-r-5"></i><span class="button-label">Email Requestor</span>
                                     </button>
                                 </div>
                                 <div class="btn-group">
-                                    <button id="btnOpenEmailCuratorsModal" type="button" class="btn btn-default" data-toggle="modal" data-target="#modal-email-curators">
+                                    <button id="btnOpenEmailCuratorsModal" type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#modal-email-curators">
                                         <i class="fa fa-envelope margin-r-5"></i><span class="button-label">Email Curators</span>
                                     </button>
                                 </div>
-                            }
-
-                            @if (Model.AuthenticatedUserWebUserID == Model.Entity.OwnedByWebUserID)
-                            {
                                 <div class="btn-group float-right">
-                                    <button type="submit" id="btnSubmitEndReview" class="btn btn-warning"><i class="fa fa-unlock"></i> End Review and Unlock</button>
-                                    <button id="btnOpenApproveModal" type="button" class="btn btn-danger" data-toggle="modal" data-target="#modal-reject"><i class="fa fa-thumbs-down"></i><span class="button-label"> Reject</span></button>
-                                    <button id="btnOpenRejectModal" type="button" class="btn btn-success" data-toggle="modal" data-target="#modal-approve"><i class="fa fa-thumbs-up"></i><span class="button-label"> Approve</span></button>
+                                    <button type="submit" id="btnSubmitEndReview" class="btn btn-warning  btn-sm margin-r-5"><i class="fa fa-unlock"></i> End Review and Unlock</button>
+                                    <button id="btnOpenApproveModal" type="button" class="btn btn-danger  btn-sm margin-r-5" data-toggle="modal" data-target="#modal-reject"><i class="fa fa-thumbs-down"></i><span class="button-label"> Reject</span></button>
+                                    <button id="btnOpenRejectModal" type="button" class="btn btn-success  btn-sm" data-toggle="modal" data-target="#modal-approve"><i class="fa fa-thumbs-up"></i><span class="button-label"> Approve</span></button>
+                                </div>
+                            }
+                            else 
+                            { 
+                                <div class="btn-group float-right">
+                                    <button type="button" id="btnSubmitBeginReview" class="btn btn-default btn-sm">
+                                        <i class="fa fa-edit"></i>
+                                        Lock and Begin Review
+                                    </button>
                                 </div>
                             }
                         </div>
-           
-
-                            <div class="row">
-                                <div class="col-md-1">
-                                    <div class="form-group">
-                                        <label>Status</label>
-                                        <div class="input-group">
-                                            @Model.Entity.StatusCode
-                                        </div>
+                        <div class="row">
+                            <div class="col-md-1">
+                                <div class="form-group">
+                                    <label>Status</label>
+                                    <div class="input-group">
+                                        @Model.Entity.StatusCode
                                     </div>
                                 </div>
-                                <div class="col-md-2">
-                                    <div class="form-group">
-                                        <label>Submitted</label>
-                                        <div class="input-group">
-                                            @Model.Entity.OrderDate.ToShortDateString() at @Model.Entity.OrderDate.ToShortTimeString()
-                                        </div>
-                                        </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label>Submitted</label>
+                                    <div class="input-group">
+                                        @Model.Entity.OrderDate.ToShortDateString() at @Model.Entity.OrderDate.ToShortTimeString()
                                     </div>
-                                <div class="col-md-2">
-                                    <div class="form-group">
-                                        <label>Intended Use</label>
-                                        <div class="input-group">
-                                            @Model.Entity.IntendedUseCode
-                                        </div>
-                                        </div>
                                     </div>
-                                <div class="col-md-7">
-                                    <div class="form-group">
-                                        <label>Intended Use Note</label>
-                                        <p class="text-muted well well-sm no-shadow">
-                                            @Model.Entity.IntendedUseNote
-                                        </p>
-                                        </div>
-                                    </div>
-
                                 </div>
-
-                            if (!String.IsNullOrEmpty(Model.Entity.IntendedUseNote))
-                            {
-                                <div class="row" style="margin-top:10px;">
-
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label>Intended Use</label>
+                                    <div class="input-group">
+                                        @Model.Entity.IntendedUseCode
+                                    </div>
+                                    </div>
                                 </div>
-                            }
-
+                            <div class="col-md-7">
+                                <div class="form-group">
+                                    <label>Intended Use Note</label>
+                                    <p class="text-muted well well-sm no-shadow">
+                                        @Model.Entity.IntendedUseNote
+                                    </p>
+                                    </div>
+                                </div>
+                            </div>
                             if (!String.IsNullOrEmpty(Model.Entity.SpecialInstruction))
                             {
                                 <div class="row">
@@ -195,7 +187,6 @@
                                     </div>
                                 </div>
                             }
-
                             if (!String.IsNullOrEmpty(Model.Entity.Note))
                             {
                                 <div class="row">
@@ -207,7 +198,6 @@
                                     </div>
                                 </div>
                             }
-
                             <div class="row">
                                 <div class="col-md-12">
                                     <table id="data-table-web-order-request-items" class="table table-striped ggtools">
@@ -287,69 +277,6 @@
                             <div>
                                 <i class="far fa-clock bg-gray"></i>
                             </div>
-
-                            @*<div>
-            <i class="fas fa-envelope bg-primary"></i>
-            <div class="timeline-item">
-                <span class="time"><i class="far fa-clock"></i> 12:05</span>
-                <h3 class="timeline-header"><a href="#">Support Team</a> sent you an email</h3>
-                <div class="timeline-body">
-                    Etsy doostang zoodles disqus groupon greplin oooj voxy zoodles,
-                    weebly ning heekya handango imeem plugg dopplr jibjab, movity
-                    jajah plickers sifteo edmodo ifttt zimbra. Babblely odeo kaboodle
-                    quora plaxo ideeli hulu weebly balihoo...
-                </div>
-                <div class="timeline-footer">
-                    <a href="#" class="btn btn-primary btn-sm">Read more</a>
-                    <a href="#" class="btn btn-danger btn-sm">Delete</a>
-                </div>
-            </div>
-        </div>
-        <div>
-            <i class="fas fa-user bg-info"></i>
-            <div class="timeline-item">
-                <span class="time"><i class="far fa-clock"></i> 5 mins ago</span>
-                <h3 class="timeline-header border-0">
-                    <a href="#">Sarah Young</a> accepted your friend request
-                </h3>
-            </div>
-        </div>
-        <div>
-            <i class="fas fa-comments bg-warning"></i>
-            <div class="timeline-item">
-                <span class="time"><i class="far fa-clock"></i> 27 mins ago</span>
-                <h3 class="timeline-header"><a href="#">Jay White</a> commented on your post</h3>
-                <div class="timeline-body">
-                    Take me to your leader!
-                    Switzerland is small and neutral!
-                    We are more like Germany, ambitious and misunderstood!
-                </div>
-                <div class="timeline-footer">
-                    <a href="#" class="btn btn-warning btn-flat btn-sm">View comment</a>
-                </div>
-            </div>
-        </div>
-        <div class="time-label">
-            <span class="bg-success">
-                3 Jan. 2014
-            </span>
-        </div>
-        <div>
-            <i class="fas fa-camera bg-purple"></i>
-            <div class="timeline-item">
-                <span class="time"><i class="far fa-clock"></i> 2 days ago</span>
-                <h3 class="timeline-header"><a href="#">Mina Lee</a> uploaded new photos</h3>
-                <div class="timeline-body">
-                    <img src="https://placehold.it/150x100" alt="...">
-                    <img src="https://placehold.it/150x100" alt="...">
-                    <img src="https://placehold.it/150x100" alt="...">
-                    <img src="https://placehold.it/150x100" alt="...">
-                </div>
-            </div>
-        </div>
-        <div>
-            <i class="far fa-clock bg-gray"></i>
-        </div>*@
                         </div>
                     </div>
                 </div>
@@ -366,23 +293,10 @@
 <script type="text/javascript">
     $(document).ready(function () {
         InitDataTable("data-table-web-order-request-items");
-        InitializeCKEditor("txtEmailRejectBody");
-        InitializeCKEditor("txtEmailRequestorBody");
+        //InitializeCKEditor("txtEmailRejectBody");
+        //InitializeCKEditor("txtEmailRequestorBody");
     });
-
-   /*
-   * ===========================================================================================
-   * NOTE MODAL
-   * ===========================================================================================
-   */
-    $("#btnSubmitNote").click(function () {
-        var eventNote = $("#txtNote").val();
-        $("#EventAction").val("UPDATE");
-        $("#EventValue").val("NRR_NOTE");
-        $("#EventNote").val(eventNote);
-        $("#frmEdit").submit();
-    });
-
+    
     /*
     * ===========================================================================================
     * REVIEW
@@ -420,62 +334,6 @@
         $("#EventValue").val("NRR_APPROVE");
         $("#EventNote").val(eventNote);
         $("#frmEdit").submit();
-    });
-
-    /*
-    * ===========================================================================================
-    * REJECT MODAL
-    * ===========================================================================================
-    */
-    $("#btnSubmitReject").click(function () {
-        var eventNote = $("#txtRejectNote").val();
-        if ($("#cbxRejectEmailRequestor").is(":checked")) { }
-        {
-            // Get email text from modal, allowing for user to have made changes to templated text.
-            var emailRequestorTo = $("#txtEmailRejectTo").val();
-            var emailRequestorFrom = $("#txtEmailRejectFrom").val();
-            var emailRequestorSubject = $("#txtEmailRejectSubject").val();
-            var emailRequestorBody = $("#txtEmailRejectBody").val();
-            var emailRequestorBCC = "TEST";
-
-            emailRequestorBody = CKEDITOR.instances["txtEmailRejectBody"].getData();
-
-            $("#EventAction").val("UPDATE");
-            $("#EventValue").val("NRR_REJECT");
-            $("#EventNote").val(eventNote);
-            $("#SendRequestorNotification").val(true);
-            $("#ActionEmailTo").val(emailRequestorTo);
-            $("#ActionEmailFrom").val(emailRequestorFrom);
-            $("#ActionEmailBCC").val(emailRequestorBCC);
-            $("#ActionEmailSubject").val(emailRequestorSubject);
-            $("#ActionEmailBody").val(emailRequestorBody);
-        }
-
-        if ($("#cbxRejectEmailCurators").is(":checked"))
-        {
-            $("#SendInternalNotification").val(true);
-        }
-        else
-        {
-            $("#SendInternalNotification").val(false);
-        }
-
-        if ($("#cbxRejectEmailRequestor").is(":checked")) {
-            $("#SendRequestorNotification").val(true);
-        }
-        else {
-            $("#SendRequestorNotification").val(false);
-        }
-
-        $("#frmEdit").submit();
-    });
-
-    $("#cbxRejectEmailRequestor").click(function () {
-        if ($(this).is(":checked")) {
-            $("#section-modal-reject-email-fields").show();
-        } else {
-            $("#section-modal-reject-email-fields").hide();
-        }
     });
 
     /*

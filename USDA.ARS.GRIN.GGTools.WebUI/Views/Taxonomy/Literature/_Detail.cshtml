@@ -1,61 +1,87 @@
 ﻿@model USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer.LiteratureViewModelBase
-<div class="margin" style="padding-bottom:10px;">
-    <div class="btn-group">
-        <a href="@Url.Action("Add","Literature")" class="btn btn-default">
-            <i class="fas fa-plus"></i> Add
-        </a>
-    </div>
-</div>
 
-<div id="section-controls" class="card card-default">
-    <div class="card-header">
-        <h3 class="card-title">Search Criteria</h3>
+<div class="card">
+    <div class="card-header p-2">
+        <ul class="nav nav-pills">
+            <li class="nav-item"><a class="nav-link active" href="#activity" data-toggle="tab">Search Criteria</a></li>
+            <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">Saved Searches</a></li>
+        </ul>
     </div>
-    <div id="section-search-criteria" class="card-body">
-        <div class="row">
-            <div class="col-md-2">
-                <div class="form-group form-horizontal">
-                    <label>Created By</label>
-                    @Html.DropDownListFor(x => x.SearchEntity.CreatedByCooperatorID, Model.Cooperators, "All cooperators", new { @class = "form-control" })
+    <div class="card-body">
+        <div class="tab-content">
+            <div class="tab-pane active" id="activity">
+               
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <a href="@Url.Action("Add","Literature")" class="btn btn-default btn-sm">
+                                <i class="fas fa-plus"></i> Add
+                            </a>
+                            <button id="btnOpenFolderModal" type="button" class="btn btn-default btn-sm"><i class="fa fa-folder"></i></button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-2">
+                        <div class="form-group form-horizontal">
+                            <label>Created By</label>
+                            @Html.DropDownListFor(x => x.SearchEntity.CreatedByCooperatorID, Model.Cooperators, "All cooperators", new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div id="section-family-type" class="form-group form-horizontal">
+                            <label>Type</label>
+                            @Html.DropDownListFor(x => x.SearchEntity.TypeCode, Model.LiteratureTypes, "All Types", new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group form-horizontal">
+                            <label>Std. Abbrev.</label>
+                            @Html.TextBoxFor(x => x.SearchEntity.StandardAbbreviation, new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group form-horizontal">
+                            <label>Reference Title</label>
+                            @Html.TextBoxFor(x => x.SearchEntity.ReferenceTitle, new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group form-horizontal">
+                            <label>Author</label>
+                            @Html.TextBoxFor(x => x.SearchEntity.EditorAuthorName, new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="col-md-1">
+                        <div class="form-group form-horizontal">
+                            <label>Year</label>
+                            @Html.TextBoxFor(x => x.SearchEntity.PublicationYear, new { @class = "form-control" })
+                        </div>
+                    </div>
+                </div>
+                @Html.Partial("~/Views/Taxonomy/Literature/_DetailExtended.cshtml")
+                <div>
+                    <button id="btnReset" type="button" class="btn btn-danger">Reset</button>
+                    <div class="btn-group float-right">
+                        <button type="submit" class="btn btn-info">Search</button>
+                        <button type="button" class="btn btn-info dropdown-toggle dropdown-icon" data-toggle="dropdown" aria-expanded="false">
+                            <span class="sr-only">Toggle Dropdown</span>
+                        </button>
+                        <div class="dropdown-menu" role="menu" style="">
+                            <a id="btnSaveSearch" class="dropdown-item" href="#">Save Search</a>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="col-md-2">
-                <div id="section-family-type" class="form-group form-horizontal">
-                    <label>Type</label>
-                    @Html.DropDownListFor(x => x.SearchEntity.TypeCode, Model.LiteratureTypes, "All Types", new { @class = "form-control" })
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="form-group form-horizontal">
-                    <label>Std. Abbrev.</label>
-                    @Html.TextBoxFor(x => x.SearchEntity.StandardAbbreviation, new { @class = "form-control" })
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="form-group form-horizontal">
-                    <label>Reference Title</label>
-                    @Html.TextBoxFor(x => x.SearchEntity.ReferenceTitle, new { @class = "form-control" })
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="form-group form-horizontal">
-                    <label>Author</label>
-                    @Html.TextBoxFor(x => x.SearchEntity.EditorAuthorName, new { @class = "form-control" })
-                </div>
-            </div>
-            <div class="col-md-1">
-                <div class="form-group form-horizontal">
-                    <label>Year</label>
-                    @Html.TextBoxFor(x => x.SearchEntity.PublicationYear, new { @class = "form-control" })
+            <div class="tab-pane" id="timeline">
+                <div class="row">
+                    <div class="col-md-12">
+                        @{Html.RenderAction("_List", "AppUserDynamicQuery"); }
+                    </div>
                 </div>
             </div>
         </div>
-        @Html.Partial("~/Views/Taxonomy/Literature/_DetailExtended.cshtml")
-    </div>
-    <div class="card-footer">
-        <button id="btnReset" type="button" class="btn btn-danger">Reset</button>
-        <button type="submit" class="btn btn-primary float-right">Search</button>
     </div>
 </div>
-
 

@@ -1,56 +1,41 @@
 ﻿@model USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer.CitationViewModelBase
-@if (Model.DataCollection.Count > 0)
-{
-    <table id="citation-lookup-data-table" class="table table-striped" style="margin-top:25px; width:100%;">
-        <thead>
-            <tr>
-                <th></th>
-                <th width="5%">ID</th>
-                <th>Taxon</th>
-                <th>Citation Text</th>
-            </tr>
-        </thead>
-        <tbody>
-            @if (Model.DataCollection != null)
+<table id="citation-lookup-data-table" class="table table-striped" style="margin-top:25px; width:100%;">
+    <thead>
+        <tr>
+            <th></th>
+            <th width="5%">ID</th>
+            <th>Taxon</th>
+            <th>Citation Text</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.DataCollection != null)
+        {
+            if (Model.DataCollection.Count() > 0)
             {
-                if (Model.DataCollection.Count() > 0)
+                foreach (var result in Model.DataCollection)
                 {
-                    foreach (var result in Model.DataCollection)
-                    {
-                        <tr>
+                    <tr>
                         <td>@result.ID</td>
                         <td>
                             @result.ID
                         </td>
-                            <td>
-                                @result.SpeciesName
-                            </td>
-                        <td>@Html.Raw(result.CitationText)</td>
-                @*@if (Model.IsMultiSelect == "N")
-                {
-                    <td>
-                        <button id="@result.ID" class="btn btn-primary btn-sm btn-citation-select">Select</button>
-                    </td>
-                }*@
+                        <td>
+                            @result.SpeciesName
+                        </td>
+                    <td>@Html.Raw(result.CitationText)</td>
                 </tr>
-                }
             }
-            }
-        </tbody>
-    </table>
-}
-else
-{
-    <div class="row">
-        <div class="col-md-12">
-            <div class="alert alert-warning alert-dismissible">
-                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                <h4><i class="icon fa fa-warning"></i> No Records Found</h4>
-                There are no citations that match your search criteria.
-            </div>
-        </div>
+        }
+    }
+    </tbody>
+</table>
+<br />
+<div class="row">
+    <div class="col-md-12">
+        <button id="btnSaveSelectedCitation" type="button" class="btn btn-info float-right" data-dismiss="modal">Use Selected Citation</button>
     </div>
-}
+</div>
 <script type="text/javascript">
     InitDataTableLight('citation-lookup-data-table');
 </script>

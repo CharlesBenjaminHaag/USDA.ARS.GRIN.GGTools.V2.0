@@ -18,6 +18,11 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             throw new NotImplementedException();
         }
 
+        public ActionResult Delete(FormCollection formCollection)
+        {
+            throw new NotImplementedException();
+        }
+
         public ActionResult Edit(int entityId)
         {
             throw new NotImplementedException();

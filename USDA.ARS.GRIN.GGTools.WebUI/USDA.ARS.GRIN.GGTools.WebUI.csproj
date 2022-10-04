@@ -605,6 +605,7 @@
     <Content Include="Views\Taxonomy\Geography\_DetailExtended.cshtml" />
     <Content Include="Views\Taxonomy\Literature\_DetailExtended.cshtml" />
     <Content Include="Views\Taxonomy\Author\_DetailExtended.cshtml" />
+    <Content Include="Views\Taxonomy\Shared\Modals\_Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -613,7 +614,6 @@
     <Folder Include="Models\" />
     <Folder Include="Views\Demo\" />
     <Folder Include="Views\Main\" />
-    <Folder Include="Views\Taxonomy\Shared\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

@@ -252,6 +252,10 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             vm.Search();
             return PartialView("~/Views/Citation/_SelectList.cshtml", vm);
         }
-        
+
+        public ActionResult Delete(FormCollection formCollection)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

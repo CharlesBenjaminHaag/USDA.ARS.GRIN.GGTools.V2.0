@@ -153,5 +153,10 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 return RedirectToAction("InternalServerError", "Error");
             }
         }
+
+        public ActionResult Delete(FormCollection formCollection)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

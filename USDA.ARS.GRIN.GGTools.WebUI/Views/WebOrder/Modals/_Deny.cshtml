@@ -66,4 +66,53 @@
         </div>
     </div>
 </div>
+<script type="text/javascript">
+    $("#btnSubmitReject").click(function () {
+        var eventNote = $("#txtRejectNote").val();
+        if ($("#cbxRejectEmailRequestor").is(":checked")) { }
+        {
+            // Get email text from modal, allowing for user to have made changes to templated text.
+            var emailRequestorTo = $("#txtEmailRejectTo").val();
+            var emailRequestorFrom = $("#txtEmailRejectFrom").val();
+            var emailRequestorSubject = $("#txtEmailRejectSubject").val();
+            var emailRequestorBody = $("#txtEmailRejectBody").val();
+            var emailRequestorBCC = "TEST";
 
+            //emailRequestorBody = CKEDITOR.instances["txtEmailRejectBody"].getData();
+
+            $("#EventAction").val("UPDATE");
+            $("#EventValue").val("NRR_REJECT");
+            $("#EventNote").val(eventNote);
+            $("#SendRequestorNotification").val(true);
+            $("#ActionEmailTo").val(emailRequestorTo);
+            $("#ActionEmailFrom").val(emailRequestorFrom);
+            $("#ActionEmailBCC").val(emailRequestorBCC);
+            $("#ActionEmailSubject").val(emailRequestorSubject);
+            $("#ActionEmailBody").val(emailRequestorBody);
+        }
+
+        if ($("#cbxRejectEmailCurators").is(":checked")) {
+            $("#SendInternalNotification").val(true);
+        }
+        else {
+            $("#SendInternalNotification").val(false);
+        }
+
+        if ($("#cbxRejectEmailRequestor").is(":checked")) {
+            $("#SendRequestorNotification").val(true);
+        }
+        else {
+            $("#SendRequestorNotification").val(false);
+        }
+
+        $("#frmEdit").submit();
+    });
+
+    $("#cbxRejectEmailRequestor").click(function () {
+        if ($(this).is(":checked")) {
+            $("#section-modal-reject-email-fields").show();
+        } else {
+            $("#section-modal-reject-email-fields").hide();
+        }
+    });
+</script>

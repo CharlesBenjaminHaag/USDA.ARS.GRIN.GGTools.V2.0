@@ -109,5 +109,9 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             }
         }
 
+        public ActionResult Delete(FormCollection formCollection)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

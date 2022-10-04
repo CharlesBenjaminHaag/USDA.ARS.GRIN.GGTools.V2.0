@@ -241,6 +241,17 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             RowsAffected = ExecuteNonQuery();
             return RowsAffected;
         }
+
+        public int UpdateLockStatus(WebOrderRequest entity)
+        {
+            WebOrderRequest webOrderRequest = new WebOrderRequest();
+            webOrderRequest = Get(entity.ID);
+            //TODO Set lock attrib
+            webOrderRequest.IsLocked = true;
+            Update(webOrderRequest);
+            return 0;
+        }
+
         public int UpdateWebCooperatorStatus(WebCooperator entity)
         {
             Reset(CommandType.StoredProcedure);

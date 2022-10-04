@@ -190,5 +190,10 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             LiteratureViewModel viewModel = new LiteratureViewModel();
             return PartialView(BASE_PATH + "/Modals/_Lookup.cshtml", viewModel);
         }
+
+        public ActionResult Delete(FormCollection formCollection)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

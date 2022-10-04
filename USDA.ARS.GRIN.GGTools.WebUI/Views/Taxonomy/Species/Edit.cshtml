@@ -35,54 +35,6 @@
         position: relative;
     }
 </style>
-
-@*<div class="card bg-primary collapsed-card">
-    <div class="card-header">
-        <h3 class="card-title">Malus</h3>
-        <div class="card-tools">
-            <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                <i class="fas fa-plus"></i>
-            </button>
-        </div>
-    </div>
-    <div class="card-body" style="display: none;">
-            
-        <div class="card bg-primary collapsed-card">
-            <div class="card-header">
-                <h3 class="card-title">Chloromeles</h3>
-                <div class="card-tools">
-                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                        <i class="fas fa-plus"></i>
-                    </button>
-                </div>
-
-            </div>
-
-            <div class="card-body" style="display: none;">
-                The body of the card
-            </div>
-
-        </div>
-        <div class="card bg-primary collapsed-card">
-            <div class="card-header">
-                <h3 class="card-title">Rosaceae</h3>
-                <div class="card-tools">
-                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                        <i class="fas fa-plus"></i>
-                    </button>
-                </div>
-
-            </div>
-
-            <div class="card-body" style="display: none;">
-                The body of the card
-            </div>
-
-        </div>
-    
-    </div>
-</div>*@
-
 @if (Model.ParentEntity.ID > 0)
 {
     <div class="card card-success">
@@ -412,8 +364,6 @@
     </div>
 
 }
-
-
 @if (Model.Entity.ID > 0)
 {
     //{ Html.RenderAction("_ConspecificList", "Species", new { @eventValue = Model.EventValue, @entityId = Model.Entity.ID }); }
@@ -504,7 +454,6 @@
             $("#btnSetAcceptedOff").hide();
             $(".accepted").show();
         }
-
     }
 
     function SetAcceptedNameControls(selectorControlId) {

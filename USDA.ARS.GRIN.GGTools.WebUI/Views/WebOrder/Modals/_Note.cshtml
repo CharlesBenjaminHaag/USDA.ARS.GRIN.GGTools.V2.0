@@ -19,3 +19,12 @@
     </div>
     <!-- /.modal-dialog -->
 </div>
+<script type="text/javascript">
+    $("#btnSubmitNote").click(function () {
+        var eventNote = $("#txtNote").val();
+        $("#EventAction").val("UPDATE");
+        $("#EventValue").val("NRR_NOTE");
+        $("#EventNote").val(eventNote);
+        $("#frmEdit").submit();
+    });
+</script>

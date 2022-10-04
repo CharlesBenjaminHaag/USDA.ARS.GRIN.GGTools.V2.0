@@ -352,5 +352,10 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 return Json(new { success = false }, JsonRequestBehavior.AllowGet);
             }
         }
+
+        public ActionResult Delete(FormCollection formCollection)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

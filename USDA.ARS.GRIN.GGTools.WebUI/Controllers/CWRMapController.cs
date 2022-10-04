@@ -10,6 +10,7 @@ using NLog;
 namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
 {
     [GrinGlobalAuthentication]
+    [ValidateInput(false)]
     public class CWRMapController : BaseController, IController<CWRMapViewModel>
     {
         protected static string BASE_PATH = "~/Views/Taxonomy/CWRMap/";
@@ -337,6 +338,11 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
         }
 
         public PartialViewResult FolderItems(FormCollection formCollection)
+        {
+            throw new NotImplementedException();
+        }
+
+        public ActionResult Delete(FormCollection formCollection)
         {
             throw new NotImplementedException();
         }

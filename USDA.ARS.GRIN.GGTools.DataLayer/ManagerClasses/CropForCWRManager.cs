@@ -8,7 +8,7 @@ using USDA.ARS.GRIN.GGTools.DataLayer;
 
 namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
 {
-    public class CropForCWRManager : AppDataManagerBase, IManager<CropForCWR, CropForCWRSearch>
+    public class CropForCWRManager : GRINGlobalDataManagerBase, IManager<CropForCWR, CropForCWRSearch>
     {
         public virtual int Insert(CropForCWR entity)
         {
@@ -146,29 +146,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
                 AddParameter("created_by", entity.CreatedByCooperatorID == 0 ? DBNull.Value : (object)entity.CreatedByCooperatorID, true);
             }
         }
-     
-        public virtual List<Cooperator> GetCooperators(string tableName)
-        {
-            SQL = "usp_GGTools_GRINGlobal_CreatedByCooperators_Select";
-            var parameters = new List<IDbDataParameter> {
-                CreateParameter("table_name", (object)tableName, false)
-            };
-            List<Cooperator> cooperators = GetRecords<Cooperator>(SQL, CommandType.StoredProcedure, parameters.ToArray());
-            RowsAffected = cooperators.Count;
-            return cooperators;
-        }
-
-        public virtual List<CodeValue> GetCodeValues(string groupName)
-        {
-            SQL = "usp_GGTools_GRINGlobal_CodeValuesByGroup_Select";
-            var parameters = new List<IDbDataParameter> {
-                CreateParameter("group_name", (object)groupName, false)
-            };
-            List<CodeValue> codeValues = GetRecords<CodeValue>(SQL, CommandType.StoredProcedure, parameters.ToArray());
-            RowsAffected = codeValues.Count;
-            return codeValues;
-        }
-
+    
         public void BuildInsertUpdateParameters()
         {
             throw new NotImplementedException();

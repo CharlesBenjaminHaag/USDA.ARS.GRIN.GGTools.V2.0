@@ -57,13 +57,25 @@
             <div class="col-md-3">
                 <div class="form-group form-horizontal">
                     <label>Admin1 Type</label>
-                    @Html.TextBoxFor(x => x.SearchEntity.Admin1TypeCode, new { @class = "form-control" })
+                    @Html.DropDownListFor(x => x.SearchEntity.Admin1TypeCode, Model.Admin1Types, "All types", new { @class = "form-control" })
                 </div>
             </div>
             <div class="col-md-3">
                 <div class="form-group form-horizontal">
                     <label>Admin2</label>
                     @Html.TextBoxFor(x => x.SearchEntity.Admin2, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group form-horizontal">
+                    <label>Admin2 Abbrev</label>
+                    @Html.TextBoxFor(x => x.SearchEntity.Admin2Abbrev, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group form-horizontal">
+                    <label>Admin2 Type</label>
+                    @Html.DropDownListFor(x => x.SearchEntity.Admin2TypeCode, Model.Admin2Types, "All types", new { @class = "form-control" })
                 </div>
             </div>
         </div>

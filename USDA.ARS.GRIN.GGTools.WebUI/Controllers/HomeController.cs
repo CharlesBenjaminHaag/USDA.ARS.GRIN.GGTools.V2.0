@@ -22,12 +22,50 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             return View(viewModel);
         }
 
-        public JsonResult SetActiveNavMenu(FormCollection formCollection)
-        {
+        //public JsonResult SetActiveNavMenu(FormCollection formCollection)
+        //{
+        //    string targetMenuItem = String.Empty;
+        //    List<string> activeMenuList = new List<string>();
 
+        //    if (!String.IsNullOrEmpty(formCollection["MenuItemID"]))
+        //    {
+        //        targetMenuItem = (formCollection["MenuItemID"]);
+        //    }
 
-            return null;
-        }
+        //    //TODO
+        //    //See if menu item is in list of active items.
+        //    //   If found, remove.
+        //    //   If not, do nothing.
+        //    activeMenuList = Session["ACTIVE_MENU_LIST"] as List<string>;
+        //    if (activeMenuList != null)
+        //    {
+        //        if (activeMenuList.Contains(targetMenuItem))
+        //        {
+        //            activeMenuList.Remove(targetMenuItem);
+        //        }
+        //        else
+        //        {
+        //            activeMenuList.Add(targetMenuItem);
+        //        }
+        //    }
+        //    else
+        //    {
+        //        activeMenuList.Add(targetMenuItem);
+        //    }
+        //    Session["ACTIVE_MENU_LIST"] = activeMenuList;
+        //    return Json("OK", JsonRequestBehavior.AllowGet);
+        //}
+        //public JsonResult RemoveActiveNavMenu(FormCollection formCollection)
+        //{
+        //    List<string> activeMenuList = new List<string>();
+
+        //    if (!String.IsNullOrEmpty(formCollection["MenuItem"]))
+        //    {
+        //        activeMenuList.Remove(formCollection["MenuItem"]);
+        //    }
+        //    Session["ACTIVE_MENU_LIST"] = activeMenuList;
+        //    return Json("OK", JsonRequestBehavior.AllowGet);
+        //}
 
         public ActionResult Navigate(string applicationCode)
         {

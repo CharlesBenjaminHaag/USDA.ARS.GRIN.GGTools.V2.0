@@ -8,7 +8,7 @@ using USDA.ARS.GRIN.GGTools.DataLayer;
 
 namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
 {
-    public class SpeciesManager : AppDataManagerBase, IManager<Species, SpeciesSearch>
+    public class SpeciesManager : GRINGlobalDataManagerBase, IManager<Species, SpeciesSearch>
     {
         public int Insert(Species entity)
         {
@@ -148,29 +148,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             RowsAffected = results.Count;
             return results;
         }
-
-        /// <summary>
-        /// REFACTOR
-        /// </summary>
-        /// <param name="tableName"></param>
-        /// <param name="note"></param>
-        /// <returns></returns>
-        public List<CodeValue> SearchNotes(string tableName, string note)
-        {
-            // Create SQL to search for rows
-            SQL = "SELECT Value, Description FROM vw_GGTools_Taxon_Notes ";
-            SQL += " WHERE (@Note      IS NULL      OR Description     LIKE     '%' + @Note + '%') ";
-            SQL += " AND   (Value      =            @TableName) ";
-
-            var parameters = new List<IDbDataParameter> {
-                CreateParameter("TableName", (object)tableName ?? DBNull.Value, true),
-                CreateParameter("Note", (object)note ?? DBNull.Value, true),
-            };
-            List<CodeValue> codeValues = GetRecords<CodeValue>(SQL, parameters.ToArray());
-            RowsAffected = codeValues.Count;
-            return codeValues;
-        }
-
+        
         public List<CodeValue> SearchProtologues(string protologue)
         {
             List<CodeValue> results = new List<CodeValue>();
@@ -310,26 +288,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             };
             return GetRecords<Species>(SQL, CommandType.StoredProcedure, parameters.ToArray());
         }
-
-        public virtual List<Cooperator> GetCooperators(string tableName)
-        {
-            SQL = "usp_GGTools_GRINGlobal_CreatedByCooperators_Select";
-            var parameters = new List<IDbDataParameter> {
-                CreateParameter("table_name", (object)tableName, false)
-            };
-            List<Cooperator> cooperators = GetRecords<Cooperator>(SQL, CommandType.StoredProcedure, parameters.ToArray());
-            RowsAffected = cooperators.Count;
-            return cooperators;
-        }
-        public virtual List<CodeValue> GetCodeValues(string groupName)
-        {
-            SQL = "usp_GGTools_GRINGlobal_CodeValuesByGroup_Select";
-            var parameters = new List<IDbDataParameter> {
-                CreateParameter("group_name", (object)groupName, false)
-            };
-            List<CodeValue> codeValues = GetRecords<CodeValue>(SQL, CommandType.StoredProcedure, parameters.ToArray());
-            return codeValues;
-        }
+        
         public Dictionary<string, string> GetTableNames()
         {
             return new Dictionary<string, string>
@@ -339,12 +298,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
                 { "taxonomy_species", "Species" }
             };
         }
-        public virtual List<CodeValue> GetTags()
-        {
-            SQL = "usp_TaxonomyTags_Select";
-            List<CodeValue> codeValues = GetRecords<CodeValue>(SQL, CommandType.StoredProcedure);
-            return codeValues;
-        }
+        
         protected virtual void BuildInsertUpdateParameters(Species entity)
         {
             if (entity.ID > 0)
