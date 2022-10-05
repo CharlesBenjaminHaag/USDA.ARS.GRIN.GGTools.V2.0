@@ -53,6 +53,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             {
                 CWRMapViewModel viewModel = new CWRMapViewModel();
                 viewModel.TableName = "taxonomy_cwr_map";
+                viewModel.TableCode = "CWRMap";
                 viewModel.PageTitle = String.Format("Edit CWR Map [{0}]", entityId);
                 viewModel.Get(entityId);
                 return View(BASE_PATH + "Edit.cshtml", viewModel);
@@ -275,11 +276,6 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
 //            }
 //        }
 
-        public ActionResult Delete(int entityId)
-        {
-            throw new NotImplementedException();
-        }
-
         public PartialViewResult FolderItems(int folderId)
         {
             try
@@ -345,6 +341,23 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
         public ActionResult Delete(FormCollection formCollection)
         {
             throw new NotImplementedException();
+        }
+
+        [HttpPost]
+        public JsonResult DeleteEntity(FormCollection formCollection)
+        {
+            try
+            {
+                CWRMapViewModel viewModel = new CWRMapViewModel();
+                viewModel.Entity.ID = Int32.Parse(GetFormFieldValue(formCollection, "EntityID"));
+                viewModel.TableName = GetFormFieldValue(formCollection, "TableName");
+                viewModel.Delete();
+                return Json(new { success = true }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { errorMessage = ex.Message }, JsonRequestBehavior.AllowGet);
+            }
         }
     }
 }

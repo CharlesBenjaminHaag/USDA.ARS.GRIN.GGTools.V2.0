@@ -147,6 +147,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 {
                     viewModel.Get(entityId);
                     viewModel.TableName = "taxonomy_family_map";
+                    viewModel.TableCode = "Family";
                     viewModel.PageTitle = viewModel.GetPageTitle();
                 }
                 else
@@ -574,29 +575,21 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
         {
             throw new NotImplementedException();
         }
-
-        //public JsonResult AddCitations(FormCollection formCollection)
-        //{
-        //    try
-        //    {
-        //        CitationViewModel viewModel = new CitationViewModel();
-
-        //        if (!String.IsNullOrEmpty(formCollection["FamilyID"]))
-        //        {
-        //            viewModel.Entity.FamilyID = Int32.Parse(formCollection["FamilyID"]);
-        //        }
-
-        //        if (!String.IsNullOrEmpty(formCollection["IDList"]))
-        //        {
-        //            viewModel.Entity.ItemIDList = formCollection["IDList"];
-        //        }
-        //        viewModel.InsertByFamily();
-        //        return Json(new { success = true }, JsonRequestBehavior.AllowGet);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return Json(new { success = false }, JsonRequestBehavior.AllowGet);
-        //    }
-        //}
+        [HttpPost]
+        public JsonResult DeleteEntity(FormCollection formCollection)
+        {
+            try
+            {
+                FamilyMapViewModel viewModel = new FamilyMapViewModel();
+                viewModel.Entity.ID = Int32.Parse(GetFormFieldValue(formCollection, "EntityID"));
+                viewModel.TableName = GetFormFieldValue(formCollection, "TableName");
+                viewModel.Delete();
+                return Json(new { success = true }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { errorMessage = ex.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
     }
 }

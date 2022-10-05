@@ -66,6 +66,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             {
                 ClassificationViewModel viewModel = new ClassificationViewModel();
                 viewModel.TableName = "taxonomy_classification";
+                viewModel.TableCode = "Classification";
                 viewModel.Get(entityId);
                 viewModel.EventAction = "Edit";
                 viewModel.PageTitle = String.Format(viewModel.EventAction + " " + viewModel.TableCode + String.Format(" [{0}]: {1}", viewModel.Entity.ID, viewModel.Entity.OrderName));
@@ -204,6 +205,22 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
         public ActionResult Delete(FormCollection formCollection)
         {
             throw new NotImplementedException();
+        }
+        [HttpPost]
+        public JsonResult DeleteEntity(FormCollection formCollection)
+        {
+            try
+            {
+                ClassificationViewModel viewModel = new ClassificationViewModel();
+                viewModel.Entity.ID = Int32.Parse(GetFormFieldValue(formCollection, "EntityID"));
+                viewModel.TableName = GetFormFieldValue(formCollection, "TableName");
+                viewModel.Delete();
+                return Json(new { success = true }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { errorMessage = ex.Message }, JsonRequestBehavior.AllowGet);
+            }
         }
     }
 }

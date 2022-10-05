@@ -8,7 +8,7 @@ using USDA.ARS.GRIN.GGTools.DataLayer;
 
 namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
 {
-    public class FamilyMapManager : AppDataManagerBase, IManager<FamilyMap, FamilyMapSearch>
+    public class FamilyMapManager : GRINGlobalDataManagerBase, IManager<FamilyMap, FamilyMapSearch>
     {
         public void BuildInsertUpdateParameters()
         {

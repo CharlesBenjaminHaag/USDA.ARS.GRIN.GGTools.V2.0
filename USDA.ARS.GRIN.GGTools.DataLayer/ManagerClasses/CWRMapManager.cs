@@ -9,7 +9,7 @@ using USDA.ARS.GRIN.GGTools.DataLayer;
 
 namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
 {
-    public partial class CWRMapManager : AppDataManagerBase, IManager<CWRMap, CWRMapSearch>
+    public partial class CWRMapManager : GRINGlobalDataManagerBase, IManager<CWRMap, CWRMapSearch>
     {
         public virtual List<CWRMap> Search(CWRMapSearch search)
         {
@@ -118,6 +118,8 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         {
             throw new NotImplementedException();
         }
+    
+
 
         public CWRMap Get(int entityId)
         {

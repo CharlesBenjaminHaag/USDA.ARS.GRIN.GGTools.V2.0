@@ -14,7 +14,18 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
        
         public void Delete()
         {
-            
+            try
+            {
+                using (SpeciesManager mgr = new SpeciesManager())
+                {
+                    mgr.Delete(TableName, Entity.ID);
+                }
+            }
+            catch (Exception ex)
+            {
+                PublishException(ex);
+                throw ex;
+            }
         }
 
         public void DeleteTag(int tagMapId)

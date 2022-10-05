@@ -17,7 +17,18 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
         { }
         public void Delete()
         {
-            throw new NotImplementedException();
+            try
+            {
+                using (GenusManager mgr = new GenusManager())
+                {
+                    mgr.Delete(TableName, Entity.ID);
+                }
+            }
+            catch (Exception ex)
+            {
+                PublishException(ex);
+                throw ex;
+            }
         }
         public Genus Get(int entityId)
         {

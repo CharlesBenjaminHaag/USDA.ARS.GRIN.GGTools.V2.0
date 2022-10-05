@@ -140,7 +140,37 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
         [HttpPost]
         public ActionResult Delete(FormCollection formCollection)
         {
-            return View();
+            try
+            {
+                CropForCWRViewModel viewModel = new CropForCWRViewModel();
+                viewModel.Entity.ID = Int32.Parse(GetFormFieldValue(formCollection, "EntityID"));
+                viewModel.TableName = GetFormFieldValue(formCollection, "TableName");
+                viewModel.Delete();
+                return View();
+            }
+            
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return RedirectToAction("InternalServerError", "Error");
+            }
+        }
+
+        [HttpPost]
+        public JsonResult DeleteEntity(FormCollection formCollection)
+        {
+            try 
+            {
+                CropForCWRViewModel viewModel = new CropForCWRViewModel();
+                viewModel.Entity.ID = Int32.Parse(GetFormFieldValue(formCollection, "EntityID"));
+                viewModel.TableName = GetFormFieldValue(formCollection, "TableName");
+                viewModel.Delete();
+                return Json(new { success = true }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { errorMessage = ex.Message }, JsonRequestBehavior.AllowGet);
+            }
         }
 
         [HttpPost]

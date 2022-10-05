@@ -19,33 +19,38 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
         /// <summary>
         /// Get user credentials.
         /// </summary>
-        /// <param name="vm"></param>
+        /// <param name="viewModel"></param>
         /// <returns></returns>
         [HttpPost]
         [ValidateInput(true)]
         [ValidateAntiForgeryToken]
-        public ActionResult Index(SysUserViewModel vm) 
+        public ActionResult Index(SysUserViewModel viewModel) 
         {
             try
             {
-                vm.Authenticate();
+                if (!viewModel.IsAlphaNumeric(viewModel.Entity.UserName))
+                {
+                    viewModel.UserMessage = String.Format("User name invalid.");
+                    return View(viewModel);
+                }
+                viewModel.Authenticate();
                 ModelState.Clear();
             }
             catch (Exception ex)
             {
-                vm.UserMessage = ex.Message;
-                return View(vm);
+                viewModel.UserMessage = ex.Message;
+                return View(viewModel);
             }
 
-            if (vm.Entity.IsAuthenticated)
+            if (viewModel.Entity.IsAuthenticated)
             {
-                AuthenticatedUserSession authenticatedUserSession = new AuthenticatedUserSession(vm.Entity);
+                AuthenticatedUserSession authenticatedUserSession = new AuthenticatedUserSession(viewModel.Entity);
                 Session["AUTHENTICATED_USER_SESSION"] = authenticatedUserSession;
                 return View("~/Views/Login/Attestation.cshtml");
             }
             else
             {
-                return View(vm);
+                return View(viewModel);
             }
         }
 
@@ -89,6 +94,12 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult RequestPasswordReset(SysUserViewModel viewModel)
         {
+            if (!viewModel.IsAlphaNumeric(viewModel.Entity.UserName))
+            {
+                viewModel.UserMessage = String.Format("User name invalid.");
+                return View(viewModel);
+            }
+
             viewModel.SearchEntity.UserName = viewModel.Entity.UserName;
             if (String.IsNullOrEmpty(viewModel.SearchEntity.UserName))
             {

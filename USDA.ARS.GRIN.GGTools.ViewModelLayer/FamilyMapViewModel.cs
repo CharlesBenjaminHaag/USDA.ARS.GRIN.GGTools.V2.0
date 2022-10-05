@@ -14,7 +14,18 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
     {
         public void Delete()
         {
-            throw new NotImplementedException();
+            try
+            {
+                using (FamilyMapManager mgr = new FamilyMapManager())
+                {
+                    mgr.Delete(TableName, Entity.ID);
+                }
+            }
+            catch (Exception ex)
+            {
+                PublishException(ex);
+                throw ex;
+            }
         }
         public FamilyMap Get(int entityId)
         {

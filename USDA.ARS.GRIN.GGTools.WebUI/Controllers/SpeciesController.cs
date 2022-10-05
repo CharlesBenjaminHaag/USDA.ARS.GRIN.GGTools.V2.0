@@ -19,6 +19,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             SpeciesViewModel viewModel = new SpeciesViewModel();
             viewModel.PageTitle = "Species Search";
             viewModel.TableName = "taxonomy_species";
+            viewModel.TableCode = "Species";
             return View(BASE_PATH + "Index.cshtml", viewModel);
         }
 
@@ -255,6 +256,22 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
         public ActionResult Delete(FormCollection formCollection)
         {
             throw new NotImplementedException();
+        }
+        [HttpPost]
+        public JsonResult DeleteEntity(FormCollection formCollection)
+        {
+            try
+            {
+                SpeciesViewModel viewModel = new SpeciesViewModel();
+                viewModel.Entity.ID = Int32.Parse(GetFormFieldValue(formCollection, "EntityID"));
+                viewModel.TableName = GetFormFieldValue(formCollection, "TableName");
+                viewModel.Delete();
+                return Json(new { success = true }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { errorMessage = ex.Message }, JsonRequestBehavior.AllowGet);
+            }
         }
     }
 }

@@ -426,6 +426,23 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
             sMTPManager.SendMessage(infoRequestEmailMessage);
         }
 
+        public bool IsAlphaNumeric(string input)
+        {
+            // Remove "." and "@" characters before comparison -- both are common in user 
+            // names.
+            input = input.Replace('.', 'X').Replace('@','X');
+
+            string pattern = @"^[a-zA-Z0-9]*$";
+            if (Regex.IsMatch(input, pattern))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+            
+        }
     }
 }
 

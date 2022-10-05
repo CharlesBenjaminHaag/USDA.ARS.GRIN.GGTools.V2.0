@@ -17,6 +17,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             Groups = new List<SysGroupUserMap>();
         }
         public int SysUserID { get; set; }
+        
         public string SysUserName { get; set; }
         public string SysUserPassword { get; set; }
         public string SysUserPlainTextPassword { get; set; }
@@ -28,6 +29,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
         public string WebUserName { get; set; }
         public string WebUserPassword { get; set; }
         public bool IsAuthenticated { get; set; }
+        [RegularExpression(@"^[a-zA-Z0-9]*$")]
         public string UserName { get; set; }
         public string Password { get; set; }
         public string PasswordConfirm { get; set; }

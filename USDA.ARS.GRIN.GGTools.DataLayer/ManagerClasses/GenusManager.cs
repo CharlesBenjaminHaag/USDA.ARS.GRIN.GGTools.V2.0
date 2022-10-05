@@ -8,7 +8,7 @@ using USDA.ARS.GRIN.GGTools.DataLayer;
 
 namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
 {
-    public class GenusManager : AppDataManagerBase, IManager<Genus, GenusSearch>
+    public class GenusManager : GRINGlobalDataManagerBase, IManager<Genus, GenusSearch>
     {
         public int Delete(Genus entity)
         {

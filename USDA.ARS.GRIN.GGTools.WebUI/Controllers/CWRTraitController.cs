@@ -50,6 +50,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI
             {
                 CWRTraitViewModel viewModel = new CWRTraitViewModel();
                 viewModel.TableName = "taxonomy_cwr_trait";
+                viewModel.TableCode = "CWRTrait";
                 if (entityId > 0)
                 {
                     viewModel.Get(entityId);
@@ -202,6 +203,23 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI
         public ActionResult Delete(FormCollection formCollection)
         {
             throw new NotImplementedException();
+        }
+
+        [HttpPost]
+        public JsonResult DeleteEntity(FormCollection formCollection)
+        {
+            try
+            {
+                CWRTraitViewModel viewModel = new CWRTraitViewModel();
+                viewModel.Entity.ID = Int32.Parse(GetFormFieldValue(formCollection, "EntityID"));
+                viewModel.TableName = GetFormFieldValue(formCollection, "TableName");
+                viewModel.Delete();
+                return Json(new { success = true }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { errorMessage = ex.Message }, JsonRequestBehavior.AllowGet);
+            }
         }
     }
 }

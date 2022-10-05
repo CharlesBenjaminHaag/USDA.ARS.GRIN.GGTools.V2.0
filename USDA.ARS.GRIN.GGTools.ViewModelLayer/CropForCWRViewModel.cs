@@ -124,7 +124,18 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
 
         public void Delete()
         {
-            throw new NotImplementedException();
+            try
+            {
+                using (CropForCWRManager mgr = new CropForCWRManager())
+                {
+                    mgr.Delete(TableName, Entity.ID);
+                }
+            }
+            catch (Exception ex)
+            {
+                PublishException(ex);
+                throw ex;
+            }
         }
 
         void IViewModel<CropForCWRViewModel>.Search()

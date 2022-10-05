@@ -38,20 +38,24 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
         /// Calls a generic procedure that deletes a specified record from a specified table, identified by ID.
         /// </summary>
         /// <param name="sysTableName"></param>
-        /// <param name="sysTableId"></param>
+        /// <param name="entityId"></param>
         /// <returns></returns>
         /// <remarks>Requires that PK field name is [TABLE_NAME] + '_id', which is the GG standard.</remarks>
-        public int Delete(string sysTableName, int sysTableId)
+        public int Delete(string sysTableName, int entityId)
         {
             Reset(CommandType.StoredProcedure);
             SQL = "usp_GGTools_Taxon_Entity_Delete";
 
+            AddParameter("table_name", sysTableName, true);
+            AddParameter("entity_id", entityId == 0 ? DBNull.Value : (object)entityId, true);
             AddParameter("@out_error_number", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
 
-            int errorNumber = GetParameterValue<int>("@out_error_number", -1);
-
             RowsAffected = ExecuteNonQuery();
-
+            int errorNumber = GetParameterValue<int>("@out_error_number", -1);
+            if (errorNumber > 0)
+            {
+                throw new Exception(errorNumber.ToString());
+            }
             return RowsAffected;
         }
     }

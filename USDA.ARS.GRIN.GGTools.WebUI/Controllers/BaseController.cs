@@ -44,5 +44,21 @@ namespace USDA.ARS.GRIN.GGTools.WebUI
         //    //Log the error!!
         //    Log.Error(filterContext.Exception);
         //}
+        protected string GetFormFieldValue(FormCollection formCollection, string fieldName)
+        {
+            if (formCollection.Count == 0)
+            {
+                return String.Empty;
+            }
+
+            if (formCollection[fieldName] == null)
+            {
+                return String.Empty;
+            }
+            else
+            {
+                return formCollection[fieldName];
+            }
+        }
     }
 }
