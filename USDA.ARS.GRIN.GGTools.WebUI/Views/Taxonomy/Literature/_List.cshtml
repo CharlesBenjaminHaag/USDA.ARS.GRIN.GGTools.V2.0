@@ -50,8 +50,8 @@
                                 <td>
                                     @result.ModifiedByCooperatorName
                                 </td>
-                                <td>
-                                    <a href="@Url.Action("Edit", "Literature", new { entityId = result.ID })" class="btn btn-primary btn-sm pull-right row-edit">
+                                <td style="text-align:right;">
+                                    <a href="@Url.Action("Edit", "Literature", new { entityId = result.ID })" class="btn btn-default btn-sm pull-right row-edit">
                                         <i class="fa fa-edit"></i>
                                     </a>
                                     @*@if (Model.Action == "Folder")

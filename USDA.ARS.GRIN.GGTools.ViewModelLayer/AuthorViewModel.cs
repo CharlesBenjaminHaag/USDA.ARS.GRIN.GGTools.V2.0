@@ -15,7 +15,18 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
     {
         public void Delete()
         {
-            throw new NotImplementedException();
+            try
+            {
+                using (GRINGlobalDataManagerBase mgr = new GRINGlobalDataManagerBase())
+                {
+                    mgr.Delete(TableName, Entity.ID);
+                }
+            }
+            catch (Exception ex)
+            {
+                PublishException(ex);
+                throw ex;
+            }
         }
 
         public Author Get(int entityId)

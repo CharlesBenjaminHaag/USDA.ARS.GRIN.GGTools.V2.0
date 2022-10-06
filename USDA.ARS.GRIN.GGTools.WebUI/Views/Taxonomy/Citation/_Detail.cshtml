@@ -21,6 +21,12 @@
                     @using (Html.BeginForm("Search", "Citation", FormMethod.Post, new { id = "frmMain" }))
                     {
                         <div class="row">
+                            <div class="col-md-2">
+                                <div class="form-group form-horizontal">
+                                    <label>Created By</label>
+                                    @Html.DropDownListFor(x => x.SearchEntity.CreatedByCooperatorID, Model.Cooperators, "Any Cooperator", new { @class = "form-control" })
+                                </div>
+                            </div>
                             <div class="col-md-1">
                                 <div id="form-group">
                                     <label id="lblStandardAbbreviation">Literature Type</label>
@@ -33,13 +39,13 @@
                                     @Html.DropDownListFor(x => x.SearchEntity.StandardAbbreviation, Model.StandardAbbreviations, "All sources", new { @class = "form-control" })
                                 </div>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <div id="form-group">
                                     <label>Abbreviation</label>
                                     @Html.TextBoxFor(x => x.SearchEntity.Abbreviation, new { @class = "form-control" })
                                 </div>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <div id="form-group">
                                     <label>Citation Title</label>
                                     @Html.TextBoxFor(x => x.SearchEntity.CitationTitle, new { @class = "form-control" })

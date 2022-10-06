@@ -27,46 +27,40 @@
                 </tr>
             </thead>
             <tbody>
-                @if (Model.DataCollection != null)
+                @foreach (var result in Model.DataCollection)
                 {
-                    if (Model.DataCollection.Count() > 0)
-                    {
-                        foreach (var result in Model.DataCollection)
-                        {
-                <tr>
-                    <td>
-                        @result.ID
-                    </td>
-                    <td>
-                        @result.ID
-                    </td>
-                    <td>@result.Continent</td>
-                    <td>@result.SubContinent</td>
-                    <td>@result.CountryDescription</td>
-                    <td>@result.Admin1</td>
-                    <td>@result.Admin1TypeCode</td>
-                    <td>@result.Admin2</td>
-                    <td>@result.Admin2TypeCode</td>
-                    <td>
-                        @Html.Raw(Model.FormatBoolean(@result.IsValid))
-                    </td>
-                    <td>
-                        @Html.Raw(result.Note)
-                    </td>
-                    <td>
-                        <a href="@Url.Action("Edit", "Geography", new { entityId = result.ID })" class="btn btn-primary btn-sm pull-right row-edit">
-                            <i class="fa fa-edit"></i>
-                        </a>
-                        @*@if (Model.Action == "Folder")
-            {
-                <button id="btnDeleteFolderItem_@cropForCWR.ReferenceID" class="btn btn-danger btn-sm pull-right row-edit margin-r-5">
-                    <i class="fa fa-trash"></i> Remove From Folder
-                </button>
-            }*@
-                    </td>
-                </tr>
-                        }
-                    }
+                    <tr>
+                        <td>
+                            @result.ID
+                        </td>
+                        <td>
+                            @result.ID
+                        </td>
+                        <td>@result.Continent</td>
+                        <td>@result.SubContinent</td>
+                        <td>@result.CountryDescription</td>
+                        <td>@result.Admin1</td>
+                        <td>@result.Admin1TypeCode</td>
+                        <td>@result.Admin2</td>
+                        <td>@result.Admin2TypeCode</td>
+                        <td>
+                            @Html.Raw(Model.FormatBoolean(@result.IsValid))
+                        </td>
+                        <td>
+                            @Html.Raw(result.Note)
+                        </td>
+                        <td style="text-align:right;">
+                            <a href="@Url.Action("Edit", "Geography", new { entityId = result.ID })" class="btn btn-default btn-sm pull-right row-edit">
+                                <i class="fa fa-edit"></i>
+                            </a>
+                            @*@if (Model.Action == "Folder")
+                            {
+                                <button id="btnDeleteFolderItem_@cropForCWR.ReferenceID" class="btn btn-danger btn-sm pull-right row-edit margin-r-5">
+                                    <i class="fa fa-trash"></i> Remove From Folder
+                                </button>
+                            }*@
+                        </td>
+                    </tr>
                 }
             </tbody>
         </table>
@@ -74,7 +68,6 @@
 </div>
 <script type="text/javascript">
     $(document).ready(function () {
-        Init();
         InitDataTable("data-table-geography");
     });
 </script>

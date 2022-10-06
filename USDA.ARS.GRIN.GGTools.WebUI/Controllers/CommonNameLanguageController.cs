@@ -69,9 +69,10 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             {
                 CommonNameLanguageViewModel viewModel = new CommonNameLanguageViewModel();
                 viewModel.TableName = "taxonomy_common_name_language";
+                viewModel.TableCode = "CommonNameLanguage";
                 viewModel.Get(entityId);
                 viewModel.EventAction = "Edit";
-                viewModel.PageTitle = String.Format("Edit Common Name Language");
+                viewModel.PageTitle = String.Format("Edit Common Name Language [{0}]", viewModel.Entity.ID);
                 return View(BASE_PATH + "Edit.cshtml", viewModel);
             }
             catch (Exception ex)
@@ -124,6 +125,23 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
         public ActionResult Delete(FormCollection formCollection)
         {
             throw new NotImplementedException();
+        }
+
+        [HttpPost]
+        public JsonResult DeleteEntity(FormCollection formCollection)
+        {
+            try
+            {
+                CommonNameLanguageViewModel viewModel = new CommonNameLanguageViewModel();
+                viewModel.Entity.ID = Int32.Parse(GetFormFieldValue(formCollection, "EntityID"));
+                viewModel.TableName = GetFormFieldValue(formCollection, "TableName");
+                viewModel.Delete();
+                return Json(new { success = true }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { errorMessage = ex.Message }, JsonRequestBehavior.AllowGet);
+            }
         }
     }
 }

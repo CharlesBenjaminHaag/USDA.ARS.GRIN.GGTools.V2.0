@@ -199,11 +199,6 @@
     $(document).on("click", "[id='btnSaveSelectedCitation']", function () {
         var selectedItemIdList = GetSelectedEntityIDs("citation-lookup-data-table");
         var selectedItemLabelList = GetSelectedEntityLabels("citation-lookup-data-table");
-
-        //DEBUG
-        alert("SELECTED " + selectedItemIdList + " " + selectedItemLabelList)
-
-
         $("#Entity_CitationID").val(selectedItemIdList);
         $("#Entity_CitationText").val(selectedItemLabelList);
     });

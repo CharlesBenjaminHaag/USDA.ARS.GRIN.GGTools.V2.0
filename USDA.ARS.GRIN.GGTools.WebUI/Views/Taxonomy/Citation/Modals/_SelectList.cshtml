@@ -4,8 +4,8 @@
         <tr>
             <th></th>
             <th width="5%">ID</th>
-            <th>Taxon</th>
             <th>Citation Text</th>
+            <th>Taxon</th>
         </tr>
     </thead>
     <tbody>
@@ -20,11 +20,11 @@
                         <td>
                             @result.ID
                         </td>
+                        <td>@Html.Raw(result.CitationText)</td>
                         <td>
                             @result.SpeciesName
                         </td>
-                    <td>@Html.Raw(result.CitationText)</td>
-                </tr>
+                    </tr>
             }
         }
     }

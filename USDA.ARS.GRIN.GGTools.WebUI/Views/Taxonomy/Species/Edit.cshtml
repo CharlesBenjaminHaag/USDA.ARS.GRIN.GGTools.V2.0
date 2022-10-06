@@ -93,7 +93,9 @@
     @Html.HiddenFor(x => x.Entity.VerifiedByCooperatorName)
     @Html.HiddenFor(x => x.Entity.NameVerifiedDate)
     <input type="hidden" id="hfModalEventValue" />
+
     @Html.Partial("~/Views/Shared/_RevisionHistory.cshtml")
+
     <div class="card card-default">
         <div class="card-header">
             <div class="btn-group">
@@ -368,8 +370,8 @@
             <button type="submit" class="btn btn-primary float-right">Save</button>
         </div>
     </div>
-
 }
+
 @if (Model.Entity.ID > 0)
 {
     //{ Html.RenderAction("_ConspecificList", "Species", new { @eventValue = Model.EventValue, @entityId = Model.Entity.ID }); }

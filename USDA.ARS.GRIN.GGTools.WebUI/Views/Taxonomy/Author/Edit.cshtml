@@ -16,126 +16,55 @@
 
     <div class="card card-default">
         <div class="card-header">
-            <h3 class="card-title">Summary</h3>
-            <div class="card-tools">
-                <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                    <i class="fas fa-minus"></i>
+            <div class="btn-group">
+                <button type="button" class="btn btn-default btn-sm pull-right" data-toggle="modal" data-target="#modal-note-lookup">
+                    <i class="fa fa-search margin-r-5"></i>
+                    Notes
                 </button>
             </div>
         </div>
-    <div class="card-body">
-        @Html.ValidationSummary()
-        <div class="row">
-            <div class="col-md-3">
-                <label>Short Name</label>
-                @Html.TextBoxFor(x => x.Entity.ShortName, new { @class = "form-control" })
-                @Html.ValidationMessageFor(x => x.Entity.ShortName, "", new { @class = "text-danger" })
+        <div class="card-body">
+            @Html.ValidationSummary()
+            <div class="row">
+                <div class="col-md-3">
+                    <label>Short Name</label>
+                    @Html.TextBoxFor(x => x.Entity.ShortName, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(x => x.Entity.ShortName, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-md-3">
+                    <label>Full Name</label>
+                    @Html.TextBoxFor(x => x.Entity.FullName, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(x => x.Entity.FullName, "", new { @class = "text-danger" })
+                </div>
             </div>
-            <div class="col-md-3">
-                <label>Full Name</label>
-                @Html.TextBoxFor(x => x.Entity.FullName, new { @class = "form-control" })
-                @Html.ValidationMessageFor(x => x.Entity.FullName, "", new { @class = "text-danger" })
+            <div class="row">
+                <div class="col-md-12" style="margin-top:1.0em;">
+                    <label>Note</label>
+                    @Html.TextAreaFor(x => x.Entity.Note, new { @id = "txtNote", @class = "form-control" })
+                </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-md-12" style="margin-top:1.0em;">
-                <label>Note</label>
-                @Html.TextAreaFor(x => x.Entity.Note, new { @id = "txtNote", @class = "form-control" })
-            </div>
+        <div class="card-footer">
+            <a href="@Url.Action("Refresh")" class="btn btn-warning">Cancel</a>
+            @if (Model.Entity.ID > 0)
+            {
+                <button id="btnDelete" type="button" class="btn btn-danger">
+                    Delete
+                </button>
+            }
+            <button type="submit" class="btn btn-primary float-right">Save</button>
         </div>
     </div>
-    <div class="card-footer">
-        <a href="@Url.Action("Refresh")" class="btn btn-danger">Cancel</a>
-        <button type="submit" class="btn btn-primary float-right">Save</button>
-    </div>
-</div>
 }
 
-<!--
-**********************************************************************************
-MODALS
-**********************************************************************************
--->
-@Html.Partial("~/Views/Shared/Modals/_NoteLookup.cshtml")
+@Html.Partial("~/Views/Shared/Modals/_NoteLookup2.cshtml")
+@Html.Partial("~/Views/Taxonomy/Shared/Modals/_Delete.cshtml")
 
 <script>
     $(document).ready(function () {
         Init();
-        InitializeCKEditor();
     });
 
     function Init() {
     }
-
-    /*
-   * ===================================================================================================
-   * CKEDITOR
-   * ===================================================================================================
-   */
-    function InitializeCKEditor() {
-        const editor = CKEDITOR.replace('txtNote', {
-            width: '100%',
-            height: 100,
-            enterMode: CKEDITOR.ENTER_BR
-        }
-        );
-
-        //editor.addCommand("searchNotes", {
-        //    exec(edt) {
-        //        OpenNoteLookupModal();
-        //    }
-        //});
-
-        editor.config.coreStyles_italic = { element: 'i', overrides: 'em' };
-
-        editor.ui.addButton('SuperButton', {
-            label: "Search taxon record notes.",
-            command: 'searchNotes',
-            toolbar: 'insert',
-            height: 80,
-            width: 100,
-            icon: 'https://cdn-icons.flaticon.com/png/128/3031/premium/3031293.png?token=exp=1643047176~hmac=8e60d1aebf934f53fda6eb320d1ffedc'
-        });
-    }
-
-        /*
-    * ===================================================================================================
-    * NOTE LOOKUP MODAL
-    * ===================================================================================================
-    */
-
-    $("#btnLookupNote").click(function () {
-        SearchNotes();
-    });
-
-    function SearchNotes() {
-        var link = '@Url.Action("LookupNotes","Author")';
-        var tableName = $("#TableName").val();
-        var note = $("#txtLookupNote").val();
-
-        var formData = new FormData();
-        formData.append("TableName", tableName);
-        formData.append("Note", note);
-
-        $.ajax({
-            url: link,
-            type: 'POST',
-            cache: false,
-            contentType: false,
-            processData: false,
-            data: formData,
-            success: function (response) {
-                $("#section-lookup-note-search-results").html(response);
-            },
-            error: function () {
-                alert("Error");
-            }
-        });
-    }
-
-    $(document).on("click", ".note-selector", function () {
-        $('#modal-note-lookup').modal('hide');
-        var selectedNote = $(this).val();
-        CKEDITOR.instances["txtNote"].setData(selectedNote);
-    });
 </script>

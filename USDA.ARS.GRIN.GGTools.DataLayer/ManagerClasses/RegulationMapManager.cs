@@ -8,7 +8,7 @@ using USDA.ARS.GRIN.GGTools.DataLayer;
 
 namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
 {
-    public class RegulationMapManager : AppDataManagerBase, IManager<RegulationMap, RegulationMapSearch>
+    public class RegulationMapManager : GRINGlobalDataManagerBase, IManager<RegulationMap, RegulationMapSearch>
     {
         public virtual int Insert(RegulationMap entity)
         {

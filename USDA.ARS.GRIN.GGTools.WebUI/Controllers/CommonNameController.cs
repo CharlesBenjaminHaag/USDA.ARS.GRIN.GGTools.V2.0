@@ -60,6 +60,8 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             {
                 CommonNameViewModel viewModel = new CommonNameViewModel();
                 viewModel.TableName = "taxonomy_common_name";
+                viewModel.TableCode = "CommonName";
+                
                 if (entityId > 0)
                 {
                     viewModel.Get(entityId);
@@ -188,6 +190,22 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
         public JsonResult Add(FormCollection coll)
         {
             return null;
+        }
+        [HttpPost]
+        public JsonResult DeleteEntity(FormCollection formCollection)
+        {
+            try
+            {
+                CommonNameViewModel viewModel = new CommonNameViewModel();
+                viewModel.Entity.ID = Int32.Parse(GetFormFieldValue(formCollection, "EntityID"));
+                viewModel.TableName = GetFormFieldValue(formCollection, "TableName");
+                viewModel.Delete();
+                return Json(new { success = true }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { errorMessage = ex.Message }, JsonRequestBehavior.AllowGet);
+            }
         }
     }
 }

@@ -13,7 +13,18 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
     {
         public void Delete()
         {
-            throw new NotImplementedException();
+            try
+            {
+                using (SpeciesManager mgr = new SpeciesManager())
+                {
+                    mgr.Delete(TableName, Entity.ID);
+                }
+            }
+            catch (Exception ex)
+            {
+                PublishException(ex);
+                throw ex;
+            }
         }
 
         public CommonName Get(int entityId)

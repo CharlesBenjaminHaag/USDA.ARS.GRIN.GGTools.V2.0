@@ -3,8 +3,9 @@ using System.Web.Mvc;
 using System.Collections.ObjectModel;
 using USDA.ARS.GRIN.Common.Library.Exceptions;
 using USDA.ARS.GRIN.Common.Library.Security;
-using USDA.ARS.GRIN.GGTools.ViewModelLayer;
 using USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer;
+using USDA.ARS.GRIN.GGTools.DataLayer;
+using USDA.ARS.GRIN.GGTools.ViewModelLayer;
 using System.Collections.Generic;
 
 namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
@@ -13,7 +14,18 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
     {
         public void Delete()
         {
-            throw new NotImplementedException();
+            try
+            {
+                using (GRINGlobalDataManagerBase mgr = new GRINGlobalDataManagerBase())
+                {
+                    mgr.Delete(TableName, Entity.ID);
+                }
+            }
+            catch (Exception ex)
+            {
+                PublishException(ex);
+                throw ex;
+            }
         }
 
         public Literature Get(int entityId)

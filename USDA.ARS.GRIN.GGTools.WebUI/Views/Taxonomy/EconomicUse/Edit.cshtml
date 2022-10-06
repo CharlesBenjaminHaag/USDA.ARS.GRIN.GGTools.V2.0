@@ -16,16 +16,6 @@
 
     <div class="card card-default">
         <div class="card-header">
-            @if (Model.Entity.ID > 0)
-            {
-                
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#modal-citation-lookup">
-                            <i class="fa fa-book"></i>
-                        </button>
-                    </div>
-                
-            }
             <div class="btn-group">
                 <button type="button" class="btn btn-default btn-sm pull-right" data-toggle="modal" data-target="#modal-note-lookup">
                     <i class="fa fa-search margin-r-5"></i>
@@ -69,26 +59,52 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-12" style="margin-top:1.0em;">
-                    <label>Note</label>
-                    @Html.TextAreaFor(x => x.Entity.Note, new { @id = "txtNote", @class = "form-control" })
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label>Note</label>
+                        @Html.TextAreaFor(x => x.Entity.Note, new { @id = "txtNote", @class = "form-control" })
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label>Citation</label>
+                        <div class="input-group">
+                            @Html.HiddenFor(x => x.Entity.CitationID)
+                            @Html.TextBoxFor(x => x.Entity.CitationText, new { @class = "form-control", @readonly = "readonly" })
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-default btn-flat" data-toggle="modal" data-target="#modal-citation-lookup">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
         <div class="card-footer">
-            <button type="button" class="btn btn-danger"><i class="fa fa-undo"></i> Cancel</button>
+            <button type="button" class="btn btn-warning">
+                @*<i class="fa fa-undo"></i>*@ 
+                Cancel
+            </button>
+            @if (Model.Entity.ID > 0)
+            {
+                <button id="btnDelete" type="button" class="btn btn-danger">
+                    Delete
+                </button>
+            }
             <button type="submit" class="btn btn-primary float-right"><i class="fa fa-save"></i> Save</button>
         </div>
     </div>
 }
+
 @Html.Partial("~/Views/Taxonomy/Species/Modals/_Lookup.cshtml")
 @Html.Partial("~/Views/Shared/Modals/_NoteLookup2.cshtml")
-@if (Model.Entity.ID > 0)
-{
-    { Html.RenderAction("RenderWidget", "Citation", new { entityId = Model.Entity.CitationID }); }
-}
 @{Html.RenderAction("RenderLookupModal", "Citation"); }
 @{Html.RenderAction("RenderLookupModal", "Geography"); }
+@Html.Partial("~/Views/Taxonomy/Shared/Modals/_Delete.cshtml")
+
 <script>
     $(document).ready(function () {
         Init();

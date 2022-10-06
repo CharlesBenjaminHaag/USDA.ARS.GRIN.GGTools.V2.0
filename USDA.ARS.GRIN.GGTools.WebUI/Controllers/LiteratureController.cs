@@ -47,6 +47,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             {
                 LiteratureViewModel viewModel = new LiteratureViewModel();
                 viewModel.TableName = "literature";
+                viewModel.TableCode = "Literature";
                 viewModel.Get(entityId);
                 viewModel.PageTitle = String.Format("Edit Literature [{0}]", viewModel.Entity.ID);
                 return View(BASE_PATH + "Edit.cshtml", viewModel);
@@ -194,6 +195,21 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
         public ActionResult Delete(FormCollection formCollection)
         {
             throw new NotImplementedException();
+        }
+        public JsonResult DeleteEntity(FormCollection formCollection)
+        {
+            try
+            {
+                LiteratureViewModel viewModel = new LiteratureViewModel();
+                viewModel.Entity.ID = Int32.Parse(GetFormFieldValue(formCollection, "EntityID"));
+                viewModel.TableName = GetFormFieldValue(formCollection, "TableName");
+                viewModel.Delete();
+                return Json(new { success = true }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { errorMessage = ex.Message }, JsonRequestBehavior.AllowGet);
+            }
         }
     }
 }

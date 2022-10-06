@@ -21,7 +21,18 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
 
         public void Delete()
         {
-            throw new NotImplementedException();
+            try
+            {
+                using (GeographyMapManager mgr = new GeographyMapManager())
+                {
+                    mgr.Delete(TableName, Entity.ID);
+                }
+            }
+            catch (Exception ex)
+            {
+                PublishException(ex);
+                throw ex;
+            }
         }
 
         public GeographyMap Get(int entityId)

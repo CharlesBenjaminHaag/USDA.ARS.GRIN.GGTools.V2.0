@@ -8,7 +8,7 @@ using USDA.ARS.GRIN.GGTools.DataLayer;
 
 namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
 {
-    public class EconomicUseManager : AppDataManagerBase, IManager<EconomicUse, EconomicUseSearch>
+    public class EconomicUseManager : GRINGlobalDataManagerBase, IManager<EconomicUse, EconomicUseSearch>
     {
         public void BuildInsertUpdateParameters()
         {
