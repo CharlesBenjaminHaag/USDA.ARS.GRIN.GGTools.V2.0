@@ -13,7 +13,18 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
     {
         public void Delete()
         {
-            throw new NotImplementedException();
+            try
+            {
+                using (SpeciesSynonymMapManager mgr = new SpeciesSynonymMapManager())
+                {
+                    mgr.Delete(TableName, Entity.ID);
+                }
+            }
+            catch (Exception ex)
+            {
+                PublishException(ex);
+                throw ex;
+            }
         }
 
         public SpeciesSynonymMap Get(int entityId)
@@ -63,9 +74,9 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
                     foreach (var predicateId in speciesIdListPredicate)
                     {
                         SpeciesSynonymMap speciesSynonymMap = new SpeciesSynonymMap();
-                        speciesSynonymMap.SpeciesIDSubject = Int32.Parse(subjectId);
+                        speciesSynonymMap.SpeciesAID = Int32.Parse(subjectId);
                         speciesSynonymMap.SynonymCode = Entity.SynonymCode;
-                        speciesSynonymMap.SpeciesIDPredicate = Int32.Parse(predicateId);
+                        speciesSynonymMap.SpeciesBID = Int32.Parse(predicateId);
                         speciesSynonymMapId = mgr.Insert(speciesSynonymMap);
                         
                         // Add new syn map record to a list of recs created in the current session.

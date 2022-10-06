@@ -100,13 +100,13 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
         {
             throw new NotImplementedException();
         }
-
         public ActionResult Edit(int entityId)
         {
             try
             {
                 SynonymMapViewModel viewModel = new SynonymMapViewModel();
                 viewModel.TableName = "taxonomy_species_synonym_map";
+                viewModel.TableCode = "SynonymMap";
                 viewModel.Get(entityId);
                 viewModel.PageTitle = String.Format("Edit [{0}]", viewModel.Entity.ID);
                 return View(BASE_PATH + "Edit.cshtml", viewModel);
@@ -157,6 +157,22 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
         public ActionResult Delete(FormCollection formCollection)
         {
             throw new NotImplementedException();
+        }
+        [HttpPost]
+        public JsonResult DeleteEntity(FormCollection formCollection)
+        {
+            try
+            {
+                SynonymMapViewModel viewModel = new SynonymMapViewModel();
+                viewModel.Entity.ID = Int32.Parse(GetFormFieldValue(formCollection, "EntityID"));
+                viewModel.TableName = GetFormFieldValue(formCollection, "TableName");
+                viewModel.Delete();
+                return Json(new { success = true }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { errorMessage = ex.Message }, JsonRequestBehavior.AllowGet);
+            }
         }
     }
 }

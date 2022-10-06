@@ -29,16 +29,16 @@
                             <td>
                                 @result.ID
                             </td>
-                            <td>@result.SpeciesIDSubject</td>
+                            <td>@result.SpeciesAID</td>
                             <td>
-                                <a href="@Url.Action("Edit", "Species", new { entityId = result.SpeciesIDSubject })">
+                                <a href="@Url.Action("Edit", "Species", new { entityId = result.SpeciesAID })">
                                     @Html.Raw(result.SpeciesAssembledNameSubject)
                                 </a>
                             </td>
                             <td>@result.SynonymDescription</td>
-                            <td>@result.SpeciesIDPredicate</td>
+                            <td>@result.SpeciesBID</td>
                             <td>
-                                <a href="@Url.Action("Edit", "Species", new { entityId = result.SpeciesIDPredicate })">
+                                <a href="@Url.Action("Edit", "Species", new { entityId = result.SpeciesBName })">
                                     @Html.Raw(result.SpeciesAssembledNamePredicate)
                                 </a>
                             </td>

@@ -63,6 +63,8 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 GenusViewModel viewModel = new GenusViewModel();
                 viewModel.Get(entityId);
                 viewModel.PageTitle = viewModel.GetPageTitle();
+                viewModel.TableName = "taxonomy_genus";
+                viewModel.TableCode = "Genus";
                 return View(BASE_PATH + "Edit.cshtml", viewModel);
             }
             catch (Exception ex)

@@ -8,7 +8,7 @@ using USDA.ARS.GRIN.GGTools.DataLayer;
 
 namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
 {
-    public class SpeciesSynonymMapManager : AppDataManagerBase, IManager<SpeciesSynonymMap, SpeciesSearch>
+    public class SpeciesSynonymMapManager : GRINGlobalDataManagerBase, IManager<SpeciesSynonymMap, SpeciesSearch>
     {
         public void BuildInsertUpdateParameters()
         {
@@ -42,8 +42,8 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             Validate<SpeciesSynonymMap>(entity);
             SQL = "usp_GGTools_Taxon_SpeciesSynonymMap_Insert";
 
-            AddParameter("taxonomy_species_id_subject", (object)entity.SpeciesIDSubject, false);
-            AddParameter("taxonomy_species_id_predicate", (object)entity.SpeciesIDPredicate, false);
+            AddParameter("taxonomy_species_id_subject", (object)entity.SpeciesAID, false);
+            AddParameter("taxonomy_species_id_predicate", (object)entity.SpeciesBID, false);
             AddParameter("synonym_code", (object)entity.SynonymCode ?? DBNull.Value, false);
             AddParameter("@out_error_number", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
             AddParameter("@out_taxonomy_species_synonym_map_id", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
@@ -64,24 +64,24 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
 
             SQL = " SELECT * FROM vw_GGTools_Taxon_SpeciesSynonymMaps ";
             SQL += " WHERE      (@ID                        IS NULL OR  ID = @ID) ";
-            SQL += " AND        ((@SpeciesNameSubject   IS NULL OR  REPLACE(SpeciesNameSubject, ' x ', '')  LIKE    'X ' + @SpeciesNameSubject + '%')";
-            SQL += " OR         (@SpeciesNameSubject    IS NULL OR  REPLACE(SpeciesNameSubject, ' x ', '')  LIKE    '+' + @SpeciesNameSubject + '%')";
-            SQL += " OR         (@SpeciesNameSubject    IS NULL OR  REPLACE(SpeciesNameSubject, ' x ', '')  LIKE    @SpeciesNameSubject + '%'))";
+            SQL += " AND        ((@SpeciesAName   IS NULL OR  REPLACE(SpeciesAName, ' x ', '')  LIKE    'X ' + @SpeciesAName + '%')";
+            SQL += " OR         (@SpeciesAName    IS NULL OR  REPLACE(SpeciesAName, ' x ', '')  LIKE    '+' + @SpeciesAName + '%')";
+            SQL += " OR         (@SpeciesAName    IS NULL OR  REPLACE(SpeciesAName, ' x ', '')  LIKE    @SpeciesAName + '%'))";
             SQL += " AND        (@SynonymCode               IS NULL OR  SynonymCode = @SynonymCode)";
-            SQL += " AND        ((@SpeciesNamePredicate IS NULL OR  REPLACE(SpeciesNamePredicate, ' x ', '')  LIKE    'X ' + @SpeciesNamePredicate + '%')";
-            SQL += " OR         (@SpeciesNamePredicate  IS NULL OR  REPLACE(SpeciesNamePredicate, ' x ', '')  LIKE    '+' + @SpeciesNamePredicate + '%')";
-            SQL += " OR         (@SpeciesNamePredicate    IS NULL OR  REPLACE(SpeciesNamePredicate, ' x ', '')  LIKE    @SpeciesNamePredicate + '%'))";
+            SQL += " AND        ((@SpeciesBName IS NULL OR  REPLACE(SpeciesBName, ' x ', '')  LIKE    'X ' + @SpeciesBName + '%')";
+            SQL += " OR         (@SpeciesBName  IS NULL OR  REPLACE(SpeciesBName, ' x ', '')  LIKE    '+' + @SpeciesBName + '%')";
+            SQL += " OR         (@SpeciesBName    IS NULL OR  REPLACE(SpeciesBName, ' x ', '')  LIKE    @SpeciesBName + '%'))";
 
             if (!String.IsNullOrEmpty(searchEntity.IDList))
             {
-                SQL += " AND (SpeciesIDSubject IN (" + searchEntity.IDList + "))";
+                SQL += " AND (SpeciesAID IN (" + searchEntity.IDList + "))";
             }
 
             var parameters = new List<IDbDataParameter> {
                 CreateParameter("ID", searchEntity.ID > 0 ? (object)searchEntity.ID : DBNull.Value, true),
-                CreateParameter("SpeciesNameSubject", (object)searchEntity.SpeciesNameSubject ?? DBNull.Value, true),
+                CreateParameter("SpeciesAName", (object)searchEntity.SpeciesAName ?? DBNull.Value, true),
                 CreateParameter("SynonymCode", (object)searchEntity.SynonymCode ?? DBNull.Value, true),
-                CreateParameter("SpeciesNamePredicate", (object)searchEntity.SpeciesNamePredicate ?? DBNull.Value, true),
+                CreateParameter("SpeciesBName", (object)searchEntity.SpeciesBName ?? DBNull.Value, true),
             };
 
             results = GetRecords<SpeciesSynonymMap>(SQL, parameters.ToArray());

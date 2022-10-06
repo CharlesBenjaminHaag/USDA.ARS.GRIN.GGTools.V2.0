@@ -41,3 +41,64 @@
         </div>
     </div>
 </div>
+<script type="text/javascript">
+    $("#btnSpeciesNameLookup").click(function () {
+        var eventAction = $(this).data("ggtools-action");
+        var eventValue = $(this).data("ggtools-value");
+        $("#hfModalEventValue").val(eventValue);
+    });
+
+    $("#btnLookupSpecies").click(function () {
+        SearchSpecies();
+    });
+
+    $("#btnSaveSpecies").click(function () {
+        // Check EventAction to determine the field(s) to update.
+        eventAction = $("#EventAction").val();
+        //DEBUG
+        alert("SELECTED " + eventAction);
+        $('#modal-species-lookup').modal('hide');
+    });
+
+    function SearchSpecies() {
+        var link = '@Url.Action("Lookup","Species")';
+        var speciesName = $("#txtLookupSpeciesName").val();
+        var formData = new FormData();
+
+        formData.append("SpeciesName", speciesName);
+        if ($("#cbxLookupIsAcceptedName").is(":checked")) {
+            formData.append("IsAcceptedName", "Y");
+        }
+        $.ajax({
+            url: link,
+            type: 'POST',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (response) {
+                $("#section-species-lookup-search-results").html(response);
+            },
+            error: function () {
+                alert("Error");
+            }
+        });
+    }
+
+    function SelectSpecies(ID, speciesName) {
+        var eventAction = "";
+        var eventValue = "";
+
+        $('#modal-species-lookup').modal('hide');
+        
+
+        eventValue = $("#hfModalEventValue").val();
+        if (eventValue == 'SPECIES') {
+            $("#Entity_SpeciesName").val(speciesName);
+        }
+        else {
+            $("#Entity_AcceptedID").val(ID);
+            $("#Entity_AcceptedName").val(speciesName);
+        }
+    }
+</script>

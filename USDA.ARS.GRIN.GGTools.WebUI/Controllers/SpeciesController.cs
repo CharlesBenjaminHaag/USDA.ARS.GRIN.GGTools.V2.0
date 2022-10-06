@@ -170,6 +170,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             {
                 SpeciesViewModel viewModel = new SpeciesViewModel();
                 viewModel.TableName = "taxonomy_species";
+                viewModel.TableCode = "Species";
                 viewModel.Get(entityId);
                 viewModel.PageTitle = String.Format("Edit [{0}]: {1}", viewModel.Entity.ID, viewModel.Entity.FullName);
                 viewModel.EventValue = viewModel.Entity.Rank.ToLower();

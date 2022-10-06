@@ -298,24 +298,24 @@
                         </div>
                         <!-- TODO Need this? -->
                         @*<div class="input-group">
-                            <span class="input-group-btn">
-                                @if (!String.IsNullOrEmpty(Model.Entity.ProtologueVirtualPath))
-                                {
-                                    <a href="@Model.Entity.ProtologueVirtualPath" target="_blank" rel="noreferrer noopener" class="btn btn-default btn-flat">
-                                        <i class="fa fa-link"></i>
-                                    </a>
-                                }
-                                else
-                                {
-                                    <a href="@Model.Entity.ProtologueVirtualPath" class="btn btn-default btn-flat disabled">
-                                        <i class="fa fa-link"></i>
-                                    </a>
-                                }
-                                <button type="button" data-toggle="modal" data-target="#modal-author-lookup" class="btn btn-default btn-flat">
-                                    <i class="fa fa-search"></i>
-                                </button>
-                            </span>
-                        </div>*@
+                                <span class="input-group-btn">
+                                    @if (!String.IsNullOrEmpty(Model.Entity.ProtologueVirtualPath))
+                                    {
+                                        <a href="@Model.Entity.ProtologueVirtualPath" target="_blank" rel="noreferrer noopener" class="btn btn-default btn-flat">
+                                            <i class="fa fa-link"></i>
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        <a href="@Model.Entity.ProtologueVirtualPath" class="btn btn-default btn-flat disabled">
+                                            <i class="fa fa-link"></i>
+                                        </a>
+                                    }
+                                    <button type="button" data-toggle="modal" data-target="#modal-author-lookup" class="btn btn-default btn-flat">
+                                        <i class="fa fa-search"></i>
+                                    </button>
+                                </span>
+                            </div>*@
                     </div>
                     <div class="col-md-3">
                         <div class="form-group">
@@ -358,7 +358,13 @@
             </div>
         </div>
         <div class="card-footer">
-            <a href="@Url.Action("Refresh")" class="btn btn-danger">Cancel</a>
+            <a href="@Url.Action("Refresh")" class="btn btn-warning">Cancel</a>
+            @if (Model.Entity.ID > 0)
+            {
+                <button id="btnDelete" type="button" class="btn btn-danger">
+                    Delete
+                </button>
+            }
             <button type="submit" class="btn btn-primary float-right">Save</button>
         </div>
     </div>
@@ -378,15 +384,16 @@
 @Html.Partial("~/Views/Taxonomy/Species/Modals/_Lookup.cshtml")
 @Html.Partial("~/Views/Taxonomy/Author/Modals/_Lookup.cshtml")
 @Html.Partial("~/Views/Taxonomy/Species/Modals/_LookupProtologue.cshtml")
-@Html.Partial("~/Views/Shared/Modals/_NoteLookup.cshtml")
+@Html.Partial("~/Views/Shared/Modals/_NoteLookup2.cshtml")
+@Html.Partial("~/Views/Taxonomy/Shared/Modals/_Delete.cshtml")
 
 @*@Html.Partial("~/Views/Species/Modals/_ProtologueSearch.cshtml")
-@Html.Partial("~/Views/Species/Modals/_SynonymEdit.cshtml")
-@Html.Partial("~/Views/CommonName/_Edit.cshtml")
-@{Html.RenderAction("RenderLookupModal", "EconomicUse"); }
-@{Html.RenderAction("RenderLookupModal", "Regulation"); }
-@Html.Partial("~/Views/CommonName/_Edit.cshtml")
-@Html.Partial("~/Views/Shared/Modals/_NoteSearch.cshtml")*@
+    @Html.Partial("~/Views/Species/Modals/_SynonymEdit.cshtml")
+    @Html.Partial("~/Views/CommonName/_Edit.cshtml")
+    @{Html.RenderAction("RenderLookupModal", "EconomicUse"); }
+    @{Html.RenderAction("RenderLookupModal", "Regulation"); }
+    @Html.Partial("~/Views/CommonName/_Edit.cshtml")
+    @Html.Partial("~/Views/Shared/Modals/_NoteSearch.cshtml")*@
 
 <script type="text/javascript">
     $(document).ready(function () {
@@ -469,184 +476,6 @@
             $(".accepted").show();
         }
     }
-
-    /*
-    * ===================================================================================================
-    * CITATION MODAL
-    * ===================================================================================================
-    */
-    $(document).on("click", "[id='btnLookupCitations']", function () {
-        var link = '@Url.Action("Lookup","Citation")';
-        LookupCitations(link);
-    });
-
-    $(document).on("click", "[id='btnSaveCitations']", function () {
-        var link = '@Url.Action("Add","Citation")';
-        SaveCitations(link);
-    });
-
-    $(document).on("click", "[id='btnAddCitation']", function () {
-        AddCitation();
-    });
-
-    /*
-    * ===================================================================================================
-    * NOTE LOOKUP MODAL
-    * ===================================================================================================
-    */
-
-    $("#btnLookupNote").click(function () {
-        SearchNotes();
-    });
-
-    function SearchNotes() {
-        var link = '@Url.Action("Lookup","Note")';
-        var tableName = $("#TableName").val();
-        var noteText = $("#txtLookupNote").val();
-
-        var formData = new FormData();
-
-        formData.append("TableName", tableName);
-        formData.append("Note", noteText);
-
-        $.ajax({
-            url: link,
-            type: 'POST',
-            cache: false,
-            contentType: false,
-            processData: false,
-            data: formData,
-            success: function (response) {
-                $("#section-lookup-note-search-results").html(response);
-            },
-            error: function () {
-                alert("Error");
-            }
-        });
-    }
-
-    $(document).on("click", ".note-selector", function () {
-        $('#modal-note-lookup').modal('hide');
-        var selectedNote = $(this).val();
-        CKEDITOR.instances["txtNote"].setData(selectedNote);
-    });
-
-    /*
-    * ===================================================================================================
-    * PROTOLOGUE LOOKUP MODAL
-    * ===================================================================================================
-    */
-    $("#btnLookupProtologue").click(function () {
-        SearchProtologues();
-    });
-
-    function SearchProtologues() {
-        var link = '@Url.Action("LookupProtologues","Species")';
-        var protologueText = $("#txtLookupProtologue").val();
-
-        var formData = new FormData();
-
-        formData.append("Protologue", protologueText);
-
-        $.ajax({
-            url: link,
-            type: 'POST',
-            cache: false,
-            contentType: false,
-            processData: false,
-            data: formData,
-            success: function (response) {
-                $("#section-protologue-lookup-search-results").html(response);
-            },
-            error: function () {
-                alert("Error");
-            }
-        });
-    }
-
-    $("#btnSaveProtologue").click(function () {
-        $('#modal-protologue-lookup').modal('hide');
-        var selectedProtologue = GetSelectedEntityText("data-table-protologue-lookup");
-        $("#Entity_Protologue").val(selectedProtologue);        
-    });
-
-   /*
-   * ===================================================================================================
-   * SPECIES LOOKUP
-   * ===================================================================================================
-   */
-    $("#btnAcceptedNameLookup").click(function () {
-        var eventAction = $(this).data("ggtools-action");
-        var eventValue = $(this).data("ggtools-value");
-        $("#hfModalEventValue").val(eventValue);
-    });
-
-
-    $("#btnSpeciesNameLookup").click(function () {
-        var eventAction = $(this).data("ggtools-action");
-        var eventValue = $(this).data("ggtools-value");
-        $("#hfModalEventValue").val(eventValue);
-    });
-
-    $("#btnLookupSpecies").click(function () {
-        SearchSpecies();
-    });
-
-    function SearchSpecies() {
-        var link = '@Url.Action("Lookup","Species")';
-        var speciesName = $("#txtLookupSpeciesName").val();
-        var formData = new FormData();
-
-        formData.append("SpeciesName", speciesName);
-        if ($("#cbxLookupIsAcceptedName").is(":checked")) {
-            formData.append("IsAcceptedName", "Y");
-        }
-        $.ajax({
-            url: link,
-            type: 'POST',
-            cache: false,
-            contentType: false,
-            processData: false,
-            data: formData,
-            success: function (response) {
-                $("#section-species-lookup-search-results").html(response);
-            },
-            error: function () {
-                alert("Error");
-            }
-        });
-    }
-
-    function SelectSpecies(ID, speciesName) {
-        var eventAction = "";
-        var eventValue = "";
-
-        $('#modal-species-lookup').modal('hide');
-
-        eventValue = $("#hfModalEventValue").val();
-        if (eventValue == 'SPECIES') {
-            $("#Entity_SpeciesName").val(speciesName);
-        }
-        else {
-            $("#Entity_AcceptedID").val(ID);
-            $("#Entity_AcceptedName").val(speciesName);
-        }
-    }
-
-   /*
-   * ===================================================================================================
-   * GENUS LOOKUP
-   * ===================================================================================================
-   */
-
-    $(document).on("click", "[id='btnLookupGenus']", function () {
-        var link = '@Url.Action("Lookup","Genus")';
-        SearchGenus(link);
-    });
-
-    $(document).on("click", "[id='btnSaveGenus']", function () {
-        SaveGenus();
-    });
 
     /*
     * ===================================================================================================

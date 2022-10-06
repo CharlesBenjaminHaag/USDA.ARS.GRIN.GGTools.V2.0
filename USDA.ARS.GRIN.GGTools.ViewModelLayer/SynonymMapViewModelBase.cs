@@ -30,7 +30,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
         {
             using (SpeciesManager mgr = new SpeciesManager())
             {
-                Cooperators = new SelectList(mgr.GetCooperators("taxonomy_synonym_map"), "ID", "FullName");
+                Cooperators = new SelectList(mgr.GetCooperators("taxonomy_species_synonym_map"), "ID", "FullName");
                 SynonymCodes = new SelectList(mgr.GetCodeValues("TAXONOMY_SPECIES_QUALIFIER"), "Value", "Title");
             }
         }

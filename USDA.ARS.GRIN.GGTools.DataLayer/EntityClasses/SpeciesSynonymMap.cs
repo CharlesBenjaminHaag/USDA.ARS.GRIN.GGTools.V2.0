@@ -10,9 +10,11 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
 {
     public class SpeciesSynonymMap : AppEntityBase
     {
-        public int SpeciesIDSubject { get; set; }
+        public int SpeciesAID { get; set; }
+        public string SpeciesAName { get; set; }
         public string SpeciesAssembledNameSubject { get; set; }
-        public int SpeciesIDPredicate { get; set; }
+        public int SpeciesBID { get; set; }
+        public string SpeciesBName { get; set; }
         public string SpeciesAssembledNamePredicate { get; set; }
         public string SynonymCode { get; set; }
         public string SynonymDescription { get; set; }
