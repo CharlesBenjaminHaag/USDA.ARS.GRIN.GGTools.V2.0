@@ -203,6 +203,10 @@
     <Content Include="Content\bower_components\jquery\dist\jquery.min.js" />
     <Content Include="Content\dist\css\AdminLTE.css" />
     <Content Include="Content\dist\css\bootstrap-switch.min.css" />
+    <Content Include="Content\dist\css\DataTables\buttons.dataTables.min.css" />
+    <Content Include="Content\dist\css\DataTables\datatables.min.css" />
+    <Content Include="Content\dist\css\DataTables\select.dataTables.min.css" />
+    <Content Include="Content\dist\css\icheck-bootstrap.min.css" />
     <Content Include="Content\dist\css\skins\_all-skins.min.css" />
     <Content Include="Content\dist\img\cbh_bc_headshot.jpg" />
     <Content Include="Content\dist\img\default-50x50.gif" />
