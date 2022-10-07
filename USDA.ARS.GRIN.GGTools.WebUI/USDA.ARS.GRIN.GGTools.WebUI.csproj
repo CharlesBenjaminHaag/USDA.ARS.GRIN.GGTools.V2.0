@@ -211,6 +211,12 @@
     <Content Include="Content\dist\img\cbh_bc_headshot.jpg" />
     <Content Include="Content\dist\img\default-50x50.gif" />
     <Content Include="Content\dist\js\bootstrap-switch.min.js" />
+    <Content Include="Content\dist\js\DataTables\buttons.html5.min.js" />
+    <Content Include="Content\dist\js\DataTables\dataTables.buttons.min.js" />
+    <Content Include="Content\dist\js\DataTables\datatables.min.js" />
+    <Content Include="Content\dist\js\DataTables\dataTables.select.min.js" />
+    <Content Include="Content\dist\js\DataTables\jquery.dataTables.min.js" />
+    <Content Include="Content\dist\js\DataTables\select.dataTables.min.js" />
     <Content Include="dist\css\portal.css" />
     <Content Include="dist\img\GGlogo-color-sm.gif" />
     <Content Include="Content\dist\img\icons.png" />
@@ -295,6 +301,7 @@
     <Content Include="plugins\fontawesome-free\webfonts\fa-solid-900.woff" />
     <Content Include="plugins\fontawesome-free\webfonts\fa-solid-900.woff2" />
     <Content Include="Edit.cshtml" />
+    <Content Include="Content\dist\css\fonts.googleapis.com.css" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
