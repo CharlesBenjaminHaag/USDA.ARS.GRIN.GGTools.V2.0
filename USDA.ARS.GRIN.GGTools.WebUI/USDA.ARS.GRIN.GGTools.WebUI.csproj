@@ -392,7 +392,7 @@
     <Content Include="Views\Folder\_Widget.cshtml" />
     <Content Include="Views\Folder\_MyFoldersWidget.cshtml" />
     <Content Include="Views\Folder\Modals\_Edit.cshtml" />
-    <Content Include="Views\Folder\Modals\_ItemList.cshtml" />
+    <Content Include="Views\Folder\_ItemList.cshtml" />
     <Content Include="Views\Error\Index.cshtml" />
     <Content Include="Views\Error\InternalServerError.cshtml" />
     <Content Include="Views\Error\NotFound.cshtml" />
@@ -617,6 +617,7 @@
     <Content Include="Views\Taxonomy\Literature\_DetailExtended.cshtml" />
     <Content Include="Views\Taxonomy\Author\_DetailExtended.cshtml" />
     <Content Include="Views\Taxonomy\Shared\Modals\_Delete.cshtml" />
+    <Content Include="Views\Folder\Modals\_SelectList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

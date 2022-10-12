@@ -122,7 +122,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             FolderSearch searchEntity = new FolderSearch { CreatedByCooperatorID = cooperatorId };
 
             SQL = " SELECT DISTINCT Category AS Value, " +
-                  " UPPER(Category) AS Title " +
+                  " Category AS Title " +
                   " FROM vw_GGTools_GRINGlobal_AppUserItemFolders " +
                   " WHERE CreatedByCooperatorID = @CreatedByCooperatorID " +
                   " ORDER BY Category ";

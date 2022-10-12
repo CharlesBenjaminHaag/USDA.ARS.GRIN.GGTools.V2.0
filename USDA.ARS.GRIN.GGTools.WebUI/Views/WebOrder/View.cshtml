@@ -50,7 +50,7 @@
         </div>
         <div class="card card-default">
             <div class="card-header">
-                <h3 class="card-title">NRR Flags</h3>
+                <h3 class="card-title">Why Was This Request Flagged?</h3>
             </div>
             <div class="card-body">
                 @if (Model.DataCollectionActions.Where(x => x.ActionCode.Contains("NRR_FLAG")).Count() > 0)
@@ -107,41 +107,66 @@
                             @Html.HiddenFor(x => x.Entity.WebCooperatorID)
                             @Html.HiddenFor(x => x.Entity.IsPreviouslyNRRReviewed)
 
+                            <!--
+                                1) If not already locked, and 
+                                   1.1) previously reviewed, show "re-open"
+                                   1.2) not previously reviewed, show "begin review"
+                            -->
                         <div class="margin" style="margin-bottom:25px;">
-                            <div class="btn-group">
-                                <button type="button" id="btnOpenAddNoteModal" class="btn btn-default btn-sm" data-toggle="modal" data-target="#modal-note">
-                                    <i class="fa fa-edit margin-r-5"></i>
-                                    Add Note
-                                </button>
-                            </div>
-                            @if (Model.AuthenticatedUserWebUserID == Model.Entity.OwnedByWebUserID)
+                            @if ((!Model.Entity.IsLocked) && (Model.Entity.IsPreviouslyNRRReviewed == "Y"))
                             {
                                 <div class="btn-group">
-                                    <button id="btnOpenEmailRequestorsModal" type="button" class="btn btn-default btn-sm margin-r-5" data-toggle="modal" data-target="#modal-email-requestor">
-                                        <i class="fa fa-envelope margin-r-5"></i><span class="button-label">Email Requestor</span>
+                                    <button id="btnLockAndReopen" type="button" class="btn btn-info margin-r-5" data-toggle="modal" data-target="#modal-reopen">
+                                        <i class="fa fa-eye margin-r-5"></i>&nbsp;<span class="button-label">Re-Open This Web Request</span>
                                     </button>
                                 </div>
+                            }
+
+                            @if ((!Model.Entity.IsLocked) && (Model.Entity.IsPreviouslyNRRReviewed == "N"))
+                            {
                                 <div class="btn-group">
-                                    <button id="btnOpenEmailCuratorsModal" type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#modal-email-curators">
-                                        <i class="fa fa-envelope margin-r-5"></i><span class="button-label">Email Curators</span>
+                                    <button type="button" id="btnSubmitBeginReview" class="btn btn-info">
+                                        <i class="fa fa-lock"></i>
+                                        Lock and Begin Review
                                     </button>
                                 </div>
+                            }
+
+                            @if ((Model.Entity.IsLocked) && (Model.Entity.OwnedByWebUserID == Model.AuthenticatedUserWebUserID))
+                            {
                                 <div class="btn-group float-right">
                                     <button type="submit" id="btnSubmitEndReview" class="btn btn-warning  btn-sm margin-r-5"><i class="fa fa-unlock"></i> End Review and Unlock</button>
                                     <button id="btnOpenApproveModal" type="button" class="btn btn-danger  btn-sm margin-r-5" data-toggle="modal" data-target="#modal-reject"><i class="fa fa-thumbs-down"></i><span class="button-label"> Reject</span></button>
                                     <button id="btnOpenRejectModal" type="button" class="btn btn-success  btn-sm" data-toggle="modal" data-target="#modal-approve"><i class="fa fa-thumbs-up"></i><span class="button-label"> Approve</span></button>
                                 </div>
                             }
-                            else 
-                            { 
-                                <div class="btn-group float-right">
-                                    <button type="button" id="btnSubmitBeginReview" class="btn btn-default btn-sm">
-                                        <i class="fa fa-edit"></i>
-                                        Lock and Begin Review
-                                    </button>
-                                </div>
-                            }
+
+                            @*<div class="btn-group">
+            <button type="button" id="btnOpenAddNoteModal" class="btn btn-default btn-sm" data-toggle="modal" data-target="#modal-note">
+                <i class="fa fa-edit margin-r-5"></i>
+                Add Note
+            </button>
+        </div>
+
+        <div class="btn-group">
+            <button id="btnOpenEmailRequestorsModal" type="button" class="btn btn-default btn-sm margin-r-5" data-toggle="modal" data-target="#modal-email-requestor">
+                <i class="fa fa-envelope margin-r-5"></i><span class="button-label">Email Requestor</span>
+            </button>
+        </div>
+        <div class="btn-group">
+            <button id="btnOpenEmailCuratorsModal" type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#modal-email-curators">
+                <i class="fa fa-envelope margin-r-5"></i><span class="button-label">Email Curators</span>
+            </button>
+        </div>
+        <div class="btn-group float-right">
+            <button type="submit" id="btnSubmitEndReview" class="btn btn-warning  btn-sm margin-r-5"><i class="fa fa-unlock"></i> End Review and Unlock</button>
+            <button id="btnOpenApproveModal" type="button" class="btn btn-danger  btn-sm margin-r-5" data-toggle="modal" data-target="#modal-reject"><i class="fa fa-thumbs-down"></i><span class="button-label"> Reject</span></button>
+            <button id="btnOpenRejectModal" type="button" class="btn btn-success  btn-sm" data-toggle="modal" data-target="#modal-approve"><i class="fa fa-thumbs-up"></i><span class="button-label"> Approve</span></button>
+        </div>*@
+
+
                         </div>
+
                         <div class="row">
                             <div class="col-md-1">
                                 <div class="form-group">
