@@ -52,6 +52,23 @@ function InitDataTableLight(tableName) {
     });
 }
 
+function InitDataTableMinimal(tableName) {
+    $(document).ready(function () {
+        var table = $("#" + tableName).DataTable({
+            paging: true,
+            responsive: true,
+            select: {
+                style: 'single'
+            },
+            searching: false,
+            paging: false,
+            columnDefs: [
+                { targets: [0], visible: false }
+            ]
+        });
+    });
+}
+
 function InitDataTableLightMultiSelect(tableName) {
     $(document).ready(function () {
         var table = $("#" + tableName).DataTable({

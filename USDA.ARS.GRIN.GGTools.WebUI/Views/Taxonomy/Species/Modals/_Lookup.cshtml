@@ -45,7 +45,8 @@
     $("#btnSpeciesNameLookup").click(function () {
         var eventAction = $(this).data("ggtools-action");
         var eventValue = $(this).data("ggtools-value");
-        $("#hfModalEventValue").val(eventValue);
+        $("#EventAction").val(eventAction);
+        $("#EventValue").val(eventValue);
     });
 
     $("#btnLookupSpecies").click(function () {
@@ -54,9 +55,15 @@
 
     $("#btnSaveSpecies").click(function () {
         // Check EventAction to determine the field(s) to update.
-        eventAction = $("#EventAction").val();
+        var idField = $("#EventAction").val();
+        var nameField = $("#EventValue").val();
+        var idList = GetSelectedEntityIDs("data-table-species-lookup");
+        var nameList = GetSelectedEntityLabels("data-table-species-lookup");
         //DEBUG
-        alert("SELECTED " + eventAction);
+        alert("DEBUG " + idField + " IS "  + idList + " AND " + nameField + " IS "  + nameList);
+
+        $("#" + idField).val(idList);
+        $("#" + nameField).val(nameList);
         $('#modal-species-lookup').modal('hide');
     });
 

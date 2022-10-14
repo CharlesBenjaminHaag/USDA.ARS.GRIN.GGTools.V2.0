@@ -18,56 +18,37 @@
                     <div class="btn-group">
                         <button id="btnOpenFolderModal" type="button" class="btn btn-default btn-sm"><i class="fa fa-folder"></i></button>
                     </div>
-                    <!-- TODO Enable once species-level cit. logic tested. -->
-                    @*<div class="btn-group">
-            <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#modal-citation-lookup">
-                <i class="fa fa-book"></i>
-            </button>
-        </div>*@
                     <div class="margin" style="margin-bottom:10px;">
-                        <!-- TODO Move to species edit -->
-                        @*<div class="btn-group">
-                <a class="btn btn-default btn-sm" href="@Url.Action("Add","Species")">Add Species</a>
-                <button type="button" class="btn btn-default btn-sm dropdown-toggle dropdown-icon" data-toggle="dropdown" aria-expanded="false">
-                    <span class="sr-only">Toggle Dropdown</span>
-                </button>
-                <div class="dropdown-menu" role="menu" style="">
-                    <a class="dropdown-item btn-sm" href="@Url.Action("Add","Species", new { @rank="subspecies"})">Subspecies</a>
-                    <a class="dropdown-item btn-sm" href="@Url.Action("Add","Species", new { @rank="variety"})">Variety</a>
-                    <a class="dropdown-item btn-sm" href="@Url.Action("Add","Species", new { @rank="subvariety"})">Subvariety</a>
-                    <a class="dropdown-item btn-sm" href="@Url.Action("Add","Species", new { @rank="form"})">Form</a>
-                </div>
-            </div>*@
                     </div>
                     @using (Html.BeginForm("Search", "Species", FormMethod.Post, new { id = "frmMain" }))
                     {
-                <div class="row">
-                    <div class="col-md-2">
-                        <div class="form-group form-horizontal">
-                            <label>Created By</label>
-                            @Html.DropDownListFor(x => x.SearchEntity.CreatedByCooperatorID, Model.Cooperators, "All Cooperators", new { @class = "form-control" })
+                        <div class="row">
+                            <div class="col-md-2">
+                                <div class="form-group form-horizontal">
+                                    <label>Created By</label>
+                                    @Html.DropDownListFor(x => x.SearchEntity.CreatedByCooperatorID, Model.Cooperators, "All Cooperators", new { @class = "form-control" })
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>Taxon A Name</label>
+                                    @Html.TextBoxFor(x => x.SearchEntity.SpeciesAName, new { @class = "form-control" })
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group form-horizontal">
+                                    <label>Synonym Code</label>
+                                    @Html.DropDownListFor(x => x.SearchEntity.SynonymCode, Model.SynonymCodes, "All Codes", new { @class = "form-control" })
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>Taxon B Name</label>
+                                    @Html.TextBoxFor(x => x.SearchEntity.SpeciesBName, new { @class = "form-control" })
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <label>Taxon A Name</label>
-                            @Html.TextBoxFor(x => x.SearchEntity.SpeciesAName, new { @class = "form-control" })
-                        </div>
-                    </div>
-                    <div class="col-md-2">
-                        <div class="form-group form-horizontal">
-                            <label>Synonym Code</label>
-                            @Html.DropDownListFor(x => x.SearchEntity.SynonymCode, Model.SynonymCodes, "All Codes", new { @class = "form-control" })
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <label>Mapped Species</label>
-                            @Html.TextBoxFor(x => x.SearchEntity.SpeciesBName, new { @class = "form-control" })
-                        </div>
-                    </div>
-                </div>
-                        @*@Html.Partial("~/Views/Taxonomy/Species/_DetailExtended.cshtml")*@
+                        @Html.Partial("~/Views/Taxonomy/SynonymMap/_DetailExtended.cshtml")
                     }
                 </div>
                 <div>

@@ -618,6 +618,7 @@
     <Content Include="Views\Taxonomy\Author\_DetailExtended.cshtml" />
     <Content Include="Views\Taxonomy\Shared\Modals\_Delete.cshtml" />
     <Content Include="Views\Folder\Modals\_SelectList.cshtml" />
+    <Content Include="Views\Taxonomy\SynonymMap\_DetailExtended.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

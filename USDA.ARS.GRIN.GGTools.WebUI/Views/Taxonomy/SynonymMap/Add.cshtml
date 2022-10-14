@@ -7,17 +7,23 @@
 <style type="text/css">
     .widget-user-2 .widget-user-username, .widget-user-2 .widget-user-desc {
         margin-left: 0px;
+    }
+
+    .dual-select {
+        min-height: 350px;
+    }
 </style>
 
 @Html.HiddenFor(x => x.EventAction)
+@Html.HiddenFor(x => x.EventValue)
 @Html.HiddenFor(x => x.SpeciesID)
 @Html.HiddenFor(x => x.SpeciesName)
 
 <div id="section-search-criteria" class="row">
     <div class="col-md-@Model.Col1Width">
-        <div class="card card-default">
+        <div class="card card-default dual-select">
             <div class="card-header">
-                <h3 class="card-title">Species</h3>
+                <h3 class="card-title">Species A</h3>
                 <div class="card-tools">
                     <button type="button" class="btn btn-tool" data-card-widget="collapse">
                         <i class="fas fa-minus"></i>
@@ -28,18 +34,19 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="input-group">
-                            <input type="text" id="txtSpeciesNameSubject" class="form-control" />
+                            @Html.TextBoxFor(x => x.SearchEntity.SpeciesAName, new { @class = "form-control" })
+                            @Html.HiddenFor(x => x.SearchEntity.SpeciesAID)
                             <span class="input-group-btn">
-                                <button type="button" id="btnSearchSpeciesSubject" data-ggtools-action="subject" class="btn btn-default btn-flat"><i class="fa fa-search"></i></button>
+                                <button type="button" id="btnLookupSpeciesA" data-ggtools-action="" data-ggtools-value="" class="btn btn-default btn-flat"><i class="fa fa-search"></i></button>
                             </span>
                         </div>
-                        <input id="cbxIsAcceptedNameSubject" type="checkbox">
-                        Accepted
+                        <input id="cbxIsAcceptedSpeciesA" type="checkbox">
+                        Search accepted names only
                     </div>
                 </div>
                 <div class="row">
-                    <div id="section-search-results-subject" class="col-md-12">
-                        <table id="data-table-species-subject-lookup" class="table table-striped">
+                    <div id="section-search-results-species-a" class="col-md-12">
+                        <table id="data-table-species-a-lookup" class="table table-striped">
                             <thead>
                                 <tr>
                                     <th></th>
@@ -73,7 +80,7 @@
         </div>
     </div>
     <div class="col-md-2">
-        <div class="card card-default">
+        <div class="card card-default dual-select">
             <div class="card-header">
                 <h3 class="card-title">Relationship</h3>
                 <div class="card-tools">
@@ -83,20 +90,37 @@
                 </div>
             </div>
             <div class="card-body">
-                <div id="button-container">
-                    <button id="btnAddMapHet" type="button" data-ggtools-syn="S" class="btn btn-default btn-block btn-flat">heterotypic synonym of</button>
-                    <button id="btnAddMapHom" type="button" data-ggtools-syn="=" class="btn btn-default btn-block btn-flat">homotypic synonym of</button>
-                    <button id="btnAddMapBas" type="button" data-ggtools-syn="B" class="btn btn-default btn-block btn-flat">basionym of</button>
-                    <button id="btnAddMapAut" type="button" data-ggtools-syn="A" class="btn btn-default btn-block btn-flat">autonym of</button>
-                    <button id="btnAddMapInv" type="button" data-ggtools-syn="I" class="btn btn-default btn-block btn-flat">invalid synonym of</button>
-                </div>
+                <table id="table-synonym-codes" class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Synonym</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var result in Model.SynonymCodes)
+                        { 
+                            <tr>
+                                <td>@result.Value</td>
+                                <td>@result.Text</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+                @*<div id="button-container">
+                    <button id="btnAddMapHet" type="button" data-ggtools-syn="S" class="btn btn-default btn-block btn-flat">heterotypic</button>
+                    <button id="btnAddMapHom" type="button" data-ggtools-syn="=" class="btn btn-default btn-block btn-flat">homotypic</button>
+                    <button id="btnAddMapBas" type="button" data-ggtools-syn="B" class="btn btn-default btn-block btn-flat">basionym</button>
+                    <button id="btnAddMapAut" type="button" data-ggtools-syn="A" class="btn btn-default btn-block btn-flat">autonym</button>
+                    <button id="btnAddMapInv" type="button" data-ggtools-syn="I" class="btn btn-default btn-block btn-flat">invalid</button>
+                </div>*@
             </div>
         </div>
     </div>
     <div class="col-md-@Model.Col3Width">
-        <div class="card card-default">
+        <div class="card card-default dual-select">
             <div class="card-header">
-                <h3 class="card-title">Species</h3>
+                <h3 class="card-title">Species B</h3>
                 <div class="card-tools">
                     <button type="button" class="btn btn-tool" data-card-widget="collapse">
                         <i class="fas fa-minus"></i>
@@ -107,18 +131,19 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="input-group">
-                            <input type="text" id="txtSpeciesNamePredicate" class="form-control" />
+                            @Html.TextBoxFor(x => x.SearchEntity.SpeciesBName, new { @class = "form-control" })
+                            @Html.HiddenFor(x => x.SearchEntity.SpeciesBID)
                             <span class="input-group-btn">
-                                <button type="button" id="btnSearchSpeciesPredicate" data-ggtools-action="predicate" class="btn btn-default btn-flat"><i class="fa fa-search"></i></button>
+                                <button type="button" id="btnLookupSpeciesB" data-ggtools-action="SearchEntity_SpeciesBID" data-ggtools-value="SearchEntity_SpeciesBName" class="btn btn-default btn-flat"><i class="fa fa-search"></i></button>
                             </span>
                         </div>
-                        <input id="cbxIsAcceptedNamePredicate" type="checkbox">
+                        <input id="cbxIsAcceptedSpeciesB" type="checkbox">
                         Accepted
                     </div>
                 </div>
                 <div class="row">
-                    <div id="section-search-results-predicate" class="col-md-12">
-                        <table id="data-table-species-predicate-lookup" class="table table-striped">
+                    <div id="section-search-results-species-b" class="col-md-12">
+                        <table id="data-table-species-b-lookup" class="table table-striped">
                             <thead>
                                 <tr>
                                     <th></th>
@@ -166,7 +191,7 @@
             <div class="card-body">
                 <div class="row">
                     <div id="section-synonym-maps" class="col-md-12">
-                        <table id="data-table-species-lookup" class="table table-striped">
+                        <table id="data-table-synonym-maps" class="table table-striped">
                             <thead>
                                 <tr>
                                     <th></th>
@@ -182,10 +207,10 @@
                                         <td>
                                             <input type="checkbox" class="form-check-input" style="position: absolute; opacity:1;" id="@result.ID">
                                         </td>
-                                        <td>@result.SpeciesIDSubject</td>
+                                        <td>@result.SpeciesAName</td>
                                         <td>@Html.Raw(result.SpeciesAssembledNameSubject)</td>
                                         <td>@result.SynonymDescription</td>
-                                        <td>@result.SpeciesIDPredicate</td>
+                                        <td>@result.SpeciesBName</td>
                                         <td>@Html.Raw(result.SpeciesAssembledNamePredicate)</td>
                                         <td>
                                             <button id="btnDelete" value="@result.ID" class="btn btn-danger btn-sm proto pull-right" onclick="SelectSpecies(@result.ID, this.value);return false;">Select</button>
@@ -215,6 +240,57 @@
             $("#txtSpeciesNameSubject").val(speciesName);
             SearchSpecies("subject");
         }
+        InitDataTableMinimal("table-synonym-codes");
+    }
+
+    /*
+    * ===================================================================================================
+    * SPECIES LOOKUP
+    * ===================================================================================================
+    */
+    $("#btnLookupSpeciesA").click(function () {
+        var searchText = $("#SearchEntity_SpeciesAName").val();
+        var isAcceptedName = "";
+
+        if ($("#cbxIsAcceptedSpeciesA").is(":checked")) {
+            isAcceptedName = "Y";
+        }
+        SearchSpecies(searchText, isAcceptedName, "section-search-results-species-a");
+    });
+
+    $("#btnLookupSpeciesB").click(function () {
+        var searchText = $("#SearchEntity_SpeciesBName").val();
+        var isAcceptedName = "";
+
+        if ($("#cbxIsAcceptedSpeciesB").is(":checked")) {
+            isAcceptedName = "Y";
+        }
+        SearchSpecies(searchText, isAcceptedName, "section-search-results-species-b");
+    });
+
+    function SearchSpecies(searchText, isAcceptedName, searchResultSectionName) {
+        var link = '@Url.Action("Lookup","Species")';
+        var eventAction = $("#EventAction").val();
+        var formData = new FormData();
+
+        formData.append("SpeciesName", searchText);
+        formData.append("IsAcceptedName", isAcceptedName);
+        formData.append("IsMultiSelect", "Y");
+
+        $.ajax({
+            url: link,
+            type: 'POST',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (response) {
+                $("#" + searchResultSectionName).html(response);
+            },
+            error: function () {
+                alert("Error");
+            }
+        });
     }
 
     /*
@@ -296,57 +372,19 @@
             .remove()
             .draw();
     }
-
-    /*
-    * ===================================================================================================
-    * SEARCH
-    * ===================================================================================================
-    */
-
+   
     $(document).on("click", ".ggtools-delete", function () {
         var selectedEntityID = $(this).attr("id");
         alert("DEBUG " + selectedEntityID);
     });
 
 
-    $(document).on("click", "[id*='btnSearchSpecies']", function () {
+    @*$(document).on("click", "[id*='btnSearchSpecies']", function () {
         var eventAction = $(this).data("ggtools-action");
         $("#EventAction").val(eventAction);
         SearchSpecies(eventAction);
     });
-
-    function SearchSpecies(eventAction) {
-        var link = '@Url.Action("Lookup","Species")';
-        var eventAction = $("#EventAction").val();
-
-        var textFieldName = "txtSpeciesName" + toTitleCase(eventAction);
-        var checkBoxName = "cbxIsAcceptedName" + toTitleCase(eventAction);
-        var resultsSectionName = "section-search-results-" + eventAction;
-        var speciesName = $("#" + textFieldName).val();
-        var formData = new FormData();
-
-        formData.append("EventAction", eventAction);
-        formData.append("SpeciesName", speciesName);
-        if ($("#" + checkBoxName).is(":checked")) {
-            formData.append("IsAcceptedName", "Y");
-        }
-        formData.append("IsMultiSelect", "Y");
-
-        $.ajax({
-            url: link,
-            type: 'POST',
-            cache: false,
-            contentType: false,
-            processData: false,
-            data: formData,
-            success: function (response) {
-                $("#" + resultsSectionName).html(response);
-            },
-            error: function () {
-                alert("Error");
-            }
-        });
-    }
+    *@
 
     function toTitleCase(str) {
         return str.replace(
@@ -379,6 +417,23 @@
                 columnDefs: [
                     { targets: [0], visible: false }
 
+                ]
+            });
+        });
+    }
+
+    function InitDataTableMinimal(tableName) {
+        $(document).ready(function () {
+            var table = $("#" + tableName).DataTable({
+                paging: true,
+                responsive: true,
+                select: {
+                    style: 'single'
+                },
+                searching: false,
+                paging: false,
+                columnDefs: [
+                    { targets: [0], visible: false }
                 ]
             });
         });

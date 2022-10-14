@@ -380,7 +380,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             try
             {
                 viewModel.PageTitle = "Family Search";
-                viewModel.TableName = "taxonomy_family_Map";
+                viewModel.TableName = "taxonomy_family_map";
                 viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
                 return View(BASE_PATH + "Index.cshtml", viewModel);
             }
