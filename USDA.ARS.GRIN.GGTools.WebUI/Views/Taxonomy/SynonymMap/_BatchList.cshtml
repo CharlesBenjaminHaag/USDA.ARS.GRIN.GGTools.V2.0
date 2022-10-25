@@ -3,7 +3,7 @@
 {
     <div class="card card-default">
         <div class="card-header">
-            <h3 class="card-title">Mapped Synonyms (@Model.DataCollectionBatch.Count)</h3>
+            <h3 class="card-title">Mapped Synonyms (@Model.DataCollection.Count)</h3>
             <div class="card-tools">
                 <button type="button" class="btn btn-tool" data-card-widget="collapse">
                     <i class="fas fa-minus"></i>
@@ -19,35 +19,34 @@
                             <th>ID</th>
                             <th>Species Name</th>
                             <th>Relationship</th>
-                            <th>ID</th>
                             <th>Species Name</th>
                             <th></th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (var result in Model.DataCollectionBatch)
+                        @foreach (var result in Model.DataCollection)
                         {
+                            var deleteButtonId = "btnDeleteSynonymMap" + result.ID.ToString(); 
                             <tr>
                                 <td>
                                     @result.ID
                                 </td>
-                                <td>@result.SpeciesIDSubject</td>
                                 <td>
-                                    <a href="@Url.Action("Edit", "Species", new { entityId = result.SpeciesIDSubject })">
-                                        @Html.Raw(result.SpeciesAssembledNameSubject)
+                                    @result.ID
+                                </td>
+                                <td>
+                                    <a href="@Url.Action("Edit", "Species", new { entityId = result.SpeciesAID })">
+                                        @Html.Raw(result.SpeciesAName)
                                     </a>
                                 </td>
                                 <td>@result.SynonymDescription</td>
-                                <td>@result.SpeciesIDPredicate</td>
                                 <td>
-                                    <a href="@Url.Action("Edit", "Species", new { entityId = result.SpeciesIDPredicate })">
-                                        @Html.Raw(result.SpeciesAssembledNamePredicate)
+                                    <a href="@Url.Action("Edit", "Species", new { entityId = result.SpeciesBID })">
+                                        @Html.Raw(result.SpeciesBName)
                                     </a>
                                 </td>
                                 <td style="text-align:right;">
-                                    <a href="@Url.Action("Delete", "SynonymMap", new { entityId = result.ID })" class="btn btn-danger btn-sm pull-right row-edit">
-                                        Delete
-                                    </a>
+                                    <button id="@deleteButtonId" class="btn btn-danger">Delete Map</button>
                                     <a href="@Url.Action("Edit", "SynonymMap", new { entityId = result.ID })" class="btn btn-primary btn-sm pull-right margin-r-5 row-edit">
                                         Edit
                                     </a>

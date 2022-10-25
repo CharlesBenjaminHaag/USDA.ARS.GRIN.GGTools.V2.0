@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Web.Mvc;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
@@ -25,6 +26,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         public string BreedingTypeTitle { get; set; }
         public string BreedingUsageNote { get; set; }
         public string OntologyTraitIdentifier { get; set; }
+        [AllowHtml]
         public string CitationText { get; set; }
     }
 }

@@ -4,7 +4,9 @@
         <tr>
             <th></th>
             <th width="5%">ID</th>
-            <th>Citation Text</th>
+            <th>Type</th>
+            <th>Standard Abbreviation</th>
+            <th>Abbreviation</th>
             <th>Taxon</th>
         </tr>
     </thead>
@@ -20,7 +22,9 @@
                         <td>
                             @result.ID
                         </td>
-                        <td>@Html.Raw(result.CitationText)</td>
+                        <td> </td>
+                        <td>@result.StandardAbbreviation</td>
+                        <td>@result.Abbreviation</td>
                         <td>
                             @result.SpeciesName
                         </td>

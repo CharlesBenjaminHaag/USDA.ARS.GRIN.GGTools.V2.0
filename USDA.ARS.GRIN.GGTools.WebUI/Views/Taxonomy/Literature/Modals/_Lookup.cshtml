@@ -1,4 +1,6 @@
-﻿<div class="modal fade" id="modal-literature-lookup" style="display: none;" aria-hidden="true">
+﻿@model USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer.LiteratureViewModelBase
+
+<div class="modal fade" id="modal-literature-lookup" style="display: none;" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
@@ -13,40 +15,33 @@
             <div class="modal-body">
                 <div class="row">
                     <div class="col-md-2">
-                        <div class="form-group form-horizontal">
+                        <div id="section-family-type" class="form-group form-horizontal">
                             <label>Type</label>
-                            <select id="ddlType" class="form-control">
-                                <option value=" ">NULL</option>
-                                <option value="JOURNAL">Journal</option>
-                                <option value="ARTICLE">Article</option>
-                                <option value="PERIODICAL">Periodical</option>
-                                <option value="BOOK">Book</option>
-                                <option value="URL">URL</option>
-                            </select>
+                            @Html.DropDownListFor(x => x.SearchEntity.TypeCode, Model.LiteratureTypes, "All Types", new { id="ddlLiteratureTypeCode", @class = "form-control" })
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="form-group form-horizontal">
-                            <label>Abbreviation</label>
-                            <input id="txtAbbreviation" class="form-control" />
+                            <label>Std. Abbrev.</label>
+                            <input type="text" id="txtLiteratureStandardAbbreviation" class = "form-control" />
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="form-group form-horizontal">
                             <label>Reference Title</label>
-                            <input id="txtReferenceTitle" class="form-control" />
+                            <input type="text" id="txtLiteratureReferenceTitle" class="form-control" />
                         </div>
                     </div>
-                    <div class="col-md-2">
+                    <div class="col-md-3">
                         <div class="form-group form-horizontal">
                             <label>Author</label>
-                            <input id="txtEditorAuthorName" class="form-control" />
+                            <input type="text" id="txtLiteratureEditorAuthorName" class="form-control" />
                         </div>
                     </div>
                     <div class="col-md-1">
                         <div class="form-group form-horizontal">
                             <label>Year</label>
-                            <input id="txtPublicationYear" class="form-control" />
+                            <input type="text" id="txtLiteraturePublicationYear" class="form-control" />
                         </div>
                     </div>
                 </div>
@@ -62,7 +57,7 @@
                 </div>
             </div>
             <div class="modal-footer justify-content-between">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
                 <button id="btnSaveLiterature" type="button" class="btn btn-info" data-dismiss="modal">Add Selected Literature</button>
             </div>
         </div>
@@ -79,4 +74,44 @@
             SaveLiterature();
         });
     });
+
+    function LookupLiterature(link) {
+        var tableName = $("#TableName").val();
+        var typeCode = $("#ddlLiteratureTypeCode").val();
+        var standardAbbreviation = $("#txtLiteratureStandardAbbreviation").val();
+        var referenceTitle = $("#txtLiteratureReferenceTitle").val();
+        var editorAuthorName = $("#txtLiteratureEditorAuthorName").val();
+        var publicationYear = $("#txtLiteraturePublicationYear").val();
+        var formData = new FormData();
+
+        formData.append("TableName", tableName);
+        formData.append("LiteratureTypeCode", typeCode);
+        formData.append("StandardAbbreviation", standardAbbreviation);
+        formData.append("ReferenceTitle", referenceTitle);
+        formData.append("EditorAuthorName", editorAuthorName);
+        formData.append("PublicationYear", publicationYear);
+
+        try {
+            $.ajax({
+                url: link,
+                type: 'POST',
+                cache: false,
+                contentType: false,
+                processData: false,
+                data: formData,
+                success: function (response) {
+                    $("#section-literature-lookup-search-results").html(response);
+                }
+            });
+        }
+        catch (ex) {
+        }
+    }
+
+    function SaveLiterature(link, refreshLink) {
+        var selectedItemIdList = GetSelectedEntityIDs("data-table-literature-lookup");
+        var selectedItemNameList = GetSelectedEntityLabels("data-table-literature-lookup");
+        $("#Entity_LiteratureID").val(selectedItemIdList);
+        $("#Entity_Abbreviation").val(selectedItemNameList);
+    }
 </script>

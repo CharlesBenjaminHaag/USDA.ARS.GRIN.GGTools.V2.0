@@ -57,7 +57,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
         [HttpPost]
         public PartialViewResult Lookup(FormCollection formCollection)
         {
-            string partialViewName = BASE_PATH + "/Modals/_SelectList.cshtml";
+            string partialViewName = "~/Views/Taxonomy/Species/Modals/_SelectList.cshtml";
             SpeciesViewModel viewModel = new SpeciesViewModel();
 
             try
@@ -67,11 +67,11 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                     viewModel.EventAction = formCollection["EventAction"];
                     switch (viewModel.EventAction)
                     {
-                        case "subject":
-                            partialViewName = BASE_PATH + "_SelectListSubject.cshtml";
+                        case "species-a":
+                            partialViewName = "~/Views/Taxonomy/SynonymMap/_SelectListSpeciesA.cshtml";
                             break;
-                        case "predicate":
-                            partialViewName = BASE_PATH + "_SelectListPredicate.cshtml";
+                        case "species-b":
+                            partialViewName = "~/Views/Taxonomy/SynonymMap/_SelectListSpeciesB.cshtml";
                             break;
                     }
                 }

@@ -526,8 +526,8 @@
     <Content Include="Views\Taxonomy\SynonymMap\Index.cshtml" />
     <Content Include="Views\Taxonomy\SynonymMap\_Detail.cshtml" />
     <Content Include="Views\Taxonomy\SynonymMap\_List.cshtml" />
-    <Content Include="Views\Taxonomy\Species\_SelectListPredicate.cshtml" />
-    <Content Include="Views\Taxonomy\Species\_SelectListSubject.cshtml" />
+    <Content Include="Views\Taxonomy\SynonymMap\_SelectListSpeciesB.cshtml" />
+    <Content Include="Views\Taxonomy\SynonymMap\_SelectListSpeciesA.cshtml" />
     <Content Include="Views\Taxonomy\Species\_SynonymMapList.cshtml" />
     <Content Include="Views\Taxonomy\EconomicUse\Edit.cshtml" />
     <Content Include="Views\Taxonomy\EconomicUse\Index.cshtml" />

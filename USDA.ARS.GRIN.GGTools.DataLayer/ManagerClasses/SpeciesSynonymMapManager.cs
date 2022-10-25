@@ -47,6 +47,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             AddParameter("synonym_code", (object)entity.SynonymCode ?? DBNull.Value, false);
             AddParameter("@out_error_number", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
             AddParameter("@out_taxonomy_species_synonym_map_id", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
+            AddParameter("created_by", entity.CreatedByCooperatorID == 0 ? DBNull.Value : (object)entity.CreatedByCooperatorID, true);
 
             RowsAffected = ExecuteNonQuery();
 

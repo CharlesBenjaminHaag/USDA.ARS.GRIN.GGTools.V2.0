@@ -147,6 +147,11 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 viewModel.ReferencedEntityID = Int32.Parse(formCollection["EntityID"]);
             }
 
+            if (!String.IsNullOrEmpty(formCollection["LiteratureID"]))
+            {
+                viewModel.Entity.LiteratureID = Int32.Parse(formCollection["LiteratureID"]);
+            }
+
             if (!String.IsNullOrEmpty(formCollection["FamilyID"]))
             {
                 viewModel.Entity.FamilyID = Int32.Parse(formCollection["FamilyID"]);
@@ -223,8 +228,10 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             else
             {
                 viewModel.Insert();
+                viewModel.Get(viewModel.Entity.ID);
+                //TODO Get new cit and pass back ID and text to calling entity.                
             }
-            return Json(new { success = true }, JsonRequestBehavior.AllowGet);
+            return Json(new { citation = viewModel.Entity }, JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult AddReference(FormCollection formCollection)

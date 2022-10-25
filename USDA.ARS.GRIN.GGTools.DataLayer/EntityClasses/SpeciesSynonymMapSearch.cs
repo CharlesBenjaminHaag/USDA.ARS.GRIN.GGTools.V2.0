@@ -11,8 +11,10 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
     {
         public int SpeciesAID { get; set; }
         public string SpeciesAName { get; set; }
+        public bool SpeciesAIsAcceptedOption { get; set; }
         public string SpeciesBID { get; set; }
         public string SpeciesBName { get; set; }
+        public bool SpeciesBIsAcceptedOption { get; set; }
         public string SynonymCode { get; set; }
         public string SynonymDescription { get; set; }
         public string ItemIDList { get; set; }

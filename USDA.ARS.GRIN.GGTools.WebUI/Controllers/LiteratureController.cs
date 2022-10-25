@@ -151,9 +151,9 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                     viewModel.SearchEntity.TypeCode = formCollection["LiteratureTypeCode"];
                 }
 
-                if (!String.IsNullOrEmpty(formCollection["Abbreviation"]))
+                if (!String.IsNullOrEmpty(formCollection["StandardAbbreviation"]))
                 {
-                    viewModel.SearchEntity.Abbreviation = formCollection["Abbreviation"];
+                    viewModel.SearchEntity.StandardAbbreviation = formCollection["StandardAbbreviation"];
                 }
 
                 if (!String.IsNullOrEmpty(formCollection["ReferenceTitle"]))

@@ -16,6 +16,7 @@ function InitDataTable(tableName) {
         var table = $("#" + tableName).DataTable({
             dom: 'Blfrtip',
             paging: true,
+            "pageLength": 5,
             initComplete: function () {
                 SetControlVisibility(tableName);
             }, 
@@ -28,7 +29,7 @@ function InitDataTable(tableName) {
                 'pdf'
             ],
             select: true,
-            lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],
+            lengthMenu: [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],
             columnDefs: [
                 { targets: [0], visible: false }
             ]
@@ -38,7 +39,8 @@ function InitDataTable(tableName) {
 
 function InitDataTableLight(tableName) {
     $(document).ready(function () {
-        var table = $("#" + tableName).DataTable({
+        tableName = "#" + tableName;
+        table = $(tableName).DataTable({
             paging: true,
             responsive: true,
             select: {
@@ -52,22 +54,22 @@ function InitDataTableLight(tableName) {
     });
 }
 
-function InitDataTableMinimal(tableName) {
-    $(document).ready(function () {
-        var table = $("#" + tableName).DataTable({
-            paging: true,
-            responsive: true,
-            select: {
-                style: 'single'
-            },
-            searching: false,
-            paging: false,
-            columnDefs: [
-                { targets: [0], visible: false }
-            ]
-        });
-    });
-}
+//function InitDataTableMinimal(tableName) {
+//    $(document).ready(function () {
+//        var table = $("#" + tableName).DataTable({
+//            paging: true,
+//            responsive: true,
+//            select: {
+//                style: 'single'
+//            },
+//            searching: false,
+//            paging: false,
+//            columnDefs: [
+//                { targets: [0], visible: false }
+//            ]
+//        });
+//    });
+//}
 
 function InitDataTableLightMultiSelect(tableName) {
     $(document).ready(function () {
@@ -193,89 +195,6 @@ function SetExtendedFields() {
         $("#btnShowHideExtendedFieldsIcon").addClass("fas fa-minus");
         
     }
-}
-
-/* ========================================================================================
- * Citation Logic
-  ======================================================================================== */
-
-function LookupCitations(link) {
-    var tableName = $("#TableName").val();
-    var literatureTypeCode = $("#SearchEntity_LiteratureTypeCode").val();
-    var standardAbbreviation = $("#SearchEntity_StandardAbbreviation").val();
-    var abbreviation = $("#SearchEntity_Abbreviation").val();
-    var citationTitle = $("#SearchEntity_CitationTitle").val();
-    var editorAuthorName = $("#SearchEntity_EditorAuthorName").val();
-    var citationYear = $("#SearchEntity_CitationYear").val();
-    var formData = new FormData();
-
-    formData.append("TableName", tableName);
-    formData.append("LiteratureTypeCode", literatureTypeCode);
-    formData.append("StandardAbbreviation", standardAbbreviation);
-    formData.append("Abbreviation", abbreviation);
-    formData.append("CitationTitle", citationTitle);
-    formData.append("EditorAuthorName", editorAuthorName);
-    formData.append("CitationYear", citationYear);
-
-    try {
-        $.ajax({
-            url: link,
-            type: 'POST',
-            cache: false,
-            contentType: false,
-            processData: false,
-            data: formData,
-            success: function (response) {
-                $("#section-citation-lookup-search-results").html(response);
-            }
-        });
-    }
-    catch (ex) {
-    }
-}
-
-/* ========================================================================================
- * Literature Logic
-  ======================================================================================== */
-
-function LookupLiterature(link) {
-    var tableName = $("#TableName").val();
-    var literatureTypeCode = $("#ddlType").val();
-    var abbreviation = $("#txtAbbreviation").val();
-    var referenceTitle = $("#txtReferenceTitle").val();
-    var editorAuthorName = $("#txtEditorAuthorName").val();
-    var publicationYear = $("#txtPublicationYear").val();
-    var formData = new FormData();
-
-    formData.append("TableName", tableName);
-    formData.append("LiteratureTypeCode", literatureTypeCode);
-    formData.append("Abbreviation", abbreviation);
-    formData.append("ReferenceTitle", referenceTitle);
-    formData.append("EditorAuthorName", editorAuthorName);
-    formData.append("PublicationYear", publicationYear);
-
-    try {
-        $.ajax({
-            url: link,
-            type: 'POST',
-            cache: false,
-            contentType: false,
-            processData: false,
-            data: formData,
-            success: function (response) {
-                $("#section-literature-lookup-search-results").html(response);
-            }
-        });
-    }
-    catch (ex) {
-    }
-}
-
-function SaveLiterature(link, refreshLink) {
-    var selectedItemIdList = GetSelectedEntityIDs("data-table-literature-lookup");
-    var selectedItemNameList = GetSelectedEntityLabels("data-table-literature-lookup");
-    $("#Entity_LiteratureID").val(selectedItemIdList);
-    $("#Entity_Abbreviation").val(selectedItemNameList);
 }
 
 /* ========================================================================================

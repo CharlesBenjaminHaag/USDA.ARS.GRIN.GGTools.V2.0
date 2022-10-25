@@ -77,6 +77,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
                         speciesSynonymMap.SpeciesAID = Int32.Parse(subjectId);
                         speciesSynonymMap.SynonymCode = Entity.SynonymCode;
                         speciesSynonymMap.SpeciesBID = Int32.Parse(predicateId);
+                        speciesSynonymMap.CreatedByCooperatorID = Entity.CreatedByCooperatorID;
                         speciesSynonymMapId = mgr.Insert(speciesSynonymMap);
                         
                         // Add new syn map record to a list of recs created in the current session.

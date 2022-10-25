@@ -12,48 +12,13 @@
                 <div class="card">
                     <div class="card-header p-2">
                         <ul class="nav nav-pills">
-                            <li class="nav-item"><a class="nav-link active" href="#parent-taxon-citations" data-toggle="tab">Parent Taxon Citations</a></li>
-                            <li class="nav-item"><a class="nav-link " href="#search-citations" data-toggle="tab">Search</a></li>
+                            <li class="nav-item"><a class="nav-link active" href="#search-citations" data-toggle="tab">Search</a></li>
                             <li class="nav-item"><a class="nav-link" href="#add-citation" data-toggle="tab">Add</a></li>
                         </ul>
                     </div>
                     <div class="card-body">
                         <div class="tab-content">
-                            <div class="tab-pane active" id="parent-taxon-citations">
-                                @if (Model.DataCollection.Count > 0)
-                                {
-                                    <table id="citation-lookup-data-table-parent" class="table table-striped" style="margin-top:25px; width:100%;">
-                                        <thead>
-                                            <tr>
-                                                <th></th>
-                                                <th width="5%">ID</th>
-                                                <th>Citation Text</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @if (Model.DataCollection != null)
-                                            {
-                                                if (Model.DataCollection.Count() > 0)
-                                                {
-                                                    foreach (var result in Model.DataCollection)
-                                                    {
-                                                        <tr>
-                                                            <td>@result.ID</td>
-                                                            <td>
-                                                                @result.ID
-                                                            </td>
-                                                            <td>@Html.Raw(result.CitationText)</td>
-                                                        </tr>
-                                                    }
-                                                }
-                                            }
-                                        </tbody>
-                                    </table>
-                                    <br />
-                                    <button id="btnSaveSelectedSpeciesCitation" type="button" class="btn btn-info float-right" data-dismiss="modal">Use Selected Species Citation</button>
-                                }
-                            </div>
-                            <div class="tab-pane" id="search-citations">
+                            <div class="tab-pane active" id="search-citations">
                                 <div id="section-search-criteria">
                                     <div class="row">
                                         <div class="col-md-2">
@@ -80,6 +45,8 @@
                                                 @Html.TextBoxFor(x => x.SearchEntity.CitationTitle, new { @class = "form-control" })
                                             </div>
                                         </div>
+                                    </div>
+                                    <div class="row">
                                         <div class="col-md-3">
                                             <div id="form-group">
                                                 <label>Editor/Author</label>
@@ -93,12 +60,15 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div>
-                                        <button id="btnLookupCitations" type="button" class="btn btn-default float-right">Search</button>
+                                    <br />
+                                    <div class="row margin-top-05em">
+                                        <div class="col-md-12">
+                                            <button id="btnReset" type="button" class="btn btn-warning">Reset</button>
+                                            <button id="btnLookupCitations" type="button" class="btn btn-default float-right">Search</button>
+                                        </div>
                                     </div>
                                     <div id="section-citation-lookup-search-results">
                                     </div>
-
                                 </div>
                             </div>
                             <div class="tab-pane" id="add-citation">
@@ -154,17 +124,13 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <label>Note</label>
-                                        @Html.TextAreaFor(x => x.Entity.Note, new { @id = "txtNote", @class = "form-control" })
+                                        @Html.TextAreaFor(x => x.Entity.Note, new { @id = "txtCitationNote", @class = "form-control" })
                                     </div>
                                 </div>
                                 <br />
                                 <button id="btnSaveNewCitation" type="button" class="btn btn-info float-right" data-dismiss="modal">Save New Citation</button>
                             </div>
                         </div>
-                    </div>
-                    <div class="card-footer">
-
-
                     </div>
                 </div>
             </div>
@@ -176,24 +142,10 @@
 </div>
 @{Html.RenderAction("RenderLookupModal", "Literature"); }
 <script type="text/javascript">
-    InitDataTableLight('citation-lookup-data-table-parent');
 
-    /*
-     * Initiate search
-     */
     $(document).on("click", "[id='btnLookupCitations']", function () {
         var link = '@Url.Action("Lookup","Citation")';
         LookupCitations(link);
-    });
-
-    /*
-     * Add a reference to a citation linked to a parent taxon.
-     */
-    $(document).on("click", "[id='btnSaveSelectedSpeciesCitation']", function () {
-        var selectedItemIdList = GetSelectedEntityIDs("citation-lookup-data-table-parent");
-        var selectedItemLabelList = GetSelectedEntityLabels("citation-lookup-data-table-parent");
-        $("#Entity_CitationID").val(selectedItemIdList);
-        $("#Entity_CitationText").val(selectedItemLabelList);
     });
 
     $(document).on("click", "[id='btnSaveSelectedCitation']", function () {
@@ -203,29 +155,63 @@
         $("#Entity_CitationText").val(selectedItemLabelList);
     });
 
-    /*
-     * Add a new citation, linked to this entity.
-     */
     $(document).on("click", "[id='btnSaveNewCitation']", function () {
-        // TODO AddCitation();
-        alert("DEBUG SAVE NEW CIT");
+        SaveNewCitation();
     });
 
-    function AddCitation() {
+    function LookupCitations(link) {
+        var tableName = $("#TableName").val();
+        var literatureTypeCode = $("#SearchEntity_LiteratureTypeCode").val();
+        var standardAbbreviation = $("#SearchEntity_StandardAbbreviation").val();
+        var abbreviation = $("#SearchEntity_Abbreviation").val();
+        var citationTitle = $("#SearchEntity_CitationTitle").val();
+        var editorAuthorName = $("#SearchEntity_EditorAuthorName").val();
+        var citationYear = $("#SearchEntity_CitationYear").val();
+        var formData = new FormData();
+
+        formData.append("TableName", tableName);
+        formData.append("LiteratureTypeCode", literatureTypeCode);
+        formData.append("StandardAbbreviation", standardAbbreviation);
+        formData.append("Abbreviation", abbreviation);
+        formData.append("CitationTitle", citationTitle);
+        formData.append("EditorAuthorName", editorAuthorName);
+        formData.append("CitationYear", citationYear);
+
+        try {
+            $.ajax({
+                url: link,
+                type: 'POST',
+                cache: false,
+                contentType: false,
+                processData: false,
+                data: formData,
+                success: function (response) {
+                    $("#section-citation-lookup-search-results").html(response);
+                }
+            });
+        }
+        catch (ex) {
+
+        }
+    }
+
+    function SaveNewCitation() {
     var link = '@Url.Action("Add","Citation")';
     var formData = new FormData();
-
     var tableName = $("#TableName").val();
     var entityId = $("#Entity_ID").val();
+    var literatureId = $("#Entity_LiteratureID").val();
     var standardAbbreviation = $("#Entity_Abbreviation").val();
     var citationTitle = $("#Entity_CitationTitle").val();
     var editorAuthorName = $("#Entity_EditorAuthorName").val();
     var citationYear = $("#Entity_CitationYear").val();
     var doiReference = $("#Entity_DOIReference").val();
     var volumeOrPage = $("#Entity_VolumeOrPage").val();
-    var note = $("#Entity_Note").val();
+    var note = $("#txtCitationNote").val();
 
     formData.append("TableName", tableName);
+    formData.append("EntityID", entityId);
+    formData.append("LiteratureID", literatureId);
     formData.append("SpeciesID", entityId);
     formData.append("StandardAbbreviation", standardAbbreviation);
     formData.append("CitationTitle", citationTitle);
@@ -239,22 +225,18 @@
         url: link,
         type: 'POST',
         cache: false,
+        dataType: 'json',
         contentType: false,
         processData: false,
         data: formData,
-        success: function (result) {
-
+        success: function (data) {
+            $("#Entity_CitationID").val(data.citation.ID);
+            $("#Entity_CitationText").val(data.citation.CitationText);
         },
-        error: function () {
-
+        error: function (ex) {
         }
     });
-
 }
-
-    function SetCitationReference(link) {
-        //TODO: Call method that
-    }
 
     function SaveCitations(link, refreshLink) {
     var tableName = $("#TableName").val();

@@ -55,8 +55,8 @@
 
     $("#btnSaveSpecies").click(function () {
         // Check EventAction to determine the field(s) to update.
-        var idField = $("#EventAction").val();
-        var nameField = $("#EventValue").val();
+        var idField = "Entity_" + $("#EventAction").val();
+        var nameField = "Entity_" + $("#EventValue").val();
         var idList = GetSelectedEntityIDs("data-table-species-lookup");
         var nameList = GetSelectedEntityLabels("data-table-species-lookup");
         //DEBUG

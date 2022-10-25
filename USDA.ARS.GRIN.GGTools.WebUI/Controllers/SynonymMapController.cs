@@ -66,18 +66,16 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 viewModel.SpeciesIDListPredicate = formCollection["SpeciesIDListPredicate"];
             }
 
-            // Add each generated batch to the session-stored list.
             viewModel.InsertMultiple();
+
+            // Add each generated batch to the session-stored list.
             if (Session["SPECIES-SYNONYM-MAPS"] != null)
             {
                 speciesSynonymMaps = Session["SPECIES-SYNONYM-MAPS"] as List<SpeciesSynonymMap>;
             }
             speciesSynonymMaps.AddRange(viewModel.DataCollection);
-
             Session["SPECIES-SYNONYM-MAPS"] = speciesSynonymMaps;
-            viewModel.DataCollectionBatch = speciesSynonymMaps;
-
-            return PartialView(BASE_PATH + "_BatchList.cshtml", viewModel);
+            return PartialView("~/Views/Taxonomy/SynonymMap/_BatchList.cshtml", viewModel);
         }
 
         public PartialViewResult Clear(FormCollection formCollection)
