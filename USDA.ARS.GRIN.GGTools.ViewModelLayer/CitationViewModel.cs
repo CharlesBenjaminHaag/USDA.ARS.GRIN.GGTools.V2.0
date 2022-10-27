@@ -224,10 +224,10 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
                 {
                     DataCollection = new Collection<Citation>(mgr.Search(SearchEntity));
                     RowsAffected = mgr.RowsAffected;
-
-                    //String DEBUG = SerializeToXml<CitationSearch>(SearchEntity);
-                    //CitationSearch DEBUG2 = Deserialize<CitationSearch>(DEBUG);
-
+                    if (RowsAffected == 1)
+                    {
+                        Entity = DataCollection[0];
+                    }
                 }
                 catch (Exception ex)
                 {

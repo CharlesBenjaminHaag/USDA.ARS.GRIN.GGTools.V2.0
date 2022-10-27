@@ -149,10 +149,27 @@
     });
 
     $(document).on("click", "[id='btnSaveSelectedCitation']", function () {
+        var tableName = $("#TableName").val();
+        var entityId = $("#Entity_ID").val();
         var selectedItemIdList = GetSelectedEntityIDs("citation-lookup-data-table");
         var selectedItemLabelList = GetSelectedEntityLabels("citation-lookup-data-table");
-        $("#Entity_CitationID").val(selectedItemIdList);
-        $("#Entity_CitationText").val(selectedItemLabelList);
+
+        // If table is single-cit table, set fields; otherwise, call method. ** Temporary ** until citation
+        // table and related tables can be refactored to allow linking from sub-taxon data 
+        // (CWR Map, CWR Trait, etc.) via a map table -- vs. a citation ID field within the 
+        // sub-taxon table itself.
+
+        if ((tableName == "taxonomy_cwr_map") ||
+            (tableName == "taxonomy_cwr_trait") ||
+            (tableName == "taxonomy_common_name") ||
+            (tableName == "taxonomy_use") ||
+            (tableName == "taxonomy_geography_map")) {
+            $("#Entity_CitationID").val(selectedItemIdList);
+            $("#Entity_CitationText").val(selectedItemLabelList);
+        }
+        else {
+            SaveSelectedCitation(tableName, entityId, selectedItemIdList);
+        }
     });
 
     $(document).on("click", "[id='btnSaveNewCitation']", function () {
@@ -195,47 +212,71 @@
         }
     }
 
+    function SaveSelectedCitation(tableName, entityId, citationId) {
+        var link = '@Url.Action("Clone","Citation")';
+        var formData = new FormData();
+
+        formData.append("TableName", tableName);
+        formData.append("EntityID", entityId);
+        formData.append("CitationID", citationId);
+
+        $.ajax({
+            url: link,
+            type: 'POST',
+            cache: false,
+            dataType: 'json',
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (data) {
+                LoadDependentData("tab_selector_citations");
+            },
+            error: function (ex) {
+            }
+        });
+    }
+
     function SaveNewCitation() {
-    var link = '@Url.Action("Add","Citation")';
-    var formData = new FormData();
-    var tableName = $("#TableName").val();
-    var entityId = $("#Entity_ID").val();
-    var literatureId = $("#Entity_LiteratureID").val();
-    var standardAbbreviation = $("#Entity_Abbreviation").val();
-    var citationTitle = $("#Entity_CitationTitle").val();
-    var editorAuthorName = $("#Entity_EditorAuthorName").val();
-    var citationYear = $("#Entity_CitationYear").val();
-    var doiReference = $("#Entity_DOIReference").val();
-    var volumeOrPage = $("#Entity_VolumeOrPage").val();
-    var note = $("#txtCitationNote").val();
+        var link = '@Url.Action("Add","Citation")';
+        var formData = new FormData();
+        var tableName = $("#TableName").val();
+        var entityId = $("#Entity_ID").val();
+        var literatureId = $("#Entity_LiteratureID").val();
+        var standardAbbreviation = $("#Entity_Abbreviation").val();
+        var citationTitle = $("#Entity_CitationTitle").val();
+        var editorAuthorName = $("#Entity_EditorAuthorName").val();
+        var citationYear = $("#Entity_CitationYear").val();
+        var doiReference = $("#Entity_DOIReference").val();
+        var volumeOrPage = $("#Entity_VolumeOrPage").val();
+        var note = $("#txtCitationNote").val();
 
-    formData.append("TableName", tableName);
-    formData.append("EntityID", entityId);
-    formData.append("LiteratureID", literatureId);
-    formData.append("SpeciesID", entityId);
-    formData.append("StandardAbbreviation", standardAbbreviation);
-    formData.append("CitationTitle", citationTitle);
-    formData.append("EditorAuthorName", editorAuthorName);
-    formData.append("CitationYear", citationYear);
-    formData.append("DOIReference", doiReference);
-    formData.append("VolumeOrPage", volumeOrPage);
-    formData.append("Note", note);
+        formData.append("TableName", tableName);
+        formData.append("EntityID", entityId);
+        formData.append("LiteratureID", literatureId);
+        formData.append("SpeciesID", entityId);
+        formData.append("StandardAbbreviation", standardAbbreviation);
+        formData.append("CitationTitle", citationTitle);
+        formData.append("EditorAuthorName", editorAuthorName);
+        formData.append("CitationYear", citationYear);
+        formData.append("DOIReference", doiReference);
+        formData.append("VolumeOrPage", volumeOrPage);
+        formData.append("Note", note);
 
-    $.ajax({
-        url: link,
-        type: 'POST',
-        cache: false,
-        dataType: 'json',
-        contentType: false,
-        processData: false,
-        data: formData,
-        success: function (data) {
-            $("#Entity_CitationID").val(data.citation.ID);
-            $("#Entity_CitationText").val(data.citation.CitationText);
-        },
-        error: function (ex) {
-        }
-    });
+        $.ajax({
+            url: link,
+            type: 'POST',
+            cache: false,
+            dataType: 'json',
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (data) {
+                $("#Entity_CitationID").val(data.citation.ID);
+                $("#Entity_CitationText").val(data.citation.CitationText);
+            },
+            error: function (ex) {
+            }
+        });
 }
 
     function SaveCitations(link, refreshLink) {
@@ -291,6 +332,7 @@
 
         }
     });
-}
+    }
+    
 </script>
 

@@ -23,6 +23,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
         private Collection<FamilyMap> _DataCollection = new Collection<FamilyMap>();
         private Collection<FamilyMap> _DataCollectionSynonyms = new Collection<FamilyMap>();
         private Collection<FamilyMap> _DataCollectionSubdivisions = new Collection<FamilyMap>();
+        private Collection<Genus> _DataCollectionGenera = new Collection<Genus>();
 
         public FamilyMapViewModelBase()
         {
@@ -88,6 +89,12 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
             get { return _DataCollectionSubdivisions; }
             set { _DataCollectionSubdivisions = value; }
         }
+        public Collection<Genus> DataCollectionGenera
+        {
+            get { return _DataCollectionGenera; }
+            set { _DataCollectionGenera = value; }
+        }
+
         private List<FamilyMap> GetFamilyMaps()
         {
             List<FamilyMap> familyMaps = new List<FamilyMap>();

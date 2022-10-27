@@ -63,7 +63,13 @@
                         </div>
                     <div class="row">
                         <div class="col-md-12">
-                            <a href="@Url.Action("Refresh")" class="btn btn-danger">Cancel</a>
+                            <a href="@Url.Action("Refresh")" class="btn btn-warning">Cancel</a>
+                            @if (Model.Entity.ID > 0)
+                            {
+                                <button id="btnDelete" type="button" class="btn btn-danger">
+                                    Delete
+                                </button>
+                            }
                             <button type="submit" class="btn btn-info float-right">Save</button>
                         </div>
                     </div>

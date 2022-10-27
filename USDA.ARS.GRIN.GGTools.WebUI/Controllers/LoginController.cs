@@ -26,14 +26,16 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Index(SysUserViewModel viewModel) 
         {
+            bool isAuthenticated = false;
             try
             {
                 if (!viewModel.IsAlphaNumeric(viewModel.Entity.UserName))
                 {
+                    ModelState.Clear();
                     viewModel.UserMessage = String.Format("User name invalid.");
                     return View(viewModel);
                 }
-                viewModel.Authenticate();
+                isAuthenticated = viewModel.Authenticate();
                 ModelState.Clear();
             }
             catch (Exception ex)
@@ -97,6 +99,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             if (!viewModel.IsAlphaNumeric(viewModel.Entity.UserName))
             {
                 viewModel.UserMessage = String.Format("User name invalid.");
+                ModelState.Clear();
                 return View(viewModel);
             }
 
@@ -104,6 +107,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             if (String.IsNullOrEmpty(viewModel.SearchEntity.UserName))
             {
                 viewModel.UserMessage = String.Format("Please enter your GRIN-Global user name.");
+                ModelState.Clear();
                 return View(viewModel);
             }
 
@@ -112,6 +116,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             if (viewModel.Entity.ID == 0)
             { 
                 viewModel.UserMessage = String.Format("The user <strong>{0}</strong> could not be found. Please verify that: <ul><li>You have an active GRIN-Global account.</li><li>You have entered your username exactly as you do when logging into the Curator Tool.</li></ul>", viewModel.Entity.UserName );
+                ModelState.Clear();
                 return View(viewModel);
             }
 
@@ -148,6 +153,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
         {
             if (!viewModel.Validate())
             {
+                ModelState.Clear();
                 return View("~/Views/Login/ResetPasswordConfirm.cshtml", viewModel);
             }
 

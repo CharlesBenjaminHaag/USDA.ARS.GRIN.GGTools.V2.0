@@ -22,6 +22,13 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             {
                 viewModel.Col1Width = 5;
                 viewModel.Col3Width = 5;
+                viewModel.TableName = "taxonomy_species_synonym_map";
+
+                // Clear the session of any previously-created batches.
+                if (Session["SPECIES-SYNONYM-MAPS"] != null)
+                {
+                    Session.Remove("SPECIES-SYNONYM-MAPS");
+                }
 
                 // If an entity (species) ID is sent via param, retrieve the species and set the corresponding 
                 // VM attributes.
@@ -48,7 +55,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
         public PartialViewResult Add(FormCollection formCollection)
         {
             SynonymMapViewModel viewModel = new SynonymMapViewModel();
-            List<SpeciesSynonymMap> speciesSynonymMaps = new List<SpeciesSynonymMap>();
+            List<SpeciesSynonymMap> batchedSpeciesSynonymMaps = new List<SpeciesSynonymMap>();
             viewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
 
             if (!String.IsNullOrEmpty(formCollection["SynonymCode"]))
@@ -71,10 +78,12 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             // Add each generated batch to the session-stored list.
             if (Session["SPECIES-SYNONYM-MAPS"] != null)
             {
-                speciesSynonymMaps = Session["SPECIES-SYNONYM-MAPS"] as List<SpeciesSynonymMap>;
+                batchedSpeciesSynonymMaps = Session["SPECIES-SYNONYM-MAPS"] as List<SpeciesSynonymMap>;
             }
-            speciesSynonymMaps.AddRange(viewModel.DataCollection);
-            Session["SPECIES-SYNONYM-MAPS"] = speciesSynonymMaps;
+            batchedSpeciesSynonymMaps.AddRange(viewModel.DataCollection);
+            Session["SPECIES-SYNONYM-MAPS"] = batchedSpeciesSynonymMaps;
+            viewModel.DataCollectionBatch = batchedSpeciesSynonymMaps;
+
             return PartialView("~/Views/Taxonomy/SynonymMap/_BatchList.cshtml", viewModel);
         }
 

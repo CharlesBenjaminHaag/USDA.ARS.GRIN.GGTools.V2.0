@@ -42,6 +42,13 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
         }
 
         [HttpGet]
+        public ActionResult SystemError()
+        {
+            var exception = Server.GetLastError();
+            return View();
+        }
+
+        [HttpGet]
         public ActionResult _InternalServerError()
         {
             var exception = Server.GetLastError();

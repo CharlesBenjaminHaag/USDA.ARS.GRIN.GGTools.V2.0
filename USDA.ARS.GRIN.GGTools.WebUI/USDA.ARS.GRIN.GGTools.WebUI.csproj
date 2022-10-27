@@ -619,6 +619,12 @@
     <Content Include="Views\Taxonomy\Shared\Modals\_Delete.cshtml" />
     <Content Include="Views\Folder\Modals\_SelectList.cshtml" />
     <Content Include="Views\Taxonomy\SynonymMap\_DetailExtended.cshtml" />
+    <Content Include="Views\Taxonomy\Family\_ListGenera.cshtml" />
+    <Content Include="Views\Taxonomy\Family\_EditFamily.cshtml" />
+    <Content Include="Views\Taxonomy\Family\_EditFamily - Copy.cshtml" />
+    <Content Include="Views\Taxonomy\Family\_EditSubtribe.cshtml" />
+    <Content Include="Views\Taxonomy\Family\_EditTribe.cshtml" />
+    <Content Include="Views\Taxonomy\Family\_EditSubfamily.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

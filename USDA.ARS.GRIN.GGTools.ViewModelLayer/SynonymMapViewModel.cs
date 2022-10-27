@@ -79,10 +79,16 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
                         speciesSynonymMap.SpeciesBID = Int32.Parse(predicateId);
                         speciesSynonymMap.CreatedByCooperatorID = Entity.CreatedByCooperatorID;
                         speciesSynonymMapId = mgr.Insert(speciesSynonymMap);
-                        
+
                         // Add new syn map record to a list of recs created in the current session.
-                        SpeciesSynonymMap speciesSynonymMap1 = mgr.Get(speciesSynonymMapId);
-                        synonymMaps.Add(speciesSynonymMap1);
+                        // Note that, given that the sproc only inserts records if the taxon A/syn code/taxon B
+                        // combination does not already exist, the result of the insert in those instances will
+                        // be -1, vs. the new synonym map ID.
+                        if (speciesSynonymMapId > 0)
+                        {
+                            SpeciesSynonymMap speciesSynonymMap1 = mgr.Get(speciesSynonymMapId);
+                            synonymMaps.Add(speciesSynonymMap1);
+                        }
                     }
                 }
             }

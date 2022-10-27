@@ -40,6 +40,29 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             return PartialView(BASE_PATH + "_List.cshtml", viewModel);
         }
 
+        [HttpPost]
+        public PartialViewResult _List(FormCollection formCollection)
+        {
+            CitationViewModel viewModel = new CitationViewModel();
+
+            if (!String.IsNullOrEmpty(formCollection["FamilyID"]))
+            {
+                viewModel.SearchEntity.FamilyID = Int32.Parse(formCollection["FamilyID"]);
+            }
+
+            if (!String.IsNullOrEmpty(formCollection["GenusID"]))
+            {
+                viewModel.SearchEntity.GenusID = Int32.Parse(formCollection["GenusID"]);
+            }
+
+            if (!String.IsNullOrEmpty(formCollection["SpeciesID"]))
+            {
+                viewModel.SearchEntity.SpeciesID = Int32.Parse(formCollection["SpeciesID"]);
+            }
+            viewModel.Search();
+            return PartialView(BASE_PATH + "_List.cshtml", viewModel);
+        }
+
         public ActionResult Index()
         {
             try
@@ -129,10 +152,6 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             return View(BASE_PATH + "Edit.cshtml", viewModel);
         }
         [HttpPost]
-        
-        /* 
-         *  
-         */
         public JsonResult Add(FormCollection formCollection)
         {
             CitationViewModel viewModel = new CitationViewModel();
@@ -152,21 +171,6 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 viewModel.Entity.LiteratureID = Int32.Parse(formCollection["LiteratureID"]);
             }
 
-            if (!String.IsNullOrEmpty(formCollection["FamilyID"]))
-            {
-                viewModel.Entity.FamilyID = Int32.Parse(formCollection["FamilyID"]);
-            }
-
-            if (!String.IsNullOrEmpty(formCollection["GenusID"]))
-            {
-                viewModel.Entity.GenusID = Int32.Parse(formCollection["GenusID"]);
-            }
-
-            if (!String.IsNullOrEmpty(formCollection["SpeciesID"]))
-            {
-                viewModel.Entity.SpeciesID = Int32.Parse(formCollection["SpeciesID"]);
-            }
-
             if (!String.IsNullOrEmpty(formCollection["CitationID"]))
             {
                 viewModel.Entity.CitationID = Int32.Parse(formCollection["CitationID"]);
@@ -182,8 +186,6 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 viewModel.EntityIDList = formCollection["EntityIDList"];
             }
 
-            //formData.append("VolumeOrPage", volumeOrPage);
-            //formData.append("Note", note);
             if (!String.IsNullOrEmpty(formCollection["StandardAbbreviation"]))
             {
                 viewModel.Entity.StandardAbbreviation = formCollection["StandardAbbreviation"];
@@ -219,78 +221,35 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 viewModel.Entity.Note = formCollection["Note"];
             }
 
-            viewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
+            switch (viewModel.Entity.TableName)
+            {
+                case "taxonomy_family_map":
+                    viewModel.Entity.FamilyID = viewModel.ReferencedEntityID;
+                    break;
+                case "taxonomy_genus":
+                    viewModel.Entity.GenusID = viewModel.ReferencedEntityID;
+                    break;
+                case "taxonomy_species":
+                    viewModel.Entity.SpeciesID = viewModel.ReferencedEntityID;
+                    break;
+            }
 
-            if (!String.IsNullOrEmpty(viewModel.Entity.ItemIDList))
-            {
-                viewModel.InsertMultiple();
-            }
-            else
-            {
-                viewModel.Insert();
-                viewModel.Get(viewModel.Entity.ID);
-                //TODO Get new cit and pass back ID and text to calling entity.                
-            }
+            viewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
+            viewModel.Insert();
+            viewModel.Get(viewModel.Entity.ID);
+
             return Json(new { citation = viewModel.Entity }, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult AddReference(FormCollection formCollection)
-        {
-            CitationViewModel viewModel = new CitationViewModel();
-
-            if (!String.IsNullOrEmpty(formCollection["TableName"]))
-            {
-                viewModel.Entity.TableName = formCollection["TableName"];
-            }
-
-            if (!String.IsNullOrEmpty(formCollection["EntityID"]))
-            {
-                viewModel.ReferencedEntityID = Int32.Parse(formCollection["EntityID"]);
-            }
-
-            if (!String.IsNullOrEmpty(formCollection["IDList"]))
-            {
-                viewModel.EntityIDList = formCollection["IDList"];
-            }
-
-            viewModel.Entity.ModifiedByCooperatorID = AuthenticatedUser.CooperatorID;
-            viewModel.UpdateReference();
-
-            return Json(new { success = true }, JsonRequestBehavior.AllowGet);
-        }
-        public JsonResult DeleteReference(FormCollection formCollection)
-        {
-            CitationViewModel viewModel = new CitationViewModel();
-
-            if (!String.IsNullOrEmpty(formCollection["TableName"]))
-            {
-                viewModel.Entity.TableName = formCollection["TableName"];
-            }
-
-            if (!String.IsNullOrEmpty(formCollection["EntityID"]))
-            {
-                viewModel.ReferencedEntityID = Int32.Parse(formCollection["EntityID"]);
-            }
-
-            viewModel.Entity.ModifiedByCooperatorID = AuthenticatedUser.CooperatorID;
-            viewModel.DeleteReference();
-
-            return Json(new { success = true }, JsonRequestBehavior.AllowGet);
-        }
-
         [HttpPost]
-        public JsonResult AddClone(FormCollection formCollection)
+        public JsonResult Clone(FormCollection formCollection)
         {
             CitationViewModel viewModel = new CitationViewModel();
+            CitationViewModel cloneViewModel = new CitationViewModel();
 
             if (!String.IsNullOrEmpty(formCollection["TableName"]))
             {
                 viewModel.TableName = formCollection["TableName"];
-            }
-
-            if (!String.IsNullOrEmpty(formCollection["SpeciesID"]))
-            {
-                viewModel.Entity.SpeciesID = Int32.Parse(formCollection["SpeciesID"]);
             }
             
             if (!String.IsNullOrEmpty(formCollection["EntityID"]))
@@ -298,11 +257,30 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 viewModel.ReferencedEntityID = Int32.Parse(formCollection["EntityID"]);
             }
 
-            if (!String.IsNullOrEmpty(formCollection["IDList"]))
+            if (!String.IsNullOrEmpty(formCollection["CitationID"]))
             {
-                viewModel.Entity.ItemIDList = formCollection["IDList"];
+                cloneViewModel.SearchEntity.ID = Int32.Parse(formCollection["CitationID"]);
             }
-            viewModel.InsertMultiple();
+
+            // Retrieve the existing citation, based on the passed-in ID.
+            cloneViewModel.Search();
+            viewModel.Entity = cloneViewModel.Entity;
+            viewModel.Entity.ID = 0;
+
+            // Insert a copy of the retrieved citation, using the passed-in taxon ID.
+            switch (viewModel.TableName)
+            {
+                case "taxonomy_family_map":
+                    viewModel.Entity.FamilyID = viewModel.ReferencedEntityID;
+                    break;
+                case "taxonomy_genus":
+                    viewModel.Entity.GenusID = viewModel.ReferencedEntityID;
+                    break;
+                case "taxonomy_species":
+                    viewModel.Entity.SpeciesID = viewModel.ReferencedEntityID;
+                    break;
+            }
+            viewModel.Insert();
 
             return Json(new { success = true }, JsonRequestBehavior.AllowGet);
         }

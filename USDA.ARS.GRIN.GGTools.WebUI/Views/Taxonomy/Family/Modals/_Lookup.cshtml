@@ -39,12 +39,49 @@
     </div>
 </div>
 <script type="text/javascript">
-    $(document).on("click", "[id='btnLookupFamily']", function () {
-        var link = '@Url.Action("Lookup","Family")';
-        SearchFamily(link);
+ 
+    $("#btnLookupFamily").click(function () {
+        var familyName = $("#txtLookupFamilyName").val();
+        var isAcceptedName = "";
+
+        if ($("#cbxLookupFamilyAcceptedNames").prop("checked") == true) {
+            isAcceptedName = "Y";
+        }
+
+        var actionUrl = '@Url.Action("Lookup","Family")';
+        SearchFamily(actionUrl, familyName, isAcceptedName, "Y");
     });
 
-    $(document).on("click", "[id='btnSaveFamily']", function () {
-        SaveFamily();
-    });
+    function SearchFamily(actionUrl, familyName, isAcceptedName, isSingleSelect) {
+        var formData = new FormData();
+        formData.append("LookupFamilyName", familyName);
+        formData.append("IsAcceptedName", isAcceptedName);
+        formData.append("IsSingleSelect", isSingleSelect);
+
+        $.ajax({
+            url: actionUrl,
+            type: 'POST',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (response) {
+                $("#section-family-lookup-search-results").html(response);
+            }
+        });
+    }
+
+    function SelectFamily(ID, familyName) {
+        $('#modal-family-lookup').modal('hide');
+
+        if ($('#hfCurrentValue').val() == "AcceptedName") {
+            $('#Entity_AcceptedID').val(ID);
+            $('#Entity_AcceptedName').val(familyName);
+        }
+        else {
+            $('#Entity_FamilyID').val(ID);
+            $('#Entity_FamilyName').val(familyName);
+        }
+        //$("#frmEdit").submit();
+    }
 </script>

@@ -65,13 +65,14 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
 
             SQL = " SELECT * FROM vw_GGTools_Taxon_SpeciesSynonymMaps ";
             SQL += " WHERE      (@ID                        IS NULL OR  ID = @ID) ";
-            SQL += " AND        ((@SpeciesAName   IS NULL OR  REPLACE(SpeciesAName, ' x ', '')  LIKE    'X ' + @SpeciesAName + '%')";
-            SQL += " OR         (@SpeciesAName    IS NULL OR  REPLACE(SpeciesAName, ' x ', '')  LIKE    '+' + @SpeciesAName + '%')";
-            SQL += " OR         (@SpeciesAName    IS NULL OR  REPLACE(SpeciesAName, ' x ', '')  LIKE    @SpeciesAName + '%'))";
-            SQL += " AND        (@SynonymCode               IS NULL OR  SynonymCode = @SynonymCode)";
-            SQL += " AND        ((@SpeciesBName IS NULL OR  REPLACE(SpeciesBName, ' x ', '')  LIKE    'X ' + @SpeciesBName + '%')";
-            SQL += " OR         (@SpeciesBName  IS NULL OR  REPLACE(SpeciesBName, ' x ', '')  LIKE    '+' + @SpeciesBName + '%')";
-            SQL += " OR         (@SpeciesBName    IS NULL OR  REPLACE(SpeciesBName, ' x ', '')  LIKE    @SpeciesBName + '%'))";
+            SQL += " AND        (@CreatedByCooperatorID     IS NULL OR  CreatedByCooperatorID               = @CreatedByCooperatorID)";
+            SQL += " AND        ((@SpeciesAName             IS NULL OR  REPLACE(SpeciesAName, ' x ', '')    LIKE    'X ' + @SpeciesAName + '%')";
+            SQL += " OR         (@SpeciesAName              IS NULL OR  REPLACE(SpeciesAName, ' x ', '')    LIKE    '+' + @SpeciesAName + '%')";
+            SQL += " OR         (@SpeciesAName              IS NULL OR  REPLACE(SpeciesAName, ' x ', '')    LIKE    @SpeciesAName + '%'))";
+            SQL += " AND        (@SynonymCode               IS NULL OR  SynonymCode                         = @SynonymCode)";
+            SQL += " AND        ((@SpeciesBName             IS NULL OR  REPLACE(SpeciesBName, ' x ', '')    LIKE    'X ' + @SpeciesBName + '%')";
+            SQL += " OR         (@SpeciesBName              IS NULL OR  REPLACE(SpeciesBName, ' x ', '')    LIKE    '+' + @SpeciesBName + '%')";
+            SQL += " OR         (@SpeciesBName              IS NULL OR  REPLACE(SpeciesBName, ' x ', '')    LIKE    @SpeciesBName + '%'))";
 
             if (!String.IsNullOrEmpty(searchEntity.IDList))
             {
@@ -80,6 +81,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
 
             var parameters = new List<IDbDataParameter> {
                 CreateParameter("ID", searchEntity.ID > 0 ? (object)searchEntity.ID : DBNull.Value, true),
+                CreateParameter("CreatedByCooperatorID", searchEntity.CreatedByCooperatorID > 0 ? (object)searchEntity.CreatedByCooperatorID : DBNull.Value, true),
                 CreateParameter("SpeciesAName", (object)searchEntity.SpeciesAName ?? DBNull.Value, true),
                 CreateParameter("SynonymCode", (object)searchEntity.SynonymCode ?? DBNull.Value, true),
                 CreateParameter("SpeciesBName", (object)searchEntity.SpeciesBName ?? DBNull.Value, true),

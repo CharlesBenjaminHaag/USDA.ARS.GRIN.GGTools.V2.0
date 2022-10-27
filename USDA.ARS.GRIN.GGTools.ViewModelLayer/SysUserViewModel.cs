@@ -106,7 +106,7 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
             }
         }
 
-        public void Authenticate()
+        public bool Authenticate()
         {
             string storedPassword = String.Empty;
             string hashedPassword = String.Empty;
@@ -119,14 +119,14 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
             {
                 Entity.IsAuthenticated = false;
                 UserMessage = "Please enter your GRIN-Global user name.";
-                return;
+                return false;
             }
 
             if (SearchEntity.UserName.Length > 50)
             {
                 Entity.IsAuthenticated = false;
                 UserMessage = "The user name that you have entered does not exist.";
-                return;
+                return false;
             }
 
             Search();
@@ -135,6 +135,7 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
             {
                 Entity.IsAuthenticated = false;
                 UserMessage = "The user name that you have entered does not exist.";
+                return false;
             }
             else
             {
@@ -154,6 +155,7 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
                 {
                     Entity.IsAuthenticated = false;
                     UserMessage = "Your password is incorrect.";
+                    return false;
                 }
 
                 // Check groups.
@@ -200,6 +202,7 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
                 //{
                 //    Entity.IsSiteAdmin = "N";
                 //}
+                return true;
             }
         }
 

@@ -78,6 +78,25 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
                 }
             }
         }
+
+        public void GetGenera(int entityId)
+        {
+            using (FamilyMapManager mgr = new FamilyMapManager())
+            {
+                try
+                {
+                    DataCollectionGenera = new Collection<Genus>(mgr.GetGenera(entityId));
+                    RowsAffected = mgr.RowsAffected;
+                }
+                catch (Exception ex)
+                {
+                    PublishException(ex);
+                    throw ex;
+                }
+            }
+        }
+
+
         public void HandleRequest()
         {
             throw new NotImplementedException();

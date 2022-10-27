@@ -44,6 +44,22 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             return familyMaps;
         }
 
+        /// <summary>
+        /// Returns a list of all genera, and synonyms and subdivisions, linked to a specified
+        /// family ID.
+        /// </summary>
+        /// <param name="entityId"></param>
+        /// <returns>A collection of Genus objects</returns>
+        /// <remarks>Most likely belongs in Genus manager -- to refactor.</remarks>
+        public List<Genus> GetGenera(int entityId)
+        {
+            SQL = "usp_GGTools_Taxon_FamilyGenera_Select";
+            var parameters = new List<IDbDataParameter> {
+                CreateParameter("@taxonomy_family_id", (object)entityId, false)
+            };
+            List<Genus> genera = GetRecords<Genus>(SQL, CommandType.StoredProcedure, parameters.ToArray());
+            return genera;
+        }
         public int Insert(FamilyMap entity)
         {
             Reset(CommandType.StoredProcedure);

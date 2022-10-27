@@ -149,6 +149,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                     viewModel.TableName = "taxonomy_family_map";
                     viewModel.TableCode = "Family";
                     viewModel.PageTitle = viewModel.GetPageTitle();
+                    viewModel.EditPartialViewName = GetEditPartialViewName(viewModel.Entity.FamilyRank.ToUpper());
                 }
                 else
                 {
@@ -424,6 +425,21 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 return PartialView("~/Views/Error/_InternalServerError.cshtml");
             }
         }
+        public PartialViewResult _ListGenera(int familyId)
+        {
+            FamilyMapViewModel viewModel = new FamilyMapViewModel();
+
+            try
+            {
+                viewModel.GetGenera(familyId);
+                return PartialView(BASE_PATH + "_ListGenera.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
+        }
 
         public PartialViewResult _ListSynonyms(int familyId)
         {
@@ -470,20 +486,20 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             return PartialView(BASE_PATH + "Modals/_SelectList.cshtml", viewModel);
         }
 
-        private string GetPartialViewName(string rank)
+        private string GetEditPartialViewName(string rank)
         {
             switch (rank.ToUpper())
             {
                 case "FAMILY":
-                    return "_Detail.cshtml";
+                    return "_EditFamily.cshtml";
                 case "SUBFAMILY":
-                    return "_SubfamilyRankDetail.cshtml";
+                    return "_EditSubfamily.cshtml";
                 case "TRIBE":
-                    return "_TribeRankDetail.cshtml";
+                    return "_EditTribe.cshtml";
                 case "SUBTRIBE":
-                    return "_SubtribeRankDetail.cshtml";
+                    return "_EditSubtribe.cshtml";
                 default:
-                    return "";
+                    return "_EditFamily.cshtml";
             }
         }
 

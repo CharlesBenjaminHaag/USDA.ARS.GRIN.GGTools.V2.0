@@ -217,6 +217,9 @@
             isFavorite = true;
         }
 
+        //DEBUG
+        alert("DEBUG ID LIST " + selectedItemIdList + " TABLE " + dataTableName);
+
         if (typeof selectedItemIdList != 'undefined') {
             formData.append("IDList", selectedItemIdList);
         }

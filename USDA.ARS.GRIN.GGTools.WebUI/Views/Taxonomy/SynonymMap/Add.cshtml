@@ -1,6 +1,6 @@
 ﻿@model USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer.SynonymMapViewModel
 @{
-    ViewBag.Title = "Map";
+    ViewBag.Title = "Synonym Mapping";
     Layout = "~/Views/Shared/_LayoutAdminLTE3.cshtml";
 }
 
@@ -12,19 +12,31 @@
     .dual-select {
         min-height: 350px;
     }
+
     .dataTables_info {
-        display:none;
+        display: none;
     }
 </style>
-
+@Html.HiddenFor(x => x.TableName)
 @Html.HiddenFor(x => x.EventAction)
 @Html.HiddenFor(x => x.EventValue)
 @Html.HiddenFor(x => x.SpeciesID)
 @Html.HiddenFor(x => x.SpeciesName)
 
+<div id="section-validation-errors" class="alert alert-danger alert-dismissible">
+    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+    <h5><i class="icon fas fa-ban"></i> Error!</h5>
+    To generate a map, please select:
+    <ul>
+        <li>Species A</li>
+        <li>The type of synonym relationship</li>
+        <li>Species B</li>
+    </ul>
+</div>
+
 <div id="section-search-criteria" class="row">
     <div class="col-md-@Model.Col1Width">
-        <div class="card card-default dual-select">
+        <div class="card card-primary card-outline dual-select">
             <div class="card-header">
                 <h3 class="card-title">Species A</h3>
                 <div class="card-tools">
@@ -43,7 +55,6 @@
                                 <button type="button" id="btnLookupSpeciesA" data-ggtools-action="species-a" data-ggtools-value="" class="btn btn-default btn-flat"><i class="fa fa-search"></i></button>
                             </span>
                         </div>
-
                         <div class="form-group clearfix float-right" style="margin-top:10px;">
                             <div class="icheck-primary d-inline">
                                 @Html.CheckBoxFor(x => x.SearchEntity.SpeciesAIsAcceptedOption)
@@ -85,7 +96,8 @@
                 </div>
             </div>
             <div class="card-footer">
-                <button id="btnDeleteSelectedSubject" class="btn btn-danger">Remove Selected</button>
+                <button id="btnClearAllSpeciesA" class="btn btn-default">Clear All</button>
+                <button id="btnClearSelectedSpeciesA" class="btn btn-default">Clear Selected</button>
             </div>
         </div>
     </div>
@@ -109,7 +121,7 @@
                     </thead>
                     <tbody>
                         @foreach (var result in Model.SynonymCodes)
-                        { 
+                        {
                             <tr>
                                 <td>@result.Value</td>
                                 <td>@result.Text</td>
@@ -117,18 +129,11 @@
                         }
                     </tbody>
                 </table>
-                @*<div id="button-container">
-                    <button id="btnAddMapHet" type="button" data-ggtools-syn="S" class="btn btn-default btn-block btn-flat">heterotypic</button>
-                    <button id="btnAddMapHom" type="button" data-ggtools-syn="=" class="btn btn-default btn-block btn-flat">homotypic</button>
-                    <button id="btnAddMapBas" type="button" data-ggtools-syn="B" class="btn btn-default btn-block btn-flat">basionym</button>
-                    <button id="btnAddMapAut" type="button" data-ggtools-syn="A" class="btn btn-default btn-block btn-flat">autonym</button>
-                    <button id="btnAddMapInv" type="button" data-ggtools-syn="I" class="btn btn-default btn-block btn-flat">invalid</button>
-                </div>*@
             </div>
         </div>
     </div>
     <div class="col-md-@Model.Col3Width">
-        <div class="card card-default dual-select">
+        <div class="card card-primary card-outline dual-select">
             <div class="card-header">
                 <h3 class="card-title">Species B</h3>
                 <div class="card-tools">
@@ -147,8 +152,14 @@
                                 <button type="button" id="btnLookupSpeciesB" data-ggtools-action="species-b" data-ggtools-value="" class="btn btn-default btn-flat"><i class="fa fa-search"></i></button>
                             </span>
                         </div>
-                        <input id="cbxIsAcceptedSpeciesB" type="checkbox">
-                        Accepted
+                        <div class="form-group clearfix float-right" style="margin-top:10px;">
+                            <div class="icheck-primary d-inline">
+                                @Html.CheckBoxFor(x => x.SearchEntity.SpeciesBIsAcceptedOption)
+                                <label for="SearchEntity_SpeciesBIsAcceptedOption">
+                                    Search only accepted names
+                                </label>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="row">
@@ -182,8 +193,9 @@
                 </div>
             </div>
             <div class="card-footer">
-                <button id="btnDeleteSelectedPredicate" class="btn btn-danger">Remove Selected</button>
-                <button id="btnGenerateMaps" class="btn btn-primary float-right">Generate Maps</button>
+                <button id="btnClearAllSpeciesB" class="btn btn-default">Clear All</button>
+                <button id="btnClearSelectedSpeciesB" class="btn btn-default">Clear Selected</button>
+                <button id="btnGenerateMaps" class="btn btn-info float-right">Generate Maps</button>
             </div>
         </div>
     </div>
@@ -192,7 +204,10 @@
     <div class="col-md-12">
         <div class="card card-default">
             <div class="card-header">
-                <h3 class="card-title">Maps</h3>
+                @*<h3 class="card-title">Maps</h3>*@
+                <div class="btn-group">
+                    <button id="btnOpenFolderModal" type="button" class="btn btn-default btn-sm"><i class="fa fa-folder"></i></button>
+                </div>
                 <div class="card-tools">
                     <button type="button" class="btn btn-tool" data-card-widget="collapse">
                         <i class="fas fa-minus"></i>
@@ -236,7 +251,7 @@
         </div>
     </div>
 </div>
-
+@{Html.RenderAction("_Edit", "Folder"); }
 <script type="text/javascript">
     $(document).ready(function () {
         Init();
@@ -252,6 +267,7 @@
             SearchSpecies("subject");
         }
         InitDataTableMinimal("table-synonym-codes");
+        $("#section-validation-errors").hide();
     }
 
     $("#btnLookupSpeciesA").click(function () {
@@ -270,17 +286,13 @@
         var searchText = $("#SearchEntity_SpeciesBName").val();
         var isAcceptedName = "";
 
-        if ($("#cbxIsAcceptedSpeciesB").is(":checked")) {
+        if ($("#SearchEntity_SpeciesBIsAcceptedOption").is(":checked")) {
             isAcceptedName = "Y";
         }
         SearchSpecies(eventAction, searchText, isAcceptedName, "section-search-results-" + eventAction, "data-table-search-results-" + eventAction);
     });
 
     function SearchSpecies(eventAction, searchText, isAcceptedName, searchResultSectionName, searchResultTableName) {
-
-        //DEBUG
-        alert("DEBUG PARAMS " + eventAction + " AND " + searchResultSectionName + " AND " + searchResultTableName);
-
         var link = '@Url.Action("Lookup","Species")';
         var formData = new FormData();
 
@@ -298,7 +310,7 @@
             data: formData,
             success: function (response) {
                 $("#" + searchResultSectionName).html(response);
-                
+
             },
             error: function () {
                 alert("Error");
@@ -317,8 +329,16 @@
         var selectedSpeciesIDListPredicate = GetSelectedEntityIDs("data-table-search-results-species-b");
         var formData = new FormData();
 
-        //DEBUG
-        alert("PARAMS " + selectedSpeciesIDListSubject + " AND " + selectedSynonymCode + " AND " + selectedSpeciesIDListPredicate);
+        // Ensure that all params are present.
+        if ((selectedSpeciesIDListSubject.length == 0) ||
+            (selectedSpeciesIDListPredicate.length == 0)) {
+            (selectedSynonymCode.length == 0)
+            $("#section-validation-errors").show();
+            return;
+        }
+        else {
+            $("#section-validation-errors").hide();
+        }
 
         formData.append("SynonymCode", selectedSynonymCode);
         formData.append("SpeciesIDListSubject", selectedSpeciesIDListSubject);
@@ -365,15 +385,23 @@
         });
     }
 
-    $(document).on("click", "[id='btnDeleteSelectedSubject']", function () {
-        DeleteSelected("data-table-species-subject-lookup");
+    $(document).on("click", "[id='btnClearSelectedSpeciesA']", function () {
+        DeleteSelected("data-table-search-results-species-a");
     });
 
-    $(document).on("click", "[id='btnDeleteSelectedPredicate']", function () {
-        DeleteSelected("data-table-species-predicate-lookup");
+    $(document).on("click", "[id='btnClearSelectedSpeciesB']", function () {
+        ClearSelected("data-table-search-results-species-b");
     });
 
-    function DeleteSelected(tableName) {
+    $(document).on("click", "[id='btnClearAllSpeciesA']", function () {
+        ClearAll("data-table-search-results-species-a");
+    });
+
+    $(document).on("click", "[id='btnClearAllSpeciesB']", function () {
+        ClearAll("data-table-search-results-species-b");
+    });
+
+    function ClearSelected(tableName) {
         tableName = '#' + tableName;
         var table = $(tableName).DataTable();
 
@@ -382,18 +410,14 @@
             .remove()
             .draw();
     }
-   
-    $(document).on("click", ".ggtools-delete", function () {
-        var selectedEntityID = $(this).attr("id");
-        alert("DEBUG " + selectedEntityID);
-    });
 
-    @*$(document).on("click", "[id*='btnSearchSpecies']", function () {
-        var eventAction = $(this).data("ggtools-action");
-        $("#EventAction").val(eventAction);
-        SearchSpecies(eventAction);
-    });
-    *@
+    function ClearAll(tableName) {
+        var table = $('#' + tableName).DataTable();
+
+        table
+            .clear()
+            .draw();
+    }
 
     function toTitleCase(str) {
         return str.replace(
