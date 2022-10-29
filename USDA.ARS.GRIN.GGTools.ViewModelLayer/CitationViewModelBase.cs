@@ -19,6 +19,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
         private Citation _Entity = new Citation();
         private CitationSearch _SearchEntity = new CitationSearch();
         private Collection<Citation> _DataCollection = new Collection<Citation>();
+        private Collection<Citation> _DataCollectionTaxon = new Collection<Citation>();
         private Collection<Cooperator> _DataCollectionCooperators = new Collection<Cooperator>();
 
         public CitationViewModelBase()
@@ -68,6 +69,11 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
         {
             get { return _DataCollection; }
             set { _DataCollection = value; }
+        }
+        public Collection<Citation> DataCollectionTaxon
+        {
+            get { return _DataCollectionTaxon; }
+            set { _DataCollectionTaxon = value; }
         }
 
         private List<CodeValue> GetStandardAbbreviations()

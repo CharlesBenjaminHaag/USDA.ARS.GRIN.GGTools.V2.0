@@ -26,7 +26,7 @@
                 <a id="btnSetAcceptedOff" class="btn btn-default btn-sm" href="#" role="button"><i class="fas fa-thumbs-up"></i> Accepted</a>
             </div>
             <div class="btn-group">
-                <a class="btn btn-default btn-sm" href="@Url.Action("Add","Genus", new { @familyId = Model.Entity.FamilyID, rank="genus" })">Add Genus</a>
+                <a class="btn btn-default btn-sm" href="@Url.Action("Add","Genus", new { @familyId = Model.Entity.ID, rank = "genus" })">Add Genus</a>
             </div>
             <div class="btn-group">
                 <a class="btn btn-default btn-sm" href="@Url.Action("Add","Family", new { @familyMapId = Model.Entity.ID, rank="subfamily"  })">Add Subfamily</a>
@@ -60,23 +60,63 @@
                 <div id="section-accepted-name" class="col-md-3 accepted">
                     <div class="form-group">
                         <label>Accepted Name</label>
-                        @*@Html.DropDownListFor(x => x.Entity.AcceptedID, Model.FamilyMaps, "Select accepted name", new { id = "ddlSelectAcceptedFamily", @class = "form-control" })*@
+
+                        <!-- TODO -->
+
                     </div>
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-3">
-                    <div class="form-group">
-                        <label>Family Name</label>
-                        @Html.TextBoxFor(x => x.Entity.FamilyName, new { @class = "form-control" })
+                <!-- If the record being edited is infrafamilial, show the family selector; otherwise, use the family name
+    edit field. -->
+                @if (Model.Entity.FamilyRank.ToUpper() == "FAMILY")
+                {
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Family Name</label>
+                            @Html.TextBoxFor(x => x.Entity.FamilyName, new { @class = "form-control" })
+                        </div>
                     </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="form-group">
-                        <label>Order</label>
-                        @Html.DropDownListFor(x => x.Entity.OrderID, Model.Orders, "Select order", new { id = "ddlSelectOrder", @class = "form-control" })
+                }
+                else
+                {
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Family</label>
+                            <div class="input-group">
+                                @Html.TextBoxFor(x => x.Entity.FamilyName, new { @class = "form-control", @readonly = "readonly", @style = "background-color:#ecf0f5;" })
+                                @Html.HiddenFor(x => x.Entity.FamilyID)
+
+                                @if (Model.Entity.FamilyID > 0)
+                                {
+                                    <span class="input-group-btn">
+                                        <a href="@Url.Action("Edit", "Family", new { @entityId = Model.Entity.FamilyID })" class="btn btn-default btn-flat">
+                                            <i class="fa fa-link"></i>
+                                        </a>
+                                    </span>
+                                }
+
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-default btn-flat" data-toggle="modal" data-target="#modal-family-lookup">
+                                        <i class="fa fa-search"></i>
+                                    </button>
+                                </span>
+                            </div>
+                        </div>
                     </div>
-                </div>
+                }
+
+                <!-- Only show the Order (Classification) select list if the record being edited is a family, vs.
+    an infrafamilial record. -->
+                @if (Model.Entity.FamilyRank.ToUpper() == "FAMILY")
+                {
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Order</label>
+                            @Html.DropDownListFor(x => x.Entity.OrderID, Model.Orders, "Select order", new { id = "ddlSelectOrder", @class = "form-control" })
+                        </div>
+                    </div>
+                }
 
                 @switch (Model.Entity.FamilyRank.ToUpper())
                 {
@@ -163,7 +203,7 @@
             </div>
         </div>
         <div class="card-footer">
-            <a href="@Url.Action("Refresh")" class="btn btn-warning">Cancel</a>
+            <a href="@Url.Action("Refresh")" class="btn btn-default">Cancel</a>
             @if (Model.Entity.ID > 0)
             {
                 <button id="btnDelete" type="button" class="btn btn-danger">
@@ -209,6 +249,7 @@
 }
 
 @Html.Partial("~/Views/Taxonomy/Family/Modals/_Lookup.cshtml")
+@Html.Partial("~/Views/Taxonomy/Family/Modals/_TypeGenusPrompt.cshtml")
 @Html.Partial("~/Views/Taxonomy/Genus/Modals/_Lookup.cshtml")
 @Html.Partial("~/Views/Taxonomy/Author/Modals/_Lookup.cshtml")
 @{Html.RenderAction("RenderLookupModal", "Citation", new { isMultiSelect = "Y" }); }

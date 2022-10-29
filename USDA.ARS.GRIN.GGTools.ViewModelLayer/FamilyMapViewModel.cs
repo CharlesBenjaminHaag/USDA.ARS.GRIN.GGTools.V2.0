@@ -105,9 +105,32 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
         {
             try
             {
-                using (FamilyMapManager mgr = new FamilyMapManager())
+                switch(Entity.FamilyRank.ToUpper())
                 {
-                    Entity.ID = mgr.Insert(Entity);
+                    case "FAMILY":
+                        using (FamilyMapManager mgr = new FamilyMapManager())
+                        {
+                            Entity.ID = mgr.Insert(Entity);
+                        }
+                        break;
+                    case "SUBFAMILY":
+                        using (FamilyMapManager mgr = new FamilyMapManager())
+                        {
+                            Entity.ID = mgr.InsertSubfamily(Entity);
+                        }
+                        break;
+                    case "TRIBE":
+                        using (FamilyMapManager mgr = new FamilyMapManager())
+                        {
+                            Entity.ID = mgr.InsertTribe(Entity);
+                        }
+                        break;
+                    case "SUBTRIBE":
+                        using (FamilyMapManager mgr = new FamilyMapManager())
+                        {
+                            Entity.ID = mgr.InsertSubtribe(Entity);
+                        }
+                        break;
                 }
             }
             catch (Exception ex)

@@ -64,6 +64,9 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
             }
         }
 
+        public void GetTaxonCitations()
+        { }
+
         public void HandleRequest()
         {
             throw new NotImplementedException();

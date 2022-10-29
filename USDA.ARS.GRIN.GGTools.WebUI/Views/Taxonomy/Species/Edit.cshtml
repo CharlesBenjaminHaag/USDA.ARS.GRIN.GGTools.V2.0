@@ -115,12 +115,6 @@
                         <a class="dropdown-item btn-sm" href="@Url.Action("Add", "Species", new { @rank = "form", @speciesId = Model.Entity.ID })">Form</a>
                     </div>
                 </div>
-                <div class="btn-group ">
-                    <button type="button" class="btn btn-default btn-sm">
-                        <i class="fas fa-book"></i>
-                    </button>
-                </div>
-
                 <div class="btn-group">
                     <a class="btn btn-default btn-sm" href="@Url.Action("Add", "CommonName", new { @speciesId = Model.Entity.ID })">Add Common Name</a>
                     <button type="button" class="btn btn-default btn-sm dropdown-toggle dropdown-icon" data-toggle="dropdown" aria-expanded="false">
@@ -132,7 +126,18 @@
                         <a class="dropdown-item btn-sm" href="@Url.Action("Add", "RegulationMap", new { @speciesId = Model.Entity.ID })">Add Regulation</a>
                     </div>
                 </div>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#modal-citation-lookup">
+                        <i class="fa fa-book"></i>
+                    </button>
+                </div>
             }
+            <div class="btn-group">
+                <button type="button" class="btn btn-default btn-sm pull-right" data-toggle="modal" data-target="#modal-note-lookup">
+                    <i class="fa fa-search margin-r-5"></i>
+                    Notes
+                </button>
+            </div>
         </div>
         <div class="card-body">
             <div class="table-responsive mailbox-messages">
@@ -388,14 +393,7 @@
 @Html.Partial("~/Views/Taxonomy/Species/Modals/_LookupProtologue.cshtml")
 @Html.Partial("~/Views/Shared/Modals/_NoteLookup2.cshtml")
 @Html.Partial("~/Views/Taxonomy/Shared/Modals/_Delete.cshtml")
-
-@*@Html.Partial("~/Views/Species/Modals/_ProtologueSearch.cshtml")
-    @Html.Partial("~/Views/Species/Modals/_SynonymEdit.cshtml")
-    @Html.Partial("~/Views/CommonName/_Edit.cshtml")
-    @{Html.RenderAction("RenderLookupModal", "EconomicUse"); }
-    @{Html.RenderAction("RenderLookupModal", "Regulation"); }
-    @Html.Partial("~/Views/CommonName/_Edit.cshtml")
-    @Html.Partial("~/Views/Shared/Modals/_NoteSearch.cshtml")*@
+@{Html.RenderAction("RenderLookupModal", "Citation", new { isMultiSelect = "Y" }); }
 
 <script type="text/javascript">
     $(document).ready(function () {

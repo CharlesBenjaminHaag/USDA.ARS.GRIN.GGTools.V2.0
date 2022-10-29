@@ -314,7 +314,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 viewModel.SearchEntity.FamilyID = familyId;
                 viewModel.SearchEntity.GenusID = genusId;
                 viewModel.SearchEntity.SpeciesID = speciesId;
-                viewModel.Search();
+                viewModel.GetTaxonCitations();
             }
             return PartialView(BASE_PATH + "/Modals/_Lookup.cshtml", viewModel);
         }

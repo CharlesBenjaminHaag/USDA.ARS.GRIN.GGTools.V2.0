@@ -33,21 +33,19 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 viewModel.Entity.IsAcceptedName = "Y";
                 viewModel.EditPartialViewName = BASE_PATH + "~/Views/Family/_" + viewModel.Entity.FamilyRank + "RankEdit.cshtml";
 
-                // If the record being added is infrafamilial:
-                // 1) Set rank based on eventValue parameter
-                // 2) Obtain the family ID from the record matching the familyMapId parameter.
-                //if (!String.IsNullOrEmpty(eventValue) && (eventValue != "family"))
-                //{
-                //    FamilyMapViewModel familyMapViewModel = new FamilyMapViewModel();
-                //    familyMapViewModel.SearchEntity.ID = familyMapId;
-                //    familyMapViewModel.Search();
-                //    viewModel.Entity.FamilyID = familyMapViewModel.Entity.FamilyID;
-                //    viewModel.Entity.FamilyName = familyMapViewModel.Entity.FamilyName;
-                //    viewModel.Entity.SubfamilyID = familyMapViewModel.Entity.SubfamilyID;
-                //    viewModel.Entity.TribeID = familyMapViewModel.Entity.TribeID;
-                //    viewModel.Entity.SubtribeID = familyMapViewModel.Entity.SubtribeID;
-                //}
-                
+                if (rank.ToUpper() != "FAMILY")
+                {
+                    FamilyMapViewModel familyMapViewModel = new FamilyMapViewModel();
+                    familyMapViewModel.SearchEntity.ID = familyMapId;
+                    familyMapViewModel.Search();
+                    viewModel.Entity.ParentID = familyMapViewModel.Entity.ID;
+                    viewModel.Entity.FamilyID = familyMapViewModel.Entity.FamilyID;
+                    viewModel.Entity.FamilyName = familyMapViewModel.Entity.FamilyName;
+                    viewModel.Entity.SubfamilyID = familyMapViewModel.Entity.SubfamilyID;
+                    viewModel.Entity.TribeID = familyMapViewModel.Entity.TribeID;
+                    viewModel.Entity.SubtribeID = familyMapViewModel.Entity.SubtribeID;
+                }
+
                 return View(BASE_PATH + "Edit.cshtml", viewModel);
             }
             catch (Exception ex)
@@ -57,85 +55,85 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             }
         }
 
-        public ActionResult AddSubfamily(int familyMapId)
-        {
-            try 
-            {
-                FamilyMapViewModel viewModel = new FamilyMapViewModel();
-                try
-                {
-                    viewModel.PageTitle = "Add Subfamily";
-                    viewModel.TableName = "taxonomy_family_map";
-                    viewModel.Entity.ParentID = familyMapId;
-                    viewModel.Entity.FamilyID = familyMapId;
-                    viewModel.Entity.IsAccepted = true;
-                    viewModel.Entity.IsAcceptedName = "Y";
+        //public ActionResult AddSubfamily(int familyMapId)
+        //{
+        //    try 
+        //    {
+        //        FamilyMapViewModel viewModel = new FamilyMapViewModel();
+        //        try
+        //        {
+        //            viewModel.PageTitle = "Add Subfamily";
+        //            viewModel.TableName = "taxonomy_family_map";
+        //            viewModel.Entity.ParentID = familyMapId;
+        //            viewModel.Entity.FamilyID = familyMapId;
+        //            viewModel.Entity.IsAccepted = true;
+        //            viewModel.Entity.IsAcceptedName = "Y";
 
-                    if (familyMapId > 0)
-                    {
-                        viewModel.Entity.FamilyID = familyMapId;
-                        FamilyMapViewModel familyParentViewModel = new FamilyMapViewModel();
-                        familyParentViewModel.SearchEntity.ID = familyMapId;
-                        familyParentViewModel.Search();
+        //            if (familyMapId > 0)
+        //            {
+        //                viewModel.Entity.FamilyID = familyMapId;
+        //                FamilyMapViewModel familyParentViewModel = new FamilyMapViewModel();
+        //                familyParentViewModel.SearchEntity.ID = familyMapId;
+        //                familyParentViewModel.Search();
 
-                        viewModel.Entity.FamilyID = familyParentViewModel.Entity.FamilyID;
-                        viewModel.Entity.FamilyName = familyParentViewModel.Entity.FamilyName;
-                    }
+        //                viewModel.Entity.FamilyID = familyParentViewModel.Entity.FamilyID;
+        //                viewModel.Entity.FamilyName = familyParentViewModel.Entity.FamilyName;
+        //            }
 
-                    return View(BASE_PATH + "EditSubfamily.cshtml", viewModel);
-                }
-                catch (Exception ex)
-                {
-                    Log.Error(ex);
-                    return RedirectToAction("InternalServerError", "Error");
-                }
-            }
-            catch (Exception ex)
-            {
-                Log.Error(ex);
-                return RedirectToAction("InternalServerError", "Error");
-            }
-        }
+        //            return View(BASE_PATH + "EditSubfamily.cshtml", viewModel);
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            Log.Error(ex);
+        //            return RedirectToAction("InternalServerError", "Error");
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Log.Error(ex);
+        //        return RedirectToAction("InternalServerError", "Error");
+        //    }
+        //}
 
-        public ActionResult AddTribe(int familyMapId, int subFamilyId = 0)
-        {
-            FamilyMapViewModel viewModel = new FamilyMapViewModel();
-            try
-            {
-                viewModel.PageTitle = "Add Tribe";
-                viewModel.TableName = "taxonomy_family_map";
-                viewModel.Entity.ParentID = familyMapId;
-                viewModel.Entity.FamilyID = familyMapId;
-                viewModel.Entity.IsAccepted = true;
-                viewModel.Entity.IsAcceptedName = "Y";
-                return View(BASE_PATH + "EditTribe.cshtml", viewModel);
-            }
-            catch (Exception ex)
-            {
-                Log.Error(ex);
-                return RedirectToAction("InternalServerError", "Error");
-            }
-        }
+        //public ActionResult AddTribe(int familyMapId, int subFamilyId = 0)
+        //{
+        //    FamilyMapViewModel viewModel = new FamilyMapViewModel();
+        //    try
+        //    {
+        //        viewModel.PageTitle = "Add Tribe";
+        //        viewModel.TableName = "taxonomy_family_map";
+        //        viewModel.Entity.ParentID = familyMapId;
+        //        viewModel.Entity.FamilyID = familyMapId;
+        //        viewModel.Entity.IsAccepted = true;
+        //        viewModel.Entity.IsAcceptedName = "Y";
+        //        return View(BASE_PATH + "EditTribe.cshtml", viewModel);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Log.Error(ex);
+        //        return RedirectToAction("InternalServerError", "Error");
+        //    }
+        //}
 
-        public ActionResult AddSubtribe(int familyMapId, int subFamilyId = 0, int tribeId = 0)
-        {
-            FamilyMapViewModel viewModel = new FamilyMapViewModel();
-            try
-            {
-                viewModel.PageTitle = "Add Subtribe";
-                viewModel.TableName = "taxonomy_family_map";
-                viewModel.Entity.ParentID = familyMapId;
-                viewModel.Entity.FamilyID = familyMapId;
-                viewModel.Entity.IsAccepted = true;
-                viewModel.Entity.IsAcceptedName = "Y";
-                return View(BASE_PATH + "EditSubtribe.cshtml", viewModel);
-            }
-            catch (Exception ex)
-            {
-                Log.Error(ex);
-                return RedirectToAction("InternalServerError", "Error");
-            }
-        }
+        //public ActionResult AddSubtribe(int familyMapId, int subFamilyId = 0, int tribeId = 0)
+        //{
+        //    FamilyMapViewModel viewModel = new FamilyMapViewModel();
+        //    try
+        //    {
+        //        viewModel.PageTitle = "Add Subtribe";
+        //        viewModel.TableName = "taxonomy_family_map";
+        //        viewModel.Entity.ParentID = familyMapId;
+        //        viewModel.Entity.FamilyID = familyMapId;
+        //        viewModel.Entity.IsAccepted = true;
+        //        viewModel.Entity.IsAcceptedName = "Y";
+        //        return View(BASE_PATH + "EditSubtribe.cshtml", viewModel);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Log.Error(ex);
+        //        return RedirectToAction("InternalServerError", "Error");
+        //    }
+        //}
 
         public ActionResult Edit(int entityId)
         {
@@ -164,80 +162,80 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             }
         }
 
-        public ActionResult EditSubfamily(int entityId)
-        {
-            try
-            {
-                FamilyMapViewModel viewModel = new FamilyMapViewModel();
+        //public ActionResult EditSubfamily(int entityId)
+        //{
+        //    try
+        //    {
+        //        FamilyMapViewModel viewModel = new FamilyMapViewModel();
 
-                if (entityId > 0)
-                {
-                    viewModel.Get(entityId);
-                    viewModel.TableName = "taxonomy_family_map";
-                    viewModel.PageTitle = viewModel.GetPageTitle();
-                }
-                else
-                {
-                    viewModel.PageTitle = String.Format("Add Species");
-                }
-                return View(BASE_PATH + "EditSubfamily.cshtml", viewModel);
-            }
-            catch (Exception ex)
-            {
-                Log.Error(ex);
-                return RedirectToAction("InternalServerError", "Error");
-            }
-        }
+        //        if (entityId > 0)
+        //        {
+        //            viewModel.Get(entityId);
+        //            viewModel.TableName = "taxonomy_family_map";
+        //            viewModel.PageTitle = viewModel.GetPageTitle();
+        //        }
+        //        else
+        //        {
+        //            viewModel.PageTitle = String.Format("Add Species");
+        //        }
+        //        return View(BASE_PATH + "EditSubfamily.cshtml", viewModel);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Log.Error(ex);
+        //        return RedirectToAction("InternalServerError", "Error");
+        //    }
+        //}
 
-        public ActionResult EditTribe(int entityId)
-        {
-            try
-            {
-                FamilyMapViewModel viewModel = new FamilyMapViewModel();
+        //public ActionResult EditTribe(int entityId)
+        //{
+        //    try
+        //    {
+        //        FamilyMapViewModel viewModel = new FamilyMapViewModel();
 
-                if (entityId > 0)
-                {
-                    viewModel.Get(entityId);
-                    viewModel.TableName = "taxonomy_family_map";
-                    viewModel.PageTitle = viewModel.GetPageTitle();
-                }
-                else
-                {
-                    viewModel.PageTitle = String.Format("Add Species");
-                }
-                return View(BASE_PATH + "EditTribe.cshtml", viewModel);
-            }
-            catch (Exception ex)
-            {
-                Log.Error(ex);
-                return RedirectToAction("InternalServerError", "Error");
-            }
-        }
+        //        if (entityId > 0)
+        //        {
+        //            viewModel.Get(entityId);
+        //            viewModel.TableName = "taxonomy_family_map";
+        //            viewModel.PageTitle = viewModel.GetPageTitle();
+        //        }
+        //        else
+        //        {
+        //            viewModel.PageTitle = String.Format("Add Species");
+        //        }
+        //        return View(BASE_PATH + "EditTribe.cshtml", viewModel);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Log.Error(ex);
+        //        return RedirectToAction("InternalServerError", "Error");
+        //    }
+        //}
 
-        public ActionResult EditSubtribe(int entityId)
-        {
-            try
-            {
-                FamilyMapViewModel viewModel = new FamilyMapViewModel();
+        //public ActionResult EditSubtribe(int entityId)
+        //{
+        //    try
+        //    {
+        //        FamilyMapViewModel viewModel = new FamilyMapViewModel();
 
-                if (entityId > 0)
-                {
-                    viewModel.Get(entityId);
-                    viewModel.TableName = "taxonomy_family_map";
-                    viewModel.PageTitle = viewModel.GetPageTitle();
-                }
-                else
-                {
-                    viewModel.PageTitle = String.Format("Add Species");
-                }
-                return View(BASE_PATH + "EditSubtribe.cshtml", viewModel);
-            }
-            catch (Exception ex)
-            {
-                Log.Error(ex);
-                return RedirectToAction("InternalServerError", "Error");
-            }
-        }
+        //        if (entityId > 0)
+        //        {
+        //            viewModel.Get(entityId);
+        //            viewModel.TableName = "taxonomy_family_map";
+        //            viewModel.PageTitle = viewModel.GetPageTitle();
+        //        }
+        //        else
+        //        {
+        //            viewModel.PageTitle = String.Format("Add Species");
+        //        }
+        //        return View(BASE_PATH + "EditSubtribe.cshtml", viewModel);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Log.Error(ex);
+        //        return RedirectToAction("InternalServerError", "Error");
+        //    }
+        //}
 
         [HttpPost]
         public ActionResult Edit(FamilyMapViewModel viewModel)
@@ -268,92 +266,92 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             }
         }
 
-        [HttpPost]
-        public ActionResult EditSubfamily(FamilyMapViewModel viewModel)
-        {
-            try
-            {
-                if (!viewModel.Validate())
-                {
-                    if (viewModel.ValidationMessages.Count > 0) return View(viewModel);
-                }
+        //[HttpPost]
+        //public ActionResult EditSubfamily(FamilyMapViewModel viewModel)
+        //{
+        //    try
+        //    {
+        //        if (!viewModel.Validate())
+        //        {
+        //            if (viewModel.ValidationMessages.Count > 0) return View(viewModel);
+        //        }
 
-                if (viewModel.Entity.ID == 0)
-                {
-                    viewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
-                    viewModel.InsertSubfamily();
-                }
-                else
-                {
-                    viewModel.Entity.ModifiedByCooperatorID = AuthenticatedUser.CooperatorID;
-                    viewModel.Update();
-                }
-                return RedirectToAction("EditSubFamily", "Family", new { entityId = viewModel.Entity.ID });
-            }
-            catch (Exception ex)
-            {
-                Log.Error(ex);
-                return RedirectToAction("InternalServerError", "Error");
-            }
-        }
+        //        if (viewModel.Entity.ID == 0)
+        //        {
+        //            viewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
+        //            viewModel.InsertSubfamily();
+        //        }
+        //        else
+        //        {
+        //            viewModel.Entity.ModifiedByCooperatorID = AuthenticatedUser.CooperatorID;
+        //            viewModel.Update();
+        //        }
+        //        return RedirectToAction("EditSubFamily", "Family", new { entityId = viewModel.Entity.ID });
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Log.Error(ex);
+        //        return RedirectToAction("InternalServerError", "Error");
+        //    }
+        //}
 
-        [HttpPost]
-        public ActionResult EditTribe(FamilyMapViewModel viewModel)
-        {
-            try
-            {
-                if (!viewModel.Validate())
-                {
-                    if (viewModel.ValidationMessages.Count > 0) return View(viewModel);
-                }
+        //[HttpPost]
+        //public ActionResult EditTribe(FamilyMapViewModel viewModel)
+        //{
+        //    try
+        //    {
+        //        if (!viewModel.Validate())
+        //        {
+        //            if (viewModel.ValidationMessages.Count > 0) return View(viewModel);
+        //        }
 
-                if (viewModel.Entity.ID == 0)
-                {
-                    viewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
-                    viewModel.Insert();
-                }
-                else
-                {
-                    viewModel.Entity.ModifiedByCooperatorID = AuthenticatedUser.CooperatorID;
-                    viewModel.Update();
-                }
-                return RedirectToAction("Edit", "Family", new { entityId = viewModel.Entity.ID });
-            }
-            catch (Exception ex)
-            {
-                Log.Error(ex);
-                return RedirectToAction("InternalServerError", "Error");
-            }
-        }
+        //        if (viewModel.Entity.ID == 0)
+        //        {
+        //            viewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
+        //            viewModel.Insert();
+        //        }
+        //        else
+        //        {
+        //            viewModel.Entity.ModifiedByCooperatorID = AuthenticatedUser.CooperatorID;
+        //            viewModel.Update();
+        //        }
+        //        return RedirectToAction("Edit", "Family", new { entityId = viewModel.Entity.ID });
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Log.Error(ex);
+        //        return RedirectToAction("InternalServerError", "Error");
+        //    }
+        //}
 
-        [HttpPost]
-        public ActionResult EditSubTribe(FamilyMapViewModel viewModel)
-        {
-            try
-            {
-                if (!viewModel.Validate())
-                {
-                    if (viewModel.ValidationMessages.Count > 0) return View(viewModel);
-                }
+        //[HttpPost]
+        //public ActionResult EditSubTribe(FamilyMapViewModel viewModel)
+        //{
+        //    try
+        //    {
+        //        if (!viewModel.Validate())
+        //        {
+        //            if (viewModel.ValidationMessages.Count > 0) return View(viewModel);
+        //        }
 
-                if (viewModel.Entity.ID == 0)
-                {
-                    viewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
-                    viewModel.Insert();
-                }
-                else
-                {
-                    viewModel.Entity.ModifiedByCooperatorID = AuthenticatedUser.CooperatorID;
-                    viewModel.Update();
-                }
-                return RedirectToAction("Edit", "Family", new { entityId = viewModel.Entity.ID });
-            }
-            catch (Exception ex)
-            {
-                Log.Error(ex);
-                return RedirectToAction("InternalServerError", "Error");
-            }
-        }
+        //        if (viewModel.Entity.ID == 0)
+        //        {
+        //            viewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
+        //            viewModel.Insert();
+        //        }
+        //        else
+        //        {
+        //            viewModel.Entity.ModifiedByCooperatorID = AuthenticatedUser.CooperatorID;
+        //            viewModel.Update();
+        //        }
+        //        return RedirectToAction("Edit", "Family", new { entityId = viewModel.Entity.ID });
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Log.Error(ex);
+        //        return RedirectToAction("InternalServerError", "Error");
+        //    }
+        //}
 
         public PartialViewResult FolderItems(int folderId)
         {
