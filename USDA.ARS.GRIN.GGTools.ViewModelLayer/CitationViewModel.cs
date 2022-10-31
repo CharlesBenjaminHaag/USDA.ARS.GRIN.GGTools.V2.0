@@ -64,8 +64,20 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
             }
         }
 
-        public void GetTaxonCitations()
-        { }
+        public void GetTaxonCitations(string tableName, int entityId)
+        {
+            using (CitationManager mgr = new CitationManager())
+            {
+                try
+                {
+                    DataCollectionTaxon = new Collection<Citation>(mgr.GetTaxonCitations(entityId));
+                }
+                catch (Exception ex)
+                {
+                    PublishException(ex);
+                }
+            }
+        }
 
         public void HandleRequest()
         {

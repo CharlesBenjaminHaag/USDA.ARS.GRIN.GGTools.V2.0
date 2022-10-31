@@ -39,7 +39,7 @@
     </div>
 </div>
 <script type="text/javascript">
- 
+
     $("#btnLookupFamily").click(function () {
         var familyName = $("#txtLookupFamilyName").val();
         var isAcceptedName = "";
@@ -50,6 +50,15 @@
 
         var actionUrl = '@Url.Action("Lookup","Family")';
         SearchFamily(actionUrl, familyName, isAcceptedName, "Y");
+    });
+
+    $("#btnSaveFamily").click(function () {
+        var idList = GetSelectedEntityIDs("data-table-family-lookup");
+        var nameList = GetSelectedEntityLabels("data-table-family-lookup");
+
+        $("#Entity_FamilyID").val(idList);
+        $("#Entity_FamilyName").val(nameList);
+        $('#modal-family-lookup').modal('hide');
     });
 
     function SearchFamily(actionUrl, familyName, isAcceptedName, isSingleSelect) {
@@ -84,4 +93,12 @@
         }
         //$("#frmEdit").submit();
     }
+
+    $("#btnOpenFamilyLookupModal").click(function () {
+        $("#lblFamilyLookupTitle").html("Family Search");
+        $('#hfCurrentAction').val($(this).data("ggtools-action"));
+        $('#hfCurrentValue').val($(this).data("ggtools-value"));
+        $('#modal-family-lookup').modal('show');
+    });
+
 </script>

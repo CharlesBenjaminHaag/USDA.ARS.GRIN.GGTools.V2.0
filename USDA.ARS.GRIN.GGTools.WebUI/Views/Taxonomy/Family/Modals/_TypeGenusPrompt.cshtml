@@ -1,26 +1,22 @@
-﻿<div class="modal fade" id="modal-type-genus-prompt">
-    <div class="modal-dialog modal-danger">
+﻿<div id="modal-type-genus" class="modal fade" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
+                <h4 class="modal-title">No Type Genus Found</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
+                    <span aria-hidden="true">×</span>
                 </button>
-                <h4 id="lblFamilyLookupTitle" class="modal-title">Type Genus Configuration</h4>
             </div>
             <div class="modal-body">
-                <div class="row">
-                    <div class="col-md-12">
-                        There is currently no Type Genus identified for this family. Would you like to designate this newly-added genus the Type Genus?
-                    </div>
-                </div>
+                <p>
+                    There is currently no Type Genus identified for this family. Would you like to designate the newly-added genus the Type Genus?
+                </p>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Close</button>
-                <button id="btnSetTypeGenus" type="button" class="btn btn-outline pull-right" data-dismiss="modal">Yes (Continue)</button>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                <button id="btnSetTypeGenus" type="button" class="btn btn-info" data-dismiss="modal">Yes, Use New Genus</button>
             </div>
         </div>
-        <!-- /.modal-content -->
     </div>
-    <!-- /.modal-dialog -->
 </div>
 

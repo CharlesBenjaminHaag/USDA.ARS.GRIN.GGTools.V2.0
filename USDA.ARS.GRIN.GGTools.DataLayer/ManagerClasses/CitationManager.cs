@@ -121,6 +121,25 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         {
             return null;
         }
+        public List<Citation> GetTaxonCitations(int entityId)
+        {
+            List<Citation> results = new List<Citation>();
+
+            SQL = " SELECT * FROM vw_GGTools_Taxon_Citations ";
+            SQL += " WHERE SpeciesID IN ";
+            SQL += " (SELECT ID FROM vw_GGTools_Taxon_Species WHERE ID = @ID OR AcceptedID = @ID) ";
+            SQL += " ORDER BY CitationText";
+
+            var parameters = new List<IDbDataParameter> {
+                CreateParameter("ID", entityId > 0 ? (object)entityId : DBNull.Value, true),
+            };
+
+            results = GetRecords<Citation>(SQL, parameters.ToArray());
+            RowsAffected = results.Count;
+
+            return results;
+        }
+
         public List<Citation> Search(CitationSearch searchEntity)
         {
             List<Citation> results = new List<Citation>();

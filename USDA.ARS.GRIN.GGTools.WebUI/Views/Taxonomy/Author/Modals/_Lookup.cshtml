@@ -60,6 +60,10 @@
         SearchAuthorityText();
     });
 
+    $("#btnOpenAuthorityLookupModal").click(function () {
+        $('#modal-authority-lookup').modal('show');
+    });
+
     function SearchAuthor() {
         var link = '@Url.Action("Lookup","Author")';
         var authorLookupShortName = $("#txtAuthorLookupShortName").val();

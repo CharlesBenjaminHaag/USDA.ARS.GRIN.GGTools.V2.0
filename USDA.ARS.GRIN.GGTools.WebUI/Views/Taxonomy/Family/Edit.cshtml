@@ -26,7 +26,7 @@
                 <a id="btnSetAcceptedOff" class="btn btn-default btn-sm" href="#" role="button"><i class="fas fa-thumbs-up"></i> Accepted</a>
             </div>
             <div class="btn-group">
-                <a class="btn btn-default btn-sm" href="@Url.Action("Add","Genus", new { @familyId = Model.Entity.ID, rank = "genus" })">Add Genus</a>
+                <a id="btnAddGenus" class="btn btn-default btn-sm" href="#">Add Genus</a>
             </div>
             <div class="btn-group">
                 <a class="btn btn-default btn-sm" href="@Url.Action("Add","Family", new { @familyMapId = Model.Entity.ID, rank="subfamily"  })">Add Subfamily</a>
@@ -68,7 +68,7 @@
             </div>
             <div class="row">
                 <!-- If the record being edited is infrafamilial, show the family selector; otherwise, use the family name
-    edit field. -->
+                edit field. -->
                 @if (Model.Entity.FamilyRank.ToUpper() == "FAMILY")
                 {
                     <div class="col-md-3">
@@ -107,7 +107,7 @@
                 }
 
                 <!-- Only show the Order (Classification) select list if the record being edited is a family, vs.
-    an infrafamilial record. -->
+                an infrafamilial record. -->
                 @if (Model.Entity.FamilyRank.ToUpper() == "FAMILY")
                 {
                     <div class="col-md-3">
@@ -256,147 +256,62 @@
 @Html.Partial("~/Views/Shared/Modals/_NoteLookup2.cshtml")
 @Html.Partial("~/Views/Taxonomy/Shared/Modals/_Delete.cshtml")
 
-@*@Html.Partial("~/Views/FamilyMap/Modals/_InfrafamilialTaxonEdit.cshtml")
-    @Html.Partial("~/Views/FamilyMap/Modals/_TypeGenusPrompt.cshtml")
-    @Html.Partial("~/Views/Genus/Modals/_Search.cshtml")
-    @Html.Partial("~/Views/Shared/Modals/_NoteSearch.cshtml")
-    @Html.Partial("~/Views/Author/Modals/_AuthoritySearch.cshtml")*@
-
 <script type="text/javascript">
     $(document).ready(function () {
-                    Init();
-                });
+        Init();
+    });
 
-                function Init() {
-                    SetControlVisibility();
-                    var defaultId = $('ul#list-dependent-data li:first').attr("id");
-                    LoadDependentData(defaultId);
-                }
+    function Init() {
+        SetControlVisibility();
+        var defaultId = $('ul#list-dependent-data li:first').attr("id");
+        LoadDependentData(defaultId);
+    }
 
     $('#section-dependent-data ul.nav li').on('click', function () {
-                    var selectedId = $(this).attr('id');
-                    LoadDependentData(selectedId);
-                });
-
-                function LoadDependentData(sectionId) {
-                    var link = "";
-                    var entityId = $("#Entity_ID").val();
-                    var formData = new FormData();
-                    var sectionData = sectionId.replace("tab_selector", "tab_content");
-
-                    // Load data in selected section content area based on id.
-                    switch (sectionId) {
-                        case "tab_selector_citations":
-                            link = '@Url.Action("_List","Citation")';
-                            break;
-                        case "tab_selector_genera":
-                            link = '@Url.Action("_ListGenera","Family")';
-                            break;
-                        case "tab_selector_synonyms":
-                            link = '@Url.Action("_ListSynonyms","Family")';
-                            break;
-                        case "tab_selector_subdivisions":
-                            link = '@Url.Action("_ListSubdivisions", "Family")';
-                            break;
-                        default:
-                            // code block
-                    }
-
-        formData.append("FamilyID", entityId);
-
-        $.ajax({
-            url: link,
-            type: 'POST',
-            cache: false,
-            contentType: false,
-            processData: false,
-            data: formData,
-            success: function (response) {
-                $("#" + sectionData).html(response);
-            }
-        });
-    }
-
-    $("#btnSaveDraft").click(function () {
-        $('#EventAction').val('SAVE-DRAFT');
+        var selectedId = $(this).attr('id');
+        LoadDependentData(selectedId);
     });
 
-     /*
-    * ===================================================================================================
-    * AUTHORITY LOOKUP MODAL
-    * ===================================================================================================
-    */
-    $("#btnOpenAuthorityLookupModal").click(function () {
-        $('#modal-authority-lookup').modal('show');
-    });
-
-    $("#btnLookupAuthor").click(function () {
-        SearchAuthor();
-    });
-
-    $("#btnLookupAuthorityText").click(function () {
-        SearchAuthorityText();
-    });
-
-    function SearchAuthor() {
-        var link = '@Url.Action("Lookup","Author")';
-        var authorLookupShortName = $("#txtAuthorLookupShortName").val();
-        var authorLookupFullName = $("#txtAuthorLookupFullName").val();
+    function LoadDependentData(sectionId) {
+        var link = "";
+        var entityId = $("#Entity_ID").val();
         var formData = new FormData();
+        var sectionData = sectionId.replace("tab_selector", "tab_content");
 
-        if ($("#cbxAuthorLookupIsExactMatch").is(":checked")) {
-            formData.append("AuthorLookupIsExactMatch", "Y");
+        // Load data in selected section content area based on id.
+        switch (sectionId) {
+            case "tab_selector_citations":
+                link = '@Url.Action("_List","Citation")';
+                break;
+            case "tab_selector_genera":
+                link = '@Url.Action("_ListGenera","Family")';
+                break;
+            case "tab_selector_synonyms":
+                link = '@Url.Action("_ListSynonyms","Family")';
+                break;
+            case "tab_selector_subdivisions":
+                link = '@Url.Action("_ListSubdivisions", "Family")';
+                break;
+            default:
+                // code block
         }
-        formData.append("AuthorLookupShortName", authorLookupShortName);
-        formData.append("AuthorLookupFullName", authorLookupFullName);
 
-        $.ajax({
-            url: link,
-            type: 'POST',
-            cache: false,
-            contentType: false,
-            processData: false,
-            data: formData,
-            success: function (response) {
-                $("#section-author-lookup-search-results").html(response);
-            },
-            error: function () {
-                alert("Error searching author");
-            }
-        });
-    }
+    formData.append("FamilyID", entityId);
 
-    function SearchAuthorityText() {
-        var link = '@Url.Action("LookupTaxa","Author")';
-        var tableName = $("#TableName").val();
-        var authorityText = $("#txtLookupAuthorityText").val();
-
-        var formData = new FormData();
-
-        formData.append("AuthorityText", authorityText);
-        formData.append("TableName", tableName);
-
-        $.ajax({
-            url: link,
-            type: 'POST',
-            cache: false,
-            contentType: false,
-            processData: false,
-            data: formData,
-            success: function (response) {
-                $("#section-lookup-authority-text-search-results").html(response);
-            },
-            error: function () {
-                alert("Error searching author");
-            }
-        });
-    }
-
-    $("#btnSaveAuthor").click(function () {
-        $('#modal-author-lookup').modal('hide');
-        var selectedAuthor = GetSelectedEntityText("data-table-author-lookup");
-        $("#Entity_Authority").val(selectedAuthor);
+    $.ajax({
+        url: link,
+        type: 'POST',
+        cache: false,
+        contentType: false,
+        processData: false,
+        data: formData,
+        success: function (response) {
+            $("#" + sectionData).html(response);
+        }
     });
+    }
+
+    //
 
     /*
     * ===============================================================================================================
@@ -429,127 +344,25 @@
 
     /*
     * ===================================================================================================
-    * FAMILY LOOKUP MODAL
+    * TYPE GENUS
     * ===================================================================================================
     */
-    $("#btnOpenFamilyLookupModal").click(function () {
-        $("#lblFamilyLookupTitle").html("Family Search");
-        $('#hfCurrentAction').val($(this).data("ggtools-action"));
-        $('#hfCurrentValue').val($(this).data("ggtools-value"));
-        $('#modal-family-lookup').modal('show');
-    });
-
-    $("#btnLookupFamily").click(function () {
-        var familyName = $("#txtLookupFamilyName").val();
-        var isAcceptedName = "";
-
-        if ($("#cbxLookupFamilyAcceptedNames").prop("checked") == true) {
-            isAcceptedName = "Y";
-        }
-        var actionUrl = '@Url.Action("Lookup","Family")';
-        SearchFamily(actionUrl, familyName, isAcceptedName, "Y");
-    });
-
-    function SearchFamily(actionUrl, familyName, isAcceptedName, isSingleSelect) {
-        var formData = new FormData();
-        formData.append("LookupFamilyName", familyName);
-        formData.append("IsAcceptedName", isAcceptedName);
-        formData.append("IsSingleSelect", isSingleSelect);
-
-        $.ajax({
-            url: actionUrl,
-            type: 'POST',
-            cache: false,
-            contentType: false,
-            processData: false,
-            data: formData,
-            success: function (response) {
-                $("#section-family-search-results").html(response);
-            }
-        });
-    }
-
-    function SelectFamily(ID, familyName) {
-        $('#modal-family-lookup').modal('hide');
-
-        if ($('#hfCurrentValue').val() == "AcceptedName") {
-            $('#Entity_AcceptedID').val(ID);
-            $('#Entity_AcceptedName').val(familyName);
-        }
-        else {
-            $('#Entity_FamilyID').val(ID);
-            $('#Entity_FamilyName').val(familyName);
-        }
-        //$("#frmEdit").submit();
-    }
-
-    /*
-    * ===================================================================================================
-    * GENUS LOOKUP MODAL
-    * ===================================================================================================
-    */
-    $("#btnOpenGenusLookupModal").click(function () {
-        $("#lblGenusLookupTitle").html("Type Genus Search");
-        $('#hfCurrentAction').val($(this).data("ggtools-action"));
-        $('#hfCurrentValue').val($(this).data("ggtools-value"));
-        $('#modal-genus-lookup').modal('show');
-    });
-
-    $("#btnLookupGenus").click(function () {
-        var genusName = $("#txtLookupGenusName").val();
-        var isAcceptedName = "";
-
-        if ($("#cbxLookupGenusAcceptedNames").prop("checked") == true) {
-            isAcceptedName = "Y";
-        }
-
-        var actionUrl = '@Url.Action("Lookup","Genus")';
-        SearchGenus(actionUrl, genusName, isAcceptedName, "Y");
-    });
-
-    function SearchGenus(actionUrl, genusName, isAcceptedName, isSingleSelect) {
-        var formData = new FormData();
-        formData.append("LookupGenusName", genusName);
-        formData.append("IsAcceptedName", isAcceptedName);
-        formData.append("IsSingleSelect", isSingleSelect);
-
-        $.ajax({
-            url: actionUrl,
-            type: 'POST',
-            cache: false,
-            contentType: false,
-            processData: false,
-            data: formData,
-            success: function (response) {
-                $("#section-genus-search-results").html(response);
-            }
-        });
-    }
-
-    function SelectGenus(ID, genusText) {
-        $('#modal-genus-lookup').modal('hide');
-        $("#Entity_TypeGenusName").val(genusText);
-        $("#Entity_TypeGenusID").val(ID);
-    }
 
     $("#btnAddGenus").click(function () {
-        var link = '@Url.Action("Add","Genus", new { @eventValue = "genus", @familyId = Model.Entity.ID })';
-        var typeGenusId = $("#Entity_TypeGenusID").val();
+        var typeGenusId = 0;
+        typeGenusId = $("#Entity_TypeGenusID").val();
         if (typeGenusId == 0) {
-            $("#modal-type-genus-prompt").modal("show");
+            $("#modal-type-genus").modal("show");
         }
         else {
+            var link = '@Html.Raw(Url.Action("Add","Genus", new { @eventValue = "genus", @familyId = Model.Entity.ID, @rank="genus" }))';
             window.location.href = link;
+
         }
     });
 
-    /*
-    * ===================================================================================================
-    * TYPE GENUS PROMPT MODAL
-    * ===================================================================================================
-    */
     $("#btnSetTypeGenus").click(function () {
-        var link = '@Html.Raw(Url.Action("Add","Genus", new { @eventValue = "genus", @familyId = Model.Entity.ID, @isType = "Y" }))';
+        var link = '@Html.Raw(Url.Action("Add","Genus", new { @eventValue = "genus", @familyId = Model.Entity.ID, @rank="genus", @isType = "Y" }))';
         window.location.href = link;
     });
 

@@ -75,19 +75,22 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
         private List<CropForCWR> GetCropsForCWR()
         {
             List<CropForCWR> cropForCWRs = new List<CropForCWR>();
-
-            ObjectCache cache = MemoryCache.Default;
-            cropForCWRs = cache["DATA-LIST-CWR-CROPS"] as List<CropForCWR>;
-
-            if (cropForCWRs == null)
+            using (CropForCWRManager mgr = new CropForCWRManager())
             {
-                CacheItemPolicy policy = new CacheItemPolicy();
-                using (CropForCWRManager mgr = new CropForCWRManager())
-                {
-                    cropForCWRs = mgr.Search(new CropForCWRSearch());
-                }
-                cache.Set("DATA-LIST-CWR-CROPS", cropForCWRs, policy);
+                cropForCWRs = mgr.Search(new CropForCWRSearch());
             }
+            //ObjectCache cache = MemoryCache.Default;
+            //cropForCWRs = cache["DATA-LIST-CWR-CROPS"] as List<CropForCWR>;
+
+            //if (cropForCWRs == null)
+            //{
+            //    CacheItemPolicy policy = new CacheItemPolicy();
+            //    using (CropForCWRManager mgr = new CropForCWRManager())
+            //    {
+            //        cropForCWRs = mgr.Search(new CropForCWRSearch());
+            //    }
+            //    cache.Set("DATA-LIST-CWR-CROPS", cropForCWRs, policy);
+            //}
             return cropForCWRs;
         }
     }

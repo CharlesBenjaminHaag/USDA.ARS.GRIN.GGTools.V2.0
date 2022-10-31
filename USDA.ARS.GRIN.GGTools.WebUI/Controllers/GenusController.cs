@@ -20,7 +20,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             throw new NotImplementedException();
         }
 
-        public ActionResult Add(int familyId = 0, int genusId = 0, string isTypeGenus="", string rank = "")
+        public ActionResult Add(int familyId = 0, int genusId = 0, string isType="", string rank = "")
         {
             GenusViewModel viewModel = new GenusViewModel();
             viewModel.TableName = "taxonomy_genus";
@@ -30,7 +30,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             viewModel.Entity.Rank = rank;
             viewModel.Entity.IsAccepted = true;
             viewModel.Entity.IsAcceptedName = "Y";
-            viewModel.IsTypeGenus = isTypeGenus;
+            viewModel.IsTypeGenus = isType;
 
             if (genusId > 0)
             {
@@ -53,6 +53,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 viewModel.Entity.FamilyID = viewModel.FamilyMapEntity.ID;
                 viewModel.Entity.FamilyName = viewModel.FamilyMapEntity.FamilyName;
             }
+
             return View(BASE_PATH + "Edit.cshtml", viewModel);
         }
 
@@ -95,13 +96,13 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                     viewModel.Update();
                 }
 
-                //if (viewModel.IsTypeGenus == "Y")
-                //{
-                //    FamilyMapViewModel familyMapViewModel = new FamilyMapViewModel();
-                //    familyMapViewModel.Get(viewModel.Entity.FamilyID);
-                //    familyMapViewModel.Entity.TypeGenusID = viewModel.Entity.ID;
-                //    familyMapViewModel.Update();
-                //}
+                if (viewModel.IsTypeGenus == "Y")
+                {
+                    FamilyMapViewModel familyMapViewModel = new FamilyMapViewModel();
+                    familyMapViewModel.Get(viewModel.Entity.FamilyID);
+                    familyMapViewModel.Entity.TypeGenusID = viewModel.Entity.ID;
+                    familyMapViewModel.Update();
+                }
 
                 return RedirectToAction("Edit", "Genus", new { entityId = viewModel.Entity.ID });
             }

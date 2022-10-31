@@ -311,10 +311,13 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             // to that taxon.
             if (familyId + genusId + speciesId > 0)
             {
+                viewModel.EventValue = "PARENT";
                 viewModel.SearchEntity.FamilyID = familyId;
                 viewModel.SearchEntity.GenusID = genusId;
                 viewModel.SearchEntity.SpeciesID = speciesId;
-                viewModel.GetTaxonCitations();
+
+                // TODO: Would list only be at species level?
+                viewModel.GetTaxonCitations("", speciesId);
             }
             return PartialView(BASE_PATH + "/Modals/_Lookup.cshtml", viewModel);
         }
