@@ -44,24 +44,16 @@
                                         </a>
                                     </td>
                                     <td>
-                                        <a href="@Url.Action("Edit", "Family", new { @entityId = result.FamilyID })">
-                                            @result.FamilyName
-                                        </a>
+                                        @result.FamilyName
                                     </td>
                                     <td>
-                                        <a href="@Url.Action("EditSubfamily", "Family", new { @entityId = result.SubfamilyID })">
-                                            @result.SubfamilyName
-                                        </a>
+                                        @result.SubfamilyName
                                     </td>
                                     <td>
-                                        <a href="@Url.Action("EditTribe", "Family", new { @entityId = result.TribeID })">
-                                            @result.TribeName
-                                        </a>
+                                        @result.TribeName
                                     </td>
                                     <td>
-                                        <a href="@Url.Action("EditSubtribe", "Family", new { @entityId = result.SubtribeID })">
-                                            @result.SubtribeName
-                                        </a>
+                                        @result.SubtribeName
                                     </td>
                                     <td style="text-align:center;">
                                         @Html.Raw(Model.FormatBoolean(result.IsAcceptedName))

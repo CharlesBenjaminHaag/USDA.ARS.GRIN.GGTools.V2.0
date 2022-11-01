@@ -13,8 +13,6 @@
     @Html.HiddenFor(x => x.TableCode)
     @Html.HiddenFor(x => x.Entity.ID)
     @Html.HiddenFor(x => x.Entity.ParentID)
-    @Html.HiddenFor(x => x.Entity.FamilyID)
-    @Html.HiddenFor(x => x.Entity.SubfamilyID)
     @Html.HiddenFor(x => x.Entity.TribeID)
     @Html.HiddenFor(x => x.Entity.SubtribeID)
     @Html.HiddenFor(x => x.Entity.FamilyRank)
@@ -25,24 +23,29 @@
                 <a id="btnSetAcceptedOn" class="btn btn-default btn-sm" href="#" role="button"><i class="fas fa-thumbs-down"></i> Not Accepted</a>
                 <a id="btnSetAcceptedOff" class="btn btn-default btn-sm" href="#" role="button"><i class="fas fa-thumbs-up"></i> Accepted</a>
             </div>
-            <div class="btn-group">
-                <a id="btnAddGenus" class="btn btn-default btn-sm" href="#">Add Genus</a>
-            </div>
-            <div class="btn-group">
-                <a class="btn btn-default btn-sm" href="@Url.Action("Add","Family", new { @familyMapId = Model.Entity.ID, rank="subfamily"  })">Add Subfamily</a>
-                <button type="button" class="btn btn-default btn-sm dropdown-toggle dropdown-icon" data-toggle="dropdown" aria-expanded="false">
-                    <span class="sr-only">Toggle Dropdown</span>
-                </button>
-                <div class="dropdown-menu" role="menu" style="">
-                    <a class="dropdown-item btn-sm" href="@Url.Action("Add", "Family", new { @familyMapId = Model.Entity.ID, rank="tribe" })">Add Tribe</a>
-                    <a class="dropdown-item btn-sm" href="@Url.Action("Add", "Family", new { @familyMapId = Model.Entity.ID, rank="subtribe"  })">Add Subtribe</a>
+            
+            @if (Model.Entity.ID > 0)
+            {
+                <div class="btn-group">
+                    <a id="btnAddGenus" class="btn btn-default btn-sm" href="#">Add Genus</a>
                 </div>
-            </div>
-            <div class="btn-group">
-                <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#modal-citation-lookup">
-                    <i class="fa fa-book"></i>
-                </button>
-            </div>
+                <div class="btn-group">
+                    <a class="btn btn-default btn-sm" href="@Url.Action("Add", "Family", new { @familyMapId = Model.Entity.ID, rank = "subfamily" })">Add Subfamily</a>
+                    <button type="button" class="btn btn-default btn-sm dropdown-toggle dropdown-icon" data-toggle="dropdown" aria-expanded="false">
+                        <span class="sr-only">Toggle Dropdown</span>
+                    </button>
+                    <div class="dropdown-menu" role="menu" style="">
+                        <a class="dropdown-item btn-sm" href="@Url.Action("Add", "Family", new { @familyMapId = Model.Entity.ID, rank = "tribe" })">Add Tribe</a>
+                        <a class="dropdown-item btn-sm" href="@Url.Action("Add", "Family", new { @familyMapId = Model.Entity.ID, rank = "subtribe" })">Add Subtribe</a>
+                    </div>
+                </div>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#modal-citation-lookup">
+                        <i class="fa fa-book"></i>
+                    </button>
+                </div>
+            }
+
             <div class="btn-group">
                 <button type="button" class="btn btn-default btn-sm pull-right" data-toggle="modal" data-target="#modal-note-lookup">
                     <i class="fa fa-search margin-r-5"></i>
@@ -83,27 +86,34 @@
                     <div class="col-md-3">
                         <div class="form-group">
                             <label>Family</label>
+                            @Html.DropDownListFor(x => x.Entity.FamilyID, Model.Families, "Select value", new { @class = "form-control" })
+                        </div>
+                    </div>          
+          
+                    <!--<div class="col-md-3">
+                        <div class="form-group">
+                            <label>Family</label>
                             <div class="input-group">
                                 @Html.TextBoxFor(x => x.Entity.FamilyName, new { @class = "form-control", @readonly = "readonly", @style = "background-color:#ecf0f5;" })
-                                @Html.HiddenFor(x => x.Entity.FamilyID)
+                                @Html.HiddenFor(x => x.Entity.FamilyID)-->
 
-                                @if (Model.Entity.FamilyID > 0)
-                                {
-                                    <span class="input-group-btn">
-                                        <a href="@Url.Action("Edit", "Family", new { @entityId = Model.Entity.FamilyID })" class="btn btn-default btn-flat">
-                                            <i class="fa fa-link"></i>
-                                        </a>
-                                    </span>
-                                }
+                                @*@if (Model.Entity.FamilyID > 0)
+                        {
+                            <span class="input-group-btn">
+                                <a href="@Url.Action("Edit", "Family", new { @entityId = Model.Entity.ID })" class="btn btn-default btn-flat">
+                                    <i class="fa fa-link"></i>
+                                </a>
+                            </span>
+                        }*@
 
-                                <span class="input-group-btn">
+                                <!--<span class="input-group-btn">
                                     <button type="button" class="btn btn-default btn-flat" data-toggle="modal" data-target="#modal-family-lookup">
                                         <i class="fa fa-search"></i>
                                     </button>
                                 </span>
                             </div>
                         </div>
-                    </div>
+                    </div>-->
                 }
 
                 <!-- Only show the Order (Classification) select list if the record being edited is a family, vs.
@@ -131,6 +141,12 @@
                     case "TRIBE":
                         <div class="col-md-3">
                             <div class="form-group">
+                                <label>Subfamily</label>
+                                @Html.DropDownListFor(x => x.Entity.SubfamilyID, Model.Subfamilies, "Select value", new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
                                 <label>Tribe Name</label>
                                 @Html.TextBoxFor(x => x.Entity.TribeName, new { @class = "form-control" })
                             </div>
@@ -146,55 +162,58 @@
                         break;
                 }
 
-                <div class="col-md-3">
-                    <div class="form-group">
-                        <label>Type Genus</label>
-                        <div class="input-group">
-                            @Html.TextBoxFor(x => x.Entity.TypeGenusName, new { @class = "form-control" })
-                            @Html.HiddenFor(x => x.Entity.TypeGenusID)
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Type Genus</label>
+                            <div class="input-group">
+                                @Html.TextBoxFor(x => x.Entity.TypeGenusName, new { @class = "form-control" })
+                                @Html.HiddenFor(x => x.Entity.TypeGenusID)
 
-                            @if (Model.Entity.TypeGenusID > 0)
-                            {
+                                @if (Model.Entity.TypeGenusID > 0)
+                                {
+                                    <span class="input-group-btn">
+                                        <a href="@Url.Action("Edit", "Genus", new { @entityId = Model.Entity.TypeGenusID })" class="btn btn-default btn-flat">
+                                            <i class="fa fa-link"></i>
+                                        </a>
+                                    </span>
+                                }
                                 <span class="input-group-btn">
-                                    <a href="@Url.Action("Edit", "Genus", new { @entityId = Model.Entity.TypeGenusID })" class="btn btn-default btn-flat">
-                                        <i class="fa fa-link"></i>
-                                    </a>
+                                    <button id="btnGenusNameLookup" type="button" class="btn btn-default btn-flat" data-ggtools-action="TypeGenusID" data-ggtools-value="TypeGenusName" data-toggle="modal" data-target="#modal-genus-lookup">
+                                        <i class="fa fa-search"></i>
+                                    </button>
                                 </span>
-                            }
-                            <span class="input-group-btn">
-                                <button type="button" class="btn btn-default btn-flat" data-toggle="modal" data-target="#modal-genus-lookup">
-                                    <i class="fa fa-search"></i>
-                                </button>
-                            </span>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="form-group">
-                        <label>Alternate Name</label>
-                        @Html.TextBoxFor(x => x.Entity.AlternateName, new { @class = "form-control" })
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="form-group">
-                        <label>Authority</label>
-                        <div class="input-group">
-                            @Html.TextBoxFor(x => x.Entity.Authority, new { @class = "form-control" })
-                            <span class="input-group-btn">
-                                <button type="button" data-toggle="modal" data-target="#modal-author-lookup" class="btn btn-default btn-flat">
-                                    <i class="fa fa-search"></i>
-                                </button>
-                            </span>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Alternate Name</label>
+                            @Html.TextBoxFor(x => x.Entity.AlternateName, new { @class = "form-control" })
                         </div>
                     </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="form-group">
-                        <label>Type</label>
-                        @Html.DropDownListFor(x => x.Entity.FamilyTypeCode, Model.FamilyTypes, "Select type", new { @class = "form-control" })
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Authority</label>
+                            <div class="input-group">
+                                @Html.TextBoxFor(x => x.Entity.Authority, new { @class = "form-control" })
+                                <span class="input-group-btn">
+                                    <button type="button" data-toggle="modal" data-target="#modal-author-lookup" class="btn btn-default btn-flat">
+                                        <i class="fa fa-search"></i>
+                                    </button>
+                                </span>
+                            </div>
+                        </div>
                     </div>
+                    @if (Model.Entity.FamilyRank.ToUpper() == "FAMILY")
+                    {
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>Type</label>
+                                @Html.DropDownListFor(x => x.Entity.FamilyTypeCode, Model.FamilyTypes, "Select type", new { @class = "form-control" })
+                            </div>
+                        </div>
+                    }
                 </div>
-            </div>
             <div class="row">
                 <div class="col-md-12">
                     <label>Note</label>
@@ -275,6 +294,7 @@
     function LoadDependentData(sectionId) {
         var link = "";
         var entityId = $("#Entity_ID").val();
+        var familyId = $("#Entity_FamilyID").val();
         var formData = new FormData();
         var sectionData = sectionId.replace("tab_selector", "tab_content");
 
@@ -290,7 +310,8 @@
                 link = '@Url.Action("_ListSynonyms","Family")';
                 break;
             case "tab_selector_subdivisions":
-                link = '@Url.Action("_ListSubdivisions", "Family")';
+                link = '@Url.Action("_ListSubdivisions", "Family", new { familyId = "FAMILY_ID" })';
+                link = link.replace("FAMILY_ID", familyId);
                 break;
             default:
                 // code block

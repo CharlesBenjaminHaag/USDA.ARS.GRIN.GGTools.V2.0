@@ -207,20 +207,14 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
 
             try
             {
-                if (!String.IsNullOrEmpty(formCollection["LookupGenusName"]))
+                if (!String.IsNullOrEmpty(formCollection["GenusName"]))
                 {
-                    viewModel.SearchEntity.FullName = formCollection["LookupGenusName"];
+                    viewModel.SearchEntity.FullName = formCollection["GenusName"];
                 }
 
-                if (!String.IsNullOrEmpty(formCollection["IsAccepted"]))
+                if (!String.IsNullOrEmpty(formCollection["IsAcceptedName"]))
                 {
-                    //TODO
-                    // = viewModel.ToBool(formCollection["IsSingleSelect"]);
-                }
-
-                if (!String.IsNullOrEmpty(formCollection["IsSingleSelect"]))
-                {
-                    viewModel.IsSingleSelect = viewModel.ToBool(formCollection["IsSingleSelect"]);
+                    viewModel.SearchEntity.IsAcceptedName = formCollection["IsAcceptedName"];
                 }
 
                 viewModel.Search();

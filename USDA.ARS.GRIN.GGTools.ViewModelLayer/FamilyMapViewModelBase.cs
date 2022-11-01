@@ -31,10 +31,10 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
             {
                 Cooperators = new SelectList(mgr.GetCooperators("taxonomy_family_map"), "ID", "FullName");
                 FamilyTypes = new SelectList(mgr.GetCodeValues("TAXONOMY_FAMILY_TYPE"), "Value", "Title");
-                //FamilyMaps = new SelectList(GetFamilyMaps().Where(x => x.FamilyRank == "FAMILY").OrderBy(x => x.FamilyName), "ID", "FamilyName");
-                //Subfamilies = new SelectList(GetFamilyMaps().Where(x => x.FamilyRank == "SUBFAMILY").OrderBy(x => x.SubfamilyName), "ID", "SubfamilyName");
-                //Tribes = new SelectList(GetFamilyMaps().Where(x => x.FamilyRank == "TRIBE").OrderBy(x => x.TribeName), "ID", "TribeName");
-                //Subtribes = new SelectList(GetFamilyMaps().Where(x => x.FamilyRank == "SUBTRIBE").OrderBy(x => x.SubtribeName), "ID", "SubtribeName");
+                Families = new SelectList(GetFamilyMaps().Where(x => x.FamilyRank == "FAMILY").OrderBy(x => x.FamilyName), "FamilyID", "FamilyName");
+                Subfamilies = new SelectList(GetFamilyMaps().Where(x => x.FamilyRank == "SUBFAMILY").OrderBy(x => x.SubfamilyName), "SubfamilyID", "SubfamilyName");
+                Tribes = new SelectList(GetFamilyMaps().Where(x => x.FamilyRank == "TRIBE").OrderBy(x => x.TribeName), "TribeID", "TribeName");
+                Subtribes = new SelectList(GetFamilyMaps().Where(x => x.FamilyRank == "SUBTRIBE").OrderBy(x => x.SubtribeName), "SubtribeID", "SubtribeName");
                 YesNoOptions = new SelectList(mgr.GetYesNoOptions(), "Key", "Value");
             }
 
@@ -98,19 +98,23 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
         private List<FamilyMap> GetFamilyMaps()
         {
             List<FamilyMap> familyMaps = new List<FamilyMap>();
-
-            ObjectCache cache = MemoryCache.Default;
-            familyMaps = cache["DATA-LIST-FAMILY-MAPS"] as List<FamilyMap>;
-
-            if (familyMaps == null)
+            using (FamilyMapManager mgr = new FamilyMapManager())
             {
-                CacheItemPolicy policy = new CacheItemPolicy();
-                using (FamilyMapManager mgr = new FamilyMapManager())
-                {
-                    familyMaps = mgr.Search(new FamilyMapSearch());
-                }
-                cache.Set("DATA-LIST-FAMILY-MAPS", familyMaps, policy);
+                familyMaps = mgr.Search(new FamilyMapSearch());
             }
+
+            //ObjectCache cache = MemoryCache.Default;
+            //familyMaps = cache["DATA-LIST-FAMILY-MAPS"] as List<FamilyMap>;
+
+            //if (familyMaps == null)
+            //{
+            //    CacheItemPolicy policy = new CacheItemPolicy();
+            //    using (FamilyMapManager mgr = new FamilyMapManager())
+            //    {
+            //        familyMaps = mgr.Search(new FamilyMapSearch());
+            //    }
+            //    cache.Set("DATA-LIST-FAMILY-MAPS", familyMaps, policy);
+            //}
             return familyMaps;
         }
 

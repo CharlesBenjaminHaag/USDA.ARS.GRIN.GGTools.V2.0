@@ -122,13 +122,12 @@
         var tableName = $("#TableName").val();
         $('#modal-author-lookup').modal('hide');
         var selectedAuthor = GetSelectedEntityText("data-table-author-lookup");
-
-
-        if (tableName == "taxonomy_genus") {
-            $("#Entity_Authority").val(selectedAuthor);
-        }
-        else {
+      
+        // TEMP: Should probably keep name consistent. Or use data attribs..
+        if (tableName == "taxonomy_species") {
             $("#Entity_SpeciesAuthority").val(selectedAuthor);
         }
+        else {
+            $("#Entity_Authority").val(selectedAuthor);        }
     });
 </script>

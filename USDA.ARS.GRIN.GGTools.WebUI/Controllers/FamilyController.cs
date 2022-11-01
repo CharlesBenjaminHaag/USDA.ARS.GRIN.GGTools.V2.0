@@ -28,11 +28,14 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 viewModel.TableName = "taxonomy_family_map";
                 viewModel.Entity.OrderID = orderId;
                 viewModel.Entity.ParentID = familyMapId;
+             
                 viewModel.Entity.FamilyID = familyId;
                 viewModel.Entity.IsAccepted = true;
                 viewModel.Entity.IsAcceptedName = "Y";
                 viewModel.EditPartialViewName = BASE_PATH + "~/Views/Family/_" + viewModel.Entity.FamilyRank + "RankEdit.cshtml";
 
+                // If the family being added is an infraramilial rank, retrieve the map record of the parent
+                // rank.
                 if (rank.ToUpper() != "FAMILY")
                 {
                     FamilyMapViewModel familyMapViewModel = new FamilyMapViewModel();
@@ -42,8 +45,11 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                     viewModel.Entity.FamilyID = familyMapViewModel.Entity.FamilyID;
                     viewModel.Entity.FamilyName = familyMapViewModel.Entity.FamilyName;
                     viewModel.Entity.SubfamilyID = familyMapViewModel.Entity.SubfamilyID;
+                    viewModel.Entity.SubfamilyName = familyMapViewModel.Entity.SubfamilyName;
                     viewModel.Entity.TribeID = familyMapViewModel.Entity.TribeID;
+                    viewModel.Entity.TribeName = familyMapViewModel.Entity.TribeName;
                     viewModel.Entity.SubtribeID = familyMapViewModel.Entity.SubtribeID;
+                    viewModel.Entity.SubtribeName = familyMapViewModel.Entity.SubtribeName;
                 }
 
                 return View(BASE_PATH + "Edit.cshtml", viewModel);
