@@ -625,6 +625,8 @@
     <Content Include="Views\Taxonomy\Family\_EditSubtribe.cshtml" />
     <Content Include="Views\Taxonomy\Family\_EditTribe.cshtml" />
     <Content Include="Views\Taxonomy\Family\_EditSubfamily.cshtml" />
+    <Content Include="Views\Taxonomy\Citation\Modals\_SelectListTaxon.cshtml" />
+    <Content Include="Views\Taxonomy\Genus\_ListSpecies.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

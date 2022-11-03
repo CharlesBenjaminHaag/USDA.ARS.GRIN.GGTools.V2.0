@@ -342,24 +342,14 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
 
         public void BuildTribeInsertUpdateParameters(FamilyMap entity)
         {
-            if (entity.ParentID > 0)
-            {
-                AddParameter("parent_taxonomy_family_map_id", entity.ParentID == 0 ? DBNull.Value : (object)entity.ParentID, true);
-            }
-
             if (entity.ID > 0)
             {
                 AddParameter("taxonomy_family_map_id", entity.ID == 0 ? DBNull.Value : (object)entity.ID, true);
             }
-
-            if (entity.FamilyID > 0)
-            {
-                AddParameter("taxonomy_family_id", entity.FamilyID == 0 ? DBNull.Value : (object)entity.FamilyID, true);
-            }
-
             AddParameter("taxonomy_family_map_accepted_id", entity.AcceptedID == 0 ? DBNull.Value : (object)entity.AcceptedID, true);
-            AddParameter("type_taxonomy_genus_id", entity.TypeGenusID == 0 ? DBNull.Value : (object)entity.TypeGenusID, true);
+            AddParameter("taxonomy_family_id", entity.FamilyID == 0 ? DBNull.Value : (object)entity.FamilyID, true);
             AddParameter("taxonomy_subfamily_id", entity.SubfamilyID == 0 ? DBNull.Value : (object)entity.SubfamilyID, true);
+            AddParameter("type_taxonomy_genus_id", entity.TypeGenusID == 0 ? DBNull.Value : (object)entity.TypeGenusID, true);
             AddParameter("tribe_name", (object)entity.TribeName ?? DBNull.Value, true);
             AddParameter("authority", (object)entity.Authority ?? DBNull.Value, true);
             AddParameter("note", (object)entity.Note ?? DBNull.Value, true);
@@ -375,13 +365,14 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         }
         public void BuildSubtribeInsertUpdateParameters(FamilyMap entity)
         {
-            if (entity.ParentID > 0)
+            if (entity.ID > 0)
             {
-                AddParameter("parent_taxonomy_family_map_id", entity.ParentID == 0 ? DBNull.Value : (object)entity.ParentID, true);
+                AddParameter("taxonomy_family_map_id", entity.ID == 0 ? DBNull.Value : (object)entity.ID, true);
             }
-
-            AddParameter("taxonomy_family_map_id", entity.ID == 0 ? DBNull.Value : (object)entity.ID, true);
             AddParameter("taxonomy_family_map_accepted_id", entity.AcceptedID == 0 ? DBNull.Value : (object)entity.AcceptedID, true);
+            AddParameter("taxonomy_family_id", entity.FamilyID == 0 ? DBNull.Value : (object)entity.FamilyID, true);
+            AddParameter("taxonomy_subfamily_id", entity.SubfamilyID == 0 ? DBNull.Value : (object)entity.SubfamilyID, true);
+            AddParameter("taxonomy_tribe_id", entity.TribeID == 0 ? DBNull.Value : (object)entity.TribeID, true);
             AddParameter("type_taxonomy_genus_id", entity.TypeGenusID == 0 ? DBNull.Value : (object)entity.TypeGenusID, true);
             AddParameter("subtribe_name", (object)entity.SubtribeName ?? DBNull.Value, true);
             AddParameter("authority", (object)entity.Authority ?? DBNull.Value, true);
@@ -396,10 +387,5 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
                 AddParameter("created_by", entity.CreatedByCooperatorID == 0 ? DBNull.Value : (object)entity.CreatedByCooperatorID, true);
             }
         }
-
-
-
-
-
     }
 }

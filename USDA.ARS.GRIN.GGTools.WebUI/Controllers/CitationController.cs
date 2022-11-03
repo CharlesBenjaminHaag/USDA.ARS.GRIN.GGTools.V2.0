@@ -282,7 +282,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             }
             viewModel.Insert();
 
-            return Json(new { success = true }, JsonRequestBehavior.AllowGet);
+            return Json(new { citation = viewModel.Entity }, JsonRequestBehavior.AllowGet);
         }
         public ActionResult Delete(int entityId)
         {
@@ -302,23 +302,18 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
         // ======================================================================================
         // MODALS 
         // ======================================================================================
-        public PartialViewResult RenderLookupModal(int familyId = 0, int genusId = 0, int speciesId = 0, string isMultiSelect = "")
+        public PartialViewResult RenderLookupModal(string tableName = "", int entityId = 0, int familyId = 0, int genusId = 0, int speciesId = 0, string isMultiSelect = "")
         {
             CitationViewModel viewModel = new CitationViewModel();
             viewModel.IsMultiSelect = isMultiSelect;
 
-            // If we are dealing with an entity with a parent taxon, retrieve a list of all citations currently linked
-            // to that taxon.
-            if (familyId + genusId + speciesId > 0)
+            // TEMP: If no table name is passed in, assume use of species citations.
+            if (String.IsNullOrEmpty(tableName))
             {
-                viewModel.EventValue = "PARENT";
-                viewModel.SearchEntity.FamilyID = familyId;
-                viewModel.SearchEntity.GenusID = genusId;
-                viewModel.SearchEntity.SpeciesID = speciesId;
-
-                // TODO: Would list only be at species level?
-                viewModel.GetTaxonCitations("", speciesId);
+                tableName = "taxonomy_species";
+                entityId = speciesId;
             }
+            viewModel.GetTaxonCitations(tableName, entityId);
             return PartialView(BASE_PATH + "/Modals/_Lookup.cshtml", viewModel);
         }
 

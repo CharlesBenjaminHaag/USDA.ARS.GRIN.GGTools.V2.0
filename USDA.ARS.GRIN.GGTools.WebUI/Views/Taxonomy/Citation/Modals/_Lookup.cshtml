@@ -12,22 +12,16 @@
                 <div class="card">
                     <div class="card-header p-2">
                         <ul id="list-tab_citations" class="nav nav-pills">
-                            @if (Model.EventValue == "PARENT")
-                            {
-                                <li class="nav-item"><a id="link-tab-citations-taxon" class="nav-link active" href="#taxon-citations" data-toggle="tab">Select Taxon Citation</a></li>
-                            }
+                            <li class="nav-item"><a id="link-tab-citations-taxon" class="nav-link active" href="#taxon-citations" data-toggle="tab">Select Taxon Citation</a></li>
                             <li class="nav-item"><a id="link-tab-citations-search" class="nav-link" href="#search-citations" data-toggle="tab">Search</a></li>
                             <li class="nav-item"><a id="link-tab-citations-add" class="nav-link" href="#add-citation" data-toggle="tab">Add</a></li>
                         </ul>
                     </div>
                     <div class="card-body">
                         <div class="tab-content">
-                            @if (Model.EventValue == "PARENT")
-                            { 
                             <div class="tab-pane active" id="taxon-citations">
-                                
+                                @Html.Partial("~/Views/Taxonomy/Citation/Modals/_SelectListTaxon.cshtml")                          
                             </div>
-                            }
                             <div class="tab-pane" id="search-citations">
                                 <div id="section-search-criteria">
                                     <div class="row">
@@ -159,10 +153,49 @@
     });
 
     $(document).on("click", "[id='btnSaveSelectedCitation']", function () {
+        GetSelectedCitation("data_table_lookup_citations");
+    });
+
+    $(document).on("click", "[id='btnSaveSelectedCitationTop']", function () {
+        GetSelectedCitation("data_table_lookup_citations");
+    });
+
+    $(document).on("click", "[id='btnSaveSelectedTaxonCitation']", function () {
+        GetSelectedCitation("data_table_lookup_taxon_citations");
+    });
+
+    $(document).on("click", "[id='btnSaveSelectedTaxonCitationTop']", function () {
+        GetSelectedCitation("data_table_lookup_taxon_citations");
+    });
+
+    function GetSelectedCitation(dataTableName) {
         var tableName = $("#TableName").val();
         var entityId = $("#Entity_ID").val();
-        var selectedItemIdList = GetSelectedEntityIDs("citation-lookup-data-table");
-        var selectedItemLabelList = GetSelectedEntityLabels("citation-lookup-data-table");
+        var selectedItemIdList = GetSelectedEntityIDs(dataTableName);
+        var selectedItemLabelList = GetSelectedCitationText(dataTableName);
+
+        // If table is single-cit table, set fields; otherwise, call method. ** Temporary ** until citation
+        // table and related tables can be refactored to allow linking from sub-taxon data 
+        // (CWR Map, CWR Trait, etc.) via a map table -- vs. a citation ID field within the 
+        // sub-taxon table itself.
+        if ((tableName == "taxonomy_cwr_map") ||
+            (tableName == "taxonomy_cwr_trait") ||
+            (tableName == "taxonomy_common_name") ||
+            (tableName == "taxonomy_use") ||
+            (tableName == "taxonomy_geography_map")) {
+            $("#Entity_CitationID").val(selectedItemIdList);
+            $("#Entity_CitationText").val(selectedItemLabelList);
+        }
+        else {
+            SaveSelectedCitation(tableName, entityId, selectedItemIdList);
+        }
+    }
+
+    $(document).on("click", "[id='btnSaveSelectedTaxonCitation']", function () {
+        var tableName = $("#TableName").val();
+        var entityId = $("#Entity_ID").val();
+        var selectedItemIdList = GetSelectedEntityIDs("data_table_lookup_taxon_citations");
+        var selectedItemLabelList = GetSelectedEntityLabels("data_table_lookup_taxon_citations");
 
         // If table is single-cit table, set fields; otherwise, call method. ** Temporary ** until citation
         // table and related tables can be refactored to allow linking from sub-taxon data 
@@ -238,6 +271,8 @@
             processData: false,
             data: formData,
             success: function (data) {
+                //DEBUG
+                alert("DEBUG " + data.citation.ID);
                 LoadDependentData("tab_selector_citations");
             },
             error: function (ex) {

@@ -46,7 +46,7 @@ function InitDataTableLight(tableName) {
             select: {
                 style: 'single'
             },
-            searching: false,
+            searching: true,
             columnDefs: [
                 { targets: [0], visible: false }
             ]
@@ -115,6 +115,15 @@ function GetSelectedEntityLabels(tableName) {
     var table = $('#' + tableName).DataTable();
     var ids = $.map(table.rows('.selected').data(), function (item) {
         return item[2]
+    });
+    console.log(ids)
+    return ids;
+}
+
+function GetSelectedCitationText(tableName) {
+    var table = $('#' + tableName).DataTable();
+    var ids = $.map(table.rows('.selected').data(), function (item) {
+        return item[3]
     });
     console.log(ids)
     return ids;

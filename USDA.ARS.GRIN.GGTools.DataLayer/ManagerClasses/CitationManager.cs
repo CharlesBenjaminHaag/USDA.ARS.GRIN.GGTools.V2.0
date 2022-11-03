@@ -121,14 +121,29 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         {
             return null;
         }
-        public List<Citation> GetTaxonCitations(int entityId)
+        public List<Citation> GetTaxonCitations(string tableName, int entityId)
         {
             List<Citation> results = new List<Citation>();
 
             SQL = " SELECT * FROM vw_GGTools_Taxon_Citations ";
-            SQL += " WHERE SpeciesID IN ";
-            SQL += " (SELECT ID FROM vw_GGTools_Taxon_Species WHERE ID = @ID OR AcceptedID = @ID) ";
-            SQL += " ORDER BY CitationText";
+
+            switch (tableName)
+            {
+                case "taxonomy_family_map":
+                    SQL += " WHERE FamilyID IN ";
+                    SQL += " (SELECT ID FROM vw_GGTools_Taxon_FamilyMaps WHERE ID = @ID OR AcceptedID = @ID) ";
+                    break;
+                case "taxonomy_genus":
+                    SQL += " WHERE GenusID IN ";
+                    SQL += " (SELECT ID FROM vw_GGTools_Taxon_Genera WHERE ID = @ID OR AcceptedID = @ID) ";
+                    break;
+                case "taxonomy_species":
+                    SQL += " WHERE SpeciesID IN ";
+                    SQL += " (SELECT ID FROM vw_GGTools_Taxon_Species WHERE ID = @ID OR AcceptedID = @ID) ";
+                    break;
+            }
+            
+            SQL += " ORDER BY TaxonName, CitationText";
 
             var parameters = new List<IDbDataParameter> {
                 CreateParameter("ID", entityId > 0 ? (object)entityId : DBNull.Value, true),
@@ -191,6 +206,8 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
                     SQL += " AND SpeciesID IS NOT NULL ";
                     break;
             }
+
+            SQL += " ORDER BY TaxonName, CitationText ";
 
             var parameters = new List<IDbDataParameter> {
                 CreateParameter("ID", searchEntity.ID > 0 ? (object)searchEntity.ID : DBNull.Value, true),

@@ -70,7 +70,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
             {
                 try
                 {
-                    DataCollectionTaxon = new Collection<Citation>(mgr.GetTaxonCitations(entityId));
+                    DataCollectionTaxon = new Collection<Citation>(mgr.GetTaxonCitations(tableName, entityId));
                 }
                 catch (Exception ex)
                 {

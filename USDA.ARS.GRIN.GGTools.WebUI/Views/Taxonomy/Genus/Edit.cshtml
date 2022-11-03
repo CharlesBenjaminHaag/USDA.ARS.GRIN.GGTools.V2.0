@@ -162,33 +162,45 @@
     </div>
 }
 
-<div id="section-citations">
-
-</div>
-
-@{Html.RenderAction("RenderLookupModal", "Citation", new { isMultiSelect = "Y" }); }
-@Html.Partial("~/Views/Taxonomy/Family/Modals/_Lookup.cshtml")
 
 @if (Model.Entity.ID > 0)
 {
-    Html.RenderAction("_ListSynonyms", "Genus", new { @genusId = Model.Entity.ID });
-    Html.RenderAction("_ListSubdivisions", "Genus", new { @genusName = Model.Entity.Name });
-    { Html.RenderAction("_List", "CommonName", new { @genusId = Model.Entity.ID }); }
-    //Html.RenderAction("_List", "Species", new { @genusId = Model.Entity.ID });
-    //Html.RenderAction("_List", "Citation", new { @genusId = Model.Entity.ID });
-    //{ Html.RenderAction("_ConspecificList", "Species", new { @eventValue = Model.EventValue, @entityId = Model.Entity.ID }); }
-    //{ Html.RenderAction("_List", "CommonName", new { @eventValue = Model.EventValue, @entityId = Model.Entity.ID }); }
-    //{ Html.RenderAction("_List", "EconomicUse", new { @entityId = Model.Entity.ID }); }
-    //{ Html.RenderAction("_List", "GeographyMap", new { @entityId = Model.Entity.ID }); }
-    //{ Html.RenderAction("_List", "RegulationMap", new { @speciesId = Model.Entity.ID }); }
-    //{ Html.RenderAction("_List", "Citation", new { @speciesId = Model.Entity.ID }); }
+    <div class="card">
+        <div id="section-dependent-data" class="card-header p-2">
+            <ul id="list-dependent-data" class="nav nav-pills">
+                <li id="tab_selector_citations" class="nav-item"><a class="nav-link active" href="#tab_content_citations" data-toggle="tab">Citations</a></li>
+                <li id="tab_selector_species" class="nav-item"><a class="nav-link" href="#tab_content_species" data-toggle="tab">Species</a></li>
+                <li id="tab_selector_synonyms" class="nav-item"><a class="nav-link" href="#tab_content_synonyms" data-toggle="tab">Synonyms</a></li>
+                <li id="tab_selector_subdivisions" class="nav-item"><a class="nav-link" href="#tab_content_subdivisions" data-toggle="tab">Subdivisions</a></li>
+            </ul>
+        </div>
+        <div class="card-body">
+            <div class="tab-content">
+                <div class="tab-pane active" id="tab_content_citations">
+                    <div id="section-citations">
+
+                    </div>
+                </div>
+                <div class="tab-pane" id="tab_content_species">
+                    <!--TODO-->
+                </div>
+                <div class="tab-pane" id="tab_content_synonyms">
+                    <!--TODO-->
+                </div>
+                <div class="tab-pane" id="tab_content_subdivisions">
+                    <!--TODO-->
+                </div>
+
+            </div>
+        </div>
+    </div>
 }
 
+@{Html.RenderAction("RenderLookupModal", "Citation", new { tableName = Model.TableName, entityId = Model.Entity.ID }); }
 @Html.Partial("~/Views/Taxonomy/Author/Modals/_Lookup.cshtml")
 @Html.Partial("~/Views/Taxonomy/Family/Modals/_Lookup.cshtml")
 @Html.Partial("~/Views/Shared/Modals/_NoteLookup2.cshtml")
 @Html.Partial("~/Views/Taxonomy/Shared/Modals/_Delete.cshtml")
-@{Html.RenderAction("RenderLookupModal", "Citation", new { isMultiSelect = "Y" }); }
 
 <script type="text/javascript">
     $(document).ready(function () {
@@ -197,5 +209,57 @@
 
     function Init() {
         SetControlVisibility();
+    }
+
+    function Init() {
+        SetControlVisibility();
+        var defaultId = $('ul#list-dependent-data li:first').attr("id");
+        LoadDependentData(defaultId);
+    }
+
+    $('#section-dependent-data ul.nav li').on('click', function () {
+        var selectedId = $(this).attr('id');
+        LoadDependentData(selectedId);
+    });
+
+    function LoadDependentData(sectionId) {
+        var link = "";
+        var entityId = $("#Entity_ID").val();
+        var genusId = $("#Entity_GenusID").val();
+        var formData = new FormData();
+        var sectionData = sectionId.replace("tab_selector", "tab_content");
+
+        // Load data in selected section content area based on id.
+        switch (sectionId) {
+            case "tab_selector_citations":
+                link = '@Url.Action("_List","Citation")';
+                break;
+            case "tab_selector_species":
+                link = '@Url.Action("_ListSpecies","Genus")';
+                break;
+            case "tab_selector_synonyms":
+                link = '@Url.Action("_ListSynonyms", "Genus")';
+                break;
+            case "tab_selector_subdivisions":
+                link = '@Url.Action("_ListSubdivisions", "Genus", new { familyId = "GENUS_ID" })';
+                link = link.replace("GENUS_ID", genusId);
+                break;
+            default:
+                // code block
+        }
+
+    formData.append("GenusID", entityId);
+
+    $.ajax({
+        url: link,
+        type: 'POST',
+        cache: false,
+        contentType: false,
+        processData: false,
+        data: formData,
+        success: function (response) {
+            $("#" + sectionData).html(response);
+        }
+    });
     }
 </script>

@@ -168,6 +168,22 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             }
         }
 
+        public PartialViewResult _ListSpecies(int genusId)
+        {
+            FamilyMapViewModel viewModel = new FamilyMapViewModel();
+
+            try
+            {
+                //viewModel.GetGenera(genusId);
+                return PartialView("~/Views/Taxonomy/Genus/_ListSpecies.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
+        }
+
         public PartialViewResult _ListSynonyms(int genusId)
         {
             GenusViewModel viewModel = new GenusViewModel();
