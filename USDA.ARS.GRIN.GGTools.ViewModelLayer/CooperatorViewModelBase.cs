@@ -38,24 +38,25 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
             }
         }
 
-        public string IsReadOnly
-        {
-            get
-            {
-                if ((AuthenticatedUser.IsInRole("GGTOOLS_COOPERATOR")) ||
-                    (AuthenticatedUser.IsInRole("MANAGE_COOPERATOR")) ||
-                    (AuthenticatedUser.IsInRole("GGTOOLS_ADMIN")) ||
-                    (AuthenticatedUser.CooperatorID == Entity.ID)
-                    )
-                {
-                    return "N";
-                }
-                else
-                {
-                    return "Y";
-                }
-            }
-        }
+        //public string IsReadOnly
+        //{
+        //    get
+        //    {
+        //        if ((AuthenticatedUser.IsInRole("GGTOOLS_COOPERATOR")) ||
+        //            (AuthenticatedUser.IsInRole("MANAGE_COOPERATOR")) ||
+        //            (AuthenticatedUser.IsInRole("GGTOOLS_ADMIN")) ||
+        //            (AuthenticatedUser.CooperatorID == Entity.ID)
+        //            )
+        //        {
+        //            return "N";
+        //        }
+        //        else
+        //        {
+        //            return "Y";
+        //        }
+        //    }
+        //}
+
         public int TotalRecordsOwned
         {
             get { return _TotalRecordsOwned; }

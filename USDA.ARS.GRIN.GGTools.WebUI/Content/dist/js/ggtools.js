@@ -74,12 +74,12 @@ function InitDataTableLight(tableName) {
 function InitDataTableLightMultiSelect(tableName) {
     $(document).ready(function () {
         var table = $("#" + tableName).DataTable({
-            paging: false,
+            paging: true,
             responsive: true,
             select: {
                 style: 'multi'
             },
-            searching: false,
+            searching: true,
             columnDefs: [
                 { targets: [0], visible: false }
             ]

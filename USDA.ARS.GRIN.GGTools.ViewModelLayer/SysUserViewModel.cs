@@ -16,6 +16,7 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
 
     public class SysUserViewModel : SysUserViewModelBase
     {
+        public bool SendNotificationOption { get; set; }
         public SysUser Get(string userName)
         {
             //TODO
@@ -38,6 +39,70 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
                 try
                 {
                     DataCollectionGroups = new Collection<SysGroupUserMap>(mgr.SelectGroups(sysUserId));
+                    RowsAffected = mgr.RowsAffected;
+                }
+                catch (Exception ex)
+                {
+                    PublishException(ex);
+                    throw ex;
+                }
+            }
+        }
+
+        public void AssignSysGroups()
+        {
+            string[] itemIdArray = Entity.ItemIDList.Split(',');
+            foreach (var itemId in itemIdArray)
+            {
+                SysGroupUserMap sysGroupUserMap = new SysGroupUserMap();
+                sysGroupUserMap.SysUserID = Entity.SysUserID;
+                sysGroupUserMap.SysGroupID = Int32.Parse(itemId);
+                using (SysUserManager mgr = new SysUserManager())
+                {
+                    mgr.InsertSysGroupUserMap(sysGroupUserMap);
+                }
+            }
+        }
+
+        public void UnAssignSysGroups()
+        {
+            string[] itemIdArray = Entity.ItemIDList.Split(',');
+            foreach (var itemId in itemIdArray)
+            {
+                SysGroupUserMap sysGroupUserMap = new SysGroupUserMap();
+                sysGroupUserMap.SysUserID = Entity.SysUserID;
+                sysGroupUserMap.SysGroupID = Int32.Parse(itemId);
+                using (SysUserManager mgr = new SysUserManager())
+                {
+                    mgr.DeleteSysGroupUserMap(sysGroupUserMap);
+                }
+            }
+        }
+
+        public void GetAvailableSysGroups(int sysUserId)
+        {
+            using (SysUserManager mgr = new SysUserManager())
+            {
+                try
+                {
+                    DataCollectionAvailableSysGroups = new Collection<SysGroup>(mgr.GetAvailableSysGroups(sysUserId));
+                    RowsAffected = mgr.RowsAffected;
+                }
+                catch (Exception ex)
+                {
+                    PublishException(ex);
+                    throw ex;
+                }
+            }
+        }
+
+        public void GetAssignedSysGroups(int sysUserId)
+        {
+            using (SysUserManager mgr = new SysUserManager())
+            {
+                try
+                {
+                    DataCollectionAssignedSysGroups = new Collection<SysGroup>(mgr.GetAssignedSysGroups(sysUserId));
                     RowsAffected = mgr.RowsAffected;
                 }
                 catch (Exception ex)
@@ -105,7 +170,6 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
                 throw ex;
             }
         }
-
         public bool Authenticate()
         {
             string storedPassword = String.Empty;

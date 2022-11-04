@@ -107,7 +107,6 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
 
         }
 
-
         public ActionResult Edit(int entityId)
         {
             try
@@ -165,8 +164,8 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             CooperatorViewModel viewModel = new CooperatorViewModel();
             viewModel.PageTitle = "Cooperator Search";
             viewModel.TableName = "cooperator";
+            viewModel.AuthenticatedUser = AuthenticatedUser;
             viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
-
             return View(viewModel);
         }
 

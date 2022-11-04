@@ -33,14 +33,14 @@
                         @using (Html.BeginForm("Edit", "Cooperator", FormMethod.Post, new { id = "frmEdit" }))
                         {
                             @Html.HiddenFor(x => x.PageTitle)
-                            @Html.HiddenFor(x => x.IsReadOnly)
+                            @*@Html.HiddenFor(x => x.IsReadOnly)*@
                             @Html.HiddenFor(x => x.EventAction)
                             @Html.HiddenFor(x => x.EventValue)
                             @Html.HiddenFor(x => x.TableName)
                             @Html.HiddenFor(x => x.TableCode)
                             @Html.HiddenFor(x => x.Entity.ID)
-                            @Html.HiddenFor(x => x.Entity.SysUserID)
-                            @Html.HiddenFor(x => x.Entity.SysUserName)
+                            @*@Html.HiddenFor(x => x.Entity.SysUserID)
+                                @Html.HiddenFor(x => x.Entity.SysUserName)*@
                             @Html.HiddenFor(x => x.Entity.StatusCode)
                             @Html.Partial("~/Views/Shared/_ValidationMessages.cshtml")
                             <div class="row">
@@ -86,17 +86,21 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <label>Organization</label>
-                                    <div class="input-group">
-                                        @Html.TextBoxFor(x => x.Entity.Organization, new { @class = "form-control" })
-                                        <span class="input-group-btn">
-                                            @*@Html.TextBoxFor(x => x.Entity.OrganizationAbbrev, new { @class = "form-control", @style = "width:80px;" })*@
-                                            <button type="button" data-toggle="modal" data-target="#modal-organization-lookup" class="btn btn-default btn-flat">
+                                    @Html.TextBoxFor(x => x.Entity.Organization, new { @class = "form-control" })
+                                    <!--<div class="input-group">
+                                        <span class="input-group-btn">-->
+                                    @*@Html.TextBoxFor(x => x.Entity.OrganizationAbbrev, new { @class = "form-control", @style = "width:80px;" })*@
+                                    <!--<button type="button" data-toggle="modal" data-target="#modal-organization-lookup" class="btn btn-default btn-flat">
                                                 <i class="fa fa-search"></i>
                                             </button>
                                         </span>
-                                    </div>
+                                    </div>-->
+                                </div>
+                                <div class="col-md-2">
+                                    <label>Abbrev</label>
+                                    @Html.TextBoxFor(x => x.Entity.OrganizationAbbrev, new { @class = "form-control" })
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
@@ -104,7 +108,7 @@
                                         @Html.DropDownListFor(x => x.Entity.SiteID, Model.Sites, "Select site", new { @class = "form-control" })
                                     </div>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <label>Category</label>
                                     @Html.DropDownListFor(x => x.Entity.CategoryCode, Model.Categories, "Select value", new { @class = "form-control" })
                                 </div>
@@ -210,17 +214,17 @@
         </div>
     </div>
 </div>
-
+@Html.Partial("~/Views/SysUser/Modals/_ResetPassword.cshtml")
 <script type="text/javascript">
     $(document).ready(function () {
         Init();
     });
 
     function Init() {
-        var isReadOnly = $("#IsReadOnly").val();
-        if (isReadOnly == "Y") {
-            SetReadOnly();
-        }
+        //var isReadOnly = $("#IsReadOnly").val();
+        //if (isReadOnly == "Y") {
+        //    SetReadOnly();
+        //}
     }
 
     //function Validate(password, passwordConfirmed) {

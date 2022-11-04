@@ -75,7 +75,70 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             RowsAffected = sysGroupUserMaps.Count;
             return sysGroupUserMaps;
         }
-        
+        public virtual List<SysGroup> GetAvailableSysGroups(int sysUserId)
+        {
+            List<SysGroup> sysGroups = new List<SysGroup>();
+
+            SQL =   " SELECT [ID], [GroupTag], [GroupTitle], [GroupDescription] " +
+                    " FROM [vw_GGTools_GRINGlobal_SysGroups] WHERE ID NOT IN " +
+                    " (SELECT sys_group_id FROM sys_group_user_map " +
+                    " WHERE sys_user_id = @ID) ";
+
+            var parameters = new List<IDbDataParameter> {
+                CreateParameter("ID", sysUserId, true)
+            };
+            sysGroups = GetRecords<SysGroup>(SQL, CommandType.Text, parameters.ToArray());
+            return sysGroups;
+        }
+        public virtual List<SysGroup> GetAssignedSysGroups(int sysUserId)
+        {
+            List<SysGroup> sysGroups = new List<SysGroup>();
+
+            SQL = " SELECT [ID], [GroupTag], [GroupTitle], [GroupDescription] " +
+                    " FROM [vw_GGTools_GRINGlobal_SysGroups] WHERE ID IN " +
+                    " (SELECT sys_group_id FROM sys_group_user_map " +
+                    " WHERE sys_user_id = @ID) ";
+
+            var parameters = new List<IDbDataParameter> {
+                CreateParameter("ID", sysUserId, true)
+            };
+            sysGroups = GetRecords<SysGroup>(SQL, CommandType.Text, parameters.ToArray());
+            return sysGroups;
+        }
+        public int InsertSysGroupUserMap(SysGroupUserMap sysGroupUserMap)
+        {
+            Reset(CommandType.StoredProcedure);
+
+            SQL = "usp_GGTools_GRINGlobal_SysGroupUserMap_Insert";
+
+            AddParameter("sys_user_id", (object)sysGroupUserMap.SysUserID, false);
+            AddParameter("sys_group_id", (object)sysGroupUserMap.SysGroupID, false);
+
+            AddParameter("@out_error_number", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
+            AddParameter("@out_sys_group_user_map_id", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
+            AddParameter("created_by", sysGroupUserMap.CreatedByCooperatorID == 0 ? DBNull.Value : (object)sysGroupUserMap.CreatedByCooperatorID, true);
+            RowsAffected = ExecuteNonQuery();
+            
+            var errorCode = GetParameterValue<string>("@out_error_number", "");
+            return RowsAffected;
+        }
+        public int DeleteSysGroupUserMap(SysGroupUserMap sysGroupUserMap)
+        {
+            Reset(CommandType.StoredProcedure);
+
+            SQL = "usp_GGTools_GRINGlobal_SysGroupUserMap_Delete";
+
+            AddParameter("sys_user_id", (object)sysGroupUserMap.SysUserID, false);
+            AddParameter("sys_group_id", (object)sysGroupUserMap.SysGroupID, false);
+
+            AddParameter("@out_error_number", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
+            AddParameter("@out_sys_group_user_map_id", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
+            RowsAffected = ExecuteNonQuery();
+
+            var errorCode = GetParameterValue<string>("@out_error_number", "");
+            return RowsAffected;
+        }
+
         public int InsertSysUserPasswordResetToken(int sysUserId, string passwordResetToken)
         {
             Reset(CommandType.StoredProcedure);

@@ -23,14 +23,10 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
 
         public Site Get(int entityId)
         {
+            List<Site> sites = new List<Site>();
             SQL = "usp_GGTools_GRINGlobal_Site_Select";
-            Site site = new Site();
-
-            var parameters = new List<IDbDataParameter> {
-                CreateParameter("site_id", (object)entityId, false)
-            };
-            site = GetRecord<Site>(SQL, CommandType.StoredProcedure, parameters.ToArray());
-            return site;
+            sites = Search(new SiteSearch { ID = entityId });
+            return sites[0];
         }
 
         public int Insert(Site entity)

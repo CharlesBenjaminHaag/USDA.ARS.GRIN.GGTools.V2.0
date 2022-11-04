@@ -82,13 +82,15 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
         {
             throw new NotImplementedException();
         }
-
-        // GET: CodeValue
         public ActionResult Index()
         {
             CodeValueViewModel viewModel = new CodeValueViewModel();
             viewModel.PageTitle = "Code Value Search";
             return View(viewModel);
+        }
+        public ActionResult Explore()
+        {
+            return View();
         }
         [HttpPost]
         public ActionResult Index(CodeValueViewModel viewModel)

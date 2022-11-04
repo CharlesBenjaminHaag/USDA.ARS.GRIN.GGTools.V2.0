@@ -16,7 +16,8 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
         private SysUserSearch _SearchEntity = new SysUserSearch();
         private Collection<SysUser> _DataCollection = new Collection<SysUser>();
         private Collection<SysGroupUserMap> _DataCollectionGroups = new Collection<SysGroupUserMap>();
-       
+        private Collection<SysGroup> _DataCollectionAvailableSysGroups = new Collection<SysGroup>();
+        private Collection<SysGroup> _DataCollectionAssignedSysGroups = new Collection<SysGroup>();
 
         public string IsReadOnly
         {
@@ -70,6 +71,18 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
         {
             get { return _DataCollectionGroups; }
             set { _DataCollectionGroups = value; }
+        }
+
+        public Collection<SysGroup> DataCollectionAvailableSysGroups
+        {
+            get { return _DataCollectionAvailableSysGroups; }
+            set { _DataCollectionAvailableSysGroups = value; }
+        }
+
+        public Collection<SysGroup> DataCollectionAssignedSysGroups
+        {
+            get { return _DataCollectionAssignedSysGroups; }
+            set { _DataCollectionAssignedSysGroups = value; }
         }
 
         protected bool validateHashedPassword(string password, string storedSaltHash)

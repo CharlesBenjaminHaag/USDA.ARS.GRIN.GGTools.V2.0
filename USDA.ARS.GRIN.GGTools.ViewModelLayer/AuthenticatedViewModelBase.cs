@@ -17,6 +17,6 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
     public class AuthenticatedViewModelBase : AppViewModelBase
     {
         public SysUser AuthenticatedUser { get; set; }
-       
+        
     }
 }

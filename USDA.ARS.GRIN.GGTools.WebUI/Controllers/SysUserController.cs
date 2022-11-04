@@ -110,8 +110,11 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 {
                     return View("~/Views/SysUser/Edit.cshtml", viewModel);
                 }
-                viewModel.UpdatePassword();
-                viewModel.SendNotification("P");
+                viewModel.Update();
+                if (viewModel.SendNotificationOption == true)
+                {
+                    viewModel.SendNotification("P");
+                }
                 return RedirectToAction("Edit", "SysUser", new {entityId = viewModel.Entity.ID});
             }
             catch (Exception ex)
@@ -129,6 +132,73 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             viewModel.TableName = "sys_user";
             viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
             return View(viewModel);
+        }
+
+        public PartialViewResult _ListAvailableSysGroups(int sysUserId)
+        {
+            SysUserViewModel viewModel = new SysUserViewModel();
+            viewModel.GetAvailableSysGroups(sysUserId);
+            return PartialView("~/Views/SysUser/Group/_ListAvailable.cshtml", viewModel);
+        }
+        public PartialViewResult _ListAssignedSysGroups(int sysUserId)
+        {
+            SysUserViewModel viewModel = new SysUserViewModel();
+            viewModel.GetAssignedSysGroups(sysUserId);
+            return PartialView("~/Views/SysUser/Group/_ListAssigned.cshtml", viewModel);
+        }
+
+        [HttpPost]
+        public JsonResult AssignGroups(FormCollection formCollection)
+        {
+            try
+            {
+                SysUserViewModel viewModel = new SysUserViewModel();
+                viewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
+
+                if (!String.IsNullOrEmpty(formCollection["SysUserID"]))
+                {
+                    viewModel.Entity.ID = Int32.Parse(formCollection["SysUserID"]);
+                    viewModel.Entity.SysUserID = viewModel.Entity.ID; 
+                }
+
+                if (!String.IsNullOrEmpty(formCollection["IDList"]))
+                {
+                    viewModel.Entity.ItemIDList = formCollection["IDList"];
+                }
+                viewModel.AssignSysGroups();
+                return Json(new { success = true }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return Json(new { success = false }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        [HttpPost]
+        public JsonResult UnAssignSysGroups(FormCollection formCollection)
+        {
+            try
+            {
+                SysUserViewModel viewModel = new SysUserViewModel();
+                if (!String.IsNullOrEmpty(formCollection["SysUserID"]))
+                {
+                    viewModel.Entity.ID = Int32.Parse(formCollection["SysUserID"]);
+                    viewModel.Entity.SysUserID = viewModel.Entity.ID;
+                }
+
+                if (!String.IsNullOrEmpty(formCollection["IDList"]))
+                {
+                    viewModel.Entity.ItemIDList = formCollection["IDList"];
+                }
+                viewModel.UnAssignSysGroups();
+                return Json(new { success = true }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return Json(new { success = false }, JsonRequestBehavior.AllowGet);
+            }
         }
 
         public ActionResult Search(SysUserViewModel viewModel)
