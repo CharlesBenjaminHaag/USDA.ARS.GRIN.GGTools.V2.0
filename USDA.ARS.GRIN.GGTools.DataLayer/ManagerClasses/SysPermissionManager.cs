@@ -34,11 +34,11 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
         {
             List<SysPermission> sysPermissions = new List<SysPermission>();
 
-            SQL = " SELECT * FROM vw_GGTools_GRINGlobal_SysPermissions";
-            SQL += " WHERE    (@SysGroupID        IS NULL OR  SysGroupID      = @SysGroupID)";
+            SQL = " SELECT * FROM vw_GRINGlobal_Sys_Permission";
+            SQL += " WHERE    (@TableName        IS NULL OR  TableName      = @TableName)";
 
             var parameters = new List<IDbDataParameter> {
-                CreateParameter("SysGroupID", searchEntity.SysGroupID > 0 ? (object)searchEntity.SysGroupID : DBNull.Value, true)
+                CreateParameter("TableName", !String.IsNullOrEmpty(searchEntity.TableName) ? (object)searchEntity.TableName : DBNull.Value, true)
             };
 
             sysPermissions = GetRecords<SysPermission>(SQL, parameters.ToArray());

@@ -208,13 +208,13 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
                 }
             }
         }
-        public void SearchFolderItems()
+        public void GetFolderItems()
         {
             using (FamilyMapManager mgr = new FamilyMapManager())
             {
                 try
                 {
-                    DataCollection = new Collection<FamilyMap>(mgr.SearchFolderItems(SearchEntity));
+                    DataCollection = new Collection<FamilyMap>(mgr.GetFolderItems(SearchEntity));
                     RowsAffected = mgr.RowsAffected;
                     if (RowsAffected == 1)
                     {

@@ -16,7 +16,7 @@ function InitDataTable(tableName) {
         var table = $("#" + tableName).DataTable({
             dom: 'Blfrtip',
             paging: true,
-            "pageLength": 5,
+            "pageLength": 10,
             initComplete: function () {
                 SetControlVisibility(tableName);
             }, 

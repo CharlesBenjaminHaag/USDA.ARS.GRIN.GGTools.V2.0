@@ -12,6 +12,7 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
 {
     public class FolderViewModel: FolderViewModelBase, IViewModel<Folder>
     {
+        public string ItemViewName { get; set; }
         public FolderViewModel()
         { }
         public FolderViewModel(int cooperatorId, string tableName) : base(cooperatorId, tableName)

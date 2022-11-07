@@ -22,6 +22,11 @@
                     Notes
                 </button>
             </div>
+            <div class="btn-group float-right">
+                <button id="btnShowTablePermissions" type="button" class="btn btn-default btn-sm pull-right" data-toggle="modal" data-target="#modal-sys-table-permission-lookup">
+                    <i class="fa fa-table"></i>
+                </button>
+            </div>
         </div>
         <div class="card-body">
             <div class="row">
@@ -136,7 +141,7 @@
     </div>
 }
 
-@{Html.RenderAction("RenderLookupModal", "Literature"); }
+@{ Html.RenderAction("_RenderLookupModal", "SysTable", new { @tableName = Model.TableName }); }
 @Html.Partial("~/Views/Taxonomy/Family/Modals/_Lookup.cshtml")
 @Html.Partial("~/Views/Taxonomy/Genus/Modals/_Lookup.cshtml")
 @Html.Partial("~/Views/Taxonomy/Species/Modals/_Lookup.cshtml")
@@ -151,8 +156,6 @@
 
     function Init() {
     }
-
-
     /*
     * ===================================================================================================
     * SPECIES MODAL

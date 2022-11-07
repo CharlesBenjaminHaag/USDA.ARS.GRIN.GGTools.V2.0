@@ -208,12 +208,12 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             return results;
         }
 
-        public List<FamilyMap> SearchFolderItems(FamilyMapSearch searchEntity)
+        public List<FamilyMap> GetFolderItems(FamilyMapSearch searchEntity)
         {
             List<FamilyMap> results = new List<FamilyMap>();
 
-            SQL = " SELECT * FROM v";
-            SQL += "AND  (@FolderID                          IS NULL OR  FolderID       =           @FolderID)";
+            SQL = " SELECT * FROM vw_GGTools_Taxon_FamilyMapAppUserItemLists ";
+            SQL += "WHERE  (@FolderID   IS NULL OR  FolderID       =           @FolderID)";
 
             var parameters = new List<IDbDataParameter> {
                 CreateParameter("FolderID", searchEntity.FolderID > 0 ? (object)searchEntity.FolderID : DBNull.Value, true)

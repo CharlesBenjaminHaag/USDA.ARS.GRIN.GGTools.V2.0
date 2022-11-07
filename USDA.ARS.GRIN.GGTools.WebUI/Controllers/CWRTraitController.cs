@@ -145,7 +145,18 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI
                 return PartialView("~/Views/Error/_InternalServerError.cshtml", "Error");
             }
         }
-
+        public PartialViewResult _ListFolderItems(int folderId)
+        {
+            try
+            {
+                return PartialView("~/Views/Shared/_UnderConstruction.cshtml");
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
+        }
         [HttpPost]
         public ActionResult Search(CWRTraitViewModel viewModel)
         {

@@ -15,7 +15,18 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
     {
         protected static string BASE_PATH = "~/Views/Folder/";
         private static readonly Logger Log = LogManager.GetCurrentClassLogger();
-        
+        public PartialViewResult _ListFolderItems(int folderId)
+        {
+            try
+            {
+                return PartialView("~/Views/Shared/_UnderConstruction.cshtml");
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
+        }
         public ActionResult Index()
         {
             FolderViewModel viewModel = new FolderViewModel();
@@ -139,20 +150,11 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             return PartialView("~/Views/Folder/_List.cshtml", viewModel);
         }
 
-        [HttpPost]
-        public ActionResult _ItemList(FormCollection formCollection)
+        public ActionResult _ItemList(int entityId, string itemViewName)
         {
-            int folderId = 0;
-
-            if (!String.IsNullOrEmpty(formCollection["FolderID"]))
-            {
-                //string DEBUG = formCollection["FolderID"];
-                //folderId = Int32.Parse(formCollection["FolderID"]);
-            }
-
-            FolderViewModel viewModel = new FolderViewModel();
-            viewModel.GetFolderItems(folderId);
-            return PartialView("~/Views/Folder/Modals/_ItemList.cshtml", viewModel);
+            //TODO
+            
+            return PartialView("~/Views/Folder/Modals/_ItemList.cshtml");
         }
 
         [HttpPost]
@@ -509,18 +511,16 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             {
                 FolderViewModel viewModel = new FolderViewModel();
                 viewModel.TableName = "app_user_item_folder";
+                viewModel.TableCode = "Folder";
                 viewModel.AuthenticatedUser = AuthenticatedUser;
                 viewModel.GetFolderCategories(AuthenticatedUser.CooperatorID);
 
                 if (entityId > 0)
                 {
                     viewModel.Get(entityId);
-
-                    //TODO
-                    //Get list of available collaborators (i.e., not currently sharing this folder)
-                    //Get list of existing collaborators 
-                    
                     viewModel.PageTitle = String.Format("Edit Folder: {0}", viewModel.Entity.FolderName);
+                    viewModel.TableName = viewModel.Entity.FolderType;
+                    viewModel.ItemViewName = "vw_GRINGlobal_" + viewModel.TableName + "_Folder";
                 }
                 else
                 {
@@ -578,7 +578,22 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 return RedirectToAction("InternalServerError", "Error");
             }
         }
-
+        [HttpPost]
+        public JsonResult DeleteEntity(FormCollection formCollection)
+        {
+            try
+            {
+                FolderViewModel viewModel = new FolderViewModel();
+                viewModel.Entity.ID = Int32.Parse(GetFormFieldValue(formCollection, "EntityID"));
+                viewModel.TableName = GetFormFieldValue(formCollection, "TableName");
+                viewModel.Delete();
+                return Json(new { success = true }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { errorMessage = ex.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
         public ActionResult Delete(int entityId)
         {
             try 
@@ -633,22 +648,6 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
         public ActionResult Delete(FormCollection formCollection)
         {
             throw new NotImplementedException();
-        }
-        [HttpPost]
-        public JsonResult DeleteEntity(FormCollection formCollection)
-        {
-            try
-            {
-                FolderViewModel viewModel = new FolderViewModel();
-                viewModel.Entity.ID = Int32.Parse(GetFormFieldValue(formCollection, "EntityID"));
-                viewModel.TableName = GetFormFieldValue(formCollection, "TableName");
-                viewModel.Delete();
-                return Json(new { success = true }, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception ex)
-            {
-                return Json(new { errorMessage = ex.Message }, JsonRequestBehavior.AllowGet);
-            }
         }
     }
 }

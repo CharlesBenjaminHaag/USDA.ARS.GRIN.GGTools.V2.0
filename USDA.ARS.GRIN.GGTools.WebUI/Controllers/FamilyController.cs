@@ -117,24 +117,24 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             }
         }
 
-        public PartialViewResult FolderItems(int folderId)
-        {
-            try
-            {
-                FamilyMapViewModel viewModel = new FamilyMapViewModel();
-                viewModel.EventAction = "SEARCH";
-                viewModel.EventValue = "FOLDER";
-                viewModel.SearchEntity.FolderID = folderId;
-                viewModel.SearchFolderItems();
-                ModelState.Clear();
-                return PartialView(BASE_PATH + "List.cshtml", viewModel);
-            }
-            catch (Exception ex)
-            {
-                Log.Error(ex);
-                return null;
-            }
-        }
+        //public PartialViewResult FolderItems(int folderId)
+        //{
+        //    try
+        //    {
+        //        FamilyMapViewModel viewModel = new FamilyMapViewModel();
+        //        viewModel.EventAction = "SEARCH";
+        //        viewModel.EventValue = "FOLDER";
+        //        viewModel.SearchEntity.FolderID = folderId;
+        //        viewModel.GetFolderItems();
+        //        ModelState.Clear();
+        //        return PartialView(BASE_PATH + "List.cshtml", viewModel);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Log.Error(ex);
+        //        return null;
+        //    }
+        //}
 
         public ActionResult Index()
         {
@@ -187,6 +187,23 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 return PartialView("~/Views/Error/_InternalServerError.cshtml");
             }
         }
+        public PartialViewResult _ListFolderItems(int folderId)
+        {
+            FamilyMapViewModel viewModel = new FamilyMapViewModel();
+
+            try
+            {
+                viewModel.SearchEntity.FolderID = folderId;
+                viewModel.GetFolderItems();
+                return PartialView(BASE_PATH + "_List.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
+        }
+
         public PartialViewResult _ListGenera(int familyId)
         {
             FamilyMapViewModel viewModel = new FamilyMapViewModel();

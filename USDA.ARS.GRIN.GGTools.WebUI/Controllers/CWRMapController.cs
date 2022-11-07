@@ -312,7 +312,18 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 return PartialView("~/Views/Error/_InternalServerError.cshtml", "Error");
             }
         }
-
+        public PartialViewResult _ListFolderItems(int folderId)
+        {
+            try
+            {
+                return PartialView("~/Views/Shared/_UnderConstruction.cshtml");
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
+        }
         [HttpPost]
         public PartialViewResult LookupNotes(FormCollection formCollection)
         {

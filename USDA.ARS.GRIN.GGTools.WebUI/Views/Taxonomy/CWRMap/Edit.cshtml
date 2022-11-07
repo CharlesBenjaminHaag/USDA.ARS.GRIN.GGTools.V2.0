@@ -33,7 +33,6 @@
         </div>
         <div class="card-body">
             @Html.Partial("~/Views/Shared/_ValidationMessages.cshtml")
-
             <div class="row">
                 <div class="col-md-2">
                     <div class="form-group">
@@ -47,14 +46,6 @@
                         <div class="input-group">
                             @Html.TextBoxFor(x => x.Entity.SpeciesName, new { @class = "form-control", @readonly = "readonly" })
                             @Html.HiddenFor(x => x.Entity.SpeciesID)
-
-                            <!--TODO Allow user to navigate to species edit page (?)-->
-                            @*<span class="input-group-btn">
-                    <a href="@Url.Action("Edit", "Species", new { @entityId = Model.Entity.SpeciesID })" class="btn btn-default btn-flat">
-                        <i class="fa fa-link"></i>
-                    </a>
-                    </span>*@
-
                             <span class="input-group-btn">
                                 <button type="button" class="btn btn-default btn-flat" data-toggle="modal" data-target="#modal-species-lookup">
                                     <i class="fa fa-search"></i>
@@ -75,7 +66,6 @@
                         @Html.TextBoxFor(x => x.Entity.CropCommonName, new { @class = "form-control" })
                     </div>
                 </div>
-                
             </div>
             <div class="row">
                 <div class="col-md-1">
@@ -121,6 +111,11 @@
                     <div class="input-group">
                         @Html.HiddenFor(x => x.Entity.CitationID)
                         @Html.TextBoxFor(x => x.Entity.CitationText, new { @class = "form-control", @readonly = "readonly" })
+                        <span class="input-group-btn">
+                            <button id="btnEditCitation" type="button" class="btn btn-default btn-flat">
+                                <i class="fa fa-edit"></i>
+                            </button>
+                        </span>
                         <span class="input-group-btn">
                             <button type="button" class="btn btn-default btn-flat" data-toggle="modal" data-target="#modal-citation-lookup">
                                 <i class="fa fa-search"></i>

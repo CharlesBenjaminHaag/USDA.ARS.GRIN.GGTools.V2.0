@@ -14,6 +14,18 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
         protected static string BASE_PATH = "~/Views/Taxonomy/Citation/";
         private static readonly Logger Log = LogManager.GetCurrentClassLogger();
 
+        public PartialViewResult _ListFolderItems(int folderId)
+        {
+            try
+            {
+                return PartialView("~/Views/Shared/_UnderConstruction.cshtml");
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
+        }
         [HttpPost]
         public ActionResult Search(CitationViewModel vm)
         {
@@ -257,6 +269,11 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 viewModel.ReferencedEntityID = Int32.Parse(formCollection["EntityID"]);
             }
 
+            if (!String.IsNullOrEmpty(formCollection["SpeciesID"]))
+            {
+                viewModel.Entity.SpeciesID = Int32.Parse(formCollection["SpeciesID"]);
+            }
+
             if (!String.IsNullOrEmpty(formCollection["CitationID"]))
             {
                 cloneViewModel.SearchEntity.ID = Int32.Parse(formCollection["CitationID"]);
@@ -315,6 +332,11 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             }
             viewModel.GetTaxonCitations(tableName, entityId);
             return PartialView(BASE_PATH + "/Modals/_Lookup.cshtml", viewModel);
+        }
+        public PartialViewResult RenderEditModal()
+        {
+            CitationViewModel viewModel = new CitationViewModel();
+            return PartialView("~/Views/Taxonomy/Citation/Modals/_Edit.cshtml", viewModel);
         }
 
         public PartialViewResult RenderWidget(int entityId)

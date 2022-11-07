@@ -13,6 +13,18 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
     {
         protected static string BASE_PATH = "~/Views/Taxonomy/Author/";
         private static readonly Logger Log = LogManager.GetCurrentClassLogger();
+        public PartialViewResult _ListFolderItems(int folderId)
+        {
+            try
+            {
+                return PartialView("~/Views/Shared/_UnderConstruction.cshtml");
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
+        }
         public ActionResult Index()
         {
             try

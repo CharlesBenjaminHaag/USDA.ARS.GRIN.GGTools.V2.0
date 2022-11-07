@@ -125,6 +125,8 @@
     <Compile Include="SysGroupUserMapViewModelBase.cs" />
     <Compile Include="SysPermissionViewModelBase.cs" />
     <Compile Include="SysPermissionViewModel.cs" />
+    <Compile Include="SysTableViewModel.cs" />
+    <Compile Include="SysTableViewModelBase.cs" />
     <Compile Include="WebUserViewModelBase.cs" />
     <Compile Include="WebUserViewModel .cs" />
     <Compile Include="SysUserViewModel.cs" />

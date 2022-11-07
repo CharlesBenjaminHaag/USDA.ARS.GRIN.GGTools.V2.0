@@ -1,15 +1,19 @@
-﻿using System;
-using System.Web.Mvc;
-using USDA.ARS.GRIN.GGTools.DataLayer;
+﻿using System.Web.Mvc;
+using System;
+using System.Collections.Generic;
+using USDA.ARS.GRIN.GGTools.WebUI;
 using USDA.ARS.GRIN.GGTools.ViewModelLayer;
+using USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer;
+using USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer;
 using NLog;
 
 namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
 {
     [GrinGlobalAuthentication]
-    public class WebCooperatorController : BaseController, IController<CooperatorViewModel>
+    public class SysTableController : BaseController, IController<SysTableViewModel>
     {
         private static readonly Logger Log = LogManager.GetCurrentClassLogger();
+
         public PartialViewResult _ListFolderItems(int folderId)
         {
             try
@@ -22,11 +26,6 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 return PartialView("~/Views/Error/_InternalServerError.cshtml");
             }
         }
-        public ActionResult Delete(int entityId)
-        {
-            throw new NotImplementedException();
-        }
-
         public ActionResult Delete(FormCollection formCollection)
         {
             throw new NotImplementedException();
@@ -34,23 +33,10 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
 
         public ActionResult Edit(int entityId)
         {
-            try
-            {
-                WebCooperatorViewModel viewModel = new WebCooperatorViewModel();
-                viewModel.Get(entityId);
-                viewModel.PageTitle = String.Format("Edit Web Cooperator [{0}]: {1}", entityId, viewModel.Entity.FullName);
-                viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
-                return View(viewModel);
-            }
-            catch (Exception ex)
-            {
-                Log.Error(ex);
-                return RedirectToAction("InternalServerError", "Error");
-            }
+            throw new NotImplementedException();
         }
 
-        [HttpPost]
-        public ActionResult Edit(CooperatorViewModel viewModel)
+        public ActionResult Edit(SysTableViewModel viewModel)
         {
             throw new NotImplementedException();
         }
@@ -60,13 +46,20 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             throw new NotImplementedException();
         }
 
-        // GET: WebCooperator
+        // GET: SysTable
         public ActionResult Index()
         {
             return View();
         }
+        public PartialViewResult _RenderLookupModal(string tableName = "")
+        {
+            SysTableViewModel viewModel = new SysTableViewModel();
+            viewModel.SearchEntity.TableName = tableName;
+            viewModel.GetPermissions();
+            return PartialView("~/Views/SysTable/Modals/_Lookup.cshtml", viewModel);
+        }
 
-        public ActionResult Search(CooperatorViewModel viewModel)
+        public ActionResult Search(SysTableViewModel viewModel)
         {
             throw new NotImplementedException();
         }

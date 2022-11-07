@@ -11,6 +11,18 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
     public class CropGermplasmCommitteeDocumentController : BaseController, IController<CropGermplasmCommitteeDocumentViewModel>
     {
         private static readonly Logger Log = LogManager.GetCurrentClassLogger();
+        public PartialViewResult _ListFolderItems(int folderId)
+        {
+            try
+            {
+                return PartialView("~/Views/Shared/_UnderConstruction.cshtml");
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
+        }
         public ActionResult Delete(int entityId)
         {
             throw new NotImplementedException();

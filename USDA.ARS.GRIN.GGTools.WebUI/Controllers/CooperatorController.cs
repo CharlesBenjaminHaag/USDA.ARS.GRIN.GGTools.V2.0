@@ -10,7 +10,18 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
     public class CooperatorController : BaseController, IController<CooperatorViewModel>
     {
         private static readonly Logger Log = LogManager.GetCurrentClassLogger();
-
+        public PartialViewResult _ListFolderItems(int folderId)
+        {
+            try
+            {
+                return PartialView("~/Views/Shared/_UnderConstruction.cshtml");
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
+        }
         [HttpPost]
         public JsonResult Add(FormCollection formCollection)
         {

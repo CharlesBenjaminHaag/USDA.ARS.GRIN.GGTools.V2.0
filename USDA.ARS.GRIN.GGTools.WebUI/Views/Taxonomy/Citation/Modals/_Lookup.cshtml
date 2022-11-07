@@ -20,7 +20,7 @@
                     <div class="card-body">
                         <div class="tab-content">
                             <div class="tab-pane active" id="taxon-citations">
-                                @Html.Partial("~/Views/Taxonomy/Citation/Modals/_SelectListTaxon.cshtml")                          
+                                @Html.Partial("~/Views/Taxonomy/Citation/Modals/_SelectListTaxon.cshtml")
                             </div>
                             <div class="tab-pane" id="search-citations">
                                 <div id="section-search-criteria">
@@ -145,6 +145,8 @@
     </div>
 </div>
 @{Html.RenderAction("RenderLookupModal", "Literature"); }
+@{Html.RenderAction("RenderEditModal", "Citation"); }
+
 <script type="text/javascript">
 
     $(document).on("click", "[id='btnLookupCitations']", function () {
@@ -152,31 +154,44 @@
         LookupCitations(link);
     });
 
-    $(document).on("click", "[id='btnSaveSelectedCitation']", function () {
-        GetSelectedCitation("data_table_lookup_citations");
-    });
+    /*
+    *******************************************************************
+    NEEDS REFACTORING. Urgently. -- CBH 11/7/22
+    *******************************************************************
+    */
 
-    $(document).on("click", "[id='btnSaveSelectedCitationTop']", function () {
-        GetSelectedCitation("data_table_lookup_citations");
+    $(document).on("click", "[id='btnSaveSelectedCitation']", function () {
+        GetSelectedCitation("N", "data_table_lookup_citations");
     });
 
     $(document).on("click", "[id='btnSaveSelectedTaxonCitation']", function () {
-        GetSelectedCitation("data_table_lookup_taxon_citations");
+        GetSelectedCitation("N","data_table_lookup_taxon_citations");
+    });
+
+    $(document).on("click", "[id='btnSaveSelectedTaxonCitation']", function () {
+        GetSelectedCitation("N","data_table_lookup_taxon_citations");
     });
 
     $(document).on("click", "[id='btnSaveSelectedTaxonCitationTop']", function () {
-        GetSelectedCitation("data_table_lookup_taxon_citations");
+        GetSelectedCitation("N","data_table_lookup_taxon_citations");
     });
 
-    function GetSelectedCitation(dataTableName) {
+    function GetSelectedCitation(editOption, dataTableName) {
         var tableName = $("#TableName").val();
         var entityId = $("#Entity_ID").val();
         var selectedItemIdList = GetSelectedEntityIDs(dataTableName);
         var selectedItemLabelList = GetSelectedCitationText(dataTableName);
 
+        //DEBUG
+        alert("EDIT OPTION " + editOption);
+
+        SaveSelectedCitation(editOption, tableName, entityId, selectedItemIdList);
+
+        //TODO Get ID of new citation; allow user to edit.
+
         // If table is single-cit table, set fields; otherwise, call method. ** Temporary ** until citation
-        // table and related tables can be refactored to allow linking from sub-taxon data 
-        // (CWR Map, CWR Trait, etc.) via a map table -- vs. a citation ID field within the 
+        // table and related tables can be refactored to allow linking from sub-taxon data
+        // (CWR Map, CWR Trait, etc.) via a map table -- vs. a citation ID field within the
         // sub-taxon table itself.
         if ((tableName == "taxonomy_cwr_map") ||
             (tableName == "taxonomy_cwr_trait") ||
@@ -187,7 +202,7 @@
             $("#Entity_CitationText").val(selectedItemLabelList);
         }
         else {
-            SaveSelectedCitation(tableName, entityId, selectedItemIdList);
+            // TODO Refresh citation list for one-many entities.
         }
     }
 
@@ -198,8 +213,8 @@
         var selectedItemLabelList = GetSelectedEntityLabels("data_table_lookup_taxon_citations");
 
         // If table is single-cit table, set fields; otherwise, call method. ** Temporary ** until citation
-        // table and related tables can be refactored to allow linking from sub-taxon data 
-        // (CWR Map, CWR Trait, etc.) via a map table -- vs. a citation ID field within the 
+        // table and related tables can be refactored to allow linking from sub-taxon data
+        // (CWR Map, CWR Trait, etc.) via a map table -- vs. a citation ID field within the
         // sub-taxon table itself.
         if ((tableName == "taxonomy_cwr_map") ||
             (tableName == "taxonomy_cwr_trait") ||
@@ -254,12 +269,14 @@
         }
     }
 
-    function SaveSelectedCitation(tableName, entityId, citationId) {
+    function SaveSelectedCitation(editOption, tableName, entityId, citationId) {
         var link = '@Url.Action("Clone","Citation")';
+        var speciesId = $("#Entity_SpeciesID").val();
         var formData = new FormData();
 
         formData.append("TableName", tableName);
         formData.append("EntityID", entityId);
+        formData.append("SpeciesID", speciesId);
         formData.append("CitationID", citationId);
 
         $.ajax({
@@ -271,8 +288,10 @@
             processData: false,
             data: formData,
             success: function (data) {
-                //DEBUG
-                alert("DEBUG " + data.citation.ID);
+                if (editOption == "Y") {
+                    $("#modal-citation-lookup").modal("hide");
+                    $("#modal-citation-edit").modal("show");
+                }
                 LoadDependentData("tab_selector_citations");
             },
             error: function (ex) {
@@ -377,6 +396,6 @@
         }
     });
     }
-    
+
 </script>
 
