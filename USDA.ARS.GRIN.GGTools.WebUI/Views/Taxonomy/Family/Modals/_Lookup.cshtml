@@ -3,7 +3,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title">Family Lookup</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button id="btnFamilyNameLookup" type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">×</span>
                 </button>
             </div>
@@ -39,36 +39,40 @@
     </div>
 </div>
 <script type="text/javascript">
+     $("#btnFamilyNameLookup").click(function () {
+        var eventAction = $(this).data("ggtools-action");
+        var eventValue = $(this).data("ggtools-value");
+        $("#EventAction").val(eventAction);
+        $("#EventValue").val(eventValue);
+    });
 
     $("#btnLookupFamily").click(function () {
-        var familyName = $("#txtLookupFamilyName").val();
-        var isAcceptedName = "";
-
-        if ($("#cbxLookupFamilyAcceptedNames").prop("checked") == true) {
-            isAcceptedName = "Y";
-        }
-
-        var actionUrl = '@Url.Action("Lookup","Family")';
-        SearchFamily(actionUrl, familyName, isAcceptedName, "Y");
+        SearchFamily();
     });
 
     $("#btnSaveFamily").click(function () {
+        // Check EventAction to determine the field(s) to update.
+        var idField = "Entity_" + $("#EventAction").val();
+        var nameField = "Entity_" + $("#EventValue").val();
         var idList = GetSelectedEntityIDs("data-table-family-lookup");
         var nameList = GetSelectedEntityLabels("data-table-family-lookup");
 
-        $("#Entity_FamilyID").val(idList);
-        $("#Entity_FamilyName").val(nameList);
+        $("#" + idField).val(idList);
+        $("#" + nameField).val(nameList);
         $('#modal-family-lookup').modal('hide');
     });
 
-    function SearchFamily(actionUrl, familyName, isAcceptedName, isSingleSelect) {
+    function SearchFamily() {
+        var link = '@Url.Action("Lookup", "Family")';
+        var genusName = $("#txtLookupFamilyName").val();
         var formData = new FormData();
-        formData.append("LookupFamilyName", familyName);
-        formData.append("IsAcceptedName", isAcceptedName);
-        formData.append("IsSingleSelect", isSingleSelect);
 
+        formData.append("FamilyName", genusName);
+        if ($("#cbxLookupIsAcceptedName").is(":checked")) {
+            formData.append("IsAcceptedName", "Y");
+        }
         $.ajax({
-            url: actionUrl,
+            url: link,
             type: 'POST',
             cache: false,
             contentType: false,
@@ -76,29 +80,26 @@
             data: formData,
             success: function (response) {
                 $("#section-family-lookup-search-results").html(response);
+            },
+            error: function () {
+                alert("Error");
             }
         });
     }
 
     function SelectFamily(ID, familyName) {
+        var eventAction = "";
+        var eventValue = "";
+
         $('#modal-family-lookup').modal('hide');
 
-        if ($('#hfCurrentValue').val() == "AcceptedName") {
-            $('#Entity_AcceptedID').val(ID);
-            $('#Entity_AcceptedName').val(familyName);
+        eventValue = $("#hfModalEventValue").val();
+        if (eventValue == 'SPECIES') {
+            $("#Entity_FamilyName").val(familyName);
         }
         else {
-            $('#Entity_FamilyID').val(ID);
-            $('#Entity_FamilyName').val(familyName);
+            $("#Entity_AcceptedID").val(ID);
+            $("#Entity_AcceptedName").val(familyName);
         }
-        //$("#frmEdit").submit();
     }
-
-    $("#btnOpenFamilyLookupModal").click(function () {
-        $("#lblFamilyLookupTitle").html("Family Search");
-        $('#hfCurrentAction').val($(this).data("ggtools-action"));
-        $('#hfCurrentValue').val($(this).data("ggtools-value"));
-        $('#modal-family-lookup').modal('show');
-    });
-
 </script>

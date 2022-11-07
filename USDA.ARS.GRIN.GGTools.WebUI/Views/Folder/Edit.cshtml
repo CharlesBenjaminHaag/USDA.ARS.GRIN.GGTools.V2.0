@@ -132,7 +132,7 @@
         </div>
     </div>
 </div>
-@{ Html.RenderAction("FolderItems", Model.Entity.FolderTypeDescription, new { @folderId = Model.Entity.ID });}
+@{ Html.RenderAction("_ItemList", "Folder", new { @folderId = Model.Entity.ID });}
 <script type="text/javascript">
     $(document).ready(function () {
         Init();

@@ -68,16 +68,16 @@
                             @Html.TextBoxFor(x => x.Entity.AcceptedName, new { @class = "form-control" })
                             @Html.HiddenFor(x => x.Entity.AcceptedID)
 
-                            @if (Model.Entity.ID > 0)
+                            @*@if (Model.Entity.ID > 0)
                             {
                                 <span class="input-group-btn">
                                     <a href="@Url.Action("Edit", "Genus", new { @entityId = Model.Entity.AcceptedID })" class="btn btn-default btn-flat">
                                         <i class="fa fa-link"></i>
                                     </a>
                                 </span>
-                            }
+                            }*@
                             <span class="input-group-btn">
-                                <button type="button" class="btn btn-default btn-flat" data-toggle="modal" data-target="#modal-genus-lookup">
+                                <button  id="btnGenusNameLookup" type="button" class="btn btn-default btn-flat"  data-ggtools-action="AcceptedID" data-ggtools-value="AcceptedName" data-toggle="modal" data-target="#modal-genus-lookup">
                                     <i class="fa fa-search"></i>
                                 </button>
                             </span>
@@ -162,7 +162,6 @@
     </div>
 }
 
-
 @if (Model.Entity.ID > 0)
 {
     <div class="card">
@@ -199,6 +198,7 @@
 @{Html.RenderAction("RenderLookupModal", "Citation", new { tableName = Model.TableName, entityId = Model.Entity.ID }); }
 @Html.Partial("~/Views/Taxonomy/Author/Modals/_Lookup.cshtml")
 @Html.Partial("~/Views/Taxonomy/Family/Modals/_Lookup.cshtml")
+@Html.Partial("~/Views/Taxonomy/Genus/Modals/_Lookup.cshtml")
 @Html.Partial("~/Views/Shared/Modals/_NoteLookup2.cshtml")
 @Html.Partial("~/Views/Taxonomy/Shared/Modals/_Delete.cshtml")
 
@@ -226,6 +226,7 @@
         var link = "";
         var entityId = $("#Entity_ID").val();
         var genusId = $("#Entity_GenusID").val();
+        var genusName = $("#Entity_Name").val();
         var formData = new FormData();
         var sectionData = sectionId.replace("tab_selector", "tab_content");
 
@@ -235,14 +236,14 @@
                 link = '@Url.Action("_List","Citation")';
                 break;
             case "tab_selector_species":
-                link = '@Url.Action("_ListSpecies","Genus")';
+                link = '@Url.Action("_List","Species")';
                 break;
             case "tab_selector_synonyms":
                 link = '@Url.Action("_ListSynonyms", "Genus")';
                 break;
             case "tab_selector_subdivisions":
-                link = '@Url.Action("_ListSubdivisions", "Genus", new { familyId = "GENUS_ID" })';
-                link = link.replace("GENUS_ID", genusId);
+                link = '@Url.Action("_ListSubdivisions", "Genus", new { genusName = "GENUS_NAME" })';
+                link = link.replace("GENUS_NAME", genusName);
                 break;
             default:
                 // code block

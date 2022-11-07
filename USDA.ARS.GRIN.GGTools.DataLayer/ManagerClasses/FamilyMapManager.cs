@@ -64,7 +64,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         {
             Reset(CommandType.StoredProcedure);
             Validate<FamilyMap>(entity);
-            SQL = "usp_GGTools_Taxon_Family_Insert";
+            SQL = "usp_GRINGlobal_Taxonomy_Family_Map_Insert";
 
             BuildInsertUpdateParameters(entity);
 
@@ -86,7 +86,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         {
             Reset(CommandType.StoredProcedure);
             Validate<FamilyMap>(entity);
-            SQL = "usp_GGTools_Taxon_Subfamily_Insert";
+            SQL = "usp_GRINGlobal_Taxonomy_Subfamily_Insert";
 
             BuildSubfamilyInsertUpdateParameters(entity);
 
@@ -108,7 +108,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         {
             Reset(CommandType.StoredProcedure);
             Validate<FamilyMap>(entity);
-            SQL = "usp_GGTools_Taxon_Tribe_Insert";
+            SQL = "usp_GRINGlobal_Taxonomy_Tribe_Insert";
 
             BuildTribeInsertUpdateParameters(entity);
 
@@ -131,7 +131,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         {
             Reset(CommandType.StoredProcedure);
             Validate<FamilyMap>(entity);
-            SQL = "usp_GGTools_Taxon_Subtribe_Insert";
+            SQL = "usp_GRINGlobal_Taxonomy_Subtribe_Insert";
 
             BuildSubtribeInsertUpdateParameters(entity);
 
@@ -154,11 +154,11 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         {
             List<FamilyMap> results = new List<FamilyMap>();
 
-            SQL = "SELECT *, LTRIM(RTRIM(COALESCE(FamilyName, ''))) + " +
+            SQL = "SELECT *, AcceptedID, AcceptedName, LTRIM(RTRIM(COALESCE(FamilyName, ''))) + " +
             " CASE COALESCE(convert(nvarchar, SubfamilyName), '') WHEN '' THEN '' ELSE '' + ' subfam. ' + LTRIM(RTRIM(SubfamilyName)) END " +
             " + CASE COALESCE(convert(nvarchar, TribeName), '') WHEN '' THEN '' ELSE '' + ' tr. ' + LTRIM(RTRIM(TribeName)) END " +
             " + CASE COALESCE(convert(nvarchar, SubtribeName), '') WHEN '' THEN '' ELSE '' + ' subtr. ' + LTRIM(RTRIM(SubtribeName)) END " +
-            " AS AssembledName FROM vw_GGTools_Taxon_FamilyMaps";
+            " AS AssembledName FROM vw_GRINGlobal_Taxonomy_Family_Map";
             SQL += " WHERE (@ID                         IS NULL OR ID = @ID) ";
             SQL += " AND  (@CreatedByCooperatorID       IS NULL OR CreatedByCooperatorID        =           @CreatedByCooperatorID)";
             SQL += " AND  (@OrderID                     IS NULL OR OrderID                      =           @OrderID)";
@@ -212,8 +212,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         {
             List<FamilyMap> results = new List<FamilyMap>();
 
-            SQL = " SELECT vgtcn.* FROM vw_GGTools_Taxon_FamilyMaps vgtcn JOIN vw_GGTools_GRINGlobal_AppUserItemLists vgga " +
-                   " ON vgtcn.ID = vgga.EntityID WHERE vgga.TableName = 'taxonomy_family_map' ";
+            SQL = " SELECT * FROM v";
             SQL += "AND  (@FolderID                          IS NULL OR  FolderID       =           @FolderID)";
 
             var parameters = new List<IDbDataParameter> {
@@ -227,7 +226,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         {
             Reset(CommandType.StoredProcedure);
             Validate<FamilyMap>(entity);
-            SQL = "usp_GGTools_Taxon_Family_Update";
+            SQL = "usp_GRINGlobal_Taxonomy_Family_Map_Update";
 
             BuildInsertUpdateParameters(entity);
 
@@ -247,7 +246,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         {
             Reset(CommandType.StoredProcedure);
             Validate<FamilyMap>(entity);
-            SQL = "usp_GGTools_Taxon_Subfamily_Update";
+            SQL = "usp_GRINGlobal_Taxonomy_Subfamily_Update";
 
             BuildSubfamilyInsertUpdateParameters(entity);
 
@@ -266,7 +265,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         {
             Reset(CommandType.StoredProcedure);
             Validate<FamilyMap>(entity);
-            SQL = "usp_GGTools_Taxon_Tribe_Update";
+            SQL = "usp_GRINGlobal_Taxonomy_Tribe_Update";
 
             BuildTribeInsertUpdateParameters(entity);
 
@@ -283,7 +282,22 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         }
         public int UpdateSubtribe(FamilyMap entity)
         {
-            throw new NotImplementedException();
+            Reset(CommandType.StoredProcedure);
+            Validate<FamilyMap>(entity);
+            SQL = "usp_GRINGlobal_Taxonomy_Subtribe_Update";
+
+            BuildSubtribeInsertUpdateParameters(entity);
+
+            AddParameter("@out_error_number", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
+
+            RowsAffected = ExecuteNonQuery();
+
+            int errorNumber = GetParameterValue<int>("@out_error_number", -1);
+
+            if (errorNumber > 0)
+                throw new Exception(errorNumber.ToString());
+
+            return entity.ID;
         }
       
         public void BuildInsertUpdateParameters(FamilyMap entity)

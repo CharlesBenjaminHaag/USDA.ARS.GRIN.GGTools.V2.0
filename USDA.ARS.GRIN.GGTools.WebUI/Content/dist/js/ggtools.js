@@ -365,6 +365,10 @@ function SetControlVisibility() {
 
 function ToggleAcceptedNameControls(status) {
     if (status == true) {
+        // Reset accepted data fields.
+        $("#Entity_AcceptedID").val(0);
+        $("#Entity_AcceptedName").val("");
+
         $("#Entity_IsAcceptedName").val("Y");
         $("#btnSetAcceptedOn").hide();
         $("#btnSetAcceptedOff").show();

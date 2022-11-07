@@ -249,6 +249,24 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
             return RowsAffected;
         }
 
+        public void SetVerificationStatus(string statusCode) 
+        {
+            Entity = Get(Entity.ID);
+            switch (statusCode)
+            {
+                case "Y":
+                    Entity.VerifiedByCooperatorID = Entity.CreatedByCooperatorID;
+                    Entity.NameVerifiedDate = DateTime.Now;
+                    break;
+                case "N":
+                    Entity.VerifiedByCooperatorID = 0;
+                    Entity.NameVerifiedDate = DateTime.MinValue;
+                    break;
+            }
+            Update();
+            Get(Entity.ID);
+        }
+
         public int UpdateVerification()
         {
             using (SpeciesManager mgr = new SpeciesManager())

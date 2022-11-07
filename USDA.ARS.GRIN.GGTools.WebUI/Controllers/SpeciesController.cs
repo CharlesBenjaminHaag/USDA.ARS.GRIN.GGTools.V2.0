@@ -38,12 +38,12 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             }
         }
 
-        public PartialViewResult _List(int entityId = 0)
+        public PartialViewResult _List(int entityId = 0, int genusId = 0)
         {
             SpeciesViewModel viewModel = new SpeciesViewModel();
             try
             {
-                viewModel.SearchEntity = new SpeciesSearch { GenusID = entityId };
+                viewModel.SearchEntity = new SpeciesSearch { GenusID = genusId };
                 viewModel.Search();
                 return PartialView(BASE_PATH + "_List.cshtml", viewModel);
             }
@@ -272,6 +272,31 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             catch (Exception ex)
             {
                 return Json(new { errorMessage = ex.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public PartialViewResult SetVerificationStatus(FormCollection formCollection)
+        {
+            try
+            {
+                SpeciesViewModel viewModel = new SpeciesViewModel();
+                viewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
+
+                if (!String.IsNullOrEmpty(formCollection["EntityID"]))
+                {
+                    viewModel.Entity.ID = Int32.Parse(formCollection["EntityID"]);
+                }
+
+                if (!String.IsNullOrEmpty(formCollection["StatusCode"]))
+                {
+                    viewModel.SetVerificationStatus(formCollection["StatusCode"]);
+                }
+                return PartialView("~/Views/Taxonomy/Species/_Verification.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
             }
         }
     }

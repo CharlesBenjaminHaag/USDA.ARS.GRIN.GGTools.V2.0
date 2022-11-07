@@ -63,15 +63,21 @@
                 <div id="section-accepted-name" class="col-md-3 accepted">
                     <div class="form-group">
                         <label>Accepted Name</label>
-
-                        <!-- TODO -->
-
+                        <div class="input-group">
+                            @Html.TextBoxFor(x => x.Entity.AcceptedName, new { @class = "form-control" })
+                            @Html.HiddenFor(x => x.Entity.AcceptedID)
+                            <span class="input-group-btn">
+                                <button id="btnFamilyNameLookup" type="button" class="btn btn-default btn-flat" data-ggtools-action="AcceptedID" data-ggtools-value="AcceptedName" data-toggle="modal" data-target="#modal-family-lookup">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </span>
+                        </div>
                     </div>
                 </div>
             </div>
             <div class="row">
                 <!-- If the record being edited is infrafamilial, show the family selector; otherwise, use the family name
-    edit field. -->
+                edit field. -->
                 @if (Model.Entity.FamilyRank.ToUpper() == "FAMILY")
                 {
                     <div class="col-md-3">
