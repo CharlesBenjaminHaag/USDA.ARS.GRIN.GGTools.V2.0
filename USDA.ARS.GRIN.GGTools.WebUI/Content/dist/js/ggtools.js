@@ -54,6 +54,27 @@ function InitDataTableLight(tableName) {
     });
 }
 
+function InitDataTableByClass() {
+    $(document).ready(function () {
+        table = $("table.ggtools").DataTable({
+            paging: false,
+            responsive: true,
+            select: {
+                style: 'single'
+            },
+            searching: false,
+            columnDefs: [
+                { targets: [0], visible: false }
+            ]
+        });
+
+        $('#example tbody').on('click', 'tr', function () {
+            var data = table.row(this).data();
+            alert('You clicked on ' + data[0] + "'s row");
+        });
+    });
+}
+
 //function InitDataTableMinimal(tableName) {
 //    $(document).ready(function () {
 //        var table = $("#" + tableName).DataTable({

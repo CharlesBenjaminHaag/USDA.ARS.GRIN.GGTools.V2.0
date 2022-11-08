@@ -1,0 +1,221 @@
+﻿@model USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer.SpeciesViewModel
+
+@using (Html.BeginForm("Edit", "Species", FormMethod.Post, new { id = "frmEdit" }))
+{
+    @Html.HiddenFor(x => x.EventAction)
+    @Html.HiddenFor(x => x.EventValue)
+    @Html.HiddenFor(x => x.TableName)
+    @Html.HiddenFor(x => x.TableCode)
+    @Html.HiddenFor(x => x.Entity.ID)
+    @Html.HiddenFor(x => x.Entity.Rank)
+    @Html.HiddenFor(x => x.Entity.IsAcceptedName)
+    @Html.HiddenFor(x => x.Entity.CreatedByCooperatorID)
+    @Html.HiddenFor(x => x.Entity.CreatedByCooperatorName)
+    @Html.HiddenFor(x => x.Entity.ModifiedByCooperatorID)
+    @Html.HiddenFor(x => x.Entity.ModifiedByCooperatorName)
+    @Html.HiddenFor(x => x.Entity.InfraspecificType)
+    @Html.HiddenFor(x => x.Entity.IsVarietalHybrid)
+    @Html.HiddenFor(x => x.Entity.IsSubVarietalHybrid)
+    @Html.HiddenFor(x => x.Entity.IsSubspecificHybrid)
+    @Html.HiddenFor(x => x.Entity.IsFormaHybrid)
+    @Html.HiddenFor(x => x.Entity.VerifiedByCooperatorID)
+    @Html.HiddenFor(x => x.Entity.VerifiedByCooperatorName)
+    @Html.HiddenFor(x => x.Entity.NameVerifiedDate)
+    <div class="row accepted">
+        <div id="section-accepted-name" class="col-md-3 accepted">
+            <div class="form-group">
+                <label>Accepted Name</label>
+                <div class="input-group">
+                    @Html.TextBoxFor(x => x.Entity.AcceptedName, new { @class = "form-control" })
+                    @Html.HiddenFor(x => x.Entity.AcceptedID)
+                    <span class="input-group-btn">
+                        <button id="btnSpeciesNameLookup" type="button" data-toggle="modal" data-ggtools-action="AcceptedID" data-ggtools-value="AcceptedName" data-target="#modal-species-lookup" class="btn btn-default btn-flat">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div id="section-synonym-code" class="col-md-2 accepted">
+            <div class="form-group">
+                <label>Synonym Code</label>
+                @Html.DropDownListFor(x => x.Entity.SynonymCode, Model.SynonymCodes, "Select value", new { @class = "form-control" })
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3">
+            <div class="form-group">
+                <label>Genus</label>
+                <div class="input-group">
+                    @Html.TextBoxFor(x => x.Entity.GenusName, new { @class = "form-control", @readonly = "readonly", @style = "background-color:#f4f6f9;" })
+                    @Html.HiddenFor(x => x.Entity.GenusID)
+                    @*@if (Model.Entity.GenusID > 0)
+                        {
+                            <span class="input-group-btn">
+                                <a href="@Url.Action("Edit", "Genus", new { @entityId =Entity.GenusID })" class="btn btn-default btn-flat">
+                                    <i class="fa fa-link"></i>
+                                </a>
+                            </span>
+                        }*@
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default btn-flat" data-toggle="modal" data-target="#modal-genus-lookup">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div id="section-infraspecific-species" class="col-md-3 infra">
+            @switch (Model.Entity.Rank)
+            {
+                case "subspecies":
+                    <div class="form-group">
+                        <label>Subspecies Name</label>
+                        @Html.TextBoxFor(x => x.Entity.SubspeciesName, new { @class = "form-control" })
+                    </div>
+                    break;
+                case "variety":
+                    <div class="form-group">
+                        <label>Variety Name</label>
+                        @Html.TextBoxFor(x => x.Entity.VarietyName, new { @class = "form-control" })
+                    </div>
+                    break;
+                case "subvariety":
+                    <div class="form-group">
+                        <label>Subvariety Name</label>
+                        @Html.TextBoxFor(x => x.Entity.SubvarietyName, new { @class = "form-control" })
+                    </div>
+                    break;
+                case "forma":
+                    <div class="form-group">
+                        <label>Forma Name</label>
+                        @Html.TextBoxFor(x => x.Entity.FormaName, new { @class = "form-control" })
+                    </div>
+                    break;
+                default:
+                    <div class="form-group">
+                        <label>Epithet</label>
+                        @Html.TextBoxFor(x => x.Entity.SpeciesName, new { @class = "form-control" })
+                    </div>
+                    break;
+            }
+        </div>
+        <div id="section-infraspecific-species-authority" class="col-md-3 infra">
+            @switch (Model.EventValue)
+            {
+                case "subspecies":
+                    <div class="form-group">
+                        <label>Subspecies Authority</label>
+                        <div class="input-group">
+                            @Html.TextBoxFor(x => x.Entity.SubspeciesAuthority, new { @class = "form-control" })
+                            <span class="input-group-btn">
+                                <button type="button" data-toggle="modal" data-target="#modal-author-lookup" class="btn btn-default btn-flat">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </span>
+                        </div>
+                    </div>
+                    break;
+                case "variety":
+                    <div class="form-group">
+                        <label>Variety Authority</label>
+                        <div class="input-group">
+                            @Html.TextBoxFor(x => x.Entity.VarietyAuthority, new { @class = "form-control" })
+                            <span class="input-group-btn">
+                                <button type="button" data-toggle="modal" data-target="#modal-author-lookup" class="btn btn-default btn-flat">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </span>
+                        </div>
+                    </div>
+                    break;
+                case "subvariety":
+                    <div class="form-group">
+                        <label>Subvariety Authority</label>
+                        <div class="input-group">
+                            @Html.TextBoxFor(x => x.Entity.SubvarietyAuthority, new { @class = "form-control" })
+                            <span class="input-group-btn">
+                                <button type="button" data-toggle="modal" data-target="#modal-author-lookup" class="btn btn-default btn-flat">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </span>
+                        </div>
+                    </div>
+                    break;
+                case "forma":
+                    <div class="form-group">
+                        <label>Forma Name</label>
+                        @Html.TextBoxFor(x => x.Entity.FormaName, new { @class = "form-control" })
+                    </div>
+                    break;
+                default:
+                    <div class="form-group">
+                        <label>Authority</label>
+                        <div class="input-group">
+                            @Html.TextBoxFor(x => x.Entity.SpeciesAuthority, new { @class = "form-control" })
+                            <span class="input-group-btn">
+                                <button type="button" data-toggle="modal" data-target="#modal-author-lookup" class="btn btn-default btn-flat">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </span>
+                        </div>
+                    </div>
+                    break;
+            }
+        </div>
+        <div class="col-md-3">
+            <label>Protologue</label>
+            <div class="input-group">
+                @Html.TextBoxFor(x => x.Entity.Protologue, new { @class = "form-control" })
+                <span class="input-group-btn">
+                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#modal-protologue-lookup">
+                        <i class="fa fa-search"></i>
+                    </button>
+                </span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3">
+            <div class="form-group">
+                <label>Protologue Virtual Path</label>
+                @Html.TextBoxFor(x => x.Entity.ProtologueVirtualPath, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label>Hybrid Parentage</label>
+                @Html.TextBoxFor(x => x.Entity.HybridParentage, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="col-md-1">
+            <div class="form-group clearfix" style="margin-top:40px;">
+                <div class="icheck-primary d-inline">
+                    @Html.CheckBoxFor(x => x.Entity.IsSpecificHybridOption)
+                    <label for="Entity_IsSpecificHybridOption">
+                        Hybrid
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group clearfix" style="margin-top:40px;">
+                <div class="icheck-primary d-inline">
+                    @Html.CheckBoxFor(x => x.Entity.IsWebVisibleOption)
+                    <label for="Entity_IsWebVisibleOption">
+                        Web Visible
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <label>Note</label>
+            @Html.TextAreaFor(x => x.Entity.Note, new { @class = "form-control" })
+        </div>
+    </div>
+}
+
+

@@ -71,6 +71,12 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             {
                 viewModel.SearchEntity.SpeciesID = Int32.Parse(formCollection["SpeciesID"]);
             }
+
+            if (!String.IsNullOrEmpty(formCollection["FormatCode"]))
+            {
+                viewModel.EventValue = formCollection["FormatCode"];
+            }
+
             viewModel.Search();
             return PartialView(BASE_PATH + "_List.cshtml", viewModel);
         }

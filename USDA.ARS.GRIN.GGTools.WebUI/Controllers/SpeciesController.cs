@@ -50,14 +50,23 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             }
         }
 
-        public PartialViewResult _List(int entityId = 0, int genusId = 0)
+        public PartialViewResult _List(int entityId = 0, int genusId = 0, string formatCode = "")
         {
             SpeciesViewModel viewModel = new SpeciesViewModel();
             try
             {
                 viewModel.SearchEntity = new SpeciesSearch { GenusID = genusId };
                 viewModel.Search();
-                return PartialView(BASE_PATH + "_List.cshtml", viewModel);
+                viewModel.Entity.GenusID = genusId;
+
+                if (formatCode == "S")
+                {
+                    return PartialView("~/Views/Taxonomy/Species/Modals/_SelectListSimple.cshtml", viewModel);
+                }
+                else
+                {
+                    return PartialView(BASE_PATH + "_List.cshtml", viewModel);
+                }
             }
             catch (Exception ex)
             {
@@ -173,6 +182,52 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             {
                 Log.Error(ex);
                 return RedirectToAction("InternalServerError", "Error");
+            }
+        }
+
+        public PartialViewResult _Add(int genusId)
+        {
+            try
+            {
+                SpeciesViewModel viewModel = new SpeciesViewModel();
+                viewModel.TableName = "taxonomy_species";
+                viewModel.Entity.IsAcceptedName = "Y";
+                viewModel.Entity.Rank = "SPECIES";
+
+                if (genusId > 0)
+                {
+                    GenusViewModel topRankGenusViewModel = new GenusViewModel();
+                    topRankGenusViewModel.SearchEntity.ID = genusId;
+                    topRankGenusViewModel.Search();
+                    viewModel.Entity.GenusID = topRankGenusViewModel.Entity.ID;
+                    viewModel.Entity.GenusName = topRankGenusViewModel.Entity.Name;
+                }
+                return PartialView("~/Views/Taxonomy/Species/_Edit.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
+        }
+
+        public PartialViewResult _Edit(int entityId)
+        {
+            try
+            {
+                SpeciesViewModel viewModel = new SpeciesViewModel();
+                viewModel.TableName = "taxonomy_species";
+                viewModel.TableCode = "Species";
+                viewModel.Get(entityId);
+                viewModel.PageTitle = String.Format("Edit [{0}]: {1}", viewModel.Entity.ID, viewModel.Entity.FullName);
+                viewModel.EventValue = viewModel.Entity.Rank.ToLower();
+                viewModel.ID = entityId;
+                return PartialView("~/Views/Taxonomy/Species/_Edit.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
             }
         }
 

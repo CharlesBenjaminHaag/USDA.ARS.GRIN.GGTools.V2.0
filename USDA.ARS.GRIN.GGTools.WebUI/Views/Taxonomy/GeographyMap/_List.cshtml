@@ -1,7 +1,10 @@
 ﻿@model USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer.GeographyMapViewModel
 <div class="card card-default">
     <div class="card-header">
-        <h3 class="card-title">Distribution (@Model.DataCollection.Count)</h3>
+        <h3 class="card-title">
+            Distribution (@Model.DataCollection.Count)
+            <button id="btnAddDistribution" type="button" class="btn btn-default btn-sm" style="margin-left:5px;">Add</button>
+        </h3>
         <div class="card-tools">
             <button type="button" class="btn btn-tool" data-card-widget="collapse">
                 <i class="fas fa-minus"></i>
