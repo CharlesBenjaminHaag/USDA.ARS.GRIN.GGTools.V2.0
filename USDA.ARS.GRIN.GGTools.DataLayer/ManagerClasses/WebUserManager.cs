@@ -7,17 +7,18 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
 {
     public partial class WebUserManager : AppDataManagerBase
     {
-        public WebUser Get(string userName)
+        public WebUser Get(int entityId, string environment = "")
         {
-            WebUser sysUser = new WebUser();
-            SQL = "usp_GGTools_WebUser_Select";
+            WebUser webUser = new WebUser();
+
+            SQL = "usp_GRINGlobal_Web_User_Select";
 
             var parameters = new List<IDbDataParameter> {
-                CreateParameter("user_name", (object)userName, false)
+                CreateParameter("web_user_id", (object)entityId, false)
             };
-            sysUser = GetRecord<WebUser>(SQL, CommandType.StoredProcedure, parameters.ToArray());
+            webUser = GetRecord<WebUser>(SQL, CommandType.StoredProcedure, parameters.ToArray());
             parameters.Clear();
-            return sysUser;
+            return webUser;
         }
 
         public virtual List<WebUser> Search(WebUserSearch searchEntity)

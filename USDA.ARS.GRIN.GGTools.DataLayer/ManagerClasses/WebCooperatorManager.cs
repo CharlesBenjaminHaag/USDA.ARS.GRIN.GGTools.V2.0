@@ -21,11 +21,20 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             throw new NotImplementedException();
         }
 
-        public WebCooperator Get(int entityId)
+        public WebCooperator Get(int entityId, string environment)
         {
+            List<WebCooperator> webCooperators = new List<WebCooperator>();
+            WebCooperator webCooperator = new WebCooperator();
+
             WebCooperatorSearch webCooperatorSearch = new WebCooperatorSearch();
+            webCooperatorSearch.Environment = environment;
             webCooperatorSearch.ID = entityId;
-            return Search(webCooperatorSearch)[0];
+            webCooperators = Search(webCooperatorSearch);
+            if (webCooperators.Count == 1)
+            {
+                webCooperator = webCooperators[0];
+            }
+            return webCooperator;
         }
 
         public int Insert(WebCooperator entity)
@@ -38,6 +47,17 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             List<WebCooperator> results = new List<WebCooperator>();
 
             SQL = " SELECT * FROM vw_GGTools_GRINGlobal_WebCooperators ";
+
+            if (!String.IsNullOrEmpty(searchEntity.Environment) & (searchEntity.Environment == "TRNG"))
+            {
+                SQL = " SELECT * FROM gringlobal.dbo.vw_GGTools_GRINGlobal_WebCooperators";
+            }
+            else
+            {
+                SQL = " SELECT * FROM vw_GGTools_GRINGlobal_WebCooperators";
+
+            }
+
             SQL += " WHERE (@FirstName      IS NULL     OR      FirstName          LIKE        '%' + @FirstName + '%')";
             SQL += " AND (@LastName         IS NULL     OR      LastName           LIKE        '%' + @LastName + '%')";
             SQL += " AND (@Organization     IS NULL     OR      Organization       LIKE        '%' + @Organization + '%')";
@@ -77,6 +97,11 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             };
             List<CodeValue> codeValues = GetRecords<CodeValue>(SQL, CommandType.StoredProcedure, parameters.ToArray());
             return codeValues;
+        }
+
+        public WebCooperator Get(int entityId)
+        {
+            throw new NotImplementedException();
         }
     }
 }

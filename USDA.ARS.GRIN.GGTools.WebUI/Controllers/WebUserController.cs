@@ -8,50 +8,64 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
 {
     public class WebUserController : Controller
     {
-        
-            [HttpPost]
-            public PartialViewResult Add(FormCollection formCollection)
+        private static readonly Logger Log = LogManager.GetCurrentClassLogger();
+
+        [HttpPost]
+        public PartialViewResult Add(FormCollection formCollection)
+        {
+            //SysUserViewModel viewModel = new SysUserViewModel();
+
+            //viewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
+            //if (!String.IsNullOrEmpty(formCollection["CooperatorID"]))
+            //{
+            //    viewModel.Entity.CooperatorID = Int32.Parse(formCollection["CooperatorID"]);
+            //}
+
+            //if (!String.IsNullOrEmpty(formCollection["SysUserName"]))
+            //{
+            //    viewModel.Entity.UserName = formCollection["SysUserName"];
+            //}
+
+            //if (!String.IsNullOrEmpty(formCollection["SysUserPassword"]))
+            //{
+            //    viewModel.Entity.Password = formCollection["SysUserPassword"];
+            //    viewModel.Entity.SysUserPlainTextPassword = viewModel.Entity.Password;
+            //}
+            //viewModel.Insert();
+
+            //// Retrieve new account
+            SysUserViewModel confirmationViewModel = new SysUserViewModel();
+            //confirmationViewModel.SearchEntity.ID = viewModel.Entity.ID;
+            //confirmationViewModel.Search();
+            //confirmationViewModel.Entity.SysUserPlainTextPassword = viewModel.Entity.SysUserPlainTextPassword;
+            //confirmationViewModel.SendNotification("N");
+            return PartialView("~/Views/SysUser/_Widget.cshtml", confirmationViewModel);
+        }
+
+        public ActionResult Delete(int entityId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public ActionResult Edit(int entityId)
+        {
+        throw new NotImplementedException();
+        }
+        public PartialViewResult _Edit(int entityId, string environment = "")
+        {
+            try
             {
-                //SysUserViewModel viewModel = new SysUserViewModel();
-
-                //viewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
-                //if (!String.IsNullOrEmpty(formCollection["CooperatorID"]))
-                //{
-                //    viewModel.Entity.CooperatorID = Int32.Parse(formCollection["CooperatorID"]);
-                //}
-
-                //if (!String.IsNullOrEmpty(formCollection["SysUserName"]))
-                //{
-                //    viewModel.Entity.UserName = formCollection["SysUserName"];
-                //}
-
-                //if (!String.IsNullOrEmpty(formCollection["SysUserPassword"]))
-                //{
-                //    viewModel.Entity.Password = formCollection["SysUserPassword"];
-                //    viewModel.Entity.SysUserPlainTextPassword = viewModel.Entity.Password;
-                //}
-                //viewModel.Insert();
-
-                //// Retrieve new account
-                SysUserViewModel confirmationViewModel = new SysUserViewModel();
-                //confirmationViewModel.SearchEntity.ID = viewModel.Entity.ID;
-                //confirmationViewModel.Search();
-                //confirmationViewModel.Entity.SysUserPlainTextPassword = viewModel.Entity.SysUserPlainTextPassword;
-                //confirmationViewModel.SendNotification("N");
-                return PartialView("~/Views/SysUser/_Widget.cshtml", confirmationViewModel);
+                WebUserViewModel viewModel = new WebUserViewModel();
+                viewModel.Get(entityId, environment);
+                return PartialView(viewModel);
             }
-
-            public ActionResult Delete(int entityId)
+            catch (Exception ex)
             {
-                throw new NotImplementedException();
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
             }
-
-            public ActionResult Edit(int entityId)
-            {
-                throw new NotImplementedException();
-            }
-
-            [HttpPost]
+        }
+        [HttpPost]
             public PartialViewResult ResetPassword(FormCollection formCollection)
             {
                 //SysUserViewModel viewModel = new SysUserViewModel();

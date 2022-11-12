@@ -32,6 +32,20 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             throw new NotImplementedException();
         }
 
+        public PartialViewResult _Edit(int entityId, string environment = "")
+        {
+            try
+            {
+                WebCooperatorViewModel viewModel = new WebCooperatorViewModel();
+                viewModel.Get(entityId, environment);
+                return PartialView(viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
+        }
         public ActionResult Edit(int entityId)
         {
             try

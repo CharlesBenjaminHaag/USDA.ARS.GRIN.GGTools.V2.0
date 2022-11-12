@@ -639,6 +639,11 @@
     <Content Include="Views\Demo\Explorer.cshtml" />
     <Content Include="Views\Taxonomy\Species\Modals\_SelectListSimple.cshtml" />
     <Content Include="Views\Taxonomy\Species\_Edit.cshtml" />
+    <Content Include="Views\Cooperator\View.cshtml" />
+    <Content Include="Views\Cooperator\_Edit.cshtml" />
+    <Content Include="Views\SysUser\_Edit.cshtml" />
+    <Content Include="Views\WebUser\_Edit.cshtml" />
+    <Content Include="Views\WebCooperator\_Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

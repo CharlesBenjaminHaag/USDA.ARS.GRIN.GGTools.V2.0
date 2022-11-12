@@ -17,11 +17,11 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
             throw new NotImplementedException();
         }
 
-        public WebCooperator Get(int entityId)
+        public WebCooperator Get(int entityId, string environment = "")
         {
             using (WebCooperatorManager mgr = new WebCooperatorManager())
             {
-                Entity = mgr.Get(entityId);
+                Entity = mgr.Get(entityId, environment);
             }
             return Entity;
         }
@@ -59,6 +59,11 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
         }
 
         public List<WebCooperator> SearchNotes(string searchText)
+        {
+            throw new NotImplementedException();
+        }
+
+        public WebCooperator Get(int entityId)
         {
             throw new NotImplementedException();
         }

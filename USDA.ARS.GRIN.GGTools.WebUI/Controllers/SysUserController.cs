@@ -68,6 +68,21 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             }
         }
 
+        public PartialViewResult _Edit(int entityId, string environment = "")
+        {
+            try 
+            { 
+                SysUserViewModel viewModel = new SysUserViewModel();
+                viewModel.Get(entityId);
+                return PartialView("~/Views/SysUser/_Edit.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
+        }
+
         [HttpPost]
         public PartialViewResult ResetPassword(FormCollection formCollection)
         {

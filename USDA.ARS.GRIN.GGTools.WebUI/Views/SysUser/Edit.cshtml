@@ -4,22 +4,6 @@
     Layout = "~/Views/Shared/_LayoutAdminLTE3.cshtml";
 }
 
-@*<div class="row">
-    <div class="col-md-3">
-        @{ Html.RenderAction("_SelectList", "SysGroupUserMap", new { @sysUserId = Model.Entity.ID }); }
-    </div>
-    <div class="col-md-9">
-        <div class="card card-default">
-            <div class="card-header">
-                <h3 class="card-title"> All Users Permissions</h3>
-            </div>
-            <div class="card-body">
-                <h3>PERMISSIONS</h3>
-            </div>
-        </div>
-    </div>
-</div>*@
-
 @using (Html.BeginForm("Edit", "SysUser", FormMethod.Post, new { id = "frmEdit" }))
 {
     @Html.HiddenFor(x => x.PageTitle)

@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Web.Mvc;
 using USDA.ARS.GRIN.GGTools.ViewModelLayer;
+using NLog;
 
 namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
 {
     public class LoginController : Controller
     {
+        private static readonly Logger Log = LogManager.GetCurrentClassLogger();
         /// <summary>
         /// Display the login window.
         /// </summary>
@@ -96,32 +98,40 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult RequestPasswordReset(SysUserViewModel viewModel)
         {
-            if (!viewModel.IsAlphaNumeric(viewModel.Entity.UserName))
+            try
             {
-                viewModel.UserMessage = String.Format("User name invalid.");
-                ModelState.Clear();
-                return View(viewModel);
-            }
+                viewModel.SearchEntity.UserName = viewModel.Entity.UserName;
+                if (String.IsNullOrEmpty(viewModel.SearchEntity.UserName))
+                {
+                    viewModel.UserMessage = String.Format("Please enter your GRIN-Global user name.");
+                    ModelState.Clear();
+                    return View(viewModel);
+                }
 
-            viewModel.SearchEntity.UserName = viewModel.Entity.UserName;
-            if (String.IsNullOrEmpty(viewModel.SearchEntity.UserName))
+                if (!viewModel.IsAlphaNumeric(viewModel.Entity.UserName))
+                {
+                    viewModel.UserMessage = String.Format("User name invalid.");
+                    ModelState.Clear();
+                    return View(viewModel);
+                }
+
+                viewModel.Search();
+
+                if (viewModel.Entity.ID == 0)
+                {
+                    viewModel.UserMessage = String.Format("The user <strong>{0}</strong> could not be found. Please verify that: <ul><li>You have an active GRIN-Global account.</li><li>You have entered your username exactly as you do when logging into the Curator Tool.</li></ul>", viewModel.Entity.UserName);
+                    ModelState.Clear();
+                    return View(viewModel);
+                }
+
+                viewModel.GeneratePasswordResetToken(viewModel.Entity.SysUserName);
+                return View("~/Views/Login/Confirmation.cshtml", viewModel);
+            }
+            catch (Exception ex)
             {
-                viewModel.UserMessage = String.Format("Please enter your GRIN-Global user name.");
-                ModelState.Clear();
-                return View(viewModel);
+                Log.Error(ex);
+                return RedirectToAction("SystemError", "Error");
             }
-
-            viewModel.Search();
-
-            if (viewModel.Entity.ID == 0)
-            { 
-                viewModel.UserMessage = String.Format("The user <strong>{0}</strong> could not be found. Please verify that: <ul><li>You have an active GRIN-Global account.</li><li>You have entered your username exactly as you do when logging into the Curator Tool.</li></ul>", viewModel.Entity.UserName );
-                ModelState.Clear();
-                return View(viewModel);
-            }
-
-            viewModel.GeneratePasswordResetToken(viewModel.Entity.SysUserName);
-            return View("~/Views/Login/Confirmation.cshtml",viewModel);
         }
         
 

@@ -16,28 +16,33 @@
                         </a>
                     </div>
                     <div class="btn-group">
+                        <a class="btn btn-default btn-sm" href="@Url.Action("Explorer","Demo", new { rank = "species" })">
+                            <i class="fa fa-table"></i> Batch-Edit
+                        </a>
+                    </div>
+                    <div class="btn-group">
                         <button id="btnOpenFolderModal" type="button" class="btn btn-default btn-sm"><i class="fa fa-folder"></i></button>
                     </div>
                     <!-- TODO Enable once species-level cit. logic tested. -->
                     @*<div class="btn-group">
-                        <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#modal-citation-lookup">
-                            <i class="fa fa-book"></i>
-                        </button>
-                    </div>*@
+            <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#modal-citation-lookup">
+                <i class="fa fa-book"></i>
+            </button>
+        </div>*@
                     <div class="margin" style="margin-bottom:10px;">
                         <!-- TODO Move to species edit -->
                         @*<div class="btn-group">
-                            <a class="btn btn-default btn-sm" href="@Url.Action("Add","Species")">Add Species</a>
-                            <button type="button" class="btn btn-default btn-sm dropdown-toggle dropdown-icon" data-toggle="dropdown" aria-expanded="false">
-                                <span class="sr-only">Toggle Dropdown</span>
-                            </button>
-                            <div class="dropdown-menu" role="menu" style="">
-                                <a class="dropdown-item btn-sm" href="@Url.Action("Add","Species", new { @rank="subspecies"})">Subspecies</a>
-                                <a class="dropdown-item btn-sm" href="@Url.Action("Add","Species", new { @rank="variety"})">Variety</a>
-                                <a class="dropdown-item btn-sm" href="@Url.Action("Add","Species", new { @rank="subvariety"})">Subvariety</a>
-                                <a class="dropdown-item btn-sm" href="@Url.Action("Add","Species", new { @rank="form"})">Form</a>
-                            </div>
-                        </div>*@
+                <a class="btn btn-default btn-sm" href="@Url.Action("Add","Species")">Add Species</a>
+                <button type="button" class="btn btn-default btn-sm dropdown-toggle dropdown-icon" data-toggle="dropdown" aria-expanded="false">
+                    <span class="sr-only">Toggle Dropdown</span>
+                </button>
+                <div class="dropdown-menu" role="menu" style="">
+                    <a class="dropdown-item btn-sm" href="@Url.Action("Add","Species", new { @rank="subspecies"})">Subspecies</a>
+                    <a class="dropdown-item btn-sm" href="@Url.Action("Add","Species", new { @rank="variety"})">Variety</a>
+                    <a class="dropdown-item btn-sm" href="@Url.Action("Add","Species", new { @rank="subvariety"})">Subvariety</a>
+                    <a class="dropdown-item btn-sm" href="@Url.Action("Add","Species", new { @rank="form"})">Form</a>
+                </div>
+            </div>*@
                     </div>
                     @using (Html.BeginForm("Search", "Species", FormMethod.Post, new { id = "frmMain" }))
                     {

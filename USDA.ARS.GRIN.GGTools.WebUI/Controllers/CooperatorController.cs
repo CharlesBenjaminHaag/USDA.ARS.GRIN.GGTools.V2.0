@@ -33,6 +33,16 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             throw new NotImplementedException();
         }
 
+        public ActionResult View(int entityId)
+        {
+            // Retrieve main cooperator record (to be copied). Assumption is use case 
+            // where user is updating a training record.
+            CooperatorViewModel viewModel = new CooperatorViewModel();
+            viewModel.SearchEntity.ID = entityId;
+            viewModel.Get(entityId, "PROD");
+            viewModel.AuthenticatedUser = AuthenticatedUser;
+            return View(viewModel);
+        }
         public ActionResult Add()
         {
             try
@@ -117,13 +127,27 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             }
 
         }
-
+        public PartialViewResult _Edit(int entityId, string environment = "")
+        {
+            try
+            {
+                CooperatorViewModel viewModel = new CooperatorViewModel();
+                viewModel.Get(entityId, environment);
+                return PartialView(viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
+        }
+       
         public ActionResult Edit(int entityId)
         {
             try
             {
                 CooperatorViewModel viewModel = new CooperatorViewModel();
-                viewModel.Get(entityId);
+                viewModel.Get(entityId, "");
 
                 //TODO Get owned recs. Call only in edit mode.
                 viewModel.GetRecordsOwned(entityId);
@@ -367,5 +391,28 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
         {
             throw new NotImplementedException();
         }
+
+        public JsonResult Sync(int cooperatorId)
+        {
+            //TODO
+            return null;
+        }
+
+        public JsonResult SyncSysUser(int sysUserId)
+        {
+            //TODO
+            return null;
+        }
+        public JsonResult SyncWebCooperator(int webCooperatorId)
+        {
+            //TODO
+            return null;
+        }
+        public JsonResult SyncWebUser(int webUserId)
+        {
+            //TODO
+            return null;
+        }
+
     }
 }

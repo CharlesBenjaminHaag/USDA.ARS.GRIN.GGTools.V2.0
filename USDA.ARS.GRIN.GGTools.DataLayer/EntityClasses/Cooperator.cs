@@ -8,7 +8,13 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
 {
     public class Cooperator: AppEntityBase
     {
+        public int SysUserID { get; set; }
+        public string SysUserName { get; set; }
+        public string SysUserIsEnabled { get; set; }
+        public DateTime SysUserPasswordExpirationDate { get; set; }
         public int CurrentCooperatorID { get; set; }
+        public int WebCooperatorID { get; set; }
+        public int WebUserID { get; set; }
         public int SiteID { get; set; }
         public string SiteName { get; set; }
         public string SiteShortName { get; set; }
@@ -46,10 +52,5 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
         public string OrganizationRegionDescription { get; set; }
         public string DisciplineCode { get; set; }
         public string DisciplineDescription { get; set; }
-        public int WebCooperatorID { get; set; }
-        public int SysUserID { get; set; }
-        public string SysUserName { get; set; }
-        public string  SysUserIsEnabled { get; set; }
-        public DateTime SysUserPasswordExpirationDate { get; set; }
     }
 }

@@ -16,9 +16,12 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
 
     public class WebUserViewModel : WebUserViewModelBase
     {
-        public WebUser Get(string userName)
+        public WebUser Get(int entityId, string environment = "")
         {
-            //TODO
+            using (WebUserManager mgr = new WebUserManager())
+            {
+                Entity = mgr.Get(entityId);
+            }
             return Entity;
         }
         

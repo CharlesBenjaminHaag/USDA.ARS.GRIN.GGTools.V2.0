@@ -8,6 +8,7 @@ namespace USDA.ARS.GRIN.GGTools.AppLayer
 {
     public class SearchEntityBase
     {
+        public string Environment { get; set; }
         public int FolderID { get; set; }
         public int ID { get; set; }
         public string IDList { get; set; }

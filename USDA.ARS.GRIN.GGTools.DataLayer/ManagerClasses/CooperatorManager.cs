@@ -22,12 +22,13 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             throw new NotImplementedException();
         }
 
-        public Cooperator Get(int entityId)
+        public Cooperator Get(int entityId, string environment = "")
         {
             List<Cooperator> cooperators = new List<Cooperator>();
             Cooperator cooperator = new Cooperator();
 
             CooperatorSearch cooperatorSearch = new CooperatorSearch();
+            cooperatorSearch.Environment = environment;
             cooperatorSearch.ID = entityId;
             cooperators = Search(cooperatorSearch);
             if (cooperators.Count == 1)
@@ -93,7 +94,16 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
         {
             List<Cooperator> results = new List<Cooperator>();
 
-            SQL = " SELECT * FROM vw_GGTools_GRINGlobal_Cooperators";
+            if (!String.IsNullOrEmpty(searchEntity.Environment) & (searchEntity.Environment == "TRNG"))
+            {
+                SQL = " SELECT * FROM gringlobal.dbo.vw_GGTools_GRINGlobal_Cooperators";
+            }
+            else
+            {
+                SQL = " SELECT * FROM vw_GGTools_GRINGlobal_Cooperators";
+
+            }
+
             SQL += " WHERE (@ID                     IS NULL     OR ID                       =       @ID)";
             SQL += " AND (@FirstName                IS NULL     OR FirstName                LIKE    '%' + @FirstName + '%')";
             SQL += " AND (@LastName                 IS NULL     OR LastName                 LIKE    '%' + @LastName + '%')";
@@ -319,6 +329,11 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             {
                 AddParameter("created_by", entity.CreatedByCooperatorID == 0 ? DBNull.Value : (object)entity.CreatedByCooperatorID, true);
             }
+        }
+
+        public Cooperator Get(int entityId)
+        {
+            throw new NotImplementedException();
         }
     }
 }

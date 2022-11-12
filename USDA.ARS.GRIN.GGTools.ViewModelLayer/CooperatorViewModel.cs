@@ -16,11 +16,11 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
             throw new NotImplementedException();
         }
 
-        public Cooperator Get(int entityId)
+        public Cooperator Get(int entityId, string environment = "")
         {
             using (CooperatorManager mgr = new CooperatorManager())
             {
-                Entity = mgr.Get(entityId);
+                Entity = mgr.Get(entityId, environment);
             }
             return Entity;
         }
@@ -150,5 +150,9 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
             sMTPManager.SendMessage(infoRequestEmailMessage);
         }
 
+        public Cooperator Get(int entityId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

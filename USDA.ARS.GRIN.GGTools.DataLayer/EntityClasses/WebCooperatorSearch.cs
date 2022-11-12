@@ -1,12 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using System.Collections.Generic;
+using System.Web.Mvc;
+using System.Collections.ObjectModel;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using USDA.ARS.GRIN.GGTools.AppLayer;
 
 namespace USDA.ARS.GRIN.GGTools.DataLayer
 {
-    public class WebCooperatorSearch
+    public class WebCooperatorSearch: SearchEntityBase
     {
         public int ID { get; set; }
         public string Title { get; set; }
