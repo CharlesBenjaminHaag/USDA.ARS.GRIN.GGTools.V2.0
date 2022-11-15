@@ -12,6 +12,8 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
 {
     public class TaxonomyExplorerViewModel
     {
+        public string EventAction = String.Empty;
+        public string EventValue = String.Empty;
         public Collection<FamilyMap> DataCollectionFamily = new Collection<FamilyMap>();
         public Collection<Genus> DataCollectionGenus = new Collection<Genus>();
         public Collection<Species> DataCollectionSpecies = new Collection<Species>();

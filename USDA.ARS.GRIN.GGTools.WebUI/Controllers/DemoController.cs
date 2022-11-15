@@ -22,7 +22,11 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             GenusViewModel viewModelGenus = new GenusViewModel();
             FamilyMapViewModel viewModelFamily = new FamilyMapViewModel();
             SpeciesViewModel viewModelSpecies = new SpeciesViewModel();
-           
+
+            viewModelFamily.SearchEntity.FamilyName = "Poa";
+            viewModelFamily.Search();
+            viewModel.DataCollectionFamily = viewModelFamily.DataCollection;
+
             viewModelGenus.SearchEntity.FullName = "Poa";
             viewModelGenus.Search();
             viewModel.DataCollectionGenus = viewModelGenus.DataCollection;

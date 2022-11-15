@@ -270,14 +270,12 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 viewModel.TableName = formCollection["TableName"];
             }
             
+            // The referenced entity ID is the record in <TableName> that will reference the new
+            // citation. TEMPORARY: allows for current schema, where certain species child tables
+            // reference a single citation via a citation_id field. -- CBH, 11/14
             if (!String.IsNullOrEmpty(formCollection["EntityID"]))
             {
                 viewModel.ReferencedEntityID = Int32.Parse(formCollection["EntityID"]);
-            }
-
-            if (!String.IsNullOrEmpty(formCollection["SpeciesID"]))
-            {
-                viewModel.Entity.SpeciesID = Int32.Parse(formCollection["SpeciesID"]);
             }
 
             if (!String.IsNullOrEmpty(formCollection["CitationID"]))
@@ -285,12 +283,18 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 cloneViewModel.SearchEntity.ID = Int32.Parse(formCollection["CitationID"]);
             }
 
+            //TODO
+            //If the record being linked to a citation is a species child record, obtain the parent species.
+
+
             // Retrieve the existing citation, based on the passed-in ID.
             cloneViewModel.Search();
+            
             viewModel.Entity = cloneViewModel.Entity;
             viewModel.Entity.ID = 0;
 
-            // Insert a copy of the retrieved citation, using the passed-in taxon ID.
+            // TODO Based on the table name, determine whether or not to obtain a parent species
+            // ID.
             switch (viewModel.TableName)
             {
                 case "taxonomy_family_map":
@@ -303,6 +307,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                     viewModel.Entity.SpeciesID = viewModel.ReferencedEntityID;
                     break;
             }
+
             viewModel.Insert();
 
             return Json(new { citation = viewModel.Entity }, JsonRequestBehavior.AllowGet);

@@ -350,37 +350,6 @@
     });
     }
 
-    //
-
-    /*
-    * ===============================================================================================================
-    * ACCEPTED NAME LOGIC (INCL. LOOKUP MODAL)
-    * ===============================================================================================================
-    */
-    $("#cbxIsAcceptedName").click(function () {
-        var entityID = $("#Entity_ID").val();
-
-        if ($('#cbxIsAcceptedName').prop('checked') == true) {
-            $("#section-accepted-name-controls").hide();
-            $("#Entity_AcceptedID").val(entityID);
-        }
-        else
-        {
-            $("#ddlSelectAcceptedName").chosen({
-                width: "100%",
-                placeholder_text: "   "
-            });
-            $("#section-accepted-name-controls").show();
-        }
-    });
-
-    $("#btnOpenAcceptedNameLookupModal").click(function () {
-        $("#lblFamilyLookupTitle").html("Accepted Name Search");
-        $('#hfCurrentAction').val($(this).data("ggtools-action"));
-        $('#hfCurrentValue').val($(this).data("ggtools-value"));
-        $('#modal-family-lookup').modal('show');
-    });
-
     /*
     * ===================================================================================================
     * TYPE GENUS
@@ -404,86 +373,6 @@
         var link = '@Html.Raw(Url.Action("Add","Genus", new { @eventValue = "genus", @familyId = Model.Entity.ID, @rank="genus", @isType = "Y" }))';
         window.location.href = link;
     });
-
-    ///*
-    //* ===================================================================================================
-    //* Family Rank
-    //* ===================================================================================================
-    //*/
-    //$('#ddlRank').on('change', function () {
-    //    var id = $(this).children(":selected").attr("id");
-    //    $(".intrafamilial").hide();
-    //    var targetId = "#section-" + id;
-    //    $(targetId).show();
-    //});
-
-    /*
-    * ===================================================================================================
-    * INFRAFAMILIAL LOOKUP MODAL
-    * ===================================================================================================
-    */
-    //$(document).on("click", "[id='btnGenerateInfrafamilialTaxa']", function () {
-    //    LoadInframilialTaxaGrid();
-    //});
-
-    @*function LoadInframilialTaxaGrid() {
-        var link = '@Url.Action("AddInfrafamilialTaxa","FamilyMap")';
-        var familyId = $("#Entity_ID").val();
-        var numSubfamily = $("#txtNumSubfamily").val();
-        var numTribe = $("#txtNumTribe").val();
-        var numSubtribe = $("#txtNumSubtribe").val();
-        var formData = new FormData();
-
-        formData.append("FamilyID", familyId);
-        formData.append("NumSubfamilies", numSubfamily);
-        formData.append("NumTribes", numTribe);
-        formData.append("NumSubtribes", numSubtribe);
-
-        $.ajax({
-            url: link,
-            type: 'POST',
-            cache: false,
-            contentType: false,
-            processData: false,
-            data: formData,
-            success: function (result) {
-                $("#section-infrafamilial-taxa-edit").html(result);
-            },
-            error: function () {
-                alert("Error in LoadInframilialTaxaGrid()");
-            }
-        });
-    }
-
-    $(document).on("click", "[id='btnSaveInfrafamilialTaxa']", function () {
-
-        var link = '@Url.Action("GenerateInfrafamilialTaxa","Family")';
-        var familyId = $("#Entity_ID").val();
-        var formData = new FormData();
-
-        formData.append("FamilyID", familyId);
-        $("#data-table-infrafamilial-grid input[type='text']").each(function () {
-            var id = $(this).attr("id");
-            var rank = $(this).attr("data-ggtools") + "_" + id;
-            var value = $(this).val();
-            formData.append(rank, value);
-        });
-
-        $.ajax({
-            url: link,
-            type: 'POST',
-            cache: false,
-            contentType: false,
-            processData: false,
-            data: formData,
-            success: function (response) {
-                $("#modal-infrafamilial-taxa-edit").modal("hide");
-                $("#frmEdit").submit();
-            },
-            error: function () {
-                alert("Error generating infrafamilial taxa");
-            }
-        });
-    });*@
+   
 </script>
 

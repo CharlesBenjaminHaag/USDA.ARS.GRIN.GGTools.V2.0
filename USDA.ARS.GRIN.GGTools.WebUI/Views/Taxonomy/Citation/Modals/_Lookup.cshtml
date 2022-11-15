@@ -164,8 +164,8 @@
         GetSelectedCitation("N", "data_table_lookup_citations");
     });
 
-    $(document).on("click", "[id='btnSaveSelectedTaxonCitation']", function () {
-        GetSelectedCitation("N","data_table_lookup_taxon_citations");
+    $(document).on("click", "[id='btnSaveSelectedCitationTop']", function () {
+        GetSelectedCitation("N", "data_table_lookup_citations");
     });
 
     $(document).on("click", "[id='btnSaveSelectedTaxonCitation']", function () {
@@ -183,7 +183,7 @@
         var selectedItemLabelList = GetSelectedCitationText(dataTableName);
 
         //DEBUG
-        alert("EDIT OPTION " + editOption);
+        alert("SELECTED " + tableName + " AND " + entityId + " AND " + selectedItemIdList + " AND " + selectedItemLabelList);
 
         SaveSelectedCitation(editOption, tableName, entityId, selectedItemIdList);
 
@@ -279,6 +279,10 @@
         formData.append("SpeciesID", speciesId);
         formData.append("CitationID", citationId);
 
+        // TODO: If the citation returned by the AJAX call is in reference to a species child record, 
+        // the last step must be setting the citation ID and text fields that appear on the page. Family, 
+        // genus, and species records to be handled differently. -- CBH, 11/14
+
         $.ajax({
             url: link,
             type: 'POST',
@@ -288,11 +292,15 @@
             processData: false,
             data: formData,
             success: function (data) {
-                if (editOption == "Y") {
-                    $("#modal-citation-lookup").modal("hide");
-                    $("#modal-citation-edit").modal("show");
-                }
-                LoadDependentData("tab_selector_citations");
+                //if (editOption == "Y") {
+                //    $("#modal-citation-lookup").modal("hide");
+                //    $("#modal-citation-edit").modal("show");
+                //}
+                // TODO: If fam, gen, spec record, refresh cit. list; otherwise, set
+                // form fields. -- CBH, 11/14
+                //DEBUG
+                alert("NEW CITATION ID IS " + data.citation.ID + " TEXT " + data.citation.CitationText);
+                /*LoadDependentData("tab_selector_citations");*/
             },
             error: function (ex) {
             }

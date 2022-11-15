@@ -644,6 +644,7 @@
     <Content Include="Views\SysUser\_Edit.cshtml" />
     <Content Include="Views\WebUser\_Edit.cshtml" />
     <Content Include="Views\WebCooperator\_Edit.cshtml" />
+    <Content Include="Views\Taxonomy\GeographyMap\_Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

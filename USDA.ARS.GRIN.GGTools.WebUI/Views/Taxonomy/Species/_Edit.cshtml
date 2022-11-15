@@ -1,6 +1,6 @@
 ﻿@model USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer.SpeciesViewModel
-
-@using (Html.BeginForm("Edit", "Species", FormMethod.Post, new { id = "frmEdit" }))
+@Html.Partial("~/Views/Shared/_RevisionHistory.cshtml")
+@using (Html.BeginForm("_Save", "Species", FormMethod.Post, new { id = "frmEdit" }))
 {
     @Html.HiddenFor(x => x.EventAction)
     @Html.HiddenFor(x => x.EventValue)
@@ -176,46 +176,46 @@
             </div>
         </div>
     </div>
-    <div class="row">
-        <div class="col-md-3">
-            <div class="form-group">
-                <label>Protologue Virtual Path</label>
-                @Html.TextBoxFor(x => x.Entity.ProtologueVirtualPath, new { @class = "form-control" })
+    @*<div class="row">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label>Protologue Virtual Path</label>
+                    @Html.TextBoxFor(x => x.Entity.ProtologueVirtualPath, new { @class = "form-control" })
+                </div>
             </div>
-        </div>
-        <div class="col-md-3">
-            <div class="form-group">
-                <label>Hybrid Parentage</label>
-                @Html.TextBoxFor(x => x.Entity.HybridParentage, new { @class = "form-control" })
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label>Hybrid Parentage</label>
+                    @Html.TextBoxFor(x => x.Entity.HybridParentage, new { @class = "form-control" })
+                </div>
             </div>
-        </div>
-        <div class="col-md-1">
-            <div class="form-group clearfix" style="margin-top:40px;">
-                <div class="icheck-primary d-inline">
-                    @Html.CheckBoxFor(x => x.Entity.IsSpecificHybridOption)
-                    <label for="Entity_IsSpecificHybridOption">
-                        Hybrid
-                    </label>
+            <div class="col-md-1">
+                <div class="form-group clearfix" style="margin-top:40px;">
+                    <div class="icheck-primary d-inline">
+                        @Html.CheckBoxFor(x => x.Entity.IsSpecificHybridOption)
+                        <label for="Entity_IsSpecificHybridOption">
+                            Hybrid
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group clearfix" style="margin-top:40px;">
+                    <div class="icheck-primary d-inline">
+                        @Html.CheckBoxFor(x => x.Entity.IsWebVisibleOption)
+                        <label for="Entity_IsWebVisibleOption">
+                            Web Visible
+                        </label>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="col-md-2">
-            <div class="form-group clearfix" style="margin-top:40px;">
-                <div class="icheck-primary d-inline">
-                    @Html.CheckBoxFor(x => x.Entity.IsWebVisibleOption)
-                    <label for="Entity_IsWebVisibleOption">
-                        Web Visible
-                    </label>
-                </div>
+        <div class="row">
+            <div class="col-md-12">
+                <label>Note</label>
+                @Html.TextAreaFor(x => x.Entity.Note, new { @class = "form-control" })
             </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-12">
-            <label>Note</label>
-            @Html.TextAreaFor(x => x.Entity.Note, new { @class = "form-control" })
-        </div>
-    </div>
+        </div>*@
 }
 
 <script type="text/javascript">

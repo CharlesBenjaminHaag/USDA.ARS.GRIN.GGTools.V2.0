@@ -1,5 +1,8 @@
 ﻿@model USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer.SpeciesViewModel
 <ul id="list-taxa-@Model.Entity.GenusID" class="nav nav-pills flex-column">
+    <li id="-9" data-ggtools-value="@Model.Entity.GenusID" class="nav-item" style="padding:.8rem;">
+        <button type="button" class="btn btn-default btn-block">Add Species</button>
+    </li>
     @if (Model.DataCollection.Count > 0)
     {
         foreach (var result in Model.DataCollection)
@@ -14,11 +17,5 @@
                 </a>
             </li>
         }
-    }
-    else
-    {
-        <li id="-9" data-ggtools-value="@Model.Entity.GenusID" class="nav-item" style="padding:.8rem;">
-            <button type="button" class="btn btn-default btn-block">Add</button>
-        </li>
     }
 </ul>
