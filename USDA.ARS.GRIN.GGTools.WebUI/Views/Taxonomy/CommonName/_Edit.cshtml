@@ -1,47 +1,54 @@
-﻿@model USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer.CommonNameViewModel
-<div class="modal fade" id="modal-common-name-edit">
+﻿
+<div class="modal fade" id="modal-common-name-edit" style="display: none;" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
+                <h4 class="modal-title">
+                    <i class="fas fa-edit"></i>
+                    Add Common Name
+                </h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
+                    <span aria-hidden="true">×</span>
                 </button>
-                <h4 id="lblFolderEditModalTitle" class="modal-title">Add Common Name</h4>
             </div>
             <div class="modal-body">
-                <div class="row">
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label>Name</label>
-                            <input type="text" name="dName" class="form-control" />
+                @using (Html.BeginForm("_Save", "CommonName", FormMethod.Post, new { id = "frmEdit" }))
+                {
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>Name</label>
+                                <input id="txtCommonNameEditName" class="form-control" />
+                                @*@Html.TextBoxFor(x => x.Entity.Name, new { @class = "form-control" })*@
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>Simplified Name</label>
+                                <input id="txtCommonNameEditSimplifiedName" class="form-control" />
+                                @*@Html.TextBoxFor(x => x.Entity.SimplifiedName, new { @class = "form-control", @readonly = "readonly", @style = "background-color:#ebebeb" })*@
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>Language</label>
+                                <select class="form-control"></select>
+                                @*@Html.DropDownListFor(x => x.Entity.LanguageID, Model.CommonNameLanguages, "Select language", new { @class = "form-control" })*@
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>Transcription</label>
+                                <input id="txtCommonNameEditTranscription" class="form-control" />
+                                @*@Html.TextBoxFor(x => x.Entity.AlternateTranscription, new { @class = "form-control" })*@
+                            </div>
                         </div>
                     </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label>Simplified Name</label>
-                            <input type="text" name="SimplifiedName" class="form-control" readonly="readonly" disabled="disabled" />
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label>Language Description</label>
-                            <input type="text" name="LanguageDescription" class="form-control" />
-                        </div>
-                    </div>
+                }
                 </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            <label>Select Citation</label>
-                            <select class="form-control">
-                            </select>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-danger pull-left" data-dismiss="modal">Cancel</button>
-                <button id="btnSaveCommonName" class="btn btn-primary">Save</button>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                <button id="btnSaveCommonName" type="button" class="btn btn-info float-right">Save</button>
             </div>
         </div>
     </div>

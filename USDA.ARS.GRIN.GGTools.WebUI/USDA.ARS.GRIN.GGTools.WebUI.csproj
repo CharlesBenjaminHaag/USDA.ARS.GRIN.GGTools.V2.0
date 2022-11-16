@@ -154,6 +154,7 @@
     <Compile Include="Controllers\EconomicUseController.cs" />
     <Compile Include="Controllers\EmailTemplateController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
+    <Compile Include="Controllers\ExplorerController.cs" />
     <Compile Include="Controllers\FamilyController.cs" />
     <Compile Include="Controllers\FolderController.cs" />
     <Compile Include="Controllers\GenusController.cs" />
@@ -378,7 +379,6 @@
     <Content Include="Views\Taxonomy\CWRTrait\Index.cshtml" />
     <Content Include="Views\Taxonomy\CWRTrait\_Detail.cshtml" />
     <Content Include="Views\Taxonomy\CWRTrait\_List.cshtml" />
-    <Content Include="Views\Shared\Modals\_NoteLookup.cshtml" />
     <Content Include="Views\Shared\Modals\_NoteSelectList.cshtml" />
     <Content Include="Views\Taxonomy\CWRMap\Modals\_Lookup.cshtml" />
     <Content Include="Views\Taxonomy\CWRMap\Modals\_SelectList.cshtml" />
@@ -636,7 +636,7 @@
     <Content Include="Views\Taxonomy\Citation\Modals\_Edit.cshtml" />
     <Content Include="Views\SysTable\Modals\_Lookup.cshtml" />
     <Content Include="Views\SysPermission\Modals\_Lookup.cshtml" />
-    <Content Include="Views\Demo\Explorer.cshtml" />
+    <Content Include="Views\Taxonomy\Explorer\Index.cshtml" />
     <Content Include="Views\Taxonomy\Species\Modals\_SelectListSimple.cshtml" />
     <Content Include="Views\Taxonomy\Species\_Edit.cshtml" />
     <Content Include="Views\Cooperator\View.cshtml" />
@@ -645,12 +645,17 @@
     <Content Include="Views\WebUser\_Edit.cshtml" />
     <Content Include="Views\WebCooperator\_Edit.cshtml" />
     <Content Include="Views\Taxonomy\GeographyMap\_Edit.cshtml" />
+    <Content Include="Views\Taxonomy\Explorer\_ListFamily.cshtml" />
+    <Content Include="Views\Taxonomy\Explorer\_ListSpecies.cshtml" />
+    <Content Include="Views\Taxonomy\Explorer\_ListGenus.cshtml" />
+    <Content Include="Views\SysGroup\Explorer\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Content\bower_components\font-awesome\fonts\" />
     <Folder Include="Content\dist\js\pages\" />
     <Folder Include="Models\" />
+    <Folder Include="Views\Demo\" />
     <Folder Include="Views\Main\" />
   </ItemGroup>
   <ItemGroup>

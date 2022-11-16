@@ -14,6 +14,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
     {
         private string _PageTitle = String.Empty;
         private string _IsMultiSelect;
+        private int _SpeciesID;
         private Species _Entity = new Species();
         private Species _ParentEntity = new Species();
         private SpeciesSearch _SearchEntity = new SpeciesSearch();
@@ -33,7 +34,11 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
                 FormaRankTypes = new SelectList(mgr.GetCodeValues("TAXONOMY_SPECIES_FORMA_RANK_TYPE"), "Value", "Title");
             }
         }
-
+        public int SpeciesID
+        {
+            get { return _SpeciesID; }
+            set { _SpeciesID = value; }
+        }
         public string IsMultiSelect
         {
             get { return _IsMultiSelect; }

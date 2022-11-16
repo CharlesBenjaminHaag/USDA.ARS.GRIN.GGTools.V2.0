@@ -145,7 +145,6 @@
     </div>
 </div>
 @{Html.RenderAction("RenderLookupModal", "Literature"); }
-@{Html.RenderAction("RenderEditModal", "Citation"); }
 
 <script type="text/javascript">
 
@@ -181,29 +180,7 @@
         var entityId = $("#Entity_ID").val();
         var selectedItemIdList = GetSelectedEntityIDs(dataTableName);
         var selectedItemLabelList = GetSelectedCitationText(dataTableName);
-
-        //DEBUG
-        alert("SELECTED " + tableName + " AND " + entityId + " AND " + selectedItemIdList + " AND " + selectedItemLabelList);
-
         SaveSelectedCitation(editOption, tableName, entityId, selectedItemIdList);
-
-        //TODO Get ID of new citation; allow user to edit.
-
-        // If table is single-cit table, set fields; otherwise, call method. ** Temporary ** until citation
-        // table and related tables can be refactored to allow linking from sub-taxon data
-        // (CWR Map, CWR Trait, etc.) via a map table -- vs. a citation ID field within the
-        // sub-taxon table itself.
-        if ((tableName == "taxonomy_cwr_map") ||
-            (tableName == "taxonomy_cwr_trait") ||
-            (tableName == "taxonomy_common_name") ||
-            (tableName == "taxonomy_use") ||
-            (tableName == "taxonomy_geography_map")) {
-            $("#Entity_CitationID").val(selectedItemIdList);
-            $("#Entity_CitationText").val(selectedItemLabelList);
-        }
-        else {
-            // TODO Refresh citation list for one-many entities.
-        }
     }
 
     $(document).on("click", "[id='btnSaveSelectedTaxonCitation']", function () {
@@ -211,22 +188,7 @@
         var entityId = $("#Entity_ID").val();
         var selectedItemIdList = GetSelectedEntityIDs("data_table_lookup_taxon_citations");
         var selectedItemLabelList = GetSelectedEntityLabels("data_table_lookup_taxon_citations");
-
-        // If table is single-cit table, set fields; otherwise, call method. ** Temporary ** until citation
-        // table and related tables can be refactored to allow linking from sub-taxon data
-        // (CWR Map, CWR Trait, etc.) via a map table -- vs. a citation ID field within the
-        // sub-taxon table itself.
-        if ((tableName == "taxonomy_cwr_map") ||
-            (tableName == "taxonomy_cwr_trait") ||
-            (tableName == "taxonomy_common_name") ||
-            (tableName == "taxonomy_use") ||
-            (tableName == "taxonomy_geography_map")) {
-            $("#Entity_CitationID").val(selectedItemIdList);
-            $("#Entity_CitationText").val(selectedItemLabelList);
-        }
-        else {
-            SaveSelectedCitation(tableName, entityId, selectedItemIdList);
-        }
+        SaveSelectedCitation(tableName, entityId, selectedItemIdList);
     });
 
     $(document).on("click", "[id='btnSaveNewCitation']", function () {
@@ -271,17 +233,32 @@
 
     function SaveSelectedCitation(editOption, tableName, entityId, citationId) {
         var link = '@Url.Action("Clone","Citation")';
-        var speciesId = $("#Entity_SpeciesID").val();
+        var familyId = 0;
+        var genusId = 0;
+        var speciesId = 0;
         var formData = new FormData();
 
         formData.append("TableName", tableName);
-        formData.append("EntityID", entityId);
-        formData.append("SpeciesID", speciesId);
-        formData.append("CitationID", citationId);
 
-        // TODO: If the citation returned by the AJAX call is in reference to a species child record, 
-        // the last step must be setting the citation ID and text fields that appear on the page. Family, 
-        // genus, and species records to be handled differently. -- CBH, 11/14
+        switch (tableName) {
+            case "taxonomy_family_map":
+                familyId = $("#Entity_ID").val();
+                break;
+            case "taxonomy_genus":
+                genusId = $("#Entity_ID").val();
+                break;
+            case "taxonomy_species":
+                speciesId = $("#Entity_ID").val();
+                break;
+            default:
+                speciesId = $("#Entity_SpeciesID").val();
+                break;
+        }
+
+        formData.append("CitationID", citationId);
+        formData.append("FamilyID", familyId);
+        formData.append("GenusID", genusId);
+        formData.append("SpeciesID", speciesId);
 
         $.ajax({
             url: link,
@@ -292,15 +269,18 @@
             processData: false,
             data: formData,
             success: function (data) {
-                //if (editOption == "Y") {
-                //    $("#modal-citation-lookup").modal("hide");
-                //    $("#modal-citation-edit").modal("show");
-                //}
-                // TODO: If fam, gen, spec record, refresh cit. list; otherwise, set
-                // form fields. -- CBH, 11/14
-                //DEBUG
-                alert("NEW CITATION ID IS " + data.citation.ID + " TEXT " + data.citation.CitationText);
-                /*LoadDependentData("tab_selector_citations");*/
+                //DEBUG 
+                alert("DEBUG NEW CITATION IS " + data.citation.ID);
+
+                if ((tableName == "taxonomy_family_map") ||
+                    (tableName == "taxonomy_genus") ||
+                    (tableName == "taxonomy_species")) {
+                    LoadDependentData("tab_selector_citations");
+                }
+                else {
+                    $("#Entity_CitationID").val(data.citation.ID);
+                    $("#Entity_CitationText").val(data.citation.CitationText);
+                }
             },
             error: function (ex) {
             }

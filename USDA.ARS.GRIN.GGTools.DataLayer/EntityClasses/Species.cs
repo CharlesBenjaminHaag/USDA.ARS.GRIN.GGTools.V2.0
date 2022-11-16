@@ -11,6 +11,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
 {
     public class Species: AppEntityBase
     {
+        public int SpeciesID { get; set; }
         [AllowHtml]
         public bool IsAccepted { get; set; }
         public string Rank { get; set; }

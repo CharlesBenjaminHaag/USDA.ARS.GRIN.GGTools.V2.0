@@ -1,0 +1,28 @@
+﻿@model USDA.ARS.GRIN.GGTools.ViewModelLayer.TaxonomyExplorerViewModel
+<div class="form-group" style="padding:.3rem;">
+    <label>Family</label>
+    <div class="input-group">
+        <input type="text" id="txtLookupFamily" class="form-control" value="Poa" />
+        <span class="input-group-btn">
+            <button id="btnFamilyNameLookup" type="button" data-toggle="modal" data-ggtools-action="AcceptedID" data-ggtools-value="AcceptedName" data-target="#modal-species-lookup" class="btn btn-default btn-flat">
+                <i class="fa fa-search"></i>
+            </button>
+        </span>
+    </div>
+</div>
+@foreach (var result in Model.DataCollectionFamily)
+{
+    <div class="card card-default collapsed-card">
+        <div class="card-header">
+            <h3 class="card-title">@result.AssembledName</h3>
+            <div class="card-tools">
+                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                    <i class="fas fa-plus"></i>
+                </button>
+            </div>
+        </div>
+        <div class="card-body" style="display: none; padding: .5rem;">
+            @*@{ Html.RenderAction("_ListGenus", "Explorer", new { familyId = result.ID }); }*@
+        </div>
+    </div>
+}

@@ -1,6 +1,6 @@
 ﻿@model USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer.SpeciesViewModel
-<ul id="list-taxa-@Model.Entity.GenusID" class="nav nav-pills flex-column species-selector">
-    <li id="-9" data-ggtools-value="@Model.Entity.GenusID" class="nav-item" style="padding:.8rem;">
+<ul id="list-taxa-@Model.SearchEntity.GenusID" class="nav nav-pills flex-column species-selector">
+    <li id="-9" data-ggtools-value="@Model.SearchEntity.GenusID" class="nav-item" style="padding:.8rem;">
         <button type="button" class="btn btn-default btn-block">Add Species</button>
     </li>
     @if (Model.DataCollection.Count > 0)

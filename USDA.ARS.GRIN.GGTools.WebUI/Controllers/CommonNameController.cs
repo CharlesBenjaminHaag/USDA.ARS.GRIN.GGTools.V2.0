@@ -111,6 +111,31 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             }
         }
 
+        public PartialViewResult _Save(CommonNameViewModel viewModel)
+        {
+            try
+            {
+                if (viewModel.Entity.ID == 0)
+                {
+                    viewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
+                    viewModel.Insert();
+                }
+                else
+                {
+                    viewModel.Entity.ModifiedByCooperatorID = AuthenticatedUser.CooperatorID;
+                    viewModel.Update();
+                }
+                viewModel.Get(viewModel.Entity.ID);
+                viewModel.Entity.SpeciesID = viewModel.Entity.ID;
+                return PartialView("~/Views/Taxonomy/CommonName/_Edit.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
+        }
+
         public PartialViewResult FolderItems(int folderId)
         {
             try
@@ -179,11 +204,39 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
         // ======================================================================================
         // MODALS 
         // ======================================================================================
-        public ActionResult RenderEditModal(int speciesId = 0)
+        public PartialViewResult RenderEditModal(int genusId = 0, int speciesId = 0)
         {
-            CommonNameViewModel viewModel = new CommonNameViewModel();
-            viewModel.Entity.SpeciesID = speciesId;
-            return PartialView("~/Views/EconomicUse/Modals/_Edit.cshtml", viewModel);
+            try
+            {
+                CommonNameViewModel viewModel = new CommonNameViewModel();
+                viewModel.TableName = "taxonomy_common_name";
+                viewModel.PageTitle = "Add Common Name";
+                viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
+
+                if (speciesId > 0)
+                {
+                    SpeciesViewModel speciesViewModel = new SpeciesViewModel();
+                    speciesViewModel.SearchEntity = new SpeciesSearch { ID = speciesId };
+                    speciesViewModel.Search();
+                    viewModel.Entity.SpeciesID = speciesViewModel.Entity.ID;
+                    viewModel.Entity.SpeciesName = speciesViewModel.Entity.FullName;
+                }
+                else
+                {
+                    GenusViewModel genusViewModel = new GenusViewModel();
+                    genusViewModel.SearchEntity = new GenusSearch { ID = genusId };
+                    genusViewModel.Search();
+                    viewModel.Entity.GenusID = genusViewModel.Entity.ID;
+                    viewModel.Entity.GenusName = genusViewModel.Entity.Name;
+                }
+
+                return PartialView(BASE_PATH + "_Edit.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
         }
 
         [HttpPost]

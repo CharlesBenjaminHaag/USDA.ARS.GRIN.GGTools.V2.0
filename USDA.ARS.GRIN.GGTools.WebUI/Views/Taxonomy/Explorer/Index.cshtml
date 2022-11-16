@@ -9,8 +9,17 @@
         padding: .25rem;
     }
 
-    #tab-hierarchy-genus {
-        padding:.3rem;
+    #section-hierarchical-list .card {
+        margin-bottom: .5rem;
+    }
+
+    #section-hierarchical-list .card-title {
+        font-size: 1rem;
+        font-weight: bold;
+    }
+
+    .tab-pane {
+        padding: .5rem;
     }
 </style>
 
@@ -27,23 +36,13 @@
             <div class="card-body">
                 <div class="tab-content">
                     <div class="tab-pane active" id="tab-hierarchy-family">
-                        <div class="form-group" style="padding:.3rem;">
-                            <label>Family</label>
-                            <div class="input-group">
-                                <input type="text" class="form-control" />
-                                <span class="input-group-btn">
-                                    <button id="btnFamilyNameLookup" type="button" data-toggle="modal" data-ggtools-action="AcceptedID" data-ggtools-value="AcceptedName" data-target="#modal-species-lookup" class="btn btn-default btn-flat">
-                                        <i class="fa fa-search"></i>
-                                    </button>
-                                </span>
-                            </div>
-                        </div>
+                        @{Html.RenderAction("_ListFamily", "Explorer");}  
                     </div>
                     <div class="tab-pane" id="tab-hierarchy-genus">
                         <div class="form-group" style="padding:.3rem;">
                             <label>Genus</label>
                             <div class="input-group">
-                                <input type="text" class="form-control" />
+                                <input type="text" id="txtLookupGenus" class="form-control" value="Poa" />
                                 <span class="input-group-btn">
                                     <button id="btnGenusNameLookup" type="button" data-toggle="modal" data-ggtools-action="AcceptedID" data-ggtools-value="AcceptedName" data-target="#modal-species-lookup" class="btn btn-default btn-flat">
                                         <i class="fa fa-search"></i>
@@ -51,26 +50,20 @@
                                 </span>
                             </div>
                         </div>
-                        @foreach (var result in Model.DataCollectionGenus)
-                        {
-                            <div class="card card-success collapsed-card">
-                                <div class="card-header">
-                                    <h3 class="card-title">@result.Name</h3>
-                                    <div class="card-tools">
-                                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                                            <i class="fas fa-plus"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                                <div class="card-body" style="display:none;">
-                                    <div id="section-species-list-@result.ID" class="list-group">
-                                        @{ Html.RenderAction("_List", "Species", new { genusId = result.ID, formatCode = "S" }); }
-                                    </div>
-                                </div>
-                            </div>
-                        }
+                        @{Html.RenderAction("_ListGenus", "Explorer");}
                     </div>
                     <div class="tab-pane" id="tab-hierarchy-species">
+                        <div class="form-group" style="padding:.3rem;">
+                            <label>Species</label>
+                            <div class="input-group">
+                                <input id="txtLookupSpecies" type="text" class="form-control" />
+                                <span class="input-group-btn">
+                                    <button id="btnSpeciesNameLookup" type="button" data-toggle="modal" data-ggtools-action="AcceptedID" data-ggtools-value="AcceptedName" data-target="#modal-species-lookup" class="btn btn-default btn-flat">
+                                        <i class="fa fa-search"></i>
+                                    </button>
+                                </span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -81,6 +74,12 @@
             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
             <h5><i class="icon fas fa-exclamation-triangle"></i> Alert!</h5>
             Warning alert preview. This alert is dismissable.
+        </div>
+
+        <div class="alert alert-success alert-dismissible">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            <h5><i class="icon fas fa-leaf"></i><span id="section-species-name"></span></h5>
+            @*<span id="section-species-note"></span>*@
         </div>
 
         <div class="card card-default">
@@ -101,12 +100,15 @@
         </div>
         <div id="section-species-citations">
         </div>
-        <div id="section-species-common-names">
+        <div id="section-common-names">
         </div>
-        <div id="section-species-distributions">
+        <div id="section-distributions">
         </div>
     </div>
 </div>
+
+@Html.Partial("~/Views/Taxonomy/CommonName/_Edit.cshtml")
+@Html.Partial("~/Views/Taxonomy/GeographyMap/_Edit.cshtml")
 
 <script type="text/javascript">
 
@@ -114,27 +116,34 @@
         InitDataTableByClass();
     });
 
-    $('#section-species-list ul.nav li').on('click', function () {
+    $('ul.species-selector li').on('click', function () {
         var selectedSpeciesId = $(this).attr('id');
         var selectedGenusId = $(this).data("ggtools-value");
         var genusNodeId = "#list-taxa-" + selectedGenusId;
 
-        //DEBUG
-        if ($('.changed-input').length) {
-            //alert("DEBUG UNSAVED CHANGES");
+        if (selectedSpeciesId == -9) {
+            Add(selectedGenusId);
         }
         else {
-            if (selectedSpeciesId == -9) {
-                Add(selectedGenusId);
-            }
-            else {
-                Edit(selectedSpeciesId);
-                LoadCommonNames(selectedSpeciesId);
-                LoadDistributions(selectedSpeciesId);
-            }
+            Edit(selectedSpeciesId);
+            LoadCommonNames(selectedSpeciesId);
+            LoadDistributions(selectedSpeciesId);
         }
+
+        //DEBUG unsaved-changes logic. Need? --CBH 11/15/22
+        //if ($('.changed-input').length) {
+        //    //alert("DEBUG UNSAVED CHANGES");
+        //}
+        //else {
+
+        //}
     });
 
+    /*
+    **********************************************************************************
+    SPECIES
+    **********************************************************************************
+    */
     $('#btnSave').on('click', function () {
         AjaxFormSubmit();
     });
@@ -142,6 +151,8 @@
     function Add(genusId) {
         link = '@Url.Action("_Add","Species")';
         var formData = new FormData();
+
+        ResetDependentData();
 
         try {
             formData.append("genusId", genusId);
@@ -177,6 +188,10 @@
                 data: formData,
                 success: function (response) {
                     $("#section-species-detail").html(response);
+                    var speciesName = $("#Entity_FullName").val();
+                    var speciesNote = $("#Entity_Note").val();
+                    $("#section-species-name").html(speciesName);
+                    $("#section-species-note").html(speciesNote);
                 }
             });
         }
@@ -185,6 +200,11 @@
         }
     }
 
+    /*
+    **********************************************************************************
+    CITATIONS
+    **********************************************************************************
+    */
     function LoadCitations(speciesId) {
         link = '@Url.Action("_List","Citation")';
         var formData = new FormData();
@@ -205,6 +225,11 @@
         });
     }
 
+    /*
+    **********************************************************************************
+    COMMON NAME
+    **********************************************************************************
+    */
     function LoadCommonNames(speciesId) {
         link = '@Url.Action("_List","CommonName")';
         var formData = new FormData();
@@ -219,10 +244,64 @@
             processData: false,
             data: formData,
             success: function (response) {
-                $("#section-species-common-names").html(response);
+                $("#section-common-names").html(response);
             }
         });
     }
+
+    $(document).on("click", "[id='btnAddCommonName']", function () {
+        $("#modal-common-name-edit").modal("show");
+    });
+
+    $(document).on("click", "[id='btnSaveCommonName']", function () {
+        $("#modal-common-name-edit").modal("hide");
+        var speciesId = $("#Entity_ID").val();
+        //DEBUG
+        alert("DEBUG SAVING CHANGES FOR SPECIES " + speciesId);
+        SaveCommonName(speciesId);
+    });
+
+    function SaveCommonName(speciesId) {
+        link = '@Url.Action("_Save","CommonName")';
+        var name = $("#txtCommonNameEditName").val();
+        var formData = new FormData();
+        formData.append("Entity.SpeciesId", speciesId);
+        formData.append("Entity.Name", name);
+        $.ajax({
+            url: link,
+            type: 'POST',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (response) {
+                //DEBUG
+                alert("DEBUG CHANGES SAVED FOR SPECIES " + speciesId);
+                LoadCommonNames(speciesId);
+            }
+        });
+    }
+
+    function ResetDependentData() {
+        $("#section-distributions").html("");
+        $("#section-common-names").html("");
+    }
+
+    /*
+    **********************************************************************************
+    DISTRIBUTION
+    **********************************************************************************
+    */
+
+    $(document).on("click", "[id='btnAddDistribution']", function () {
+        $("#modal-geography-map-edit").modal("show");
+    });
+
+    $(document).on("click", "[id='btnSaveDistribution']", function () {
+        $("#modal-geography-map-edit").modal("hide");
+        var speciesId = $("#Entity_SpeciesID").val();
+        LoadDistributions(speciesId);
+    });
 
     function LoadDistributions(speciesId) {
         link = '@Url.Action("_List","GeographyMap")';
@@ -238,12 +317,12 @@
             processData: false,
             data: formData,
             success: function (response) {
-                $("#section-species-distributions").html(response);
+                $("#section-distributions").html(response);
             }
         });
     }
 
-    function LoadDependentData(sectionId) {
+    @*function LoadDependentData(sectionId) {
         var link = "";
         var entityId = $("#Entity_ID").val();
         var genusId = $("#Entity_GenusID").val();
@@ -283,10 +362,9 @@
             $("#" + sectionData).html(response);
         }
     });
-    }
+    }*@
 
     function AjaxFormSubmit() {
-        //Set the URL.
         var url = $("#frmEdit").attr("action");
 
         //Add the Field values to FormData object.
@@ -308,10 +386,10 @@
         }).done(function (response) {
             if (response) {
                 $("#section-species-detail").html(response);
-                /*TODO 
-                 REFRESH GENUS NODE
-                 */
-                alert();
+                var speciesId = $("#Entity_SpeciesID").val();
+                var speciesName = $("#Entity_SpeciesName").val();
+                LoadCommonNames(speciesId);
+                LoadDistributions(speciesId);
             }
             else {
                 //alert("Invalid Form data!");

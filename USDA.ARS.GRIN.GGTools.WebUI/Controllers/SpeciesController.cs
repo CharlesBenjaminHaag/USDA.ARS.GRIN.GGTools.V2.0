@@ -14,6 +14,31 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
     {
         protected static string BASE_PATH = "~/Views/Taxonomy/Species/";
         private static readonly Logger Log = LogManager.GetCurrentClassLogger();
+        //public ActionResult Explorer()
+        //{
+        //    TaxonomyExplorerViewModel viewModel = new TaxonomyExplorerViewModel();
+        //    GenusViewModel viewModelGenus = new GenusViewModel();
+        //    FamilyMapViewModel viewModelFamily = new FamilyMapViewModel();
+        //    SpeciesViewModel viewModelSpecies = new SpeciesViewModel();
+
+        //    try
+        //    {
+        //        viewModelFamily.SearchEntity.FamilyName = "Poa";
+        //        viewModelFamily.Search();
+        //        viewModel.DataCollectionFamily = viewModelFamily.DataCollection;
+
+        //        viewModelGenus.SearchEntity.FullName = "Poa";
+        //        viewModelGenus.Search();
+        //        viewModel.DataCollectionGenus = viewModelGenus.DataCollection;
+        //        viewModel.SpeciesViewModel = viewModelSpecies;
+        //        return View(BASE_PATH + "Explorer/Index.cshtml", viewModel);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Log.Error(ex);
+        //        return RedirectToAction("InternalServerError", "Error");
+        //    }
+        //}
         public PartialViewResult _ListFolderItems(int folderId)
         {
             try
@@ -246,6 +271,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                     viewModel.Update();
                 }
                 viewModel.Get(viewModel.Entity.ID);
+                viewModel.Entity.SpeciesID = viewModel.Entity.ID;
                 return PartialView("~/Views/Taxonomy/Species/_Edit.cshtml", viewModel);
             }
             catch (Exception ex)

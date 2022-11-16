@@ -16,22 +16,6 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
         {
             return View();
         }
-        public ActionResult Explorer()
-        {
-            TaxonomyExplorerViewModel viewModel = new TaxonomyExplorerViewModel();
-            GenusViewModel viewModelGenus = new GenusViewModel();
-            FamilyMapViewModel viewModelFamily = new FamilyMapViewModel();
-            SpeciesViewModel viewModelSpecies = new SpeciesViewModel();
-
-            viewModelFamily.SearchEntity.FamilyName = "Poa";
-            viewModelFamily.Search();
-            viewModel.DataCollectionFamily = viewModelFamily.DataCollection;
-
-            viewModelGenus.SearchEntity.FullName = "Poa";
-            viewModelGenus.Search();
-            viewModel.DataCollectionGenus = viewModelGenus.DataCollection;
-            viewModel.SpeciesViewModel = viewModelSpecies;
-            return View("~/Views/Demo/Explorer.cshtml", viewModel);
-        }
+        
     }
 }

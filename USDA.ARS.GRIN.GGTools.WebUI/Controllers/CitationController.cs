@@ -160,6 +160,37 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 return RedirectToAction("InternalServerError", "Error");
             }
         }
+
+        public PartialViewResult _Save(CitationViewModel viewModel)
+        {
+            try
+            {
+                viewModel.Entity.TableName = viewModel.TableName;
+
+                //if (!viewModel.Validate())
+                //{
+                //    if (viewModel.ValidationMessages.Count > 0) return View(viewModel);
+                //}
+
+                if (viewModel.Entity.ID == 0)
+                {
+                    viewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
+                    viewModel.Insert();
+                }
+                else
+                {
+                    viewModel.Entity.ModifiedByCooperatorID = AuthenticatedUser.CooperatorID;
+                    viewModel.Update();
+                }
+                return PartialView("~/Views/Taxonomy/Citation/_Edit.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
+        }
+
         public ActionResult Add()
         {
             CitationViewModel viewModel = new CitationViewModel();
@@ -265,49 +296,35 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             CitationViewModel viewModel = new CitationViewModel();
             CitationViewModel cloneViewModel = new CitationViewModel();
 
-            if (!String.IsNullOrEmpty(formCollection["TableName"]))
-            {
-                viewModel.TableName = formCollection["TableName"];
-            }
-            
-            // The referenced entity ID is the record in <TableName> that will reference the new
-            // citation. TEMPORARY: allows for current schema, where certain species child tables
-            // reference a single citation via a citation_id field. -- CBH, 11/14
-            if (!String.IsNullOrEmpty(formCollection["EntityID"]))
-            {
-                viewModel.ReferencedEntityID = Int32.Parse(formCollection["EntityID"]);
-            }
-
+            // Retrieve and clone the citation whose ID is passed as a parameter.
             if (!String.IsNullOrEmpty(formCollection["CitationID"]))
             {
                 cloneViewModel.SearchEntity.ID = Int32.Parse(formCollection["CitationID"]);
             }
-
-            //TODO
-            //If the record being linked to a citation is a species child record, obtain the parent species.
-
-
-            // Retrieve the existing citation, based on the passed-in ID.
             cloneViewModel.Search();
-            
             viewModel.Entity = cloneViewModel.Entity;
-            viewModel.Entity.ID = 0;
 
-            // TODO Based on the table name, determine whether or not to obtain a parent species
-            // ID.
-            switch (viewModel.TableName)
+            if (!String.IsNullOrEmpty(formCollection["TableName"]))
             {
-                case "taxonomy_family_map":
-                    viewModel.Entity.FamilyID = viewModel.ReferencedEntityID;
-                    break;
-                case "taxonomy_genus":
-                    viewModel.Entity.GenusID = viewModel.ReferencedEntityID;
-                    break;
-                case "taxonomy_species":
-                    viewModel.Entity.SpeciesID = viewModel.ReferencedEntityID;
-                    break;
+                viewModel.TableName = formCollection["TableName"];
+            }
+             
+            if (!String.IsNullOrEmpty(formCollection["FamilyID"]))
+            {
+                viewModel.Entity.FamilyID = Int32.Parse(formCollection["FamilyID"]);
             }
 
+            if (!String.IsNullOrEmpty(formCollection["GenusID"]))
+            {
+                viewModel.Entity.GenusID = Int32.Parse(formCollection["GenusID"]);
+            }
+
+            if (!String.IsNullOrEmpty(formCollection["SpeciesID"]))
+            {
+                viewModel.Entity.SpeciesID = Int32.Parse(formCollection["SpeciesID"]);
+            }
+            viewModel.Entity.ID = 0;
+            viewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
             viewModel.Insert();
 
             return Json(new { citation = viewModel.Entity }, JsonRequestBehavior.AllowGet);
@@ -344,9 +361,10 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             viewModel.GetTaxonCitations(tableName, entityId);
             return PartialView(BASE_PATH + "/Modals/_Lookup.cshtml", viewModel);
         }
-        public PartialViewResult RenderEditModal()
+        public PartialViewResult RenderEditModal(int entityId)
         {
             CitationViewModel viewModel = new CitationViewModel();
+            viewModel.Get(entityId);
             return PartialView("~/Views/Taxonomy/Citation/Modals/_Edit.cshtml", viewModel);
         }
 

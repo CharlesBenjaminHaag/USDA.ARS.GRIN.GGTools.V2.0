@@ -3,12 +3,13 @@
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title">Citation Lookup</h4>
+                <h4 class="modal-title">Citation Edit [@Model.Entity.ID]</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">×</span>
                 </button>
             </div>
             <div class="modal-body">
+                @Html.Partial("~/Views/Shared/_RevisionHistory.cshtml")
                 <div class="row">
                     <div class="col-md-3">
                         <div class="form-group">
@@ -67,22 +68,8 @@
             </div>
             <div class="modal-footer justify-content-between">
                 <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-                <button id="btnSaveNewCitation" type="button" class="btn btn-info float-right" data-dismiss="modal">Save Changes</button>
+                <button id="btnCitationEditSave" type="button" class="btn btn-info float-right" data-dismiss="modal">Save Changes</button>
             </div>
         </div>
     </div>
 </div>
-<script type="text/javascript">
-    $(document).on("click", "[id='btnEditCitation']", function () {
-        var citationId = $("#Entity_ID").val();
-
-        //DEBUG
-        alert("GET CIT " + citationId);
-
-        $("#modal-citation-edit").modal("show");
-    });
-
-    function GetCitation() {
-
-    }
-</script>
