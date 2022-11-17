@@ -7,7 +7,7 @@ using USDA.ARS.GRIN.GGTools.AppLayer;
 
 namespace USDA.ARS.GRIN.GGTools.DataLayer 
 {
-    public class SysGroup : AppEntityBase
+    public class SysGroupSearch : SearchEntityBase
     {
         public string GroupTag { get; set; }
         public string GroupTitle { get; set; }

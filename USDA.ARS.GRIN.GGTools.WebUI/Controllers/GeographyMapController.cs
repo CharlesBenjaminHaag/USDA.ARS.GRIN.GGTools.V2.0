@@ -260,6 +260,13 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             return PartialView("~/Views/GeographyMap/Modals/_Lookup.cshtml", viewModel);
         }
 
+        public PartialViewResult RenderEditModal(int entityId)
+        {
+            CitationViewModel viewModel = new CitationViewModel();
+            viewModel.Get(entityId);
+            return PartialView("~/Views/Taxonomy/Citation/Modals/_Edit.cshtml", viewModel);
+        }
+
         [HttpPost]
         public PartialViewResult FolderItems(FormCollection formCollection)
         {

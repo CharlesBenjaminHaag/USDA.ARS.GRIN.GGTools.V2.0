@@ -30,15 +30,31 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             throw new NotImplementedException();
         }
 
+        public List<SysPermission> GetSysPermissionsByTable(int sysUserId, string tableName)
+        {
+            List<SysPermission> sysPermissions = new List<SysPermission>();
+            SQL = "usp_GRINGlobal_Sys_Permission_ByTable_Select";
+           
+            var parameters = new List<IDbDataParameter> {
+                CreateParameter("sys_user_id", (object)sysUserId, false),
+                CreateParameter("table_name", (object)tableName, false)
+            };
+
+            sysPermissions = GetRecords<SysPermission>(SQL, CommandType.StoredProcedure, parameters.ToArray());
+            return sysPermissions;
+        }
+
         public List<SysPermission> Search(SysPermissionSearch searchEntity)
         {
             List<SysPermission> sysPermissions = new List<SysPermission>();
 
             SQL = " SELECT * FROM vw_GRINGlobal_Sys_Permission";
-            SQL += " WHERE    (@TableName        IS NULL OR  TableName      = @TableName)";
+            SQL += " WHERE  (@TableName     IS NULL OR  TableName       = @TableName)";
+            SQL += " AND    (@SysGroupID    IS NULL OR  SysGroupID      = @SysGroupID)";
 
             var parameters = new List<IDbDataParameter> {
-                CreateParameter("TableName", !String.IsNullOrEmpty(searchEntity.TableName) ? (object)searchEntity.TableName : DBNull.Value, true)
+                CreateParameter("TableName", !String.IsNullOrEmpty(searchEntity.TableName) ? (object)searchEntity.TableName : DBNull.Value, true),
+                CreateParameter("SysGroupID", searchEntity.SysGroupID > 0 ? (object)searchEntity.SysGroupID : DBNull.Value, true),
             };
 
             sysPermissions = GetRecords<SysPermission>(SQL, parameters.ToArray());

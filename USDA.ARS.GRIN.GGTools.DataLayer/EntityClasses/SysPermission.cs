@@ -10,11 +10,15 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
     public class SysPermission : AppEntityBase
     {
         public int SysGroupID { get; set; }
+        public string GroupTag { get; set; }
+        public string PermissionTag { get; set; }
+        public string IsMember { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
         public int SysDataViewID { get; set; }
         public int SysTableID { get; set; }
-        public string PermissionTag { get; set; }
+        public string TableName { get; set; }
+        public string TableTitle { get; set; }
         public string IsEnabled { get; set; }
         public string CreatePermission { get; set; }
         public string ReadPermission { get; set; }

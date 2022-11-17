@@ -53,9 +53,10 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
         }
         public PartialViewResult _RenderLookupModal(string tableName = "")
         {
-            SysTableViewModel viewModel = new SysTableViewModel();
+            SysPermissionViewModel viewModel = new SysPermissionViewModel();
+            viewModel.SearchEntity.SysUserID = AuthenticatedUser.SysUserID;
             viewModel.SearchEntity.TableName = tableName;
-            viewModel.GetPermissions();
+            viewModel.GetPermissionsByTable();
             return PartialView("~/Views/SysTable/Modals/_Lookup.cshtml", viewModel);
         }
 

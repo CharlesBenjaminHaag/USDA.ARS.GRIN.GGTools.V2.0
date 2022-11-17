@@ -1,22 +1,73 @@
 ﻿@model USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer.CitationViewModel
-@if (Model.Entity.ID > 0)
-{
-    <div class="info-box">
-        <span class="info-box-icon bg-info"><i class="far fa-copy"></i></span>
-        <div class="info-box-content">
-            <span class="info-box-text"><a href="@Url.Action("Edit","Citation", new { @entityId = Model.Entity.ID })">Citation</a></span>
-            <span class="info-box-number">
-                @Html.Raw(Model.Entity.CitationText)
-                <span class="citation-edit-control-sm float-right">
-                    <button id="btnDeleteCitations" type="button" class="btn btn-default btn-sm">
-                        Remove
-                    </button></span>
-                <span class="citation-edit-control-sm float-right">
-                    <button id="" type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#modal-citation-lookup">
-                        Change
-                    </button>
-                </span>
-            </span>
-        </div>
-    </div>
- }
+<label>Citation</label>
+<div class="input-group">
+    @Html.HiddenFor(x => x.Entity.CitationID)
+    @Html.TextBoxFor(x => x.Entity.CitationText, new { @class = "form-control", @readonly = "readonly" })
+    <span class="input-group-btn">
+        <button id="btnEditCitation" type="button" class="btn btn-default btn-flat">
+            <i class="fa fa-edit"></i>
+        </button>
+    </span>
+    <span class="input-group-btn">
+        <button type="button" class="btn btn-default btn-flat" data-toggle="modal" data-target="#modal-citation-lookup">
+            <i class="fa fa-search"></i>
+        </button>
+    </span>
+</div>
+<script type="text/javascript">
+    $(document).on("click", "[id='btnEditCitation']", function () {
+        var citationId = $("#Entity_CitationID").val();
+        EditCitation(citationId);
+    });
+
+    $(document).on("click", "[id='btnCitationEditSave']", function () {
+        SaveCitation();
+    });
+
+    function SaveCitation() {
+        link = '@Url.Action("_Save","Citation")';
+        var formData = new FormData();
+
+        formData.append("Entity.ID", $("#Entity_CitationID").val());
+        formData.append("Entity.CitationTitle", $("#Entity_CitationTitle").val());
+        formData.append("Entity.CitationAuthorName", $("#Entity_CitationAuthorName").val());
+        formData.append("Entity.CitationYear", $("#Entity_CitationYear").val());
+        formData.append("Entity.VolumeOrPage", $("#Entity_VolumeOrPage").val());
+        formData.append("Entity.DOIReference", $("#Entity_DOIReference").val());
+        formData.append("Entity.CitationTitle", $("#Entity_CitationTitle").val());
+        formData.append("Entity.Note", $("#txtCitationNote").val());
+
+        $.ajax({
+            url: link,
+            type: 'POST',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (response) {
+                $("#modal-citation-edit").modal("hide");
+            }
+        });
+    }
+
+    function EditCitation(citationId) {
+        link = '@Url.Action("RenderEditModal","Citation")';
+        var formData = new FormData();
+
+        formData.append("entityId", citationId);
+
+        $.ajax({
+            url: link,
+            type: 'POST',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (response) {
+                $("#section-modal-citation-edit").html(response);
+                $("#modal-citation-edit").modal("show");
+            }
+        });
+    }
+
+</script>

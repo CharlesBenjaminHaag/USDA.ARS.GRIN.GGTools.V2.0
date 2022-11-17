@@ -6,7 +6,6 @@
     @Html.HiddenFor(x => x.EventValue)
     @Html.HiddenFor(x => x.TableName)
     @Html.HiddenFor(x => x.TableCode)
-    @Html.HiddenFor(x => x.Entity.ID)
     @Html.HiddenFor(x => x.Entity.SpeciesID)
     @Html.HiddenFor(x => x.Entity.FullName)
     @Html.HiddenFor(x => x.Entity.Rank)
@@ -69,40 +68,11 @@
                 </div>
             </div>
         </div>
-        <div id="section-infraspecific-species" class="col-md-3 infra">
-            @switch (Model.Entity.Rank)
-            {
-                case "subspecies":
-                    <div class="form-group">
-                        <label>Subspecies Name</label>
-                        @Html.TextBoxFor(x => x.Entity.SubspeciesName, new { @class = "form-control" })
-                    </div>
-                    break;
-                case "variety":
-                    <div class="form-group">
-                        <label>Variety Name</label>
-                        @Html.TextBoxFor(x => x.Entity.VarietyName, new { @class = "form-control" })
-                    </div>
-                    break;
-                case "subvariety":
-                    <div class="form-group">
-                        <label>Subvariety Name</label>
-                        @Html.TextBoxFor(x => x.Entity.SubvarietyName, new { @class = "form-control" })
-                    </div>
-                    break;
-                case "forma":
-                    <div class="form-group">
-                        <label>Forma Name</label>
-                        @Html.TextBoxFor(x => x.Entity.FormaName, new { @class = "form-control" })
-                    </div>
-                    break;
-                default:
-                    <div class="form-group">
-                        <label>Epithet</label>
-                        @Html.TextBoxFor(x => x.Entity.SpeciesName, new { @class = "form-control" })
-                    </div>
-                    break;
-            }
+        <div class="col-md-3">
+            <div class="form-group">
+                <label>Epithet</label>
+                @Html.TextBoxFor(x => x.Entity.SpeciesName, new { @class = "form-control" })
+            </div>
         </div>
         <div id="section-infraspecific-species-authority" class="col-md-3 infra">
             @switch (Model.EventValue)
@@ -179,66 +149,7 @@
             </div>
         </div>
     </div>
-    @*<div class="row">
-            <div class="col-md-3">
-                <div class="form-group">
-                    <label>Protologue Virtual Path</label>
-                    @Html.TextBoxFor(x => x.Entity.ProtologueVirtualPath, new { @class = "form-control" })
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="form-group">
-                    <label>Hybrid Parentage</label>
-                    @Html.TextBoxFor(x => x.Entity.HybridParentage, new { @class = "form-control" })
-                </div>
-            </div>
-            <div class="col-md-1">
-                <div class="form-group clearfix" style="margin-top:40px;">
-                    <div class="icheck-primary d-inline">
-                        @Html.CheckBoxFor(x => x.Entity.IsSpecificHybridOption)
-                        <label for="Entity_IsSpecificHybridOption">
-                            Hybrid
-                        </label>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-2">
-                <div class="form-group clearfix" style="margin-top:40px;">
-                    <div class="icheck-primary d-inline">
-                        @Html.CheckBoxFor(x => x.Entity.IsWebVisibleOption)
-                        <label for="Entity_IsWebVisibleOption">
-                            Web Visible
-                        </label>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
-                <label>Note</label>
-                @Html.TextAreaFor(x => x.Entity.Note, new { @class = "form-control" })
-            </div>
-        </div>*@
 }
 
-<script type="text/javascript">
-    //$(document).ready(function () {
-    //    $("input[type='text']").change(function () {
-    //        //isChange = true;
-    //        alert("DEBUG CHANGES");
-    //    })
-    //});
-
-    $('#section-species-detail').on('change keyup keydown', 'input, textarea, select', function (e) {
-        $(this).addClass('changed-input');
-    });
-
-    $(window).on('beforeunload', function () {
-        if ($('.changed-input').length) {
-            return 'You haven\'t saved your changes.';
-        }
-    });
-
-</script>
 
 

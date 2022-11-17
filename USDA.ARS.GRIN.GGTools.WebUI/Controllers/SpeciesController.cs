@@ -247,6 +247,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 viewModel.PageTitle = String.Format("Edit [{0}]: {1}", viewModel.Entity.ID, viewModel.Entity.FullName);
                 viewModel.EventValue = viewModel.Entity.Rank.ToLower();
                 viewModel.ID = entityId;
+                viewModel.SpeciesID = entityId;
                 return PartialView("~/Views/Taxonomy/Species/_Edit.cshtml", viewModel);
             }
             catch (Exception ex)
@@ -258,20 +259,23 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
 
         public PartialViewResult _Save(SpeciesViewModel viewModel)
         {
+            int speciesID = 0;
             try
             {
                 if (viewModel.Entity.ID == 0)
                 {
                     viewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
                     viewModel.Insert();
+                    speciesID = viewModel.Entity.ID;
                 }
                 else
                 {
                     viewModel.Entity.ModifiedByCooperatorID = AuthenticatedUser.CooperatorID;
                     viewModel.Update();
+                    speciesID = viewModel.Entity.ID;
                 }
-                viewModel.Get(viewModel.Entity.ID);
-                viewModel.Entity.SpeciesID = viewModel.Entity.ID;
+                viewModel.Get(speciesID);
+                viewModel.Entity.SpeciesID = speciesID;
                 return PartialView("~/Views/Taxonomy/Species/_Edit.cshtml", viewModel);
             }
             catch (Exception ex)

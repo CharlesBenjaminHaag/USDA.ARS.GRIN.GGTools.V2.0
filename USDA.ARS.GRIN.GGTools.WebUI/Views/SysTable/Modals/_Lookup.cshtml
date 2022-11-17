@@ -1,4 +1,4 @@
-﻿@model USDA.ARS.GRIN.GGTools.ViewModelLayer.SysTableViewModel
+﻿@model USDA.ARS.GRIN.GGTools.ViewModelLayer.SysPermissionViewModel
 <div class="modal fade" id="modal-sys-table-lookup" style="display: none;" aria-hidden="true">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
@@ -17,32 +17,30 @@
                         <tr>
                             <th></th>
                             <th>ID</th>
+                            <th>Group</th>
                             <th>Permission</th>
-                            <th>Enabled</th>
+                            <th>Member</th>
                             <th>Create</th>
                             <th>Read</th>
                             <th>Update</th>
                             <th>Delete</th>
-                            <th>Created</th>
-                            <th>Last Modified</th>
                         </tr>
                     </thead>
                     <tbody>
-                            @foreach (var result in Model.DataCollectionPermissions)
+                            @foreach (var result in Model.DataCollection)
                             {
                                 <tr>
                                     <td>
                                         @result.ID
                                     </td>
                                     <td>@result.ID</td>
+                                    <td>@result.GroupTag</td>
                                     <td>@result.PermissionTag</td>
-                                    <td>@Html.Raw(Model.FormatBoolean(result.IsEnabled))</td>
+                                    <td>@Html.Raw(Model.FormatBoolean(result.IsMember))</td>
                                     <td>@result.CreatePermission</td>
                                     <td>@result.ReadPermission</td>
                                     <td>@result.UpdatePermission</td>
                                     <td>@result.DeletePermission</td>
-                                    <td></td>
-                                    <td></td>
                                 </tr>
                             }
                     </tbody>

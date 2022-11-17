@@ -13,11 +13,11 @@
             </div>
             <div class="modal-body">
                 <div class="row">
-                    
                     <div class="col-md-3">
                         <div class="form-group">
                             <label>Geography</label>
                             <div class="input-group">
+                                <input type="text" id="txtGeographyMapEditGeographyID" class="form-control" />
                                 @*@Html.TextBoxFor(x => x.Entity.GeographyDescription, new { @class = "form-control", @readonly = "readonly" })
                                 @Html.HiddenFor(x => x.Entity.GeographyID)*@
                                 <span class="input-group-btn">
@@ -31,6 +31,7 @@
                     <div class="col-md-2">
                         <div class="form-group form-horizontal">
                             <label>Geography Status</label>
+                            <select id="ddlGeographyMapEditGeographyStatus" class="form-control"></select>
                             @*@Html.DropDownListFor(x => x.Entity.GeographyStatusCode, Model.GeographyStatusCodes, "All Statuses", new { @class = "form-control" })*@
                         </div>
                     </div>

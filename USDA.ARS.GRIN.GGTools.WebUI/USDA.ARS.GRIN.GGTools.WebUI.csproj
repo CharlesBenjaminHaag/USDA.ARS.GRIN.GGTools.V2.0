@@ -180,6 +180,8 @@
     <Compile Include="Controllers\SubfamilyController.cs" />
     <Compile Include="Controllers\SubtribeController.cs" />
     <Compile Include="Controllers\SynonymMapController.cs" />
+    <Compile Include="Controllers\SysPermissionController.cs" />
+    <Compile Include="Controllers\SysGroupController.cs" />
     <Compile Include="Controllers\SysGroupUserMapController.cs" />
     <Compile Include="Controllers\SysTableController.cs" />
     <Compile Include="Controllers\SysUserController.cs" />
@@ -649,6 +651,8 @@
     <Content Include="Views\Taxonomy\Explorer\_ListSpecies.cshtml" />
     <Content Include="Views\Taxonomy\Explorer\_ListGenus.cshtml" />
     <Content Include="Views\SysGroup\Explorer\Index.cshtml" />
+    <Content Include="Views\SysGroup\_SelectListSimple.cshtml" />
+    <Content Include="Views\SysPermission\_List.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

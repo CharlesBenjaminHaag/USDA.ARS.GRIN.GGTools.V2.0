@@ -120,7 +120,7 @@
         var selectedSpeciesId = $(this).attr('id');
         var selectedGenusId = $(this).data("ggtools-value");
         var genusNodeId = "#list-taxa-" + selectedGenusId;
-
+     
         if (selectedSpeciesId == -9) {
             Add(selectedGenusId);
         }
@@ -234,19 +234,25 @@
         link = '@Url.Action("_List","CommonName")';
         var formData = new FormData();
 
-        formData.append("speciesId", speciesId);
+        if (speciesId > 0) {
 
-        $.ajax({
-            url: link,
-            type: 'POST',
-            cache: false,
-            contentType: false,
-            processData: false,
-            data: formData,
-            success: function (response) {
-                $("#section-common-names").html(response);
-            }
-        });
+            formData.append("speciesId", speciesId);
+
+            $.ajax({
+                url: link,
+                type: 'POST',
+                cache: false,
+                contentType: false,
+                processData: false,
+                data: formData,
+                success: function (response) {
+                    $("#section-common-names").html(response);
+                }
+            });
+        }
+        else {
+            alert("ERROR: Species ID is 0");
+        }
     }
 
     $(document).on("click", "[id='btnAddCommonName']", function () {
@@ -256,8 +262,6 @@
     $(document).on("click", "[id='btnSaveCommonName']", function () {
         $("#modal-common-name-edit").modal("hide");
         var speciesId = $("#Entity_ID").val();
-        //DEBUG
-        alert("DEBUG SAVING CHANGES FOR SPECIES " + speciesId);
         SaveCommonName(speciesId);
     });
 
@@ -275,8 +279,6 @@
             processData: false,
             data: formData,
             success: function (response) {
-                //DEBUG
-                alert("DEBUG CHANGES SAVED FOR SPECIES " + speciesId);
                 LoadCommonNames(speciesId);
             }
         });
@@ -307,69 +309,33 @@
         link = '@Url.Action("_List","GeographyMap")';
         var formData = new FormData();
 
-        formData.append("entityId", speciesId);
+        if (speciesId > 0) {
 
-        $.ajax({
-            url: link,
-            type: 'POST',
-            cache: false,
-            contentType: false,
-            processData: false,
-            data: formData,
-            success: function (response) {
-                $("#section-distributions").html(response);
-            }
-        });
+            formData.append("entityId", speciesId);
+            
+            $.ajax({
+                url: link,
+                type: 'POST',
+                cache: false,
+                contentType: false,
+                processData: false,
+                data: formData,
+                success: function (response) {
+                    $("#section-distributions").html(response);
+                }
+            });
+        }
+        else {
+            alert("ERROR: Species ID is 0");
+        }
     }
-
-    @*function LoadDependentData(sectionId) {
-        var link = "";
-        var entityId = $("#Entity_ID").val();
-        var genusId = $("#Entity_GenusID").val();
-        var genusName = $("#Entity_Name").val();
-        var formData = new FormData();
-        var sectionData = sectionId.replace("tab_selector", "tab_content");
-
-        // Load data in selected section content area based on id.
-        switch (sectionId) {
-            case "tab_selector_citations":
-                link = '@Url.Action("_List","Citation")';
-                break;
-            case "tab_selector_species":
-                link = '@Url.Action("_List","Species")';
-                break;
-            case "tab_selector_synonyms":
-                link = '@Url.Action("_ListSynonyms", "Genus")';
-                break;
-            case "tab_selector_subdivisions":
-                link = '@Url.Action("_ListSubdivisions", "Genus", new { genusName = "GENUS_NAME" })';
-                link = link.replace("GENUS_NAME", genusName);
-                break;
-            default:
-                // code block
-        }
-
-    formData.append("GenusID", entityId);
-
-    $.ajax({
-        url: link,
-        type: 'POST',
-        cache: false,
-        contentType: false,
-        processData: false,
-        data: formData,
-        success: function (response) {
-            $("#" + sectionData).html(response);
-        }
-    });
-    }*@
 
     function AjaxFormSubmit() {
         var url = $("#frmEdit").attr("action");
 
         //Add the Field values to FormData object.
         var formData = new FormData();
-        formData.append("Entity.ID", $("#Entity_ID").val());
+        formData.append("Entity.SpeciesID", $("#Entity_SpeciesID").val());
         formData.append("Entity.GenusID", $("#Entity_GenusID").val());
         formData.append("Entity.Rank", $("#Entity_Rank").val());
         formData.append("Entity.SpeciesName", $("#Entity_SpeciesName").val());

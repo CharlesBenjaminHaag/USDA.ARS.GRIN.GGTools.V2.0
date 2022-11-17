@@ -35,11 +35,13 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
         {
             List<SysGroupUserMap> sysGroupUserMaps = new List<SysGroupUserMap>();
 
-            SQL = " SELECT * FROM vw_GGTools_GRINGlobal_SysGroupUserMaps";
-            SQL += " WHERE  (@SysUserID         IS NULL OR  SysUserID       = @SysUserID)";
-            SQL += " AND    (@SysGroupID        IS NULL OR  SysGroupID      = @SysGroupID)";
+            SQL = " SELECT * FROM vw_GRINGlobal_Sys_Group_User_Map";
+            SQL += " WHERE  (@GroupTag          IS NULL OR  GroupTag        LIKE    '%' + @GroupTag + '%')";
+            SQL += " AND    (@SysUserID        IS NULL OR  SysUserID      =       @SysUserID)";
+            SQL += " AND    (@SysGroupID        IS NULL OR  SysGroupID      =       @SysGroupID)";
 
             var parameters = new List<IDbDataParameter> {
+                CreateParameter("GroupTag", (object)searchEntity.GroupTag ?? DBNull.Value, true),
                 CreateParameter("SysUserID", searchEntity.SysUserID > 0 ? (object)searchEntity.SysUserID : DBNull.Value, true),
                 CreateParameter("SysGroupID", searchEntity.SysGroupID > 0 ? (object)searchEntity.SysGroupID : DBNull.Value, true)
             };

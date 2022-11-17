@@ -121,6 +121,7 @@
     <Compile Include="EntityClasses\SysApplicationSearch.cs" />
     <Compile Include="EntityClasses\SysDBErrorSearch.cs" />
     <Compile Include="EntityClasses\SysDBError.cs" />
+    <Compile Include="EntityClasses\SysGroupSearch.cs" />
     <Compile Include="EntityClasses\SysGroup.cs" />
     <Compile Include="EntityClasses\SysGroupUserMap.cs" />
     <Compile Include="EntityClasses\SysGroupUserMapSearch.cs" />
@@ -173,6 +174,7 @@
     <Compile Include="ManagerClasses\SysAppErrorManager.cs" />
     <Compile Include="ManagerClasses\SysApplicationManager.cs" />
     <Compile Include="ManagerClasses\SysDBErrorManager.cs" />
+    <Compile Include="ManagerClasses\SysGroupManager.cs" />
     <Compile Include="ManagerClasses\SysGroupUserMapManager.cs" />
     <Compile Include="ManagerClasses\SysPermissionManager.cs" />
     <Compile Include="ManagerClasses\WebUserManager.cs" />

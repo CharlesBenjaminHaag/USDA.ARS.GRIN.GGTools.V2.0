@@ -10,24 +10,16 @@ using USDA.ARS.GRIN.GGTools.DataLayer;
 
 namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
 {
-    public class SysPermissionViewModel : SysPermissionViewModelBase, IViewModel<SysPermission>
+    public class SysGroupViewModel : SysGroupViewModelBase, IViewModel<SysGroup>
     {
         public void Delete()
         {
             throw new NotImplementedException();
         }
 
-        public SysPermission Get(int entityId)
+        public SysGroupUserMap Get(int entityId)
         {
             throw new NotImplementedException();
-        }
-
-        public void GetPermissionsByTable()
-        {
-            using (SysPermissionManager mgr = new SysPermissionManager())
-            {
-                DataCollection = new Collection<SysPermission>(mgr.GetSysPermissionsByTable(SearchEntity.SysUserID, SearchEntity.TableName));
-            }
         }
 
         public void HandleRequest()
@@ -42,11 +34,11 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
 
         public void Search()
         {
-            using (SysPermissionManager mgr = new SysPermissionManager())
+            using (SysGroupManager mgr = new SysGroupManager())
             {
                 try
                 {
-                    DataCollection = new Collection<SysPermission>(mgr.Search(SearchEntity));
+                    DataCollection = new Collection<SysGroup>(mgr.Search(SearchEntity));
                     if (DataCollection.Count() == 1)
                     {
                         Entity = DataCollection[0];
@@ -63,6 +55,11 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
         }
 
         public int Update()
+        {
+            throw new NotImplementedException();
+        }
+
+        SysGroup IViewModel<SysGroup>.Get(int entityId)
         {
             throw new NotImplementedException();
         }

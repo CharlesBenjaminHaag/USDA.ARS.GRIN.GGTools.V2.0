@@ -27,7 +27,7 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
         {
             using (SysPermissionManager mgr = new SysPermissionManager())
             {
-                DataCollectionPermissions = new Collection<SysPermission>(mgr.Search(new SysPermissionSearch { TableName = SearchEntity.TableName }));
+                DataCollectionPermissions = new Collection<SysPermission>(mgr.GetSysPermissionsByTable(SearchEntity.SysUserID, SearchEntity.TableName));
             }
         }
 

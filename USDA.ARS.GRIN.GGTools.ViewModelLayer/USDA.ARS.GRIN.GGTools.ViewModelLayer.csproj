@@ -121,7 +121,9 @@
     <Compile Include="SysApplicationViewModelBase.cs" />
     <Compile Include="SysErrorViewModel.cs" />
     <Compile Include="SysErrorViewModelBase.cs" />
+    <Compile Include="SysGroupViewModel.cs" />
     <Compile Include="SysGroupUserMapViewModel.cs" />
+    <Compile Include="SysGroupViewModelBase.cs" />
     <Compile Include="SysGroupUserMapViewModelBase.cs" />
     <Compile Include="SysPermissionViewModelBase.cs" />
     <Compile Include="SysPermissionViewModel.cs" />

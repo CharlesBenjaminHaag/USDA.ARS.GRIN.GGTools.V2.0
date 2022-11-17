@@ -13,5 +13,10 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
         public string GroupTag { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
+        public string SysUserName { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string SiteLongName { get; set; }
+        public string SysUserIsEnabled { get; set; }
     }
 }

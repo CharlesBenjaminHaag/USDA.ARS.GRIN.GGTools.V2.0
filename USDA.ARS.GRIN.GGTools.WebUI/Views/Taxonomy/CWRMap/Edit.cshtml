@@ -107,7 +107,8 @@
             </div>
             <div class="row">
                 <div class="col-md-12">
-                    <label>Citation</label>
+                    @Html.Partial("~/Views/Taxonomy/Citation/_Widget.cshtml")
+                    @*<label>Citation</label>
                     <div class="input-group">
                         @Html.HiddenFor(x => x.Entity.CitationID)
                         @Html.TextBoxFor(x => x.Entity.CitationText, new { @class = "form-control", @readonly = "readonly" })
@@ -121,7 +122,7 @@
                                 <i class="fa fa-search"></i>
                             </button>
                         </span>
-                    </div>
+                    </div>*@
                 </div>
             </div>
         </div>
@@ -211,7 +212,7 @@
     * CITATION EDIT
     * ===================================================================================================
     */
-    $(document).on("click", "[id='btnEditCitation']", function () {
+    @*$(document).on("click", "[id='btnEditCitation']", function () {
         var citationId = $("#Entity_CitationID").val();
         EditCitation(citationId);
     });
@@ -264,5 +265,5 @@
                 $("#modal-citation-edit").modal("show");
             }
         });
-    }
+    }*@
 </script>

@@ -1,31 +1,33 @@
 ﻿
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Browse Groups";
     Layout = "~/Views/Shared/_LayoutAdminLTE3.cshtml";
 }
 
 <div class="row">
     <div class="col-md-3">
-        <div class="card card-default">
+        @{Html.RenderAction("_List","SysGroup");}
+        @*<div class="card card-default">
             <div class="card-header">
                 Groups
             </div>
             <div class="card-body">
 
             </div>
-        </div>
+        </div>*@
     </div>
     <div class="col-md-9">
+        <h3 id="section-group-title"></h3>
         <div class="card card-default">
             <div class="card-header">
                 Permissions
             </div>
-            <div class="card-body">
+            <div id="section-sys-permission" class="card-body">
 
             </div>
         </div>
         <div class="card card-default">
-            <div class="card-header">
+            <div id="section-sys-group-user-map" class="card-header">
                 Users
             </div>
             <div class="card-body">
@@ -34,3 +36,49 @@
         </div>
     </div>
 </div>
+<script type="text/javascript">
+    $('ul.sys-group-selector li').on('click', function () {
+        var sysGroupId = $(this).attr('id');
+        LoadPermissions(sysGroupId);
+        LoadUsers(sysGroupId);
+    });
+
+    function LoadPermissions(sysGroupId) {
+        link = '@Url.Action("_List","SysPermission")';
+        var formData = new FormData();
+
+        formData.append("sysGroupId", sysGroupId);
+
+        $.ajax({
+            url: link,
+            type: 'POST',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (response) {
+                $("#section-sys-permission").html(response);
+            }
+        });
+    }
+
+    function LoadUsers(sysGroupId) {
+        link = '@Url.Action("_List","SysGroupUserMap")';
+        var formData = new FormData();
+
+        formData.append("sysGroupId", sysGroupId);
+
+        $.ajax({
+            url: link,
+            type: 'POST',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (response) {
+                $("#section-sys-group-user-map").html(response);
+            }
+        });
+    }
+
+</script>
