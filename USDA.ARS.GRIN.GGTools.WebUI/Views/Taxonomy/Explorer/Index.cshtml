@@ -188,7 +188,7 @@
                 data: formData,
                 success: function (response) {
                     $("#section-species-detail").html(response);
-                    var speciesName = $("#Entity_FullName").val();
+                    var speciesName = $("#Entity_FullName").val() + "[" + $("#Entity_ID").val() + "]";
                     var speciesNote = $("#Entity_Note").val();
                     $("#section-species-name").html(speciesName);
                     $("#section-species-note").html(speciesNote);
@@ -331,10 +331,11 @@
     }
 
     function AjaxFormSubmit() {
-        var url = $("#frmEdit").attr("action");
+        var link = $("#frmEdit").attr("action");
 
         //Add the Field values to FormData object.
         var formData = new FormData();
+        formData.append("Entity.ID", $("#Entity_ID").val());
         formData.append("Entity.SpeciesID", $("#Entity_SpeciesID").val());
         formData.append("Entity.GenusID", $("#Entity_GenusID").val());
         formData.append("Entity.Rank", $("#Entity_Rank").val());
@@ -344,23 +345,43 @@
         formData.append("Entity.Note", $("#Entity_Note").val());
 
         $.ajax({
+            url: link,
             type: 'POST',
-            url: url,
-            data: formData,
+            cache: false,
+            dataType: 'json',
+            contentType: false,
             processData: false,
-            contentType: false
-        }).done(function (response) {
-            if (response) {
-                $("#section-species-detail").html(response);
-                var speciesId = $("#Entity_SpeciesID").val();
-                var speciesName = $("#Entity_SpeciesName").val();
-                LoadCommonNames(speciesId);
-                LoadDistributions(speciesId);
-            }
-            else {
-                //alert("Invalid Form data!");
+            data: formData,
+            success: function (data) {
+                //DEBUG 
+                alert("SAVED CHANGES FOR SPECIES ID " + data.species.ID);
+                Edit(data.species.ID);
+            },
+            error: function (ex) {
             }
         });
+
+        //$.ajax({
+        //    type: 'POST',
+        //    url: url,
+        //    data: formData,
+        //    dataType: 'json',
+        //    contentType: false,
+        //    processData: false,
+        //    contentType: false
+        //}).done(function (response) {
+        //    if (response) {
+        //        alert("DEBUG NEW SPECIES ID " + response.data.newSpeciesId);
+        //        //$("#section-species-detail").html(response);
+        //        //var speciesId = $("#Entity_SpeciesID").val();
+        //        //var speciesName = $("#Entity_SpeciesName").val();
+        //        LoadCommonNames(speciesId);
+        //        LoadDistributions(speciesId);
+        //    }
+        //    else {
+        //        //alert("Invalid Form data!");
+        //    }
+        //});
     }
 
 </script>

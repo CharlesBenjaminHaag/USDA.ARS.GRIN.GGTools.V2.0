@@ -257,31 +257,31 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             }
         }
 
-        public PartialViewResult _Save(SpeciesViewModel viewModel)
+        public JsonResult _Save(SpeciesViewModel viewModel)
         {
-            int speciesID = 0;
+            int speciesId = 0;
             try
             {
                 if (viewModel.Entity.ID == 0)
                 {
                     viewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
                     viewModel.Insert();
-                    speciesID = viewModel.Entity.ID;
+                    speciesId = viewModel.Entity.ID;
                 }
                 else
                 {
                     viewModel.Entity.ModifiedByCooperatorID = AuthenticatedUser.CooperatorID;
                     viewModel.Update();
-                    speciesID = viewModel.Entity.ID;
+                    speciesId = viewModel.Entity.ID;
                 }
-                viewModel.Get(speciesID);
-                viewModel.Entity.SpeciesID = speciesID;
-                return PartialView("~/Views/Taxonomy/Species/_Edit.cshtml", viewModel);
+                viewModel.Get(speciesId);
+                viewModel.Entity.SpeciesID = speciesId;
+                return Json(new { species = viewModel.Entity }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
                 Log.Error(ex);
-                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+                return Json(new { speciesId = -1 }, JsonRequestBehavior.AllowGet);
             }
 
         }

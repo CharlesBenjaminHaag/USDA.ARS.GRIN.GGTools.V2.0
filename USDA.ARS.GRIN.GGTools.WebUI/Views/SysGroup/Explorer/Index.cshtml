@@ -37,11 +37,38 @@
     </div>
 </div>
 <script type="text/javascript">
-    $('ul.sys-group-selector li').on('click', function () {
-        var sysGroupId = $(this).attr('id');
-        LoadPermissions(sysGroupId);
-        LoadUsers(sysGroupId);
+    $(document).ready(function () {
+        $(document).ready(function () {
+            tableName = "#data_table_sys_group";
+            table = $(tableName).DataTable({
+                paging: false,
+                responsive: true,
+                select: {
+                    style: 'single'
+                },
+                searching: true,
+                columnDefs: [
+                    { targets: [0], visible: false }
+                ]
+            });
+        });
+
+        $('#data_table_sys_group tbody').on('click', 'tr', function () {
+            var data = table.row(this).data();
+
+            //DEBUG
+            alert("SEL GRP " + data[0]);
+
+            LoadPermissions(data[0]);
+            LoadUsers(data[0]);
+        });
     });
+
+    //$('ul.sys-group-selector li').on('click', function () {
+    //    var sysGroupId = $(this).attr('id');
+    //    LoadPermissions(sysGroupId);
+    //    LoadUsers(sysGroupId);
+    //});
 
     function LoadPermissions(sysGroupId) {
         link = '@Url.Action("_List","SysPermission")';

@@ -364,7 +364,11 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
         public PartialViewResult RenderEditModal(int entityId)
         {
             CitationViewModel viewModel = new CitationViewModel();
-            viewModel.Get(entityId);
+
+            if (entityId > 0)
+            {
+                viewModel.Get(entityId);
+            }
             return PartialView("~/Views/Taxonomy/Citation/Modals/_Edit.cshtml", viewModel);
         }
 

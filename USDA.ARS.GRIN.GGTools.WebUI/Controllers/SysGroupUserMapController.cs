@@ -57,12 +57,11 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             throw new NotImplementedException();
         }
 
-        public PartialViewResult _List(int sysUserId = 0, int sysGroupId = 0)
+        public PartialViewResult _List(int sysGroupId = 0)
         {
             SysGroupUserMapViewModel viewModel = new SysGroupUserMapViewModel();            
             try
             {
-                viewModel.SearchEntity.SysUserID = sysUserId;
                 viewModel.SearchEntity.SysGroupID = sysGroupId;
                 viewModel.Search();
                 return PartialView(viewModel);

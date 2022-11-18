@@ -107,7 +107,7 @@
             </div>
             <div class="row">
                 <div class="col-md-12">
-                    @Html.Partial("~/Views/Taxonomy/Citation/_Widget.cshtml")
+                    @{ Html.RenderAction("RenderWidget", "Citation", new { @entityId = Model.Entity.ID });}  
                     @*<label>Citation</label>
                     <div class="input-group">
                         @Html.HiddenFor(x => x.Entity.CitationID)
