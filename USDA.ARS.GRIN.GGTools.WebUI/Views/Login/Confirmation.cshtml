@@ -6,18 +6,22 @@
 <div class="login-box" style="width:425px;">
     <div class="card card-outline card-primary">
         <div class="card-header text-center">
-            <a href="../../index2.html" class="h1"><b>GRIN-Global</b></a>
+            <a href="" class="h1"><b>Curator Tool</b></a>
             <h4>Password Reset Self-Service</h4>
+            <h6>Database: PRODUCTION</h6>
         </div>
         <div class="card-body">
             <p>Your password-reset link has been sent to:</p>
             <p><strong>@Model.Entity.EmailAddress</strong></p>
             <p>If this email address is incorrect, or if you are unable to locate the email, please inform the GRIN-Global Help Desk at <a href="mailto:gringlobal-support@usda.gov">gringlobal-support@usda.gov</a>.</p>
             <div>
-                <a href="@Url.Action("RequestPasswordReset","Login")" id="btnCancel" class="btn btn-default btn-block btn-flat">
-                    Return to Reset Request Page
-                </a>
+                
             </div>
+        </div>
+        <div class="card-footer">
+            <a href="@Url.Action("RequestPasswordReset","Login")" id="btnCancel" class="btn btn-default btn-block btn-flat">
+                Return to Reset Request Page
+            </a>
         </div>
     </div>
 </div>
