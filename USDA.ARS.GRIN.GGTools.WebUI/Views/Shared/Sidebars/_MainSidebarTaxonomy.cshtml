@@ -6,42 +6,6 @@
                 <p>Home</p>
             </a>
         </li>
-        @*<li class="nav-item menu-open">
-            <a href="#" class="nav-link ">
-                <i class="nav-icon fas fa-compass"></i>
-                <p>
-                    Navigation
-                    <i class="right fas fa-angle-left"></i>
-                </p>
-            </a>
-            <ul class="nav nav-treeview">
-                <li class="nav-item">
-                    <a href="@Url.Action("Navigate","Home", new { applicationCode = "GGT-NRR"})" class="nav-link">
-                        <i class="fas fa-cogs nav-icon"></i>
-                        <p>NRR Tool</p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="@Url.Action("Navigate","Home", new { applicationCode = "GGT-TAX"})" class="nav-link">
-                        <i class="fas fa-cogs nav-icon"></i>
-                        <p>Taxonomy</p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="@Url.Action("Navigate","Home", new { applicationCode = "GGT-ARM"})" class="nav-link">
-                        <i class="fas fa-cogs nav-icon"></i>
-                        <p>Users</p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="@Url.Action("Navigate","Home", new { applicationCode = "GGT-CUR"})" class="nav-link">
-                        <i class="fas fa-cogs nav-icon"></i>
-                        <p>Curators</p>
-                    </a>
-                </li>
-            </ul>
-        </li>*@
-
         <li class="nav-item">
             <a href="@Url.Action("Search","Folder")" class="nav-link">
                 <i class="nav-icon fas fa-folder"></i>
@@ -49,12 +13,17 @@
             </a>
         </li>
         <li class="nav-item">
-            <a href="@Url.Action("Index","EXplorer")" class="nav-link">
+            <a href="@Url.Action("Index","Explorer")" class="nav-link">
                 <i class="nav-icon fas fa-globe"></i>
                 <p>Explorer</p>
             </a>
         </li>
         <li class="nav-header">MANAGE DATA</li>
+        
+        <!-- TODO Make dynamic. Pull from SysTable view. Controller for each will be 
+            table friendly name with spaces removed. -->
+        
+
         <li class="nav-item">
             <a href="@Url.Action("Index","CropForCWR")" class="nav-link">
                 <i class="far fas fa-table nav-icon"></i>

@@ -353,9 +353,11 @@
             processData: false,
             data: formData,
             success: function (data) {
-                //DEBUG 
-                alert("SAVED CHANGES FOR SPECIES ID " + data.species.ID);
+                //////DEBUG 
+                ////alert("SAVED CHANGES FOR SPECIES ID " + data.species.ID);
                 Edit(data.species.ID);
+                LoadCommonNames(data.species.ID);
+                LoadDistributions(data.species.ID);
             },
             error: function (ex) {
             }

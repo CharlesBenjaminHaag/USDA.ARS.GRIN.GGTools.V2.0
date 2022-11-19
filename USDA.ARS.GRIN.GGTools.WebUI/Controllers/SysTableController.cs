@@ -13,6 +13,32 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
     public class SysTableController : BaseController, IController<SysTableViewModel>
     {
         private static readonly Logger Log = LogManager.GetCurrentClassLogger();
+        public PartialViewResult _List(int sysUserId = 0)
+        {
+            SpeciesViewModel viewModel = new SpeciesViewModel();
+            try
+            {
+                //TODO
+                //viewModel.SearchEntity = new SpeciesSearch { GenusID = genusId };
+                //viewModel.Search();
+                //viewModel.Entity.GenusID = genusId;
+
+                //if (formatCode == "S")
+                //{
+                //    return PartialView("~/Views/Taxonomy/Species/Modals/_SelectListSimple.cshtml", viewModel);
+                //}
+                //else
+                //{
+                return PartialView("_List.cshtml", viewModel);
+                //}
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
+        }
+
 
         public PartialViewResult _ListFolderItems(int folderId)
         {

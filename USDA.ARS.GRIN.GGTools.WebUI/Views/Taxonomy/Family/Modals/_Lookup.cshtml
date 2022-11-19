@@ -8,6 +8,8 @@
                 </button>
             </div>
             <div class="modal-body">
+                <input type="hidden" id="hfFamilyLookupIDFieldName" />
+                <input type="hidden" id="hfFamilyLookupNameFieldName" />
                 <div class="row">
                     <div class="col-md-12">
                         <label>Name</label>
@@ -39,11 +41,11 @@
     </div>
 </div>
 <script type="text/javascript">
-     $("#btnFamilyNameLookup").click(function () {
+    $("#btnOpenFamilyLookupModal").click(function () {
         var eventAction = $(this).data("ggtools-action");
         var eventValue = $(this).data("ggtools-value");
-        $("#EventAction").val(eventAction);
-        $("#EventValue").val(eventValue);
+        $("#hfFamilyLookupIDFieldName").val(eventAction);
+        $("#hfFamilyLookupNameFieldName").val(eventValue);
     });
 
     $("#btnLookupFamily").click(function () {
@@ -51,14 +53,17 @@
     });
 
     $("#btnSaveFamily").click(function () {
-        // Check EventAction to determine the field(s) to update.
-        var idField = "Entity_" + $("#EventAction").val();
-        var nameField = "Entity_" + $("#EventValue").val();
+        var idField = $("#hfFamilyLookupIDFieldName").val();
+        var nameField = $("#hfFamilyLookupNameFieldName").val();
         var idList = GetSelectedEntityIDs("data-table-family-lookup");
         var nameList = GetSelectedEntityLabels("data-table-family-lookup");
 
-        $("#" + idField).val(idList);
-        $("#" + nameField).val(nameList);
+        $("#Entity_" + idField).val(idList);
+        $("#Entity_" + idField).trigger('change');
+
+        $("#Entity_" + nameField).val(nameList);
+        $("#Entity_" + nameField).trigger('change');
+
         $('#modal-family-lookup').modal('hide');
     });
 

@@ -10,6 +10,8 @@
                 </button>
             </div>
             <div class="modal-body">
+                <input type="hidden" id="hfSpeciesLookupIDFieldName" />
+                <input type="hidden" id="hfSpeciesLookupNameFieldName" />
                 <div class="row">
                     <div class="col-md-12">
                         <input type="text" id="txtLookupSpeciesName" class="form-control" />
@@ -42,26 +44,26 @@
     </div>
 </div>
 <script type="text/javascript">
-    $("#btnSpeciesNameLookup").click(function () {
+    $("#btnOpenSpeciesLookupModal").click(function () {
         var eventAction = $(this).data("ggtools-action");
         var eventValue = $(this).data("ggtools-value");
-        $("#EventAction").val(eventAction);
-        $("#EventValue").val(eventValue);
+        $("#hfSpeciesLookupIDFieldName").val(eventAction);
+        $("#hfSpeciesLookupNameFieldName").val(eventValue);
     });
+
 
     $("#btnLookupSpecies").click(function () {
         SearchSpecies();
     });
 
     $("#btnSaveSpecies").click(function () {
-        // Check EventAction to determine the field(s) to update.
-        var idField = "Entity_" + $("#EventAction").val();
-        var nameField = "Entity_" + $("#EventValue").val();
+        var idField = $("#hfSpeciesLookupIDFieldName").val();
+        var nameField = $("#hfSpeciesLookupNameFieldName").val();
         var idList = GetSelectedEntityIDs("data-table-species-lookup");
         var nameList = GetSelectedEntityLabels("data-table-species-lookup");
-       
-        $("#" + idField).val(idList);
-        $("#" + nameField).val(nameList);
+
+        $("#Entity_" + idField).val(idList);
+        $("#Entity_" + nameField).val(nameList);
         $('#modal-species-lookup').modal('hide');
     });
 

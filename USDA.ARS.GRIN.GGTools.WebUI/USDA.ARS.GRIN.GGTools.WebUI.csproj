@@ -653,6 +653,7 @@
     <Content Include="Views\SysGroup\Explorer\Index.cshtml" />
     <Content Include="Views\SysGroup\_SelectListSimple.cshtml" />
     <Content Include="Views\SysPermission\_List.cshtml" />
+    <Content Include="Views\SysTable\_ListMenu.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

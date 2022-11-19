@@ -193,12 +193,20 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
 
         public ActionResult Add()
         {
-            CitationViewModel viewModel = new CitationViewModel();
-            viewModel.EventAction = "Add";
-            viewModel.TableName = "citation";
-            viewModel.TableCode = "Citation";
-            viewModel.PageTitle = viewModel.EventAction + " " + viewModel.TableCode;
-            return View(BASE_PATH + "Edit.cshtml", viewModel);
+            try 
+            { 
+                CitationViewModel viewModel = new CitationViewModel();
+                viewModel.EventAction = "Add";
+                viewModel.TableName = "citation";
+                viewModel.TableCode = "Citation";
+                viewModel.PageTitle = viewModel.EventAction + " " + viewModel.TableCode;
+                return View(BASE_PATH + "Edit.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return RedirectToAction("InternalServerError", "Error");
+            }
         }
         [HttpPost]
         public JsonResult Add(FormCollection formCollection)
@@ -288,6 +296,32 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             viewModel.Get(viewModel.Entity.ID);
 
             return Json(new { citation = viewModel.Entity }, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult Clone(int entityId)
+        {
+            CitationViewModel viewModel = new CitationViewModel();
+            CitationViewModel viewModelClone = new CitationViewModel();
+            try
+            {
+                viewModel.Get(entityId);
+                viewModelClone.Entity = viewModel.Entity;
+                viewModelClone.TableName = "citation";
+                viewModelClone.TableCode = "Citation";
+                viewModelClone.PageTitle = "Add Citation (Clone)";
+                viewModelClone.Entity.FamilyID = 0;
+                viewModelClone.Entity.FamilyName = String.Empty;
+                viewModelClone.Entity.GenusID = 0;
+                viewModelClone.Entity.GenusName = String.Empty;
+                viewModelClone.Entity.SpeciesID = 0;
+                viewModelClone.Entity.SpeciesName = String.Empty;
+                return View(BASE_PATH + "/Edit.cshtml", viewModelClone);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return RedirectToAction("InternalServerError", "Error");
+            }
         }
 
         [HttpPost]

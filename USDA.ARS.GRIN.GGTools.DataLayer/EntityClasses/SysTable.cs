@@ -9,7 +9,9 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
 {
     public partial class SysTable : AppEntityBase
     {
-        public string Name { get; set; }
-        public string Title { get; set; }
+        public string DatabaseAreaCode { get; set; }
+        public string TableNameName { get; set; }
+        public string TableTitle { get; set; }
+        public string TableCode { get; set; }
     }
 }
