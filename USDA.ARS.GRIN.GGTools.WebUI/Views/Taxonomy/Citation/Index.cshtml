@@ -16,7 +16,7 @@
     @Html.Partial("~/Views/Taxonomy/Citation/_Detail.cshtml")
 }
 @Html.Partial("~/Views/Taxonomy/Citation/_List.cshtml")
-@{ Html.RenderAction("_RenderLookupModal", "SysTable", new { @tableName = Model.TableName }); }
+@{ Html.RenderAction("_RenderLookupModal", "SysGroupUserMap", new { @tableName = Model.TableName }); }
 @*@{Html.RenderAction("_Edit", "Folder"); }*@
 
 <script type="text/javascript">

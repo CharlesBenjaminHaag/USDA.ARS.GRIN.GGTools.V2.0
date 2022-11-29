@@ -73,7 +73,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
         {
             Reset(CommandType.StoredProcedure);
             Validate<Cooperator>(entity);
-            SQL = "usp_GGTools_GRINGLobal_Cooperator_Insert";
+            SQL = "usp_GRINGlobal_Cooperator_Insert";
 
             BuildInsertUpdateParameters(entity);
 
@@ -96,11 +96,11 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
 
             if (!String.IsNullOrEmpty(searchEntity.Environment) & (searchEntity.Environment == "TRNG"))
             {
-                SQL = " SELECT * FROM gringlobal.dbo.vw_GGTools_GRINGlobal_Cooperators";
+                SQL = " SELECT * FROM gringlobal.dbo.vw_GRINGlobal_Cooperator";
             }
             else
             {
-                SQL = " SELECT * FROM vw_GGTools_GRINGlobal_Cooperators";
+                SQL = " SELECT * FROM vw_GRINGlobal_Cooperator";
 
             }
 
@@ -196,7 +196,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
         {
             Reset(CommandType.StoredProcedure);
             Validate<Cooperator>(entity);
-            SQL = "usp_GGTools_GRINGLobal_Cooperator_Update";
+            SQL = "usp_GRINGLobal_Cooperator_Update";
 
             BuildInsertUpdateParameters(entity);
 

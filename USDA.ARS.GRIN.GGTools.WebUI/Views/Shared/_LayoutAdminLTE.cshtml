@@ -295,6 +295,9 @@
                         </li>
                         <!-- User Account: style can be found in dropdown.less -->
                         <li class="dropdown user user-menu">
+                            <span>DATABASE</span>
+                            </li>
+<li class="dropdown user user-menu">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                 <img src="~/Content/dist/img/user-default.png" class="user-image" alt="User Image">
                                 <span class="hidden-xs">@AppInfo.GetAuthenticatedUser().FirstName @AppInfo.GetAuthenticatedUser().LastName</span>
@@ -363,7 +366,7 @@
             <!-- Content Header (Page header) -->
             <section class="content-header">
                 <h1>
-                    @Html.Raw(ViewBag.Title)
+                    @Html.Raw(ViewBag.Title) DEBUG
                     <small>@AppInfo.GetVersion()</small>
                 </h1>
                 <ol class="breadcrumb">

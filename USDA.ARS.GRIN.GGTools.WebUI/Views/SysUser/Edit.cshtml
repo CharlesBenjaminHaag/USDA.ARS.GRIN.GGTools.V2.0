@@ -90,14 +90,12 @@
     </div>
     <div class="card-body">
         <div class="row">
-            <div id="section-available-sys-groups" class="col-md-5">
+            <div id="section-available-sys-groups" class="col-md-6">
+                
                 @{Html.RenderAction("_ListAvailableSysGroups", "SysUser", new { sysUserId = Model.Entity.ID }); }
             </div>
-            <div class="col-md-2" style="vertical-align:middle;">
-                <button id="btnAssign" class="btn btn-default btn-block" type="button">>></button>
-                <button id="btnUnAssign" class="btn btn-default btn-block" type="button"><<</button>
-            </div>
-            <div id="section-assigned-sys-groups" class="col-md-5">
+            <div id="section-assigned-sys-groups" class="col-md-6">
+                
                 @{Html.RenderAction("_ListAssignedSysGroups", "SysUser", new { sysUserId = Model.Entity.ID }); }
             </div>
         </div>

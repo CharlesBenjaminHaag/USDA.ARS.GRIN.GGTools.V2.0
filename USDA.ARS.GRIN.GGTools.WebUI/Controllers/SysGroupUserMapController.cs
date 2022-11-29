@@ -89,6 +89,17 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 return PartialView("~/Views/Error/_InternalServerError.cshtml");
             }
         }
+        public PartialViewResult _RenderLookupModal(string tableName = "")
+        {
+            SysGroupUserMapViewModel viewModel = new SysGroupUserMapViewModel();
+            viewModel.GetSysGroupUserMapsByTable(tableName);
+            return PartialView("~/Views/SysGroupUserMap/Modals/_Lookup.cshtml", viewModel);
+        }
 
+        public PartialViewResult _RenderEditModal()
+        {
+            SysGroupUserMapViewModel viewModel = new SysGroupUserMapViewModel();
+            return PartialView("~/Views/SysGroupUserMap/Modals/_Edit.cshtml", viewModel);
+        }
     }
 }

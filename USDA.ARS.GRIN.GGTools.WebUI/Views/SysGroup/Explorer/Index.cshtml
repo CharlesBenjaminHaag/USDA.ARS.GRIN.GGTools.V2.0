@@ -17,7 +17,11 @@
         </div>*@
     </div>
     <div class="col-md-9">
-        <h3 id="section-group-title"></h3>
+
+        <div id="section-sys-group">
+
+        </div>
+
         <div class="card card-default">
             <div class="card-header">
                 Permissions
@@ -27,10 +31,10 @@
             </div>
         </div>
         <div class="card card-default">
-            <div id="section-sys-group-user-map" class="card-header">
+            <div class="card-header">
                 Users
             </div>
-            <div class="card-body">
+            <div id="section-sys-group-user-map" class="card-body">
 
             </div>
         </div>
@@ -55,20 +59,30 @@
 
         $('#data_table_sys_group tbody').on('click', 'tr', function () {
             var data = table.row(this).data();
-
-            //DEBUG
-            alert("SEL GRP " + data[0]);
-
+            LoadGroup(data[0]);
             LoadPermissions(data[0]);
             LoadUsers(data[0]);
         });
     });
 
-    //$('ul.sys-group-selector li').on('click', function () {
-    //    var sysGroupId = $(this).attr('id');
-    //    LoadPermissions(sysGroupId);
-    //    LoadUsers(sysGroupId);
-    //});
+    function LoadGroup(sysGroupId) {
+        link = '@Url.Action("_RenderWidget","SysGroup")';
+        var formData = new FormData();
+
+        formData.append("sysGroupId", sysGroupId);
+
+        $.ajax({
+            url: link,
+            type: 'POST',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (response) {
+                $("#section-sys-group").html(response);
+            }
+        });
+    }
 
     function LoadPermissions(sysGroupId) {
         link = '@Url.Action("_List","SysPermission")';

@@ -20,6 +20,24 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             return sysUser;
         }
 
+        public SysUser Get(int entityId, string environment = "")
+        {
+            SysUser sysUser = new SysUser();
+            SQL = "usp_GGTools_GRINGlobal_SysUser_Select";
+
+            if (environment == "TRNG")
+            {
+                SQL = "training.dbo.usp_GGTools_GRINGlobal_SysUser_Select";
+            }
+
+            var parameters = new List<IDbDataParameter> {
+                CreateParameter("sys_user_id", (object)entityId, false)
+            };
+            sysUser = GetRecord<SysUser>(SQL, CommandType.StoredProcedure, parameters.ToArray());
+            parameters.Clear();
+            return sysUser;
+        }
+
         public virtual List<SysUser> Search(SysUserSearch searchEntity)
         {
             SysUser sysUser = new SysUser();

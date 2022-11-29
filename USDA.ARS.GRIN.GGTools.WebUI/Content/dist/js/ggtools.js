@@ -10,7 +10,6 @@
  * General Utilities
   ======================================================================================== */
 
-/* Datatables */
 function InitDataTable(tableName) {
     $(document).ready(function () {
         var table = $("#" + tableName).DataTable({
@@ -29,6 +28,32 @@ function InitDataTable(tableName) {
                 'pdf'
             ],
             select: true,
+            lengthMenu: [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],
+            columnDefs: [
+                { targets: [0], visible: false }
+            ]
+        });
+    });
+}
+
+function InitDataTableSingleSelect(tableName) {
+    $(document).ready(function () {
+        var table = $("#" + tableName).DataTable({
+            /*dom: 'Blfrtip',*/
+            paging: true,
+            "pageLength": 10,
+            initComplete: function () {
+                SetControlVisibility(tableName);
+            },
+            responsive: true,
+            //buttons: [
+            //    'selectAll',
+            //    'selectNone',
+            //    'csv',
+            //    'excel',
+            //    'pdf'
+            //],
+            select: false,
             lengthMenu: [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],
             columnDefs: [
                 { targets: [0], visible: false }

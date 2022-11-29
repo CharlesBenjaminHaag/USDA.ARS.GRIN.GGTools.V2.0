@@ -50,7 +50,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 CooperatorViewModel viewModel = new CooperatorViewModel();
                 viewModel.PageTitle = String.Format("Add Cooperator");
                 viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
-                viewModel.MainSectionCSSClass = "col-md-12";
+                viewModel.Entity.StatusCode = "ACTIVE";
                 return View("~/Views/Cooperator/Edit.cshtml", viewModel);
             }
             catch (Exception ex)
@@ -150,7 +150,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 viewModel.Get(entityId, "");
 
                 //TODO Get owned recs. Call only in edit mode.
-                viewModel.GetRecordsOwned(entityId);
+                //viewModel.GetRecordsOwned(entityId);
                 viewModel.PageTitle = String.Format("Edit Cooperator [{0}]: {1}, {2}", entityId, viewModel.Entity.LastName, viewModel.Entity.FirstName);
                 viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
                 viewModel.AuthenticatedUser = AuthenticatedUser;

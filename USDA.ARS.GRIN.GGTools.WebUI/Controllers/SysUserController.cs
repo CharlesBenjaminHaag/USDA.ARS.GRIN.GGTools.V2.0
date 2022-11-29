@@ -139,6 +139,27 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             }
         }
 
+        public JsonResult _Save(SysUserViewModel viewModel)
+        {
+            try
+            {
+                if (viewModel.Entity.ID > 0)
+                {
+                    viewModel.SendNotification("P");
+                    viewModel.Update();
+                }
+                else
+                {
+                    viewModel.Insert();
+                }
+                return Json(new { sysUser = viewModel.Entity }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
         // GET: SysUser
         public ActionResult Index()
         {
@@ -246,7 +267,11 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
 
         public PartialViewResult RenderEditModal()
         {
-            return PartialView("~/Views/SysUser/Modals/_Edit.cshtml");
+            SysUserViewModel viewModel = new SysUserViewModel();
+            viewModel.Entity.UserName = "";
+            viewModel.Entity.Password = "";
+            viewModel.Entity.PasswordConfirm = "";
+            return PartialView("~/Views/SysUser/Modals/_Edit.cshtml", viewModel);
         }
         public PartialViewResult RenderPasswordResetModal()
         {

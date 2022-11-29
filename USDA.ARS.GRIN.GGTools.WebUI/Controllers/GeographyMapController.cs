@@ -157,6 +157,27 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             }
         }
 
+        public PartialViewResult _Add()
+        {
+            try
+            {
+                GeographyMapViewModel viewModel = new GeographyMapViewModel();
+                viewModel.TableName = "taxonomy_geography_map";
+                viewModel.PageTitle = "Add Distribution";
+                viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
+
+                GeographyViewModel geographyViewModel = new GeographyViewModel();
+                viewModel.Countries = new SelectList(geographyViewModel.GetCountries(), "CountryCode", "CountryName");
+
+                return PartialView(BASE_PATH + "_Edit.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
+        }
+
         public ActionResult Edit(int entityId)
         {
             try
@@ -204,6 +225,29 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             {
                 Log.Error(ex);
                 return RedirectToAction("InternalServerError", "Error");
+            }
+        }
+
+        public PartialViewResult _Save(GeographyMapViewModel viewModel)
+        {
+            try
+            {
+                if (viewModel.Entity.ID == 0)
+                {
+                    viewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
+                    viewModel.Insert();
+                }
+                else
+                {
+                    viewModel.Entity.ModifiedByCooperatorID = AuthenticatedUser.CooperatorID;
+                    viewModel.Update();
+                }
+                return PartialView("~/Views/Taxonomy/GeographyMap/_Edit.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
             }
         }
 
@@ -260,11 +304,11 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             return PartialView("~/Views/GeographyMap/Modals/_Lookup.cshtml", viewModel);
         }
 
-        public PartialViewResult RenderEditModal(int entityId)
+        public PartialViewResult RenderEditModal(int speciesId)
         {
-            CitationViewModel viewModel = new CitationViewModel();
-            viewModel.Get(entityId);
-            return PartialView("~/Views/Taxonomy/Citation/Modals/_Edit.cshtml", viewModel);
+            GeographyMapViewModel viewModel = new GeographyMapViewModel();
+            viewModel.TableName = "taxonomy_geography_map";
+            return PartialView(BASE_PATH + "_Edit.cshtml", viewModel);
         }
 
         [HttpPost]

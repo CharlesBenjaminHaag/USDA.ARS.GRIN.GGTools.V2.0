@@ -113,5 +113,20 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
         {
             throw new NotImplementedException();
         }
+        public PartialViewResult _RenderWidget(int sysGroupId)
+        {
+            SysGroupViewModel viewModel = new SysGroupViewModel();
+            try
+            {
+                viewModel.SearchEntity.ID = sysGroupId;
+                viewModel.Search();
+                return PartialView("~/Views/SysGroup/_Widget.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
+        }
     }
 }

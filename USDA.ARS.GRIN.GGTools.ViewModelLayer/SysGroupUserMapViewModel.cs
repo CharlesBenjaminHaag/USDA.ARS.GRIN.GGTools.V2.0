@@ -22,6 +22,14 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
             throw new NotImplementedException();
         }
 
+        public void GetSysGroupUserMapsByTable(string tableName)
+        {
+            using (SysGroupUserMapManager mgr = new SysGroupUserMapManager())
+            {
+                DataCollection = new Collection<SysGroupUserMap>(mgr.GetSysGroupUserMapsByTable(tableName));
+            }
+        }
+
         public void HandleRequest()
         {
             throw new NotImplementedException();

@@ -11,26 +11,33 @@
 </style>
 
 <div class="row">
-    @if (Model.Entity.ID > 0)
-    {
-        <div class="col-md-3">
-            <div id="section-sys-user-widget">
-                @{Html.RenderAction("RenderWidget", "SysUser", new { entityId = Model.Entity.SysUserID }); }
-            </div>
+    <div class="col-md-3">
+        <div id="section-sys-user-widget">
+            @{Html.RenderAction("RenderWidget", "SysUser", new { entityId = Model.Entity.SysUserID }); }
+            @{Html.RenderAction("RenderGroupWidget", "SysUser", new { entityId = Model.Entity.SysUserID }); }
         </div>
-    }
-    <div id="section-input-fields" class="@Model.MainSectionCSSClass">
+    </div>
+    <div id="section-input-fields" class="col-md-9">
+        @Html.Partial("~/Views/Shared/_RevisionHistory.cshtml")
         <div class="card">
             <div class="card-header p-2">
                 <ul class="nav nav-pills">
                     <li class="nav-item"><a class="nav-link active" href="#activity" data-toggle="tab">Summary</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">Record Ownership</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">Ownership</a></li>
                 </ul>
             </div>
             <div class="card-body">
                 <div class="tab-content">
                     <div class="tab-pane active" id="activity">
-                        @using (Html.BeginForm("Edit", "Cooperator", FormMethod.Post, new { id = "frmEdit" }))
+                        <div class="margin">
+                            <a href="@Url.Action("Index","Synch", new { @entityId = Model.Entity.ID })" class="btn btn-default btn-sm">
+                                Synch
+                            </a>
+                            <a href="@Url.Action("Edit","WebCooperator", new { entityId = Model.Entity.WebCooperatorID })" class="btn btn-default btn-sm">
+                                Web Cooperator
+                            </a>
+                        </div>
+                        @using (Html.BeginForm("Edit", "Cooperator", FormMethod.Post, new { id = "frmEditCooperator" }))
                         {
                             @Html.HiddenFor(x => x.PageTitle)
                             @*@Html.HiddenFor(x => x.IsReadOnly)*@
@@ -39,27 +46,13 @@
                             @Html.HiddenFor(x => x.TableName)
                             @Html.HiddenFor(x => x.TableCode)
                             @Html.HiddenFor(x => x.Entity.ID)
-                            @*@Html.HiddenFor(x => x.Entity.SysUserID)
-                                @Html.HiddenFor(x => x.Entity.SysUserName)*@
                             @Html.HiddenFor(x => x.Entity.StatusCode)
                             @Html.Partial("~/Views/Shared/_ValidationMessages.cshtml")
                             <div class="row">
                                 <div class="col-md-1">
                                     <div class="form-group">
                                         <label>Status</label>
-                                        <br />
-                                        @if (Model.Entity.StatusCode == "ACTIVE")
-                                        {
-                                            <span class="badge bg-green">
-                                                @Model.Entity.StatusCode
-                                            </span>
-                                        }
-                                        else
-                                        {
-                                            <span class="badge bg-red">
-                                                @Model.Entity.StatusCode
-                                            </span>
-                                        }
+                                        @Html.DropDownListFor(x => x.Entity.StatusCode, Model.Statuses, "Select value", new { @class = "form-control" })
                                     </div>
                                 </div>
                                 <div class="col-md-2">
@@ -90,13 +83,13 @@
                                     <label>Organization</label>
                                     @Html.TextBoxFor(x => x.Entity.Organization, new { @class = "form-control" })
                                     <!--<div class="input-group">
-                                        <span class="input-group-btn">-->
+                                <span class="input-group-btn">-->
                                     @*@Html.TextBoxFor(x => x.Entity.OrganizationAbbrev, new { @class = "form-control", @style = "width:80px;" })*@
                                     <!--<button type="button" data-toggle="modal" data-target="#modal-organization-lookup" class="btn btn-default btn-flat">
-                                                <i class="fa fa-search"></i>
-                                            </button>
-                                        </span>
-                                    </div>-->
+                                            <i class="fa fa-search"></i>
+                                        </button>
+                                    </span>
+                                </div>-->
                                 </div>
                                 <div class="col-md-2">
                                     <label>Abbrev</label>
@@ -195,162 +188,71 @@
                             </div>
                             <div id="section-edit-controls" class="edit-controls" style="margin-top:25px;">
                                 <button type="button" class="btn btn-danger">Cancel</button>
-                                <a href="@Url.Action("Edit","WebCooperator", new { entityId = Model.Entity.WebCooperatorID })" class="btn btn-default">
-                                    Web Cooperator
-                                </a>
                                 <button type="submit" class="btn btn-primary float-right">Save</button>
                             </div>
                         }
                     </div>
                     <div class="tab-pane" id="timeline">
-                        <div class="row">
-                            <div class="col-md-12">
-                                @Html.Partial("~/Views/Cooperator/_RecordsOwnedDetailList.cshtml")
-                            </div>
-                        </div>
+
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
 @Html.Partial("~/Views/SysUser/Modals/_ResetPassword.cshtml")
+@{Html.RenderAction("RenderEditModal","SysUser");}
+
 <script type="text/javascript">
     $(document).ready(function () {
         Init();
     });
 
     function Init() {
-        //var isReadOnly = $("#IsReadOnly").val();
-        //if (isReadOnly == "Y") {
-        //    SetReadOnly();
-        //}
+      
     }
-
-    //function Validate(password, passwordConfirmed) {
-    //    if (password != passwordConfirmed) {
-    //        return false;
-    //    }
-    //    return true;
-    //}
-
-    /*===========================================================================
-     * ADD SYS USER
-     *===========================================================================
-     */
-    //$("#btnSubmitAddSysUser").click(function () {
-    //    var userName = $("#txtEditSysUserName").val();
-    //    var password = $("#txtEditSysUserPassword").val();
-    //    var passwordConfirmed = $("#txtEditSysUserPasswordConfirmed").val();
-    //    var validationResult = "";
-
-    //    validationResult = Validate(userName, password, passwordConfirmed);
-
-    //    if (validationResult == "") {
-    //        $("#modal-sys-user-edit").modal("hide");
-    //        AddSysUser(userName, password);
-    //    }
-    //});
-
-    @*function AddSysUser(userName, password) {
-        var link = '@Url.Action("Add", "SysUser")';
-        var cooperatorId = $("#Entity_ID").val();
-        var formData = new FormData();
-
-        formData.append("CooperatorID", cooperatorId);
-        formData.append("SysUserName", userName);
-        formData.append("SysUserPassword", password);
-
-        $.ajax({
-            url: link,
-            type: 'POST',
-            cache: false,
-            contentType: false,
-            processData: false,
-            data: formData,
-            success: function (result) {
-                $("#section-sys-user-widget").html(result);
-                LoadGroups();
-            },
-            error: function () {
-                    alert("Error");
-                }
-        });
-        $("#modal-sys-user-edit").modal("hide");
-    }*@
-
-    /*===========================================================================
-     * UPDATE SYS USER
-     *===========================================================================
-     */
-    @*$("#btnSubmitUpdateSysUser").click(function () {
-        var userName = $("#Entity_SysUserName").val();
-        var password = $("#txtResetSysUserPassword").val();
-        var passwordConfirmed = $("#txtResetSysUserPasswordConfirmed").val();
-        var validationResult = "";
-
-        validationResult = Validate(userName, password, passwordConfirmed);
-
-        if (validationResult == "") {
-            $("#modal-sys-user-edit").modal("hide");
-            UpdateSysUser(userName, password);
-        }
+    $('#btnSaveSysUser').on('click', function () {
+        AjaxFormSubmit();
     });
 
-    function UpdateSysUser(userName, password) {
-        var link = '@Url.Action("ResetPassword", "SysUser")';
-        var sysUserId = $("#Entity_SysUserID").val();
-        var sysUserName = $("#Entity_SysUserName").val();
-        var formData = new FormData();
+    function RenderSysUserWidget() {
 
-        formData.append("SysUserID", sysUserId);
-        formData.append("SysUserName", sysUserName);
-        formData.append("SysUserPassword", password);
+    }
+
+    function AjaxFormSubmit() {
+        var link = $("#frmEditSysUser").attr("action");
+        var formData = new FormData();
+        formData.append("Entity.CooperatorID", $("#frmEditCooperator #Entity_ID").val());
+        formData.append("Entity.SysUserID", $("#Entity_SysUserID").val());
+        formData.append("Entity.UserName", $("#Entity_UserName").val());
+        formData.append("Entity.Password", $("#Entity_Password").val());
+        formData.append("Entity.PasswordConfirm", $("#Entity_PasswordConfirm").val());
 
         $.ajax({
             url: link,
             type: 'POST',
             cache: false,
+            dataType: 'json',
             contentType: false,
             processData: false,
             data: formData,
-            success: function (result) {
-                $("#section-sys-user-widget").html(result);
-                LoadGroups();
+            success: function (data) {
+                //DEBUG 
+                alert("SAVED CHANGE FOR SYS USER" + data.sysUser.ID);
+                //Edit(data.species.ID);
+                //LoadCommonNames(data.species.ID);
+                //LoadDistributions(data.species.ID);
             },
-            error: function () {
-                    alert("Error");
-                }
-        });
-        $("#modal-reset-password").modal("hide");
-    }*@
-
-    /*===========================================================================
-     * SYS GROUPS
-     *===========================================================================
-     */
-    @*function LoadGroups()
-    {
-        var sysUserId = $("#Entity_SysUserID").val();
-        var link = '@Url.Action("RenderGroupWidget","SysUser")' + "?entityId=" + sysUserId;
-        var formData = new FormData();
-
-        $.ajax({
-            url: link,
-            type: 'POST',
-            cache: false,
-            contentType: false,
-            processData: false,
-            data: formData,
-            success: function (result) {
-                $("#section-sys-user-group-widget").html(result);
-            },
-            error: function () {
-                alert("Error");
+            error: function (ex) {
             }
         });
-    }*@
-
+    }
+  
+    function AjaxResetPasswordFormSubmit() {
+        var link = $("#frmSysUserResetPassword").attr("action");
+        //TODO
+    }
 </script>
 
 

@@ -152,7 +152,10 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
 
         public Cooperator Get(int entityId)
         {
-            throw new NotImplementedException();
+            SearchEntity.ID = entityId;
+            Search();
+            return Entity;
         }
+
     }
 }

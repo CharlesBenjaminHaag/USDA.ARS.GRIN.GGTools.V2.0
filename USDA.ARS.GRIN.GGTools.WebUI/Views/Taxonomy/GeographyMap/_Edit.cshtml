@@ -1,4 +1,4 @@
-﻿
+﻿@model USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer.GeographyMapViewModel
 <div class="modal fade" id="modal-geography-map-edit" style="display: none;" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -15,11 +15,24 @@
                 <div class="row">
                     <div class="col-md-3">
                         <div class="form-group">
+                            <label>Species</label>
+                            <div class="input-group">
+                                @Html.TextBoxFor(x => x.Entity.SpeciesName, new { @class = "form-control", @readonly = "readonly" })
+                                @Html.HiddenFor(x => x.Entity.SpeciesID)
+                                <span class="input-group-btn">
+                                    <button type="button" data-toggle="modal" data-target="#modal-species-lookup" class="btn btn-default btn-flat">
+                                        <i class="fa fa-search"></i>
+                                    </button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
                             <label>Geography</label>
                             <div class="input-group">
-                                <input type="text" id="txtGeographyMapEditGeographyID" class="form-control" />
-                                @*@Html.TextBoxFor(x => x.Entity.GeographyDescription, new { @class = "form-control", @readonly = "readonly" })
-                                @Html.HiddenFor(x => x.Entity.GeographyID)*@
+                                @Html.TextBoxFor(x => x.Entity.GeographyDescription, new { @class = "form-control", @readonly = "readonly" })
+                                @Html.HiddenFor(x => x.Entity.GeographyID)
                                 <span class="input-group-btn">
                                     <button type="button" data-toggle="modal" data-target="#modal-geography-lookup" class="btn btn-default btn-flat">
                                         <i class="fa fa-search"></i>
@@ -31,14 +44,13 @@
                     <div class="col-md-2">
                         <div class="form-group form-horizontal">
                             <label>Geography Status</label>
-                            <select id="ddlGeographyMapEditGeographyStatus" class="form-control"></select>
-                            @*@Html.DropDownListFor(x => x.Entity.GeographyStatusCode, Model.GeographyStatusCodes, "All Statuses", new { @class = "form-control" })*@
+                            @Html.DropDownListFor(x => x.Entity.GeographyStatusCode, Model.GeographyStatusCodes, "All Statuses", new { @class = "form-control" })
                         </div>
                     </div>
                     <div class="col-md-2">
                         <div class="form-group form-horizontal">
                             <label>Country</label>
-                            @*@Html.DropDownListFor(x => x.Entity.CountryCode, Model.Countries, "All countries", new { @class = "form-control" })*@
+                            @Html.DropDownListFor(x => x.Entity.CountryCode, Model.Countries, "All countries", new { @class = "form-control" })
                         </div>
                     </div>
                 </div>

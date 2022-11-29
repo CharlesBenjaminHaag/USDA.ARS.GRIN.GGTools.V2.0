@@ -53,15 +53,18 @@
             </p>
         </div>
         <div class="card-footer">
-            <a href="@Url.Action("Edit","SysUser", new { entityId = Model.Entity.SysUserID})" class="btn btn-info btn-block" >Edit Sys User Record</a>
+            <button class="btn btn-default btn-block" btn-block" data-toggle="modal" data-target="#modal-reset-password">Reset Password</button>
         </div>
     </div>
 }
 else
 {
-    <div class="alert alert-warning alert-dismissible">
-        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+    <div class="alert alert-warning">
+       
         <h5><i class="icon fas fa-exclamation-triangle"></i> No Sys User Account</h5>
-        This cooperator must have an enabled sys user account to be able to use the Curator Tool.
+        <p>
+            This cooperator must have an enabled sys user account to be able to use the Curator Tool.
+        </p>
+        <button class="btn btn-block btn-outline-dark btn-block" btn-block" data-toggle="modal" data-target="#modal-sys-user-edit">Create Account</button>
     </div>
 }

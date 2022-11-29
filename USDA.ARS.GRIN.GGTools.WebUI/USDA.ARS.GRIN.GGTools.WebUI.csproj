@@ -179,6 +179,7 @@
     <Compile Include="Controllers\SpeciesController.cs" />
     <Compile Include="Controllers\SubfamilyController.cs" />
     <Compile Include="Controllers\SubtribeController.cs" />
+    <Compile Include="Controllers\SynchController.cs" />
     <Compile Include="Controllers\SynonymMapController.cs" />
     <Compile Include="Controllers\SysPermissionController.cs" />
     <Compile Include="Controllers\SysGroupController.cs" />
@@ -654,6 +655,13 @@
     <Content Include="Views\SysGroup\_SelectListSimple.cshtml" />
     <Content Include="Views\SysPermission\_List.cshtml" />
     <Content Include="Views\SysTable\_ListMenu.cshtml" />
+    <Content Include="Views\Cooperator\Synch\_EditWebCooperator.cshtml" />
+    <Content Include="Views\Cooperator\Synch\_EditWebUser.cshtml" />
+    <Content Include="Views\Cooperator\Synch\_EditCooperator.cshtml" />
+    <Content Include="Views\Cooperator\Synch\_EditSysUser.cshtml" />
+    <Content Include="Views\Cooperator\Synch\Index.cshtml" />
+    <Content Include="Views\SysGroupUserMap\Modals\_Edit.cshtml" />
+    <Content Include="Views\SysGroupUserMap\Modals\_Lookup.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -10,6 +10,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
     {
         public int SysGroupID { get; set; }
         public int SysUserID { get; set; }
+        public int CooperatorID { get; set; }
         public string GroupTag { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }

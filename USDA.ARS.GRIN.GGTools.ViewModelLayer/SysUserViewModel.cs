@@ -32,6 +32,15 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
             return Entity;
         }
 
+        public SysUser Get(int entityId, string environment = "")
+        {
+            using (SysUserManager mgr = new SysUserManager())
+            {
+                Entity = mgr.Get(entityId);
+            }
+            return Entity;
+        }
+
         public void GetGroups(int sysUserId)
         {
             using (SysUserManager mgr = new SysUserManager())

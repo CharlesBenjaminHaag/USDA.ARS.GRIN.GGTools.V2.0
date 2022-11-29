@@ -26,6 +26,19 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             throw new NotImplementedException();
         }
 
+        public List<SysGroupUserMap> GetSysGroupUserMapsByTable(string tableName)
+        {
+            SQL = "usp_GRINGlobal_Sys_Group_User_Maps_ByTable_Select";
+            List<SysGroupUserMap> sysGroupUserMaps = new List<SysGroupUserMap>();
+
+            var parameters = new List<IDbDataParameter> {
+                CreateParameter("sys_table_name", (object)tableName, false)
+            };
+
+            sysGroupUserMaps = GetRecords<SysGroupUserMap>(SQL, CommandType.StoredProcedure, parameters.ToArray());
+            return sysGroupUserMaps;
+        }
+
         public int Insert(SysGroupUserMap entity)
         {
             throw new NotImplementedException();

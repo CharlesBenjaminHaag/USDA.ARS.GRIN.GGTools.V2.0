@@ -36,7 +36,7 @@
             <div class="card-body">
                 <div class="tab-content">
                     <div class="tab-pane active" id="tab-hierarchy-family">
-                        @{Html.RenderAction("_ListFamily", "Explorer");}  
+                        @{Html.RenderAction("_ListFamily", "Explorer");}
                     </div>
                     <div class="tab-pane" id="tab-hierarchy-genus">
                         <div class="form-group" style="padding:.3rem;">
@@ -108,7 +108,8 @@
 </div>
 
 @Html.Partial("~/Views/Taxonomy/CommonName/_Edit.cshtml")
-@Html.Partial("~/Views/Taxonomy/GeographyMap/_Edit.cshtml")
+@*@Html.Partial("~/Views/Taxonomy/GeographyMap/_Edit.cshtml")*@
+<div id="section-geography-map-modal"></div>
 
 <script type="text/javascript">
 
@@ -120,7 +121,7 @@
         var selectedSpeciesId = $(this).attr('id');
         var selectedGenusId = $(this).data("ggtools-value");
         var genusNodeId = "#list-taxa-" + selectedGenusId;
-     
+
         if (selectedSpeciesId == -9) {
             Add(selectedGenusId);
         }
@@ -257,6 +258,8 @@
 
     $(document).on("click", "[id='btnAddCommonName']", function () {
         $("#modal-common-name-edit").modal("show");
+        var speciesId = $("#Entity_ID").val();
+        /*AddCommonName(speciesId);*/
     });
 
     $(document).on("click", "[id='btnSaveCommonName']", function () {
@@ -264,6 +267,10 @@
         var speciesId = $("#Entity_ID").val();
         SaveCommonName(speciesId);
     });
+
+    //function AddCommonName(speciesId) {
+
+    //}
 
     function SaveCommonName(speciesId) {
         link = '@Url.Action("_Save","CommonName")';
@@ -297,13 +304,59 @@
 
     $(document).on("click", "[id='btnAddDistribution']", function () {
         $("#modal-geography-map-edit").modal("show");
+        var speciesId = $("#Entity_ID").val();
+        AddDistribution(speciesId);
     });
 
     $(document).on("click", "[id='btnSaveDistribution']", function () {
         $("#modal-geography-map-edit").modal("hide");
         var speciesId = $("#Entity_SpeciesID").val();
-        LoadDistributions(speciesId);
+        SaveDistribution(speciesId);
     });
+
+    function AddDistribution(speciesId) {
+        link = '@Url.Action("_Add","GeographyMap")';
+        var formData = new FormData();
+
+        try {
+            $.ajax({
+                url: link,
+                type: 'POST',
+                cache: false,
+                contentType: false,
+                processData: false,
+                data: formData,
+                success: function (response) {
+                    $("#section-geography-map-modal").html(response);
+                    $("#modal-geography-map-edit").modal("show");
+                }
+            });
+        }
+        catch (exception) {
+
+        }
+    }
+
+    function SaveDistribution(speciesId) {
+        link = '@Url.Action("_Save","GeographyMap")';
+
+        // TODO
+
+        var formData = new FormData();
+        formData.append("Entity.SpeciesId", speciesId);
+        formData.append("Entity.Name", name);
+        $.ajax({
+            url: link,
+            type: 'POST',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (response) {
+                LoadCommonNames(speciesId);
+            }
+        });
+    }
 
     function LoadDistributions(speciesId) {
         link = '@Url.Action("_List","GeographyMap")';
@@ -312,7 +365,7 @@
         if (speciesId > 0) {
 
             formData.append("entityId", speciesId);
-            
+
             $.ajax({
                 url: link,
                 type: 'POST',
@@ -353,7 +406,7 @@
             processData: false,
             data: formData,
             success: function (data) {
-                //////DEBUG 
+                //////DEBUG
                 ////alert("SAVED CHANGES FOR SPECIES ID " + data.species.ID);
                 Edit(data.species.ID);
                 LoadCommonNames(data.species.ID);

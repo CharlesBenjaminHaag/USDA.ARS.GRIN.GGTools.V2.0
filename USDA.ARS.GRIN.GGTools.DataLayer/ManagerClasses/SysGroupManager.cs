@@ -35,7 +35,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
         {
             List<SysGroup> sysGroups = new List<SysGroup>();
 
-            SQL = " SELECT * FROM vw_GGTools_GRINGlobal_SysGroups";
+            SQL = " SELECT * FROM vw_GRINGlobal_Sys_Group";
             SQL += " WHERE  (@ID            IS NULL OR  ID              = @ID)";
             SQL += " AND    (@GroupTag      IS NULL OR  GroupTag        = @GroupTag)";
             SQL += " ORDER BY GroupTag ";
