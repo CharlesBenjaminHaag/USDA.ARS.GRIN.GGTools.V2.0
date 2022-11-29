@@ -662,6 +662,8 @@
     <Content Include="Views\Cooperator\Synch\Index.cshtml" />
     <Content Include="Views\SysGroupUserMap\Modals\_Edit.cshtml" />
     <Content Include="Views\SysGroupUserMap\Modals\_Lookup.cshtml" />
+    <Content Include="Views\WebOrder\Explorer\Index.cshtml" />
+    <Content Include="Views\WebOrder\Explorer\_List.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

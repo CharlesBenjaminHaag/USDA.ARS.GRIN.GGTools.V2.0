@@ -130,23 +130,16 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
         /// <returns></returns>
         /// <remarks>The data type is the name of the underlying DB table.</remarks>
       
-        [HttpPost]
-        public ActionResult _List(FormCollection formCollection)
+        public PartialViewResult _List(string folderType = "")
         {
             FolderViewModel viewModel = new FolderViewModel();
-
             viewModel.SearchEntity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
-
-            if (!String.IsNullOrEmpty(formCollection["FolderType"]))
-            {
-                viewModel.SearchEntity.FolderType = formCollection["FolderType"];
-            }
-
-            FolderSearch folderSearch = new FolderSearch();
-            folderSearch.FolderType = "";
+            viewModel.SearchEntity.FolderType = folderType;
             viewModel.Search();
 
-            //viewModel.GetFolderItems(folderId);
+            //TODO
+            //Get separate list of folders shared with logged-in user.
+
             return PartialView("~/Views/Folder/_List.cshtml", viewModel);
         }
 
@@ -520,7 +513,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                     viewModel.Get(entityId);
                     viewModel.PageTitle = String.Format("Edit Folder: {0}", viewModel.Entity.FolderName);
                     viewModel.TableName = viewModel.Entity.FolderType;
-                    viewModel.ItemViewName = "vw_GRINGlobal_" + viewModel.TableName + "_Folder";
+                    viewModel.ItemViewName = "vw_GRINGlobal_Folder_" + viewModel.TableName;
                 }
                 else
                 {

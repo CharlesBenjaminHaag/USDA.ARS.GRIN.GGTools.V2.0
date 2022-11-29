@@ -228,7 +228,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             }
         }
 
-        public PartialViewResult _Save(GeographyMapViewModel viewModel)
+        public JsonResult _Save(GeographyMapViewModel viewModel)
         {
             try
             {
@@ -242,12 +242,15 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                     viewModel.Entity.ModifiedByCooperatorID = AuthenticatedUser.CooperatorID;
                     viewModel.Update();
                 }
-                return PartialView("~/Views/Taxonomy/GeographyMap/_Edit.cshtml", viewModel);
+
+                viewModel.Get(viewModel.Entity.ID);
+
+                return Json(new { geographyMap = viewModel.Entity }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
                 Log.Error(ex);
-                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+                return Json(new { geographyMap = viewModel.Entity }, JsonRequestBehavior.AllowGet);
             }
         }
 

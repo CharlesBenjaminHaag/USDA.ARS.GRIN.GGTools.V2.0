@@ -51,7 +51,26 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
             }
             return Entity;
         }
-
+        public void GetFolderItems()
+        {
+            using (CWRTraitManager mgr = new CWRTraitManager())
+            {
+                try
+                {
+                    DataCollection = new Collection<CWRTrait>(mgr.GetFolderItems(SearchEntity));
+                    RowsAffected = mgr.RowsAffected;
+                    if (RowsAffected == 1)
+                    {
+                        Entity = DataCollection[0];
+                    }
+                }
+                catch (Exception ex)
+                {
+                    PublishException(ex);
+                    throw ex;
+                }
+            }
+        }
         public void HandleRequest()
         {
         }

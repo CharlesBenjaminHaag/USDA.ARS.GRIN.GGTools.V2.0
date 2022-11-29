@@ -12,13 +12,15 @@
 
 function InitDataTable(tableName) {
     $(document).ready(function () {
-        var table = $("#" + tableName).DataTable({
+        tableName = "#" + tableName;
+
+        var table = $(tableName).DataTable({
             dom: 'Blfrtip',
             paging: true,
             "pageLength": 10,
             initComplete: function () {
                 SetControlVisibility(tableName);
-            }, 
+            },
             responsive: true,
             buttons: [
                 'selectAll',
@@ -33,6 +35,42 @@ function InitDataTable(tableName) {
                 { targets: [0], visible: false }
             ]
         });
+
+        //var table = $(tableName).DataTable(); // Valid initialized DataTable
+        //if (table instanceof $.fn.dataTable.Api) {
+        //    //DEBUG
+        //    alert(tableName + " IS DTABLE");
+        //} else {
+            
+        //}
+
+
+        //if (!$.fn.DataTable.isDataTable(tableName)) {
+        //    var table = $(tableName).DataTable({
+        //        dom: 'Blfrtip',
+        //        paging: true,
+        //        "pageLength": 10,
+        //        initComplete: function () {
+        //            SetControlVisibility(tableName);
+        //        },
+        //        responsive: true,
+        //        buttons: [
+        //            'selectAll',
+        //            'selectNone',
+        //            'csv',
+        //            'excel',
+        //            'pdf'
+        //        ],
+        //        select: true,
+        //        lengthMenu: [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],
+        //        columnDefs: [
+        //            { targets: [0], visible: false }
+        //        ]
+        //    });
+        //}
+        //else {
+            
+        //}
     });
 }
 

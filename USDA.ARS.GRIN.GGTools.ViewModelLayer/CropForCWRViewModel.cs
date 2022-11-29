@@ -36,6 +36,26 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
             return Entity;
         }
 
+        public void GetFolderItems()
+        {
+            using (CropForCWRManager mgr = new CropForCWRManager())
+            {
+                try
+                {
+                    DataCollection = new Collection<CropForCWR>(mgr.GetFolderItems(SearchEntity));
+                    RowsAffected = mgr.RowsAffected;
+                    if (RowsAffected == 1)
+                    {
+                        Entity = DataCollection[0];
+                    }
+                }
+                catch (Exception ex)
+                {
+                    PublishException(ex);
+                    throw ex;
+                }
+            }
+        }
         public int Search()
         {
             using (CropForCWRManager mgr = new CropForCWRManager())
@@ -53,29 +73,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
                 return 0;
             }
         }
-      
-
-        public void SearchFolderItems()
-        {
-            using (CropForCWRManager mgr = new CropForCWRManager())
-            {
-                try
-                {
-                    DataCollection = new Collection<CropForCWR>(mgr.SearchFolderItems(SearchEntity));
-                    RowsAffected = mgr.RowsAffected;
-                    if (RowsAffected == 1)
-                    {
-                        Entity = DataCollection[0];
-                    }
-                }
-                catch (Exception ex)
-                {
-                    PublishException(ex);
-                    throw ex;
-                }
-            }
-        }
-
+     
         public void HandleRequest()
         {
            

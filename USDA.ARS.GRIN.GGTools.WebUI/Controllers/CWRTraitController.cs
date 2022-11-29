@@ -147,9 +147,13 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI
         }
         public PartialViewResult _ListFolderItems(int folderId)
         {
+            CWRTraitViewModel viewModel = new CWRTraitViewModel();
             try
             {
-                return PartialView("~/Views/Shared/_UnderConstruction.cshtml");
+                viewModel.EventAction = "FOLDER";
+                viewModel.SearchEntity.FolderID = folderId;
+                viewModel.GetFolderItems();
+                return PartialView(BASE_PATH + "_List.cshtml", viewModel);
             }
             catch (Exception ex)
             {

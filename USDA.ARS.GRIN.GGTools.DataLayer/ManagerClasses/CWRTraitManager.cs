@@ -45,7 +45,6 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
                 AddParameter("created_by", entity.CreatedByCooperatorID == 0 ? DBNull.Value : (object)entity.CreatedByCooperatorID, true);
             }
         }
-
         public virtual List<CWRTrait> Search(CWRTraitSearch search)
         {
             List<CWRTrait> results = new List<CWRTrait>();
@@ -87,8 +86,6 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             RowsAffected = results.Count;
             return results;
         }
-
-
         public List<CWRTrait> SearchFolderItems(CWRTraitSearch searchEntity)
         {
             List<CWRTrait> results = new List<CWRTrait>();
@@ -173,7 +170,18 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         {
             throw new NotImplementedException();
         }
+        public List<CWRTrait> GetFolderItems(CWRTraitSearch searchEntity)
+        {
+            List<CWRTrait> results = new List<CWRTrait>();
 
+            SQL = " SELECT * FROM vw_GRINGlobal_Folder_Taxonomy_CWR_Trait WHERE FolderID = @FolderID";
+            var parameters = new List<IDbDataParameter> {
+                CreateParameter("FolderID", searchEntity.FolderID > 0 ? (object)searchEntity.FolderID : DBNull.Value, true)
+            };
+            results = GetRecords<CWRTrait>(SQL, parameters.ToArray());
+            RowsAffected = results.Count;
+            return results;
+        }
         public void BuildInsertUpdateParameters()
         {
             throw new NotImplementedException();

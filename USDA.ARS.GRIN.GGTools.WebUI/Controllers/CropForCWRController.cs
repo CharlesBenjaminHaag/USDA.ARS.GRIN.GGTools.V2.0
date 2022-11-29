@@ -33,9 +33,13 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
 
         public PartialViewResult _ListFolderItems(int folderId)
         {
+            CropForCWRViewModel viewModel = new CropForCWRViewModel();
             try
             {
-                return PartialView("~/Views/Shared/_UnderConstruction.cshtml");
+                viewModel.EventAction = "FOLDER";
+                viewModel.SearchEntity.FolderID = folderId;
+                viewModel.GetFolderItems();
+                return PartialView(BASE_PATH + "_List.cshtml", viewModel);
             }
             catch (Exception ex)
             {
@@ -184,63 +188,6 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             {
                 return Json(new { errorMessage = ex.Message }, JsonRequestBehavior.AllowGet);
             }
-        }
-
-        [HttpPost]
-        public PartialViewResult LookupNotes(FormCollection formCollection)
-        {
-            string partialViewName = "~/Views/CropForCWR/Modals/_NoteSelectList.cshtml";
-            CropForCWRViewModel viewModel = new CropForCWRViewModel();
-
-            if (!String.IsNullOrEmpty(formCollection["TableName"]))
-            {
-                viewModel.SearchEntity.TableName = formCollection["TableName"];
-            }
-
-            if (!String.IsNullOrEmpty(formCollection["Note"]))
-            {
-                viewModel.SearchEntity.Note = formCollection["Note"];
-            }
-
-            viewModel.SearchNotes();
-            return PartialView(partialViewName, viewModel);
-        }
-               
-        public PartialViewResult FolderItems(int folderId)
-        {
-            CropForCWRViewModel viewModel = new CropForCWRViewModel();
-
-            try
-            {
-                viewModel.SearchEntity.FolderID = folderId;
-                viewModel.SearchFolderItems();
-                ModelState.Clear();
-                return PartialView(BASE_PATH + "_List.cshtml", viewModel);
-            }
-            catch (Exception ex)
-            {
-                Log.Error(ex);
-                return PartialView("~/Views/Error/_InternalServerError.cshtml");
-            }
-        }
-
-        [HttpPost]
-        public PartialViewResult FolderItems(FormCollection formCollection)
-        {
-            CropForCWRViewModel viewModel = new CropForCWRViewModel();
-
-            //try
-            //{
-            //    viewModel.SearchEntity.FolderID = folderId;
-            //    viewModel.SearchFolderItems();
-            //    ModelState.Clear();
-            //    return PartialView(BASE_PATH + "_List.cshtml", viewModel);
-            //}
-            //catch (Exception ex)
-            //{
-            //    Log.Error(ex);
-                return PartialView("~/Views/Error/_InternalServerError.cshtml");
-        //    }
         }
     }
 }

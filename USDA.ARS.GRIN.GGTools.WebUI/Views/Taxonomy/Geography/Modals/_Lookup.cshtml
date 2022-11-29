@@ -95,10 +95,6 @@
         $('#modal-geography-lookup').modal('hide');
         var selectedItemIdList = GetSelectedEntityIDs("data-table-geography-lookup");
         var selectedItemNameList = GetSelectedEntityText("data-table-geography-lookup");
-
-        //DEBUG
-        alert("ID " + selectedItemIdList + " TEXT " + selectedItemNameList);
-
         $("#Entity_GeographyID").val(selectedItemIdList);
         $("#Entity_GeographyDescription").val(selectedItemNameList);
     });

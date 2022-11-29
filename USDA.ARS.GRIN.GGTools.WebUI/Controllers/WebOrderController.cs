@@ -11,6 +11,10 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
     public class WebOrderController : BaseController, IController<WebOrderRequestViewModel>
     {
         private static readonly Logger Log = LogManager.GetCurrentClassLogger();
+        public ActionResult Explorer()
+        {
+            return View("~/Views/WebOrder/Explorer/Index.cshtml");
+        }
         public PartialViewResult _ListFolderItems(int folderId)
         {
             try
@@ -229,7 +233,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             }
 
             viewModel.Search();
-            return PartialView("~/Views/WebOrder/Dashboard/_List.cshtml", viewModel);
+            return PartialView("~/Views/WebOrder/Explorer/_List.cshtml", viewModel);
         }
 
         //public ActionResult DashboardList()
