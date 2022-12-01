@@ -1,5 +1,5 @@
 ﻿@model USDA.ARS.GRIN.GGTools.ViewModelLayer.SiteViewModel
-<div class="card card-default">
+<div class="card card-primary">
     <div class="card-header">
         <h3 class="card-title">My Site</h3>
     </div>
@@ -19,13 +19,13 @@
             @Model.Entity.PrimaryAddress3<br />
             @Model.Entity.PrimaryCity<br />
         </p>
-        <hr>
+        @*<hr>
         <strong><i class="far fa-file-alt mr-1"></i> Notes</strong>
-        <p class="text-muted">@Model.Entity.Note</p>
+        <p class="text-muted">@Model.Entity.Note</p>*@
     </div>
     <!-- TODO -->
     <div class="card-footer">
-        <a href="@Url.Action("Edit","Site", new { entityId = Model.Entity.ID })" class="btn btn-primary btn-block">
+        <a href="@Url.Action("Edit","Site", new { entityId = Model.Entity.ID })" class="btn btn-default btn-block">
             Detail
         </a>
     </div>

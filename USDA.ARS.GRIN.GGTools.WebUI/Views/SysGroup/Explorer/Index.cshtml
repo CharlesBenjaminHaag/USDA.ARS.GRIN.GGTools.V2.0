@@ -42,20 +42,25 @@
 </div>
 <script type="text/javascript">
     $(document).ready(function () {
-        $(document).ready(function () {
-            tableName = "#data_table_sys_group";
-            table = $(tableName).DataTable({
-                paging: false,
-                responsive: true,
-                select: {
-                    style: 'single'
-                },
-                searching: true,
-                columnDefs: [
-                    { targets: [0], visible: false }
-                ]
-            });
+        tableName = "#data_table_sys_group";
+        table = $(tableName).DataTable({
+            paging: false,
+            responsive: true,
+            select: {
+                style: 'single'
+            },
+            searching: true,
+            columnDefs: [
+                { targets: [0], visible: false }
+            ]
         });
+
+        //Select first row by default; load related data.
+        table.row(':eq(0)', { page: 'current' }).select();
+        var firstRowData = table.row(':eq(0)', { page: 'current' }).data();
+        LoadGroup(firstRowData[0]);
+        LoadPermissions(firstRowData[0]);
+        LoadUsers(firstRowData[0]);
 
         $('#data_table_sys_group tbody').on('click', 'tr', function () {
             var data = table.row(this).data();

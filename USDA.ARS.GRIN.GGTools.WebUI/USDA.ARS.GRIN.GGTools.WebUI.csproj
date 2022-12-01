@@ -664,6 +664,8 @@
     <Content Include="Views\SysGroupUserMap\Modals\_Lookup.cshtml" />
     <Content Include="Views\WebOrder\Explorer\Index.cshtml" />
     <Content Include="Views\WebOrder\Explorer\_List.cshtml" />
+    <Content Include="Views\Site\_ListWidget.cshtml" />
+    <Content Include="Views\Folder\_Confirmation.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

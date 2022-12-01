@@ -32,7 +32,13 @@
                                     @Html.DropDownListFor(x => x.SearchEntity.CreatedByCooperatorID, Model.Cooperators, "Any Cooperator", new { @class = "form-control" })
                                 </div>
                             </div>
-                            <div class="col-md-1">
+                            <div class="col-md-2">
+                                <div id="form-group">
+                                    <label>Type</label>
+                                    @Html.DropDownListFor(x => x.SearchEntity.CitationType, Model.CitationTypes, "All types", new { @class = "form-control" })
+                                </div>
+                            </div>
+                            <div class="col-md-2">
                                 <div id="form-group">
                                     <label id="lblStandardAbbreviation">Literature Type</label>
                                     @Html.DropDownListFor(x => x.SearchEntity.LiteratureTypeCode, Model.LiteratureTypes, "All types", new { @class = "form-control" })
@@ -50,14 +56,14 @@
                                     @Html.TextBoxFor(x => x.SearchEntity.Abbreviation, new { @class = "form-control" })
                                 </div>
                             </div>
+                        </div>
+                        <div class="row">
                             <div class="col-md-3">
                                 <div id="form-group">
                                     <label>Citation Title</label>
                                     @Html.TextBoxFor(x => x.SearchEntity.CitationTitle, new { @class = "form-control" })
                                 </div>
                             </div>
-                        </div>
-                        <div class="row">
                             <div class="col-md-3">
                                 <div id="form-group">
                                     <label>Editor/Author</label>

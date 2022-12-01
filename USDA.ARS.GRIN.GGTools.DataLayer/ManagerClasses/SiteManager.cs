@@ -38,7 +38,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
         {
             List<Site> results = new List<Site>();
 
-            SQL = " SELECT * FROM vw_GGTools_GRINGlobal_Sites";
+            SQL = " SELECT * FROM vw_GRINGlobal_Site";
             SQL += " WHERE (@ID                     IS NULL     OR ID                       =       @ID)";
             SQL += " AND (@ShortName                IS NULL     OR ShortName                LIKE    '%' + @ShortName + '%')";
             SQL += " AND (@LongName                 IS NULL     OR LongName                 LIKE    '%' + @LongName + '%')";

@@ -42,7 +42,18 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         {
             throw new NotImplementedException();
         }
+        public List<Classification> GetFolderItems(ClassificationSearch searchEntity)
+        {
+            List<Classification> results = new List<Classification>();
 
+            SQL = " SELECT * FROM vw_GRINGlobal_Folder_Taxonomy_Classification WHERE FolderID = @FolderID";
+            var parameters = new List<IDbDataParameter> {
+                CreateParameter("FolderID", searchEntity.FolderID > 0 ? (object)searchEntity.FolderID : DBNull.Value, true)
+            };
+            results = GetRecords<Classification>(SQL, parameters.ToArray());
+            RowsAffected = results.Count;
+            return results;
+        }
         public int Insert(Classification entity)
         {
             int errorNumber = 0;

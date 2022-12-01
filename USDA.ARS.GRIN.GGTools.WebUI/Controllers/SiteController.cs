@@ -120,6 +120,21 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             }
         }
 
+        public PartialViewResult RenderListWidget()
+        {
+            SiteViewModel viewModel = new SiteViewModel();
+            try
+            {
+                viewModel.Search();
+                return PartialView("~/Views/Site/_ListWidget.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
+        }
+
         public ActionResult Delete(FormCollection formCollection)
         {
             throw new NotImplementedException();

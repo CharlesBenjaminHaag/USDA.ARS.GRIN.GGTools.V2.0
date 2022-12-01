@@ -118,12 +118,21 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         {
             throw new NotImplementedException();
         }
-    
-
-
         public CWRMap Get(int entityId)
         {
             throw new NotImplementedException();
+        }
+        public List<CWRMap> GetFolderItems(CWRMapSearch searchEntity)
+        {
+            List<CWRMap> results = new List<CWRMap>();
+
+            SQL = " SELECT * FROM vw_GRINGlobal_Folder_Taxonomy_CWR_Map WHERE FolderID = @FolderID";
+            var parameters = new List<IDbDataParameter> {
+                CreateParameter("FolderID", searchEntity.FolderID > 0 ? (object)searchEntity.FolderID : DBNull.Value, true)
+            };
+            results = GetRecords<CWRMap>(SQL, parameters.ToArray());
+            RowsAffected = results.Count;
+            return results;
         }
         protected void BuildInsertUpdateParameters(CWRMap entity)
         {

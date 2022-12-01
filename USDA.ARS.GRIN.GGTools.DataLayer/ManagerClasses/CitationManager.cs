@@ -169,6 +169,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             SQL += " AND        (@Note                          IS NULL OR Note                     LIKE    '%' + @Note + '%')";
 
             SQL += " AND        (@LiteratureID                  IS NULL OR LiteratureID             =       @LiteratureID)";
+            SQL += " AND        (@TypeCode                      IS NULL OR TypeCode                 =       @TypeCode)";
             SQL += " AND        (@LiteratureTypeCode            IS NULL OR LiteratureTypeCode       =       @LiteratureTypeCode)";
             SQL += " AND        (@FamilyID                      IS NULL OR FamilyID                 =       @FamilyID)";
             SQL += " AND        (@GenusID                       IS NULL OR GenusID                  =       @GenusID)";
@@ -179,10 +180,12 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             SQL += " AND        (@StandardAbbreviation          IS NULL OR StandardAbbreviation     =       @StandardAbbreviation)";
             SQL += " AND        (@Abbreviation                  IS NULL OR Abbreviation             LIKE    '%' + @Abbreviation + '%')";
             SQL += " AND        (@CitationTitle                 IS NULL OR CitationTitle            LIKE    '%' + @CitationTitle + '%')";
-            SQL += " AND        (@EditorAuthorName              IS NULL OR EditorAuthorName         LIKE    '%' + @EditorAuthorName + '%')";
+            SQL += " AND        (@CitationAuthorName            IS NULL OR CitationAuthorName       LIKE    '%' + @CitationAuthorName + '%')";
+            SQL += " AND        (@EditorAuthorName              IS NULL OR DisplayAuthorName        LIKE    '%' + @EditorAuthorName + '%')";
             SQL += " AND        (@CitationYear                  IS NULL OR CitationYear             LIKE    '%' + @CitationYear + '%')";
             SQL += " AND        (@CitationType                  IS NULL OR CitationType             =       @CitationType)";
             SQL += " AND        (@ReferenceTitle                IS NULL OR ReferenceTitle           LIKE    '%' + @ReferenceTitle + '%')";
+            SQL += " AND        (@CitationTitle                 IS NULL OR CitationTitle            LIKE    '%' + @CitationTitle + '%')";
 
             if (!String.IsNullOrEmpty(searchEntity.FamilyIDList))
             {
@@ -216,7 +219,11 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
                 CreateParameter("ModifiedByCooperatorID", searchEntity.ModifiedByCooperatorID > 0 ? (object)searchEntity.ModifiedByCooperatorID : DBNull.Value, true),
                 CreateParameter("ModifiedDate", searchEntity.ModifiedDate > DateTime.MinValue ? (object)searchEntity.ModifiedDate : DBNull.Value, true),
                 CreateParameter("Note", (object)searchEntity.Note ?? DBNull.Value, true),
+                CreateParameter("ReferenceTitle", (object)searchEntity.ReferenceTitle ?? DBNull.Value, true),
+                CreateParameter("CitationTitle", (object)searchEntity.CitationTitle ?? DBNull.Value, true),
+                CreateParameter("CitationAuthorName", (object)searchEntity.CitationAuthorName ?? DBNull.Value, true),
 
+                CreateParameter("TypeCode", (object)searchEntity.CitationType ?? DBNull.Value, true),
                 CreateParameter("LiteratureID", searchEntity.LiteratureID > 0 ? (object)searchEntity.LiteratureID : DBNull.Value, true),
                 CreateParameter("LiteratureTypeCode", (object)searchEntity.LiteratureTypeCode ?? DBNull.Value, true),
                 CreateParameter("FamilyID", searchEntity.FamilyID > 0 ? (object)searchEntity.FamilyID : DBNull.Value, true),
@@ -227,11 +234,10 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
                 CreateParameter("SpeciesName", (object)searchEntity.SpeciesName ?? DBNull.Value, true),
                 CreateParameter("StandardAbbreviation", (object)searchEntity.StandardAbbreviation ?? DBNull.Value, true),
                 CreateParameter("Abbreviation", (object)searchEntity.Abbreviation ?? DBNull.Value, true),
-                CreateParameter("CitationTitle", (object)searchEntity.CitationTitle ?? DBNull.Value, true),
                 CreateParameter("EditorAuthorName", (object)searchEntity.EditorAuthorName ?? DBNull.Value, true),
                 CreateParameter("CitationYear", (object)searchEntity.CitationYear ?? DBNull.Value, true),
                 CreateParameter("CitationType", (object)searchEntity.CitationType ?? DBNull.Value, true),
-                CreateParameter("ReferenceTitle", (object)searchEntity.ReferenceTitle ?? DBNull.Value, true)
+                
             };
 
             results = GetRecords<Citation>(SQL, parameters.ToArray());
@@ -286,6 +292,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             AddParameter("citation_title", String.IsNullOrEmpty(entity.CitationTitle) ? DBNull.Value : (object)entity.CitationTitle, true);
             AddParameter("author_name", String.IsNullOrEmpty(entity.CitationAuthorName) ? DBNull.Value : (object)entity.CitationAuthorName, true);
             AddParameter("citation_year", entity.CitationYear == 0 ? DBNull.Value : (object)entity.CitationYear, true);
+            AddParameter("reference", String.IsNullOrEmpty(entity.VolumeOrPage) ? DBNull.Value : (object)entity.VolumeOrPage, true);
             AddParameter("doi_reference", String.IsNullOrEmpty(entity.DOIReference) ? DBNull.Value : (object)entity.DOIReference, true);
             AddParameter("taxonomy_species_id", entity.SpeciesID == 0 ? DBNull.Value : (object)entity.SpeciesID, true);
             AddParameter("taxonomy_family_id", entity.FamilyID == 0 ? DBNull.Value : (object)entity.FamilyID, true);

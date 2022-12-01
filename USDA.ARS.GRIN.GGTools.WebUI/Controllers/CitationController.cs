@@ -410,16 +410,16 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
         {
             try
             {
-                if (entityId > 0)
-                {
+                //if (entityId > 0)
+                //{
                     CitationViewModel viewModel = new CitationViewModel();
                     viewModel.Get(entityId);
                     return PartialView("~/Views/Taxonomy/Citation/_Widget.cshtml", viewModel);
-                }
-                else
-                {
-                    return PartialView("~/Views/Taxonomy/Citation/_NotCited.cshtml");
-                }
+                //}
+                //else
+                //{
+                //    return PartialView("~/Views/Taxonomy/Citation/_NotCited.cshtml");
+                //}
             }
             catch (Exception ex)
             {

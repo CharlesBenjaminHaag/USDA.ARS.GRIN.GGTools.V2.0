@@ -187,9 +187,9 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
         {
             throw new NotImplementedException();
         }
-        
+
         [HttpPost]
-        public JsonResult Add(FormCollection coll)
+        public PartialViewResult Add(FormCollection coll)
         {
             FolderViewModel viewModel = new FolderViewModel();
             viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
@@ -257,14 +257,91 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 // TEST Return new folder as JSON
                 viewModel.SearchEntity.ID = viewModel.Entity.ID;
                 viewModel.Search();
-                return Json( new { folder = viewModel.Entity }, JsonRequestBehavior.AllowGet);
+                return PartialView("~/Views/Folder/_Confirmation.cshtml", viewModel);
             }
             catch (Exception ex)
             {
                 Log.Error(ex);
-                return Json(new { success = false }, JsonRequestBehavior.AllowGet);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
             }
         }
+        //[HttpPost]
+        //public JsonResult Add(FormCollection coll)
+        //{
+        //    FolderViewModel viewModel = new FolderViewModel();
+        //    viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
+
+        //    try
+        //    {
+        //        viewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
+
+        //        if (!String.IsNullOrEmpty(coll["FolderID"]))
+        //        {
+        //            viewModel.Entity.ID = Int32.Parse(coll["FolderID"]);
+        //        }
+
+        //        if (!String.IsNullOrEmpty(coll["IDList"]))
+        //        {
+        //            viewModel.Entity.ItemIDList = coll["IDList"];
+        //        }
+
+        //        if (!String.IsNullOrEmpty(coll["TableName"]))
+        //        {
+        //            viewModel.Entity.TableName = coll["TableName"];
+        //        }
+
+        //        if (!String.IsNullOrEmpty(coll["FolderName"]))
+        //        {
+        //            viewModel.Entity.FolderName = coll["FolderName"];
+        //        }
+
+        //        if (!String.IsNullOrEmpty(coll["FolderType"]))
+        //        {
+        //            viewModel.Entity.FolderType = coll["FolderType"];
+        //        }
+
+        //        if (!String.IsNullOrEmpty(coll["NewCategory"]))
+        //        {
+        //            viewModel.Entity.Category = coll["NewCategory"];
+        //        }
+        //        else
+        //        {
+        //            if (!String.IsNullOrEmpty(coll["Category"]))
+        //            {
+        //                viewModel.Entity.Category = coll["Category"];
+        //            }
+        //        }
+
+        //        if (!String.IsNullOrEmpty(coll["Description"]))
+        //        {
+        //            viewModel.Entity.Description = coll["Description"];
+        //        }
+
+        //        if (!String.IsNullOrEmpty(coll["IsFavorite"]))
+        //        {
+        //            viewModel.Entity.IsFavorite = Boolean.Parse(coll["IsFavorite"]);
+        //        }
+
+        //        if (viewModel.Entity.ID == 0)
+        //        {
+        //            viewModel.Insert();
+        //        }
+        //        else
+        //        {
+        //            viewModel.Update();
+        //        }
+
+        //        // TEST Return new folder as JSON
+        //        viewModel.SearchEntity.ID = viewModel.Entity.ID;
+        //        viewModel.Search();
+        //        return Json( new { folder = viewModel.Entity }, JsonRequestBehavior.AllowGet);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Log.Error(ex);
+        //        return Json(new { success = false }, JsonRequestBehavior.AllowGet);
+        //    }
+        //}
 
         [HttpPost]
         public JsonResult Update(FormCollection coll)

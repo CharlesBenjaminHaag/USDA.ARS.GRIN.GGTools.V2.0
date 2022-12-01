@@ -19,7 +19,8 @@
                         <th>Standard Abbreviation</th>
                         <th>Abbreviation</th>
                         <th>Citation Title</th>
-                        <th>Editor/Author Name</th>
+                        <th>Editor/Author</th>
+                        <th>Citation Author</th>
                         <th>Year</th>
                         <th></th>
                     </tr>
@@ -27,66 +28,69 @@
                 <tbody>
                     @foreach (var result in Model.DataCollection)
                     {
-                        <tr>
-                            <td>
-                                @result.ID
-                            </td>
-                            <td>
-                                @result.ID
-                            </td>
-                            <td>
-                                @if (result.TableName == "taxonomy_family")
+                    <tr>
+                        <td>
+                            @result.ID
+                        </td>
+                        <td>
+                            @result.ID
+                        </td>
+                        <td>
+                            @if (result.TableName == "taxonomy_family")
+                            {
+                                <a href="@Url.Action("Edit", "Family", new { entityId = result.FamilyID })">
+                                    @result.FamilyName
+                                </a>
+                            }
+                            else
+                            {
+                                if (result.TableName == "taxonomy_genus")
                                 {
-                                    <a href="@Url.Action("Edit", "Family", new { entityId = result.FamilyID })">
-                                        @result.FamilyName
+                                    <a href="@Url.Action("Edit", "Genus", new { entityId = result.GenusID })">
+                                        @result.GenusName
                                     </a>
                                 }
                                 else
                                 {
-                                    if (result.TableName == "taxonomy_genus")
-                                    {
-                                        <a href="@Url.Action("Edit", "Genus", new { entityId = result.GenusID })">
-                                            @result.GenusName
-                                        </a>
-                                    }
-                                    else
-                                    {
-                                        <a href="@Url.Action("Edit", "Species", new { entityId = result.SpeciesID })">
-                                            @result.SpeciesName
-                                        </a>
-                                    }
+                                    <a href="@Url.Action("Edit", "Species", new { entityId = result.SpeciesID })">
+                                        @result.SpeciesName
+                                    </a>
                                 }
-                            </td>
-                            <td>
-                                @result.StandardAbbreviation
-                            </td>
-                            <td>
-                                @result.Abbreviation
-                            </td>
-                            <td>
-                                @Html.Raw(@result.CitationTitle)
-                            </td>
-                            <td>
-                                @result.EditorAuthorName
-                            </td>
-                            <td>
-                                @if (result.CitationYear > 0)
-                                {
-                                    @result.CitationYear
-                                }
-                            </td>
-                            <td style="text-align:right;">
-                                <a href="@Url.Action("Edit", "Citation", new { entityId = result.ID })" class="btn btn-default btn-sm pull-right row-edit">
-                                    <i class="fa fa-edit"></i>
-                                </a>
-                                @*@if (Model.Action == "Folder")
-                                    {
-                                        <button id="btnDeleteFolderItem_@cropForCWR.ReferenceID" class="btn btn-danger btn-sm pull-right row-edit margin-r-5">
-                                            <i class="fa fa-trash"></i> Remove From Folder
-                                        </button>
-                                    }*@
-                            </td>
-                        </tr>
+                            }
+                        </td>
+                        <td>
+                            @result.StandardAbbreviation
+                        </td>
+                        <td>
+                            @result.Abbreviation
+                        </td>
+                        <td>
+                            @Html.Raw(@result.CitationTitle)
+                        </td>
+                        <td>
+                            @result.EditorAuthorName
+                        </td>
+                        <td>
+                            @result.CitationAuthorName
+                        </td>
+                        <td>
+                            @if (result.CitationYear > 0)
+                            {
+                                @result.CitationYear
+                            }
+                        </td>
+                        <td style="text-align:right;">
+                            <a href="@Url.Action("Edit", "Citation", new { entityId = result.ID })" class="btn btn-default btn-sm pull-right row-edit">
+                                <i class="fa fa-edit"></i>
+                            </a>
+                            @*@if (Model.Action == "Folder")
+            {
+                <button id="btnDeleteFolderItem_@cropForCWR.ReferenceID" class="btn btn-danger btn-sm pull-right row-edit margin-r-5">
+                    <i class="fa fa-trash"></i> Remove From Folder
+                </button>
+            }*@
+                        </td>
+                    </tr>
                     }
                 </tbody>
             </table>

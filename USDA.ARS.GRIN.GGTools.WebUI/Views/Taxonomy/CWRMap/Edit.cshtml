@@ -107,22 +107,7 @@
             </div>
             <div class="row">
                 <div class="col-md-12">
-                    @{ Html.RenderAction("RenderWidget", "Citation", new { @entityId = Model.Entity.ID });}  
-                    @*<label>Citation</label>
-                    <div class="input-group">
-                        @Html.HiddenFor(x => x.Entity.CitationID)
-                        @Html.TextBoxFor(x => x.Entity.CitationText, new { @class = "form-control", @readonly = "readonly" })
-                        <span class="input-group-btn">
-                            <button id="btnEditCitation" type="button" class="btn btn-default btn-flat">
-                                <i class="fa fa-edit"></i>
-                            </button>
-                        </span>
-                        <span class="input-group-btn">
-                            <button type="button" class="btn btn-default btn-flat" data-toggle="modal" data-target="#modal-citation-lookup">
-                                <i class="fa fa-search"></i>
-                            </button>
-                        </span>
-                    </div>*@
+                    @{ Html.RenderAction("RenderWidget", "Citation", new { @entityId = Model.Entity.CitationID });}  
                 </div>
             </div>
         </div>

@@ -34,6 +34,8 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         public string Abbreviation { get; set; }
         public string StandardAbbreviation { get; set; }
         public string LiteratureAuthorName { get; set; }
+
+        public string CitationAuthorName { get; set; }
         public string EditorAuthorName { get; set; }
         public string PublicationYear { get; set; }
         public string CitationYear { get; set; }

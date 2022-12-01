@@ -87,6 +87,12 @@
                 </div>
             </div>
             <div class="row">
+                <div class="col-md-2">
+                    <div id="form-group">
+                        <label>Type</label>
+                        @Html.DropDownListFor(x=>x.Entity.TypeCode, Model.CitationTypes, new { @class = "form-control"})
+                    </div>
+                </div>
                 <div class="col-md-3">
                     <div id="form-group">
                         <label>Citation Title</label>
@@ -99,7 +105,7 @@
                         @Html.TextBoxFor(x => x.Entity.CitationAuthorName, new { @class = "form-control" })
                     </div>
                 </div>
-                <div class="col-md-2">
+                <div class="col-md-1">
                     <div id="form-group">
                         <label>Cit. Year</label>
                         @Html.TextBoxFor(x => x.Entity.CitationYear, new { @class = "form-control" })
@@ -111,7 +117,7 @@
                         @Html.TextBoxFor(x => x.Entity.VolumeOrPage, new { @class = "form-control" })
                     </div>
                 </div>
-                <div class="col-md-2">
+                <div class="col-md-1">
                     <div id="form-group">
                         <label>DOI Reference</label>
                         @Html.TextBoxFor(x => x.Entity.DOIReference, new { @class = "form-control" })

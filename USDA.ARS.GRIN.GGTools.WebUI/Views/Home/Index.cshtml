@@ -5,33 +5,19 @@
 }
 
 <div class="row">
-    <div class="col-lg-3 col-6">
-
-       
-    </div>
-    <div class="col-lg-3 col-6">
-        
-    </div>
-    <div class="col-lg-3 col-6">
-        
-    </div>
-    <div class="col-lg-3 col-6">
-
-        
-    </div>
-</div>
-
-<div class="row">
     <div class="col-md-3">
         @{Html.RenderAction("RenderWidget", "Cooperator", new { cooperatorId = Model.CooperatorID }); }
         @{Html.RenderAction("RenderWidget", "Site", new { siteId = Model.SiteID }); }
     </div>
-    <div class="col-md-6">
-        @*@{Html.RenderAction("_ListBySite", "Cooperator", new { siteId = Model.SiteID }); }*@
+    <div class="col-md-5">
         <div class="small-box bg-info">
             <div class="inner">
-                <h3>GGT-ARM</h3>
-                <p>Access Rights Management</p>
+                <h3>
+                    <a href="@Url.Action("Navigate","Home", new { applicationCode = "GGT-ARM"})" style="color:white; text-decoration:underline;">
+                        Access Rights Management
+                    </a>
+                </h3>
+                <p>Manage cooperator and user accounts</p>
             </div>
             <div class="icon">
                 <i class="fas fa-user-cog"></i>
@@ -42,8 +28,12 @@
         </div>
         <div class="small-box bg-success">
             <div class="inner">
-                <h3>GGT-TAX</h3>
-                <p>Taxonomy Editor</p>
+                <h3>
+                    <a href="@Url.Action("Navigate","Home", new { applicationCode = "GGT-TAX"})" style="color:white; text-decoration:underline;">
+                        TurboTaxon
+                    </a>
+                </h3>
+                <p>Edit taxonomical data</p>
             </div>
             <div class="icon">
                 <i class="fas fa-leaf"></i>
@@ -54,8 +44,8 @@
         </div>
         <div class="small-box bg-warning bg-purple">
             <div class="inner">
-                <h3>GGT-CUR</h3>
-                <p>Curators</p>
+                <h3>Curator Portal</h3>
+                <p>View accession and inventory data</p>
             </div>
             <div class="icon">
                 <i class="fas fa-tree"></i>
@@ -66,8 +56,8 @@
         </div>
         <div class="small-box bg-danger">
             <div class="inner">
-                <h3>GGT-NRR</h3>
-                <p>NRR Tool</p>
+                <h3>NRR Tool</h3>
+                <p>Review and process Non-Research Requests (NRR)</p>
             </div>
             <div class="icon">
                 <i class="fas fa-angry"></i>
@@ -77,31 +67,8 @@
             </a>
         </div>
     </div>
-    <div class="col-md-3">
-        <div class="info-box">
-            <span class="info-box-icon bg-gray"><i class="far fa-building"></i></span>
-            <div class="info-box-content">
-                <span class="info-box-text">NC7</span>
-                <span class="info-box-number">1,410</span>
-            </div>
-
-        </div>
-        <div class="info-box">
-            <span class="info-box-icon bg-info"><i class="far fa-envelope"></i></span>
-            <div class="info-box-content">
-                <span class="info-box-text">Messages</span>
-                <span class="info-box-number">1,410</span>
-            </div>
-
-        </div>
-        <div class="info-box">
-            <span class="info-box-icon bg-info"><i class="far fa-envelope"></i></span>
-            <div class="info-box-content">
-                <span class="info-box-text">Messages</span>
-                <span class="info-box-number">1,410</span>
-            </div>
-
-        </div>
+    <div class="col-md-4">
+        @{Html.RenderAction("RenderListWidget", "Site"); }
     </div>
 </div>
 <script type="text/javascript">

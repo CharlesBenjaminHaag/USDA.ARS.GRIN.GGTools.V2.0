@@ -4,6 +4,7 @@
         <tr>
             <th></th>
             <th></th>
+            <th></th>
             <th>ID</th>
             <th>Title</th>
             <th>Type</th>
@@ -23,6 +24,12 @@
                     @if (folder.IsFavorite)
                     {
                         <a href="#"><i class="fa fa-star text-yellow"></i></a>
+                    }
+                </td>
+                <td>
+                    @if (folder.IsShared == "Y")
+                    { 
+                        <a href="#"><i class="fa fa-users text-blue"></i></a>
                     }
                 </td>
                 <td>
