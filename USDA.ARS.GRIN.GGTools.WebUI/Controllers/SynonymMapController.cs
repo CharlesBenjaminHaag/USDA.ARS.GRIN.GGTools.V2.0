@@ -15,9 +15,13 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
         private static readonly Logger Log = LogManager.GetCurrentClassLogger();
         public PartialViewResult _ListFolderItems(int folderId)
         {
+            SynonymMapViewModel viewModel = new SynonymMapViewModel();
             try
             {
-                return PartialView("~/Views/Shared/_UnderConstruction.cshtml");
+                viewModel.EventAction = "FOLDER";
+                viewModel.SearchEntity.FolderID = folderId;
+                viewModel.GetFolderItems();
+                return PartialView(BASE_PATH + "_List.cshtml", viewModel);
             }
             catch (Exception ex)
             {
@@ -147,7 +151,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             SynonymMapViewModel viewModel = new SynonymMapViewModel();
             try 
             {
-                viewModel.TableName = "taxonomy_synonym_map";
+                viewModel.TableName = "taxonomy_species_synonym_map";
                 viewModel.PageTitle = "Synonym Map Search";
                 return View(BASE_PATH + "Index.cshtml", viewModel);
             }

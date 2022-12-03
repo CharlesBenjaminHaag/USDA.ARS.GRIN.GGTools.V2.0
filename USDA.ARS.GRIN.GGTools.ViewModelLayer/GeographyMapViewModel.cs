@@ -64,7 +64,26 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
             }
             return Entity;
         }
-
+        public void GetFolderItems()
+        {
+            using (GeographyMapManager mgr = new GeographyMapManager())
+            {
+                try
+                {
+                    DataCollection = new Collection<GeographyMap>(mgr.GetFolderItems(SearchEntity));
+                    RowsAffected = mgr.RowsAffected;
+                    if (RowsAffected == 1)
+                    {
+                        Entity = DataCollection[0];
+                    }
+                }
+                catch (Exception ex)
+                {
+                    PublishException(ex);
+                    throw ex;
+                }
+            }
+        }
         public void GetList()
         {
             using (GeographyMapManager mgr = new GeographyMapManager())

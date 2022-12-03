@@ -3,7 +3,12 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_LayoutAdminLTE3.cshtml";
 }
-
+<style>
+    .invoice {
+        border:none;
+    }
+    
+</style>
 <div class="row">
     <div class="col-md-3">
         @*<div class="form-group">
@@ -17,29 +22,21 @@
             </select>
         </div>*@
 
-        
+        <div class="card card-outline card-primary">
+            <div class="card-header">
+                <h3 class="card-title">Primary Outline</h3>
+                <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                        <i class="fas fa-minus"></i>
+                    </button>
+                </div>
 
-        <div class="card">
-            <div class="card-header p-2">
-                <h3>Web Order Requests</h3>
             </div>
-            <div class="card-body">
-                <div class="custom-control custom-checkbox">
-                    <input class="custom-control-input" type="checkbox" id="customCheckbox1">
-                    <label for="customCheckbox1" class="custom-control-label">Today</label>
-                </div>
-                <div class="custom-control custom-checkbox">
-                    <input class="custom-control-input" type="checkbox" id="customCheckbox1">
-                    <label for="customCheckbox1" class="custom-control-label">This Week</label>
-                </div>
-                <div class="custom-control custom-checkbox">
-                    <input class="custom-control-input" type="checkbox" id="customCheckbox1">
-                    <label for="customCheckbox1" class="custom-control-label">This Month</label>
-                </div>
-                <br />
-                <div id="section-web-order-search-results">
-                </div>
+
+            <div id="section-web-order-search-results" class="card-body">
+                 
             </div>
+
         </div>
 
 
@@ -47,16 +44,258 @@
     <div class="col-md-9">
         <div class="card">
             <div class="card-header p-2">
-                <h3 class="card-title">Details</h3>
+                <ul class="nav nav-pills">
+                    <li class="nav-item"><a class="nav-link active" href="#activity" data-toggle="tab">Details</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">Timeline</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#settings" data-toggle="tab">Notes</a></li>
+                </ul>
             </div>
-            <div class="card-body">
-                
+            <div class="card-body web-order-request">
+                <div class="tab-content">
+                    <div class="tab-pane active" id="activity" style="padding:0px;">
+                        <!-- DETAILS -->
+                        <div class="invoice p-3 mb-3">
+                            <div class="row">
+                                <div class="col-12">
+                                    <h4>
+                                        <i class="fas fa-user"></i>&nbsp;
+                                        <a href="">A Mellin, Samantha</a>
+                                        <small class="float-right">Submitted: @DateTime.Now.ToShortDateString() at @DateTime.Now.ToShortTimeString()</small>
+                                    </h4>
+                                </div>
+                            </div>
+                            
+                            <div class="row" style="margin-top:5px; margin-bottom:15px;">
+                                <div class="col-sm-12">
+                                    <button class="btn btn-default btn-sm">Begin Review and Lock</button>
+                                    <button class="btn btn-default btn-sm">Add Note</button>
+                                    <button class="btn btn-success btn-sm">Accept</button>
+                                    <button class="btn btn-danger btn-sm">Reject</button>
+                                </div>
+                            </div>
+                            @*<br />
+                            <div class="row invoice-info">
+                                <div class="col-sm-4 invoice-col">
+                                    <label>Organization: </label>
+                                    <a href="">TEST FARM</a>
+                                </div>
+                                <div class="col-sm-4 invoice-col">
+                                    <label>Intended Use: </label>
+                                    HOME GARDENING
+                                </div>
+                            </div>*@
+                            <div class="row invoice-info">
+                                <div class="col-sm-4 invoice-col">
+                                    <label>Primary Address</label>
+                                    <address>
+                                        Admin, Inc.<br>
+                                        795 Folsom Ave, Suite 600<br>
+                                        San Francisco, CA 94107<br>
+                                        Phone: (804) 123-5432<br>
+                                        Email: info@almasaeedstudio.com
+                                    </address>
+                                </div>
+
+                                <div class="col-sm-4 invoice-col">
+                                    <label>Shipping Address</label>
+                                    <address>
+                                        John Doe<br>
+                                        795 Folsom Ave, Suite 600<br>
+                                        San Francisco, CA 94107<br>
+                                        Phone: (555) 539-1037<br>
+                                        Email: john.doe@example.com
+                                    </address>
+                                </div>
+
+                                <div class="col-sm-2 invoice-col">
+                                    <b>Organization:</b><br>
+                                    <b>Intended Use:</b><br>
+                                    <b>Payment Due:</b><br>
+                                    <b>Account:</b>
+                                </div>
+                                <div class="col-sm-2 invoice-col">
+                                    TEST ORG<br>
+                                    HOME GARDENING<br>
+                                    2/22/2014<br>
+                                    968-34567
+                                </div>
+
+                            </div>
+
+
+                            <div class="row">
+                                <div class="col-12 table-responsive">
+                                    <table class="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>Qty</th>
+                                                <th>Product</th>
+                                                <th>Serial #</th>
+                                                <th>Description</th>
+                                                <th>Subtotal</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>1</td>
+                                                <td>Call of Duty</td>
+                                                <td>455-981-221</td>
+                                                <td>El snort testosterone trophy driving gloves handsome</td>
+                                                <td>$64.50</td>
+                                            </tr>
+                                            <tr>
+                                                <td>1</td>
+                                                <td>Need for Speed IV</td>
+                                                <td>247-925-726</td>
+                                                <td>Wes Anderson umami biodiesel</td>
+                                                <td>$50.00</td>
+                                            </tr>
+                                            <tr>
+                                                <td>1</td>
+                                                <td>Monsters DVD</td>
+                                                <td>735-845-642</td>
+                                                <td>Terry Richardson helvetica tousled street art master</td>
+                                                <td>$10.70</td>
+                                            </tr>
+                                            <tr>
+                                                <td>1</td>
+                                                <td>Grown Ups Blue Ray</td>
+                                                <td>422-568-642</td>
+                                                <td>Tousled lomo letterpress</td>
+                                                <td>$25.99</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        </div>
+
+                    <div class="tab-pane" id="timeline">
+
+                        <div class="timeline timeline-inverse">
+
+                            <div class="time-label">
+                                <span class="bg-danger">
+                                    10 Feb. 2014
+                                </span>
+                            </div>
+
+
+                            <div>
+                                <i class="fas fa-envelope bg-primary"></i>
+                                <div class="timeline-item">
+                                    <span class="time"><i class="far fa-clock"></i> 12:05</span>
+                                    <h3 class="timeline-header"><a href="#">Support Team</a> sent you an email</h3>
+                                    <div class="timeline-body">
+                                        Etsy doostang zoodles disqus groupon greplin oooj voxy zoodles,
+                                        weebly ning heekya handango imeem plugg dopplr jibjab, movity
+                                        jajah plickers sifteo edmodo ifttt zimbra. Babblely odeo kaboodle
+                                        quora plaxo ideeli hulu weebly balihoo...
+                                    </div>
+                                    <div class="timeline-footer">
+                                        <a href="#" class="btn btn-primary btn-sm">Read more</a>
+                                        <a href="#" class="btn btn-danger btn-sm">Delete</a>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div>
+                                <i class="fas fa-user bg-info"></i>
+                                <div class="timeline-item">
+                                    <span class="time"><i class="far fa-clock"></i> 5 mins ago</span>
+                                    <h3 class="timeline-header border-0">
+                                        <a href="#">Sarah Young</a> accepted your friend request
+                                    </h3>
+                                </div>
+                            </div>
+
+
+                            <div>
+                                <i class="fas fa-comments bg-warning"></i>
+                                <div class="timeline-item">
+                                    <span class="time"><i class="far fa-clock"></i> 27 mins ago</span>
+                                    <h3 class="timeline-header"><a href="#">Jay White</a> commented on your post</h3>
+                                    <div class="timeline-body">
+                                        Take me to your leader!
+                                        Switzerland is small and neutral!
+                                        We are more like Germany, ambitious and misunderstood!
+                                    </div>
+                                    <div class="timeline-footer">
+                                        <a href="#" class="btn btn-warning btn-flat btn-sm">View comment</a>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="time-label">
+                                <span class="bg-success">
+                                    3 Jan. 2014
+                                </span>
+                            </div>
+
+
+                            <div>
+                                <i class="fas fa-camera bg-purple"></i>
+                                <div class="timeline-item">
+                                    <span class="time"><i class="far fa-clock"></i> 2 days ago</span>
+                                    <h3 class="timeline-header"><a href="#">Mina Lee</a> uploaded new photos</h3>
+                                    <div class="timeline-body">
+                                        <img src="https://placehold.it/150x100" alt="...">
+                                        <img src="https://placehold.it/150x100" alt="...">
+                                        <img src="https://placehold.it/150x100" alt="...">
+                                        <img src="https://placehold.it/150x100" alt="...">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div>
+                                <i class="far fa-clock bg-gray"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane" id="settings">
+                        <div class="card-footer card-comments">
+                            <div class="card-comment">
+
+                                <img class="img-circle img-sm" src="../dist/img/user3-128x128.jpg" alt="User Image">
+                                <div class="comment-text">
+                                    <span class="username">
+                                        Maria Gonzales
+                                        <span class="text-muted float-right">8:03 PM Today</span>
+                                    </span>
+                                    It is a long established fact that a reader will be distracted
+                                    by the readable content of a page when looking at its layout.
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="card-footer card-comments">
+                            <form action="#" method="post">
+                                <img class="img-fluid img-circle img-sm" src="../dist/img/user4-128x128.jpg" alt="Alt Text">
+
+                                <div class="img-push">
+                                    <input type="text" class="form-control form-control-sm" placeholder="Press enter to post comment">
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                </div>
+
             </div>
         </div>
+    
+    
+        
     </div>
 </div>
 <script type="text/javascript">
     $(document).ready(function () {
+        
         LoadChildData("90D")
     });
 
@@ -77,8 +316,38 @@
         data: formData,
         success: function (response) {
             $("#section-web-order-search-results").html(response);
-            InitDataTable();
+            InitDataTableWebOrderRequests("table_web_order_requests");
         }
     });
-}
+    }
+
+    function InitDataTableWebOrderRequests(tableName) {
+        $(document).ready(function () {
+            var table = $("#" + tableName).DataTable({
+                /*dom: 'Blfrtip',*/
+                paging: false,
+                "pageLength": 10,
+                initComplete: function () {
+                    SetControlVisibility(tableName);
+                },
+                responsive: true,
+                //buttons: [
+                //    'selectAll',
+                //    'selectNone',
+                //    'csv',
+                //    'excel',
+                //    'pdf'
+                //],
+                select: {
+                    style: 'single'
+                },
+                responsive:true,
+                lengthMenu: [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],
+                columnDefs: [
+                    { targets: [0], visible: false }
+                ]
+            });
+        });
+    }
+
 </script>

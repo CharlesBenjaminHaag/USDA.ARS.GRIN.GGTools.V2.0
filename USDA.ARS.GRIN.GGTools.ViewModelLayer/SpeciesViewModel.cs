@@ -168,13 +168,13 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
             }
         }
 
-        public void SearchFolderItems()
+        public void GetFolderItems()
         {
             using (SpeciesManager mgr = new SpeciesManager())
             {
                 try
                 {
-                    DataCollection = new Collection<Species>(mgr.SearchFolderItems(SearchEntity));
+                    DataCollection = new Collection<Species>(mgr.GetFolderItems(SearchEntity));
                     RowsAffected = mgr.RowsAffected;
                     if (RowsAffected == 1)
                     {

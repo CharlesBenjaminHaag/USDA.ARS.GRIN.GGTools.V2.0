@@ -23,7 +23,18 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         {
             throw new NotImplementedException();
         }
+        public List<CommonName> GetFolderItems(CommonNameSearch searchEntity)
+        {
+            List<CommonName> results = new List<CommonName>();
 
+            SQL = " SELECT * FROM vw_GRINGlobal_Folder_Taxonomy_Common_Name WHERE FolderID = @FolderID";
+            var parameters = new List<IDbDataParameter> {
+                CreateParameter("FolderID", searchEntity.FolderID > 0 ? (object)searchEntity.FolderID : DBNull.Value, true)
+            };
+            results = GetRecords<CommonName>(SQL, parameters.ToArray());
+            RowsAffected = results.Count;
+            return results;
+        }
         public virtual int Insert(CommonName entity)
         {
             Reset(CommandType.StoredProcedure);

@@ -133,14 +133,11 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             return results;
         }
 
-        public List<Species> SearchFolderItems(SpeciesSearch searchEntity)
+        public List<Species> GetFolderItems(SpeciesSearch searchEntity)
         {
             List<Species> results = new List<Species>();
 
-            SQL = " SELECT vgtcn.* FROM vw_GGTools_Taxon_Species vgtcn JOIN vw_GGTools_GRINGlobal_AppUserItemLists vgga " +
-                   " ON vgtcn.ID = vgga.EntityID WHERE vgga.TableName = 'taxonomy_species' ";
-            SQL += "AND  (@FolderID                          IS NULL OR  FolderID       =           @FolderID)";
-
+            SQL = " SELECT * FROM vw_GRINGlobal_Folder_Taxonomy_Species WHERE FolderID = @FolderID";
             var parameters = new List<IDbDataParameter> {
                 CreateParameter("FolderID", searchEntity.FolderID > 0 ? (object)searchEntity.FolderID : DBNull.Value, true)
             };
@@ -148,7 +145,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             RowsAffected = results.Count;
             return results;
         }
-        
+
         public List<CodeValue> SearchProtologues(string protologue)
         {
             List<CodeValue> results = new List<CodeValue>();

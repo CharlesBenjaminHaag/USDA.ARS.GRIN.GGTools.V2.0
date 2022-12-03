@@ -52,22 +52,27 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
                     throw ex;
                 }
             }
-
-            //using (SpeciesManager speciesManager = new SpeciesManager())
-            //{
-            //    SpeciesSearch speciesSearch = new SpeciesSearch();
-            //    speciesSearch.GenusID = entityId;
-            //    DataCollectionSpecies = new Collection<Species>(speciesManager.Search(speciesSearch));
-            //}
-
-            //using (CitationManager citationManager = new CitationManager())
-            //{
-            //    CitationSearch citationSearch = new CitationSearch();
-            //    citationSearch.GenusIDList = entityId.ToString();
-            //    DataCollectionCitations = new Collection<Citation>(citationManager.Search(citationSearch));
-            //}
-            
             return Entity;
+        }
+        public void GetFolderItems()
+        {
+            using (GenusManager mgr = new GenusManager())
+            {
+                try
+                {
+                    DataCollection = new Collection<Genus>(mgr.GetFolderItems(SearchEntity));
+                    RowsAffected = mgr.RowsAffected;
+                    if (RowsAffected == 1)
+                    {
+                        Entity = DataCollection[0];
+                    }
+                }
+                catch (Exception ex)
+                {
+                    PublishException(ex);
+                    throw ex;
+                }
+            }
         }
         public void GetSynonyms(int entityId)
         {

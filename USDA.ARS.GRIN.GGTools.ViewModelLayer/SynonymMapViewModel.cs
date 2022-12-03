@@ -49,7 +49,26 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
                 }
             }
         }
-
+        public void GetFolderItems()
+        {
+            using (SpeciesSynonymMapManager mgr = new SpeciesSynonymMapManager())
+            {
+                try
+                {
+                    DataCollection = new Collection<SpeciesSynonymMap>(mgr.GetFolderItems(SearchEntity));
+                    RowsAffected = mgr.RowsAffected;
+                    if (RowsAffected == 1)
+                    {
+                        Entity = DataCollection[0];
+                    }
+                }
+                catch (Exception ex)
+                {
+                    PublishException(ex);
+                    throw ex;
+                }
+            }
+        }
         public void HandleRequest()
         {
             throw new NotImplementedException();

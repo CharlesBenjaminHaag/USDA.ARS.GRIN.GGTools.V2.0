@@ -41,9 +41,13 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
         //}
         public PartialViewResult _ListFolderItems(int folderId)
         {
+            SpeciesViewModel viewModel = new SpeciesViewModel();
             try
             {
-                return PartialView("~/Views/Shared/_UnderConstruction.cshtml");
+                viewModel.EventAction = "FOLDER";
+                viewModel.SearchEntity.FolderID = folderId;
+                viewModel.GetFolderItems();
+                return PartialView(BASE_PATH + "_List.cshtml", viewModel);
             }
             catch (Exception ex)
             {
@@ -352,28 +356,6 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
         public ActionResult Delete(int entityId)
         {
             throw new NotImplementedException();
-        }
-
-        [HttpPost]
-        public PartialViewResult FolderItems(FormCollection formCollection)
-        {
-            SpeciesViewModel viewModel = new SpeciesViewModel();
-
-            try
-            {
-                if (!String.IsNullOrEmpty(formCollection["FolderID"]))
-                {
-                    viewModel.SearchEntity.FolderID = Int32.Parse(formCollection["FolderID"].ToString());
-                }
-                viewModel.SearchFolderItems();
-                ModelState.Clear();
-                return PartialView(BASE_PATH + "_List.cshtml", viewModel);
-            }
-            catch (Exception ex)
-            {
-                Log.Error(ex);
-                return PartialView("~/Views/Error/_InternalServerError.cshtml");
-            }
         }
 
         public ActionResult Delete(FormCollection formCollection)

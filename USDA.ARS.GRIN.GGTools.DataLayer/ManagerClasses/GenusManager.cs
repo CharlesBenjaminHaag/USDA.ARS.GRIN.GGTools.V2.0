@@ -26,6 +26,18 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             genus = GetRecord<Genus>(SQL, CommandType.StoredProcedure, parameters.ToArray());
             return genus;
         }
+        public List<Genus> GetFolderItems(GenusSearch searchEntity)
+        {
+            List<Genus> results = new List<Genus>();
+
+            SQL = " SELECT * FROM vw_GRINGlobal_Folder_Taxonomy_Genus WHERE FolderID = @FolderID";
+            var parameters = new List<IDbDataParameter> {
+                CreateParameter("FolderID", searchEntity.FolderID > 0 ? (object)searchEntity.FolderID : DBNull.Value, true)
+            };
+            results = GetRecords<Genus>(SQL, parameters.ToArray());
+            RowsAffected = results.Count;
+            return results;
+        }
         public List<Genus> GetSynonyms(int entityId)
         {
             SQL = "usp_GGTools_Taxon_GenusSynonyms_Select";

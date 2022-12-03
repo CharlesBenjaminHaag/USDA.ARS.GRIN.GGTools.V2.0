@@ -64,7 +64,18 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         {
             throw new NotImplementedException();
         }
+        public List<GeographyMap> GetFolderItems(GeographyMapSearch searchEntity)
+        {
+            List<GeographyMap> results = new List<GeographyMap>();
 
+            SQL = " SELECT * FROM vw_GRINGlobal_Folder_Taxonomy_Geography_Map WHERE FolderID = @FolderID";
+            var parameters = new List<IDbDataParameter> {
+                CreateParameter("FolderID", searchEntity.FolderID > 0 ? (object)searchEntity.FolderID : DBNull.Value, true)
+            };
+            results = GetRecords<GeographyMap>(SQL, parameters.ToArray());
+            RowsAffected = results.Count;
+            return results;
+        }
         public void GetList(int[] idList)
         { 
         

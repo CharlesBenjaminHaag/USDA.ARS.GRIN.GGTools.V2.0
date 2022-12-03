@@ -33,7 +33,18 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             result = GetRecord<SpeciesSynonymMap>(SQL, parameters.ToArray());
             return result;
         }
+        public List<SpeciesSynonymMap> GetFolderItems(SpeciesSynonymMapSearch searchEntity)
+        {
+            List<SpeciesSynonymMap> results = new List<SpeciesSynonymMap>();
 
+            SQL = " SELECT * FROM vw_GRINGlobal_Folder_Taxononomy_Species_Synonym_Map WHERE FolderID = @FolderID";
+            var parameters = new List<IDbDataParameter> {
+                CreateParameter("FolderID", searchEntity.FolderID > 0 ? (object)searchEntity.FolderID : DBNull.Value, true)
+            };
+            results = GetRecords<SpeciesSynonymMap>(SQL, parameters.ToArray());
+            RowsAffected = results.Count;
+            return results;
+        }
         public int Insert(SpeciesSynonymMap entity)
         {
             int errorNumber = 0;

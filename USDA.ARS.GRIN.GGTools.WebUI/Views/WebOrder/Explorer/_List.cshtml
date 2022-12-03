@@ -1,7 +1,47 @@
 ﻿@model USDA.ARS.GRIN.GGTools.ViewModelLayer.WebOrderRequestViewModel
 
+<table id="table_web_order_requests" class="display responsive" style="width:100%">
+    <thead>
+        <tr>
+            <th></th>
+            <th>ID</th>
+            <th>
+               Requestor 
+            </th>
+            <th>
+                Status
+            </th>
+            
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var webOrderRequest in Model.DataCollection)
+        {
+            <tr>
+                <td>@webOrderRequest.ID</td>
+                <td>@webOrderRequest.ID</td>
+                <td>
+                    @*<a>*@
+                        @webOrderRequest.WebCooperatorFullName
+                    @*</a>*@
+                    <br>
+                    <small>
+                        @webOrderRequest.WebCooperatorOrganization
+                    </small>
+                </td>
 
-@foreach (var webOrderRequest in Model.DataCollection)
+                <td class="project-state">
+                    <span class="badge badge-success">@webOrderRequest.StatusCode</span>
+                </td>
+
+            </tr>
+        }
+        </tbody>
+</table>
+
+
+
+@*@foreach (var webOrderRequest in Model.DataCollection)
 {
 
     var cssClass = "";
@@ -17,17 +57,15 @@
             cssClass = "bg-info";
             break;
     }
-
-
     <div class="info-box">
-                <span class="info-box-icon @cssClass"><i class="far fa-address-book"></i></span>
-                <div class="info-box-content">
-                    <span class="info-box-text">@webOrderRequest.WebCooperatorFullName</span>
-                    <span class="info-box-number">
-                        @webOrderRequest.WebCooperatorOrganization
-                    <button class="btn btn-default btn-sm float-right">>></button>
-                </span>
-            </div>
+        <span class="info-box-icon @cssClass"><i class="far fa-address-book"></i></span>
+        <div class="info-box-content">
+            <span class="info-box-text">@webOrderRequest.WebCooperatorFullName</span>
+            <span class="info-box-number">
+                @webOrderRequest.WebCooperatorOrganization
+                <button class="btn btn-default btn-sm float-right">>></button>
+            </span>
         </div>
-}
+    </div>
+}*@
 

@@ -117,6 +117,48 @@
         InitDataTableByClass();
     });
 
+    /*
+    **********************************************************************************
+    HIERARCHICAL LIST SEARCH
+    **********************************************************************************
+    */
+    $('#btnFamilyNameLookup').on('click', function () {
+
+    });
+
+    $('#btnGenusNameLookup').on('click', function () {
+
+    });
+
+    $('#btnSpeciesNameLookup').on('click', function () {
+
+    });
+
+    function SearchFamily() {
+        var link = '@Url.Action("LookupFamily", "Explorer")';
+        var genusName = $("#txtLookupFamilyName").val();
+        var formData = new FormData();
+
+        formData.append("FamilyName", genusName);
+        if ($("#cbxLookupIsAcceptedName").is(":checked")) {
+            formData.append("IsAcceptedName", "Y");
+        }
+        $.ajax({
+            url: link,
+            type: 'POST',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (response) {
+                $("#section-family-lookup-search-results").html(response);
+            },
+            error: function () {
+                alert("Error");
+            }
+        });
+    }
+
     $('ul.species-selector li').on('click', function () {
         var selectedSpeciesId = $(this).attr('id');
         var selectedGenusId = $(this).data("ggtools-value");
@@ -335,9 +377,6 @@
 
     function SaveDistribution(speciesId) {
         link = '@Url.Action("_Save","GeographyMap")';
-
-        // TODO
-
         var formData = new FormData();
         formData.append("Entity.SpeciesId", speciesId);
         formData.append("Entity.Name", name);
@@ -349,8 +388,6 @@
             processData: false,
             data: formData,
             success: function (data) {
-                //DEBUG
-                alert("SAVED GEO MAP " + data.geographyMap.ID);
                 LoadDistributions(data.geographyMap.SpeciesID);
             },
             error: function (ex) {

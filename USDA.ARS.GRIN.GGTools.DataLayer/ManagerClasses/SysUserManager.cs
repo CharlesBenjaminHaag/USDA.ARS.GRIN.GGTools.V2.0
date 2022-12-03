@@ -80,9 +80,9 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
         public virtual List<SysGroupUserMap> SelectGroups(int sysUserId)
         {
             List<SysGroupUserMap> sysGroupUserMaps = new List<SysGroupUserMap>();
-            SQL = " SELECT * FROM vw_GGTools_GRINGlobal_SysGroupUserMaps";
+            SQL = " SELECT * FROM vw_GRINGlobal_Sys_Group_User_Map";
             SQL += " WHERE  (@SysUserID         IS NULL OR  SysUserID       = @SysUserID)";
-
+            SQL += " ORDER BY GroupTag ";
             var parameters = new List<IDbDataParameter> {
                 CreateParameter("SysUserID", sysUserId, true),
             };

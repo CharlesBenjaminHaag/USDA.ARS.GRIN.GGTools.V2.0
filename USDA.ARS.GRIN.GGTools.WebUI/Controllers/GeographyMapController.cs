@@ -17,9 +17,13 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
         private static readonly Logger Log = LogManager.GetCurrentClassLogger();
         public PartialViewResult _ListFolderItems(int folderId)
         {
+            GeographyMapViewModel viewModel = new GeographyMapViewModel();
             try
             {
-                return PartialView("~/Views/Shared/_UnderConstruction.cshtml");
+                viewModel.EventAction = "FOLDER";
+                viewModel.SearchEntity.FolderID = folderId;
+                viewModel.GetFolderItems();
+                return PartialView(BASE_PATH + "_List.cshtml", viewModel);
             }
             catch (Exception ex)
             {
