@@ -17,9 +17,17 @@
             <li class="list-group-item">
                 <b>Phone</b> <a class="float-right">@Model.Entity.PrimaryPhone</a>
             </li>
+            <br />
+            <strong><i class="fas fa-map-marker-alt mr-1"></i> Address</strong>
+            <p class="text-muted">
+                @Model.Entity.AddressLine1<br />
+                @Model.Entity.AddressLine2<br />
+                @Model.Entity.AddressLine3<br />
+                @Model.Entity.City @Model.Entity.PostalIndex<br />
+            </p>
         </ul>
-        <a href="@Url.Action("Edit","Cooperator", new { @entityId = Model.Entity.ID })" class="btn btn-default btn-block">
-            Detail
+        <a href="@Url.Action("Edit","Cooperator", new { @entityId = Model.Entity.ID })" class="btn btn-primary btn-block">
+            Edit My Cooperator Record
         </a>
     </div>
 

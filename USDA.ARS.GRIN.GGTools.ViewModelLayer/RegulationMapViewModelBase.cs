@@ -35,7 +35,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
 
             using (GeographyManager geographyManager = new GeographyManager())
             {
-                States = new SelectList(geographyManager.GetStates(), "StateCode", "StateName"); 
+                States = new SelectList(geographyManager.GetStates(), "ID", "Admin1"); 
             }
         }
 

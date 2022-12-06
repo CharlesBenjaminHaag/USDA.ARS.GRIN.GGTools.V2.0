@@ -21,12 +21,14 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             throw new NotImplementedException();
         }
 
-        public Site Get(int entityId)
+        public Site Get(int siteId)
         {
-            List<Site> sites = new List<Site>();
-            SQL = "usp_GGTools_GRINGlobal_Site_Select";
-            sites = Search(new SiteSearch { ID = entityId });
-            return sites[0];
+            SQL = "usp_GRINGlobal_Site_Select";
+            var parameters = new List<IDbDataParameter> {
+                CreateParameter("site_id", (object)siteId, false)
+            };
+            Site site = GetRecord<Site>(SQL, CommandType.StoredProcedure, parameters.ToArray());
+            return site;
         }
 
         public int Insert(Site entity)

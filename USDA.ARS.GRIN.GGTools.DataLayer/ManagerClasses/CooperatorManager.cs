@@ -179,18 +179,18 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             return results;
         }
         
-        public List<Cooperator> SearchSiteCurators(int siteId)
-        {
-            SQL = "usp_GGTools_GRINGlobal_CooperatorsBySite_Select";
-            List<Cooperator> cooperators = new List<Cooperator>();
+        //public List<Cooperator> SearchSiteCurators(int siteId)
+        //{
+        //    SQL = "usp_GGTools_GRINGlobal_CooperatorsBySite_Select";
+        //    List<Cooperator> cooperators = new List<Cooperator>();
 
-            var parameters = new List<IDbDataParameter> {
-                CreateParameter("site_id", (object)siteId, false)
-            };
+        //    var parameters = new List<IDbDataParameter> {
+        //        CreateParameter("site_id", (object)siteId, false)
+        //    };
 
-            cooperators = GetRecords<Cooperator>(SQL, CommandType.StoredProcedure, parameters.ToArray());
-            return cooperators;
-        }
+        //    cooperators = GetRecords<Cooperator>(SQL, CommandType.StoredProcedure, parameters.ToArray());
+        //    return cooperators;
+        //}
 
         public int Update(Cooperator entity)
         {
@@ -256,7 +256,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
         public List<State> GetStates()
         {
             List<State> states = new List<State>();
-            SQL = "SELECT ID, StateName FROM vw_GGTools_GRINGlobal_States";
+            SQL = "SELECT ID, Admin1 FROM vw_GRINGlobal_Geography_State ORDER BY Admin1";
             states = GetRecords<State>(SQL);
             return states;
         }

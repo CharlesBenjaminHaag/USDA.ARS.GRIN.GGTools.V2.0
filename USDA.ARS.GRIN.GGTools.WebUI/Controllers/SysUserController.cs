@@ -242,25 +242,25 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             throw new NotImplementedException();
         }
 
-        public PartialViewResult RenderWidget(int entityId) 
+        public PartialViewResult RenderWidget(int sysUserId) 
         {
             SysUserViewModel viewModel = new SysUserViewModel();
 
-            if (entityId > 0)
+            if (sysUserId > 0)
             {
-                viewModel.SearchEntity.ID = entityId;
+                viewModel.SearchEntity.ID = sysUserId;
                 viewModel.Search();
             }
             return PartialView("~/Views/SysUser/_Widget.cshtml", viewModel);
 
         }
-        public PartialViewResult RenderGroupWidget(int entityId)
+        public PartialViewResult RenderSysGroupWidget(int sysUserId)
         {
             SysUserViewModel viewModel = new SysUserViewModel();
-            if (entityId > 0)
+            if (sysUserId > 0)
             {
-                viewModel.SearchEntity.ID = entityId;
-                viewModel.GetGroups(entityId);
+                viewModel.SearchEntity.ID = sysUserId;
+                viewModel.GetGroups(sysUserId);
             }
             return PartialView("~/Views/SysUser/Group/_Widget.cshtml", viewModel);
         }

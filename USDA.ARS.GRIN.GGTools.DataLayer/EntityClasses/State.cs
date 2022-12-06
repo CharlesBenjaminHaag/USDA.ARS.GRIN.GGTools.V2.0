@@ -11,5 +11,6 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
     {
         public string StateCode { get; set; }
         public string StateName { get; set; }
+        public string Admin1 { get; set; }
     }
 }

@@ -32,6 +32,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
         public string City { get; set; }
         public string PostalIndex { get; set; }
         public int GeographyID { get; set; }
+        public string StateName { get; set; }
         public string SecondaryOrganization { get; set; }
         public string SecondaryOrganizationAbbrev { get; set; }
         public string SecondaryAddressLine1 { get; set; }

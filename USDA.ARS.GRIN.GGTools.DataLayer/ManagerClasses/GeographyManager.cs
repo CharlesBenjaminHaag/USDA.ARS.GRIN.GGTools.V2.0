@@ -317,14 +317,14 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             return results;
         }
      
-        public List<State> GetStates()
+        public List<Geography> GetStates()
         {
-            List<State> results = new List<State>();
+            List<Geography> results = new List<Geography>();
 
-            SQL = " SELECT * FROM [vw_GGTools_GRINGlobal_States]  ";
-            SQL += " ORDER BY SortOrder, StateName ASC ";
+            SQL = " SELECT ID, Admin1 FROM [vw_GGTools_GRINGlobal_States]  ";
+            SQL += " ORDER BY Admin1 ASC ";
 
-            results = GetRecords<State>(SQL);
+            results = GetRecords<Geography>(SQL);
             RowsAffected = results.Count;
             return results;
         }

@@ -12,7 +12,7 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
         private Site _Entity = new Site();
         private SiteSearch _SearchEntity = new SiteSearch();
         private Collection<Site> _DataCollection = new Collection<Site>();
-
+        private Collection<Cooperator> _DataCollectionSiteCooperators = new Collection<Cooperator>();
         public SiteViewModelBase()
         {
             using (SiteManager mgr = new SiteManager())
@@ -38,7 +38,11 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
             get { return _DataCollection; }
             set { _DataCollection = value; }
         }
-
+        public Collection<Cooperator> DataCollectionSiteCooperators
+        {
+            get { return _DataCollectionSiteCooperators; }
+            set { _DataCollectionSiteCooperators = value; }
+        }
         public SelectList Types { get; set; }
     }
 }

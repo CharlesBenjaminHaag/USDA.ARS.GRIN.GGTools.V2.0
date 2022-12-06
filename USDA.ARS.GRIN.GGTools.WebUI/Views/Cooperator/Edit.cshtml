@@ -13,8 +13,12 @@
 <div class="row">
     <div class="col-md-3">
         <div id="section-sys-user-widget">
-            @{Html.RenderAction("RenderWidget", "SysUser", new { entityId = Model.Entity.SysUserID }); }
-            @{Html.RenderAction("RenderGroupWidget", "SysUser", new { entityId = Model.Entity.SysUserID }); }
+            <div id="section-sys-user">
+                @{Html.RenderAction("RenderWidget", "SysUser", new { sysUserId = Model.Entity.SysUserID }); }
+            </div>
+            <div id="section-sys-group">
+                @{Html.RenderAction("RenderSysGroupWidget", "SysUser", new { sysUserId = Model.Entity.SysUserID }); }
+            </div>
         </div>
     </div>
     <div id="section-input-fields" class="col-md-9">
@@ -22,17 +26,15 @@
         <div class="card">
             <div class="card-header p-2">
                 <ul class="nav nav-pills">
-                    <li class="nav-item"><a class="nav-link active" href="#activity" data-toggle="tab">Summary</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">Ownership</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="#tab-summary" data-toggle="tab">Summary</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#tab-folders" data-toggle="tab">Folders</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#tab-application-settings" data-toggle="tab">Application Settings</a></li>
                 </ul>
             </div>
             <div class="card-body">
                 <div class="tab-content">
-                    <div class="tab-pane active" id="activity">
+                    <div class="tab-pane active" id="tab-summary">
                         <div class="margin">
-                            <a href="@Url.Action("Index","Synch", new { @entityId = Model.Entity.ID })" class="btn btn-default btn-sm">
-                                Synch
-                            </a>
                             <a href="@Url.Action("Edit","WebCooperator", new { entityId = Model.Entity.WebCooperatorID })" class="btn btn-default btn-sm">
                                 Web Cooperator
                             </a>
@@ -83,13 +85,13 @@
                                     <label>Organization</label>
                                     @Html.TextBoxFor(x => x.Entity.Organization, new { @class = "form-control" })
                                     <!--<div class="input-group">
-                                <span class="input-group-btn">-->
+                    <span class="input-group-btn">-->
                                     @*@Html.TextBoxFor(x => x.Entity.OrganizationAbbrev, new { @class = "form-control", @style = "width:80px;" })*@
                                     <!--<button type="button" data-toggle="modal" data-target="#modal-organization-lookup" class="btn btn-default btn-flat">
-                                            <i class="fa fa-search"></i>
-                                        </button>
-                                    </span>
-                                </div>-->
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </span>
+                    </div>-->
                                 </div>
                                 <div class="col-md-2">
                                     <label>Abbrev</label>
@@ -192,8 +194,21 @@
                             </div>
                         }
                     </div>
-                    <div class="tab-pane" id="timeline">
-
+                    <div class="tab-pane" id="tab-folders">
+                        <div class="alert alert-info alert-dismissible">
+                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                            <h5><i class="icon fas fa-info"></i> Note!</h5>
+                            This data is available here for review and export only. Please use the Curator Tool
+                            to make edits.
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="tab-application-settings">
+                        <div class="alert alert-info alert-dismissible">
+                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                            <h5><i class="icon fas fa-info"></i> Note!</h5>
+                            This data is available here for review and export only. Please use the Curator Tool
+                            to make edits.
+                        </div>
                     </div>
                 </div>
             </div>
@@ -210,14 +225,48 @@
     });
 
     function Init() {
-      
+
     }
     $('#btnSaveSysUser').on('click', function () {
         AjaxFormSubmit();
     });
 
-    function RenderSysUserWidget() {
+    $('#btnSubmitResetPassword').on('click', function () {
+        AjaxFormSubmit();
+    });
 
+    function RenderSysUserWidget(sysUserId) {
+        var link = '@Url.Action("RenderWidget","SysUser")';
+        var formData = new FormData();
+        formData.append("sysUserId", sysUserId);
+        $.ajax({
+            url: link,
+            type: 'POST',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (response) {
+                $("#section-sys-user").html(response);
+            }
+        });
+    }
+
+    function RenderSysGroupWidget() {
+        var link = '@Url.Action("RenderSysGroupWidget","SysUser")';
+        var formData = new FormData();
+        formData.append("sysUserId", sysUserId);
+        $.ajax({
+            url: link,
+            type: 'POST',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (response) {
+                $("#section-sys-group").html(response);
+            }
+        });
     }
 
     function AjaxFormSubmit() {
@@ -238,17 +287,15 @@
             processData: false,
             data: formData,
             success: function (data) {
-                //DEBUG 
-                alert("SAVED CHANGE FOR SYS USER" + data.sysUser.ID);
-                //Edit(data.species.ID);
-                //LoadCommonNames(data.species.ID);
-                //LoadDistributions(data.species.ID);
+                RenderSysUserWidget(data.sysUser.ID);
+                RenderSysGroupWidget(data.sysUser.ID);
             },
             error: function (ex) {
+                alert("Error");
             }
         });
     }
-  
+
     function AjaxResetPasswordFormSubmit() {
         var link = $("#frmSysUserResetPassword").attr("action");
         //TODO

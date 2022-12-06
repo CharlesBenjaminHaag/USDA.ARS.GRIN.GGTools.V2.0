@@ -27,14 +27,14 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
             {
                 TimeFrameOptions = new SelectList(mgr.GetTimeFrameOptions(), "Value", "Title");
                 YesNoOptions = new SelectList(mgr.GetYesNoOptions(), "Key", "Value");
-                States = new SelectList(mgr.GetStates(), "ID", "StateName");
+                States = new SelectList(mgr.GetStates(), "ID", "Admin1");
                 Sites = new SelectList(mgr.GetSites(), "ID", "AssembledName");
                 Disciplines = new SelectList(mgr.GetCodeValues("COOPERATOR_DISCIPLINE"), "Value", "Title");
                 Categories = new SelectList(mgr.GetCodeValues("COOPERATOR_CATEGORY"), "Value", "Title");
                 Salutations = new SelectList(mgr.GetCodeValues("COOPERATOR_TITLE"), "Value", "Title");
-                Regions = new SelectList(mgr.GetCodeValues("ORGANIZATION_REGION"), "Value", "Title");
+                //Regions = new SelectList(mgr.GetCodeValues("ORGANIZATION_REGION"), "Value", "Title");
                 Statuses = new SelectList(mgr.GetCodeValues("COOPERATOR_STATUS"), "Value", "Title");
-                Cooperators =  new SelectList(mgr.Search(new CooperatorSearch { SysUserIsEnabled = "Y" }), "ID", "FullName");
+                //Cooperators =  new SelectList(mgr.Search(new CooperatorSearch { SysUserIsEnabled = "Y" }), "ID", "FullName");
             }
         }
 

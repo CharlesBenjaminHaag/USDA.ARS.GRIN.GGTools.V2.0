@@ -1,8 +1,7 @@
-﻿using System;
+﻿using NLog;
+using System;
 using System.Web.Mvc;
-using USDA.ARS.GRIN.GGTools.DataLayer;
 using USDA.ARS.GRIN.GGTools.ViewModelLayer;
-using NLog;
 
 namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
 {
@@ -57,6 +56,121 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             {
                 Log.Error(ex);
                 return RedirectToAction("InternalServerError", "Error");
+            }
+        }
+        public PartialViewResult _Add(int siteId = 0)
+        {
+            try
+            {
+                CooperatorViewModel viewModel = new CooperatorViewModel();
+
+                SiteViewModel siteViewModel = new SiteViewModel();
+                siteViewModel.Get(siteId);
+                viewModel.Entity.OrganizationAbbrev = siteViewModel.Entity.OrganizationAbbrev;
+                viewModel.Entity.SiteID = siteViewModel.Entity.ID;
+                viewModel.Entity.AddressLine1 = siteViewModel.Entity.PrimaryAddress1;
+                viewModel.Entity.AddressLine2 = siteViewModel.Entity.PrimaryAddress2;
+                viewModel.Entity.City = siteViewModel.Entity.PrimaryCity;
+                viewModel.Entity.GeographyID = siteViewModel.Entity.GeographyID;
+                viewModel.Entity.StateName = siteViewModel.Entity.StateName;
+                viewModel.Entity.PostalIndex = siteViewModel.Entity.PostalIndex;
+                return PartialView(viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
+        }
+        public PartialViewResult _Edit(int entityId, string environment = "")
+        {
+            try
+            {
+                CooperatorViewModel viewModel = new CooperatorViewModel();
+                viewModel.Get(entityId, environment);
+                return PartialView(viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
+        }
+        public ActionResult Edit(int entityId)
+        {
+            try
+            {
+                CooperatorViewModel viewModel = new CooperatorViewModel();
+                viewModel.Get(entityId, "");
+
+                //TODO Get owned recs. Call only in edit mode.
+                //viewModel.GetRecordsOwned(entityId);
+                viewModel.PageTitle = String.Format("Edit Cooperator [{0}]: {1}, {2}", entityId, viewModel.Entity.LastName, viewModel.Entity.FirstName);
+                viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
+                viewModel.AuthenticatedUser = AuthenticatedUser;
+                viewModel.MainSectionCSSClass = "col-md-9";
+                return View(viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return RedirectToAction("InternalServerError", "Error");
+            }
+        }
+
+        [HttpPost]
+        public ActionResult Edit(CooperatorViewModel viewModel)
+        {
+            try
+            {
+                if (!viewModel.Validate())
+                {
+                    if (viewModel.ValidationMessages.Count > 0) return View(viewModel);
+                }
+
+                if (viewModel.Entity.ID == 0)
+                {
+                    viewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
+                    viewModel.Insert();
+                }
+                else
+                {
+                    viewModel.Entity.ModifiedByCooperatorID = AuthenticatedUser.CooperatorID;
+                    viewModel.Update();
+                }
+                return RedirectToAction("Edit", "Cooperator", new { entityId = viewModel.Entity.ID });
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return RedirectToAction("InternalServerError", "Error");
+            }
+        }
+        public JsonResult _Save(CooperatorViewModel viewModel)
+        {
+            try 
+            {
+                if (viewModel.Entity.ID == 0)
+                {
+                    viewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
+                    viewModel.Insert();
+
+                    // TODO add sys user
+
+                }
+                else
+                {
+                    viewModel.Entity.ModifiedByCooperatorID = AuthenticatedUser.CooperatorID;
+                    viewModel.Update();
+                }
+                viewModel.Get(viewModel.Entity.ID);
+                return Json(new { cooperator = viewModel.Entity }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                viewModel.Entity.ID = -1;
+                return Json(new { cooperator = viewModel.Entity }, JsonRequestBehavior.AllowGet);
             }
         }
 
@@ -127,71 +241,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             }
 
         }
-        public PartialViewResult _Edit(int entityId, string environment = "")
-        {
-            try
-            {
-                CooperatorViewModel viewModel = new CooperatorViewModel();
-                viewModel.Get(entityId, environment);
-                return PartialView(viewModel);
-            }
-            catch (Exception ex)
-            {
-                Log.Error(ex);
-                return PartialView("~/Views/Error/_InternalServerError.cshtml");
-            }
-        }
-       
-        public ActionResult Edit(int entityId)
-        {
-            try
-            {
-                CooperatorViewModel viewModel = new CooperatorViewModel();
-                viewModel.Get(entityId, "");
 
-                //TODO Get owned recs. Call only in edit mode.
-                //viewModel.GetRecordsOwned(entityId);
-                viewModel.PageTitle = String.Format("Edit Cooperator [{0}]: {1}, {2}", entityId, viewModel.Entity.LastName, viewModel.Entity.FirstName);
-                viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
-                viewModel.AuthenticatedUser = AuthenticatedUser;
-                viewModel.MainSectionCSSClass = "col-md-9";
-                return View(viewModel);
-            }
-            catch (Exception ex)
-            {
-                Log.Error(ex);
-                return RedirectToAction("InternalServerError", "Error");
-            }
-        }
-
-        [HttpPost]
-        public ActionResult Edit(CooperatorViewModel viewModel)
-        {
-            try
-            {
-                if (!viewModel.Validate())
-                {
-                    if (viewModel.ValidationMessages.Count > 0) return View(viewModel);
-                }
-
-                if (viewModel.Entity.ID == 0)
-                {
-                    viewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
-                    viewModel.Insert();
-                }
-                else
-                {
-                    viewModel.Entity.ModifiedByCooperatorID = AuthenticatedUser.CooperatorID;
-                    viewModel.Update();
-                }
-                return RedirectToAction("Edit", "Cooperator", new { entityId = viewModel.Entity.ID });
-            }
-            catch (Exception ex)
-            {
-                Log.Error(ex);
-                return RedirectToAction("InternalServerError", "Error");
-            }
-        }
 
         [GrinGlobalAuthentication]
         public ActionResult Index()
@@ -244,22 +294,22 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             }
         }
 
-        public PartialViewResult _ListBySite(int siteId)
-        {
-            try
-            {
-                CooperatorViewModel viewModel = new CooperatorViewModel();
-                viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
-                viewModel.AuthenticatedUser = AuthenticatedUser;
-                viewModel.SearchSiteCurators(siteId);
-                return PartialView("~/Views/Cooperator/_DetailList.cshtml", viewModel);
-            }
-            catch (Exception ex)
-            {
-                Log.Error(ex);
-                return PartialView("~/Views/Error/_InternalServerError.cshtml");
-            }
-        }
+        //public PartialViewResult _ListBySite(int siteId)
+        //{
+        //    try
+        //    {
+        //        CooperatorViewModel viewModel = new CooperatorViewModel();
+        //        viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
+        //        viewModel.AuthenticatedUser = AuthenticatedUser;
+        //        viewModel.SearchSiteCurators(siteId);
+        //        return PartialView("~/Views/Cooperator/_DetailList.cshtml", viewModel);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Log.Error(ex);
+        //        return PartialView("~/Views/Error/_InternalServerError.cshtml");
+        //    }
+        //}
 
         public PartialViewResult RenderWidget(int cooperatorId)
         {

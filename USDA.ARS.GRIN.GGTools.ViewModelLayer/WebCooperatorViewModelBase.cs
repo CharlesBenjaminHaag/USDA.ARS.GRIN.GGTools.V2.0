@@ -7,7 +7,7 @@ using USDA.ARS.GRIN.GGTools.DataLayer;
 
 namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
 {
-    public class WebCooperatorViewModelBase : AppViewModelBase
+    public class WebCooperatorViewModelBase : AuthenticatedViewModelBase
     {
         private WebCooperator _Entity = new WebCooperator();
         private WebCooperatorSearch _SearchEntity = new WebCooperatorSearch();

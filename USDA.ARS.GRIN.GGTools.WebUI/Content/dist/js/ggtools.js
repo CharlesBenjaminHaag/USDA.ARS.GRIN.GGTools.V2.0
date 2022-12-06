@@ -10,6 +10,12 @@
  * General Utilities
   ======================================================================================== */
 
+function AddRecord() {
+    var addNewRecordUrl = $("#hfAddNewRecordLink").val();
+    alert("DEBUG CALL " + addNewRecordUrl);
+    window.location.href = addNewRecordUrl;
+}
+
 function InitDataTable(tableName) {
     $(document).ready(function () {
         tableName = "#" + tableName;
@@ -27,7 +33,13 @@ function InitDataTable(tableName) {
                 'selectNone',
                 'csv',
                 'excel',
-                'pdf'
+                'pdf',
+                {
+                    text: '+ Add',
+                    action: function (e, dt, node, config) {
+                        AddRecord();
+                    }
+                }
             ],
             select: true,
             lengthMenu: [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],
