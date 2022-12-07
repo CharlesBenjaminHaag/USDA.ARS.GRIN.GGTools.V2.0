@@ -11,10 +11,93 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
     public class WebOrderController : BaseController, IController<WebOrderRequestViewModel>
     {
         private static readonly Logger Log = LogManager.GetCurrentClassLogger();
+
+        // *********************************************************************************
+        // EXPLORER
+        // *********************************************************************************
         public ActionResult Explorer()
         {
             return View("~/Views/WebOrder/Explorer/Index.cshtml");
         }
+
+        public PartialViewResult ExplorerSelectList(int entityId = 0)
+        {
+            try
+            {
+                WebOrderRequestViewModel viewModel = new WebOrderRequestViewModel();
+                viewModel.SearchEntity.ID = entityId;
+                viewModel.Search();
+                if (viewModel.RowsAffected == 0)
+                {
+                    return PartialView("~/Views/Error/RecordNotFound.cshtml");
+                }
+                else
+                {
+                    return PartialView("~/Views/WebOrder/Explorer/_List.cshtml");
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
+        }
+
+        public PartialViewResult ExplorerDetail(int entityId)
+        {
+            try
+            {
+                WebOrderRequestViewModel viewModel = new WebOrderRequestViewModel();
+                viewModel.Get(entityId);
+
+                if (viewModel.RowsAffected == 0)
+                {
+                    return PartialView("~/Views/Error/RecordNotFound.cshtml");
+                }
+                else
+                {
+                    return PartialView("~/Views/WebOrder/Explorer/_Detail.cshtml", viewModel);
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
+        }
+
+        public PartialViewResult ExplorerTimeline(int entityId)
+        {
+            try
+            {
+                WebOrderRequestViewModel viewModel = new WebOrderRequestViewModel();
+                viewModel.SearchEntity.ID = entityId;
+                viewModel.Search();
+                if (viewModel.RowsAffected == 0)
+                {
+                    return PartialView("~/Views/Error/RecordNotFound.cshtml");
+                }
+                else
+                {
+                    return PartialView("~/Views/WebOrder/Explorer/_Timeline.cshtml");
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
+        }
+
+        //public PartialViewResult RenderApprovalModal()
+        //{ 
+        
+        //}
+        //public PartialViewResult RenderRejectionModal()
+        //{ 
+        
+        //}
+
         public PartialViewResult _ListFolderItems(int folderId)
         {
             try
@@ -159,7 +242,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             }
         }
 
-        public ActionResult Search(int id=0, string status="", string requestorName="", string emailAddress="", string organization="")
+        public ActionResult Search(int id=0, string status="", string requestorName="", string emailAddress="", string organization="", string intendedUseCode="")
         {
             WebOrderRequestViewModel viewModel = new WebOrderRequestViewModel();
 
@@ -186,6 +269,12 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 if (!String.IsNullOrEmpty(emailAddress))
                 {
                     viewModel.SearchEntity.WebCooperatorEmailAddress = emailAddress;
+                    viewModel.Search();
+                }
+
+                if (!String.IsNullOrEmpty(intendedUseCode))
+                {
+                    viewModel.SearchEntity.IntendedUseCode = intendedUseCode;
                     viewModel.Search();
                 }
                 return View("~/Views/WebOrder/Index.cshtml", viewModel);
@@ -217,23 +306,31 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
         {
             WebOrderRequestViewModel viewModel = new WebOrderRequestViewModel();
 
-            if (!String.IsNullOrEmpty(formCollection["TimeFrame"]))
+            try
             {
-                viewModel.SearchEntity.TimeFrame = formCollection["TimeFrame"];
-            }
+                if (!String.IsNullOrEmpty(formCollection["TimeFrame"]))
+                {
+                    viewModel.SearchEntity.TimeFrame = formCollection["TimeFrame"];
+                }
 
-            if (!String.IsNullOrEmpty(formCollection["SelectedStatusList"]))
+                if (!String.IsNullOrEmpty(formCollection["SelectedStatusList"]))
+                {
+                    viewModel.SearchEntity.StatusList = formCollection["SelectedStatusList"];
+                }
+
+                if (!String.IsNullOrEmpty(formCollection["SelectedWebUserList"]))
+                {
+                    viewModel.SearchEntity.WebUserList = formCollection["SelectedWebUserList"];
+                }
+
+                viewModel.Search();
+                return PartialView("~/Views/WebOrder/Explorer/_List.cshtml", viewModel);
+            }
+            catch (Exception ex)
             {
-                viewModel.SearchEntity.StatusList = formCollection["SelectedStatusList"];
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
             }
-
-            if (!String.IsNullOrEmpty(formCollection["SelectedWebUserList"]))
-            {
-                viewModel.SearchEntity.WebUserList = formCollection["SelectedWebUserList"];
-            }
-
-            viewModel.Search();
-            return PartialView("~/Views/WebOrder/Explorer/_List.cshtml", viewModel);
         }
 
         //public ActionResult DashboardList()

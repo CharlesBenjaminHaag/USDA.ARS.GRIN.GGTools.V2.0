@@ -116,12 +116,12 @@ function InitDataTableLight(tableName) {
     $(document).ready(function () {
         tableName = "#" + tableName;
         table = $(tableName).DataTable({
-            paging: true,
+            paging: false,
             responsive: true,
             select: {
                 style: 'single'
             },
-            searching: true,
+            searching: false,
             columnDefs: [
                 { targets: [0], visible: false }
             ]
@@ -170,12 +170,12 @@ function InitDataTableByClass() {
 function InitDataTableLightMultiSelect(tableName) {
     $(document).ready(function () {
         var table = $("#" + tableName).DataTable({
-            paging: true,
+            paging: false,
             responsive: true,
             select: {
                 style: 'multi'
             },
-            searching: true,
+            searching: false,
             columnDefs: [
                 { targets: [0], visible: false }
             ]

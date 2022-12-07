@@ -75,7 +75,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 case "GGT-TAX":
                     return RedirectToAction("Index", "Folder");
                 case "GGT-NRR":
-                    return RedirectToAction("Index", "WebOrder");
+                    return RedirectToAction("Explorer", "WebOrder");
                 case "GGT-CUR":
                     return RedirectToAction("Index", "AccessionInventoryAttachment");
                 case "GGT-ARM":

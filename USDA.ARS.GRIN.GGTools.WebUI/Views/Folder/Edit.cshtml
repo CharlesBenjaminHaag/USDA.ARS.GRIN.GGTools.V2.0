@@ -6,10 +6,10 @@
 @Html.Partial("~/Views/Shared/_RevisionHistory.cshtml")
 
 <div class="card">
-    <div class="card-header p-2">
+    <div id="section-folder-options" class="card-header p-2">
         <ul class="nav nav-pills">
-            <li class="nav-item"><a class="nav-link active" href="#detail" data-toggle="tab">Detail</a></li>
-            <li class="nav-item"><a class="nav-link" href="#sharing" data-toggle="tab">Sharing</a></li>
+            <li id="tab-folder-detail" class="nav-item"><a class="nav-link active" href="#detail" data-toggle="tab">Detail</a></li>
+            <li id="tab-folder-sharing" class="nav-item"><a class="nav-link" href="#sharing" data-toggle="tab">Sharing</a></li>
         </ul>
     </div>
     <div class="card-body" id="section-search-criteria">
@@ -85,55 +85,69 @@
             </div>
             <div class="tab-pane" id="sharing">
                 <div class="row">
-                    <div id="section-available-collaborators" class="col-md-5">
-                        <table id="data-table-available-cooperators" class="table table-striped" style="width:100%;">
-                            <thead>
-                                <tr>
-                                    <th></th>
-                                    <th>Name</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach (var result in Model.DataCollectionAvailableCooperators)
-                                {
-                                    <tr>
-                                        <td>
-                                            @result.ID
-                                        </td>
-                                        <td>
-                                            @result.FullName
-                                        </td>
-                                    </tr>
-                                }
-                            </tbody>
-                        </table>
+                    <div class="col-md-5">
+                        <div class="card card-default">
+                            <div class="card-header">
+                                <h3 class="card-title">Can be Shared With</h3>
+                            </div>
+                            <div id="section-available-cooperators"" class="card-body">
+                                <table id="data-table-available-cooperators" class="table table-striped" style="width:100%;">
+                                    <thead>
+                                        <tr>
+                                            <th></th>
+                                            <th>Name</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var result in Model.DataCollectionAvailableCooperators)
+                                        {
+                                            <tr>
+                                                <td>
+                                                    @result.ID
+                                                </td>
+                                                <td>
+                                                    @result.FullName
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                     </div>
                     <div class="col-md-2" style="margin-top:5%;">
                         <button id="btnShare" class="btn btn-default btn-block" type="button">>></button>
                         <button id="btnUnShare" class="btn btn-default btn-block" type="button"><<</button>
                     </div>
                     <div id="section-current-collaborators" class="col-md-5">
-                        <table id="data-table-current-cooperators" class="table table-striped" style="width:100%;">
-                            <thead>
-                                <tr>
-                                    <th></th>
-                                    <th>Name</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach (var result in Model.DataCollectionCurrentCooperators)
-                                {
-                                    <tr>
-                                        <td>
-                                            @result.ID
-                                        </td>
-                                        <td>
-                                            @result.FullName
-                                        </td>
-                                    </tr>
-                                }
-                            </tbody>
-                        </table>
+                        <div class="card card-success card-outline">
+                            <div class="card-header">
+                                <h3 class="card-title">Is Currently Shared With</h3>
+                            </div>
+                            <div class="card-body">
+                                <table id="data-table-current-cooperators" class="table table-striped" style="width:100%;">
+                                    <thead>
+                                        <tr>
+                                            <th></th>
+                                            <th>Name</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var result in Model.DataCollectionCurrentCooperators)
+                                        {
+                                            <tr>
+                                                <td>
+                                                    @result.ID
+                                                </td>
+                                                <td>
+                                                    @result.FullName
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -154,7 +168,7 @@
         if (isReadOnly == "Y") {
             SetReadOnly();
         }
-        GetAvailableCollaborators(1073);
+        /*GetAvailableCollaborators(1073);*/
     }
 
     $("#btnDelete").click(function () {
@@ -169,16 +183,22 @@
     FOLDER SHARING
     ==========================================================================================================
     */
+    $('#section-folder-options ul.nav li').on('click', function () {
+        var id = $(this).attr('id');
+        if (id == "tab-folder-sharing") {
+            var folderId = $("#Entity_ID").val();
+            LoadAvailableCollaborators(folderId);
+        }
+    });
+
     $("#btnShare").click(function () {
         var entityId = $("#Entity_ID").val();
         var refreshLink = '@Url.Action("Edit","Folder", new { entityId = "SUB" })';
         refreshLink = refreshLink.replace("SUB", entityId);
 
         Share();
-        GetAvailableCollaborators(entityId);
-        GetCurrentCollaborators(entityId);
-        //TODO Use AJAX
-        window.location.href = refreshLink;
+        LoadAvailableCollaborators(entityId);
+        LoadCurrentCollaborators(entityId);
     });
 
     $("#btnUnShare").click(function () {
@@ -245,7 +265,7 @@
         });
     }
 
-    function GetAvailableCollaborators(folderId) {
+    function LoadAvailableCollaborators(folderId) {
         var link = '@Url.Action("_ListAvailableCollaborators","Folder")';
         var formData = new FormData();
 
@@ -259,15 +279,15 @@
             processData: false,
             data: formData,
             success: function (response) {
-                $("#section-available-cooperators").html("DEBUG");
+                $("#section-available-cooperators").html(response);
             },
             error: function () {
-                alert("Error searching author");
+                alert("Error loading available cooperators");
             }
         });
     }
 
-    function GetCurrentCollaborators(folderId) {
+    function LoadCurrentCollaborators(folderId) {
         var link = '@Url.Action("_ListCurrentCollaborators", "Folder")';
         var formData = new FormData();
 

@@ -32,7 +32,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
 
         public List<AppUserItemList> Search(AppUserItemListSearch search)
         {
-            SQL = "SELECT * FROM  vw_GGTools_GRINGlobal_AppUserItemLists ";
+            SQL = "SELECT * FROM  vw_GRINGlobal_App_User_Item_List ";
             SQL += " WHERE  (@CreatedByCooperatorID     IS NULL OR CreatedByCooperatorID    =       @CreatedByCooperatorID)";
             SQL += " AND    (@ID                        IS NULL OR ID                       =       @ID)";
             SQL += " AND    (@ListName                  IS NULL OR ListName                 LIKE    '%' + @ListName + '%')";

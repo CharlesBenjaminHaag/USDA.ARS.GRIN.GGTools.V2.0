@@ -6,7 +6,7 @@ using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 using NLog;
-
+using USDA.ARS.GRIN.GGTools.ViewModelLayer;
 
 namespace USDA.ARS.GRIN.GGTools.WebUI
 {
@@ -52,10 +52,9 @@ namespace USDA.ARS.GRIN.GGTools.WebUI
             //ExecuteErrorController(httpContext, exception as HttpException);
         }
 
-        //protected void Session_Start()
-        //{
-        //    Session["SESSION_START_TIME"] = DateTime.Now.ToString();
-        //    Session["SESSION_EXPIRATION_TIME"] = DateTime.Now.AddMinutes(1440).ToString();
-        //}
+        protected void Session_Start()
+        {
+           
+        }
     }
 }

@@ -1,1 +1,142 @@
-﻿
+﻿@model USDA.ARS.GRIN.GGTools.ViewModelLayer.WebOrderRequestViewModel
+<div class="invoice p-3 mb-3">
+    <div class="row">
+        <div class="col-12">
+            <h4>
+                <i class="fas fa-user"></i>&nbsp;
+                @*<a href="@Url.Action("Search","WebOrder")">*@
+                    @Model.Entity.WebCooperatorFullName [@Model.Entity.ID]
+                @*</a>*@
+
+                @switch (Model.Entity.StatusCode)
+                {
+                    case "ACCEPTED":
+                        <span class="badge bg-success" style="margin-left:10px;">@Model.Entity.StatusCode</span>
+                        break;
+                    case "SUBMITTED":
+                        <span class="badge bg-indigo" style="margin-left:10px;">@Model.Entity.StatusCode</span>
+                        break;
+                    case "CANCELED":
+                        <span class="badge bg-yellow" style="margin-left:10px;">@Model.Entity.StatusCode</span>
+                        break;
+                    case "NRR_FLAG":
+                        <span class="badge bg-danger" style="margin-left:10px;">@Model.Entity.StatusCode</span>
+                        break;
+                }
+
+                <small class="float-right">Submitted: @Model.Entity.OrderDate.ToShortDateString() at @Model.Entity.OrderDate.ToShortTimeString()</small>
+            </h4>
+        </div>
+    </div>
+    <!--BUTTONS-->
+    <div class="row" style="margin-top:5px; margin-bottom:15px;">
+        <div class="col-sm-12">
+            <button class="btn btn-default btn-sm">Add Note</button>
+            <button class="btn btn-default float-right btn-sm">Begin Review and Lock</button>
+
+            <div class="btn-group float-right">
+                <button type="button" class="btn btn-default btn-sm">Reject</button>
+                <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">
+                    <span class="sr-only">Toggle Dropdown</span>
+                </button>
+                <div class="dropdown-menu" role="menu">
+                    <a class="dropdown-item" href="#">Reject and Preview Email</a>
+
+                </div>
+            </div>
+            <div class="btn-group float-right">
+                <button type="button" class="btn btn-default btn-sm">Accept</button>
+                <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">
+                    <span class="sr-only">Toggle Dropdown</span>
+                </button>
+                <div class="dropdown-menu" role="menu">
+                    <a class="dropdown-item" href="#">Accept and Preview Email</a>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row invoice-info">
+        <div class="col-sm-2 invoice-col">
+            <b>Requestor Email:</b><br>
+            <b>Organization:</b><br>
+            <b>Intended Use:</b><br>
+        </div>
+        <div class="col-sm-10 invoice-col">
+            <a href="@Url.Action("Search","WebOrder", new { emailAddress=Model.Entity.WebCooperatorEmail })">@Model.Entity.WebCooperatorEmail</a>
+            <br />
+            <a href="@Url.Action("Search","WebOrder", new { organization=Model.Entity.WebCooperatorOrganization })">@Model.Entity.WebCooperatorOrganization</a>
+            <br>
+            <a href="@Url.Action("Search","WebOrder", new { intendedUseCode=Model.Entity.IntendedUseCode })">@Model.Entity.IntendedUseCode</a>
+            <br>
+        </div>
+    </div>
+    <br />
+    <div class="row invoice-info">
+        <div class="col-sm-6 invoice-col">
+            <label>Primary Address</label>
+            <address>
+                @Model.Entity.WebCooperatorAddress1<br>
+                @if (!String.IsNullOrEmpty(Model.Entity.WebCooperatorAddress2))
+                {
+                    @Model.Entity.WebCooperatorAddress2<br>
+                }
+                @Model.Entity.WebCooperatorAddressCity, @Model.Entity.WebCooperatorAddressState @Model.Entity.WebCooperatorAddressPostalIndex
+            </address>
+        </div>
+        <div class="col-sm-6 invoice-col">
+            <label>Shipping Address</label>
+            <address>
+                @Model.Entity.ShippingAddress1<br>
+                @if (!String.IsNullOrEmpty(Model.Entity.ShippingAddress2))
+                {
+                    @Model.Entity.ShippingAddress2<br>
+                }
+                @Model.Entity.ShippingAddressCity, @Model.Entity.ShippingAddressState @Model.Entity.ShippingAddressPostalIndex
+            </address>
+        </div>
+    </div>
+    <div class="row invoice-info">
+        <div class="col-sm-12 invoice-col">
+            <b>Intended Use Note:</b><br />
+            @Model.Entity.IntendedUseNote
+        </div>
+    </div>
+    <br />
+    <div class="row invoice-info">
+        <div class="col-sm-12 invoice-col">
+            <b>Note:</b><br />
+            @Model.Entity.Note
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-12 table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Status</th>
+                        <th>Accession</th>
+                        <th>Site</th>
+                        <th>Quantity</th>
+                        <th>Unit</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach(var result in Model.DataCollectionItems)
+                    { 
+                        <tr>
+                            <td>@result.ID</td>
+                            <td>@result.StatusCode</td>
+                            <td>@result.AccessionText</td>
+                            <td>@result.SiteLongName</td>
+                            <td>@result.QuantityShipped</td>
+                            <td>@result.UnitOfQuantity</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

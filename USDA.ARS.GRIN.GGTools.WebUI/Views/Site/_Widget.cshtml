@@ -36,7 +36,11 @@
                 { 
                     <tr>
                         <td>@result.ID</td>
-                        <td>@result.FullName</td>
+                        <td>
+                            <a href="@Url.Action("Edit","Cooperator", new { entityId = result.ID })">
+                                @result.FullName
+                            </a>
+                        </td>
                         <td>@result.StatusCode</td>
                     </tr>
                 }

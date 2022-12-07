@@ -45,7 +45,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI
         {
             string databaseName = String.Empty;
             databaseName = ConfigurationManager.AppSettings["Database"];
-            return databaseName;
+            return databaseName.ToUpper();
         }
     }
 }

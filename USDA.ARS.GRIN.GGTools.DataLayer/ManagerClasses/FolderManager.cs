@@ -331,7 +331,8 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
         }
         public List<Cooperator> GetAvailableCollaborators(int folderId)
         {
-            string appCode = ConfigurationManager.AppSettings["AppCode"];
+            //string appCode = ConfigurationManager.AppSettings["AppCode"];
+            string appCode = "MANAGE_TAXONOMY";
 
             List<Cooperator> cooperators = new List<Cooperator>();
             SQL = "usp_GGTools_GRINGlobal_AppUserItemFolderAvailableCollaborators_Select";

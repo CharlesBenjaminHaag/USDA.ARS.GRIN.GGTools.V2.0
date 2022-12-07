@@ -89,8 +89,8 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
                 if (RowsAffected == 1)
                 {
                     Entity = DataCollection[0];
-                    DataCollectionAvailableCooperators = new Collection<Cooperator>(mgr.GetAvailableCollaborators(Entity.ID));
-                    DataCollectionCurrentCooperators = new Collection<Cooperator>(mgr.GetCurrentCollaborators(Entity.ID));
+                //    DataCollectionAvailableCooperators = new Collection<Cooperator>(mgr.GetAvailableCollaborators(Entity.ID));
+                //    DataCollectionCurrentCooperators = new Collection<Cooperator>(mgr.GetCurrentCollaborators(Entity.ID));
                 }
             }
             return Entity;

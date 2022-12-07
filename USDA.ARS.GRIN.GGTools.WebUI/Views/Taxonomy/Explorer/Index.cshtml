@@ -54,14 +54,27 @@
                     </div>
                     <div class="tab-pane" id="tab-hierarchy-species">
                         <div class="form-group" style="padding:.3rem;">
-                            <label>Species</label>
+                            <div class="form-group">
+                                <select class="form-control"></select>
+                            </div>
                             <div class="input-group">
                                 <input id="txtLookupSpecies" type="text" class="form-control" />
                                 <span class="input-group-btn">
-                                    <button id="btnSpeciesNameLookup" type="button" data-toggle="modal" data-ggtools-action="AcceptedID" data-ggtools-value="AcceptedName" data-target="#modal-species-lookup" class="btn btn-default btn-flat">
+                                    <button id="btnLookupSpecies" type="button" data-toggle="modal" data-ggtools-action="AcceptedID" data-ggtools-value="AcceptedName" data-target="#modal-species-lookup" class="btn btn-default btn-flat">
                                         <i class="fa fa-search"></i>
                                     </button>
                                 </span>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="custom-control custom-checkbox">
+                                        <input class="custom-control-input" type="checkbox" id="customCheckbox1" value="option1">
+                                        <label for="customCheckbox1" class="custom-control-label">Search accepted names only.</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <br />
+                            <div id="section-species-lookup-search-results">
                             </div>
                         </div>
                     </div>
@@ -119,18 +132,10 @@
 
     /*
     **********************************************************************************
-    HIERARCHICAL LIST SEARCH
+    FAMILY
     **********************************************************************************
     */
     $('#btnFamilyNameLookup').on('click', function () {
-
-    });
-
-    $('#btnGenusNameLookup').on('click', function () {
-
-    });
-
-    $('#btnSpeciesNameLookup').on('click', function () {
 
     });
 
@@ -159,6 +164,24 @@
         });
     }
 
+    /*
+    **********************************************************************************
+    GENUS
+    **********************************************************************************
+    */
+    $('#btnGenusNameLookup').on('click', function () {
+
+    });
+
+    /*
+    **********************************************************************************
+    SPECIES
+    **********************************************************************************
+    */
+    $('#btnLookupSpecies').on('click', function () {
+        LookupSpecies();
+    });
+
     $('ul.species-selector li').on('click', function () {
         var selectedSpeciesId = $(this).attr('id');
         var selectedGenusId = $(this).data("ggtools-value");
@@ -182,11 +205,6 @@
         //}
     });
 
-    /*
-    **********************************************************************************
-    SPECIES
-    **********************************************************************************
-    */
     $('#btnSave').on('click', function () {
         AjaxFormSubmit();
     });
@@ -243,6 +261,30 @@
         }
     }
 
+    function LookupSpecies() {
+        var link = '@Url.Action("Lookup","Species")';
+        var speciesName = $("#txtLookupSpecies").val();
+        var formData = new FormData();
+
+        formData.append("SpeciesName", speciesName);
+        if ($("#cbxLookupIsAcceptedName").is(":checked")) {
+            formData.append("IsAcceptedName", "Y");
+        }
+        $.ajax({
+            url: link,
+            type: 'POST',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (response) {
+                $("#section-species-lookup-search-results").html(response);
+            },
+            error: function () {
+                alert("Error");
+            }
+        });
+    }
     /*
     **********************************************************************************
     CITATIONS

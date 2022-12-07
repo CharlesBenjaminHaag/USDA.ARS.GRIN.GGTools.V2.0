@@ -50,12 +50,13 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             return View();
         }
 
-        public PartialViewResult _List(string tabName = "")
+        public PartialViewResult _List(string tabName = "", int cooperatorId = 0)
         {
             AppUserItemListViewModel viewModel = new AppUserItemListViewModel();
             try
             {
-                viewModel.SearchEntity = new AppUserItemListSearch { ListName = tabName };
+                viewModel.SearchEntity.ListName = tabName;
+                viewModel.SearchEntity.CreatedByCooperatorID = cooperatorId;
                 viewModel.Search();
                 return PartialView(viewModel);
             }

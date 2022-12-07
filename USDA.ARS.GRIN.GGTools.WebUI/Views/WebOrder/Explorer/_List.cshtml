@@ -1,5 +1,4 @@
 ﻿@model USDA.ARS.GRIN.GGTools.ViewModelLayer.WebOrderRequestViewModel
-
 <table id="table_web_order_requests" class="display responsive" style="width:100%">
     <thead>
         <tr>
@@ -17,46 +16,46 @@
     <tbody>
         @foreach (var webOrderRequest in Model.DataCollection)
         {
+            var statusCssClass = "project-state-" + webOrderRequest.StatusCode.ToLower();
+          
             <tr>
                 <td>@webOrderRequest.ID</td>
                 <td>@webOrderRequest.ID</td>
                 <td>
-                    @*<a>*@
-                        @webOrderRequest.WebCooperatorFullName
-                    @*</a>*@
+                                @*<a>*@
+                    @webOrderRequest.WebCooperatorFullName
+                                @*</a>*@
                     <br>
                     <small>
                         @webOrderRequest.WebCooperatorOrganization
                     </small>
                 </td>
 
-                <td class="project-state">
-                    <span class="badge badge-success">@webOrderRequest.StatusCode</span>
+                <td class="@statusCssClass">
+                    @webOrderRequest.StatusCode
                 </td>
 
             </tr>
         }
-        </tbody>
+    </tbody>
 </table>
 
-
-
 @*@foreach (var webOrderRequest in Model.DataCollection)
-{
+            {
 
-    var cssClass = "";
-    switch (webOrderRequest.StatusCode)
-    {
-        case "NRR_FLAG":
-            cssClass = "bg-danger";
-            break;
-        case "ACCEPTED":
-            cssClass = "bg-success";
-            break;
-        default:
-            cssClass = "bg-info";
-            break;
-    }
+                var cssClass = "";
+                switch (webOrderRequest.StatusCode)
+                {
+                    case "NRR_FLAG":
+                        cssClass = "bg-danger";
+                        break;
+                    case "ACCEPTED":
+                        cssClass = "bg-success";
+                        break;
+                    default:
+                        cssClass = "bg-info";
+                        break;
+                }
     <div class="info-box">
         <span class="info-box-icon @cssClass"><i class="far fa-address-book"></i></span>
         <div class="info-box-content">

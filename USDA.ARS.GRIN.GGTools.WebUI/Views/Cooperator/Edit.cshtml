@@ -35,7 +35,7 @@
                 <div class="tab-content">
                     <div class="tab-pane active" id="tab-summary">
                         <div class="margin">
-                            <a href="@Url.Action("Edit","WebCooperator", new { entityId = Model.Entity.WebCooperatorID })" class="btn btn-default btn-sm">
+                            <a href="@Url.Action("Edit", "WebCooperator", new { entityId = Model.Entity.WebCooperatorID })" class="btn btn-default btn-sm">
                                 Web Cooperator
                             </a>
                         </div>
@@ -201,6 +201,7 @@
                             This data is available here for review and export only. Please use the Curator Tool
                             to make edits.
                         </div>
+                        @{ Html.RenderAction("_List", "AppUserItemList", new { cooperatorId = Model.Entity.ID }); }
                     </div>
                     <div class="tab-pane" id="tab-application-settings">
                         <div class="alert alert-info alert-dismissible">

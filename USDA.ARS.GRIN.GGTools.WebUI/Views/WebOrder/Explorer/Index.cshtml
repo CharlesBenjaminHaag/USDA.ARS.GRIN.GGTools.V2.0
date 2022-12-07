@@ -1,45 +1,64 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_LayoutAdminLTE3.cshtml";
 }
 <style>
     .invoice {
-        border:none;
+        border: none;
     }
-    
+
+    .project-state-accepted {
+        background-color: #00a65a;
+        padding: 5px;
+        color: white;
+        font-weight: bold;
+    }
+
+    .project-state-canceled {
+        background-color: #f39c12;
+        padding: 5px;
+        color: white;
+        font-weight: bold;
+    }
+
+    .project-state-submitted {
+        background-color: #605ca8;
+        padding: 5px;
+        color: white;
+        font-weight: bold;
+    }
+
+    .project-state-nrr_flag {
+        background-color: #dd4b39;
+        padding: 5px;
+        color: white;
+        font-weight: bold;
+    }
+    .web-order-request {
+        padding:0px;
+    }
 </style>
 <div class="row">
     <div class="col-md-3">
-        @*<div class="form-group">
-            <select class="form-control">
-                <option>NRR Flagged</option>
-            </select>
-        </div>
-        <div class="form-group">
-            <select class="form-control">
-                <option>Today</option>
-            </select>
-        </div>*@
-
         <div class="card card-outline card-primary">
             <div class="card-header">
-                <h3 class="card-title">Primary Outline</h3>
+                <h3 class="card-title">Web Order Requests</h3>
                 <div class="card-tools">
                     <button type="button" class="btn btn-tool" data-card-widget="collapse">
                         <i class="fas fa-minus"></i>
                     </button>
                 </div>
-
             </div>
-
-            <div id="section-web-order-search-results" class="card-body">
-                 
+            <div class="card-body">
+                <div class="btn-group btn-block" style="margin-bottom:15px;">
+                    <button id="btnFilterToday" type="button" class="btn btn-default time-frame-selector">Today</button>
+                    <button id="btnFilter3DY" type="button" class="btn btn-default time-frame-selector">3 Days</button>
+                    <button id="btnFilter7DY" type="button" class="btn btn-default time-frame-selector">7 Days</button>
+                    <button id="btnFilter30D" type="button" class="btn btn-default time-frame-selector">30 Days</button>
+                </div>
+                <div id="section-web-order-search-results"></div>
             </div>
-
         </div>
-
-
     </div>
     <div class="col-md-9">
         <div class="card">
@@ -53,136 +72,17 @@
             <div class="card-body web-order-request">
                 <div class="tab-content">
                     <div class="tab-pane active" id="activity" style="padding:0px;">
-                        <!-- DETAILS -->
-                        <div class="invoice p-3 mb-3">
-                            <div class="row">
-                                <div class="col-12">
-                                    <h4>
-                                        <i class="fas fa-user"></i>&nbsp;
-                                        <a href="">A Mellin, Samantha</a>
-                                        <small class="float-right">Submitted: @DateTime.Now.ToShortDateString() at @DateTime.Now.ToShortTimeString()</small>
-                                    </h4>
-                                </div>
-                            </div>
-                            
-                            <div class="row" style="margin-top:5px; margin-bottom:15px;">
-                                <div class="col-sm-12">
-                                    <button class="btn btn-default btn-sm">Begin Review and Lock</button>
-                                    <button class="btn btn-default btn-sm">Add Note</button>
-                                    <button class="btn btn-success btn-sm">Accept</button>
-                                    <button class="btn btn-danger btn-sm">Reject</button>
-                                </div>
-                            </div>
-                            @*<br />
-                            <div class="row invoice-info">
-                                <div class="col-sm-4 invoice-col">
-                                    <label>Organization: </label>
-                                    <a href="">TEST FARM</a>
-                                </div>
-                                <div class="col-sm-4 invoice-col">
-                                    <label>Intended Use: </label>
-                                    HOME GARDENING
-                                </div>
-                            </div>*@
-                            <div class="row invoice-info">
-                                <div class="col-sm-4 invoice-col">
-                                    <label>Primary Address</label>
-                                    <address>
-                                        Admin, Inc.<br>
-                                        795 Folsom Ave, Suite 600<br>
-                                        San Francisco, CA 94107<br>
-                                        Phone: (804) 123-5432<br>
-                                        Email: info@almasaeedstudio.com
-                                    </address>
-                                </div>
-
-                                <div class="col-sm-4 invoice-col">
-                                    <label>Shipping Address</label>
-                                    <address>
-                                        John Doe<br>
-                                        795 Folsom Ave, Suite 600<br>
-                                        San Francisco, CA 94107<br>
-                                        Phone: (555) 539-1037<br>
-                                        Email: john.doe@example.com
-                                    </address>
-                                </div>
-
-                                <div class="col-sm-2 invoice-col">
-                                    <b>Organization:</b><br>
-                                    <b>Intended Use:</b><br>
-                                    <b>Payment Due:</b><br>
-                                    <b>Account:</b>
-                                </div>
-                                <div class="col-sm-2 invoice-col">
-                                    TEST ORG<br>
-                                    HOME GARDENING<br>
-                                    2/22/2014<br>
-                                    968-34567
-                                </div>
-
-                            </div>
-
-
-                            <div class="row">
-                                <div class="col-12 table-responsive">
-                                    <table class="table table-striped">
-                                        <thead>
-                                            <tr>
-                                                <th>Qty</th>
-                                                <th>Product</th>
-                                                <th>Serial #</th>
-                                                <th>Description</th>
-                                                <th>Subtotal</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>1</td>
-                                                <td>Call of Duty</td>
-                                                <td>455-981-221</td>
-                                                <td>El snort testosterone trophy driving gloves handsome</td>
-                                                <td>$64.50</td>
-                                            </tr>
-                                            <tr>
-                                                <td>1</td>
-                                                <td>Need for Speed IV</td>
-                                                <td>247-925-726</td>
-                                                <td>Wes Anderson umami biodiesel</td>
-                                                <td>$50.00</td>
-                                            </tr>
-                                            <tr>
-                                                <td>1</td>
-                                                <td>Monsters DVD</td>
-                                                <td>735-845-642</td>
-                                                <td>Terry Richardson helvetica tousled street art master</td>
-                                                <td>$10.70</td>
-                                            </tr>
-                                            <tr>
-                                                <td>1</td>
-                                                <td>Grown Ups Blue Ray</td>
-                                                <td>422-568-642</td>
-                                                <td>Tousled lomo letterpress</td>
-                                                <td>$25.99</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
+                        <div id="section-web-order-request-detail">
 
                         </div>
-
+                    </div>
                     <div class="tab-pane" id="timeline">
-
                         <div class="timeline timeline-inverse">
-
                             <div class="time-label">
                                 <span class="bg-danger">
                                     10 Feb. 2014
                                 </span>
                             </div>
-
-
                             <div>
                                 <i class="fas fa-envelope bg-primary"></i>
                                 <div class="timeline-item">
@@ -256,47 +156,83 @@
                             </div>
                         </div>
                     </div>
-
                     <div class="tab-pane" id="settings">
-                        <div class="card-footer card-comments">
-                            <div class="card-comment">
 
-                                <img class="img-circle img-sm" src="../dist/img/user3-128x128.jpg" alt="User Image">
-                                <div class="comment-text">
-                                    <span class="username">
-                                        Maria Gonzales
-                                        <span class="text-muted float-right">8:03 PM Today</span>
-                                    </span>
-                                    It is a long established fact that a reader will be distracted
-                                    by the readable content of a page when looking at its layout.
+                        <div class="direct-chat-messages">
+
+                            <div class="direct-chat-msg">
+                                <div class="direct-chat-infos clearfix">
+                                    <span class="direct-chat-name float-left">Marty Reisinger</span>
+                                    <span class="direct-chat-timestamp float-right">23 Jan 2:00 pm</span>
+                                </div>
+
+                                <img class="direct-chat-img" src="~/Content/dist/img/Kinard.Gary_TO_CROP.jpg" alt="Message User Image">
+
+                                <div class="direct-chat-text">
+                                    This person has tried this before.
                                 </div>
 
                             </div>
-                        </div>
-                        <div class="card-footer card-comments">
-                            <form action="#" method="post">
-                                <img class="img-fluid img-circle img-sm" src="../dist/img/user4-128x128.jpg" alt="Alt Text">
+                            <div class="direct-chat-msg">
+                                <div class="direct-chat-infos clearfix">
+                                    <span class="direct-chat-name float-left">Gary Kinard</span>
+                                    <span class="direct-chat-timestamp float-right">23 Jan 2:00 pm</span>
+                                </div>
 
-                                <div class="img-push">
-                                    <input type="text" class="form-control form-control-sm" placeholder="Press enter to post comment">
+                                <img class="direct-chat-img" src="~/Content/dist/img/Reisinger.Marty.jpg" alt="Message User Image">
+
+                                <div class="direct-chat-text">
+                                    Agreed.
+                                </div>
+
+                            </div>
+
+                            
+
+                        </div>
+
+
+                        <div class="direct-chat-contacts">
+                            <ul class="contacts-list">
+                                <li>
+                                    <a href="#">
+                                        <img class="contacts-list-img" src="../dist/img/user1-128x128.jpg" alt="User Avatar">
+                                        <div class="contacts-list-info">
+                                            <span class="contacts-list-name">
+                                                Count Dracula
+                                                <small class="contacts-list-date float-right">2/28/2015</small>
+                                            </span>
+                                            <span class="contacts-list-msg">How have you been? I was...</span>
+                                        </div>
+
+                                    </a>
+                                </li>
+
+                            </ul>
+
+                        </div>
+                        <div class="card-footer">
+                            <form action="#" method="post">
+                                <div class="input-group">
+                                    <input type="text" name="message" placeholder="Enter note..." class="form-control">
+                                    <span class="input-group-append">
+                                        <button type="submit" class="btn btn-primary">Send</button>
+                                    </span>
                                 </div>
                             </form>
                         </div>
+
                     </div>
-
                 </div>
-
             </div>
         </div>
-    
-    
-        
     </div>
 </div>
+
 <script type="text/javascript">
     $(document).ready(function () {
-        
-        LoadChildData("90D")
+
+        LoadChildData("30D")
     });
 
     function LoadChildData(timeFrame, selectedStatusList, selectedWebUserList)  {
@@ -327,9 +263,9 @@
                 /*dom: 'Blfrtip',*/
                 paging: false,
                 "pageLength": 10,
-                initComplete: function () {
-                    SetControlVisibility(tableName);
-                },
+                //initComplete: function () {
+                //    SetControlVisibility(tableName);
+                //},
                 responsive: true,
                 //buttons: [
                 //    'selectAll',
@@ -347,7 +283,42 @@
                     { targets: [0], visible: false }
                 ]
             });
+
+            //Select first row by default; load related data.
+            table.row(':eq(0)', { page: 'current' }).select();
+            var firstRowData = table.row(':eq(0)', { page: 'current' }).data();
+
+            $('#table_web_order_requests tbody').on('click', 'tr', function () {
+                var data = table.row(this).data();
+                LoadWebOrderRequestDetail(data[0]);
+            });
+
+            //table.on('search.dt', function () {
+            //    alert("DEBUG FILTER " + table.search());
+            //});
         });
+    }
+
+    function LoadWebOrderRequestDetail(webOrderRequestId) {
+        link = '@Url.Action("ExplorerDetail", "WebOrder")';
+        var formData = new FormData();
+
+        formData.append("entityId", webOrderRequestId);
+
+        $.ajax({
+            url: link,
+            type: 'POST',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (response) {
+                $("#section-web-order-request-detail").html(response);
+            }
+        });
+    }
+
+    function LoadWebOrderRequestTimeLine(id) {
     }
 
 </script>

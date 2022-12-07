@@ -27,6 +27,20 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             }
         }
 
+        public PartialViewResult _LookupSpecies(SpeciesViewModel viewModel)
+        {
+            try
+            {
+                viewModel.Search();
+                return PartialView("~/Views/Taxonomy/Explorer/_ListSpecies.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
+        }
+
         public PartialViewResult _ListFamily()
         {
             TaxonomyExplorerViewModel viewModel = new TaxonomyExplorerViewModel();
