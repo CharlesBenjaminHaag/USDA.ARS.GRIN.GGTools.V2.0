@@ -53,21 +53,36 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             return results;
         }
 
-        public virtual List<AppUserItemFolder> GetSharedFolders(int cooperatorId)
+        public virtual List<AppUserItemFolder> GetRelatedFolders(FolderSearch searchEntity)
         {
             List<AppUserItemFolder> results = new List<AppUserItemFolder>();
 
-            SQL = " SELECT * FROM vw_GGTools_GRINGlobal_AppUserItemFolders";
-            SQL += " WHERE ID IN ";
-            SQL += " (SELECT app_user_item_folder_id FROM app_user_item_folder_cooperator_map WHERE cooperator_id = @CreatedByCooperatorID)";
-   
+            SQL =   " SELECT DISTINCT FolderID, FolderName " +
+                    " FROM vw_GRINGlobal_Folder_" + searchEntity.TableName + " WHERE ID = @EntityID";
+
             var parameters = new List<IDbDataParameter> {
-                CreateParameter("CreatedByCooperatorID", cooperatorId, true)
+                CreateParameter("EntityID", searchEntity.EntityID, true)
             };
             results = GetRecords<AppUserItemFolder>(SQL, parameters.ToArray());
             RowsAffected = results.Count;
             return results;
         }
+
+        //public virtual List<AppUserItemFolder> GetSharedFolders(int cooperatorId)
+        //{
+        //    List<AppUserItemFolder> results = new List<AppUserItemFolder>();
+
+        //    SQL = " SELECT * FROM vw_GGTools_GRINGlobal_AppUserItemFolders";
+        //    SQL += " WHERE ID IN ";
+        //    SQL += " (SELECT app_user_item_folder_id FROM app_user_item_folder_cooperator_map WHERE cooperator_id = @CreatedByCooperatorID)";
+
+        //    var parameters = new List<IDbDataParameter> {
+        //        CreateParameter("CreatedByCooperatorID", cooperatorId, true)
+        //    };
+        //    results = GetRecords<AppUserItemFolder>(SQL, parameters.ToArray());
+        //    RowsAffected = results.Count;
+        //    return results;
+        //}
 
         public virtual List<AppUserItemFolder> GetAvailableFolders(int cooperatorId, string tableName)
         {
@@ -347,7 +362,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
 
         public List<Cooperator> GetCurrentCollaborators(int folderId)
         {
-            string appCode = ConfigurationManager.AppSettings["AppCode"];
+            string appCode = "MANAGE_TAXONOMY";
 
             List<Cooperator> cooperators = new List<Cooperator>();
             SQL = "usp_GGTools_GRINGlobal_AppUserItemFolderCurrentCollaborators_Select";

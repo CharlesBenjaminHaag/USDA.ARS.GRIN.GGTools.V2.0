@@ -90,7 +90,7 @@
                             <div class="card-header">
                                 <h3 class="card-title">Can be Shared With</h3>
                             </div>
-                            <div id="section-available-cooperators"" class="card-body">
+                            <div id="section-available-cooperators" class="card-body">
                                 <table id="data-table-available-cooperators" class="table table-striped" style="width:100%;">
                                     <thead>
                                         <tr>
@@ -119,12 +119,12 @@
                         <button id="btnShare" class="btn btn-default btn-block" type="button">>></button>
                         <button id="btnUnShare" class="btn btn-default btn-block" type="button"><<</button>
                     </div>
-                    <div id="section-current-collaborators" class="col-md-5">
+                    <div class="col-md-5">
                         <div class="card card-success card-outline">
                             <div class="card-header">
                                 <h3 class="card-title">Is Currently Shared With</h3>
                             </div>
-                            <div class="card-body">
+                            <div id="section-current-collaborators" class="card-body">
                                 <table id="data-table-current-cooperators" class="table table-striped" style="width:100%;">
                                     <thead>
                                         <tr>
@@ -188,14 +188,12 @@
         if (id == "tab-folder-sharing") {
             var folderId = $("#Entity_ID").val();
             LoadAvailableCollaborators(folderId);
+            LoadCurrentCollaborators(folderId);
         }
     });
 
     $("#btnShare").click(function () {
         var entityId = $("#Entity_ID").val();
-        var refreshLink = '@Url.Action("Edit","Folder", new { entityId = "SUB" })';
-        refreshLink = refreshLink.replace("SUB", entityId);
-
         Share();
         LoadAvailableCollaborators(entityId);
         LoadCurrentCollaborators(entityId);
@@ -203,14 +201,9 @@
 
     $("#btnUnShare").click(function () {
         var entityId = $("#Entity_ID").val();
-        var refreshLink = '@Url.Action("Edit","Folder", new { entityId = "SUB" })';
-        refreshLink = refreshLink.replace("SUB", entityId);
-
         UnShare();
-        GetAvailableCollaborators(entityId);
-        GetCurrentCollaborators(entityId);
-        //TODO Use AJAX
-        window.location.href = refreshLink;
+        LoadCurrentCollaborators(entityId);
+        LoadAvailableCollaborators(entityId);
     });
 
     function Share() {
@@ -257,8 +250,6 @@
             processData: false,
             data: formData,
             success: function (data) {
-                /*console.log(data);*/
-                /*ConfirmFolderSave(data.folder.FolderName);*/
             },
             error: function (ex) {
             }
@@ -297,14 +288,14 @@
             url: link,
             type: 'POST',
             cache: false,
-            dataType: 'json',
             contentType: false,
             processData: false,
             data: formData,
-            success: function (data) {
-                $("#section-current-collaborators").html("DEBUG 2");
+            success: function (response) {
+                $("#section-current-collaborators").html(response);
             },
-            error: function (ex) {
+            error: function () {
+                alert("Error loading current cooperators");
             }
         });
     }

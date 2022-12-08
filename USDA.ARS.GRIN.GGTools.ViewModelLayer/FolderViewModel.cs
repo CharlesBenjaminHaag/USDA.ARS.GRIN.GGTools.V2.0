@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Web.Mvc;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Text.RegularExpressions;
 using USDA.ARS.GRIN.Common.Library.Exceptions;
 using USDA.ARS.GRIN.Common.Library.Security;
@@ -32,6 +33,13 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
                 { 
                     DataCollection = new Collection<AppUserItemFolder>(mgr.Search(SearchEntity));
                     RowsAffected = mgr.RowsAffected;
+                    
+                    // Get types
+                    List<string> DEBUG = DataCollection.Select(x => x.FolderType).Distinct().ToList();
+                    foreach (var type in DEBUG)
+                    {
+                        DataCollectionFolderTypes.Add(new CodeValue { Value = type, Title = type });
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -41,23 +49,32 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
                 return mgr.RowsAffected;
             }
         }
-        public int GetSharedFolders(int cooperatorId)
+
+        public void GetRelatedFolders()
         {
             using (FolderManager mgr = new FolderManager())
             {
-                try
-                {
-                    DataCollectionShared = new Collection<AppUserItemFolder>(mgr.GetSharedFolders(cooperatorId));
-                    RowsAffected = mgr.RowsAffected;
-                }
-                catch (Exception ex)
-                {
-                    PublishException(ex);
-                    throw ex;
-                }
+                DataCollection = new Collection<AppUserItemFolder>(mgr.GetRelatedFolders(SearchEntity));
             }
-            return RowsAffected;
         }
+
+        //public int GetSharedFolders(int cooperatorId)
+        //{
+        //    using (FolderManager mgr = new FolderManager())
+        //    {
+        //        try
+        //        {
+        //            DataCollectionShared = new Collection<AppUserItemFolder>(mgr.GetSharedFolders(cooperatorId));
+        //            RowsAffected = mgr.RowsAffected;
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            PublishException(ex);
+        //            throw ex;
+        //        }
+        //    }
+        //    return RowsAffected;
+        //}
         public int GetAvailableFolders(int cooperatorId, string tableName)
         {
             using (FolderManager mgr = new FolderManager())

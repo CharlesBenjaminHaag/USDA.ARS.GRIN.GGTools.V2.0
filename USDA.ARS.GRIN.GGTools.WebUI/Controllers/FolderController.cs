@@ -35,17 +35,11 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             {
                 viewModel.PageTitle = "My Folders";
                 viewModel.AuthenticatedUser = AuthenticatedUser;
-                viewModel.GetFolderTypes(AuthenticatedUser.CooperatorID);
-                viewModel.GetFolderCategories(AuthenticatedUser.CooperatorID);
-                viewModel.GetFolderTypes(AuthenticatedUser.CooperatorID);
-                
-                // Get user's folders
+                //viewModel.GetFolderTypes(AuthenticatedUser.CooperatorID);
+                //viewModel.GetFolderCategories(AuthenticatedUser.CooperatorID);
+                //viewModel.GetFolderTypes(AuthenticatedUser.CooperatorID);
                 viewModel.SearchEntity = new FolderSearch { CreatedByCooperatorID = AuthenticatedUser.CooperatorID };
                 viewModel.Search();
-
-                // Get folders shared with user
-                viewModel.GetSharedFolders(AuthenticatedUser.CooperatorID);
-
                 viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
                 return View(BASE_PATH + "Index.cshtml", viewModel);
             }
@@ -148,6 +142,22 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             //TODO
             
             return PartialView("~/Views/Folder/Modals/_ItemList.cshtml");
+        }
+        public PartialViewResult _RelatedFoldersList(string tableName, int entityId)
+        {
+            try
+            {
+                FolderViewModel viewModel = new FolderViewModel();
+                viewModel.SearchEntity.TableName = tableName;
+                viewModel.SearchEntity.EntityID = entityId;
+                viewModel.GetRelatedFolders();
+                return PartialView("~/Views/Folder/_RelatedFoldersList.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
         }
 
         [HttpPost]
@@ -685,35 +695,35 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
         //    throw new NotImplementedException();
         //}
 
-        public PartialViewResult FolderItems(int entityId, string tableCode)
-        {
-            //try
-            //{
-            //    CropForCWRViewModel viewModel = new CropForCWRViewModel();
-            //    viewModel.EventAction = "SEARCH";
-            //    viewModel.EventValue = "FOLDER";
-            //    viewModel.SearchEntity.FolderID = folderId;
-            //    viewModel.SearchFolderItems();
-            //    ModelState.Clear();
-            //    return PartialView("~/Views/CropForCWR/_List.cshtml", viewModel);
-            //}
-            //catch (Exception ex)
-            //{
-            //    Log.Error(ex);
-            //    return null;
-            //}
-            //TODO
-            //Get folder details (incl. table name)
-            //re-route based on data
+        //public PartialViewResult FolderItems(int entityId, string tableCode)
+        //{
+        //    //try
+        //    //{
+        //    //    CropForCWRViewModel viewModel = new CropForCWRViewModel();
+        //    //    viewModel.EventAction = "SEARCH";
+        //    //    viewModel.EventValue = "FOLDER";
+        //    //    viewModel.SearchEntity.FolderID = folderId;
+        //    //    viewModel.SearchFolderItems();
+        //    //    ModelState.Clear();
+        //    //    return PartialView("~/Views/CropForCWR/_List.cshtml", viewModel);
+        //    //}
+        //    //catch (Exception ex)
+        //    //{
+        //    //    Log.Error(ex);
+        //    //    return null;
+        //    //}
+        //    //TODO
+        //    //Get folder details (incl. table name)
+        //    //re-route based on data
             
-            return PartialView("~/Views/Shared/_UnderConstruction.cshtml");
-        }
+        //    return PartialView("~/Views/Shared/_UnderConstruction.cshtml");
+        //}
       
-        [HttpPost]
-        public PartialViewResult FolderItems(FormCollection formCollection)
-        {
-            throw new NotImplementedException();
-        }
+        //[HttpPost]
+        //public PartialViewResult FolderItems(FormCollection formCollection)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
         public ActionResult Delete(FormCollection formCollection)
         {

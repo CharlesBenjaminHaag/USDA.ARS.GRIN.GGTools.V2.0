@@ -171,6 +171,13 @@ Modal that appears if no record is selected for folder addition.
         }
     });
 
+    $("#btnOpenFolderModalInSingleMode").click(function () {
+        event.preventDefault();
+        $("#EventAction").val("FOLDER");
+        $("#EventValue").val("SINGLE");
+        $("#modal-folder-edit").modal("show");
+    });
+
     $("#btnAddFolder").click(function () {
         AddFolder(0);
     });
@@ -241,6 +248,9 @@ Modal that appears if no record is selected for folder addition.
     */
     function AddFolder(folderId) {
         var link = '@Url.Action("Add", "Folder")';
+        var eventAction = $("#EventAction").val();
+        var eventValue = $("#EventValue").val();
+        var entityId = $("#Entity_ID").val();
         var tableName = $("#TableName").val();
         var dataTableName = "data_table_" + tableName;
         var folderName = $("#txtFolderTitle").val();
@@ -252,6 +262,15 @@ Modal that appears if no record is selected for folder addition.
 
         if ($('#cbxIsFavorite').prop('checked') == true) {
             isFavorite = true;
+        }
+
+        if ((eventAction == "FOLDER" && eventValue == "SINGLE")) {
+            formData.append("EntityID", entityId);
+        }
+
+        // If there are no values in the selected ID list, use single-record mode.
+        if (selectedItemIdList.length < 1) {
+            selectedItemIdList = entityId;
         }
 
         if (typeof selectedItemIdList != 'undefined') {

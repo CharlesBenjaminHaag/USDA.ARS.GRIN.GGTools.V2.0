@@ -43,7 +43,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             SysUser sysUser = new SysUser();
             List<SysUser> sysUsers = new List<SysUser>();
 
-            SQL = " SELECT * FROM vw_GGTools_GRINGLobal_SysUsers";
+            SQL = " SELECT * FROM vw_GRINGLobal_Sys_User";
             SQL += " WHERE  (@UserName  IS NULL OR  UserName = @UserName)";
             SQL += " AND    (@ID        IS NULL OR  SysUserID = @ID)";
 
@@ -98,7 +98,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             List<SysGroup> sysGroups = new List<SysGroup>();
 
             SQL =   " SELECT [ID], [GroupTag], [GroupTitle], [GroupDescription] " +
-                    " FROM [vw_GGTools_GRINGlobal_SysGroups] WHERE ID NOT IN " +
+                    " FROM [vw_GRINGlobal_Sys_Group] WHERE ID NOT IN " +
                     " (SELECT sys_group_id FROM sys_group_user_map " +
                     " WHERE sys_user_id = @ID) ";
 
@@ -113,7 +113,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             List<SysGroup> sysGroups = new List<SysGroup>();
 
             SQL = " SELECT [ID], [GroupTag], [GroupTitle], [GroupDescription] " +
-                    " FROM [vw_GGTools_GRINGlobal_SysGroups] WHERE ID IN " +
+                    " FROM [vw_GRINGlobal_Sys_Group] WHERE ID IN " +
                     " (SELECT sys_group_id FROM sys_group_user_map " +
                     " WHERE sys_user_id = @ID) ";
 
@@ -144,7 +144,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
         {
             Reset(CommandType.StoredProcedure);
 
-            SQL = "usp_GGTools_GRINGlobal_SysGroupUserMap_Delete";
+            SQL = "usp_GRINGlobal_Sys_Group_User_Map_Delete";
 
             AddParameter("sys_user_id", (object)sysGroupUserMap.SysUserID, false);
             AddParameter("sys_group_id", (object)sysGroupUserMap.SysGroupID, false);
@@ -161,7 +161,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
         {
             Reset(CommandType.StoredProcedure);
 
-            SQL = "usp_GGTools_GRINGlobal_SysUserPasswordResetToken_Insert";
+            SQL = "usp_GRINGlobal_Sys_User_Password_Reset_Token_Insert";
 
             AddParameter("sys_user_id", (object)sysUserId, false);
             AddParameter("password_reset_token", (object)passwordResetToken, false);
@@ -175,7 +175,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
         public SysUser ValidateSysUserPasswordResetToken(string passwordResetToken)
         {
             SysUser sysUser = new SysUser();
-            SQL = "usp_GGTools_GRINGlobal_SysUserPasswordResetToken_Select";
+            SQL = "usp_GRINGlobal_Sys_User_Password_Reset_Token_Select";
 
             var parameters = new List<IDbDataParameter> {
                 CreateParameter("password_reset_token", (object)passwordResetToken, false)
@@ -188,7 +188,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
         {
             Reset(CommandType.StoredProcedure);
             Validate<SysUser>(entity);
-            SQL = "usp_GGTools_GRINGLobal_SysUser_Insert";
+            SQL = "usp_GRINGLobal_Sys_User_Insert";
 
             AddParameter("user_name", String.IsNullOrEmpty(entity.UserName) ? DBNull.Value : (object)entity.UserName, true);
             AddParameter("password", String.IsNullOrEmpty(entity.Password) ? DBNull.Value : (object)entity.Password, true);
@@ -211,25 +211,25 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             
             return RowsAffected;
         }
-        public int UpdatePassword(SysUser entity)
-        {
-            Reset(CommandType.StoredProcedure);
+        //public int UpdatePassword(SysUser entity)
+        //{
+        //    Reset(CommandType.StoredProcedure);
 
-            SQL = "usp_GGTools_GRINGlobal_SysUserPassword_Update";
+        //    SQL = "usp_GRINGlobal_Sys_UserPassword_Update";
 
-            AddParameter("sys_user_id", (object)entity.SysUserID, false);
-            AddParameter("password", (object)entity.Password, false);
-            AddParameter("@out_error_number", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
+        //    AddParameter("sys_user_id", (object)entity.SysUserID, false);
+        //    AddParameter("password", (object)entity.Password, false);
+        //    AddParameter("@out_error_number", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
 
-            RowsAffected = ExecuteNonQuery();
+        //    RowsAffected = ExecuteNonQuery();
 
-            int errorNumber = GetParameterValue<int>("@out_error_number", -1);
-            if (errorNumber > 0)
-            {
-                throw new Exception("DB Error");
-            }
+        //    int errorNumber = GetParameterValue<int>("@out_error_number", -1);
+        //    if (errorNumber > 0)
+        //    {
+        //        throw new Exception("DB Error");
+        //    }
 
-            return RowsAffected;
-        }
+        //    return RowsAffected;
+        //}
     }
 }

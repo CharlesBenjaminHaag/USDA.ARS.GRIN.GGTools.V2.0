@@ -170,7 +170,7 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
                 {
                     Entity.SysUserPlainTextPassword = Entity.Password;
                     Entity.Password = GetSecurePassword(Entity.Password);
-                    mgr.UpdatePassword(Entity);
+                    //mgr.UpdatePassword(Entity);
                 }
             }
             catch (Exception ex)
@@ -210,73 +210,71 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
                 UserMessage = "The user name that you have entered does not exist.";
                 return false;
             }
-            else
-            {
-                Entity = DataCollection[0];
+            
+            Entity = DataCollection[0];
 
-                // Check password using standard GG framework Crypto.cs logic.
-                storedPassword = Entity.SysUserPassword;
-                hashedPassword = Crypto.HashText(SearchEntity.Password);
-                passwordIsValid = (validateHashedPassword(SearchEntity.Password, storedPassword) ||
-                    validateHashedPassword(hashedPassword, storedPassword));
+            // Check password using standard GG framework Crypto.cs logic.
+            storedPassword = Entity.SysUserPassword;
+            hashedPassword = Crypto.HashText(SearchEntity.Password);
+            passwordIsValid = (validateHashedPassword(SearchEntity.Password, storedPassword) ||
+                validateHashedPassword(hashedPassword, storedPassword));
 
-                if (passwordIsValid)
-                {
-                    Entity.IsAuthenticated = true;
-                }
-                else
-                {
-                    Entity.IsAuthenticated = false;
-                    UserMessage = "Your password is incorrect.";
-                    return false;
-                }
-
-                // Check groups.
-                GetGroups(Entity.ID);
-                Entity.Groups = DataCollectionGroups.ToList();
-                //if (DataCollectionGroups.Count == 0)
-                //{
-                //    Entity.IsAuthenticated = false;
-                //    UserMessage = "You must be a member of at least one group.";
-                //}
-
-                //if (DataCollectionGroups.ToList().Where(x => x.GroupTag == "GGTOOLS_COOPERATOR").Count() > 0)
-                //{
-                //    Entity.IsSuperCooperator = "Y";
-                //}
-                //else
-                //{
-                //    Entity.IsSuperCooperator = "N";
-                //}
-
-                //if (DataCollectionGroups.ToList().Where(x => x.GroupTag == "GGTOOLS_ADMIN").Count() > 0)
-                //{
-                //    Entity.IsSysAdmin = "Y";
-                //}
-                //else
-                //{
-                //    Entity.IsSysAdmin = "N";
-                //}
-
-                //if (DataCollectionGroups.ToList().Where(x => x.GroupTag == "MANAGE_COOPERATOR").Count() > 0)
-                //{
-                //    Entity.IsSuperCooperator = "Y";
-                //}
-                //else
-                //{
-                //    Entity.IsSuperCooperator = "N";
-                //}
-
-                //if (DataCollectionGroups.ToList().Where(x => x.GroupTag == "MANAGE_SITE_" + Entity.SiteShortName).Count() > 0)
-                //{
-                //    Entity.IsSiteAdmin = "Y";
-                //}
-                //else
-                //{
-                //    Entity.IsSiteAdmin = "N";
-                //}
-                return true;
+            if (!passwordIsValid)
+            { 
+                Entity.IsAuthenticated = false;
+                UserMessage = "Your password is incorrect.";
+                return false;
             }
+
+            // Check groups.
+            GetGroups(Entity.ID);
+            Entity.Groups = DataCollectionGroups.ToList();
+            if (Entity.Groups.Count == 0)
+            {
+                Entity.IsAuthenticated = false;
+                UserMessage = "You must be a member of at least one group.";
+                return false;
+            }
+
+            if (DataCollectionGroups.ToList().Where(x => x.GroupTag.Contains("GGTOOLS")).Count() == 0)
+            {
+                Entity.IsAuthenticated = false;
+                UserMessage = "You must be a member of the GGTOOLS group to access this application.";
+                return false;
+            }
+            //else
+            //{
+            //    Entity.IsSuperCooperator = "N";
+            //}
+
+            //if (DataCollectionGroups.ToList().Where(x => x.GroupTag == "GGTOOLS_ADMIN").Count() > 0)
+            //{
+            //    Entity.IsSysAdmin = "Y";
+            //}
+            //else
+            //{
+            //    Entity.IsSysAdmin = "N";
+            //}
+
+            //if (DataCollectionGroups.ToList().Where(x => x.GroupTag == "MANAGE_COOPERATOR").Count() > 0)
+            //{
+            //    Entity.IsSuperCooperator = "Y";
+            //}
+            //else
+            //{
+            //    Entity.IsSuperCooperator = "N";
+            //}
+
+            //if (DataCollectionGroups.ToList().Where(x => x.GroupTag == "MANAGE_SITE_" + Entity.SiteShortName).Count() > 0)
+            //{
+            //    Entity.IsSiteAdmin = "Y";
+            //}
+            //else
+            //{
+            //    Entity.IsSiteAdmin = "N";
+            //}
+            Entity.IsAuthenticated = true;    
+            return true;
         }
 
         /// <summary>
@@ -360,7 +358,7 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
                     Entity.SysUserPlainTextPassword = Entity.Password;
                     // Generate the encoded password.
                     Entity.Password = GetSecurePassword(Entity.Password);
-                    mgr.UpdatePassword(Entity);
+                    //mgr.UpdatePassword(Entity);
                 }
             }
             catch (Exception ex)

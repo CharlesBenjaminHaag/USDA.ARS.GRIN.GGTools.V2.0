@@ -9,6 +9,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
 {
     public partial class FolderSearch : AppEntityBase
     {
+        public int EntityID { get; set; }
         public string Title { get; set; }
         public string FolderType { get; set; }
         public string Category { get; set; }

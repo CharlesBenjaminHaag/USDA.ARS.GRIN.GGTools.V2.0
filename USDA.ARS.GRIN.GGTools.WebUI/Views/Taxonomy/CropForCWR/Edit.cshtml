@@ -3,6 +3,7 @@
     ViewBag.Title = Model.PageTitle;
     Layout = "~/Views/Shared/_LayoutAdminLTE3.cshtml";
 }
+<div id="section-folder-confirmation"></div>
 @Html.Partial("~/Views/Shared/_RevisionHistory.cshtml")
 @using (Html.BeginForm("Edit", "CropForCWR", FormMethod.Post, new { id = "frmEdit" }))
 {
@@ -30,17 +31,7 @@
                     Notes
                 </button>
             </div>
-
-            <div class="btn-group">
-                <button type="button" class="btn btn-default btn-sm">Add to Folder</button>
-                <button type="button" class="btn btn-default btn-sm dropdown-toggle dropdown-icon" data-toggle="dropdown" aria-expanded="false">
-                    <span class="sr-only">Toggle Dropdown</span>
-                </button>
-                <div class="dropdown-menu" role="menu" style="">
-                    <a class="dropdown-item" href="#">FOLDER 1</a>
-                    <a class="dropdown-item" href="#">FOLDER 2</a>
-                </div>
-            </div>
+            @{ Html.RenderAction("_RelatedFoldersList", "Folder", new { tableName = Model.TableName, entityId = Model.Entity.ID }); }
 
             <a href="https://npgsdev.ars-grin.gov/gringlobal/taxon/cwrcropdetail?id=@Model.Entity.ID&type=crop" target="_blank" class="btn btn-info btn-sm float-right">
                 <i class="fa fa-globe"></i>
@@ -84,6 +75,7 @@
 @Html.Partial("~/Views/Shared/Modals/_NoteLookup2.cshtml")
 @Html.Partial("~/Views/Taxonomy/Species/Modals/_Lookup.cshtml")
 @Html.Partial("~/Views/Taxonomy/Shared/Modals/_Delete.cshtml")
+@{Html.RenderAction("_Edit", "Folder"); }
 
 <script type="text/javascript">
     $(document).ready(function () {
@@ -92,6 +84,6 @@
     });
 
     function Init() {
-         
+
     }
 </script>

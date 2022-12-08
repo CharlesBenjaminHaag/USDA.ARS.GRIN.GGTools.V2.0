@@ -152,6 +152,7 @@
                     Notes
                 </button>
             </div>
+            @{ Html.RenderAction("_RelatedFoldersList", "Folder", new { tableName = Model.TableName, entityId = Model.Entity.ID }); }
         </div>
         <div class="card-body">
             <div class="table-responsive mailbox-messages">
@@ -428,6 +429,7 @@
 @Html.Partial("~/Views/Shared/Modals/_NoteLookup2.cshtml")
 @Html.Partial("~/Views/Taxonomy/Shared/Modals/_Delete.cshtml")
 @{Html.RenderAction("RenderLookupModal", "Citation", new { isMultiSelect = "Y" }); }
+@{Html.RenderAction("_Edit", "Folder"); }
 
 <script type="text/javascript">
     $(document).ready(function () {

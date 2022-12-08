@@ -102,5 +102,21 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 return PartialView("~/Views/Error/_InternalServerError.cshtml");
             }
         }
+        public PartialViewResult _RelatedFoldersList(string tableName, int entityId)
+        {
+            try
+            {
+                FolderViewModel viewModel = new FolderViewModel();
+                viewModel.SearchEntity.TableName = tableName;
+                viewModel.SearchEntity.EntityID = entityId;
+                viewModel.GetRelatedFolders();
+                return PartialView("~/Views/Folder/_RelatedFoldersList.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
+        }
     }
 }

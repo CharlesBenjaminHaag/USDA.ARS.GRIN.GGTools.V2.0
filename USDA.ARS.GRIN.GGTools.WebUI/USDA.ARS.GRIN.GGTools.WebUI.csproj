@@ -393,11 +393,11 @@
     <Content Include="Views\Folder\Edit.cshtml" />
     <Content Include="Views\Folder\Index.cshtml" />
     <Content Include="Views\Folder\_List.cshtml" />
-    <Content Include="Views\Folder\_SelectList.cshtml" />
-    <Content Include="Views\Folder\_Widget.cshtml" />
-    <Content Include="Views\Folder\_MyFoldersWidget.cshtml" />
+    <Content Include="Views\Folder\_BACKUP\_SelectList.cshtml" />
+    <Content Include="Views\Folder\_BACKUP\_Widget.cshtml" />
+    <Content Include="Views\Folder\_BACKUP\_MyFoldersWidget.cshtml" />
     <Content Include="Views\Folder\Modals\_Edit.cshtml" />
-    <Content Include="Views\Folder\_ItemList.cshtml" />
+    <Content Include="Views\Folder\_BACKUP\_ItemList.cshtml" />
     <Content Include="Views\Error\Index.cshtml" />
     <Content Include="Views\Error\InternalServerError.cshtml" />
     <Content Include="Views\Error\NotFound.cshtml" />
@@ -587,10 +587,10 @@
     <Content Include="Views\Folder\Search.cshtml" />
     <Content Include="Views\AppUserItemList\_List.cshtml" />
     <Content Include="Views\Cooperator\_SelectList.cshtml" />
-    <Content Include="Views\Folder\_ListShared.cshtml" />
+    <Content Include="Views\Folder\_BACKUP\_ListShared.cshtml" />
     <Content Include="Views\Folder\_ListCurrentCollaborators.cshtml" />
     <Content Include="Views\Folder\_ListAvailableCollaborators.cshtml" />
-    <Content Include="Views\Folder\_WidgetCurrentCollaborators.cshtml" />
+    <Content Include="Views\Folder\_BACKUP\_WidgetCurrentCollaborators.cshtml" />
     <Content Include="Views\SiteAdmin\_Detail.cshtml" />
     <Content Include="Views\SiteAdmin\Edit.cshtml" />
     <Content Include="Views\SiteAdmin\Index.cshtml" />
@@ -598,7 +598,7 @@
     <Content Include="Views\CropGermplasmCommitteeDocument\_Detail.cshtml" />
     <Content Include="Views\CropGermplasmCommitteeDocument\Edit.cshtml" />
     <Content Include="Views\CropGermplasmCommitteeDocument\_List.cshtml" />
-    <Content Include="Views\Folder\Edit_BACKUP.cshtml" />
+    <Content Include="Views\Folder\_BACKUP\Edit_BACKUP.cshtml" />
     <Content Include="Views\Taxonomy\CropForCWR\_DetailExtended.cshtml" />
     <Content Include="Views\Taxonomy\Genus\_ListSynonyms.cshtml" />
     <Content Include="Views\Taxonomy\Genus\_ListSubdivisions.cshtml" />
@@ -669,6 +669,8 @@
     <Content Include="Views\WebOrder\Explorer\_Detail.cshtml" />
     <Content Include="Views\WebOrder\Explorer\_Timeline.cshtml" />
     <Content Include="Views\Cooperator\_Add.cshtml" />
+    <Content Include="Views\Folder\_RelatedFoldersList.cshtml" />
+    <Content Include="Views\Taxonomy\Explorer\_ListFolders.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
