@@ -669,8 +669,10 @@
     <Content Include="Views\WebOrder\Explorer\_Detail.cshtml" />
     <Content Include="Views\WebOrder\Explorer\_Timeline.cshtml" />
     <Content Include="Views\Cooperator\_Add.cshtml" />
-    <Content Include="Views\Folder\_RelatedFoldersList.cshtml" />
+    <Content Include="Views\Folder\_RelatedFoldersListSpecies.cshtml" />
     <Content Include="Views\Taxonomy\Explorer\_ListFolders.cshtml" />
+    <Content Include="Views\Folder\_RelatedFoldersListGenus.cshtml" />
+    <Content Include="Views\Folder\_RelatedFoldersListFamily.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

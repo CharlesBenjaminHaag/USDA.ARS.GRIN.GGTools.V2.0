@@ -10,7 +10,7 @@ using NLog;
 namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
 {
     [GrinGlobalAuthentication]
-    public class ExplorerController : Controller
+    public class ExplorerController : BaseController
     {
         private static readonly Logger Log = LogManager.GetCurrentClassLogger();
         public ActionResult Index()
@@ -27,12 +27,57 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             }
         }
 
+        public PartialViewResult _LookupFamily(FamilyMapViewModel viewModel)
+        {
+            try
+            {
+                viewModel.Search();
+                return PartialView("~/Views/Taxonomy/Explorer/_ListFamily.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
+        }
+
+        public PartialViewResult _LookupGenus(GenusViewModel viewModel)
+        {
+            try
+            {
+                viewModel.Search();
+                return PartialView("~/Views/Taxonomy/Explorer/_ListGenus.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
+        }
+
         public PartialViewResult _LookupSpecies(SpeciesViewModel viewModel)
         {
             try
             {
                 viewModel.Search();
                 return PartialView("~/Views/Taxonomy/Explorer/_ListSpecies.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
+        }
+
+        public PartialViewResult _ListSpeciesFolderItems(int folderId)
+        {
+            SpeciesViewModel viewModel = new SpeciesViewModel();
+            try
+            {
+                viewModel.EventAction = "FOLDER";
+                viewModel.SearchEntity.FolderID = folderId;
+                viewModel.GetFolderItems();
+                return PartialView("~/Views/Taxonomy/Explorer/_List.cshtml", viewModel);
             }
             catch (Exception ex)
             {
@@ -102,15 +147,15 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 return PartialView("~/Views/Error/_InternalServerError.cshtml");
             }
         }
-        public PartialViewResult _RelatedFoldersList(string tableName, int entityId)
+        public PartialViewResult _ListRelatedFolders(string tableName = "")
         {
             try
             {
                 FolderViewModel viewModel = new FolderViewModel();
-                viewModel.SearchEntity.TableName = tableName;
-                viewModel.SearchEntity.EntityID = entityId;
-                viewModel.GetRelatedFolders();
-                return PartialView("~/Views/Folder/_RelatedFoldersList.cshtml", viewModel);
+                viewModel.SearchEntity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
+                viewModel.SearchEntity.FolderType = tableName;
+                viewModel.Search();
+                return PartialView("~/Views/Taxonomy/Explorer/_ListFolders.cshtml", viewModel);
             }
             catch (Exception ex)
             {

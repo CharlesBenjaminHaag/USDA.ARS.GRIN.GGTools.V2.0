@@ -27,4 +27,16 @@
 
     function Init() {
     }
+
+    $(document).on("click", "[id='btnSearch']", function () {
+        $("body").addClass("submit-progress-bg");
+        $(".submit-progress").removeClass("hidden");
+
+    });
+
+    function Search() {
+        
+        $("body").removeClass("submit-progress-bg");
+        $(".submit-progress").addClass("hidden");
+    }
 </script>

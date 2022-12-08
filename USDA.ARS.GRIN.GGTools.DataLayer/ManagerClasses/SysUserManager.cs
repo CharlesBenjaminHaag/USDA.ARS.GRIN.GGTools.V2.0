@@ -211,25 +211,26 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             
             return RowsAffected;
         }
-        //public int UpdatePassword(SysUser entity)
-        //{
-        //    Reset(CommandType.StoredProcedure);
 
-        //    SQL = "usp_GRINGlobal_Sys_UserPassword_Update";
+        public int UpdatePassword(SysUser entity)
+        {
+            Reset(CommandType.StoredProcedure);
 
-        //    AddParameter("sys_user_id", (object)entity.SysUserID, false);
-        //    AddParameter("password", (object)entity.Password, false);
-        //    AddParameter("@out_error_number", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
+            SQL = "usp_GRINGlobal_Sys_User_Password_Update";
 
-        //    RowsAffected = ExecuteNonQuery();
+            AddParameter("sys_user_id", (object)entity.SysUserID, false);
+            AddParameter("password", (object)entity.Password, false);
+            AddParameter("@out_error_number", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
 
-        //    int errorNumber = GetParameterValue<int>("@out_error_number", -1);
-        //    if (errorNumber > 0)
-        //    {
-        //        throw new Exception("DB Error");
-        //    }
+            RowsAffected = ExecuteNonQuery();
 
-        //    return RowsAffected;
-        //}
+            int errorNumber = GetParameterValue<int>("@out_error_number", -1);
+            if (errorNumber > 0)
+            {
+                throw new Exception("DB Error");
+            }
+
+            return RowsAffected;
+        }
     }
 }

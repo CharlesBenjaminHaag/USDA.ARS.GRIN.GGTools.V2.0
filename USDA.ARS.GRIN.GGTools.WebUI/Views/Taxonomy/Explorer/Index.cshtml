@@ -21,8 +21,10 @@
     .tab-pane {
         padding: .5rem;
     }
+    
 </style>
 
+<div id="overlay"></div>
 <div class="row">
     <div id="section-hierarchical-list" class="col-md-3">
         <div class="card">
@@ -39,6 +41,7 @@
                         @{Html.RenderAction("_ListFamily", "Explorer");}
                     </div>
                     <div class="tab-pane" id="tab-hierarchy-genus">
+                        @{Html.RenderAction("_ListRelatedFolders", "Explorer", new { tableName = "taxonomy_genus" }); }
                         <div class="form-group" style="padding:.3rem;">
                             <label>Genus</label>
                             <div class="input-group">
@@ -53,11 +56,19 @@
                         @{Html.RenderAction("_ListGenus", "Explorer");}
                     </div>
                     <div class="tab-pane" id="tab-hierarchy-species">
-                        <div class="form-group" style="padding:.3rem;">
+                        @{Html.RenderAction("_ListRelatedFolders", "Explorer", new { tableName = "taxonomy_species" }); }
+                        <div class="form-group">
                             <div class="form-group">
-                                <select class="form-control"></select>
+                                <div class="input-group">
+                                    <input type="text" id="txtLookupSpecies" class="form-control" placeholder="Enter species name" />
+                                    <span class="input-group-btn">
+                                        <button id="btnLookupSpecies" class="btn btn-default btn-flat">
+                                            <i class="fa fa-search"></i>
+                                        </button>
+                                    </span>
+                                </div>
                             </div>
-                            @{Html.RenderAction("","Explorer"); }
+
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="custom-control custom-checkbox">
@@ -73,6 +84,9 @@
                     </div>
                 </div>
             </div>
+            <div id="progress_overlay" class="overlay">
+                <i class="fas fa-2x fa-sync-alt fa-spin"></i>
+            </div>
         </div>
     </div>
     <div class="col-md-9">
@@ -86,6 +100,13 @@
             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
             <h5><i class="icon fas fa-leaf"></i><span id="section-species-name"></span></h5>
             @*<span id="section-species-note"></span>*@
+        </div>
+
+        <div class="card card-solid">
+            <div class="card-body">
+               <span class="text-muted">Select a taxon</span>
+            </div>
+
         </div>
 
         <div class="card card-default">
@@ -118,8 +139,35 @@
 <div id="section-geography-map-modal"></div>
 
 <script type="text/javascript">
+    $('#txtLookupSpecies').on('input', function (e) {
+        $("#ddlSelectFolder_taxonomy_species").val("-9");
+        $("#section-species-detail").html("");
+        $("#section-species-lookup-search-results").html("");
+    });
+
+    $('select').on('change', function () {
+
+        $("#txtLookupSpecies").val("");
+
+        var folderType = this.id.replace("ddlSelectFolder_", "");
+        var folderId = this.value;
+
+        switch (folderType) {
+            case "taxonomy_family_map":
+                LoadFamilyFolder(folderId);
+                break;
+            case "taxonomy_genus":
+                LoadGenusFolder(folderId);
+                break;
+            case "taxonomy_species":
+                LoadSpeciesFolder(folderId);
+                break;
+        }
+
+    });
 
     $(document).ready(function () {
+        $("#progress_overlay").hide();
         InitDataTableByClass();
     });
 
@@ -129,18 +177,21 @@
     **********************************************************************************
     */
     $('#btnFamilyNameLookup').on('click', function () {
-
+        LookupFamily();
     });
 
-    function SearchFamily() {
-        var link = '@Url.Action("LookupFamily", "Explorer")';
-        var genusName = $("#txtLookupFamilyName").val();
+    function LookupFamily() {
+        var link = '@Url.Action("LookupFamily","Explorer")';
+        var speciesName = $("#txtLookupFamily").val();
         var formData = new FormData();
 
-        formData.append("FamilyName", genusName);
-        if ($("#cbxLookupIsAcceptedName").is(":checked")) {
+        formData.append("FamilyName", speciesName);
+        if ($("#cbxLookupFamilyIsAcceptedName").is(":checked")) {
             formData.append("IsAcceptedName", "Y");
         }
+
+        $("#progress_overlay").show();
+
         $.ajax({
             url: link,
             type: 'POST',
@@ -149,7 +200,8 @@
             processData: false,
             data: formData,
             success: function (response) {
-                $("#section-family-lookup-search-results").html(response);
+                $("#section-genus-lookup-search-results").html(response);
+                $("#progress_overlay").hide();
             },
             error: function () {
                 alert("Error");
@@ -157,15 +209,50 @@
         });
     }
 
+    function LoadFamilyFolder(id) {
+        alert("DEBUG FAM FOLDER");
+    }
     /*
     **********************************************************************************
     GENUS
     **********************************************************************************
     */
     $('#btnGenusNameLookup').on('click', function () {
-
+        LookupGenus();
     });
 
+    function LookupGenus() {
+        var link = '@Url.Action("LookupGenus","Explorer")';
+        var speciesName = $("#txtLookupSpecies").val();
+        var formData = new FormData();
+
+        formData.append("GenusName", speciesName);
+        if ($("#cbxLookupGenusIsAcceptedName").is(":checked")) {
+            formData.append("IsAcceptedName", "Y");
+        }
+
+        $("#progress_overlay").show();
+
+        $.ajax({
+            url: link,
+            type: 'POST',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (response) {
+                $("#section-genus-lookup-search-results").html(response);
+                $("#progress_overlay").hide();
+            },
+            error: function () {
+                alert("Error");
+            }
+        });
+    }
+
+    function LoadGenusFolder(id) {
+        alert("DEBUG GEN FOLDER");
+    }
     /*
     **********************************************************************************
     SPECIES
@@ -177,6 +264,10 @@
 
     $('ul.species-selector li').on('click', function () {
         var selectedSpeciesId = $(this).attr('id');
+        LoadSpecies(selectedSpeciesId);
+    });
+
+    function LoadSpecies(id) {
         var selectedGenusId = $(this).data("ggtools-value");
         var genusNodeId = "#list-taxa-" + selectedGenusId;
 
@@ -196,7 +287,7 @@
         //else {
 
         //}
-    });
+    }
 
     $('#btnSave').on('click', function () {
         AjaxFormSubmit();
@@ -260,9 +351,12 @@
         var formData = new FormData();
 
         formData.append("SpeciesName", speciesName);
-        if ($("#cbxLookupIsAcceptedName").is(":checked")) {
+        if ($("#cbxLookupSpeciesIsAcceptedName").is(":checked")) {
             formData.append("IsAcceptedName", "Y");
         }
+
+        $("#progress_overlay").show();
+
         $.ajax({
             url: link,
             type: 'POST',
@@ -272,6 +366,33 @@
             data: formData,
             success: function (response) {
                 $("#section-species-lookup-search-results").html(response);
+                $("#progress_overlay").hide();
+            },
+            error: function () {
+                alert("Error");
+            }
+        });
+    }
+
+    function LoadSpeciesFolder(id) {
+        var link = '@Url.Action("_ListFolderItems", "Species")';
+        var formData = new FormData();
+
+        formData.append("folderId", id);
+        formData.append("displayFormat", "SELECT");
+        
+        $("#progress_overlay").show();
+
+        $.ajax({
+            url: link,
+            type: 'POST',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (response) {
+                $("#section-species-lookup-search-results").html(response);
+                $("#progress_overlay").hide();
             },
             error: function () {
                 alert("Error");
