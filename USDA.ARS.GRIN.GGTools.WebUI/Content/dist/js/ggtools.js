@@ -33,13 +33,13 @@ function InitDataTable(tableName) {
                 'selectNone',
                 'csv',
                 'excel',
-                'pdf',
-                {
-                    text: '+ Add',
-                    action: function (e, dt, node, config) {
-                        AddRecord();
-                    }
-                }
+                'pdf'
+                //{
+                //    text: '+ Add',
+                //    action: function (e, dt, node, config) {
+                //        AddRecord();
+                //    }
+                //}
             ],
             select: true,
             lengthMenu: [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],
@@ -126,6 +126,7 @@ function InitDataTableLight(tableName) {
                 { targets: [0], visible: false }
             ]
         });
+        table.row(':eq(0)', { page: 'current' }).select();
     });
 }
 
@@ -272,9 +273,11 @@ function Reset() {
 
     // NOTE: With the addition of saved-search list on each page, the main data table will be
     // the second one on the page.
-    var table = $('#' + $.fn.dataTable.tables()[1].id).DataTable();
+    //var table = $('#' + $.fn.dataTable.tables()[1].id).DataTable();
 
-    table
+    // Operates on all tables on the page.
+    $.fn.dataTable
+        .tables({ visible: true, api: true })
         .clear()
         .draw();
 }

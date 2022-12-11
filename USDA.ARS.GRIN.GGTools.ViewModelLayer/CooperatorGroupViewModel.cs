@@ -6,12 +6,7 @@ using System.Threading.Tasks;
 
 namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
 {
-    public interface IViewModel<T>
+    public class CooperatorGroupViewModel
     {
-        void Search();
-        T Get(int entityId);
-        int Insert();
-        int Update();
-        void Delete();
     }
 }

@@ -15,58 +15,59 @@
                     <i class="right fas fa-angle-left"></i>
                 </p>
             </a>
-        
-        <ul class="nav nav-treeview">
-            <li class="nav-item">
-                <a href="@Url.Action("Navigate","Home", new { applicationCode = "GGT-NRR"})" class="nav-link">
-                    <i class="fas fa-cogs nav-icon"></i>
-                    <p>NRR Tool</p>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="@Url.Action("Navigate","Home", new { applicationCode = "GGT-TAX"})" class="nav-link">
-                    <i class="fas fa-cogs nav-icon"></i>
-                    <p>Taxonomy</p>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="@Url.Action("Navigate","Home", new { applicationCode = "GGT-ARM"})" class="nav-link">
-                    <i class="fas fa-cogs nav-icon"></i>
-                    <p>Users</p>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="@Url.Action("Navigate","Home", new { applicationCode = "GGT-CUR"})" class="nav-link">
-                    <i class="fas fa-cogs nav-icon"></i>
-                    <p>Curators</p>
-                </a>
-            </li>
-        </ul>
+
+            <ul class="nav nav-treeview">
+                <li class="nav-item">
+                    <a href="@Url.Action("Navigate","Home", new { applicationCode = "GGT-NRR"})" class="nav-link">
+                        <i class="fas fa-cogs nav-icon"></i>
+                        <p>NRR Tool</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="@Url.Action("Navigate","Home", new { applicationCode = "GGT-TAX"})" class="nav-link">
+                        <i class="fas fa-cogs nav-icon"></i>
+                        <p>Taxonomy</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="@Url.Action("Navigate","Home", new { applicationCode = "GGT-ARM"})" class="nav-link">
+                        <i class="fas fa-cogs nav-icon"></i>
+                        <p>Users</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="@Url.Action("Navigate","Home", new { applicationCode = "GGT-CUR"})" class="nav-link">
+                        <i class="fas fa-cogs nav-icon"></i>
+                        <p>Curators</p>
+                    </a>
+                </li>
+            </ul>
         </li>
 
         <li class="nav-header">MANAGE DATA</li>
         <li class="nav-item">
-            <a href="#" class="nav-link">
-                <i class="nav-icon fas fa-tree"></i>
-                <p>
-                    Site
-                    <i class="fas fa-angle-left right"></i>
-                </p>
+            <a href="@Url.Action("Index","Site")" class="nav-link">
+                <i class="far fas fa-table nav-icon"></i>
+                <p>Site</p>
             </a>
-            <ul class="nav nav-treeview">
-                <li class="nav-item">
-                    <a href="@Url.Action("Index","Site")" class="nav-link">
-                        <i class="far fas fa-table nav-icon"></i>
-                        <p>Sites</p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="@Url.Action("Index","Cooperator")" class="nav-link">
-                        <i class="far fas fa-table nav-icon"></i>
-                        <p>Cooperators</p>
-                    </a>
-                </li>
-            </ul>
+        </li>
+        <li class="nav-item">
+            <a href="@Url.Action("Index","Cooperator")" class="nav-link">
+                <i class="far fas fa-table nav-icon"></i>
+                <p>Cooperator</p>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="@Url.Action("Index","CooperatorGroup")" class="nav-link">
+                <i class="far fas fa-table nav-icon"></i>
+                <p>Cooperator Group</p>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="@Url.Action("Index","CooperatorMap")" class="nav-link">
+                <i class="far fas fa-table nav-icon"></i>
+                <p>Cooperator Map</p>
+            </a>
         </li>
         <li class="nav-header">SYSADMIN</li>
         <li class="nav-item">

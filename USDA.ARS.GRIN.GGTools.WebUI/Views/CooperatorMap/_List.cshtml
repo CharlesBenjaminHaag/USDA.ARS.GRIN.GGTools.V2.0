@@ -1,0 +1,83 @@
+﻿@model USDA.ARS.GRIN.GGTools.ViewModelLayer.CooperatorMapViewModel
+<div class="card card-default">
+    <div class="card-header">
+        <h3 class="card-title">Cooperator Maps (@Model.DataCollection.Count())</h3>
+        <div class="card-tools">
+            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                <i class="fas fa-minus"></i>
+            </button>
+        </div>
+    </div>
+    <!-- /.box-header -->
+    <div class="card-body">
+        <table id="data_table_cooperator_map" class="table table-striped">
+            <thead>
+                <tr>
+                    <th width="5%"></th>
+                    <th>ID</th>
+                    <th>Cooperator</th>
+                    <th>Group Tag</th>
+                    <th>Created</th>
+                    <th>Created By</th>
+                    <th>Modified</th>
+                    <th>Modified By</th>
+                    <th>Owned</th>
+                    <th>Owned By</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var result in Model.DataCollection)
+                {
+                    <tr>
+                        <td>
+                            @result.ID
+                        </td>
+                        <td>
+                            @result.ID
+                        </td>
+                        <td>
+                            <a href="@Url.Action("Edit","Cooperator", new { entityId = result.ID })">
+                                @result.CooperatorName
+                            </a>
+                        </td>
+                        <td>
+                            @result.GroupTag
+                        </td>
+                        <td>
+                            @result.CreatedDate.ToShortDateString()
+                        </td>
+                        <td>
+                            @result.CreatedByCooperatorName
+                        </td>
+                        <td>
+                            @if (result.ModifiedDate > DateTime.MinValue)
+                            {
+                                @result.ModifiedDate.ToShortDateString()
+                            }
+                        </td>
+                        <td>
+                            @result.ModifiedByCooperatorName
+                        </td>
+                        <td>
+                            @result.OwnedDate.ToShortDateString()
+                        </td>
+                        <td>
+                            @result.OwnedByCooperatorName
+                        </td>
+                        <td>
+                            <a href="@Url.Action("Edit", "CooperatorMap", new { entityId = result.ID })" class="btn btn-default btn-flat btn-sm pull-right row-edit">
+                                <i class="fa fa-edit"></i> Edit
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+<script type="text/javascript">
+    InitDataTable("data_table_cooperator_map");
+</script>
+
+

@@ -69,6 +69,9 @@
     <Compile Include="EntityClasses\CommonNameLanguageSearch.cs" />
     <Compile Include="EntityClasses\CommonNameSearch.cs" />
     <Compile Include="EntityClasses\Cooperator.cs" />
+    <Compile Include="EntityClasses\CooperatorGroup.cs" />
+    <Compile Include="EntityClasses\CooperatorMapSearch.cs" />
+    <Compile Include="EntityClasses\CooperatorMap.cs" />
     <Compile Include="EntityClasses\CooperatorSearch.cs" />
     <Compile Include="EntityClasses\Country.cs" />
     <Compile Include="EntityClasses\CropForCWR.cs" />
@@ -141,6 +144,7 @@
     <Compile Include="ManagerClasses\AppUserDynamicQueryManager.cs" />
     <Compile Include="ManagerClasses\AppUserItemListManager.cs" />
     <Compile Include="ManagerClasses\AuthorManager.cs" />
+    <Compile Include="ManagerClasses\CooperatorMapManager.cs" />
     <Compile Include="ManagerClasses\GRINGlobalDataManagerBase.cs" />
     <Compile Include="ManagerClasses\CitationManager.cs" />
     <Compile Include="ManagerClasses\ClassificationManager.cs" />

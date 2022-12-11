@@ -61,6 +61,20 @@ namespace USDA.ARS.GRIN.GGTools.WebUI
             }
         }
 
+        public JsonResult SetOwner(string tableName, int cooperatorID)
+        {
+            try
+            {
+                // TODO Update relevant table with new owner ID.
+                return null;
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return null;
+            }
+        }
+
         //public string IsReadOnly
         //{
         //    get

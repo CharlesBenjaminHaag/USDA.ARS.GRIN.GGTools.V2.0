@@ -146,6 +146,8 @@
     <Compile Include="Controllers\CommonNameController.cs" />
     <Compile Include="Controllers\CommonNameLanguageController.cs" />
     <Compile Include="Controllers\CooperatorController.cs" />
+    <Compile Include="Controllers\CooperatorGroupController.cs" />
+    <Compile Include="Controllers\CooperatorMapController.cs" />
     <Compile Include="Controllers\CropForCWRController.cs" />
     <Compile Include="Controllers\CropGermplasmCommitteeDocumentController.cs" />
     <Compile Include="Controllers\CWRMapController.cs" />
@@ -357,7 +359,6 @@
     <Content Include="Views\SysUser\Group\_Widget.cshtml" />
     <Content Include="Views\SysUser\Modals\_Edit.cshtml" />
     <Content Include="Views\SysUser\Modals\_ResetPassword.cshtml" />
-    <Content Include="Views\Cooperator\Modals\_CopyAddress.cshtml" />
     <Content Include="Views\Shared\_RevisionHistory.cshtml" />
     <Content Include="Views\Shared\_UnderConstruction.cshtml" />
     <Content Include="Views\Shared\_ValidationMessages.cshtml" />
@@ -562,7 +563,6 @@
     <Content Include="Views\AppUserDynamicQuery\_List.cshtml" />
     <Content Include="Views\Taxonomy\Citation\Modals\_Detail.cshtml" />
     <Content Include="Views\Cooperator\Transfer.cshtml" />
-    <Content Include="Views\Cooperator\Modals\_Transfer.cshtml" />
     <Content Include="Views\Cooperator\_RecordsOwnedDetailList.cshtml" />
     <Content Include="Views\Cooperator\_RecordsOwnedListSource.cshtml" />
     <Content Include="Views\Taxonomy\Citation\_DetailExtended.cshtml" />
@@ -673,6 +673,17 @@
     <Content Include="Views\Taxonomy\Explorer\_ListFolders.cshtml" />
     <Content Include="Views\Folder\_RelatedFoldersListGenus.cshtml" />
     <Content Include="Views\Folder\_RelatedFoldersListFamily.cshtml" />
+    <Content Include="Views\Folder\_RelatedFoldersList.cshtml" />
+    <Content Include="Views\CooperatorGroup\_List.cshtml" />
+    <Content Include="Views\CooperatorGroup\Edit.cshtml" />
+    <Content Include="Views\CooperatorGroup\Index.cshtml" />
+    <Content Include="Views\CooperatorMap\_List.cshtml" />
+    <Content Include="Views\CooperatorMap\Edit.cshtml" />
+    <Content Include="Views\CooperatorMap\Index.cshtml" />
+    <Content Include="Views\CooperatorGroup\_Detail.cshtml" />
+    <Content Include="Views\CooperatorMap\_Detail.cshtml" />
+    <Content Include="Views\Cooperator\Modals\_Lookup.cshtml" />
+    <Content Include="Views\Cooperator\Modals\_SelectList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -9,6 +9,32 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
     public class CooperatorController : BaseController, IController<CooperatorViewModel>
     {
         private static readonly Logger Log = LogManager.GetCurrentClassLogger();
+        public PartialViewResult _RenderLookupModal()
+        {
+            try
+            {
+                CooperatorViewModel viewModel = new CooperatorViewModel();
+                return PartialView("~/Views/Cooperator/Modals/_Lookup.cshtml",viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
+        }
+        [HttpPost]
+        public PartialViewResult _Lookup(CooperatorViewModel viewModel)
+        {
+            try
+            {
+                return PartialView("~/Views/Cooperator/Modals/_SelectList.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
+        }
         public PartialViewResult _ListFolderItems(int folderId)
         {
             try

@@ -37,26 +37,7 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
                 //Cooperators =  new SelectList(mgr.Search(new CooperatorSearch { SysUserIsEnabled = "Y" }), "ID", "FullName");
             }
         }
-
-        //public string IsReadOnly
-        //{
-        //    get
-        //    {
-        //        if ((AuthenticatedUser.IsInRole("GGTOOLS_COOPERATOR")) ||
-        //            (AuthenticatedUser.IsInRole("MANAGE_COOPERATOR")) ||
-        //            (AuthenticatedUser.IsInRole("GGTOOLS_ADMIN")) ||
-        //            (AuthenticatedUser.CooperatorID == Entity.ID)
-        //            )
-        //        {
-        //            return "N";
-        //        }
-        //        else
-        //        {
-        //            return "Y";
-        //        }
-        //    }
-        //}
-
+  
         public int TotalRecordsOwned
         {
             get { return _TotalRecordsOwned; }

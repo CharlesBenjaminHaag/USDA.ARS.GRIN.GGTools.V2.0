@@ -3,8 +3,8 @@
     ViewBag.Title = Model.PageTitle;
     Layout = "~/Views/Shared/_LayoutAdminLTE3.cshtml";
 }
+<div id="section-folder-confirmation"></div>
 @Html.Partial("~/Views/Shared/_RevisionHistory.cshtml")
-
 @using (Html.BeginForm("Edit", "Classification", FormMethod.Post, new { id = "frmMain" }))
 {
     @Html.HiddenFor(x => x.PageTitle)
@@ -25,6 +25,7 @@
                     Notes
                 </button>
             </div>
+            @{ Html.RenderAction("_RelatedFoldersList", "Folder", new { tableName = Model.TableName, entityId = Model.Entity.ID }); }
         </div>
         <div class="card-body">
             @Html.Partial("~/Views/Shared/_ValidationMessages.cshtml")
@@ -61,8 +62,11 @@
 {
     { Html.RenderAction("_List", "Family", new { @eventValue = "family", @orderId = Model.Entity.ID }); }
 }
+
 @Html.Partial("~/Views/Shared/Modals/_NoteLookup2.cshtml")
 @Html.Partial("~/Views/Taxonomy/Shared/Modals/_Delete.cshtml")
+@{Html.RenderAction("_Edit", "Folder"); }
+
 <script type="text/javascript">
 
 </script>

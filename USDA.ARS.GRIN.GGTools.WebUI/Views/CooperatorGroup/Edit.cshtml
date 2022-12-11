@@ -201,6 +201,7 @@
                             This data is available here for review and export only. Please use the Curator Tool
                             to make edits.
                         </div>
+                        @{ Html.RenderAction("_List", "AppUserItemList", new { cooperatorId = Model.Entity.ID }); }
                     </div>
                     <div class="tab-pane" id="tab-application-settings">
                         <div class="alert alert-info alert-dismissible">

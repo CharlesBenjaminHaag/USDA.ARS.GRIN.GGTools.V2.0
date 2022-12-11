@@ -111,7 +111,9 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             SQL += " AND (@StatusCode               IS NULL     OR StatusCode               =       @StatusCode)";
             SQL += " AND (@SiteID                   IS NULL     OR SiteID                   =       @SiteID)";
             SQL += " AND (@SysUserIsEnabled         IS NULL     OR SysUserIsEnabled         =       @SysUserIsEnabled)";
-        
+
+            SQL += " OR SysUserID = 48 ";
+
             //REFACTOR? If site ID is being used, restrict search to only records with user ID's -- matching criteria of web coop
             //report. Needed b/c view outer-joins coop and sys user tables.
             if (searchEntity.SiteID > 0)

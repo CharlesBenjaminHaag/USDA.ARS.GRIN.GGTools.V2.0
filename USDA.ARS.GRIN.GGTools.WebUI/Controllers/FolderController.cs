@@ -600,6 +600,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                     viewModel.Get(entityId);
                     viewModel.PageTitle = String.Format("Edit Folder: {0}", viewModel.Entity.FolderName);
                     viewModel.TableName = viewModel.Entity.FolderType;
+                    
                     viewModel.ItemViewName = "vw_GRINGlobal_Folder_" + viewModel.TableName;
                 }
                 else

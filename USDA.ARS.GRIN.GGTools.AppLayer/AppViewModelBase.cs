@@ -48,7 +48,6 @@ namespace USDA.ARS.GRIN.GGTools.AppLayer
                 RaisePropertyChanged("ResultText");
             }
         }
-
         public string UserMessage
         {
             get 

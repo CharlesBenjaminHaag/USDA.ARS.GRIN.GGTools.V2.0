@@ -33,12 +33,7 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
                 TotalRecordsOwned = DataCollectionReportItems.ToList().Sum(x => x.ItemCount);
             }
         }
-
-        public void HandleRequest()
-        {
-            throw new NotImplementedException();
-        }
-
+      
         public int Insert()
         {
             // TODO

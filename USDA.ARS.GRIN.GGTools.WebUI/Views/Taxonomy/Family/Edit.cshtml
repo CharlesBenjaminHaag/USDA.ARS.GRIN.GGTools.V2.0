@@ -257,10 +257,10 @@
     <div class="card">
         <div id="section-dependent-data" class="card-header p-2">
             <ul id="list-dependent-data" class="nav nav-pills">
-                <li id="tab_selector_citations" class="nav-item"><a class="nav-link active" href="#tab_content_citations" data-toggle="tab">Citations</a></li>
-                <li id="tab_selector_genera" class="nav-item"><a class="nav-link" href="#tab_content_genera" data-toggle="tab">Genera</a></li>
-                <li id="tab_selector_synonyms" class="nav-item"><a class="nav-link" href="#tab_content_synonyms" data-toggle="tab">Synonyms</a></li>
-                <li id="tab_selector_subdivisions" class="nav-item"><a class="nav-link" href="#tab_content_subdivisions" data-toggle="tab">Subdivisions</a></li>
+                <li id="tab_selector_citations" data-ggtools-event-action="Citation" data-ggtools-event-value="_List" class="nav-item"><a class="nav-link active" href="#tab_content_citations" data-toggle="tab">Citations</a></li>
+                <li id="tab_selector_genera" data-ggtools-event-action="Family" data-ggtools-event-value="_ListGenera" class="nav-item"><a class="nav-link" href="#tab_content_genera" data-toggle="tab">Genera</a></li>
+                <li id="tab_selector_synonyms" data-ggtools-event-action="Family" data-ggtools-event-value="_ListSynonyms" class="nav-item"><a class="nav-link" href="#tab_content_synonyms" data-toggle="tab">Synonyms</a></li>
+                <li id="tab_selector_subdivisions" data-ggtools-event-action="Family" data-ggtools-event-value="_ListSubdivisions" class="nav-item"><a class="nav-link" href="#tab_content_subdivisions" data-toggle="tab">Subdivisions</a></li>
             </ul>
         </div>
         <div class="card-body">
@@ -301,20 +301,27 @@
     function Init() {
         SetControlVisibility();
         var defaultId = $('ul#list-dependent-data li:first').attr("id");
-        LoadDependentData(defaultId);
+        var eventAction = $('ul#list-dependent-data li:first').data("ggtools-event-action");
+        var eventValue = $('ul#list-dependent-data li:first').data("ggtools-event-value");
+        LoadDependentData(defaultId, eventAction, eventValue);
     }
 
     $('#section-dependent-data ul.nav li').on('click', function () {
         var selectedId = $(this).attr('id');
-        LoadDependentData(selectedId);
+        var eventAction = $(this).data("ggtools-event-action");
+        var eventValue = $(this).data("ggtools-event-value");
+        LoadDependentData(selectedId, eventAction, eventValue);
     });
 
-    function LoadDependentData(sectionId) {
+    function LoadDependentData(sectionId, eventAction, eventValue) {
         var link = "";
         var entityId = $("#Entity_ID").val();
         var familyId = $("#Entity_FamilyID").val();
         var formData = new FormData();
         var sectionData = sectionId.replace("tab_selector", "tab_content");
+
+        //DEBUG
+        alert("DEBUG ACTION " + eventAction + " AND VALUE " + eventValue);
 
         // Load data in selected section content area based on id.
         switch (sectionId) {

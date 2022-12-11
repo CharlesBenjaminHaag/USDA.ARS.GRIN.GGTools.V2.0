@@ -1,4 +1,4 @@
-﻿@model USDA.ARS.GRIN.GGTools.ViewModelLayer.CooperatorViewModel
+﻿@model USDA.ARS.GRIN.GGTools.ViewModelLayer.CooperatorMapViewModel
 @{
     ViewBag.Title = Model.PageTitle;
     Layout = "~/Views/Shared/_LayoutAdminLTE3.cshtml";
@@ -85,13 +85,13 @@
                                     <label>Organization</label>
                                     @Html.TextBoxFor(x => x.Entity.Organization, new { @class = "form-control" })
                                     <!--<div class="input-group">
-                    <span class="input-group-btn">-->
+                                    <span class="input-group-btn">-->
                                     @*@Html.TextBoxFor(x => x.Entity.OrganizationAbbrev, new { @class = "form-control", @style = "width:80px;" })*@
                                     <!--<button type="button" data-toggle="modal" data-target="#modal-organization-lookup" class="btn btn-default btn-flat">
-                                <i class="fa fa-search"></i>
-                            </button>
-                        </span>
-                    </div>-->
+                                                <i class="fa fa-search"></i>
+                                            </button>
+                                        </span>
+                                    </div>-->
                                 </div>
                                 <div class="col-md-2">
                                     <label>Abbrev</label>
@@ -201,6 +201,7 @@
                             This data is available here for review and export only. Please use the Curator Tool
                             to make edits.
                         </div>
+                        @{ Html.RenderAction("_List", "AppUserItemList", new { cooperatorId = Model.Entity.ID }); }
                     </div>
                     <div class="tab-pane" id="tab-application-settings">
                         <div class="alert alert-info alert-dismissible">
@@ -217,7 +218,7 @@
 </div>
 
 @Html.Partial("~/Views/SysUser/Modals/_ResetPassword.cshtml")
-@{Html.RenderAction("RenderEditModal","SysUser");}
+@{Html.RenderAction("RenderEditModal", "SysUser");}
 
 <script type="text/javascript">
     $(document).ready(function () {

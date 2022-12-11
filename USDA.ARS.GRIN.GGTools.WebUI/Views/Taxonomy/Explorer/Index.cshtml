@@ -139,6 +139,36 @@
 <div id="section-geography-map-modal"></div>
 
 <script type="text/javascript">
+    $(document).ready(function () {
+        
+    });
+
+    function InitSpeciesLookupDataTable() {
+        tableName = "#data-table-species-lookup";
+        table = $(tableName).DataTable({
+            paging: false,
+            responsive: true,
+            select: {
+                style: 'single'
+            },
+            searching: true,
+            columnDefs: [
+                { targets: [0], visible: false }
+            ]
+        });
+
+        //Select first row by default; load related data.
+        table.row(':eq(0)', { page: 'current' }).select();
+        var firstRowData = table.row(':eq(0)', { page: 'current' }).data();
+
+
+        $('#data-table-species-lookup tbody').on('click', 'tr', function () {
+            var data = table.row(this).data();
+            //DEBUG
+            alert("SEL SPECIES ID " + data[0]);
+        });
+    }
+
     $('#txtLookupSpecies').on('input', function (e) {
         $("#ddlSelectFolder_taxonomy_species").val("-9");
         $("#section-species-detail").html("");
@@ -393,6 +423,7 @@
             success: function (response) {
                 $("#section-species-lookup-search-results").html(response);
                 $("#progress_overlay").hide();
+                InitSpeciesLookupDataTable();
             },
             error: function () {
                 alert("Error");

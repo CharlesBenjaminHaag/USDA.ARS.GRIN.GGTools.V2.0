@@ -52,34 +52,34 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             return PartialView(BASE_PATH + "_List.cshtml", viewModel);
         }
 
-        [HttpPost]
-        public PartialViewResult _List(FormCollection formCollection)
-        {
-            CitationViewModel viewModel = new CitationViewModel();
+        //[HttpPost]
+        //public PartialViewResult _List(FormCollection formCollection)
+        //{
+        //    CitationViewModel viewModel = new CitationViewModel();
 
-            if (!String.IsNullOrEmpty(formCollection["FamilyID"]))
-            {
-                viewModel.SearchEntity.FamilyID = Int32.Parse(formCollection["FamilyID"]);
-            }
+        //    if (!String.IsNullOrEmpty(formCollection["FamilyID"]))
+        //    {
+        //        viewModel.SearchEntity.FamilyID = Int32.Parse(formCollection["FamilyID"]);
+        //    }
 
-            if (!String.IsNullOrEmpty(formCollection["GenusID"]))
-            {
-                viewModel.SearchEntity.GenusID = Int32.Parse(formCollection["GenusID"]);
-            }
+        //    if (!String.IsNullOrEmpty(formCollection["GenusID"]))
+        //    {
+        //        viewModel.SearchEntity.GenusID = Int32.Parse(formCollection["GenusID"]);
+        //    }
 
-            if (!String.IsNullOrEmpty(formCollection["SpeciesID"]))
-            {
-                viewModel.SearchEntity.SpeciesID = Int32.Parse(formCollection["SpeciesID"]);
-            }
+        //    if (!String.IsNullOrEmpty(formCollection["SpeciesID"]))
+        //    {
+        //        viewModel.SearchEntity.SpeciesID = Int32.Parse(formCollection["SpeciesID"]);
+        //    }
 
-            if (!String.IsNullOrEmpty(formCollection["FormatCode"]))
-            {
-                viewModel.EventValue = formCollection["FormatCode"];
-            }
+        //    if (!String.IsNullOrEmpty(formCollection["FormatCode"]))
+        //    {
+        //        viewModel.EventValue = formCollection["FormatCode"];
+        //    }
 
-            viewModel.Search();
-            return PartialView(BASE_PATH + "_List.cshtml", viewModel);
-        }
+        //    viewModel.Search();
+        //    return PartialView(BASE_PATH + "_List.cshtml", viewModel);
+        //}
 
         public ActionResult Index()
         {

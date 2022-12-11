@@ -66,6 +66,10 @@
     <Compile Include="CommonNameLanguageViewModelBase.cs" />
     <Compile Include="CommonNameViewModel.cs" />
     <Compile Include="CommonNameViewModelBase.cs" />
+    <Compile Include="CooperatorGroupViewModel.cs" />
+    <Compile Include="CooperatorMapViewModel.cs" />
+    <Compile Include="CooperatorGroupViewModelBase.cs" />
+    <Compile Include="CooperatorMapViewModelBase.cs" />
     <Compile Include="CooperatorRecordTransferViewModel.cs" />
     <Compile Include="CooperatorViewModel.cs" />
     <Compile Include="CooperatorViewModelBase.cs" />
