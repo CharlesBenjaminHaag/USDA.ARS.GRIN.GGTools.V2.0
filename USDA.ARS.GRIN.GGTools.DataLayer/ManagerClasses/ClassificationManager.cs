@@ -60,7 +60,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
 
             Reset(CommandType.StoredProcedure);
             Validate<Classification>(entity);
-            SQL = "usp_GGTools_Taxon_Classification_Insert";
+            SQL = "usp_GRINGlobal_Taxonomy_Classification_Insert";
 
             BuildInsertUpdateParameters(entity);
 
@@ -124,7 +124,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
 
             Reset(CommandType.StoredProcedure);
             Validate<Classification>(entity);
-            SQL = "usp_GGTools_Taxon_Classification_Update";
+            SQL = "usp_GRINGlobal_Taxonomy_Classification_Update";
 
             BuildInsertUpdateParameters(entity);
 

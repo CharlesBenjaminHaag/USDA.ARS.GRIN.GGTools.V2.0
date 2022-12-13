@@ -27,7 +27,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
 
         public List<FamilyMap> GetSynonyms(int entityId)
         {
-            SQL = "usp_GGTools_Taxon_FamilySynonyms_Select";
+            SQL = "usp_GRINGlobal_Taxonomy_Family_Synonyms_Select";
             var parameters = new List<IDbDataParameter> {
                 CreateParameter("@taxonomy_family_id", (object)entityId, false)
             };
@@ -36,7 +36,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         }
         public List<FamilyMap> GetSubdivisions(int entityId)
         {
-            SQL = "usp_GGTools_Taxon_FamilySubdivisions_Select";
+            SQL = "usp_GRINGlobal_Taxonomy_Family_Subdivisions_Select";
             var parameters = new List<IDbDataParameter> {
                 CreateParameter("@taxonomy_family_map_id", (object)entityId, false)
             };
@@ -53,7 +53,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         /// <remarks>Most likely belongs in Genus manager -- to refactor.</remarks>
         public List<Genus> GetGenera(int entityId)
         {
-            SQL = "usp_GGTools_Taxon_FamilyGenera_Select";
+            SQL = "uusp_GRINGlobal_Taxonomy_Family_Genera_Select";
             var parameters = new List<IDbDataParameter> {
                 CreateParameter("@taxonomy_family_id", (object)entityId, false)
             };

@@ -95,35 +95,11 @@
                             @Html.DropDownListFor(x => x.Entity.FamilyID, Model.Families, "Select value", new { @class = "form-control" })
                         </div>
                     </div>
-
-                    <!--<div class="col-md-3">
-            <div class="form-group">
-                <label>Family</label>
-                <div class="input-group">
-                    @Html.TextBoxFor(x => x.Entity.FamilyName, new { @class = "form-control", @readonly = "readonly", @style = "background-color:#ecf0f5;" })
-                    @Html.HiddenFor(x => x.Entity.FamilyID)-->
-
-                    @*@if (Model.Entity.FamilyID > 0)
-            {
-                <span class="input-group-btn">
-                    <a href="@Url.Action("Edit", "Family", new { @entityId = Model.Entity.ID })" class="btn btn-default btn-flat">
-                        <i class="fa fa-link"></i>
-                    </a>
-                </span>
-            }*@
-
-                    <!--<span class="input-group-btn">
-                        <button type="button" class="btn btn-default btn-flat" data-toggle="modal" data-target="#modal-family-lookup">
-                            <i class="fa fa-search"></i>
-                        </button>
-                    </span>
-                </div>
-            </div>
-        </div>-->
                 }
 
-                <!-- Only show the Order (Classification) select list if the record being edited is a family, vs.
-    an infrafamilial record. -->
+                <!-- 
+                Only show the Order (Classification) select list if the record being edited is a family, vs.
+                an infrafamilial record. -->
                 @if (Model.Entity.FamilyRank.ToUpper() == "FAMILY")
                 {
                     <div class="col-md-3">
@@ -319,9 +295,6 @@
         var familyId = $("#Entity_FamilyID").val();
         var formData = new FormData();
         var sectionData = sectionId.replace("tab_selector", "tab_content");
-
-        //DEBUG
-        alert("DEBUG ACTION " + eventAction + " AND VALUE " + eventValue);
 
         // Load data in selected section content area based on id.
         switch (sectionId) {

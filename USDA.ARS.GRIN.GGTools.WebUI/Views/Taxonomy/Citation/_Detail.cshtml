@@ -11,9 +11,14 @@
             <div class="tab-pane active" id="activity">
                 <div id="section-search-criteria">
                     <div class="btn-group">
-                        <a class="btn btn-default btn-sm" href="@Url.Action("Add","Citation")">
-                            <i class="fa fa-plus"></i> New
-                        </a>
+                        <a class="btn btn-default btn-sm" href="@Url.Action("Add", "Citation", new { @parentTypeCode = "family" })">Add Family Citation</a>
+                        <button type="button" class="btn btn-default btn-sm dropdown-toggle dropdown-icon" data-toggle="dropdown" aria-expanded="false">
+                            <span class="sr-only">Toggle Dropdown</span>
+                        </button>
+                        <div class="dropdown-menu" role="menu" style="">
+                            <a class="btn btn-default btn-sm" href="@Url.Action("Add", "Citation", new { @parentTypeCode = "genus" })">Add Genus Citation</a>
+                            <a class="btn btn-default btn-sm" href="@Url.Action("Add", "Citation", new { @parentTypeCode = "species" })">Add Species Citation</a>
+                        </div>
                     </div>
                     <div class="btn-group">
                         <button id="btnOpenFolderModal" type="button" class="btn btn-default btn-sm"><i class="fa fa-folder"></i></button>

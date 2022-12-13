@@ -60,7 +60,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         {
             Reset(CommandType.StoredProcedure);
             Validate<Genus>(entity);
-            SQL = "usp_GGTools_Taxon_Genus_Insert";
+            SQL = "usp_GRINGlobal_Taxonomy_Genus_Insert";
 
             BuildInsertUpdateParameters(entity);
 
@@ -175,7 +175,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             Reset(CommandType.StoredProcedure);
             Validate<Genus>(entity);
 
-            SQL = "usp_GGTools_Taxon_Genus_Update";
+            SQL = "usp_GRINGlobal_Taxonomy_Genus_Update";
 
             BuildInsertUpdateParameters(entity);
             AddParameter("@out_error_number", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
@@ -210,6 +210,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             AddParameter("hybrid_code", (object)entity.HybridCode ?? DBNull.Value, true);
             AddParameter("genus_name", String.IsNullOrEmpty(entity.Name) ? DBNull.Value : (object)entity.Name, true);
             AddParameter("genus_authority", String.IsNullOrEmpty(entity.Authority) ? DBNull.Value : (object)entity.Authority, true);
+            AddParameter("is_web_visible", entity.IsWebVisible == null ? "N" : (object)entity.IsWebVisible, false);
             AddParameter("note", (object)entity.Note ?? DBNull.Value, true);
 
             if (entity.ID > 0)
@@ -284,26 +285,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
 
         //REFACTOR CBH, 11/29/21
         #region Taxonomy Common
-        public virtual List<CodeValue> GetCodeValues(string groupName)
-        {
-            SQL = "usp_GGTools_GRINGlobal_CodeValuesByGroup_Select";
-            var parameters = new List<IDbDataParameter> {
-                CreateParameter("group_name", (object)groupName, false)
-            };
-            List<CodeValue> codeValues = GetRecords<CodeValue>(SQL, CommandType.StoredProcedure, parameters.ToArray());
-            return codeValues;
-        }
-        public virtual List<Cooperator> GetCooperators(string tableName)
-        {
-            SQL = "usp_GGTools_GRINGlobal_CreatedByCooperators_Select";
-            var parameters = new List<IDbDataParameter> {
-                CreateParameter("table_name", (object)tableName, false)
-            };
-            List<Cooperator> cooperators = GetRecords<Cooperator>(SQL, CommandType.StoredProcedure, parameters.ToArray());
-            RowsAffected = cooperators.Count;
-            return cooperators;
-        }
-
+       
         public List<CodeValue> SearchNotes(string tableName, string note)
         {
             // Create SQL to search for rows

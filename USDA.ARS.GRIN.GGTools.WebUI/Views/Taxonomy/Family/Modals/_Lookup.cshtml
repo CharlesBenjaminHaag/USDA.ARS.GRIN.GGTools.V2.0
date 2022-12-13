@@ -7,7 +7,7 @@
                     <span aria-hidden="true">×</span>
                 </button>
             </div>
-            <div class="modal-body">
+            <div id="section-search-criteria" class="modal-body">
                 <input type="hidden" id="hfFamilyLookupIDFieldName" />
                 <input type="hidden" id="hfFamilyLookupNameFieldName" />
                 <div class="row">
@@ -18,15 +18,24 @@
                 </div>
                 <div class="row">
                     <div class="col-md-12">
-                        <div class="custom-control custom-checkbox">
-                            <input class="custom-control-input" type="checkbox" id="customCheckbox1" value="option1">
-                            <label for="customCheckbox1" class="custom-control-label">Search accepted names only.</label>
+                        <div class="margin">
+                            <div class="form-group clearfix">
+                                <div class="icheck-primary d-inline">
+                                    <input class="custom-control-input" type="checkbox" id="cbxLookupIsAcceptedName" value="option1">
+                                    <label for="cbxLookupIsAcceptedName">
+                                        Search accepted names only.
+                                    </label>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-12">
-                        <button id="btnLookupFamily" class="btn btn-default float-right">Search</button>
+                        <div class="margin">
+                            <button id="btnReset" class="btn btn-danger">Reset</button>
+                            <button id="btnLookupFamily" class="btn btn-default float-right">Search</button>
+                        </div>
                     </div>
                 </div>
                 <div id="section-family-lookup-search-results">
@@ -69,10 +78,10 @@
 
     function SearchFamily() {
         var link = '@Url.Action("Lookup", "Family")';
-        var genusName = $("#txtLookupFamilyName").val();
+        var familyName = $("#txtLookupFamilyName").val();
         var formData = new FormData();
 
-        formData.append("FamilyName", genusName);
+        formData.append("FamilyName", familyName);
         if ($("#cbxLookupIsAcceptedName").is(":checked")) {
             formData.append("IsAcceptedName", "Y");
         }

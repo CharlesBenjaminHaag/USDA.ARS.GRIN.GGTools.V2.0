@@ -11,9 +11,12 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
 {
     public class Citation : AppEntityBase
     {
+        public string ParentTypeCode { get; set; }
         public int TaxonID { get; set; }
         public string TaxonName { get; set; }
         public string TaxonTitle { get; set; }
+        public int AccessionID { get; set; }
+        public string AccessionText { get; set; }
         public int FamilyID { get; set; }
         public  string  FamilyName { get; set; }
         public int GenusID { get; set; }

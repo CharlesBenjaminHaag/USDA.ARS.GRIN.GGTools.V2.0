@@ -191,7 +191,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             }
         }
 
-        public ActionResult Add()
+        public ActionResult Add(string parentTypeCode="")
         {
             try 
             { 
@@ -199,6 +199,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 viewModel.EventAction = "Add";
                 viewModel.TableName = "citation";
                 viewModel.TableCode = "Citation";
+                viewModel.Entity.ParentTypeCode = parentTypeCode.ToUpper();
                 viewModel.PageTitle = viewModel.EventAction + " " + viewModel.TableCode;
                 return View(BASE_PATH + "Edit.cshtml", viewModel);
             }

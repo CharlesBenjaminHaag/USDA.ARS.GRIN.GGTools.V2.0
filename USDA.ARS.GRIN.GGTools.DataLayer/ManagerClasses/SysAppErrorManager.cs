@@ -15,7 +15,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
         {
             List<SysAppError> results = new List<SysAppError>();
 
-            SQL = "SELECT * FROM sys_app_error_log ORDER BY ID DESC";
+            SQL = "SELECT * FROM sys_app_error_log WHERE CONVERT(DATE, CreateDate) = CONVERT(DATE, GETDATE()) ORDER BY ID DESC";
 
             results = GetRecords<SysAppError>(SQL);
             RowsAffected = results.Count;

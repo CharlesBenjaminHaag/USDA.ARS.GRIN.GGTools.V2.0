@@ -39,6 +39,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
                     SearchEntity.ID = entityId;
                     Entity = new Collection<Genus>(mgr.Search(SearchEntity))[0];
                     Entity.IsAccepted = ToBool(Entity.IsAcceptedName);
+                    Entity.IsWebVisibleOption = ToBool(Entity.IsWebVisible);
 
                     if (Entity.Rank != "GENUS")
                     {
@@ -127,19 +128,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
             {
                 using (GenusManager mgr = new GenusManager())
                 {
-                    switch (Entity.Rank.ToUpper())
-                    {
-                        case "SUBGENUS":
-                        case "SECTION":
-                        case "SUBSECTION":
-                        case "SERIES":
-                        case "SUBSERIES":
-                            Entity.ID = mgr.InsertInfrageneric(Entity);
-                            break;
-                        default:
-                            Entity.ID = mgr.Insert(Entity);
-                            break;
-                    }
+                    Entity.ID = mgr.Insert(Entity);
                 }
 
                 if (IsTypeGenus == "Y")

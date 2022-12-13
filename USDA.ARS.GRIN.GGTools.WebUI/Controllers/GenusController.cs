@@ -42,19 +42,18 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             viewModel.TableCode = "Genus";
             viewModel.PageTitle = String.Format("Add {0}", viewModel.ToTitleCase(rank));
             viewModel.Entity.IsAcceptedName = "Y";
-            viewModel.Entity.Rank = rank;
+            viewModel.Entity.Rank = rank.ToUpper();
             viewModel.Entity.IsAccepted = true;
             viewModel.Entity.IsAcceptedName = "Y";
             viewModel.IsTypeGenus = isType;
 
             if (genusId > 0)
             {
-                GenusViewModel topRankGenusViewModel = new GenusViewModel();
-                topRankGenusViewModel.SearchEntity.ID = genusId;
-                topRankGenusViewModel.Search();
-                viewModel.TopRankGenusEntity = topRankGenusViewModel.Entity;
-                viewModel.Entity.ParentID = topRankGenusViewModel.Entity.ID;
-                viewModel.Entity.ParentName = topRankGenusViewModel.Entity.Name;
+                GenusViewModel genusViewModel = new GenusViewModel();
+                genusViewModel.SearchEntity.ID = genusId;
+                genusViewModel.Search();
+                viewModel.Entity.ParentID = genusViewModel.Entity.ID;
+                viewModel.Entity.Name = genusViewModel.Entity.Name;
             }
 
             if (familyId > 0)

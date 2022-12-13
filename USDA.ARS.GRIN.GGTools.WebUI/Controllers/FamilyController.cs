@@ -18,7 +18,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             throw new NotImplementedException();
         }
 
-        public ActionResult Add(string rank, int orderId = 0, int familyMapId = 0, int familyId = 0) 
+        public ActionResult Add(int orderId = 0, int familyMapId = 0, string rank="") 
         {
             FamilyMapViewModel viewModel = new FamilyMapViewModel();
             try 
@@ -28,12 +28,9 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 viewModel.TableName = "taxonomy_family_map";
                 viewModel.Entity.OrderID = orderId;
                 viewModel.Entity.ParentID = familyMapId;
-             
-                viewModel.Entity.FamilyID = familyId;
                 viewModel.Entity.IsAccepted = true;
                 viewModel.Entity.IsAcceptedName = "Y";
-                viewModel.EditPartialViewName = BASE_PATH + "~/Views/Family/_" + viewModel.Entity.FamilyRank + "RankEdit.cshtml";
-
+           
                 // If the family being added is an infraramilial rank, retrieve the map record of the parent
                 // rank.
                 if (rank.ToUpper() != "FAMILY")
@@ -257,10 +254,16 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
         {
             FamilyMapViewModel viewModel = new FamilyMapViewModel();
 
-            if (!String.IsNullOrEmpty(formCollection["LookupFamilyName"]))
+            if (!String.IsNullOrEmpty(formCollection["FamilyName"]))
             {
-                viewModel.SearchEntity.FamilyName = formCollection["LookupFamilyName"];
+                viewModel.SearchEntity.FamilyName = formCollection["FamilyName"];
             }
+
+            if (!String.IsNullOrEmpty(formCollection["IsAcceptedName"]))
+            {
+                viewModel.SearchEntity.IsAcceptedName = formCollection["IsAcceptedName"];
+            }
+
             viewModel.Search();
             return PartialView(BASE_PATH + "Modals/_SelectList.cshtml", viewModel);
         }

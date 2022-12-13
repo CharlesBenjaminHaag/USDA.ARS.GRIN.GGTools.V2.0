@@ -30,14 +30,14 @@
         <div class="card">
             <div class="card-header p-2">
                 <ul class="nav nav-pills">
-                    <li class="nav-item"><a class="nav-link active" href="#tab-hierarchy-family" data-toggle="tab">Family</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#tab-hierarchy-family" data-toggle="tab">Family</a></li>
                     <li class="nav-item"><a class="nav-link" href="#tab-hierarchy-genus" data-toggle="tab">Genus</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#tab-hierarchy-species" data-toggle="tab">Species</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="#tab-hierarchy-species" data-toggle="tab">Species</a></li>
                 </ul>
             </div>
             <div class="card-body">
                 <div class="tab-content">
-                    <div class="tab-pane active" id="tab-hierarchy-family">
+                    <div class="tab-pane" id="tab-hierarchy-family">
                         @{Html.RenderAction("_ListFamily", "Explorer");}
                     </div>
                     <div class="tab-pane" id="tab-hierarchy-genus">
@@ -55,7 +55,7 @@
                         </div>
                         @{Html.RenderAction("_ListGenus", "Explorer");}
                     </div>
-                    <div class="tab-pane" id="tab-hierarchy-species">
+                    <div id="tab-hierarchy-species" class="tab-pane active">
                         @{Html.RenderAction("_ListRelatedFolders", "Explorer", new { tableName = "taxonomy_species" }); }
                         <div class="form-group">
                             <div class="form-group">
@@ -160,12 +160,11 @@
         //Select first row by default; load related data.
         table.row(':eq(0)', { page: 'current' }).select();
         var firstRowData = table.row(':eq(0)', { page: 'current' }).data();
-
+        LoadSpecies(firstRowData[0]);
 
         $('#data-table-species-lookup tbody').on('click', 'tr', function () {
             var data = table.row(this).data();
-            //DEBUG
-            alert("SEL SPECIES ID " + data[0]);
+            LoadSpecies(data[0]);
         });
     }
 
@@ -298,17 +297,17 @@
     });
 
     function LoadSpecies(id) {
-        var selectedGenusId = $(this).data("ggtools-value");
-        var genusNodeId = "#list-taxa-" + selectedGenusId;
+        //var selectedGenusId = $(this).data("ggtools-value");
+        //var genusNodeId = "#list-taxa-" + selectedGenusId;
 
-        if (selectedSpeciesId == -9) {
-            Add(selectedGenusId);
-        }
-        else {
-            Edit(selectedSpeciesId);
-            LoadCommonNames(selectedSpeciesId);
-            LoadDistributions(selectedSpeciesId);
-        }
+        //if (id == -9) {
+        //    Add(selectedGenusId);
+        //}
+        //else {
+            Edit(id);
+            LoadCommonNames(id);
+            LoadDistributions(id);
+        //}
 
         //DEBUG unsaved-changes logic. Need? --CBH 11/15/22
         //if ($('.changed-input').length) {

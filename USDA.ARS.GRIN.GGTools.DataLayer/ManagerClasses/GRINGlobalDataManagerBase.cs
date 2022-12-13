@@ -44,7 +44,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
         public int Delete(string sysTableName, int entityId)
         {
             Reset(CommandType.StoredProcedure);
-            SQL = "usp_GGTools_Taxon_Entity_Delete";
+            SQL = "usp_GRINGlobal_Entity_Delete";
 
             AddParameter("table_name", sysTableName, true);
             AddParameter("entity_id", entityId == 0 ? DBNull.Value : (object)entityId, true);

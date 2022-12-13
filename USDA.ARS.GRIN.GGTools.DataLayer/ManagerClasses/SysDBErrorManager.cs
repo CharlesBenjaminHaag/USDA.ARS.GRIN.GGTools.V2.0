@@ -15,7 +15,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
         {
             List<SysDBError> results = new List<SysDBError>();
 
-            SQL = "SELECT * FROM sys_db_error ORDER BY ErrorID DESC";
+            SQL = "SELECT * FROM sys_db_error WHERE CONVERT(DATE, ErrorDateTime) = CONVERT(DATE, GETDATE()) ORDER BY ErrorID DESC";
 
             results = GetRecords<SysDBError>(SQL);
             RowsAffected = results.Count;

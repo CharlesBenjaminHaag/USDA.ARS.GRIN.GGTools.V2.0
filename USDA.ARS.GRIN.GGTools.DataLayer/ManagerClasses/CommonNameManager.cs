@@ -39,7 +39,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         {
             Reset(CommandType.StoredProcedure);
             Validate<CommonName>(entity);
-            SQL = "usp_GGTools_Taxon_CommonName_Insert";
+            SQL = "usp_GRINGlobal_Taxonomy_Common_Name_Insert";
 
             BuildInsertUpdateParameters(entity);
 
@@ -65,7 +65,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             Reset(CommandType.StoredProcedure);
             Validate<CommonName>(entity);
 
-            SQL = "usp_GGTools_Taxon_CommonName_Update";
+            SQL = "usp_GRINGlobal_Taxonomy_Common_Name_Update";
 
             BuildInsertUpdateParameters(entity);
             AddParameter("@out_error_number", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);

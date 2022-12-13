@@ -1,8 +1,28 @@
 ﻿@model USDA.ARS.GRIN.GGTools.ViewModelLayer.SysErrorViewModel
 @{
     ViewBag.Title = Model.PageTitle;
-    Layout = "~/Views/Shared/_LayoutAdminLTE.cshtml";
+    Layout = "~/Views/Shared/_LayoutAdminLTE3.cshtml";
 }
+
+<div class="card">
+    <div class="card-header p-2">
+        <ul class="nav nav-pills">
+            <li class="nav-item"><a class="nav-link active" href="#tab-errors-db" data-toggle="tab">DB Errors</a></li>
+            <li class="nav-item"><a class="nav-link" href="#tab-errors-app" data-toggle="tab">Application Errors</a></li>
+        </ul>
+    </div>
+    <div class="card-body">
+        <div class="tab-content">
+            <div class="tab-pane active" id="tab-errors-db">
+                @Html.Partial("~/Views/Error/_DBErrorList.cshtml")
+            </div>
+            <div class="tab-pane" id="tab-errors-app">
+                @Html.Partial("~/Views/Error/_AppErrorList.cshtml")
+            </div>
+        </div>
+    </div>
+</div>
+
 
 @using (Html.BeginForm("Search", "Error", FormMethod.Post, new { id = "frmMain" }))
 {
@@ -12,8 +32,8 @@
     @Html.HiddenFor(x => x.PageTitle)
     @Html.HiddenFor(x => x.AuthenticatedUserCooperatorID)
     @Html.HiddenFor(x => x.ItemIDList)
-    @Html.Partial("~/Views/Error/_AppErrorList.cshtml")
-    @Html.Partial("~/Views/Error/_DBErrorList.cshtml")
+    
+    
 }
 
 <script type="text/javascript">

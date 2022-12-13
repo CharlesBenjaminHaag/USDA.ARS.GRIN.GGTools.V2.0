@@ -22,7 +22,7 @@
                     Notes
                 </button>
             </div>
-            <a href="@Url.Action("Clone","Citation", new { @entityId = Model.Entity.ID })" class="btn btn-default btn-sm">
+            <a href="@Url.Action("Clone", "Citation", new { @entityId = Model.Entity.ID })" class="btn btn-default btn-sm">
                 <i class="fa fa-copy"></i>
                 Clone
             </a>
@@ -30,48 +30,61 @@
         <div class="card-body">
             <div class="row">
                 <div class="col-md-3">
-                    <div class="form-group">
-                        <label>Family</label>
-                        <div class="input-group">
-                            @Html.TextBoxFor(x => x.Entity.FamilyName, new { @class = "form-control", @readonly = "readonly", @style = "background-color:#ecf0f5;" })
-                            @Html.HiddenFor(x => x.Entity.FamilyID)
-                            <span class="input-group-btn">
-                                <button id="btnOpenFamilyLookupModal" type="button" data-ggtools-action="FamilyID" data-ggtools-value="FamilyName" data-toggle="modal" data-target="#modal-family-lookup" class="btn btn-default btn-flat">
-                                    <i class="fa fa-search"></i>
-                                </button>
-                            </span>
-                        </div>
-                    </div>
+                    @{
+                        switch (Model.Entity.ParentTypeCode)
+                        {
+                            case "FAMILY":
+                                <div class="form-group">
+                                    <label>Family</label>
+                                    <div class="input-group">
+                                        @Html.TextBoxFor(x => x.Entity.FamilyName, new { @class = "form-control", @readonly = "readonly", @style = "background-color:#ecf0f5;" })
+                                        @Html.HiddenFor(x => x.Entity.FamilyID)
+                                        <span class="input-group-btn">
+                                            <button id="btnOpenFamilyLookupModal" type="button" data-ggtools-action="FamilyID" data-ggtools-value="FamilyName" data-toggle="modal" data-target="#modal-family-lookup" class="btn btn-default btn-flat">
+                                                <i class="fa fa-search"></i>
+                                            </button>
+                                        </span>
+                                    </div>
+                                </div>
+                                break;
+                            case "GENUS":
+                                <div class="form-group">
+                                    <label>Genus</label>
+                                    <div class="input-group">
+                                        @Html.TextBoxFor(x => x.Entity.GenusName, new { @class = "form-control", @readonly = "readonly", @style = "background-color:#ecf0f5;" })
+                                        @Html.HiddenFor(x => x.Entity.GenusID)
+                                        <span class="input-group-btn">
+                                            <button id="btnOpenGenusLookupModal" type="button" data-ggtools-action="GenusID" data-ggtools-value="GenusName" data-toggle="modal" data-target="#modal-genus-lookup" class="btn btn-default btn-flat">
+                                                <i class="fa fa-search"></i>
+                                            </button>
+                                        </span>
+                                    </div>
+                                </div>
+                                break;
+                            case "SPECIES":
+                                <div class="form-group">
+                                    <label>Species</label>
+                                    <div class="input-group">
+                                        @Html.TextBoxFor(x => x.Entity.SpeciesName, new { @class = "form-control", @readonly = "readonly", @style = "background-color:#ecf0f5;" })
+                                        @Html.HiddenFor(x => x.Entity.SpeciesID)
+                                        <span class="input-group-btn">
+                                            <button id="btnOpenSpeciesLookupModal" type="button" data-ggtools-action="SpeciesID" data-ggtools-value="SpeciesName" data-toggle="modal" data-target="#modal-species-lookup" class="btn btn-default btn-flat">
+                                                <i class="fa fa-search"></i>
+                                            </button>
+                                        </span>
+                                    </div>
+                                </div>
+                                break;
+                            case "ACCESSION":
+                                <div class="form-group">
+                                    <label>Accession ID</label>
+                                    @Html.TextBoxFor(x => x.Entity.AccessionID, new { @class = "form-control", @readonly = "readonly" })
+                                </div>
+                                break;
+                        }
+                    }
                 </div>
-                <div class="col-md-3">
-                    <div class="form-group">
-                        <label>Genus</label>
-                        <div class="input-group">
-                            @Html.TextBoxFor(x => x.Entity.GenusName, new { @class = "form-control", @readonly = "readonly", @style = "background-color:#ecf0f5;" })
-                            @Html.HiddenFor(x => x.Entity.GenusID)
-                            <span class="input-group-btn">
-                                <button id="btnOpenGenusLookupModal" type="button" data-ggtools-action="GenusID" data-ggtools-value="GenusName" data-toggle="modal" data-target="#modal-genus-lookup" class="btn btn-default btn-flat">
-                                    <i class="fa fa-search"></i>
-                                </button>
-                            </span>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="form-group">
-                        <label>Species</label>
-                        <div class="input-group">
-                            @Html.TextBoxFor(x => x.Entity.SpeciesName, new { @class = "form-control", @readonly = "readonly", @style = "background-color:#ecf0f5;" })
-                            @Html.HiddenFor(x => x.Entity.SpeciesID)
-                            <span class="input-group-btn">
-                                <button id="btnOpenSpeciesLookupModal" type="button" data-ggtools-action="SpeciesID" data-ggtools-value="SpeciesName" data-toggle="modal" data-target="#modal-species-lookup" class="btn btn-default btn-flat">
-                                    <i class="fa fa-search"></i>
-                                </button>
-                            </span>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3">
+                <div class="col-md-4">
                     <div class="form-group">
                         <label>Literature</label>
                         <div class="input-group">
@@ -85,12 +98,10 @@
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="row">
                 <div class="col-md-2">
                     <div id="form-group">
                         <label>Type</label>
-                        @Html.DropDownListFor(x=>x.Entity.TypeCode, Model.CitationTypes, new { @class = "form-control"})
+                        @Html.DropDownListFor(x => x.Entity.TypeCode, Model.CitationTypes, new { @class = "form-control" })
                     </div>
                 </div>
                 <div class="col-md-3">
@@ -99,6 +110,8 @@
                         @Html.TextBoxFor(x => x.Entity.CitationTitle, new { @class = "form-control" })
                     </div>
                 </div>
+            </div>
+            <div class="row">
                 <div class="col-md-3">
                     <div id="form-group">
                         <label>Author</label>
@@ -147,7 +160,7 @@
 }
 
 @{Html.RenderAction("RenderLookupModal", "Literature"); }
-@Html.Partial("~/Views/Taxonomy/Family/Modals/_Lookup.cshtml")
+                        @Html.Partial("~/Views/Taxonomy/Family/Modals/_Lookup.cshtml")
 @Html.Partial("~/Views/Taxonomy/Genus/Modals/_Lookup.cshtml")
 @Html.Partial("~/Views/Taxonomy/Species/Modals/_Lookup.cshtml")
 @Html.Partial("~/Views/Shared/Modals/_NoteLookup2.cshtml")
@@ -155,12 +168,12 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
-        Init();
-        /*InitializeCKEditor();*/
-    });
+                            Init();
+                            /*InitializeCKEditor();*/
+                        });
 
-    function Init() {
-    }
+                        function Init() {
+                        }
 
     //$("input").change(function () {
     //    alert("The text has been changed.");

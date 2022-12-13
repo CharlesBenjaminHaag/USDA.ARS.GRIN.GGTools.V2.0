@@ -3,6 +3,7 @@ using System.Web.Mvc;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Configuration;
 using System.Threading.Tasks;
 using System.Collections.ObjectModel;
 using System.Text.RegularExpressions;
@@ -210,7 +211,7 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
                 UserMessage = "The user name that you have entered does not exist.";
                 return false;
             }
-            
+
             Entity = DataCollection[0];
 
             // Check password using standard GG framework Crypto.cs logic.
@@ -220,7 +221,7 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
                 validateHashedPassword(hashedPassword, storedPassword));
 
             if (!passwordIsValid)
-            { 
+            {
                 Entity.IsAuthenticated = false;
                 UserMessage = "Your password is incorrect.";
                 return false;
@@ -273,7 +274,7 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
             //{
             //    Entity.IsSiteAdmin = "N";
             //}
-            Entity.IsAuthenticated = true;    
+            Entity.IsAuthenticated = true;
             return true;
         }
 
@@ -369,7 +370,7 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
         }
 
         public string GetSecurePassword(string password)
-        { 
+        {
             password = Crypto.HashText(password);
             password = SaltAndHash(password);
             return password;
@@ -383,7 +384,7 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
             //    ValidationMessages.Add(new Common.Library.ValidationMessage { Message = UserMessage });
             //    return false;
             //}
-                
+
             if (Entity.Password != Entity.PasswordConfirm)
             {
                 UserMessage = "The passwords that you have entered do not match.";
@@ -398,14 +399,14 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
                 return false;
             }
 
-            if (Entity.Password.Length >255)
+            if (Entity.Password.Length > 255)
             {
                 UserMessage = "Your password must be no longer than 255 characters.";
                 ValidationMessages.Add(new Common.Library.ValidationMessage { Message = UserMessage });
                 return false;
             }
 
-            string passReqPatt1 =  @"\p{Nd}";
+            string passReqPatt1 = @"\p{Nd}";
             int passReqCnt1 = 1;
             if (passReqCnt1 > 0 && Regex.Matches(Entity.Password, passReqPatt1).Count < passReqCnt1)
             {
@@ -455,6 +456,8 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
         {
             SMTPManager sMTPManager = new SMTPManager();
             SMTPMailMessage infoRequestEmailMessage = new SMTPMailMessage();
+            string databaseName = ConfigurationManager.AppSettings["Database"];
+
             infoRequestEmailMessage.From = "gringlobal-support@usda.gov";
             infoRequestEmailMessage.To = Entity.EmailAddress;
 
@@ -463,8 +466,8 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
                 infoRequestEmailMessage.CC = "marty.reisinger@usda.gov";
             }
 
-            switch(notificationType)
-            { 
+            switch (notificationType)
+            {
                 case "N":
                     infoRequestEmailMessage.Subject = "Your GRIN-Global CT Account Has Been Created";
                     break;
@@ -475,7 +478,9 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
 
             infoRequestEmailMessage.Body += "<table>";
             infoRequestEmailMessage.Body += "<tr>";
-            infoRequestEmailMessage.Body += "<td><strong>Environment</strong></td><td>PRODUCTION</td>";
+            infoRequestEmailMessage.Body += "<td><strong>Environment</strong></td><td>";
+            infoRequestEmailMessage.Body += databaseName;
+            infoRequestEmailMessage.Body += "</td>";
             infoRequestEmailMessage.Body += "</tr>";
             infoRequestEmailMessage.Body += "<tr>";
             infoRequestEmailMessage.Body += "<td><strong>Username</strong></td><td>" + Entity.SysUserName + "</td>";

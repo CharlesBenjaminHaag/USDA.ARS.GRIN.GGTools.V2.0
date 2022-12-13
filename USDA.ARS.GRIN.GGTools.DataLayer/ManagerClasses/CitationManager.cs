@@ -159,7 +159,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         {
             List<Citation> results = new List<Citation>();
 
-            SQL = "SELECT * FROM vw_GGTools_Taxon_Citations ";
+            SQL = "SELECT * FROM vw_GRINGlobal_Citation ";
 
             SQL += " WHERE      (@ID                            IS NULL OR ID                       =       @ID)";
             SQL += " AND        (@CreatedByCooperatorID         IS NULL OR CreatedByCooperatorID    =       @CreatedByCooperatorID)";
