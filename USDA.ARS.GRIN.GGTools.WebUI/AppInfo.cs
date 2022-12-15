@@ -47,5 +47,11 @@ namespace USDA.ARS.GRIN.GGTools.WebUI
             databaseName = ConfigurationManager.AppSettings["Database"];
             return databaseName.ToUpper();
         }
+        public static string GetSupportEmail()
+        {
+            string emailAddress = String.Empty;
+            emailAddress = ConfigurationManager.AppSettings["EmailAddressSupport"];
+            return emailAddress;
+        }
     }
 }

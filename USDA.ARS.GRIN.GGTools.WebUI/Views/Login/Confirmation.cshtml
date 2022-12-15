@@ -13,7 +13,9 @@
         <div class="card-body">
             <p>Your password-reset link has been sent to:</p>
             <p><strong>@Model.Entity.EmailAddress</strong></p>
-            <p>If this email address is incorrect, or if you are unable to locate the email, please inform the GRIN-Global Help Desk at <a href="mailto:gringlobal-support@usda.gov">gringlobal-support@usda.gov</a>.</p>
+            <p>
+                If this email address is incorrect, or if you are unable to locate the email, 
+                please inform the GRIN-Global Help Desk at <a href="mailto:@AppInfo.GetSupportEmail()">@AppInfo.GetSupportEmail()</a>.</p>
             <div>
                 
             </div>

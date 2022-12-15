@@ -122,20 +122,18 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 return PartialView("~/Views/Error/_InternalServerError.cshtml");
             }
         }
-        public ActionResult Edit(int entityId)
+        public ActionResult Activate(int entityId)
         {
             try
             {
                 CooperatorViewModel viewModel = new CooperatorViewModel();
                 viewModel.Get(entityId, "");
-
-                //TODO Get owned recs. Call only in edit mode.
-                //viewModel.GetRecordsOwned(entityId);
+                viewModel.Entity.StatusCode = "ACTIVE";
                 viewModel.PageTitle = String.Format("Edit Cooperator [{0}]: {1}, {2}", entityId, viewModel.Entity.LastName, viewModel.Entity.FirstName);
                 viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
                 viewModel.AuthenticatedUser = AuthenticatedUser;
                 viewModel.MainSectionCSSClass = "col-md-9";
-                return View(viewModel);
+                return View("~/Views/Cooperator/Edit.cshtml", viewModel);
             }
             catch (Exception ex)
             {
@@ -295,12 +293,25 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 return RedirectToAction("InternalServerError", "Error");
             }
         }
-        public PartialViewResult _List(int siteId = 0, bool isDetailFormat = false)
+        public PartialViewResult _List(int siteId = 0, string statusCode = "", string formatCode = "", bool isDetailFormat = false)
         {
             string partialViewName = "_List.cshtml";
 
             try
             {
+                switch(formatCode)
+                {
+                    case "DLST":
+                        partialViewName = "_DetailList.cshtml";
+                        break;
+                    case "LIST":
+                        partialViewName = "_List.cshtml";
+                        break;
+                    case "SLST":
+                        partialViewName = "/Modals/_SelectList.cshtml";
+                        break;
+                }
+
                 if (isDetailFormat == true)
                 {
                     partialViewName = "_DetailList.cshtml";
@@ -310,6 +321,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
                 viewModel.AuthenticatedUser = AuthenticatedUser;
                 viewModel.SearchEntity.SiteID = siteId;
+                viewModel.SearchEntity.StatusCode = statusCode;
                 viewModel.Search();
                 return PartialView("~/Views/Cooperator/" + partialViewName, viewModel);
             }
@@ -490,5 +502,19 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             return null;
         }
 
+        public ActionResult Edit(int entityId)
+        {
+            try
+            {
+                CooperatorViewModel viewModel = new CooperatorViewModel();
+                viewModel.SearchEntity.ID = entityId;
+                return View("~/Views/Cooperator/Edit.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return RedirectToAction("InternalServerError", "Error");
+            }
+        }
     }
 }

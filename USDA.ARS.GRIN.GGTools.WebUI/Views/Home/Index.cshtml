@@ -12,7 +12,7 @@
         <div class="small-box bg-info">
             <div class="inner">
                 <h3>
-                    <a href="@Url.Action("Navigate","Home", new { applicationCode = "GGT-ARM"})" style="color:white; text-decoration:underline;">
+                    <a href="@Url.Action("Navigate", "Home", new { applicationCode = "GGT-ARM" })" style="color:white; text-decoration:underline;">
                         ARB
                     </a>
                 </h3>
@@ -21,14 +21,14 @@
             <div class="icon">
                 <i class="fas fa-user-cog"></i>
             </div>
-            <a href="@Url.Action("Navigate","Home", new { applicationCode = "GGT-ARM"})" class="small-box-footer">
+            <a href="@Url.Action("Navigate", "Home", new { applicationCode = "GGT-ARM" })" class="small-box-footer">
                 Launch <i class="fas fa-arrow-circle-right"></i>
             </a>
         </div>
         <div class="small-box bg-success">
             <div class="inner">
                 <h3>
-                    <a href="@Url.Action("Navigate","Home", new { applicationCode = "GGT-TAX"})" style="color:white; text-decoration:underline;">
+                    <a href="@Url.Action("Navigate", "Home", new { applicationCode = "GGT-TAX" })" style="color:white; text-decoration:underline;">
                         TurboTaxon
                     </a>
                 </h3>
@@ -37,7 +37,7 @@
             <div class="icon">
                 <i class="fas fa-leaf"></i>
             </div>
-            <a href="@Url.Action("Navigate","Home", new { applicationCode = "GGT-TAX"})" class="small-box-footer">
+            <a href="@Url.Action("Navigate", "Home", new { applicationCode = "GGT-TAX" })" class="small-box-footer">
                 Launch <i class="fas fa-arrow-circle-right"></i>
             </a>
         </div>
@@ -49,7 +49,7 @@
             <div class="icon">
                 <i class="fas fa-tree"></i>
             </div>
-            <a href="@Url.Action("Navigate","Home", new { applicationCode = "GGT-CUR"})" class="small-box-footer">
+            <a href="@Url.Action("Navigate", "Home", new { applicationCode = "GGT-CUR" })" class="small-box-footer">
                 Launch <i class="fas fa-arrow-circle-right"></i>
             </a>
         </div>
@@ -61,9 +61,23 @@
             <div class="icon">
                 <i class="fas fa-angry"></i>
             </div>
-            <a href="@Url.Action("Navigate","Home", new { applicationCode = "GGT-NRR"})" class="small-box-footer">
+            <a href="@Url.Action("Navigate", "Home", new { applicationCode = "GGT-NRR" })" class="small-box-footer">
                 Launch <i class="fas fa-arrow-circle-right"></i>
             </a>
+        </div>
+
+        <div class="card card-outline card-warning">
+            <div class="card-header">
+                <h3 class="card-title">Pending Cooperator Requests</h3>
+                <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                        <i class="fas fa-minus"></i>
+                    </button>
+                </div>
+            </div>
+            <div id="section-cooperator-pending" class="card-body">
+                @{Html.RenderAction("_List", "Cooperator", new { statusCode = "PENDING", formatCode = "SLST" }); }
+            </div>
         </div>
     </div>
     <div class="col-md-3">
@@ -72,10 +86,11 @@
 </div>
 @{Html.RenderAction("_Add", "Cooperator", new { siteId = Model.SiteID });}
 <script type="text/javascript">
-    
+
     $(document).on("click", "[id='btnSubmitCooperatorAdd']", function () {
         $("#modal-cooperator-add").modal("hide");
         AjaxFormSubmit();
+        LoadPendingCooperatorsList();
     });
 
     function AjaxFormSubmit() {
@@ -111,34 +126,31 @@
             processData: false,
             data: formData,
             success: function (data) {
-                //DEBUG
-                alert("SAVED " + data.cooperator.ID);
             },
             error: function (ex) {
+                alert("Error Saving Cooperator.");
             }
         });
-
-        //$.ajax({
-        //    type: 'POST',
-        //    url: url,
-        //    data: formData,
-        //    dataType: 'json',
-        //    contentType: false,
-        //    processData: false,
-        //    contentType: false
-        //}).done(function (response) {
-        //    if (response) {
-        //        alert("DEBUG NEW SPECIES ID " + response.data.newSpeciesId);
-        //        //$("#section-species-detail").html(response);
-        //        //var speciesId = $("#Entity_SpeciesID").val();
-        //        //var speciesName = $("#Entity_SpeciesName").val();
-        //        LoadCommonNames(speciesId);
-        //        LoadDistributions(speciesId);
-        //    }
-        //    else {
-        //        //alert("Invalid Form data!");
-        //    }
-        //});
     }
+
+    // TODO
+    function LoadPendingCooperatorsList() {
+    link = '@Url.Action("_List","Cooperator")';
+        var formData = new FormData();
+
+        formData.append("statusCode", "PENDING");
+
+        $.ajax({
+            url: link,
+            type: 'POST',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (response) {
+                $("#section-species-citations").html(response);
+            }
+        });}
+    function LoadSiteList() { }
 
 </script>

@@ -252,7 +252,7 @@
         });
     }
 
-    function RenderSysGroupWidget() {
+    function RenderSysGroupWidget(sysUserId) {
         var link = '@Url.Action("RenderSysGroupWidget","SysUser")';
         var formData = new FormData();
         formData.append("sysUserId", sysUserId);
@@ -273,10 +273,10 @@
         var link = $("#frmEditSysUser").attr("action");
         var formData = new FormData();
         formData.append("Entity.CooperatorID", $("#frmEditCooperator #Entity_ID").val());
-        formData.append("Entity.SysUserID", $("#Entity_SysUserID").val());
-        formData.append("Entity.UserName", $("#Entity_UserName").val());
-        formData.append("Entity.Password", $("#Entity_Password").val());
-        formData.append("Entity.PasswordConfirm", $("#Entity_PasswordConfirm").val());
+        formData.append("Entity.SysUserID", $("#frmEditSysUser #Entity_SysUserID").val());
+        formData.append("Entity.UserName", $("#frmEditSysUser #Entity_UserName").val());
+        formData.append("Entity.Password", $("#frmEditSysUser #Entity_Password").val());
+        formData.append("Entity.PasswordConfirm", $("#frmEditSysUser #Entity_PasswordConfirm").val());
 
         $.ajax({
             url: link,
@@ -287,6 +287,8 @@
             processData: false,
             data: formData,
             success: function (data) {
+                //DEBUG
+                alert("ADDED SYS USER " + data.sysUser.ID);
                 RenderSysUserWidget(data.sysUser.ID);
                 RenderSysGroupWidget(data.sysUser.ID);
             },
