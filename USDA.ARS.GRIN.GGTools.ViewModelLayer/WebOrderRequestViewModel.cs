@@ -75,7 +75,22 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
 
             return Entity;
         }
-       
+
+        public void GetWebOrderRequestActions(int entityId)
+        {
+            try { }
+            catch (Exception ex)
+            { }
+        }
+
+        public void GetWebOrderRequestNotes(int entityID)
+        { 
+        try 
+            { }
+            catch (Exception ex)
+            { }
+        }
+
         public void HandleRequest()
         {
             throw new NotImplementedException();

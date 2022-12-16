@@ -89,14 +89,22 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             }
         }
 
-        //public PartialViewResult RenderApprovalModal()
-        //{ 
-        
-        //}
-        //public PartialViewResult RenderRejectionModal()
-        //{ 
-        
-        //}
+        public PartialViewResult ExplorerNotes(int entityId)
+        {
+            WebOrderRequestViewModel viewModel = new WebOrderRequestViewModel();
+            return PartialView();
+        }
+
+        public PartialViewResult _RenderApprovalModal(int entityId)
+        {
+            WebOrderRequestViewModel viewModel = new WebOrderRequestViewModel();
+            return PartialView("~/Views/WebOrder/Modals/_Approve.cshtml", viewModel);
+        }
+        public PartialViewResult _RenderRejectionModal(int entityId)
+        {
+            WebOrderRequestViewModel viewModel = new WebOrderRequestViewModel();
+            return PartialView("~/Views/WebOrder/Modals/_Reject.cshtml", viewModel);
+        }
 
         public PartialViewResult _ListFolderItems(int folderId)
         {
@@ -114,7 +122,6 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
         {
             throw new NotImplementedException();
         }
-
         public ActionResult Delete(int entityId)
         {
             throw new NotImplementedException();
@@ -141,17 +148,14 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 return RedirectToAction("InternalServerError", "Error");
             }
         }
-
         public ActionResult Board()
         {
             return View();
         }
-
         public ActionResult Edit(int entityId)
         {
             throw new NotImplementedException();
         }
-
         [HttpPost]
         public ActionResult Edit(WebOrderRequestViewModel viewModel)
         {
@@ -170,7 +174,6 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 return RedirectToAction("InternalServerError", "Error");
             }
         }
-
         [HttpPost]
         public JsonResult BatchEdit(FormCollection formCollection)
         {
@@ -188,7 +191,6 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 return Json(new { success = false }, JsonRequestBehavior.AllowGet);
             }
         }
-
         public ActionResult Index()
         {
             try
@@ -203,21 +205,6 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 return RedirectToAction("InternalServerError", "Error");
             }
         }
-
-        //public ActionResult Search()
-        //{
-        //    try
-        //    {
-        //        WebOrderRequestViewModel viewModel = new WebOrderRequestViewModel();
-        //        viewModel.PageTitle = "Web Order Search";
-        //        return View("~/Views/WebOrder/Index.cshtml", viewModel);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Log.Error(ex);
-        //        return RedirectToAction("InternalServerError", "Error");
-        //    }
-        //}
 
         public ActionResult Lookup(int entityId = 0)
         {
@@ -332,40 +319,6 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 return PartialView("~/Views/Error/_InternalServerError.cshtml");
             }
         }
-
-        //public ActionResult DashboardList()
-        //{
-        //    WebOrderRequestViewModel viewModel = new WebOrderRequestViewModel();
-        //    try
-        //    {
-        //        viewModel.AuthenticatedUserWebUserID = AuthenticatedUser.WebUserID;
-        //        viewModel.SearchEntity.TimeFrame = "TDY";
-        //        viewModel.Search();
-        //        ModelState.Clear();
-        //        return PartialView("~/Views/WebOrder/Dashboard/_List.cshtml", viewModel);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Log.Error(ex);
-        //        return RedirectToAction("_InternalServerError", "Error");
-        //    }
-        //}
-
-        //public ActionResult DashboardTotals()
-        //{
-        //    WebOrderRequestViewModel viewModel = new WebOrderRequestViewModel();
-        //    try
-        //    {
-        //        viewModel.GetDashboardTotals(DateTime.Now.Year);
-        //        ModelState.Clear();
-        //        return PartialView("~/Views/WebOrder/Dashboard/_ListByStatus.cshtml", viewModel);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Log.Error(ex);
-        //        return RedirectToAction("_InternalServerError", "Error");
-        //    }
-        //}
 
         [HttpPost]
         public JsonResult AddWebOrderRequestAction(FormCollection formCollection)

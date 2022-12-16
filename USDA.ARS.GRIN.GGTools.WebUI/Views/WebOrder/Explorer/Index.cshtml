@@ -36,7 +36,13 @@
     }
 </style>
 <div class="row">
-    <div class="col-md-3">
+    <div class="col-md-12">
+        <input type="text" id="txtDEBUGTimeFrame" />
+        <input type="text" id="txtDEBUGTabPane" />
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-4">
         <div class="card">
             <div id="section-web-order-list" class="card-header p-2">
                 <ul class="nav nav-pills">
@@ -58,29 +64,25 @@
 
 
                     </div>
-
                     <div id="section-web-order-search-results"></div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="col-md-9">
+    <div class="col-md-8">
         <!-- TEST ALT. TAB FORMAT -->
         <div class="card card-primary card-tabs">
-            <div class="card-header p-0 pt-1">
+            <div id="section-web-order-request-tabs" class="card-header p-0 pt-1">
                 <ul class="nav nav-tabs" id="custom-tabs-two-tab" role="tablist">
                     <li class="pt-2 px-3"><h3 class="card-title">Web Order Request</h3></li>
-                    <li class="nav-item">
-                        <a class="nav-link active" id="custom-tabs-two-home-tab" data-toggle="pill" href="#tab-content-web-order-request-detail" role="tab" aria-controls="custom-tabs-two-home" aria-selected="true">Home</a>
+                    <li id="section-web-order-request-tabs-detail" class="nav-item">
+                        <a class="nav-link active" id="custom-tabs-two-home-tab" data-toggle="pill" href="#tab-content-web-order-request-detail" role="tab" aria-controls="custom-tabs-two-home" aria-selected="true">Detail</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" id="custom-tabs-two-profile-tab" data-toggle="pill" href="#tab-content-web-order-request-timeline" role="tab" aria-controls="custom-tabs-two-profile" aria-selected="false">Profile</a>
+                    <li id="section-web-order-request-tabs-timeline" class="nav-item">
+                        <a class="nav-link" id="custom-tabs-two-profile-tab" data-toggle="pill" href="#tab-content-web-order-request-timeline" role="tab" aria-controls="custom-tabs-two-profile" aria-selected="false">Action Timeline</a>
                     </li>
-                    <li class="nav-item">
+                    <li id="section-web-order-request-tabs-note" class="nav-item">
                         <a class="nav-link" id="custom-tabs-two-messages-tab" data-toggle="pill" href="#custom-tabs-two-messages" role="tab" aria-controls="custom-tabs-two-messages" aria-selected="false">Messages</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" id="custom-tabs-two-settings-tab" data-toggle="pill" href="#custom-tabs-two-settings" role="tab" aria-controls="custom-tabs-two-settings" aria-selected="false">Settings</a>
                     </li>
                 </ul>
             </div>
@@ -251,25 +253,51 @@
                     <li class="nav-item"><a class="nav-link" href="#settings" data-toggle="tab">Notes</a></li>
                 </ul>
             </div>
-         
+
         </div>
     </div>
 </div>
 
 <script type="text/javascript">
     $(document).ready(function () {
-        LoadWebOrderRequestList("7D");
+        LoadWebOrderRequestList("1D");
     });
 
     function Init() {
 
     }
 
+    // ********************************************************************************
+    // EVENT HANDLERS
+    // ********************************************************************************
     $('#section-web-order-list ul.nav li').on('click', function () {
         var selectedTimeFrame = $(this).attr('id');
+
         //DEBUG
         /*alert("SHOW WEB ORDERS FOR " + selectedTimeFrame);*/
         LoadWebOrderRequestList(selectedTimeFrame);
+    });
+
+    $('#section-web-order-request-tabs ul.nav li').on('click', function () {
+        var selectedWebOrderRequestTab = $(this).attr('id');
+        var entityID = GetEntityID();
+
+        switch (selectedWebOrderRequestTab) {
+            case "section-web-order-request-tabs-detail":
+                LoadWebOrderRequestDetail(entityID);
+                break;
+            case "section-web-order-request-tabs-timeline":
+                LoadWebOrderRequestTimeLine(entityID);
+                break;
+            case "section-web-order-request-tabs-note":
+                LoadWebOrderRequestNote(entityID);
+                break;
+        }
+    });
+
+    $(document).on("click", "[id='btnOpenApproveModal']", function () {
+        event.preventDefault();
+        $("#modal-web-order-request-approve").modal("show");
     });
 
     $(document).on("click", "[id='btnApprove']", function () {
@@ -277,14 +305,32 @@
         ApproveWebOrderRequest(id);
     });
 
+    $(document).on("click", "[id='btnOpenRejectModal']", function () {
+        event.preventDefault();
+        $("#modal-web-order-request-reject").modal("show");
+    });
+
     $(document).on("click", "[id='btnReject']", function () {
         var id = $("#Entity_ID").val();
         RejectWebOrderRequest(id);
     });
 
+    function GetEntityID() {
+        var entityID = $("#Entity_ID").val();
+        if (entityID == 0) {
+            alert("ERROR: No entity ID");
+            return -1;
+        }
+        else {
+            return entityID;
+        }
+    }
+
     function LoadWebOrderRequestList(timeFrame, selectedStatusList, selectedWebUserList)  {
         var link = '@Url.Action("_Lookup", "WebOrder")';
         var formData = new FormData();
+
+        $("#txtDEBUGTimeFrame").val(timeFrame);
 
         formData.append("TimeFrame", timeFrame);
         //formData.append("SelectedStatusList", selectedStatusList);
@@ -324,9 +370,25 @@
     }
 
     function LoadWebOrderRequestTimeLine(id) {
+        link = '@Url.Action("ExplorerTimeline", "WebOrder")';
+        var formData = new FormData();
+
+        formData.append("entityId", webOrderRequestId);
+
+        $.ajax({
+            url: link,
+            type: 'POST',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (response) {
+                $("#section-web-order-request-timeline").html(response);
+            }
+        });
     }
 
-    function LoadNotes(id) {
+    function LoadWebOrderRequestNote(id) {
     }
 
     function ApproveWebOrderRequest(id) {
@@ -377,6 +439,10 @@
 
             $('#table_web_order_requests tbody').on('click', 'tr', function () {
                 var data = table.row(this).data();
+
+                //DEBUG
+                alert(data[0]);
+
                 LoadWebOrderRequestDetail(data[0]);
             });
 

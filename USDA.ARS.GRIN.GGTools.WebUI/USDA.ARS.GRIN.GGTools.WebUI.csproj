@@ -425,7 +425,7 @@
     <Content Include="Views\Taxonomy\Genus\Modals\_SelectList.cshtml" />
     <Content Include="Views\WebOrder\Modals\_Approve.cshtml" />
     <Content Include="Views\WebOrder\Modals\_BatchEdit.cshtml" />
-    <Content Include="Views\WebOrder\Modals\_Deny.cshtml" />
+    <Content Include="Views\WebOrder\Modals\_Reject.cshtml" />
     <Content Include="Views\WebOrder\Modals\_EmailCurators.cshtml" />
     <Content Include="Views\WebOrder\Modals\_EmailRequestor.cshtml" />
     <Content Include="Views\WebOrder\Modals\_EndReview.cshtml" />
@@ -684,6 +684,7 @@
     <Content Include="Views\CooperatorMap\_Detail.cshtml" />
     <Content Include="Views\Cooperator\Modals\_Lookup.cshtml" />
     <Content Include="Views\Cooperator\Modals\_SelectList.cshtml" />
+    <Content Include="Views\WebOrder\Home\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
