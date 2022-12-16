@@ -27,6 +27,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
         {
             try
             {
+                viewModel.Search();
                 return PartialView("~/Views/Cooperator/Modals/_SelectList.cshtml", viewModel);
             }
             catch (Exception ex)
@@ -129,6 +130,9 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 CooperatorViewModel viewModel = new CooperatorViewModel();
                 viewModel.Get(entityId, "");
                 viewModel.Entity.StatusCode = "ACTIVE";
+                viewModel.Update();
+                viewModel.Get(entityId, "");
+
                 viewModel.PageTitle = String.Format("Edit Cooperator [{0}]: {1}, {2}", entityId, viewModel.Entity.LastName, viewModel.Entity.FirstName);
                 viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
                 viewModel.AuthenticatedUser = AuthenticatedUser;
@@ -176,11 +180,23 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             {
                 if (viewModel.Entity.ID == 0)
                 {
+                    WebCooperatorViewModel webCooperatorViewModel = new WebCooperatorViewModel();
+                    webCooperatorViewModel.Entity.FirstName = viewModel.Entity.FirstName;
+                    webCooperatorViewModel.Entity.LastName = viewModel.Entity.LastName;
+                    webCooperatorViewModel.Entity.EmailAddress = viewModel.Entity.EmailAddress;
+                    webCooperatorViewModel.Entity.Organization = viewModel.Entity.Organization;
+                    webCooperatorViewModel.Entity.OrganizationAbbrev = viewModel.Entity.OrganizationAbbrev;
+                    webCooperatorViewModel.Entity.JobTitle = viewModel.Entity.JobTitle;
+                    webCooperatorViewModel.Entity.Address1 = viewModel.Entity.AddressLine1;
+                    webCooperatorViewModel.Entity.Address2 = viewModel.Entity.AddressLine2;
+                    webCooperatorViewModel.Entity.City = viewModel.Entity.City;
+                    webCooperatorViewModel.Entity.GeographyID = viewModel.Entity.GeographyID;
+                    webCooperatorViewModel.Entity.PostalCode = viewModel.Entity.PostalIndex;
+                    webCooperatorViewModel.Insert();
+
+                    viewModel.Entity.WebCooperatorID = webCooperatorViewModel.Entity.ID;
                     viewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
                     viewModel.Insert();
-
-                    // TODO add sys user
-
                 }
                 else
                 {
@@ -331,24 +347,11 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 return PartialView("~/Views/Error/_InternalServerError.cshtml");
             }
         }
-
-        //public PartialViewResult _ListBySite(int siteId)
-        //{
-        //    try
-        //    {
-        //        CooperatorViewModel viewModel = new CooperatorViewModel();
-        //        viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
-        //        viewModel.AuthenticatedUser = AuthenticatedUser;
-        //        viewModel.SearchSiteCurators(siteId);
-        //        return PartialView("~/Views/Cooperator/_DetailList.cshtml", viewModel);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Log.Error(ex);
-        //        return PartialView("~/Views/Error/_InternalServerError.cshtml");
-        //    }
-        //}
-
+        public PartialViewResult RenderLookupModal()
+        {
+            CooperatorViewModel viewModel = new CooperatorViewModel();
+            return PartialView("~/Views/Cooperator/Modals/_Lookup.cshtml",viewModel);
+        }
         public PartialViewResult RenderWidget(int cooperatorId)
         {
             CooperatorViewModel viewModel = new CooperatorViewModel();
@@ -507,7 +510,11 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             try
             {
                 CooperatorViewModel viewModel = new CooperatorViewModel();
-                viewModel.SearchEntity.ID = entityId;
+                viewModel.Get(entityId, "");
+                viewModel.PageTitle = String.Format("Edit Cooperator [{0}]: {1}, {2}", entityId, viewModel.Entity.LastName, viewModel.Entity.FirstName);
+                viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
+                viewModel.AuthenticatedUser = AuthenticatedUser;
+                viewModel.MainSectionCSSClass = "col-md-9";
                 return View("~/Views/Cooperator/Edit.cshtml", viewModel);
             }
             catch (Exception ex)

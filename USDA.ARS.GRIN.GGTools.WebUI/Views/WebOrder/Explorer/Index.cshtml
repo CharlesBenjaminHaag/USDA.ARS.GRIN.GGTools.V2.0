@@ -37,43 +37,61 @@
 </style>
 <div class="row">
     <div class="col-md-3">
-        <div class="card card-outline card-primary">
-            <div class="card-header">
-                <h3 class="card-title">Web Order Requests</h3>
-                <div class="card-tools">
-                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                        <i class="fas fa-minus"></i>
-                    </button>
-                </div>
-            </div>
-            <div class="card-body">
-                <div class="btn-group btn-block" style="margin-bottom:15px;">
-                    <button id="btnFilterToday" type="button" class="btn btn-default time-frame-selector">Today</button>
-                    <button id="btnFilter3DY" type="button" class="btn btn-default time-frame-selector">3 Days</button>
-                    <button id="btnFilter7DY" type="button" class="btn btn-default time-frame-selector">7 Days</button>
-                    <button id="btnFilter30D" type="button" class="btn btn-default time-frame-selector">30 Days</button>
-                </div>
-                <div id="section-web-order-search-results"></div>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-9">
         <div class="card">
-            <div class="card-header p-2">
+            <div id="section-web-order-list" class="card-header p-2">
                 <ul class="nav nav-pills">
-                    <li class="nav-item"><a class="nav-link active" href="#activity" data-toggle="tab">Details</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">Timeline</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#settings" data-toggle="tab">Notes</a></li>
+                    <li id="1D" class="nav-item"><a class="nav-link active" href="#activity" data-toggle="tab">Today</a></li>
+                    <li id="7D" class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">7 Days</a></li>
+                    <li id="30D" class="nav-item"><a class="nav-link" href="#settings" data-toggle="tab">30 Days</a></li>
                 </ul>
             </div>
             <div class="card-body web-order-request">
                 <div class="tab-content">
                     <div class="tab-pane active" id="activity" style="padding:0px;">
+
+                    </div>
+                    <div class="tab-pane" id="timeline">
+
+                    </div>
+                    <div class="tab-pane" id="settings">
+
+
+
+                    </div>
+
+                    <div id="section-web-order-search-results"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-9">
+        <!-- TEST ALT. TAB FORMAT -->
+        <div class="card card-primary card-tabs">
+            <div class="card-header p-0 pt-1">
+                <ul class="nav nav-tabs" id="custom-tabs-two-tab" role="tablist">
+                    <li class="pt-2 px-3"><h3 class="card-title">Web Order Request</h3></li>
+                    <li class="nav-item">
+                        <a class="nav-link active" id="custom-tabs-two-home-tab" data-toggle="pill" href="#tab-content-web-order-request-detail" role="tab" aria-controls="custom-tabs-two-home" aria-selected="true">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="custom-tabs-two-profile-tab" data-toggle="pill" href="#tab-content-web-order-request-timeline" role="tab" aria-controls="custom-tabs-two-profile" aria-selected="false">Profile</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="custom-tabs-two-messages-tab" data-toggle="pill" href="#custom-tabs-two-messages" role="tab" aria-controls="custom-tabs-two-messages" aria-selected="false">Messages</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="custom-tabs-two-settings-tab" data-toggle="pill" href="#custom-tabs-two-settings" role="tab" aria-controls="custom-tabs-two-settings" aria-selected="false">Settings</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="card-body web-order-request">
+                <div class="tab-content">
+                    <div class="tab-pane active" id="tab-content-web-order-request-detail" style="padding:0px;">
                         <div id="section-web-order-request-detail">
 
                         </div>
                     </div>
-                    <div class="tab-pane" id="timeline">
+                    <div class="tab-pane" id="tab-content-web-order-request-timeline">
                         <div class="timeline timeline-inverse" style="margin:5px;">
                             <div class="time-label">
                                 <span class="bg-danger">
@@ -184,7 +202,7 @@
 
                             </div>
 
-                            
+
 
                         </div>
 
@@ -222,76 +240,67 @@
                     </div>
                 </div>
             </div>
+
+        </div>
+
+        <div class="card">
+            <div class="card-header p-2">
+                <ul class="nav nav-pills">
+                    <li class="nav-item"><a class="nav-link active" href="#activity" data-toggle="tab">Details</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">Timeline</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#settings" data-toggle="tab">Notes</a></li>
+                </ul>
+            </div>
+         
         </div>
     </div>
 </div>
 
 <script type="text/javascript">
     $(document).ready(function () {
-        LoadChildData("30D")
+        LoadWebOrderRequestList("7D");
     });
 
-    function LoadChildData(timeFrame, selectedStatusList, selectedWebUserList)  {
-    var link = '@Url.Action("_Lookup", "WebOrder")';
-    var formData = new FormData();
+    function Init() {
 
-    formData.append("TimeFrame", timeFrame);
-    //formData.append("SelectedStatusList", selectedStatusList);
-    //formData.append("SelectedWebUserList", selectedWebUserList);
-
-    $.ajax({
-        url: link,
-        type: 'POST',
-        cache: false,
-        contentType: false,
-        processData: false,
-        data: formData,
-        success: function (response) {
-            $("#section-web-order-search-results").html(response);
-            InitDataTableWebOrderRequests("table_web_order_requests");
-        }
-    });
     }
 
-    function InitDataTableWebOrderRequests(tableName) {
-        $(document).ready(function () {
-            var table = $("#" + tableName).DataTable({
-                /*dom: 'Blfrtip',*/
-                paging: false,
-                "pageLength": 10,
-                //initComplete: function () {
-                //    SetControlVisibility(tableName);
-                //},
-                responsive: true,
-                //buttons: [
-                //    'selectAll',
-                //    'selectNone',
-                //    'csv',
-                //    'excel',
-                //    'pdf'
-                //],
-                select: {
-                    style: 'single'
-                },
-                responsive:true,
-                lengthMenu: [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],
-                columnDefs: [
-                    { targets: [0], visible: false }
-                ]
-            });
+    $('#section-web-order-list ul.nav li').on('click', function () {
+        var selectedTimeFrame = $(this).attr('id');
+        //DEBUG
+        /*alert("SHOW WEB ORDERS FOR " + selectedTimeFrame);*/
+        LoadWebOrderRequestList(selectedTimeFrame);
+    });
 
-            //Select first row by default; load related data.
-            table.row(':eq(0)', { page: 'current' }).select();
-            var firstRowData = table.row(':eq(0)', { page: 'current' }).data();
+    $(document).on("click", "[id='btnApprove']", function () {
+        var id = $("#Entity_ID").val();
+        ApproveWebOrderRequest(id);
+    });
 
-            $('#table_web_order_requests tbody').on('click', 'tr', function () {
-                var data = table.row(this).data();
-                LoadWebOrderRequestDetail(data[0]);
-            });
+    $(document).on("click", "[id='btnReject']", function () {
+        var id = $("#Entity_ID").val();
+        RejectWebOrderRequest(id);
+    });
 
-            //table.on('search.dt', function () {
-            //    alert("DEBUG FILTER " + table.search());
-            //});
+    function LoadWebOrderRequestList(timeFrame, selectedStatusList, selectedWebUserList)  {
+        var link = '@Url.Action("_Lookup", "WebOrder")';
+        var formData = new FormData();
+
+        formData.append("TimeFrame", timeFrame);
+        //formData.append("SelectedStatusList", selectedStatusList);
+        //formData.append("SelectedWebUserList", selectedWebUserList);
+
+        $.ajax({
+            url: link,
+            type: 'POST',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (response) {
+                $("#section-web-order-search-results").html(response);
+                InitDataTableWebOrderRequests("table_web_order_requests");
+            }
         });
     }
 
@@ -317,4 +326,63 @@
     function LoadWebOrderRequestTimeLine(id) {
     }
 
+    function LoadNotes(id) {
+    }
+
+    function ApproveWebOrderRequest(id) {
+        //DEBUG
+        alert("APPROVE WOR " + id);
+        LoadWebOrderRequestDetail(id);
+        LoadWebOrderRequestList("30D");
+    }
+
+    function RejectWebOrderRequest(id) {
+        //DEBUG
+        alert("REJECT WOR " + id);
+        LoadWebOrderRequestDetail(id);
+    }
+
+    function InitDataTableWebOrderRequests(tableName) {
+        $(document).ready(function () {
+            var table = $("#" + tableName).DataTable({
+                /*dom: 'Blfrtip',*/
+                paging: false,
+                "pageLength": 10,
+                stateSave: true,
+                //initComplete: function () {
+                //    SetControlVisibility(tableName);
+                //},
+                responsive: true,
+                //buttons: [
+                //    'selectAll',
+                //    'selectNone',
+                //    'csv',
+                //    'excel',
+                //    'pdf'
+                //],
+                select: {
+                    style: 'single'
+                },
+                responsive: true,
+                lengthMenu: [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],
+                columnDefs: [
+                    { targets: [0], visible: false }
+                ]
+            });
+
+            //Select first row by default; load related data.
+            table.row(':eq(0)', { page: 'current' }).select();
+            var firstRowData = table.row(':eq(0)', { page: 'current' }).data();
+            LoadWebOrderRequestDetail(firstRowData[0]);
+
+            $('#table_web_order_requests tbody').on('click', 'tr', function () {
+                var data = table.row(this).data();
+                LoadWebOrderRequestDetail(data[0]);
+            });
+
+            //table.on('search.dt', function () {
+            //    alert("DEBUG FILTER " + table.search());
+            //});
+        });
+    }
 </script>

@@ -7,6 +7,18 @@
         </div>
         <h3 class="profile-username text-center">@Model.Entity.FirstName @Model.Entity.LastName</h3>
         <p class="text-muted text-center">@Model.Entity.JobTitle</p>
+        @if (Model.Entity.StatusCode == "ACTIVE")
+        {
+            <span class="badge bg-green">
+                @Model.Entity.StatusCode
+            </span>
+        }
+        else
+        {
+            <span class="badge bg-red">
+                @Model.Entity.StatusCode
+            </span>
+        }
         <ul class="list-group list-group-unbordered mb-3">
             <li class="list-group-item">
                 <b>Organization</b> <a class="float-right"> @Model.Entity.Organization</a>

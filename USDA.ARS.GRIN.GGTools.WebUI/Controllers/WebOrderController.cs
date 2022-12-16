@@ -351,21 +351,21 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
         //    }
         //}
 
-        public ActionResult DashboardTotals()
-        {
-            WebOrderRequestViewModel viewModel = new WebOrderRequestViewModel();
-            try
-            {
-                viewModel.GetDashboardTotals(DateTime.Now.Year);
-                ModelState.Clear();
-                return PartialView("~/Views/WebOrder/Dashboard/_ListByStatus.cshtml", viewModel);
-            }
-            catch (Exception ex)
-            {
-                Log.Error(ex);
-                return RedirectToAction("_InternalServerError", "Error");
-            }
-        }
+        //public ActionResult DashboardTotals()
+        //{
+        //    WebOrderRequestViewModel viewModel = new WebOrderRequestViewModel();
+        //    try
+        //    {
+        //        viewModel.GetDashboardTotals(DateTime.Now.Year);
+        //        ModelState.Clear();
+        //        return PartialView("~/Views/WebOrder/Dashboard/_ListByStatus.cshtml", viewModel);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Log.Error(ex);
+        //        return RedirectToAction("_InternalServerError", "Error");
+        //    }
+        //}
 
         [HttpPost]
         public JsonResult AddWebOrderRequestAction(FormCollection formCollection)

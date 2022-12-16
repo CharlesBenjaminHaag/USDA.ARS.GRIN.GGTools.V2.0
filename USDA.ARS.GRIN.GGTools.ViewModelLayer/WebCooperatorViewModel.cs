@@ -33,7 +33,19 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
 
         public int Insert()
         {
-            throw new NotImplementedException();
+            using (WebCooperatorManager mgr = new WebCooperatorManager())
+            {
+                try
+                {
+                    Entity.ID = mgr.Insert(Entity);
+                }
+                catch (Exception ex)
+                {
+                    PublishException(ex);
+                    throw ex;
+                }
+                return Entity.ID;
+            }
         }
 
         public void Search()

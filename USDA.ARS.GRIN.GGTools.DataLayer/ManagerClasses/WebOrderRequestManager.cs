@@ -122,13 +122,13 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             
             switch (searchEntity.TimeFrame)
             {
-                case "TDY":
+                case "1D":
                     SQL += " AND (CONVERT(date, OrderDate) = CONVERT(date, GETDATE()))";
                     break;
-                case "3DY":
+                case "3D":
                     SQL += " AND OrderDate >= DATEADD(day,-3, GETDATE())";
                     break;
-                case "7DY":
+                case "7D":
                     SQL += " AND OrderDate >= DATEADD(day,-7, GETDATE())";
                     break;
                 case "30D":

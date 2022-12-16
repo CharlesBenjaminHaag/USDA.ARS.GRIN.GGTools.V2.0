@@ -39,8 +39,25 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
 
         public int Insert(WebCooperator entity)
         {
-            throw new NotImplementedException();
+            Reset(CommandType.StoredProcedure);
+            Validate<WebCooperator>(entity);
+            SQL = "usp_GRINGlobal_Web_Cooperator_Insert";
+
+            BuildInsertUpdateParameters(entity);
+
+            AddParameter("@out_error_number", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
+            AddParameter("@out_cooperator_id", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
+            RowsAffected = ExecuteNonQuery();
+
+            entity.ID = GetParameterValue<int>("@out_cooperator_id", -1);
+            var errorNumber = GetParameterValue<int>("@out_error_number", -1);
+
+            if (errorNumber > 0)
+                throw new Exception(errorNumber.ToString());
+
+            return entity.ID;
         }
+
 
         public List<WebCooperator> Search(WebCooperatorSearch searchEntity)
         {
@@ -98,10 +115,43 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             List<CodeValue> codeValues = GetRecords<CodeValue>(SQL, CommandType.StoredProcedure, parameters.ToArray());
             return codeValues;
         }
-
         public WebCooperator Get(int entityId)
         {
             throw new NotImplementedException();
+        }
+        public void BuildInsertUpdateParameters(WebCooperator entity)
+        {
+            if (entity.ID > 0)
+            {
+                AddParameter("cooperator_id", entity.ID == 0 ? DBNull.Value : (object)entity.ID, true);
+            }
+            AddParameter("title", String.IsNullOrEmpty(entity.JobTitle) ? DBNull.Value : (object)entity.JobTitle, true);
+            AddParameter("last_name", String.IsNullOrEmpty(entity.LastName) ? DBNull.Value : (object)entity.LastName, true);
+            AddParameter("first_name", String.IsNullOrEmpty(entity.FirstName) ? DBNull.Value : (object)entity.FirstName, true);
+            AddParameter("job", String.IsNullOrEmpty(entity.JobTitle) ? DBNull.Value : (object)entity.JobTitle, true);
+            AddParameter("organization", String.IsNullOrEmpty(entity.Organization) ? DBNull.Value : (object)entity.Organization, true);
+            AddParameter("organization_abbrev", String.IsNullOrEmpty(entity.OrganizationAbbrev) ? DBNull.Value : (object)entity.OrganizationAbbrev, true);
+            AddParameter("address_line1", String.IsNullOrEmpty(entity.Address1) ? DBNull.Value : (object)entity.Address1, true);
+            AddParameter("address_line2", String.IsNullOrEmpty(entity.Address2) ? DBNull.Value : (object)entity.Address2, true);
+            AddParameter("address_line3", String.IsNullOrEmpty(entity.Address3) ? DBNull.Value : (object)entity.Address3, true);
+            AddParameter("city", String.IsNullOrEmpty(entity.City) ? DBNull.Value : (object)entity.City, true);
+            AddParameter("postal_index", String.IsNullOrEmpty(entity.PostalCode) ? DBNull.Value : (object)entity.PostalCode, true);
+            AddParameter("geography_id", entity.GeographyID == 0 ? DBNull.Value : (object)entity.GeographyID, true);
+            AddParameter("primary_phone", String.IsNullOrEmpty(entity.PrimaryPhone) ? DBNull.Value : (object)entity.PrimaryPhone, true);
+            AddParameter("email_address", String.IsNullOrEmpty(entity.EmailAddress) ? DBNull.Value : (object)entity.EmailAddress, true);
+            AddParameter("category_code", String.IsNullOrEmpty(entity.CategoryCode) ? DBNull.Value : (object)entity.CategoryCode, true);
+            AddParameter("organization_region_code", String.IsNullOrEmpty(entity.OrganizationRegionCode) ? DBNull.Value : (object)entity.OrganizationRegionCode, true);
+            AddParameter("discipline_code", String.IsNullOrEmpty(entity.DisciplineCode) ? DBNull.Value : (object)entity.DisciplineCode, true);
+            AddParameter("note", String.IsNullOrEmpty(entity.Note) ? DBNull.Value : (object)entity.Note, true);
+
+            if (entity.ID > 0)
+            {
+                AddParameter("modified_by", entity.WebUserID == 0 ? DBNull.Value : (object)entity.WebUserID, true);
+            }
+            else
+            {
+                AddParameter("created_by", entity.WebUserID == 0 ? DBNull.Value : (object)entity.WebUserID, true);
+            }
         }
     }
 }

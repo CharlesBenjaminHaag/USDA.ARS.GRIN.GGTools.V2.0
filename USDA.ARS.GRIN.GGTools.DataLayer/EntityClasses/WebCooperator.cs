@@ -19,12 +19,19 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
         public string EmailAddress { get; set; }
         public string Organization { get; set; }
         public string OrganizationAbbrev { get; set; }
+        public string OrganizationRegionCode { get; set; }
         public string PrimaryPhone { get; set; }
         public string SecondaryPhone { get; set; }
         public string JobTitle { get; set; }
         public string Address1 { get; set; }
         public string Address2 { get; set; }
         public string Address3 { get; set; }
+        public string City { get; set; }
+        public string State { get; set; }
+        public string PostalCode { get; set; }
+        public int GeographyID { get; set; }
+        public string CategoryCode { get; set; }
+        public string DisciplineCode { get; set; }
         public bool IsActive { get;set; }
         public int TotalOrders { get; set; }
         public int TotalOrderItems { get; set; }
