@@ -73,7 +73,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
         {
             List<AppUserDynamicQuery> results = new List<AppUserDynamicQuery>();
 
-            SQL = " SELECT * FROM vw_GGTools_GRINGlobal_AppUserDynamicQuery";
+            SQL = " SELECT * FROM vw_GRINGlobal_App_User_Dynamic_Query";
             SQL += " WHERE  (@CreatedByCooperatorID       IS NULL OR   CreatedByCooperatorID    =   @CreatedByCooperatorID)";
             SQL += " AND    (@ID                          IS NULL OR   ID                       =   @ID)";
             SQL += " AND    (@TableName                   IS NULL OR   DataSource               =   @TableName)";

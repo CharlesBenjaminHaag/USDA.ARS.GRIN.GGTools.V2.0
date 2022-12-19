@@ -37,12 +37,12 @@
 </style>
 <div class="row">
     <div class="col-md-12">
-        <input type="text" id="txtDEBUGTimeFrame" />
-        <input type="text" id="txtDEBUGTabPane" />
+        <input type="hidden" id="hfSelectedTimeFrame" />
+        <input type="hidden" id="hfSelectedWebOrderRequestTab" />
     </div>
 </div>
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-3">
         <div class="card">
             <div id="section-web-order-list" class="card-header p-2">
                 <ul class="nav nav-pills">
@@ -69,8 +69,7 @@
             </div>
         </div>
     </div>
-    <div class="col-md-8">
-        <!-- TEST ALT. TAB FORMAT -->
+    <div class="col-md-9">
         <div class="card card-primary card-tabs">
             <div id="section-web-order-request-tabs" class="card-header p-0 pt-1">
                 <ul class="nav nav-tabs" id="custom-tabs-two-tab" role="tablist">
@@ -82,7 +81,7 @@
                         <a class="nav-link" id="custom-tabs-two-profile-tab" data-toggle="pill" href="#tab-content-web-order-request-timeline" role="tab" aria-controls="custom-tabs-two-profile" aria-selected="false">Action Timeline</a>
                     </li>
                     <li id="section-web-order-request-tabs-note" class="nav-item">
-                        <a class="nav-link" id="custom-tabs-two-messages-tab" data-toggle="pill" href="#custom-tabs-two-messages" role="tab" aria-controls="custom-tabs-two-messages" aria-selected="false">Messages</a>
+                        <a class="nav-link" id="custom-tabs-two-messages-tab" data-toggle="pill" href="#custom-tabs-two-messages" role="tab" aria-controls="custom-tabs-two-messages" aria-selected="false">Notes</a>
                     </li>
                 </ul>
             </div>
@@ -94,84 +93,7 @@
                         </div>
                     </div>
                     <div class="tab-pane" id="tab-content-web-order-request-timeline">
-                        <div class="timeline timeline-inverse" style="margin:5px;">
-                            <div class="time-label">
-                                <span class="bg-danger">
-                                    10 Feb. 2014
-                                </span>
-                            </div>
-                            <div>
-                                <i class="fas fa-envelope bg-primary"></i>
-                                <div class="timeline-item">
-                                    <span class="time"><i class="far fa-clock"></i> 12:05</span>
-                                    <h3 class="timeline-header"><a href="#">Support Team</a> sent you an email</h3>
-                                    <div class="timeline-body">
-                                        Etsy doostang zoodles disqus groupon greplin oooj voxy zoodles,
-                                        weebly ning heekya handango imeem plugg dopplr jibjab, movity
-                                        jajah plickers sifteo edmodo ifttt zimbra. Babblely odeo kaboodle
-                                        quora plaxo ideeli hulu weebly balihoo...
-                                    </div>
-                                    <div class="timeline-footer">
-                                        <a href="#" class="btn btn-primary btn-sm">Read more</a>
-                                        <a href="#" class="btn btn-danger btn-sm">Delete</a>
-                                    </div>
-                                </div>
-                            </div>
-
-
-                            <div>
-                                <i class="fas fa-user bg-info"></i>
-                                <div class="timeline-item">
-                                    <span class="time"><i class="far fa-clock"></i> 5 mins ago</span>
-                                    <h3 class="timeline-header border-0">
-                                        <a href="#">Sarah Young</a> accepted your friend request
-                                    </h3>
-                                </div>
-                            </div>
-
-
-                            <div>
-                                <i class="fas fa-comments bg-warning"></i>
-                                <div class="timeline-item">
-                                    <span class="time"><i class="far fa-clock"></i> 27 mins ago</span>
-                                    <h3 class="timeline-header"><a href="#">Jay White</a> commented on your post</h3>
-                                    <div class="timeline-body">
-                                        Take me to your leader!
-                                        Switzerland is small and neutral!
-                                        We are more like Germany, ambitious and misunderstood!
-                                    </div>
-                                    <div class="timeline-footer">
-                                        <a href="#" class="btn btn-warning btn-flat btn-sm">View comment</a>
-                                    </div>
-                                </div>
-                            </div>
-
-
-                            <div class="time-label">
-                                <span class="bg-success">
-                                    3 Jan. 2014
-                                </span>
-                            </div>
-
-
-                            <div>
-                                <i class="fas fa-camera bg-purple"></i>
-                                <div class="timeline-item">
-                                    <span class="time"><i class="far fa-clock"></i> 2 days ago</span>
-                                    <h3 class="timeline-header"><a href="#">Mina Lee</a> uploaded new photos</h3>
-                                    <div class="timeline-body">
-                                        <img src="https://placehold.it/150x100" alt="...">
-                                        <img src="https://placehold.it/150x100" alt="...">
-                                        <img src="https://placehold.it/150x100" alt="...">
-                                        <img src="https://placehold.it/150x100" alt="...">
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div>
-                                <i class="far fa-clock bg-gray"></i>
-                            </div>
-                        </div>
+               
                     </div>
                     <div class="tab-pane" id="settings">
 
@@ -244,17 +166,6 @@
             </div>
 
         </div>
-
-        <div class="card">
-            <div class="card-header p-2">
-                <ul class="nav nav-pills">
-                    <li class="nav-item"><a class="nav-link active" href="#activity" data-toggle="tab">Details</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">Timeline</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#settings" data-toggle="tab">Notes</a></li>
-                </ul>
-            </div>
-
-        </div>
     </div>
 </div>
 
@@ -272,15 +183,14 @@
     // ********************************************************************************
     $('#section-web-order-list ul.nav li').on('click', function () {
         var selectedTimeFrame = $(this).attr('id');
-
-        //DEBUG
-        /*alert("SHOW WEB ORDERS FOR " + selectedTimeFrame);*/
         LoadWebOrderRequestList(selectedTimeFrame);
     });
 
     $('#section-web-order-request-tabs ul.nav li').on('click', function () {
         var selectedWebOrderRequestTab = $(this).attr('id');
         var entityID = GetEntityID();
+
+        $("#hfSelectedWebOrderRequestTab").val(selectedWebOrderRequestTab);
 
         switch (selectedWebOrderRequestTab) {
             case "section-web-order-request-tabs-detail":
@@ -330,7 +240,7 @@
         var link = '@Url.Action("_Lookup", "WebOrder")';
         var formData = new FormData();
 
-        $("#txtDEBUGTimeFrame").val(timeFrame);
+        $("#hfSelectedTimeFrame").val(timeFrame);
 
         formData.append("TimeFrame", timeFrame);
         //formData.append("SelectedStatusList", selectedStatusList);
@@ -369,7 +279,7 @@
         });
     }
 
-    function LoadWebOrderRequestTimeLine(id) {
+    function LoadWebOrderRequestTimeLine(webOrderRequestId) {
         link = '@Url.Action("ExplorerTimeline", "WebOrder")';
         var formData = new FormData();
 
@@ -383,7 +293,7 @@
             processData: false,
             data: formData,
             success: function (response) {
-                $("#section-web-order-request-timeline").html(response);
+                $("#tab-content-web-order-request-timeline").html(response);
             }
         });
     }
@@ -436,14 +346,12 @@
             table.row(':eq(0)', { page: 'current' }).select();
             var firstRowData = table.row(':eq(0)', { page: 'current' }).data();
             LoadWebOrderRequestDetail(firstRowData[0]);
+            LoadWebOrderRequestTimeLine(firstRowData[0]);
 
             $('#table_web_order_requests tbody').on('click', 'tr', function () {
                 var data = table.row(this).data();
-
-                //DEBUG
-                alert(data[0]);
-
                 LoadWebOrderRequestDetail(data[0]);
+                LoadWebOrderRequestTimeLine(data[0]);
             });
 
             //table.on('search.dt', function () {

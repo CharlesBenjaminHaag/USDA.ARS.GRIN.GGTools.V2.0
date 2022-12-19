@@ -22,28 +22,23 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
 
         public WebOrderRequest Get(int entityId)
         {
-            List<WebOrderRequest> webOrderRequests = new List<WebOrderRequest>();
-            WebOrderRequestSearch webOrderSearch = new WebOrderRequestSearch();
-            webOrderSearch.ID = entityId;
-            webOrderRequests = Search(webOrderSearch);
-            if (webOrderRequests.Count > 0)
-            {
-                return webOrderRequests[0];
-            }
-            return null;
+            SQL = "usp_GRINGlobal_Web_Order_Request_Select";
+            var parameters = new List<IDbDataParameter> {
+                CreateParameter("web_order_request_id", (object)entityId, false)
+            };
+            WebOrderRequest webOrderRequest = GetRecord<WebOrderRequest>(SQL, CommandType.StoredProcedure, parameters.ToArray());
+            return webOrderRequest;
         }
-
         public int Insert(WebOrderRequest entity)
         {
             throw new NotImplementedException();
         }
-
         public int InsertWebOrderRequestAction(WebOrderRequestAction entity)
         {
             Reset(CommandType.StoredProcedure);
             Validate<WebOrderRequestAction>(entity);
 
-            SQL = "usp_GGTools_Orders_WebOrderRequestAction_Insert";
+            SQL = "usp_GRINGlobal_Web_Order_Request_Action_Insert";
 
             AddParameter("web_order_request_id", entity.WebOrderRequestID == 0 ? DBNull.Value : (object)entity.WebOrderRequestID, true);
             AddParameter("action_code", String.IsNullOrEmpty(entity.ActionCode) ? DBNull.Value : (object)entity.ActionCode, true);
@@ -55,51 +50,11 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             RowsAffected = ExecuteNonQuery();
             return RowsAffected;
         }
-
         public List<WebOrderRequest> Search(WebOrderRequestSearch searchEntity)
         {
             List<WebOrderRequest> results = new List<WebOrderRequest>();
 
-            SQL = " SELECT ID, " +
-                " WebCooperatorID, " +
-                " WebCooperatorTitle, " +
-                " WebCooperatorFirstName, " +
-                " WebCooperatorLastName, " +
-                " WebCooperatorFullName, " +
-                " WebCooperatorPrimaryPhone, " +
-                " WebCooperatorEmail, " +
-                " WebCooperatorOrganization, " +
-                " WebCooperatorCreatedDate, " +
-                " WebCooperatorAddress1, " +
-                " WebCooperatorAddress2, " +
-                " WebCooperatorAddress3, " +
-                " WebCooperatorAddressCity, " +
-                " WebCooperatorAddressPostalIndex, " +
-                " WebCooperatorAddressState, " +
-                " ShippingAddress1, " +
-                " ShippingAddress2, " +
-                " ShippingAddress3, " +
-                " ShippingAddressCity, " +
-                " ShippingAddressPostalIndex, " +
-                " ShippingAddressState, " +
-                " OrderDate, " +
-                " IntendedUseCode, " +
-                " IntendedUseNote, " +
-                " StatusCode, " +
-                " MostRecentOrderAction, " +
-                " MostRecentWebOrderAction, " +
-                " WebCooperatorVettedStatusCode, " +
-                " Note, " +
-                " SpecialInstruction, " +
-                " TotalItems, " +
-                " IsLocked, " +
-                " IsPreviouslyNRRReviewed, " +
-                " RelatedOrders, " +
-                " OwnedByWebUserID, " + 
-                " OwnedByWebCooperatorName, " +
-                " OwnedByDate, " +
-                " CreatedDate " +
-                " FROM vw_GGTools_Orders_WebOrderRequests";
+            SQL = " SELECT * FROM vw_GRINGlobal_Web_Order_Request";
             SQL += " WHERE (@FirstName              IS NULL     OR      WebCooperatorFirstName          LIKE        '%' + @FirstName + '%')";
             SQL += " AND (@ID                       IS NULL     OR      ID                              =           @ID)";
             SQL += " AND (@OwnedByWebUserID         IS NULL     OR      OwnedByWebUserID                =           @OwnedByWebUserID)";
@@ -172,10 +127,9 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             RowsAffected = results.Count;
             return results;
         }
-
         public List<WebOrderRequestItem> GetWebOrderRequestItems(int entityId)
         {
-            SQL = "usp_GGTools_Orders_WebOrderRequestItems_Select";
+            SQL = "usp_GRINGlobal_Web_Order_Request_Items_Select";
             var parameters = new List<IDbDataParameter> {
                 CreateParameter("web_order_request_id", (object)entityId, false)
             };
@@ -184,17 +138,16 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
         }
         public List<WebOrderRequestAction> GetWebOrderRequestActions(int entityId)
         {
-            SQL = "usp_GGTools_Orders_WebOrderRequestActions_Select";
+            SQL = "usp_GRINGlobal_Web_Order_Request_Actions_Select";
             var parameters = new List<IDbDataParameter> {
                 CreateParameter("web_order_request_id", (object)entityId, false)
             };
             List<WebOrderRequestAction> webOrderRequestActions = GetRecords<WebOrderRequestAction>(SQL, CommandType.StoredProcedure, parameters.ToArray());
             return webOrderRequestActions;
         }
-
         public CodeValue GetWebOrderRequestEmailAddresses(int entityId)
         {
-            SQL = "usp_GGTools_Orders_WebOrderRequestEmailAddresses_Select";
+            SQL = "usp_GRINGlobal_Web_Order_Request_EmailAddresses_Select";
             var parameters = new List<IDbDataParameter> {
                 CreateParameter("web_order_request_id", (object)entityId, false)
             };
@@ -202,72 +155,18 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             CodeValue siteEmailDetail = GetRecord<CodeValue>(SQL, CommandType.StoredProcedure, parameters.ToArray());
             return siteEmailDetail;
         }
-
-        public List<ReportItem> GetReportItems(WebOrderRequestSearch searchEntity)
-        {
-            SQL = "usp_GRINGlobalRptStatusPercentage";
-            var parameters = new List<IDbDataParameter> {
-                CreateParameter("year", (object)searchEntity.Year, false)
-            };
-            List<ReportItem> reportItems = GetRecords<ReportItem>(SQL, CommandType.StoredProcedure, parameters.ToArray());
-            return reportItems;
-        }
-
-        //public List<ReportItem> GetCooperatorTotals(string searchText)
-        //{
-        //    SQL = "SELECT CommitteeMember, " +
-        //        " StatusCode," +
-        //        " COUNT(*) AS TotalOrders, " +
-        //        " FROM vw_GGTools_Orders_Rpt_ProcessedByUser " +
-        //        " WHERE CommitteeMember LIKE @Name " +
-        //        " GROUP BY CommitteeMember, StatusCode ";
-        //    var parameters = new List<IDbDataParameter> {
-        //        CreateParameter("FirstName", (object)searchText ?? DBNull.Value, true)
-        //    };
-        //    results = GetRecords<ReportItem>(SQL, parameters.ToArray());
-        //    RowsAffected = results.Count;
-        //    return results;
-        //}
-
         public int Update(WebOrderRequest entity)
         {
             Reset(CommandType.StoredProcedure);
             Validate<WebOrderRequest>(entity);
 
-            SQL = "usp_GGTools_Orders_WebOrderRequest_Update";
+            SQL = "usp_GRINGlobal_Web_Order_Request_Update";
 
             BuildInsertUpdateParameters(entity);
             AddParameter("@out_error_number", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
             RowsAffected = ExecuteNonQuery();
             return RowsAffected;
         }
-
-        public int UpdateLockStatus(WebOrderRequest entity)
-        {
-            WebOrderRequest webOrderRequest = new WebOrderRequest();
-            webOrderRequest = Get(entity.ID);
-            //TODO Set lock attrib
-            webOrderRequest.IsLocked = true;
-            Update(webOrderRequest);
-            return 0;
-        }
-
-        public int UpdateWebCooperatorStatus(WebCooperator entity)
-        {
-            Reset(CommandType.StoredProcedure);
-            Validate<WebCooperator>(entity);
-
-            SQL = "usp_GGTools_Orders_WebCooperatorStatus_Update";
-
-            AddParameter("web_cooperator_id", entity.ID == 0 ? DBNull.Value : (object)entity.ID, true);
-            AddParameter("vetted_status_code", String.IsNullOrEmpty(entity.VettedStatusCode) ? DBNull.Value : (object)entity.VettedStatusCode, true);
-            AddParameter("note", (object)entity.Note ?? DBNull.Value, true);
-            AddParameter("modified_by_web_user_id", entity.ModifiedByWebUserID == 0 ? DBNull.Value : (object)entity.ModifiedByWebUserID, true);
-            AddParameter("@out_error_number", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
-            RowsAffected = ExecuteNonQuery();
-            return RowsAffected;
-        }
-
         public void BuildInsertUpdateParameters(WebOrderRequest entity)
         {
             if (entity.ID > 0)
@@ -278,13 +177,6 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             AddParameter("status_code", String.IsNullOrEmpty(entity.StatusCode) ? DBNull.Value : (object)entity.StatusCode, true);
             AddParameter("note", (object)entity.Note ?? DBNull.Value, true);
         }
-
-        public virtual int Count(int year)
-        {
-            // Submit SQL to count all records in a table
-            return CountRecords("SELECT COUNT(*) FROM vw_gringlobal_web_order_requests WHERE YEAR(OrderDate) = " + year.ToString());
-        }
-
         public List<CodeValue> GetTimeFrameOptions()
         {
             List<CodeValue> timeFrameOptions = new List<CodeValue>();
@@ -298,7 +190,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
 
         public List<WebCooperator> GetWebCooperators()
         {
-            SQL = "usp_GGTools_Orders_WebCooperators_Select";
+            SQL = "usp_GRINGlobal_Web_Cooperators_Select";
             List<WebCooperator> webCooperators = GetRecords<WebCooperator>(SQL, CommandType.StoredProcedure);
             RowsAffected = webCooperators.Count;
             return webCooperators;
@@ -306,7 +198,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
 
         public virtual List<CodeValue> GetCodeValues(string groupName)
         {
-            SQL = "usp_GGTools_GRINGlobal_CodeValuesByGroup_Select";
+            SQL = "usp_GRINGlobal_Code_Values_Select";
             var parameters = new List<IDbDataParameter> {
                 CreateParameter("group_name", (object)groupName, false)
             };

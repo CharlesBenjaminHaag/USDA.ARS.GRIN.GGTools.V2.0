@@ -14,7 +14,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         public virtual List<CWRMap> Search(CWRMapSearch search)
         {
 
-            SQL = "SELECT * FROM  vw_GGTools_Taxon_CWRMaps ";
+            SQL = "SELECT * FROM  vw_GRINGlobal_Taxonomy_CWR_Map ";
             SQL += " WHERE  (@CreatedByCooperatorID     IS NULL OR CreatedByCooperatorID    =       @CreatedByCooperatorID)";
             SQL += " AND    (@ID                        IS NULL OR ID                       =       @ID)";
             SQL += " AND    (@SpeciesID                 IS NULL OR SpeciesID                =       @SpeciesID)";

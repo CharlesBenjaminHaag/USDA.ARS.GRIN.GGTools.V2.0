@@ -121,4 +121,34 @@
         </div>
     </div>
 </div>
+<script type="text/javascript">
+    $('#Entity_SiteID').on('change', function () {
+        LoadSite(this.value);
+    });
 
+    function LoadSite(siteId) {
+        link = '@Url.Action("_Get","Site")';
+        var formData = new FormData();
+
+        formData.append("siteId", siteId);
+
+        $.ajax({
+            url: link,
+            type: 'POST',
+            cache: false,
+            dataType: 'json',
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (data) {
+                $("#Entity_AddressLine1").val(data.site.PrimaryAddress1);
+                $("#Entity_AddressLine2").val(data.site.PrimaryAddress2);
+                $("#Entity_City").val(data.site.PrimaryCity);
+                $("#Entity_GeographyID").val(data.site.GeographyID);
+                $("#Entity_PostalIndex").val(data.site.PostalIndex);
+            },
+            error: function (ex) {
+            }
+        });
+    }
+</script>

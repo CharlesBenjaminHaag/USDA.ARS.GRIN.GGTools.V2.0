@@ -69,7 +69,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         {
             List<RegulationMap> results = new List<RegulationMap>();
 
-            SQL = "SELECT * FROM vw_GGTools_Taxon_RegulationMaps";
+            SQL = "SELECT * FROM vw_GRINGlobal_Taxonomy_Regulation_Map";
             SQL += " WHERE  (@CreatedByCooperatorID     IS NULL OR  CreatedByCooperatorID       =       @CreatedByCooperatorID)";
             SQL += " AND    (@ID                        IS NULL OR  ID                          =       @ID) ";
             SQL += " AND    (@FamilyID                  IS NULL OR  FamilyID                    =       @GenusID) ";

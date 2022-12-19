@@ -115,7 +115,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         {
             List<Genus> results = new List<Genus>();
 
-            SQL = "SELECT * FROM vw_GGTools_Taxon_Genera";
+            SQL = "SELECT * FROM vw_GRINGlobal_Taxonomy_Genus";
             
             SQL += " WHERE  (@ID   IS NULL OR ID       =         @ID)";
             SQL += " AND    (@CreatedByCooperatorID         IS NULL OR CreatedByCooperatorID    =       @CreatedByCooperatorID)";

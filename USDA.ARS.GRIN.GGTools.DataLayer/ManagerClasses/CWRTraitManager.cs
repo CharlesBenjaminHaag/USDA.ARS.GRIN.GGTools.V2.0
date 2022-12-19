@@ -49,7 +49,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         {
             List<CWRTrait> results = new List<CWRTrait>();
 
-            SQL = "SELECT * FROM vw_GGTools_Taxon_CWRTraits ";
+            SQL = "SELECT * FROM vw_GRINGlobal_Taxonomy_CWR_Trait ";
             SQL += " WHERE  (@ID                        IS NULL OR ID                       =     @ID)";
             SQL += " AND    (@CropForCWRID              IS NULL OR CropForCWRID             =     @CropForCWRID)";
             SQL += " AND    (@CWRMapID                  IS NULL OR CWRMapID             =     @CWRMapID)";

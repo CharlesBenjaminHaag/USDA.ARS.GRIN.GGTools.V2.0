@@ -79,7 +79,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         public virtual List<CropForCWR> Search(CropForCWRSearch search)
         {
             // Create SQL to search for rows
-            SQL = "SELECT * FROM vw_GGTools_Taxon_CWRCrops";
+            SQL = "SELECT * FROM vw_GRINGlobal_Taxonomy_CWR_Crop";
             SQL += " WHERE (@CreatedByCooperatorID IS NULL OR CreatedByCooperatorID     =       @CreatedByCooperatorID)";
             SQL += " AND   (@Name                  IS NULL OR CropForCWRName            LIKE    '%' + @Name + '%')";
             SQL += " AND   (@ID                    IS NULL OR ID                        =       @ID)";

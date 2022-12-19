@@ -53,7 +53,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             List<Geography> results = new List<Geography>();
             string whereClause = String.Empty;
 
-            SQL = " SELECT * FROM vw_GGTools_GRINGlobal_Geographies ";
+            SQL = " SELECT * FROM vw_GRINGlobal_Geography ";
             // EXTENDED
             SQL += " WHERE  (@ID   IS NULL OR ID       =         @ID)";
             SQL += " AND    (@CreatedByCooperatorID         IS NULL OR CreatedByCooperatorID    =       @CreatedByCooperatorID)";
@@ -224,7 +224,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         }
         public virtual List<CodeValue> GetCodeValues(string groupName)
         {
-            SQL = "usp_GGTools_GRINGlobal_CodeValuesByGroup_Select";
+            SQL = "usp_GRINGlobal_Code_Value_Select";
             var parameters = new List<IDbDataParameter> {
                 CreateParameter("group_name", (object)groupName, false)
             };
@@ -273,7 +273,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         {
             List<Country> results = new List<Country>();
 
-            SQL = " SELECT DISTINCT CountryCode, CountryName FROM vw_GGTools_GRINGlobal_Geographies ";
+            SQL = " SELECT DISTINCT CountryCode, CountryName FROM vw_GRINGlobal_Geography ";
 
             if (!String.IsNullOrEmpty(searchEntity.SubContinentIDList))
             {
@@ -321,7 +321,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         {
             List<Geography> results = new List<Geography>();
 
-            SQL = " SELECT ID, Admin1 FROM [vw_GGTools_GRINGlobal_States]  ";
+            SQL = " SELECT ID, Admin1 FROM vw_GRINGlobal_Geography_State  ";
             SQL += " ORDER BY Admin1 ASC ";
 
             results = GetRecords<Geography>(SQL);

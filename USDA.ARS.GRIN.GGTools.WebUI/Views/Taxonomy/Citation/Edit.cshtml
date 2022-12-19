@@ -107,7 +107,7 @@
                 <div class="col-md-3">
                     <div id="form-group">
                         <label>Citation Title</label>
-                        @Html.TextBoxFor(x => x.Entity.CitationTitle, new { @class = "form-control" })
+                        @Html.TextBoxFor(x => x.Entity.CitationTitle, new { @class = "form-control", @autocomplete="off", @data_lpignore = "true" })
                     </div>
                 </div>
             </div>
@@ -115,13 +115,13 @@
                 <div class="col-md-3">
                     <div id="form-group">
                         <label>Author</label>
-                        @Html.TextBoxFor(x => x.Entity.CitationAuthorName, new { @class = "form-control" })
+                        @Html.TextBoxFor(x => x.Entity.CitationAuthorName, new { @class = "form-control", @autocomplete = "off", @data_lpignore = "true" })
                     </div>
                 </div>
                 <div class="col-md-1">
                     <div id="form-group">
                         <label>Cit. Year</label>
-                        @Html.TextBoxFor(x => x.Entity.CitationYear, new { @class = "form-control" })
+                        @Html.TextBoxFor(x => x.Entity.CitationYear, new { @class = "form-control", @autocomplete = "off", @data_lpignore = "true" })
                     </div>
                 </div>
                 <div class="col-md-2">

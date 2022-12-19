@@ -691,6 +691,7 @@
     <Folder Include="Content\bower_components\font-awesome\fonts\" />
     <Folder Include="Content\dist\js\pages\" />
     <Folder Include="Models\" />
+    <Folder Include="NewFolder1\" />
     <Folder Include="Views\Demo\" />
     <Folder Include="Views\Main\" />
   </ItemGroup>

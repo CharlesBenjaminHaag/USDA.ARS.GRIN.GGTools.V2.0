@@ -85,7 +85,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         {
             List<GeographyMap> results = new List<GeographyMap>();
 
-            SQL = "SELECT * FROM vw_GGTools_Taxon_GeographyMaps ";
+            SQL = "SELECT * FROM vw_GRINGlobal_Taxonomy_Geography_Map ";
             SQL += "WHERE (@GeographyDescription        IS NULL OR      GeographyDescription        LIKE  '%' + @GeographyDescription + '%')";
 
             SQL += " AND  (@ID   IS NULL OR ID       =         @ID)";

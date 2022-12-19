@@ -27,36 +27,9 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
                         Entity = mgr.Get(entityId);
                         WebCooperatorVettedStatusCode = Entity.WebCooperatorVettedStatusCode;
                         DataCollectionItems =  new Collection<WebOrderRequestItem>(mgr.GetWebOrderRequestItems(entityId));
-                        DataCollectionActions = new Collection<WebOrderRequestAction>(mgr.GetWebOrderRequestActions(entityId));
-                       
-                        // Get web order request actions, grouped by day
-                        var queryWebOrderRequestActionDates =
-                        from action in DataCollectionActions
-                        group action by action.ActionDate into webOrderRequestActionGroup
-                        orderby webOrderRequestActionGroup.Key descending
-                        select webOrderRequestActionGroup;
-
-                        foreach (var group in queryWebOrderRequestActionDates)
-                        {
-                            WebOrderRequestActionGroup webOrderRequestActionGroup = new WebOrderRequestActionGroup { DateGroup = DateTime.Parse(group.Key.ToString()) };
-                            foreach (var subGroup in group)
-                            {
-                                WebOrderRequestAction webOrderRequestAction = new WebOrderRequestAction();
-                                webOrderRequestAction.ID = subGroup.ID;
-                                webOrderRequestAction.ActionCode = subGroup.ActionCode;
-                                webOrderRequestAction.ActionTitle = subGroup.ActionTitle;
-                                webOrderRequestAction.ActionDescription = subGroup.ActionDescription;
-                                webOrderRequestAction.Note = subGroup.Note;
-                                webOrderRequestAction.CreatedDate = subGroup.CreatedDate;
-                                webOrderRequestAction.CreatedByCooperatorID = subGroup.CreatedByCooperatorID;
-                                webOrderRequestAction.CreatedByCooperatorName = subGroup.CreatedByCooperatorName;
-                                webOrderRequestActionGroup.WebOrderRequestActions.Add(webOrderRequestAction);
-                            }
-                            DataCollectionActionGroups.Add(webOrderRequestActionGroup);   
-                        }
                         
-                        CodeValue codeValue = mgr.GetWebOrderRequestEmailAddresses(entityId);
-                        Entity.EmailAddressList = codeValue.Title;    
+                        //CodeValue codeValue = mgr.GetWebOrderRequestEmailAddresses(entityId);
+                        //Entity.EmailAddressList = codeValue.Title;    
 
                         RowsAffected = mgr.RowsAffected; 
                         DataCollection.Add(Entity);
@@ -76,9 +49,41 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
             return Entity;
         }
 
-        public void GetWebOrderRequestActions(int entityId)
+        public void GetWebOrderRequestActions()
         {
-            try { }
+            try 
+            {
+                using (WebOrderRequestManager mgr = new WebOrderRequestManager())
+                {
+                    DataCollectionActions = new Collection<WebOrderRequestAction>(mgr.GetWebOrderRequestActions(SearchEntity.ID));
+
+                    // Get web order request actions, grouped by day
+                    var queryWebOrderRequestActionDates =
+                    from action in DataCollectionActions
+                    group action by action.ActionDate into webOrderRequestActionGroup
+                    orderby webOrderRequestActionGroup.Key descending
+                    select webOrderRequestActionGroup;
+
+                    foreach (var group in queryWebOrderRequestActionDates)
+                    {
+                        WebOrderRequestActionGroup webOrderRequestActionGroup = new WebOrderRequestActionGroup { DateGroup = DateTime.Parse(group.Key.ToString()) };
+                        foreach (var subGroup in group)
+                        {
+                            WebOrderRequestAction webOrderRequestAction = new WebOrderRequestAction();
+                            webOrderRequestAction.ID = subGroup.ID;
+                            webOrderRequestAction.ActionCode = subGroup.ActionCode;
+                            webOrderRequestAction.ActionTitle = subGroup.ActionTitle;
+                            webOrderRequestAction.ActionDescription = subGroup.ActionDescription;
+                            webOrderRequestAction.Note = subGroup.Note;
+                            webOrderRequestAction.CreatedDate = subGroup.CreatedDate;
+                            webOrderRequestAction.CreatedByCooperatorID = subGroup.CreatedByCooperatorID;
+                            webOrderRequestAction.CreatedByCooperatorName = subGroup.CreatedByCooperatorName;
+                            webOrderRequestActionGroup.WebOrderRequestActions.Add(webOrderRequestAction);
+                        }
+                        DataCollectionActionGroups.Add(webOrderRequestActionGroup);
+                    }
+                }
+            }
             catch (Exception ex)
             { }
         }
@@ -139,25 +144,25 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
             }
         }
 
-        public Collection<ReportItem> GetDashboardTotals(int year)
-        {
-            WebOrderRequestSearch webOrderSearch = new WebOrderRequestSearch();
-            using (WebOrderRequestManager mgr = new WebOrderRequestManager())
-            {
-                try
-                {
-                    webOrderSearch.Year = year;
-                    DataCollectionReportItems = new Collection<ReportItem>(mgr.GetReportItems(webOrderSearch));
-                    RowsAffected = mgr.Count(year);
-                    return DataCollectionReportItems;
-                }
-                catch (Exception ex)
-                {
-                    PublishException(ex);
-                    throw ex;
-                }
-            }
-        }
+        //public Collection<ReportItem> GetDashboardTotals(int year)
+        //{
+        //    WebOrderRequestSearch webOrderSearch = new WebOrderRequestSearch();
+        //    using (WebOrderRequestManager mgr = new WebOrderRequestManager())
+        //    {
+        //        try
+        //        {
+        //            webOrderSearch.Year = year;
+        //            DataCollectionReportItems = new Collection<ReportItem>(mgr.GetReportItems(webOrderSearch));
+        //            RowsAffected = mgr.Count(year);
+        //            return DataCollectionReportItems;
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            PublishException(ex);
+        //            throw ex;
+        //        }
+        //    }
+        //}
 
         public int Update()
         {

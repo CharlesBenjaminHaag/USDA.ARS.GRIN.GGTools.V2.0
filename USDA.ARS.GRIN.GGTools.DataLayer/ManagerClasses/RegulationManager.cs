@@ -15,7 +15,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             Reset(CommandType.StoredProcedure);
             Validate<Regulation>(entity);
 
-            SQL = "usp_GGTools_Taxon_Regulation_Insert";
+            SQL = "usp_GRINGlobal_Taxonomy_Regulation_Insert";
 
             BuildInsertUpdateParameters(entity);
             AddParameter("@out_error_number", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
@@ -35,7 +35,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             Reset(CommandType.StoredProcedure);
             Validate<Regulation>(entity);
 
-            SQL = "usp_GGTools_Taxon_Regulation_Update";
+            SQL = "usp_GRINGlobal_Taxonomy_Regulation_Update";
 
             BuildInsertUpdateParameters(entity);
             AddParameter("@out_error_number", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
@@ -62,7 +62,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         {
             List<Regulation> results = new List<Regulation>();
 
-            SQL = "SELECT*  FROM vw_GGTools_Taxon_Regulations ";
+            SQL = "SELECT*  FROM vw_GRINGlobal_Taxonomy_Regulation ";
 
             // EXTENDED
             SQL += " WHERE      (@ID                            IS NULL OR ID                       =       @ID)";

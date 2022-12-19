@@ -68,19 +68,13 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
 
         public PartialViewResult ExplorerTimeline(int entityId)
         {
+            WebOrderRequestViewModel viewModel = new WebOrderRequestViewModel();
+
             try
             {
-                WebOrderRequestViewModel viewModel = new WebOrderRequestViewModel();
                 viewModel.SearchEntity.ID = entityId;
-                viewModel.Search();
-                if (viewModel.RowsAffected == 0)
-                {
-                    return PartialView("~/Views/Error/RecordNotFound.cshtml");
-                }
-                else
-                {
-                    return PartialView("~/Views/WebOrder/Explorer/_Timeline.cshtml");
-                }
+                viewModel.GetWebOrderRequestActions();
+                return PartialView("~/Views/WebOrder/Explorer/_Timeline.cshtml", viewModel);
             }
             catch (Exception ex)
             {

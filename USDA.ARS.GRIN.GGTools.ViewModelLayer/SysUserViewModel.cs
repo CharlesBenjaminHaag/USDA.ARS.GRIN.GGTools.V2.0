@@ -458,12 +458,12 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
             SMTPMailMessage infoRequestEmailMessage = new SMTPMailMessage();
             string databaseName = ConfigurationManager.AppSettings["Database"];
 
-            infoRequestEmailMessage.From = "gringlobal.feedback@usda.gov";
+            infoRequestEmailMessage.From = ConfigurationManager.AppSettings["EmailAddressSupport"];
             infoRequestEmailMessage.To = Entity.EmailAddress;
 
             if (notificationType == "N")
             {
-                infoRequestEmailMessage.CC = "marty.reisinger@usda.gov";
+                infoRequestEmailMessage.CC = ConfigurationManager.AppSettings["EmailAddressCC"];
             }
 
             switch (notificationType)

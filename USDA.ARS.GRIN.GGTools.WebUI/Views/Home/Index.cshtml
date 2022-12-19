@@ -1,6 +1,6 @@
 ﻿@model USDA.ARS.GRIN.GGTools.ViewModelLayer.HomeViewModel
 @{
-    ViewBag.Title = "Home Page";
+    ViewBag.Title = "My GGTools";
     Layout = "~/Views/Shared/_LayoutAdminLTE3.cshtml";
 }
 
@@ -75,7 +75,7 @@
                     </button>
                 </div>
             </div>
-            <div id="section-cooperator-pending" class="card-body">
+            <div id="section-cooperator-list-pending" class="card-body">
                 @{Html.RenderAction("_List", "Cooperator", new { statusCode = "PENDING", formatCode = "SLST" }); }
             </div>
         </div>
@@ -135,10 +135,11 @@
 
     // TODO
     function LoadPendingCooperatorsList() {
-    link = '@Url.Action("_List","Cooperator")';
+        link = '@Url.Action("_List","Cooperator")';
         var formData = new FormData();
 
         formData.append("statusCode", "PENDING");
+        formData.append("formatCode", "SLST");
 
         $.ajax({
             url: link,
@@ -148,9 +149,10 @@
             processData: false,
             data: formData,
             success: function (response) {
-                $("#section-species-citations").html(response);
+                $("#section-cooperator-list-pending").html(response);
             }
         });}
+
     function LoadSiteList() { }
 
 </script>

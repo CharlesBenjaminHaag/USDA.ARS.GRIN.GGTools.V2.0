@@ -54,7 +54,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         {
             List<CommonNameLanguage> results = new List<CommonNameLanguage>();
 
-            SQL = "SELECT * FROM vw_GGTools_Taxon_CommonNameLanguages ";
+            SQL = "SELECT * FROM vw_GRINGlobal_Taxonomy_Common_Name_Language ";
             SQL += " WHERE(@CreatedByCooperatorID     IS NULL OR CreatedByCooperatorID = @CreatedByCooperatorID)";
             
             SQL += " AND  (@ID   IS NULL OR ID       =         @ID)";

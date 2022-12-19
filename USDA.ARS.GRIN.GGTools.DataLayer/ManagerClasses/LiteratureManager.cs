@@ -52,7 +52,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         {
             List<Literature> results = new List<Literature>();
 
-            SQL = "SELECT * FROM vw_GGTools_Taxon_Literature ";
+            SQL = "SELECT * FROM vw_GRINGlobal_Literature ";
             SQL += " WHERE (@StandardAbbreviation       IS NULL OR StandardAbbreviation     LIKE    '%' +   @StandardAbbreviation + '%')";
 
             SQL += " AND    (@ID                        IS NULL OR ID                       =       @ID)";

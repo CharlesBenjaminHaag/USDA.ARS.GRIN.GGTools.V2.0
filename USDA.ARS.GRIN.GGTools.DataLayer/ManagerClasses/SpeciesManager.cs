@@ -95,7 +95,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         {
             List<Species> results = new List<Species>();
 
-            SQL = " SELECT * FROM vw_GGTools_Taxon_Species ";
+            SQL = " SELECT * FROM vw_GRINGlobal_Taxonomy_Species ";
             SQL += " WHERE      (@ID                        IS NULL OR  ID = @ID) ";
             SQL += " AND        (@CreatedByCooperatorID     IS NULL OR  CreatedByCooperatorID = @CreatedByCooperatorID)";
             //SQL += " AND (@Rank                           IS NULL OR  Rank = @Rank)";

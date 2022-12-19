@@ -46,10 +46,10 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             BuildInsertUpdateParameters(entity);
 
             AddParameter("@out_error_number", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
-            AddParameter("@out_cooperator_id", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
+            AddParameter("@out_web_cooperator_id", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
             RowsAffected = ExecuteNonQuery();
 
-            entity.ID = GetParameterValue<int>("@out_cooperator_id", -1);
+            entity.ID = GetParameterValue<int>("@out_web_cooperator_id", -1);
             var errorNumber = GetParameterValue<int>("@out_error_number", -1);
 
             if (errorNumber > 0)
@@ -123,7 +123,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
         {
             if (entity.ID > 0)
             {
-                AddParameter("cooperator_id", entity.ID == 0 ? DBNull.Value : (object)entity.ID, true);
+                AddParameter("web_cooperator_id", entity.ID == 0 ? DBNull.Value : (object)entity.ID, true);
             }
             AddParameter("title", String.IsNullOrEmpty(entity.JobTitle) ? DBNull.Value : (object)entity.JobTitle, true);
             AddParameter("last_name", String.IsNullOrEmpty(entity.LastName) ? DBNull.Value : (object)entity.LastName, true);
@@ -148,10 +148,10 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             {
                 AddParameter("modified_by", entity.WebUserID == 0 ? DBNull.Value : (object)entity.WebUserID, true);
             }
-            else
-            {
-                AddParameter("created_by", entity.WebUserID == 0 ? DBNull.Value : (object)entity.WebUserID, true);
-            }
+            //else
+            //{
+            //    AddParameter("created_by", entity.WebUserID == 0 ? DBNull.Value : (object)entity.WebUserID, true);
+            //}
         }
     }
 }

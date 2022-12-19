@@ -69,6 +69,22 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             }
         }
 
+        [HttpPost]
+        public JsonResult _Get(int siteId)
+        {
+            SiteViewModel viewModel = new SiteViewModel();
+            try
+            {
+                viewModel.Get(siteId);
+                return Json(new { site = viewModel.Entity }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex.Message);
+                return Json(new { site = viewModel.Entity }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
         public ActionResult Index()
         {
             SiteViewModel viewModel = new SiteViewModel();
