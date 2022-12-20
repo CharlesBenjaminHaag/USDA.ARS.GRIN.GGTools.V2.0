@@ -27,6 +27,7 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
         private Collection<WebOrderRequest> _DataCollection = new Collection<WebOrderRequest>();
         private Collection<WebOrderRequestItem> _DataCollectionItems = new Collection<WebOrderRequestItem>();
         private Collection<WebOrderRequestAction> _DataCollectionActions = new Collection<WebOrderRequestAction>();
+        
         private Collection<WebOrderRequestActionGroup> _DataCollectionActionGroups = new Collection<WebOrderRequestActionGroup>();
         private Collection<CodeValue> _DataCollectionStatusCodes = new Collection<CodeValue>();
         private Collection<CodeValue> _DataCollectionIntendedUseCodes = new Collection<CodeValue>();

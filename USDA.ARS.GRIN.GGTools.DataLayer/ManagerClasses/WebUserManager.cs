@@ -49,7 +49,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
         public virtual List<SysGroupUserMap> SelectGroups(int sysUserId)
         {
             List<SysGroupUserMap> sysGroupUserMaps = new List<SysGroupUserMap>();
-            SQL = "usp_GGTools_ARM_SysGroupUserMaps_Select";
+            SQL = "usp_GRINGlobal_Sys_Group_User_Map_Select";
 
             var parameters = new List<IDbDataParameter> {
                 CreateParameter("sys_user_id", (object)sysUserId, false)

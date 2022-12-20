@@ -60,7 +60,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             parameters.Clear();
 
             // Get groups of which user is a member.
-            SQL = "usp_GGTools_ARM_SysGroupUserMaps_Select";
+            SQL = "usp_GRINGlobal_Sys_Group_User_Map_Select";
             parameters = new List<IDbDataParameter> {
                 CreateParameter("sys_user_id", (object)sysUser.SysUserID, false)
             };
@@ -68,7 +68,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             parameters.Clear();
 
             // Get GGTools applications to which user has access.
-            SQL = "usp_GGTools_ARM_SysGroupUserApplications_Select";
+            SQL = "usp_GRINGlobal_Sys_Group_User_Maps_Select";
             parameters = new List<IDbDataParameter> {
                 CreateParameter("sys_user_id", (object)sysUser.SysUserID, false)
             };

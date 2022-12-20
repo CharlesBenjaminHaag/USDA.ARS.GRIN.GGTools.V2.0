@@ -88,6 +88,45 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
             { }
         }
 
+        public void GetOrderRequestActions()
+        {
+            try
+            {
+                using (WebOrderRequestManager mgr = new WebOrderRequestManager())
+                {
+                    DataCollectionActions = new Collection<WebOrderRequestAction>(mgr.GetWebOrderRequestActions(SearchEntity.ID));
+
+                    // Get web order request actions, grouped by day
+                    var queryWebOrderRequestActionDates =
+                    from action in DataCollectionActions
+                    group action by action.ActionDate into webOrderRequestActionGroup
+                    orderby webOrderRequestActionGroup.Key descending
+                    select webOrderRequestActionGroup;
+
+                    foreach (var group in queryWebOrderRequestActionDates)
+                    {
+                        WebOrderRequestActionGroup webOrderRequestActionGroup = new WebOrderRequestActionGroup { DateGroup = DateTime.Parse(group.Key.ToString()) };
+                        foreach (var subGroup in group)
+                        {
+                            WebOrderRequestAction webOrderRequestAction = new WebOrderRequestAction();
+                            webOrderRequestAction.ID = subGroup.ID;
+                            webOrderRequestAction.ActionCode = subGroup.ActionCode;
+                            webOrderRequestAction.ActionTitle = subGroup.ActionTitle;
+                            webOrderRequestAction.ActionDescription = subGroup.ActionDescription;
+                            webOrderRequestAction.Note = subGroup.Note;
+                            webOrderRequestAction.CreatedDate = subGroup.CreatedDate;
+                            webOrderRequestAction.CreatedByCooperatorID = subGroup.CreatedByCooperatorID;
+                            webOrderRequestAction.CreatedByCooperatorName = subGroup.CreatedByCooperatorName;
+                            webOrderRequestActionGroup.WebOrderRequestActions.Add(webOrderRequestAction);
+                        }
+                        DataCollectionActionGroups.Add(webOrderRequestActionGroup);
+                    }
+                }
+            }
+            catch (Exception ex)
+            { }
+        }
+
         public void GetWebOrderRequestNotes(int entityID)
         { 
         try 

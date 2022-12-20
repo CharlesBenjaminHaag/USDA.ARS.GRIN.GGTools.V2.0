@@ -93,7 +93,10 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
                     SQL += " AND OrderDate >= DATEADD(day,-60, GETDATE())";
                     break;
                 case "90D":
-                    SQL += " AND OrderDate >= DATEADD(day,-190, GETDATE())";
+                    SQL += " AND OrderDate >= DATEADD(day,-90, GETDATE())";
+                    break;
+                case "YEAR":
+                    SQL += " DATEPART(year, OrderDate) = DATEPART(year, GETDATE())";
                     break;
             }
 

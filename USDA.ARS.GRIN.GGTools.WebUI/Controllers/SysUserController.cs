@@ -145,13 +145,15 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             {
                 if (viewModel.Entity.ID > 0)
                 {
-                    viewModel.SendNotification("P");
                     viewModel.Update();
+                    viewModel.SendNotification("P");
                 }
                 else
                 {
                     viewModel.Insert();
+                    viewModel.SendNotification("N");
                 }
+                viewModel.Get(viewModel.Entity.ID);
                 return Json(new { sysUser = viewModel.Entity }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
