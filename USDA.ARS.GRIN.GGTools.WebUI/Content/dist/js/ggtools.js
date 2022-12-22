@@ -12,7 +12,6 @@
 
 function AddRecord() {
     var addNewRecordUrl = $("#hfAddNewRecordLink").val();
-    alert("DEBUG CALL " + addNewRecordUrl);
     window.location.href = addNewRecordUrl;
 }
 
@@ -146,7 +145,7 @@ function InitDataTableByClass() {
 
         $('table.ggtools').on('click', 'tr', function () {
             var data = table.row(this).data();
-            alert('You clicked on ' + data[0] + "'s row");
+            /*alert('You clicked on ' + data[0] + "'s row");*/
         });
     });
 }

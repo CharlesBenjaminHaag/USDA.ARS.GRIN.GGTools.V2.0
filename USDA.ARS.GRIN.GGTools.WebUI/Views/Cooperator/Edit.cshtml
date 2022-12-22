@@ -311,8 +311,6 @@
             processData: false,
             data: formData,
             success: function (data) {
-                //DEBUG
-                alert("ADDED SYS USER " + data.sysUser.ID);
                 RenderSysUserWidget(data.sysUser.ID);
                 RenderSysGroupWidget(data.sysUser.ID);
             },

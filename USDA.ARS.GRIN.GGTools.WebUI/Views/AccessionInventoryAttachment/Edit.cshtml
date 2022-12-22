@@ -283,13 +283,7 @@
 
     var selectedItemIdList = GetSelectedEntityIDs("citation-lookup-data-table");
 
-    //DEBUG
-      alert("ID LIST IS " + selectedItemIdList);
-
     formData.append("IDList", selectedItemIdList);
-    //if (typeof selectedItemIdList != 'undefined') {
-
-    //}
 
     $.ajax({
         url: link,
