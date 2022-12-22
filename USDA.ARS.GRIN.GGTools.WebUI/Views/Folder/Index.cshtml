@@ -4,63 +4,159 @@
     Layout = "~/Views/Shared/_LayoutAdminLTE3.cshtml";
 }
 
+<!-- TODO Convert tab format -->
+@*<div class="card card-primary card-tabs">
+        <div class="card-header p-0 pt-1">
+            <ul class="nav nav-tabs" id="custom-tabs-two-tab" role="tablist">
+                <li class="pt-2 px-3"><h3 class="card-title">Card Title</h3></li>
+                <li class="nav-item">
+                    <a class="nav-link active" id="custom-tabs-two-home-tab" data-toggle="pill" href="#custom-tabs-two-home" role="tab" aria-controls="custom-tabs-two-home" aria-selected="true">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="custom-tabs-two-profile-tab" data-toggle="pill" href="#custom-tabs-two-profile" role="tab" aria-controls="custom-tabs-two-profile" aria-selected="false">Profile</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="custom-tabs-two-messages-tab" data-toggle="pill" href="#custom-tabs-two-messages" role="tab" aria-controls="custom-tabs-two-messages" aria-selected="false">Messages</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="custom-tabs-two-settings-tab" data-toggle="pill" href="#custom-tabs-two-settings" role="tab" aria-controls="custom-tabs-two-settings" aria-selected="false">Settings</a>
+                </li>
+            </ul>
+        </div>
+        <div class="card-body">
+            <div class="tab-content" id="custom-tabs-two-tabContent">
+                <div class="tab-pane fade show active" id="custom-tabs-two-home" role="tabpanel" aria-labelledby="custom-tabs-two-home-tab">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin malesuada lacus ullamcorper dui molestie, sit amet congue quam finibus. Etiam ultricies nunc non magna feugiat commodo. Etiam odio magna, mollis auctor felis vitae, ullamcorper ornare ligula. Proin pellentesque tincidunt nisi, vitae ullamcorper felis aliquam id. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Proin id orci eu lectus blandit suscipit. Phasellus porta, ante et varius ornare, sem enim sollicitudin eros, at commodo leo est vitae lacus. Etiam ut porta sem. Proin porttitor porta nisl, id tempor risus rhoncus quis. In in quam a nibh cursus pulvinar non consequat neque. Mauris lacus elit, condimentum ac condimentum at, semper vitae lectus. Cras lacinia erat eget sapien porta consectetur.
+                </div>
+                <div class="tab-pane fade" id="custom-tabs-two-profile" role="tabpanel" aria-labelledby="custom-tabs-two-profile-tab">
+                    Mauris tincidunt mi at erat gravida, eget tristique urna bibendum. Mauris pharetra purus ut ligula tempor, et vulputate metus facilisis. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Maecenas sollicitudin, nisi a luctus interdum, nisl ligula placerat mi, quis posuere purus ligula eu lectus. Donec nunc tellus, elementum sit amet ultricies at, posuere nec nunc. Nunc euismod pellentesque diam.
+                </div>
+                <div class="tab-pane fade" id="custom-tabs-two-messages" role="tabpanel" aria-labelledby="custom-tabs-two-messages-tab">
+                    Morbi turpis dolor, vulputate vitae felis non, tincidunt congue mauris. Phasellus volutpat augue id mi placerat mollis. Vivamus faucibus eu massa eget condimentum. Fusce nec hendrerit sem, ac tristique nulla. Integer vestibulum orci odio. Cras nec augue ipsum. Suspendisse ut velit condimentum, mattis urna a, malesuada nunc. Curabitur eleifend facilisis velit finibus tristique. Nam vulputate, eros non luctus efficitur, ipsum odio volutpat massa, sit amet sollicitudin est libero sed ipsum. Nulla lacinia, ex vitae gravida fermentum, lectus ipsum gravida arcu, id fermentum metus arcu vel metus. Curabitur eget sem eu risus tincidunt eleifend ac ornare magna.
+                </div>
+                <div class="tab-pane fade" id="custom-tabs-two-settings" role="tabpanel" aria-labelledby="custom-tabs-two-settings-tab">
+                    Pellentesque vestibulum commodo nibh nec blandit. Maecenas neque magna, iaculis tempus turpis ac, ornare sodales tellus. Mauris eget blandit dolor. Quisque tincidunt venenatis vulputate. Morbi euismod molestie tristique. Vestibulum consectetur dolor a vestibulum pharetra. Donec interdum placerat urna nec pharetra. Etiam eget dapibus orci, eget aliquet urna. Nunc at consequat diam. Nunc et felis ut nisl commodo dignissim. In hac habitasse platea dictumst. Praesent imperdiet accumsan ex sit amet facilisis.
+                </div>
+            </div>
+        </div>
+
+    </div>*@
+
+<h4>Folders</h4>
 @if (Model.DataCollection.Count > 0)
 {
-<div class="row">
-    <div class="col-md-12">
-        <div class="card">
-            <div class="card-header p-2">
-                <ul class="nav nav-pills">
-                    @{ int i = 0; }
-                    @foreach (var result in Model.DataCollectionFolderTypes)
-                    {
-                        if (i == 0)
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header p-2">
+                    <ul class="nav nav-pills">
+                        @{ int i = 0; }
+                        @foreach (var result in Model.DataCollectionFolderTypes)
                         {
-                            <li class="nav-item"><a class="nav-link active" href="#@result.Value" data-toggle="tab">@result.Title</a></li>
+                            if (i == 0)
+                            {
+                                <li class="nav-item"><a class="nav-link active" href="#@result.Value" data-toggle="tab">@result.Title</a></li>
+                            }
+                            else
+                            {
+                                <li class="nav-item"><a class="nav-link" href="#@result.Value" data-toggle="tab">@result.Title</a></li>
+                            }
+                            i++;
                         }
-                        else
+                    </ul>
+                </div>
+                <div class="card-body">
+                    <div class="tab-content">
+                        @{ int j = 0; }
+                        @foreach (var result in Model.DataCollectionFolderTypes)
                         {
-                            <li class="nav-item"><a class="nav-link" href="#@result.Value" data-toggle="tab">@result.Title</a></li>
+                            if (j == 0)
+                            {
+                                <div class="tab-pane active" id="@result.Value">
+                                    @{Html.RenderAction("_List", "Folder", new { @folderType = result.Value });}
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="tab-pane" id="@result.Value">
+                                    @{Html.RenderAction("_List", "Folder", new { @folderType = result.Value });}
+                                </div>
+                            }
+                            j++;
                         }
-                        i++;
-                    }
-                </ul>
-            </div>
-            <div class="card-body">
-                <div class="tab-content">
-                    @{ int j = 0; }
-                    @foreach (var result in Model.DataCollectionFolderTypes)
-                    {
-                        if (j == 0)
-                        {
-                            <div class="tab-pane active" id="@result.Value">
-                                @{Html.RenderAction("_List", "Folder", new { @folderType = result.Value });}
-                            </div>
-                                    }
-                                    else
-                                    {
-                            <div class="tab-pane" id="@result.Value">
-                                @{Html.RenderAction("_List", "Folder", new { @folderType = result.Value });}
-                            </div>
-                                        }
-                                        j++;
-                                    }
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 }
 else
-{ 
-<div class="alert alert-info alert-dismissible">
-    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-    <h5><i class="icon fas fa-info"></i> No Folders Found</h5>
-    You have not yet created any folders, nor are there currently any folders assigned to you.
-</div>                                    
+{
+    <div class="alert alert-info alert-dismissible">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+        <h5><i class="icon fas fa-info"></i> No Folders Found</h5>
+        You have not yet created any folders, nor are there currently any folders assigned to you.
+    </div>
 }
 
+<div id="section-sys-users">
+    @{Html.RenderAction("_ListTaxonomy", "SysUser"); }
+</div>
+
+<!--
+***********************************************************************************
+TEMP DEMO MODALS
+***********************************************************************************
+-->
+<div class="modal fade" id="modal_sys_group_user_map_lookup" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">
+                    <i class="fas fa-search"></i>
+                    Set User Access
+                </h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div id="section_sys_group_user_map_available" class="col-md-6">
+                    </div>
+                    <div id="section_sys_group_user_map_assigned" class="col-md-6">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script type="text/javascript">
+
+    function LoadSysUsers() {
+        var link = '@Url.Action("_ListTaxonomy", "SysUser")';
+        var formData = new FormData();
+
+        $.ajax({
+            url: link,
+            type: 'POST',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (response) {
+                $("#section-sys-users").html(response);
+            },
+            error: function () {
+                alert("Error");
+            }
+        });
+    }
+
     $(document).ready(function () {
         Init();
     });
@@ -141,8 +237,6 @@ else
         });
     }
 
-
-
     $('#section-user-tabs ul.nav li').on('click', function () {
         var tabName = $(this).attr('id');
         LoadUserLists(tabName);
@@ -201,7 +295,6 @@ else
         });
     }
 
-
     function LoadFolderItems(folderTypeDescription, folderId)  {
         var link = '@Url.Action("FolderItems", "CONTROLLER_NAME")';
         link = link.replace("CONTROLLER_NAME", folderTypeDescription);
@@ -221,6 +314,56 @@ else
             },
             error: function (jqXHR) {
                 alert("Error loading folder contents");
+            }
+        });
+    }
+
+    $(document).on("click", "[id*='btnOpenModalSysGroupUserMapLookup']", function () {
+        var eventAction = $(this).data("ggtools-action");
+        var eventValue = $(this).data("ggtools-value");
+
+        //DEBUG
+        alert("SYS USER " + eventValue);
+
+        LoadSysGroupUserMapsAvailable(eventValue);
+        LoadSysGroupUserMapsAssigned(eventValue);
+        $("#modal_sys_group_user_map_lookup").modal("show");
+    });
+
+    function LoadSysGroupUserMapsAvailable(sysUserId) {
+        link = '@Url.Action("_ListAvailableSysGroups", "SysUser")';
+        var formData = new FormData();
+
+        formData.append("sysUserId", sysUserId);
+
+        $.ajax({
+            url: link,
+            type: 'POST',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (response) {
+                $("#section_sys_group_user_map_available").html(response);
+            }
+        });
+    }
+
+    function LoadSysGroupUserMapsAssigned(sysUserId) {
+        link = '@Url.Action("_ListAssignedSysGroups", "SysUser")';
+        var formData = new FormData();
+
+        formData.append("sysUserId", sysUserId);
+
+        $.ajax({
+            url: link,
+            type: 'POST',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (response) {
+                $("#section_sys_group_user_map_assigned").html(response);
             }
         });
     }

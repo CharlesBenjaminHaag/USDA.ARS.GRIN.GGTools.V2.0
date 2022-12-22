@@ -134,7 +134,9 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 cooperatorViewModel.SearchEntity.SysUserIsEnabled = "Y";
                 cooperatorViewModel.SearchEntity.StatusCode = "ACTIVE";
                 cooperatorViewModel.Search();
+                
                 viewModel.DataCollectionSiteCooperators = cooperatorViewModel.DataCollection;
+                viewModel.AuthenticatedUser = AuthenticatedUser;
 
                 return PartialView("~/Views/Site/_Widget.cshtml", viewModel);
             }
@@ -145,20 +147,20 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             }
         }
 
-        public PartialViewResult RenderListWidget()
-        {
-            SiteViewModel viewModel = new SiteViewModel();
-            try
-            {
-                viewModel.Search();
-                return PartialView("~/Views/Site/_ListWidget.cshtml", viewModel);
-            }
-            catch (Exception ex)
-            {
-                Log.Error(ex);
-                return PartialView("~/Views/Error/_InternalServerError.cshtml");
-            }
-        }
+        //public PartialViewResult RenderListWidget()
+        //{
+        //    SiteViewModel viewModel = new SiteViewModel();
+        //    try
+        //    {
+        //        viewModel.Search();
+        //        return PartialView("~/Views/Site/_ListWidget.cshtml", viewModel);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Log.Error(ex);
+        //        return PartialView("~/Views/Error/_InternalServerError.cshtml");
+        //    }
+        //}
 
         public ActionResult Delete(FormCollection formCollection)
         {

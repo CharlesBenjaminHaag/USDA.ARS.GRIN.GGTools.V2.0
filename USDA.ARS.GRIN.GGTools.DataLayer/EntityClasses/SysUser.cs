@@ -46,10 +46,12 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
         public string FullName { get; set; }
         public string EmailAddress { get; set; }
         public string Organization { get; set; }
+        public string JobTitle { get; set; }
         public string Address { get; set; }
         public string IsCurrentAddress { get; set; }
         public int SiteID { get; set; }
         public string SiteShortName { get; set; }
+        public string SiteLongName { get; set; }
         public string City { get; set; }
         public string PostalCode { get; set; }
         public List<SysGroupUserMap> Groups { get; set; }

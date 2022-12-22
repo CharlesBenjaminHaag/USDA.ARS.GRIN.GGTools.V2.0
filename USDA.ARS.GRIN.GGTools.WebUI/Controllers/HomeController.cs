@@ -16,6 +16,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
         {
             Session["APP_CONTEXT"] = "HOME";
             HomeViewModel viewModel = new HomeViewModel();
+            viewModel.AuthenticatedUser = AuthenticatedUser;
             viewModel.CooperatorID = AuthenticatedUser.CooperatorID;
             viewModel.SysUserID = AuthenticatedUser.SysUserID;
             viewModel.SiteID = AuthenticatedUser.SiteID;
@@ -85,18 +86,5 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             }
         }
 
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your application description page.";
-
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
-        }
     }
 }

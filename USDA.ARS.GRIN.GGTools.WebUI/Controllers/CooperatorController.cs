@@ -9,6 +9,10 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
     public class CooperatorController : BaseController, IController<CooperatorViewModel>
     {
         private static readonly Logger Log = LogManager.GetCurrentClassLogger();
+        public ViewResult Explorer()
+        {
+            return View();
+        }
         public PartialViewResult _RenderLookupModal()
         {
             try
@@ -309,7 +313,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 return RedirectToAction("InternalServerError", "Error");
             }
         }
-        public PartialViewResult _List(int siteId = 0, string statusCode = "", string formatCode = "", bool isDetailFormat = false)
+        public PartialViewResult _List(int siteId = 0, string statusCode = "", string formatCode = "", string sysGroupTag = "", bool isDetailFormat = false)
         {
             string partialViewName = "_List.cshtml";
 
@@ -326,6 +330,9 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                     case "SLST":
                         partialViewName = "/Modals/_SelectList.cshtml";
                         break;
+                    case "CTCT":
+                        partialViewName = "_ContactWidget.cshtml";
+                        break;
                 }
 
                 if (isDetailFormat == true)
@@ -338,6 +345,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 viewModel.AuthenticatedUser = AuthenticatedUser;
                 viewModel.SearchEntity.SiteID = siteId;
                 viewModel.SearchEntity.StatusCode = statusCode;
+                viewModel.SearchEntity.SysGroupTag = sysGroupTag;
                 viewModel.Search();
                 return PartialView("~/Views/Cooperator/" + partialViewName, viewModel);
             }
@@ -347,6 +355,23 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 return PartialView("~/Views/Error/_InternalServerError.cshtml");
             }
         }
+        public PartialViewResult _ListBySysGroup(string groupTag = "")
+        {
+            try
+            {
+                CooperatorViewModel viewModel = new CooperatorViewModel();
+                viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
+                viewModel.AuthenticatedUser = AuthenticatedUser;
+                viewModel.GetCooperatorsBySysGroup(groupTag);
+                return PartialView("~/Views/Cooperator/_ContactListWidget.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
+        }
+
         public PartialViewResult RenderLookupModal()
         {
             CooperatorViewModel viewModel = new CooperatorViewModel();
@@ -384,7 +409,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             }
         }
 
-        public PartialViewResult RenderRecordsOwnedList(int cooperatorId)
+        public PartialViewResult _RenderRecordsOwnedList(int cooperatorId)
         {
             CooperatorViewModel viewModel = new CooperatorViewModel();
             try
@@ -399,33 +424,33 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             }
         }
 
-        [HttpPost]
-        public PartialViewResult RenderRecordsOwnedList(FormCollection formCollection)
-        {
-            string partialViewName = String.Empty;
-            CooperatorViewModel viewModel = new CooperatorViewModel();
+        //[HttpPost]
+        //public PartialViewResult RenderRecordsOwnedList(FormCollection formCollection)
+        //{
+        //    string partialViewName = String.Empty;
+        //    CooperatorViewModel viewModel = new CooperatorViewModel();
 
-            try
-            {
-                if (!String.IsNullOrEmpty(formCollection["CooperatorID"]))
-                {
-                    viewModel.Entity.ID = Int32.Parse(formCollection["CooperatorID"]);
-                }
+        //    try
+        //    {
+        //        if (!String.IsNullOrEmpty(formCollection["CooperatorID"]))
+        //        {
+        //            viewModel.Entity.ID = Int32.Parse(formCollection["CooperatorID"]);
+        //        }
 
-                if (!String.IsNullOrEmpty(formCollection["Category"]))
-                {
-                    partialViewName = "_RecordsOwnedList" + formCollection["Category"] + ".cshtml";
-                }
+        //        if (!String.IsNullOrEmpty(formCollection["Category"]))
+        //        {
+        //            partialViewName = "_RecordsOwnedList" + formCollection["Category"] + ".cshtml";
+        //        }
 
-                viewModel.GetRecordsOwned(viewModel.Entity.ID);
-                return PartialView("~/Views/Cooperator/" + partialViewName, viewModel);
-            }
-            catch (Exception ex)
-            {
-                Log.Error(ex);
-                return PartialView("~/Views/Error/_InternalServerError.cshtml");
-            }
-        }
+        //        viewModel.GetRecordsOwned(viewModel.Entity.ID);
+        //        return PartialView("~/Views/Cooperator/" + partialViewName, viewModel);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Log.Error(ex);
+        //        return PartialView("~/Views/Error/_InternalServerError.cshtml");
+        //    }
+        //}
 
         public PartialViewResult FolderItems(FormCollection formCollection)
         {

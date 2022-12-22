@@ -11,6 +11,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
 {
     public class CooperatorSearch: SearchEntityBase
     {
+        public string SysGroupTag { get; set; }
         public string StatusCode { get; set; }
         public string CreatedTimeFrame { get; set; }
         public string ModifiedTimeFrame { get; set; }

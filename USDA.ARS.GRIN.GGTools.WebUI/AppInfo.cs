@@ -28,6 +28,10 @@ namespace USDA.ARS.GRIN.GGTools.WebUI
             versionNumber.Append(version.Minor.ToString());
             versionNumber.Append(".");
             versionNumber.Append(version.Build.ToString());
+
+            // TODO Store additional label in config
+            versionNumber.Append(" ALPHA");
+
             return versionNumber.ToString();
         }
 

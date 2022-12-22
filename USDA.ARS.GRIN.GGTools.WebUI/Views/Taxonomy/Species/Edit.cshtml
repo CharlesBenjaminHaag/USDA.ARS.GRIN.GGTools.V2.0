@@ -35,7 +35,7 @@
         position: relative;
     }
 </style>
-@if (Model.ParentEntity.ID > 0)
+@*@if (Model.ParentEntity.ID > 0)
 {
     <div class="card card-success">
         <div class="card-header">
@@ -69,7 +69,7 @@
             </div>
         </div>
     </div>
-}
+}*@
 
 @using (Html.BeginForm("Edit", "Species", FormMethod.Post, new { id = "frmEdit" }))
 {
@@ -165,7 +165,7 @@
                                 @Html.TextBoxFor(x => x.Entity.AcceptedName, new { @class = "form-control" })
                                 @Html.HiddenFor(x => x.Entity.AcceptedID)
                                 <span class="input-group-btn">
-                                    <button id="btnSpeciesNameLookup" type="button" data-toggle="modal" data-ggtools-action="AcceptedID" data-ggtools-value="AcceptedName" data-target="#modal-species-lookup" class="btn btn-default btn-flat">
+                                    <button id="btnOpenSpeciesLookupModal" type="button" data-toggle="modal" data-ggtools-action="AcceptedID" data-ggtools-value="AcceptedName" data-target="#modal-species-lookup" class="btn btn-default btn-flat">
                                         <i class="fa fa-search"></i>
                                     </button>
                                 </span>
@@ -186,20 +186,18 @@
                             <div class="input-group">
                                 @Html.TextBoxFor(x => x.Entity.GenusName, new { @class = "form-control", @readonly = "readonly", @style = "background-color:#f4f6f9;" })
                                 @Html.HiddenFor(x => x.Entity.GenusID)
-                                @*@if (Model.Entity.GenusID > 0)
-                                    {
-                                        <span class="input-group-btn">
-                                            <a href="@Url.Action("Edit", "Genus", new { @entityId = Model.Entity.GenusID })" class="btn btn-default btn-flat">
-                                                <i class="fa fa-link"></i>
-                                            </a>
-                                        </span>
-                                    }*@
                                 <span class="input-group-btn">
-                                    <button type="button" class="btn btn-default btn-flat" data-toggle="modal" data-target="#modal-genus-lookup">
+                                    <button id="btnOpenGenusLookupModal" type="button" class="btn btn-default btn-flat" data-ggtools-action="GenusID" data-ggtools-value="GenusName" data-toggle="modal" data-target="#modal-genus-lookup">
                                         <i class="fa fa-search"></i>
                                     </button>
                                 </span>
                             </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Epithet</label>
+                            @Html.TextBoxFor(x => x.Entity.SpeciesName, new { @class = "form-control" })
                         </div>
                     </div>
                     <div id="section-infraspecific-species" class="col-md-3 infra">
@@ -229,16 +227,10 @@
                                     @Html.TextBoxFor(x => x.Entity.FormaName, new { @class = "form-control" })
                                 </div>
                                 break;
-                            default:
-                                <div class="form-group">
-                                    <label>Epithet</label>
-                                    @Html.TextBoxFor(x => x.Entity.SpeciesName, new { @class = "form-control" })
-                                </div>
-                                break;
                         }
                     </div>
                     <div id="section-infraspecific-species-authority" class="col-md-3 infra">
-                        @switch (Model.EventValue)
+                        @switch (Model.Entity.Rank)
                         {
                             case "subspecies":
                                 <div class="form-group">

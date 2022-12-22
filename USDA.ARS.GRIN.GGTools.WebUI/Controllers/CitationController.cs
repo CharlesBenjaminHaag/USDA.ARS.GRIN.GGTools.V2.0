@@ -409,18 +409,15 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
 
         public PartialViewResult RenderWidget(int entityId)
         {
+            CitationViewModel viewModel = new CitationViewModel();
+
             try
             {
                 if (entityId > 0)
                 {
-                    CitationViewModel viewModel = new CitationViewModel();
                     viewModel.Get(entityId);
-                    return PartialView("~/Views/Taxonomy/Citation/_Widget.cshtml", viewModel);
                 }
-                else
-                {
-                    return PartialView("~/Views/Taxonomy/Citation/_NotCited.cshtml");
-                }
+                return PartialView("~/Views/Taxonomy/Citation/_Widget.cshtml", viewModel);
             }
             catch (Exception ex)
             {
@@ -428,8 +425,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 return PartialView("~/Views/Error/_InternalServerError.cshtml");
             }
         }
-    
-
+   
         [HttpPost]
         public PartialViewResult Lookup(FormCollection coll)
         {

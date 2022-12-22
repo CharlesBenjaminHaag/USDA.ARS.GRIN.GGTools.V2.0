@@ -7,7 +7,7 @@ using USDA.ARS.GRIN.GGTools.DataLayer;
 
 namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
 {
-    public class SiteViewModelBase: AppViewModelBase
+    public class SiteViewModelBase: AuthenticatedViewModelBase
     {
         private Site _Entity = new Site();
         private SiteSearch _SearchEntity = new SiteSearch();

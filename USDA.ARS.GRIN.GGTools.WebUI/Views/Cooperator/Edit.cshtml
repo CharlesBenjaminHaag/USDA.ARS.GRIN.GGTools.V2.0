@@ -205,7 +205,7 @@
                         }
                     </div>
                     <div class="tab-pane" id="tab-records-owned">
-                        @{Html.RenderAction("RenderRecordsOwnedList", "Cooperator", new { cooperatorId = Model.Entity.ID }); }
+                        @{Html.RenderAction("_RenderRecordsOwnedList", "Cooperator", new { cooperatorId = Model.Entity.ID }); }
                     </div>
                 </div>
             </div>
@@ -224,6 +224,7 @@
     });
 
     function Init() {
+        SetReadOnly();
     }
 
     $('#btnEditGroups').on('click', function () {

@@ -54,6 +54,8 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 genusViewModel.Search();
                 viewModel.Entity.ParentID = genusViewModel.Entity.ID;
                 viewModel.Entity.Name = genusViewModel.Entity.Name;
+                viewModel.Entity.FamilyID = genusViewModel.Entity.FamilyID;
+                viewModel.Entity.FamilyName = genusViewModel.Entity.FamilyName;
             }
 
             if (familyId > 0)

@@ -6,23 +6,24 @@
     <div class="card-body">
         <strong><i class="fas fa-book mr-1"></i> Name</strong>
         <p class="text-muted">
-            @Model.Entity.LongName
+            @Model.Entity.LongName (@Model.Entity.ShortName)
         </p>
         @*<hr>
-        <strong><i class="fas fa-envelope mr-1"></i> Email</strong>
-        <p class="text-muted">@Model.Entity.EmailAddress</p>*@
+            <strong><i class="fas fa-envelope mr-1"></i> Email</strong>
+            <p class="text-muted">@Model.Entity.EmailAddress</p>*@
         <hr>
         <strong><i class="fas fa-users mr-1"></i> Site Cooperators</strong>
-        @*<a href="@Url.Action("Edit","Cooperator", new { entityId = Model.Entity.ID })" class="btn btn-default btn-block" style="margin-top:15px;">
-            Add Cooperator
-        </a>*@
-        <button id="btnAddCooperator" 
-                class="btn btn-default btn-block" 
-                style="margin-top:15px;" 
-                data-target="#modal-cooperator-add" 
-                data-toggle="modal">
-                    Add Cooperator
-        </button>
+
+        @if (Model.AuthenticatedUser.IsInRole("MANAGE_SITE_" + Model.Entity.ShortName) || Model.AuthenticatedUser.IsInRole("ADMINS"))
+        {
+            <button id="btnAddCooperator"
+                    class="btn btn-default btn-block"
+                    style="margin-top:15px;"
+                    data-target="#modal-cooperator-add"
+                    data-toggle="modal">
+                Add Cooperator
+            </button>
+        }
         <table id="data-table-site-cooperators" class="table table-striped">
             <thead>
                 <tr>
@@ -33,7 +34,7 @@
             </thead>
             <tbody>
                 @foreach (var result in Model.DataCollectionSiteCooperators)
-                { 
+                {
                     <tr>
                         <td>@result.ID</td>
                         <td>
@@ -47,15 +48,18 @@
             </tbody>
         </table>
         @*<strong><i class="far fa-file-alt mr-1"></i> Notes</strong>
-        <p class="text-muted">@Model.Entity.Note</p>*@
+            <p class="text-muted">@Model.Entity.Note</p>*@
     </div>
-    <!-- TODO -->
-    <div class="card-footer">
-        <a href="@Url.Action("Edit","Site", new { entityId = Model.Entity.ID })" class="btn btn-primary btn-block">
-            Edit My Site
-        </a>
+
+    @if (Model.AuthenticatedUser.IsInRole("MANAGE_SITE_" + Model.Entity.ShortName))
+    { 
+        <div class="card-footer">
+            <a href="@Url.Action("Edit","Site", new { entityId = Model.Entity.ID })" class="btn btn-primary btn-block">
+                Edit My Site
+            </a>
+        </div>
+    }
     </div>
-</div>
 <script type="text/javascript">
     InitWidgetDataTable("data-table-site-cooperators");
     function InitWidgetDataTable(tableName) {

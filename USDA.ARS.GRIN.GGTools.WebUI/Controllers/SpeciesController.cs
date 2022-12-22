@@ -178,7 +178,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             viewModel.SearchProtologues(viewModel.SearchEntity.Protologue);
             return PartialView(partialViewName, viewModel);
         }
-        public ActionResult Add(int genusId =0, int speciesId = 0, string rank = "")
+        public ActionResult Add(int genusId = 0, int speciesId = 0, string rank = "")
         {
             try
             {
@@ -198,16 +198,14 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                     viewModel.Entity.GenusName = topRankGenusViewModel.Entity.Name;
                 }
 
-                //TODO
-                //Retrieve instance of parent species
-                //Copy attribs of parent to new empty VM
-                //Set parent species entity of VM
                 if (speciesId > 0)
                 {
                     SpeciesViewModel parentViewModel = new SpeciesViewModel();
                     parentViewModel.SearchEntity.ID = speciesId;
                     parentViewModel.Search();
                     viewModel.ParentEntity = parentViewModel.Entity;
+                    viewModel.Entity.ParentID = parentViewModel.ID;
+                    viewModel.Entity.SpeciesEpithet = parentViewModel.Entity.SpeciesEpithet;
                     viewModel.Entity.GenusID = parentViewModel.Entity.GenusID;
                     viewModel.Entity.GenusName = parentViewModel.Entity.GenusName;
                     viewModel.Entity.Protologue= parentViewModel.Entity.Protologue;

@@ -209,6 +209,12 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             AddParameter("qualifying_code", (object)entity.QualifyingCode ?? DBNull.Value, true);
             AddParameter("hybrid_code", (object)entity.HybridCode ?? DBNull.Value, true);
             AddParameter("genus_name", String.IsNullOrEmpty(entity.Name) ? DBNull.Value : (object)entity.Name, true);
+            AddParameter("genus_name", String.IsNullOrEmpty(entity.Name) ? DBNull.Value : (object)entity.Name, true);
+            AddParameter("subgenus_name", String.IsNullOrEmpty(entity.SubgenusName) ? DBNull.Value : (object)entity.SubgenusName, true);
+            AddParameter("section_name", String.IsNullOrEmpty(entity.SectionName) ? DBNull.Value : (object)entity.SectionName, true);
+            AddParameter("subsection_name", String.IsNullOrEmpty(entity.SubsectionName) ? DBNull.Value : (object)entity.SubsectionName, true);
+            AddParameter("series_name", String.IsNullOrEmpty(entity.SeriesName) ? DBNull.Value : (object)entity.SeriesName, true);
+            AddParameter("subseries_name", String.IsNullOrEmpty(entity.SubseriesName) ? DBNull.Value : (object)entity.SubseriesName, true);
             AddParameter("genus_authority", String.IsNullOrEmpty(entity.Authority) ? DBNull.Value : (object)entity.Authority, true);
             AddParameter("is_web_visible", entity.IsWebVisible == null ? "N" : (object)entity.IsWebVisible, false);
             AddParameter("note", (object)entity.Note ?? DBNull.Value, true);

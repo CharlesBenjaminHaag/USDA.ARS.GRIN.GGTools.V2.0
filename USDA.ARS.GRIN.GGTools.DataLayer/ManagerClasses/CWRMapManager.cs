@@ -75,7 +75,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             Reset(CommandType.StoredProcedure);
             Validate<CWRMap>(entity);
 
-            SQL = "usp_GGTools_Taxon_CWRMap_Insert";
+            SQL = "usp_GRINGlobal_Taxonomy_CWR_Map_Insert";
 
             BuildInsertUpdateParameters(entity);
             AddParameter("@out_error_number", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
@@ -106,7 +106,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             Reset(CommandType.StoredProcedure);
             Validate<CWRMap>(entity);
 
-            SQL = "usp_GGTools_Taxon_CWRMap_Update";
+            SQL = "usp_GRINGlobal_Taxonomy_CWR_Map_Update";
 
             BuildInsertUpdateParameters(entity);
             AddParameter("@out_error_number", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);

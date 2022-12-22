@@ -184,7 +184,22 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             viewModel.GetAssignedSysGroups(sysUserId);
             return PartialView("~/Views/SysUser/Group/_ListAssigned.cshtml", viewModel);
         }
-
+        public PartialViewResult _ListTaxonomy()
+        {
+            try
+            {
+                SysUserViewModel viewModel = new SysUserViewModel();
+                viewModel.AuthenticatedUser = AuthenticatedUser;
+                viewModel.GetTaxonomySysUsers();
+                return PartialView("~/Views/SysUser/_ListTaxonomy.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
+        }
+    
         [HttpPost]
         public JsonResult AssignGroups(FormCollection formCollection)
         {
@@ -252,6 +267,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             {
                 viewModel.SearchEntity.ID = sysUserId;
                 viewModel.Search();
+                viewModel.AuthenticatedUser = AuthenticatedUser;
             }
             return PartialView("~/Views/SysUser/_Widget.cshtml", viewModel);
 
@@ -263,6 +279,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             {
                 viewModel.SearchEntity.ID = sysUserId;
                 viewModel.GetGroups(sysUserId);
+                viewModel.AuthenticatedUser = AuthenticatedUser;
             }
             return PartialView("~/Views/SysUser/Group/_Widget.cshtml", viewModel);
         }

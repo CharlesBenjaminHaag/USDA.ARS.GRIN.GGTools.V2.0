@@ -1,14 +1,14 @@
 ﻿@model USDA.ARS.GRIN.GGTools.ViewModelLayer.SysUserViewModel
-<div class="card card-row card-success card-outline">
+<div class="card card-row card-secondary">
     <div class="card-header">
         <h3 class="card-title">
-            Available Groups
+            Sys Users
         </h3>
     </div>
     <div class="card-body">
         <button id="btnAssign" class="btn btn-default btn-block" type="button">>></button>
         <br />
-        <table id="data-table-available-sys-groups" class="table table-striped" style="width:100%;">
+        <table id="data_table_sys_user" class="table table-striped" style="width:100%;">
             <thead>
                 <tr>
                     <th></th>
@@ -17,7 +17,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (var result in Model.DataCollectionAvailableSysGroups)
+                @foreach (var result in Model.DataCollection)
                 {
                     <tr>
                         <td>
@@ -27,7 +27,7 @@
                             @result.ID
                         </td>
                         <td>
-                            @result.GroupTag
+                            @result.FullName
                         </td>
                     </tr>
                 }
@@ -37,6 +37,6 @@
 </div>
 <script type="text/javascript">
     $(document).ready(function () {
-        InitDataTableLightMultiSelect("data-table-available-sys-groups");
+        InitDataTableLightMultiSelect("data_table_sys_user");
     });
 </script>

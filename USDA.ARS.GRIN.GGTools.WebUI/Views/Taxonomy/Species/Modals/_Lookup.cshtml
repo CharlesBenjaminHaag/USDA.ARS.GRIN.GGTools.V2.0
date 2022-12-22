@@ -57,8 +57,10 @@
         var eventValue = $(this).data("ggtools-value");
         $("#hfSpeciesLookupIDFieldName").val(eventAction);
         $("#hfSpeciesLookupNameFieldName").val(eventValue);
-    });
 
+        //DEBUG
+        alert("FIELD IS " + eventAction + " AND VALUE IS " + eventValue);
+    });
 
     $("#btnLookupSpecies").click(function () {
         SearchSpecies();

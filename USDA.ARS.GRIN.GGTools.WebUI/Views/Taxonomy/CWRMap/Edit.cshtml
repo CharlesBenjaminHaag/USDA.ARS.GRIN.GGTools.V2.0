@@ -49,7 +49,7 @@
                             @Html.TextBoxFor(x => x.Entity.SpeciesName, new { @class = "form-control", @readonly = "readonly" })
                             @Html.HiddenFor(x => x.Entity.SpeciesID)
                             <span class="input-group-btn">
-                                <button type="button" class="btn btn-default btn-flat" data-toggle="modal" data-target="#modal-species-lookup">
+                                <button id="btnOpenSpeciesLookupModal" type="button" class="btn btn-default btn-flat" data-ggtools-action="SpeciesID" data-ggtools-value="SpeciesName" data-toggle="modal" data-target="#modal-species-lookup">
                                     <i class="fa fa-search"></i>
                                 </button>
                             </span>
@@ -195,64 +195,4 @@
             }
         });
     });
-
-    /*
-    * ===================================================================================================
-    * CITATION EDIT
-    * ===================================================================================================
-    */
-    @*$(document).on("click", "[id='btnEditCitation']", function () {
-        var citationId = $("#Entity_CitationID").val();
-        EditCitation(citationId);
-    });
-
-    $(document).on("click", "[id='btnCitationEditSave']", function () {
-        SaveCitation();
-    });
-
-    function SaveCitation() {
-        link = '@Url.Action("_Save","Citation")';
-        var formData = new FormData();
-
-        formData.append("Entity.ID", $("#Entity_CitationID").val());
-        formData.append("Entity.CitationTitle", $("#Entity_CitationTitle").val());
-        formData.append("Entity.CitationAuthorName", $("#Entity_CitationAuthorName").val());
-        formData.append("Entity.CitationYear", $("#Entity_CitationYear").val());
-        formData.append("Entity.VolumeOrPage", $("#Entity_VolumeOrPage").val());
-        formData.append("Entity.DOIReference", $("#Entity_DOIReference").val());
-        formData.append("Entity.CitationTitle", $("#Entity_CitationTitle").val());
-        formData.append("Entity.Note", $("#txtCitationNote").val());
-
-        $.ajax({
-            url: link,
-            type: 'POST',
-            cache: false,
-            contentType: false,
-            processData: false,
-            data: formData,
-            success: function (response) {
-                $("#modal-citation-edit").modal("hide");
-            }
-        });
-    }
-
-    function EditCitation(citationId) {
-        link = '@Url.Action("RenderEditModal","Citation")';
-        var formData = new FormData();
-
-        formData.append("entityId", citationId);
-
-        $.ajax({
-            url: link,
-            type: 'POST',
-            cache: false,
-            contentType: false,
-            processData: false,
-            data: formData,
-            success: function (response) {
-                $("#section-modal-citation-edit").html(response);
-                $("#modal-citation-edit").modal("show");
-            }
-        });
-    }*@
 </script>

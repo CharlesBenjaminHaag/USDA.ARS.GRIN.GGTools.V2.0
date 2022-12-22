@@ -6,7 +6,7 @@
     </div>
     <div class="card-body" style="padding:.8rem;">
 
-        <table id="data_table_sys_group" class="table table-striped">
+        <table id="data_table_sys_group" class="table table-striped" style="width:100%;">
             <thead>
                 <tr>
                     <th></th>
@@ -49,7 +49,11 @@
         </ul>*@
     </div>
 </div>
-
+<script type="text/javascript">
+    $(document).ready(function () {
+        InitDataTableLightMultiSelect("data_table_sys_group");
+    });
+</script>
 
 
 

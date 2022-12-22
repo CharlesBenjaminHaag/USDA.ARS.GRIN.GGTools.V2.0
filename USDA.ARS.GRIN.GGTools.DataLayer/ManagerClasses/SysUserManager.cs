@@ -37,6 +37,22 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             parameters.Clear();
             return sysUser;
         }
+        public List<SysUser> GetTaxonomySysUsers()
+        {
+            List<SysUser> sysUsers = new List<SysUser>();
+
+            SQL = "SELECT * FROM vw_GRINGlobal_Sys_User " +
+                " WHERE SysUserID IN " +
+                " (SELECT SysUserID FROM vw_GRINGlobal_Sys_Group_User_Map " +
+                " WHERE GroupTag LIKE '%TAXON%' " +
+                " OR GroupTag = 'MANAGE_CITATION' " +
+                " OR GroupTag = 'LITERATURE') " +
+                " ORDER BY FullName ";
+            sysUsers = GetRecords<SysUser>(SQL);
+            RowsAffected = sysUsers.Count;
+            return sysUsers;
+        }
+       
 
         public virtual List<SysUser> Search(SysUserSearch searchEntity)
         {
@@ -97,10 +113,11 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
         {
             List<SysGroup> sysGroups = new List<SysGroup>();
 
-            SQL =   " SELECT [ID], [GroupTag], [GroupTitle], [GroupDescription] " +
-                    " FROM [vw_GRINGlobal_Sys_Group] WHERE ID NOT IN " +
-                    " (SELECT sys_group_id FROM sys_group_user_map " +
-                    " WHERE sys_user_id = @ID) ";
+            SQL = " SELECT [ID], [GroupTag], [GroupTitle], [GroupDescription] " +
+                    " FROM [vw_GRINGlobal_Sys_Group] WHERE " +
+                    " GroupTag LIKE '%TAXON%' " +
+                    " OR GroupTag = 'MANAGE_CITATION' " +
+                    " OR GroupTag = 'LITERATURE'";
 
             var parameters = new List<IDbDataParameter> {
                 CreateParameter("ID", sysUserId, true)
@@ -113,9 +130,10 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             List<SysGroup> sysGroups = new List<SysGroup>();
 
             SQL = " SELECT [ID], [GroupTag], [GroupTitle], [GroupDescription] " +
-                    " FROM [vw_GRINGlobal_Sys_Group] WHERE ID IN " +
-                    " (SELECT sys_group_id FROM sys_group_user_map " +
-                    " WHERE sys_user_id = @ID) ";
+                    " FROM [vw_GRINGlobal_Sys_Group] WHERE " +
+                    " GroupTag LIKE '%TAXON%' " +
+                    " OR GroupTag = 'MANAGE_CITATION' " +
+                    " OR GroupTag = 'LITERATURE'";
 
             var parameters = new List<IDbDataParameter> {
                 CreateParameter("ID", sysUserId, true)

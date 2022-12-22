@@ -58,6 +58,8 @@
         var eventValue = $(this).data("ggtools-value");
         $("#hfGenusLookupIDFieldName").val(eventAction);
         $("#hfGenusLookupNameFieldName").val(eventValue);
+        //DEBUG
+        alert("DEBUG GENUS ID FIELD " + eventAction + " AND NAME FIELD " + eventValue);
     });
 
     $("#btnLookupGenus").click(function () {

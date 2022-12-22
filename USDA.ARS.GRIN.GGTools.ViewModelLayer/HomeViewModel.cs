@@ -11,8 +11,10 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
 {
     public class HomeViewModel
     {
+        public SysUser AuthenticatedUser { get; set; }
         public int CooperatorID { get; set; }
         public int SysUserID { get; set; }
         public int SiteID { get; set; }
+       
     }
 }

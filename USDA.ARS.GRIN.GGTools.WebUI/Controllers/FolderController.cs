@@ -33,7 +33,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
 
             try
             {
-                viewModel.PageTitle = "My Folders";
+                viewModel.PageTitle = "TurboTaxon Home";
                 viewModel.AuthenticatedUser = AuthenticatedUser;
                 //viewModel.GetFolderTypes(AuthenticatedUser.CooperatorID);
                 //viewModel.GetFolderCategories(AuthenticatedUser.CooperatorID);

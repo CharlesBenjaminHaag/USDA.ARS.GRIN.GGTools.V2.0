@@ -188,6 +188,7 @@
     <Compile Include="Controllers\SysGroupUserMapController.cs" />
     <Compile Include="Controllers\SysTableController.cs" />
     <Compile Include="Controllers\SysUserController.cs" />
+    <Compile Include="Controllers\TaxonomyController.cs" />
     <Compile Include="Controllers\TribeController.cs" />
     <Compile Include="Controllers\WebCooperatorController.cs" />
     <Compile Include="Controllers\WebOrderController.cs" />
@@ -685,13 +686,18 @@
     <Content Include="Views\Cooperator\Modals\_Lookup.cshtml" />
     <Content Include="Views\Cooperator\Modals\_SelectList.cshtml" />
     <Content Include="Views\WebOrder\Home\Index.cshtml" />
+    <Content Include="Views\Taxonomy\Admin\SysUser\_ContactList.cshtml" />
+    <Content Include="Views\Taxonomy\Home\Index.cshtml" />
+    <Content Include="Views\Cooperator\Explorer\Index.cshtml" />
+    <Content Include="Views\Taxonomy\Admin\Index.cshtml" />
+    <Content Include="Views\SysUser\_ListTaxonomy.cshtml" />
+    <Content Include="Views\SysUser\_SelectList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Content\bower_components\font-awesome\fonts\" />
     <Folder Include="Content\dist\js\pages\" />
     <Folder Include="Models\" />
-    <Folder Include="NewFolder1\" />
     <Folder Include="Views\Demo\" />
     <Folder Include="Views\Main\" />
   </ItemGroup>

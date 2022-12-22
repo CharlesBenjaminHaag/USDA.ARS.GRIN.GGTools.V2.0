@@ -54,9 +54,13 @@
                 @Model.Entity.SysUserPasswordExpirationDate
             </p>
         </div>
-        <div class="card-footer">
-            <button class="btn btn-default btn-block" btn-block" data-toggle="modal" data-target="#modal-reset-password">Reset Password</button>
-        </div>
+
+        @if (Model.AuthenticatedUser.IsInRole("ADMINS"))
+        { 
+            <div class="card-footer">
+                <button class="btn btn-default btn-block" btn-block" data-toggle="modal" data-target="#modal-reset-password">Reset Password</button>
+            </div>       
+        }
     </div>
 }
 else

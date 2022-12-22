@@ -11,6 +11,7 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
     public class CooperatorViewModel : CooperatorViewModelBase, IViewModel<Cooperator>
     {
         public int AuthenticatedUserCooperatorSiteID { get; set; }
+        
         public void Delete()
         {
             throw new NotImplementedException();
@@ -23,6 +24,28 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
                 Entity = mgr.Get(entityId, environment);
             }
             return Entity;
+        }
+
+        public void GetCooperatorsBySysGroup(string sysGroupName)
+        {
+            using (CooperatorManager mgr = new CooperatorManager())
+            {
+                try
+                {
+                    DataCollection = new Collection<Cooperator>(mgr.GetCooperatorsBySysGroup(sysGroupName));
+                    if (DataCollection.Count() == 1)
+                    {
+                        Entity = DataCollection[0];
+                    }
+
+                    RowsAffected = mgr.RowsAffected;
+                }
+                catch (Exception ex)
+                {
+                    PublishException(ex);
+                    throw ex;
+                }
+            }
         }
 
         public void GetRecordsOwned(int cooperatorId)

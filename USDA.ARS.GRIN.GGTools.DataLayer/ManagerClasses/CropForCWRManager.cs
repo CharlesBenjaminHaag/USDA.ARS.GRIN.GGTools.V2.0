@@ -83,7 +83,8 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             SQL += " WHERE (@CreatedByCooperatorID IS NULL OR CreatedByCooperatorID     =       @CreatedByCooperatorID)";
             SQL += " AND   (@Name                  IS NULL OR CropForCWRName            LIKE    '%' + @Name + '%')";
             SQL += " AND   (@ID                    IS NULL OR ID                        =       @ID)";
-
+            SQL += " ORDER BY CropForCWRName ";
+                
             var parameters = new List<IDbDataParameter> {
                 CreateParameter("Name", (object)search.Name ?? DBNull.Value, true),
                 CreateParameter("CreatedByCooperatorID", search.CreatedByCooperatorID > 0 ? (object)search.CreatedByCooperatorID : DBNull.Value, true),

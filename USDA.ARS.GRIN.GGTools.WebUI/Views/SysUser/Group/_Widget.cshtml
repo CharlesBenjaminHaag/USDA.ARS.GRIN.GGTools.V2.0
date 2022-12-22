@@ -1,27 +1,31 @@
 ﻿@model USDA.ARS.GRIN.GGTools.ViewModelLayer.SysUserViewModel
 @if (Model.DataCollectionGroups.Count > 0)
 {
-    <div class="card card-primary">
-        <div class="card-header">
-            <h3 class="card-title">Groups (@Model.DataCollectionGroups.Count)</h3>
-        </div>
-        <div class="card-body">
-            <div id="external-events">
-                @foreach (var result in Model.DataCollectionGroups)
-                {
-                    @*<div class="external-event bg-blue" style="position: relative;">@result.GroupTag</div>*@
-                    @*<div class="external-event bg-gray" style="position: relative;">
-                        
+<div class="card card-primary">
+    <div class="card-header">
+        <h3 class="card-title">Groups (@Model.DataCollectionGroups.Count)</h3>
+    </div>
+    <div class="card-body">
+        <div id="external-events">
+            @foreach (var result in Model.DataCollectionGroups)
+            {
+                @*<div class="external-event bg-blue" style="position: relative;">@result.GroupTag</div>*@
+                @*<div class="external-event bg-gray" style="position: relative;">
+
                     </div>*@
-                    <span class="badge badge-info" style="font-size:11pt;">
-                        @result.GroupTag
-                    </span>
-                }
-            </div>
+                <span class="badge badge-info" style="font-size:11pt;">
+                    @result.GroupTag
+                </span>
+            }
         </div>
+    </div>
+
+    @if (Model.AuthenticatedUser.IsInRole("ADMINS"))
+    {
         <div id="section-edit-controls" class="card-footer">
             <button id="btnEditGroups" class="btn btn-default btn-block">Edit Groups</button>
         </div>
-    </div>
+    }
+</div>
 }
 

@@ -38,20 +38,33 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             return cooperator;
         }
 
-        public List<Cooperator> GetApplicationCooperators()
+        public List<Cooperator> GetCooperatorsBySysGroup(string sysGroupName)
         {
-            string appCode = ConfigurationManager.AppSettings["AppCode"];
-
-            List<Cooperator> applicationCooperators = new List<Cooperator>();
-            SQL = "usp_GGTools_GRINGlobal_SysUsersByGroup_Select";
+            List<Cooperator> cooperators = new List<Cooperator>();
+            SQL = "usp_GRINGlobal_Cooperators_By_Sys_Group_Select";
 
             var parameters = new List<IDbDataParameter> {
-                CreateParameter("group_name", (object)appCode, false)
-            };
+                    CreateParameter("group_tag", (object)sysGroupName, false)
+                };
 
-            applicationCooperators = GetRecords<Cooperator>(SQL, CommandType.StoredProcedure, parameters.ToArray());
-            return applicationCooperators;
+            cooperators = GetRecords<Cooperator>(SQL, CommandType.StoredProcedure, parameters.ToArray());
+            return cooperators;
         }
+
+        //public List<Cooperator> GetApplicationCooperators()
+        //{
+        //    string appCode = ConfigurationManager.AppSettings["AppCode"];
+
+        //    List<Cooperator> applicationCooperators = new List<Cooperator>();
+        //    SQL = "usp_GGTools_GRINGlobal_SysUsersByGroup_Select";
+
+        //    var parameters = new List<IDbDataParameter> {
+        //        CreateParameter("group_name", (object)appCode, false)
+        //    };
+
+        //    applicationCooperators = GetRecords<Cooperator>(SQL, CommandType.StoredProcedure, parameters.ToArray());
+        //    return applicationCooperators;
+        //}
 
         public List<ReportItem> GetRecordsOwned(int cooperatorId)
         {

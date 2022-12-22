@@ -42,6 +42,22 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
             return Entity;
         }
 
+        public void GetTaxonomySysUsers()
+        {
+            using (SysUserManager mgr = new SysUserManager())
+            {
+                try
+                {
+                    DataCollection = new Collection<SysUser>(mgr.GetTaxonomySysUsers());
+                    RowsAffected = mgr.RowsAffected;
+                }
+                catch (Exception ex)
+                {
+                    PublishException(ex);
+                    throw ex;
+                }
+            }
+        }
         public void GetGroups(int sysUserId)
         {
             using (SysUserManager mgr = new SysUserManager())

@@ -14,7 +14,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         {
             Reset(CommandType.StoredProcedure);
             Validate<Species>(entity);
-            SQL = "usp_GGTools_Taxon_Species_Insert";
+            SQL = "usp_GRINGlobal_Taxonomy_Species_Insert";
 
             BuildInsertUpdateParameters(entity);
 
@@ -26,8 +26,11 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             entity.ID = GetParameterValue<int>("@out_taxonomy_species_id", -1);
             int errorNumber = GetParameterValue<int>("@out_error_number", -1);
 
+            if (errorNumber > 0)
+            {
+                throw new Exception(errorNumber.ToString());
+            }
             RowsAffected = entity.ID;
-
             return RowsAffected;
         }
 
@@ -35,7 +38,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         {
             Reset(CommandType.StoredProcedure);
             Validate<Species>(entity);
-            SQL = "usp_GGTools_Taxon_Species_Update";
+            SQL = "usp_GRINGlobal_Taxonomy_Species_Update";
 
             BuildInsertUpdateParameters(entity);
 
@@ -337,6 +340,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             AddParameter("species_name", (object)entity.SpeciesName ?? DBNull.Value, true);
             AddParameter("protologue", (object)entity.Protologue ?? DBNull.Value, true);
             AddParameter("protologue_virtual_path", (object)entity.ProtologueVirtualPath ?? DBNull.Value, true);
+            AddParameter("is_web_visible", entity.IsWebVisible == null ? "N" : (object)entity.IsWebVisible, false);
             AddParameter("note", (object)entity.Note ?? DBNull.Value, true);
 
             if (entity.ID > 0)

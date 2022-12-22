@@ -79,14 +79,20 @@
                 </div>
                 <div class="col-md-3">
                     <div class="form-group">
-                        <label>Language</label>
-                        @Html.DropDownListFor(x => x.Entity.LanguageID, Model.CommonNameLanguages, "Select language", new { @class = "form-control" })
+                        <label>Transcription</label>
+                        @Html.TextBoxFor(x => x.Entity.AlternateTranscription, new { @class = "form-control" })
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="form-group">
-                        <label>Transcription</label>
-                        @Html.TextBoxFor(x => x.Entity.AlternateTranscription, new { @class = "form-control" })
+                        <label>Language Description</label>
+                        @Html.TextBoxFor(x => x.Entity.LanguageDescription, new { @class = "form-control", @readonly = "readonly" })
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label>Language</label>
+                        @Html.DropDownListFor(x => x.Entity.LanguageID, Model.CommonNameLanguages, "Select language", new { @class = "form-control" })
                     </div>
                 </div>
             </div>
