@@ -115,12 +115,12 @@ function InitDataTableLight(tableName) {
     $(document).ready(function () {
         tableName = "#" + tableName;
         table = $(tableName).DataTable({
-            paging: false,
+            paging: true,
             responsive: true,
             select: {
                 style: 'single'
             },
-            searching: false,
+            searching: true,
             columnDefs: [
                 { targets: [0], visible: false }
             ]

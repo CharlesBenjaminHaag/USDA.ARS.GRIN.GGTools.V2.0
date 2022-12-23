@@ -66,7 +66,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 {
                     viewModel.Get(entityId);
                     viewModel.EventAction = "Edit";
-                    viewModel.PageTitle = String.Format("Edit Common Name [{0}]: {1}, {2}", entityId, viewModel.Entity.SpeciesName, viewModel.Entity.Name);
+                    viewModel.PageTitle = String.Format("Edit Common Name [{0}]: {1}", entityId, viewModel.Entity.AssembledName);
                 }
                 else
                 {

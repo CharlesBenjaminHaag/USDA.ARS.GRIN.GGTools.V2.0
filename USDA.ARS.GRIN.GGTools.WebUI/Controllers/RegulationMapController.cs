@@ -96,14 +96,26 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             }
         }
 
-        public ActionResult Add(int regulationId = 0)
+        public ActionResult Add(int regulationId = 0, int speciesId = 0)
         {
             try
             {
                 RegulationMapViewModel viewModel = new RegulationMapViewModel();
                 viewModel.Entity.RegulationID = regulationId;
+                viewModel.Entity.SpeciesID = speciesId;
                 viewModel.TableName = "taxonomy_regulation_map";
                 viewModel.PageTitle = "Add Regulation Map";
+                viewModel.Entity.RegulationID = regulationId;
+
+                if (speciesId > 0)
+                {
+                    SpeciesViewModel speciesViewModel = new SpeciesViewModel();
+                    speciesViewModel.SearchEntity = new SpeciesSearch { ID = speciesId };
+                    speciesViewModel.Search();
+                    viewModel.Entity.SpeciesID = speciesViewModel.Entity.ID;
+                    viewModel.Entity.SpeciesName = speciesViewModel.Entity.FullName;
+                }
+
                 return View( BASE_PATH + "Edit.cshtml", viewModel);
             }
             catch (Exception ex)

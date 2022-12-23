@@ -42,17 +42,22 @@
                         @Html.DropDownListFor(x => x.Entity.CropForCWRID, Model.CropsForCWR, "Select value", new { @class = "form-control" })
                     </div>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-4">
                     <div class="form-group">
                         <label>Species</label>
                         <div class="input-group">
                             @Html.TextBoxFor(x => x.Entity.SpeciesName, new { @class = "form-control", @readonly = "readonly" })
                             @Html.HiddenFor(x => x.Entity.SpeciesID)
                             <span class="input-group-btn">
-                                <button id="btnOpenSpeciesLookupModal" type="button" class="btn btn-default btn-flat" data-ggtools-action="SpeciesID" data-ggtools-value="SpeciesName" data-toggle="modal" data-target="#modal-species-lookup">
-                                    <i class="fa fa-search"></i>
-                                </button>
+                                <a href="@Url.Action("Edit","Species", new { @entityId = Model.Entity.SpeciesID })" class="btn btn-default btn-flat">
+                                    <i class="fa fa-leaf"></i>
+                                </a>
                             </span>
+                                <span class="input-group-btn">
+                                    <button id="btnOpenSpeciesLookupModal" type="button" class="btn btn-default btn-flat" data-ggtools-action="SpeciesID" data-ggtools-value="SpeciesName" data-toggle="modal" data-target="#modal-species-lookup">
+                                        <i class="fa fa-search"></i>
+                                    </button>
+                                </span>
                         </div>
                     </div>
                 </div>
@@ -62,7 +67,7 @@
                         @Html.DropDownListFor(x => x.Entity.GenepoolCode, Model.GenepoolCodes, "All Genepool Codes", new { @class = "form-control" })
                     </div>
                 </div>
-                <div id="section-common-name" class="col-md-2">
+                <div id="section-common-name" class="col-md-4">
                     <div class="form-group form-horizontal">
                         <label>Crop Common Name</label>
                         @Html.TextBoxFor(x => x.Entity.CropCommonName, new { @class = "form-control" })
@@ -70,8 +75,8 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-1">
-                    <div class="form-group clearfix">
+                <div class="col-md-2">
+                    <div class="form-group clearfix section-checkbox">
                         <div class="icheck-primary d-inline">
                             @Html.CheckBoxFor(x => x.Entity.IsCropOption, new { id = "cbxIsCrop" })
                             <label for="cbxIsCrop">
@@ -80,8 +85,8 @@
                         </div>
                     </div>
                 </div>
-                <div id="section-is-graftstock" class="col-md-1 non-crop">
-                    <div class="form-group clearfix">
+                <div id="section-is-graftstock" class="col-md-2 non-crop">
+                    <div class="form-group clearfix section-checkbox">
                         <div class="icheck-primary d-inline">
                             @Html.CheckBoxFor(x => x.Entity.IsGraftStockOption, new { id = "cbxIsGraftstock" })
                             <label for="cbxIsGraftstock">
@@ -90,8 +95,8 @@
                         </div>
                     </div>
                 </div>
-                <div id="section-is-potential" class="col-md-1 non-crop">
-                    <div class="form-group clearfix">
+                <div id="section-is-potential" class="col-md-2 non-crop">
+                    <div class="form-group clearfix section-checkbox">
                         <div class="icheck-primary d-inline">
                             @Html.CheckBoxFor(x => x.Entity.IsPotentialOption, new { id = "cbxIsPotential" })
                             <label for="cbxIsPotential">

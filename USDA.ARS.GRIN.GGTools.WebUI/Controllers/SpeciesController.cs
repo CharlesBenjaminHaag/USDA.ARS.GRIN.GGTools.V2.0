@@ -206,6 +206,10 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                     viewModel.ParentEntity = parentViewModel.Entity;
                     viewModel.Entity.ParentID = parentViewModel.ID;
                     viewModel.Entity.SpeciesEpithet = parentViewModel.Entity.SpeciesEpithet;
+                    viewModel.Entity.SpeciesName = parentViewModel.Entity.SpeciesName;
+                    viewModel.Entity.SubspeciesName = parentViewModel.Entity.SubspeciesName;
+                    viewModel.Entity.VarietyName = parentViewModel.Entity.VarietyName;
+                    viewModel.Entity.SubvarietyName = parentViewModel.Entity.SubvarietyName;
                     viewModel.Entity.GenusID = parentViewModel.Entity.GenusID;
                     viewModel.Entity.GenusName = parentViewModel.Entity.GenusName;
                     viewModel.Entity.Protologue= parentViewModel.Entity.Protologue;

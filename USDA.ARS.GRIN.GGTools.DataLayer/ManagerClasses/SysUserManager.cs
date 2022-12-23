@@ -113,7 +113,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
         {
             List<SysGroup> sysGroups = new List<SysGroup>();
 
-            SQL = " SELECT [ID], [GroupTag], [GroupTitle], [GroupDescription] " +
+            SQL = " SELECT TOP 10 [ID], [GroupTag], [GroupTitle], [GroupDescription] " +
                     " FROM [vw_GRINGlobal_Sys_Group] WHERE " +
                     " GroupTag LIKE '%TAXON%' " +
                     " OR GroupTag = 'MANAGE_CITATION' " +
@@ -129,7 +129,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
         {
             List<SysGroup> sysGroups = new List<SysGroup>();
 
-            SQL = " SELECT [ID], [GroupTag], [GroupTitle], [GroupDescription] " +
+            SQL = " SELECT TOP 10 [ID], [GroupTag], [GroupTitle], [GroupDescription] " +
                     " FROM [vw_GRINGlobal_Sys_Group] WHERE " +
                     " GroupTag LIKE '%TAXON%' " +
                     " OR GroupTag = 'MANAGE_CITATION' " +

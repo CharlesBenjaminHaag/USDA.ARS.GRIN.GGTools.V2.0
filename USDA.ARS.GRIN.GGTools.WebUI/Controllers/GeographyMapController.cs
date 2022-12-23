@@ -96,12 +96,12 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             TempData["GEO-MAP-SEARCH"] = geographyMapSearch;
             return RedirectToAction("Index", "GeographyMap");
         }
-        public PartialViewResult _List(string eventValue = "", int entityId = 0)
+        public PartialViewResult _List(string eventValue = "", int speciesId = 0)
         {
             try
             {
                 GeographyMapViewModel viewModel = new GeographyMapViewModel();
-                viewModel.SearchEntity = new GeographyMapSearch { SpeciesID = entityId };
+                viewModel.SearchEntity = new GeographyMapSearch { SpeciesID = speciesId };
                 viewModel.Search();
                 return PartialView(BASE_PATH + "_List.cshtml", viewModel);
             }
@@ -140,7 +140,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 return PartialView("~/Views/Error/_InternalServerError.cshtml");
             }
         }
-        public ActionResult Add()
+        public ActionResult Add(int speciesId = 0)
         {
             try
             {
@@ -151,6 +151,15 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
 
                 GeographyViewModel geographyViewModel = new GeographyViewModel();
                 viewModel.Countries = new SelectList(geographyViewModel.GetCountries(), "CountryCode", "CountryName");
+
+                if (speciesId > 0)
+                {
+                    SpeciesViewModel speciesViewModel = new SpeciesViewModel();
+                    speciesViewModel.SearchEntity = new SpeciesSearch { ID = speciesId };
+                    speciesViewModel.Search();
+                    viewModel.Entity.SpeciesID = speciesViewModel.Entity.ID;
+                    viewModel.Entity.SpeciesName = speciesViewModel.Entity.FullName;
+                }
 
                 return View(BASE_PATH + "Edit.cshtml", viewModel);
             }

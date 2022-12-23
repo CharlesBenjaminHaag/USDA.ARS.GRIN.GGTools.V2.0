@@ -35,41 +35,6 @@
         position: relative;
     }
 </style>
-@*@if (Model.ParentEntity.ID > 0)
-{
-    <div class="card card-success">
-        <div class="card-header">
-            <h3 class="card-title">Rank</h3>
-            <div class="card-tools">
-                <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                    <i class="fas fa-minus"></i>
-                </button>
-            </div>
-        </div>
-        <div class="card-body" style="display: block; padding-bottom:0px;">
-            <div class="row">
-                <div class="col-sm-3">
-                    <div class="form-group">
-                        <label>Name</label>
-                        @Html.TextBoxFor(x => x.ParentEntity.FullName, new { @class = "form-control-plaintext" })
-                    </div>
-                </div>
-                <div class="col-sm-3">
-                    <div class="form-group">
-                        <label>Protologue</label>
-                        @Html.TextBoxFor(x => x.ParentEntity.Protologue, new { @class = "form-control-plaintext" })
-                    </div>
-                </div>
-                <div class="col-sm-3">
-                    <div class="form-group">
-                        <label>Note</label>
-                        @Html.TextBoxFor(x => x.ParentEntity.Note, new { @class = "form-control-plaintext" })
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-}*@
 
 @using (Html.BeginForm("Edit", "Species", FormMethod.Post, new { id = "frmEdit" }))
 {
@@ -158,7 +123,7 @@
             <div class="table-responsive mailbox-messages">
                 @Html.Partial("~/Views/Shared/_ValidationMessages.cshtml")
                 <div class="row accepted">
-                    <div id="section-accepted-name" class="col-md-3 accepted">
+                    <div id="section-accepted-name" class="col-md-4 accepted">
                         <div class="form-group">
                             <label>Accepted Name</label>
                             <div class="input-group">
@@ -200,36 +165,31 @@
                             @Html.TextBoxFor(x => x.Entity.SpeciesName, new { @class = "form-control" })
                         </div>
                     </div>
-                    <div id="section-infraspecific-species" class="col-md-3 infra">
-                        @switch (Model.Entity.Rank)
-                        {
-                            case "subspecies":
-                                <div class="form-group">
-                                    <label>Subspecies Name</label>
-                                    @Html.TextBoxFor(x => x.Entity.SubspeciesName, new { @class = "form-control" })
-                                </div>
-                                break;
-                            case "variety":
-                                <div class="form-group">
-                                    <label>Variety Name</label>
-                                    @Html.TextBoxFor(x => x.Entity.VarietyName, new { @class = "form-control" })
-                                </div>
-                                break;
-                            case "subvariety":
-                                <div class="form-group">
-                                    <label>Subvariety Name</label>
-                                    @Html.TextBoxFor(x => x.Entity.SubvarietyName, new { @class = "form-control" })
-                                </div>
-                                break;
-                            case "forma":
-                                <div class="form-group">
-                                    <label>Forma Name</label>
-                                    @Html.TextBoxFor(x => x.Entity.FormaName, new { @class = "form-control" })
-                                </div>
-                                break;
-                        }
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Subspecies Name</label>
+                            @Html.TextBoxFor(x => x.Entity.SubspeciesName, new { @class = "form-control" })
+                        </div>
                     </div>
-                    <div id="section-infraspecific-species-authority" class="col-md-3 infra">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Variety Name</label>
+                            @Html.TextBoxFor(x => x.Entity.VarietyName, new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Subvariety Name</label>
+                            @Html.TextBoxFor(x => x.Entity.SubvarietyName, new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Forma Name</label>
+                            @Html.TextBoxFor(x => x.Entity.FormaName, new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="col-md-6">
                         @switch (Model.Entity.Rank)
                         {
                             case "subspecies":
@@ -292,53 +252,35 @@
                                 break;
                         }
                     </div>
-                    <div class="col-md-3">
-                        <label>Protologue</label>
-                        <div class="input-group">
-                            @Html.TextBoxFor(x => x.Entity.Protologue, new { @class = "form-control" })
-                            <span class="input-group-btn">
-                                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#modal-protologue-lookup">
-                                    <i class="fa fa-search"></i>
-                                </button>
-                            </span>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>Protologue</label>
+                            <div class="input-group">
+                                @Html.TextBoxFor(x => x.Entity.Protologue, new { @class = "form-control" })
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#modal-protologue-lookup">
+                                        <i class="fa fa-search"></i>
+                                    </button>
+                                </span>
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-3">
+                    <div class="col-md-6">
                         <div class="form-group">
                             <label>Protologue Virtual Path</label>
                             @Html.TextBoxFor(x => x.Entity.ProtologueVirtualPath, new { @class = "form-control" })
                         </div>
-                        <!-- TODO Need this? -->
-                        @*<div class="input-group">
-                                <span class="input-group-btn">
-                                    @if (!String.IsNullOrEmpty(Model.Entity.ProtologueVirtualPath))
-                                    {
-                                        <a href="@Model.Entity.ProtologueVirtualPath" target="_blank" rel="noreferrer noopener" class="btn btn-default btn-flat">
-                                            <i class="fa fa-link"></i>
-                                        </a>
-                                    }
-                                    else
-                                    {
-                                        <a href="@Model.Entity.ProtologueVirtualPath" class="btn btn-default btn-flat disabled">
-                                            <i class="fa fa-link"></i>
-                                        </a>
-                                    }
-                                    <button type="button" data-toggle="modal" data-target="#modal-author-lookup" class="btn btn-default btn-flat">
-                                        <i class="fa fa-search"></i>
-                                    </button>
-                                </span>
-                            </div>*@
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-6">
                         <div class="form-group">
                             <label>Hybrid Parentage</label>
                             @Html.TextBoxFor(x => x.Entity.HybridParentage, new { @class = "form-control" })
                         </div>
                     </div>
                     <div class="col-md-1">
-                        <div class="form-group clearfix" style="margin-top:40px;">
+                        <div class="form-group section-checkbox">
                             <div class="icheck-primary d-inline">
                                 @Html.CheckBoxFor(x => x.Entity.IsSpecificHybridOption)
                                 <label for="Entity_IsSpecificHybridOption">
@@ -348,7 +290,7 @@
                         </div>
                     </div>
                     <div class="col-md-1">
-                        <div class="form-group clearfix" style="margin-top:40px;">
+                        <div class="form-group section-checkbox">
                             <div class="icheck-primary d-inline">
                                 @Html.CheckBoxFor(x => x.Entity.IsWebVisibleOption)
                                 <label for="Entity_IsWebVisibleOption">
@@ -361,10 +303,9 @@
                 <div class="row">
                     <div class="col-md-12">
                         <label>Note</label>
-                        @Html.TextAreaFor(x => x.Entity.Note, new { @id = "txtNote", @class = "form-control" })
+                        @Html.TextAreaFor(x => x.Entity.Note, new { @id = "txtNote", @class = "form-control", })
                     </div>
                 </div>
-
             </div>
         </div>
         <div class="card-footer">
@@ -385,30 +326,25 @@
     <div class="card">
         <div id="section-dependent-data" class="card-header p-2">
             <ul id="list-dependent-data" class="nav nav-pills">
-                <li id="tab_selector_citations" class="nav-item"><a class="nav-link active" href="#tab_content_citations" data-toggle="tab">Citations</a></li>
-                <li id="tab_selector_species" class="nav-item"><a class="nav-link" href="#tab_content_species" data-toggle="tab">Common Names</a></li>
-                <li id="tab_selector_synonyms" class="nav-item"><a class="nav-link" href="#tab_content_synonyms" data-toggle="tab">Economic Uses</a></li>
-                <li id="tab_selector_subdivisions" class="nav-item"><a class="nav-link" href="#tab_content_subdivisions" data-toggle="tab">Distribution</a></li>
-                <li id="tab_selector_regulations" class="nav-item"><a class="nav-link" href="#tab_content_regulations" data-toggle="tab">Regulations</a></li>
+                <li id="tab_selector_citation" class="nav-item"><a class="nav-link active" href="#tab_content_citations" data-toggle="tab">Citations</a></li>
+                <li id="tab_selector_taxonomy_common_name" class="nav-item"><a class="nav-link" href="#tab_content_taxonomy_common_name" data-toggle="tab">Common Names</a></li>
+                <li id="tab_selector_taxonomy_species_synonym_map" class="nav-item"><a class="nav-link" href="#tab_content_taxonomy_species_synonym_map" data-toggle="tab">Synonyms</a></li>
+                <li id="tab_selector_taxonomy_geography_map" class="nav-item"><a class="nav-link" href="#tab_content_taxonomy_geography_map" data-toggle="tab">Distributions</a></li>
+                <li id="tab_selector_taxonomy_regulation_map" class="nav-item"><a class="nav-link" href="#tab_content_taxonomy_regulation_map" data-toggle="tab">Regulations</a></li>
             </ul>
         </div>
         <div class="card-body">
             <div class="tab-content">
-                <div class="tab-pane active" id="tab_content_citations">
-                    <div id="section-citations">
-
-                    </div>
+                <div class="tab-pane active" id="tab_content_citation">
                 </div>
-                <div class="tab-pane" id="tab_content_species">
-                    <!--TODO-->
+                <div class="tab-pane" id="tab_content_taxonomy_common_name">
                 </div>
-                <div class="tab-pane" id="tab_content_synonyms">
-                    <!--TODO-->
+                <div class="tab-pane" id="tab_content_taxonomy_species_synonym_map">
                 </div>
-                <div class="tab-pane" id="tab_content_subdivisions">
-                    <!--TODO-->
+                <div class="tab-pane" id="tab_content_taxonomy_geography_map">
                 </div>
-
+                <div class="tab-pane" id="tab_content_taxonomy_regulation_map">
+                </div>
             </div>
         </div>
     </div>
@@ -426,7 +362,6 @@
 <script type="text/javascript">
     $(document).ready(function () {
         Init();
-        /*InitializeCKEditor();*/
     });
 
     function Init() {
@@ -482,35 +417,40 @@
 
         // Load data in selected section content area based on id.
         switch (sectionId) {
-            case "tab_selector_citations":
-                link = '@Url.Action("_List","Citation")';
+            case "tab_selector_citation":
+                link = '@Url.Action("_List","Citation", new { speciesId = "SPECIES_ID" })';
                 break;
-            case "tab_selector_species":
-                link = '@Url.Action("_List","Species")';
+            case "tab_selector_taxonomy_common_name":
+                link = '@Url.Action("_List","CommonName", new { speciesId = "SPECIES_ID" })';
                 break;
-            case "tab_selector_synonyms":
-                link = '@Url.Action("_ListSynonyms", "Genus")';
+            case "tab_selector_taxonomy_species_synonym_map":
+                link = '@Url.Action("_List", "SynonymMap", new { speciesId = "SPECIES_ID" })';
                 break;
-            case "tab_selector_subdivisions":
-                link = '@Url.Action("_ListSubdivisions", "Genus", new { genusName = "GENUS_NAME" })';
-                link = link.replace("GENUS_NAME", genusName);
+            case "tab_selector_taxonomy_geography_map":
+                link = '@Url.Action("_List", "GeographyMap", new { speciesId = "SPECIES_ID" })';
+                break;
+            case "tab_selector_taxonomy_regulation_map":
+                link = '@Url.Action("_List", "RegulationMap", new { speciesId = "SPECIES_ID" })';
                 break;
             default:
                 // code block
         }
+        link = link.replace("SPECIES_ID", entityId);
+        formData.append("SpeciesID", entityId);
 
-    formData.append("GenusID", entityId);
+        //DEBUG
+        alert("DEBUG CALLING " + link);
 
-    $.ajax({
-        url: link,
-        type: 'POST',
-        cache: false,
-        contentType: false,
-        processData: false,
-        data: formData,
-        success: function (response) {
-            $("#" + sectionData).html(response);
-        }
-    });
+        $.ajax({
+            url: link,
+            type: 'POST',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (response) {
+                $("#" + sectionData).html(response);
+            }
+        });
     }
 </script>

@@ -3,7 +3,7 @@
     ViewBag.Title = Model.PageTitle;
     Layout = "~/Views/Shared/_LayoutAdminLTE3.cshtml";
 }
-
+<div id="overlay"></div>
 <!-- TODO Convert tab format -->
 @*<div class="card card-primary card-tabs">
         <div class="card-header p-0 pt-1">
@@ -163,7 +163,7 @@ TEMP DEMO MODALS
 
     function Init() {
         var tabName = $("#section-user-tabs ul li:first").attr('id');
-        LoadUserLists(tabName);
+        /*LoadUserLists(tabName);*/
         // Intialize all folder data tables.
         //$(".folder-table").DataTable();
         InitDataTablesByClass(".folder-table");
@@ -322,9 +322,6 @@ TEMP DEMO MODALS
         var eventAction = $(this).data("ggtools-action");
         var eventValue = $(this).data("ggtools-value");
 
-        //DEBUG
-        alert("SYS USER " + eventValue);
-
         LoadSysGroupUserMapsAvailable(eventValue);
         LoadSysGroupUserMapsAssigned(eventValue);
         $("#modal_sys_group_user_map_lookup").modal("show");
@@ -333,6 +330,8 @@ TEMP DEMO MODALS
     function LoadSysGroupUserMapsAvailable(sysUserId) {
         link = '@Url.Action("_ListAvailableSysGroups", "SysUser")';
         var formData = new FormData();
+
+        $("#progress_overlay").show();
 
         formData.append("sysUserId", sysUserId);
 
@@ -345,6 +344,7 @@ TEMP DEMO MODALS
             data: formData,
             success: function (response) {
                 $("#section_sys_group_user_map_available").html(response);
+                $("#progress_overlay").hide();
             }
         });
     }

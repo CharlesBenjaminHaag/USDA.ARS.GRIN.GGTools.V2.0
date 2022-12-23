@@ -86,23 +86,25 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
 
             SQL = "SELECT * FROM vw_GGTools_Taxon_CommonNames ";
 
-            SQL += " WHERE  (@ID   IS NULL OR ID       =         @ID)";
-            SQL += " AND    (@CreatedByCooperatorID         IS NULL OR CreatedByCooperatorID    =       @CreatedByCooperatorID)";
-            SQL += " AND    (@CreatedDate                   IS NULL OR CreatedDate              =       @CreatedDate)";
-            SQL += " AND    (@ModifiedByCooperatorID        IS NULL OR ModifiedByCooperatorID   =       @ModifiedByCooperatorID)";
-            SQL += " AND    (@ModifiedDate                  IS NULL OR ModifiedDate             =       @ModifiedDate)";
-            SQL += " AND    (@Note                          IS NULL OR Note                     LIKE    '%' + @Note + '%')";
+            SQL += " WHERE  (@ID   IS NULL OR ID            =         @ID)";
+            SQL += " AND    (@CreatedByCooperatorID         IS NULL OR CreatedByCooperatorID        =       @CreatedByCooperatorID)";
+            SQL += " AND    (@CreatedDate                   IS NULL OR CreatedDate                  =       @CreatedDate)";
+            SQL += " AND    (@ModifiedByCooperatorID        IS NULL OR ModifiedByCooperatorID       =       @ModifiedByCooperatorID)";
+            SQL += " AND    (@ModifiedDate                  IS NULL OR ModifiedDate                 =       @ModifiedDate)";
+            SQL += " AND    (@Note                          IS NULL OR Note                         LIKE    '%' + @Note + '%')";
+            SQL += " AND    (@GenusID                       IS NULL OR  GenusID                     =       @GenusID) ";
+            SQL += " AND    (@SpeciesID                     IS NULL OR  SpeciesID                   =       @SpeciesID) ";
+            SQL += " AND    (@CreatedByCooperatorID         IS NULL OR  CreatedByCooperatorID       =       @CreatedByCooperatorID)";
+            SQL += " AND    (@GenusName                     IS NULL OR  GenusName                   LIKE    '%' + @GenusName + '%') ";
+            SQL += " AND    (@SpeciesName                   IS NULL OR  SpeciesName                 LIKE    '%' + @SpeciesName + '%') ";
 
-            SQL += " AND    (@GenusID               IS NULL OR  GenusID = @GenusID) ";
-            SQL += " AND    (@SpeciesID             IS NULL OR  SpeciesID = @SpeciesID) ";
-            SQL += " AND    (@CreatedByCooperatorID IS NULL OR  CreatedByCooperatorID = @CreatedByCooperatorID)";
-            SQL += " AND    (@GenusName             IS NULL OR  GenusName                   LIKE    '%' + @GenusName + '%') ";
-            SQL += " AND    ((@SpeciesName          IS NULL OR  REPLACE(Name, ' x ', '')    LIKE    'X ' + @SpeciesName + '%') ";
-            SQL += " OR     (@SpeciesName           IS NULL OR  REPLACE(Name, ' x ', '')    LIKE    '+' + @SpeciesName + '%') ";
-            SQL += " OR     (@SpeciesName           IS NULL OR  REPLACE(Name, ' x ', '')    LIKE    @SpeciesName + '%')) ";
-            SQL += " AND    (@Name                  IS NULL OR  Name                        LIKE    '%' + @Name + '%') ";
-            SQL += " AND    (@LanguageDescription   IS NULL OR  LanguageDescription         LIKE    '%' + @LanguageDescription + '%') ";
-            SQL += " AND    (@SimplifiedName        IS NULL OR  SimplifiedName              LIKE    '%' + @SimplifiedName + '%') ";
+            //SQL += " AND    ((@SpeciesName                IS NULL OR  REPLACE(Name, ' x ', '')    LIKE    'X ' + @SpeciesName + '%') ";
+            //SQL += " OR     (@SpeciesName                 IS NULL OR  REPLACE(Name, ' x ', '')    LIKE    '+' + @SpeciesName + '%') ";
+            //SQL += " OR     (@SpeciesName                 IS NULL OR  REPLACE(Name, ' x ', '')    LIKE    @SpeciesName + '%')) ";
+
+            SQL += " AND    (@Name                          IS NULL OR  Name                        LIKE    '%' + @Name + '%') ";
+            SQL += " AND    (@LanguageDescription           IS NULL OR  LanguageDescription         LIKE    '%' + @LanguageDescription + '%') ";
+            SQL += " AND    (@SimplifiedName                IS NULL OR  SimplifiedName              LIKE    '%' + @SimplifiedName + '%') ";
      
             var parameters = new List<IDbDataParameter> {
                 CreateParameter("ID", searchEntity.ID > 0 ? (object)searchEntity.ID : DBNull.Value, true),

@@ -224,7 +224,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         }
         public virtual List<CodeValue> GetCodeValues(string groupName)
         {
-            SQL = "usp_GRINGlobal_Code_Value_Select";
+            SQL = "usp_GRINGlobal_Code_Values_Select";
             var parameters = new List<IDbDataParameter> {
                 CreateParameter("group_name", (object)groupName, false)
             };

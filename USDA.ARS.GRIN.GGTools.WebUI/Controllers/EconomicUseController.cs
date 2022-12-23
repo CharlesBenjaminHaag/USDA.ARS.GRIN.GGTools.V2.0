@@ -25,7 +25,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 return PartialView("~/Views/Error/_InternalServerError.cshtml");
             }
         }
-        public ActionResult Add(string eventValue = "", int entityId = 0)
+        public ActionResult Add(string eventValue = "", int speciesId = 0)
         {
             try
             {
@@ -36,10 +36,10 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 viewModel.PageTitle = "Add Economic Use";
                 viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
 
-                if (entityId > 0)
+                if (speciesId > 0)
                 {
                     SpeciesViewModel speciesViewModel = new SpeciesViewModel();
-                    speciesViewModel.SearchEntity = new SpeciesSearch { ID = entityId };
+                    speciesViewModel.SearchEntity = new SpeciesSearch { ID = speciesId };
                     speciesViewModel.Search();
                     viewModel.Entity.SpeciesID = speciesViewModel.Entity.ID;
                     viewModel.Entity.SpeciesName = speciesViewModel.Entity.Name;
@@ -173,10 +173,10 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             }
         }
 
-        public PartialViewResult _List(int entityId = 0)
+        public PartialViewResult _List(int speciesId = 0)
         {
             EconomicUseViewModel viewModel = new EconomicUseViewModel();
-            viewModel.SearchEntity = new EconomicUseSearch { SpeciesID = entityId };
+            viewModel.SearchEntity = new EconomicUseSearch { SpeciesID = speciesId };
             viewModel.Search();
             return PartialView("~/Views/EconomicUse/_List.cshtml", viewModel);
         }
