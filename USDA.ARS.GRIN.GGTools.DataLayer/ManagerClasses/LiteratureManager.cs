@@ -52,7 +52,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         {
             List<Literature> results = new List<Literature>();
 
-            SQL = "SELECT * FROM vw_GRINGlobal_Literature ";
+            SQL = "SELECT * FROM vw_GRINGlobal_Taxonomy_Literature ";
             SQL += " WHERE (@StandardAbbreviation       IS NULL OR StandardAbbreviation     LIKE    '%' +   @StandardAbbreviation + '%')";
 
             SQL += " AND    (@ID                        IS NULL OR ID                       =       @ID)";
@@ -62,7 +62,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             SQL += " AND    (@ModifiedDate              IS NULL OR ModifiedDate             =       @ModifiedDate)";
             SQL += " AND    (@Note                      IS NULL OR Note                     LIKE    '%' + @Note + '%')";
 
-            SQL += " AND    (@StandardAbbreviation      IS NULL OR StandardAbbreviation     LIKE  '%' +   @StandardAbbreviation + '%')";
+            SQL += " AND    (@Abbreviation              IS NULL OR Abbreviation             LIKE  '%' +   @Abbreviation + '%')";
             SQL += " AND    (@LiteratureTypeCode        IS NULL OR LiteratureTypeCode       =       @LiteratureTypeCode)";
             SQL += " AND    (@ReferenceTitle            IS NULL OR ReferenceTitle           LIKE  '%' +   @ReferenceTitle + '%')";
             SQL += " AND    (@Author                    IS NULL OR EditorAuthorName         LIKE  '%' +   @Author + '%')";
@@ -76,6 +76,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
                 CreateParameter("ModifiedDate", searchEntity.ModifiedDate > DateTime.MinValue ? (object)searchEntity.ModifiedDate : DBNull.Value, true),
                 CreateParameter("Note", (object)searchEntity.Note ?? DBNull.Value, true),
 
+                CreateParameter("Abbreviation", (object)searchEntity.Abbreviation ?? DBNull.Value, true),
                 CreateParameter("StandardAbbreviation", (object)searchEntity.StandardAbbreviation ?? DBNull.Value, true),
                 CreateParameter("LiteratureTypeCode", (object)searchEntity.TypeCode ?? DBNull.Value, true),
                 CreateParameter("ReferenceTitle", (object)searchEntity.ReferenceTitle  ?? DBNull.Value, true),

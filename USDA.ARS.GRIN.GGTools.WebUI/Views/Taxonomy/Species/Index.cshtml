@@ -42,12 +42,11 @@
         }
     }
 
-    $(document).on("click", "[id='btnSubmitSearch']", function () {
-        $("#frmMain").submit();
-    });
-
-    $(document).on("click", "[id='btnReset']", function () {
-        Reset();
+    $(document).keypress(function (event) {
+        var keycode = (event.keyCode ? event.keyCode : event.which);
+        if (keycode == '13') {
+            $("#btnSearch").click();
+        }
     });
 
     /*
@@ -55,27 +54,27 @@
     * INFRASPECIFIC CONTROLS
     * ===================================================================================================
     */
-    $("#Entity_Rank").change(function () {
-        var selectedRank = this.value;
-        SetInfraspecificControls(selectedRank);
-    });
+    //$("#Entity_Rank").change(function () {
+    //    var selectedRank = this.value;
+    //    SetInfraspecificControls(selectedRank);
+    //});
 
-    function SetInfraspecificControls(rank) {
-        var sectionName = "#section-infraspecific-" + rank.toLowerCase();
-        var sectionAuthority = sectionName + "-authority";
-        var sectionHybrid = "#section-hybrid-" + rank.toLowerCase();
-        var isAcceptedName = $("#Entity_IsAcceptedName").val();
+    //function SetInfraspecificControls(rank) {
+    //    var sectionName = "#section-infraspecific-" + rank.toLowerCase();
+    //    var sectionAuthority = sectionName + "-authority";
+    //    var sectionHybrid = "#section-hybrid-" + rank.toLowerCase();
+    //    var isAcceptedName = $("#Entity_IsAcceptedName").val();
 
-        if (isAcceptedName == "Y") {
-            $(".accepted").hide();
-        }
-        else {
-            $(".accepted").show();
-        }
+    //    if (isAcceptedName == "Y") {
+    //        $(".accepted").hide();
+    //    }
+    //    else {
+    //        $(".accepted").show();
+    //    }
 
-        $(".infra").hide();
-        $(sectionName).show();
-        $(sectionAuthority).show();
-        $(sectionHybrid).show();
-    }
+    //    $(".infra").hide();
+    //    $(sectionName).show();
+    //    $(sectionAuthority).show();
+    //    $(sectionHybrid).show();
+    //}
 </script>

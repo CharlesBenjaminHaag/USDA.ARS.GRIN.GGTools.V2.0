@@ -73,8 +73,10 @@
                                     <br />
                                     <div class="row margin-top-05em">
                                         <div class="col-md-12">
-                                            <button id="btnReset" type="button" class="btn btn-warning">Reset</button>
-                                            <button id="btnLookupCitations" type="button" class="btn btn-default float-right">Search</button>
+                                            <div class="margin">
+                                                <button id="btnReset" class="btn btn-danger">Reset</button>
+                                                <button id="btnLookupCitation" class="btn btn-info float-right">Search</button>
+                                            </div>
                                         </div>
                                     </div>
                                     <div id="section-citation-lookup-search-results">
@@ -154,7 +156,7 @@
 
 <script type="text/javascript">
 
-    $(document).on("click", "[id='btnLookupCitations']", function () {
+    $(document).on("click", "[id='btnLookupCitation']", function () {
         var link = '@Url.Action("Lookup","Citation")';
         LookupCitations(link);
     });
@@ -186,7 +188,14 @@
         var entityId = $("#Entity_ID").val();
         var selectedItemIdList = GetSelectedEntityIDs(dataTableName);
         var selectedItemLabelList = GetSelectedCitationText(dataTableName);
-        SaveSelectedCitation(editOption, tableName, entityId, selectedItemIdList);
+
+        if (selectedItemIdList.length == 0) {
+            alert("DEBUG SEL REC FIRST MODAL HERE");
+        }
+        else {
+            SaveSelectedCitation(editOption, tableName, entityId, selectedItemIdList);
+            $("#modal-citation-lookup").modal("hide");
+        }
     }
 
     $(document).on("click", "[id='btnSaveSelectedTaxonCitation']", function () {
@@ -203,6 +212,7 @@
 
     function LookupCitations(link) {
         var tableName = $("#TableName").val();
+        var typeCode = $("#SearchEntity_CitationType").val();
         var literatureTypeCode = $("#SearchEntity_LiteratureTypeCode").val();
         var standardAbbreviation = $("#SearchEntity_StandardAbbreviation").val();
         var abbreviation = $("#SearchEntity_Abbreviation").val();
@@ -212,6 +222,7 @@
         var formData = new FormData();
 
         formData.append("TableName", tableName);
+        formData.append("TypeCode", typeCode);
         formData.append("LiteratureTypeCode", literatureTypeCode);
         formData.append("StandardAbbreviation", standardAbbreviation);
         formData.append("Abbreviation", abbreviation);

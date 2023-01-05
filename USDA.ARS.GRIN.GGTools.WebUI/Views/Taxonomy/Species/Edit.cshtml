@@ -83,6 +83,16 @@
                     </div>
                 </div>
                 <div class="btn-group">
+                    <a class="btn btn-default btn-sm" href="@Url.Action("Add", "SynonymMap", new { @speciesId = Model.Entity.ID, @synonymType="heterotypic" })">Add Herotypic Synonym</a>
+                    <button type="button" class="btn btn-default btn-sm dropdown-toggle dropdown-icon" data-toggle="dropdown" aria-expanded="false">
+                        <span class="sr-only">Toggle Dropdown</span>
+                    </button>
+                    <div class="dropdown-menu" role="menu" style="">
+                        <a class="dropdown-item btn-sm" href="@Url.Action("Add", "SynonymMap", new { @speciesId = Model.Entity.ID, @synonymType="homotypic" })">Add Homotypic Synonym</a>
+                        <a class="dropdown-item btn-sm" href="@Url.Action("Add", "SynonymMap", new { @speciesId = Model.Entity.ID, @synonymType="basionym" })">Add Basionym</a>
+                    </div>
+                </div>
+                <div class="btn-group">
                     <a class="btn btn-default btn-sm" href="@Url.Action("Add", "CommonName", new { @speciesId = Model.Entity.ID })">Add Common Name</a>
                     <button type="button" class="btn btn-default btn-sm dropdown-toggle dropdown-icon" data-toggle="dropdown" aria-expanded="false">
                         <span class="sr-only">Toggle Dropdown</span>
@@ -437,9 +447,6 @@
         }
         link = link.replace("SPECIES_ID", entityId);
         formData.append("SpeciesID", entityId);
-
-        //DEBUG
-        alert("DEBUG CALLING " + link);
 
         $.ajax({
             url: link,

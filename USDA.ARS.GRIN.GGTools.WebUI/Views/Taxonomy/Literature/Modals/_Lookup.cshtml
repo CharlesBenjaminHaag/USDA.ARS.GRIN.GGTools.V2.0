@@ -12,7 +12,7 @@
                     <span aria-hidden="true">×</span>
                 </button>
             </div>
-            <div class="modal-body">
+            <div id="section-search-criteria" class="modal-body">
                 <div class="row">
                     <div class="col-md-2">
                         <div id="section-family-type" class="form-group form-horizontal">
@@ -22,8 +22,8 @@
                     </div>
                     <div class="col-md-3">
                         <div class="form-group form-horizontal">
-                            <label>Std. Abbrev.</label>
-                            <input type="text" id="txtLiteratureStandardAbbreviation" class = "form-control" />
+                            <label>Abbreviation</label>
+                            <input type="text" id="txtLiteratureAbbreviation" class = "form-control" />
                         </div>
                     </div>
                     <div class="col-md-3">
@@ -47,7 +47,10 @@
                 </div>
                 <div class="row">
                     <div class="col-md-12">
-                        <button id="btnLookupLiterature" class="btn btn-default float-right">Search</button>
+                        <div class="margin">
+                            <button id="btnReset" class="btn btn-danger">Reset</button>
+                            <button id="btnLookupLiterature" class="btn btn-primary float-right">Search</button>
+                        </div>                    
                     </div>
                 </div>
                 <div class="row">
@@ -64,6 +67,14 @@
     </div>
 </div>
 <script>
+
+    $(document).keypress(function (event) {
+        var keycode = (event.keyCode ? event.keyCode : event.which);
+        if (keycode == '13') {
+            $("#btnLookupLiterature").click();
+        }
+    });
+
     $(document).ready(function () {
         $(document).on("click", "[id='btnLookupLiterature']", function () {
             var link = '@Url.Action("Lookup", "Literature")';
@@ -78,7 +89,7 @@
     function LookupLiterature(link) {
         var tableName = $("#TableName").val();
         var typeCode = $("#ddlLiteratureTypeCode").val();
-        var standardAbbreviation = $("#txtLiteratureStandardAbbreviation").val();
+        var abbreviation = $("#txtLiteratureAbbreviation").val();
         var referenceTitle = $("#txtLiteratureReferenceTitle").val();
         var editorAuthorName = $("#txtLiteratureEditorAuthorName").val();
         var publicationYear = $("#txtLiteraturePublicationYear").val();
@@ -86,7 +97,7 @@
 
         formData.append("TableName", tableName);
         formData.append("LiteratureTypeCode", typeCode);
-        formData.append("StandardAbbreviation", standardAbbreviation);
+        formData.append("Abbreviation", abbreviation);
         formData.append("ReferenceTitle", referenceTitle);
         formData.append("EditorAuthorName", editorAuthorName);
         formData.append("PublicationYear", publicationYear);

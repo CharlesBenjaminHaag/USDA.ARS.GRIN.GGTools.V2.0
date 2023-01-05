@@ -35,7 +35,7 @@
 </div>
 
 <div id="section-search-criteria" class="row">
-    <div class="col-md-@Model.Col1Width">
+    <div class="col-md-5">
         <div class="card card-primary card-outline dual-select">
             <div class="card-header">
                 <h3 class="card-title">Species A</h3>
@@ -132,7 +132,7 @@
             </div>
         </div>
     </div>
-    <div class="col-md-@Model.Col3Width">
+    <div class="col-md-5">
         <div class="card card-primary card-outline dual-select">
             <div class="card-header">
                 <h3 class="card-title">Species B</h3>
@@ -174,7 +174,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach (var result in Model.DataCollectionSubject)
+                                @foreach (var result in Model.DataCollectionPredicate)
                                 {
                                     <tr>
                                         <td>
@@ -251,20 +251,22 @@
         </div>
     </div>
 </div>
+
 @{Html.RenderAction("_Edit", "Folder"); }
+
 <script type="text/javascript">
     $(document).ready(function () {
         Init();
     });
 
     function Init() {
-        var speciesID = $("#SpeciesID").val();
+        var speciesID = $("#SearchEntity_SpeciesAID").val();
 
         if (speciesID > 0) {
-            var speciesName = $("#SpeciesName").val();
+            var speciesName = $("#SearchEntity_SpeciesAName").val();
             $("#EventAction").val("subject");
-            $("#txtSpeciesNameSubject").val(speciesName);
-            SearchSpecies("subject");
+            //$("#txtSpeciesNameSubject").val(speciesName);
+            SearchSpecies("species-a", speciesName, "", "section-search-results-species-a", "table-search-results-species-a");
         }
         InitDataTableMinimal("table-synonym-codes");
         $("#section-validation-errors").hide();
@@ -473,6 +475,7 @@
                         { targets: [0], visible: false }
                     ]
                 });
+                table.row(':contains("Basionym")').select()
             }
         });
     }

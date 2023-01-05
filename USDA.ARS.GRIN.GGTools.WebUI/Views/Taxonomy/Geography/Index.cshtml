@@ -25,6 +25,13 @@
         SetExtendedFields();
     });
 
+    $(document).keypress(function (event) {
+        var keycode = (event.keyCode ? event.keyCode : event.which);
+        if (keycode == '13') {
+            $("#btnSearch").click();
+        }
+    });
+
     function Init() {
         var eventAction = $("#EventAction").val();
         if (eventAction == "SHOW-SEARCH") {

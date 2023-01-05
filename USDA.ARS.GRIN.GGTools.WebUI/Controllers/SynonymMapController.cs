@@ -29,15 +29,13 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 return PartialView("~/Views/Error/_InternalServerError.cshtml");
             }
         }
-        public ActionResult Add(int entityId = 0)
+        public ActionResult Add(int speciesId = 0, string synonymType = "")
         {
             SynonymMapViewModel viewModel = new SynonymMapViewModel();
             SpeciesViewModel speciesViewModel = new SpeciesViewModel();
 
             try
             {
-                viewModel.Col1Width = 5;
-                viewModel.Col3Width = 5;
                 viewModel.TableName = "taxonomy_species_synonym_map";
 
                 // Clear the session of any previously-created batches.
@@ -48,12 +46,12 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
 
                 // If an entity (species) ID is sent via param, retrieve the species and set the corresponding 
                 // VM attributes.
-                if (entityId > 0)
+                if (speciesId > 0)
                 {
-                    speciesViewModel.SearchEntity.ID = entityId;
+                    speciesViewModel.SearchEntity.ID = speciesId;
                     speciesViewModel.Search();
-                    viewModel.SpeciesID = speciesViewModel.Entity.ID;
-                    viewModel.SpeciesName = speciesViewModel.Entity.SpeciesRankName;
+                    viewModel.SearchEntity.SpeciesAID = speciesId;
+                    viewModel.SearchEntity.SpeciesAName = speciesViewModel.DataCollection[0].Name;
                 }
                 else
                 {

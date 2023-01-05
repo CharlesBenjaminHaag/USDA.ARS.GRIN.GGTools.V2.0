@@ -168,6 +168,11 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                     viewModel.SearchEntity.StandardAbbreviation = formCollection["StandardAbbreviation"];
                 }
 
+                if (!String.IsNullOrEmpty(formCollection["Abbreviation"]))
+                {
+                    viewModel.SearchEntity.Abbreviation = formCollection["Abbreviation"];
+                }
+
                 if (!String.IsNullOrEmpty(formCollection["ReferenceTitle"]))
                 {
                     viewModel.SearchEntity.ReferenceTitle = formCollection["ReferenceTitle"];

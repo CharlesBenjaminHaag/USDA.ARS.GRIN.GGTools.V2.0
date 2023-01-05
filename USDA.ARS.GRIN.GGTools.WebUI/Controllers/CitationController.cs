@@ -437,6 +437,10 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 //{
                 //    vm.SearchEntity.SpeciesID = Int32.Parse(coll["SpeciesID"]);
                 //}
+                if (!String.IsNullOrEmpty(coll["TypeCode"]))
+                {
+                    vm.SearchEntity.CitationType = coll["TypeCode"];
+                }
 
                 if (!String.IsNullOrEmpty(coll["LiteratureTypeCode"]))
                 {

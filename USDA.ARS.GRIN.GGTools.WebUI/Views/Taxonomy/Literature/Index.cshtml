@@ -20,6 +20,13 @@
 
 <script type="text/javascript">
 
+    $(document).keypress(function (event) {
+        var keycode = (event.keyCode ? event.keyCode : event.which);
+        if (keycode == '13') {
+            $("#btnSearch").click();
+        }
+    });
+
     $(document).ready(function () {
         Init();
         SetExtendedFields();

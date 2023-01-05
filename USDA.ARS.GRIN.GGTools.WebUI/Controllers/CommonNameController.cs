@@ -29,7 +29,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                     speciesViewModel.SearchEntity = new SpeciesSearch { ID = speciesId };
                     speciesViewModel.Search();
                     viewModel.Entity.SpeciesID = speciesViewModel.Entity.ID;
-                    viewModel.Entity.SpeciesName = speciesViewModel.Entity.FullName;
+                    viewModel.Entity.SpeciesName = speciesViewModel.Entity.Name;
                 }
                 else
                 {

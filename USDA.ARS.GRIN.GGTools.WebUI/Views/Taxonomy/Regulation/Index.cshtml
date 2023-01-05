@@ -31,8 +31,14 @@
 <script type="text/javascript">
 
     $(document).ready(function () {
-        
         SetExtendedFields();
+    });
+
+    $(document).keypress(function (event) {
+        var keycode = (event.keyCode ? event.keyCode : event.which);
+        if (keycode == '13') {
+            $("#btnSearch").click();
+        }
     });
    
 </script>

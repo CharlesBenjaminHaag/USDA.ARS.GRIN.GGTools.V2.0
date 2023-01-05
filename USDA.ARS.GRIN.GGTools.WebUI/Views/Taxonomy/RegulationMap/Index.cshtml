@@ -34,35 +34,10 @@
         $(formGroupName).show();
     }
 
-    /*
-    ===========================================================================
-    SPECIES MODAL
-    ===========================================================================
-    */
-    $(document).on("click", "[id='btnSearchSpecies']", function () {
-        var link = '@Url.Action("SpeciesSearch", "Taxonomy")';
-        var isAcceptedName = $('#IsAcceptedName').is(':checked');
-
-        var formData = new FormData();
-        formData.append("FullName", $("#FullName").val());
-        formData.append("IsAcceptedName", isAcceptedName);
-        formData.append("ResultsFormat", "2");
-        $.ajax({
-            url: link,
-            type: 'POST',
-            cache: false,
-            contentType: false,
-            processData: false,
-            data: formData,
-            success: function (response) {
-                $("#section-species-search-results").html(response);
-            }
-        });
+    $(document).keypress(function (event) {
+        var keycode = (event.keyCode ? event.keyCode : event.which);
+        if (keycode == '13') {
+            $("#btnSearch").click();
+        }
     });
-
-    function SelectSpecies(ID, speciesText) {
-        $('#modal-species-lookup').modal('hide');
-        $("#SearchEntity_SpeciesName").val(speciesText);
-        $("#SearchEntity_SpeciesID").val(ID);
-    }
 </script>

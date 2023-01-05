@@ -35,7 +35,7 @@
                     <div class="col-md-12">
                         <div class="margin">
                             <button id="btnReset" class="btn btn-danger">Reset</button>
-                            <button id="btnLookupSpecies" class="btn btn-default float-right">Search</button>
+                            <button id="btnLookupSpecies" class="btn btn-primary float-right">Search</button>
                         </div>
                     </div>
                 </div>
@@ -52,6 +52,13 @@
     </div>
 </div>
 <script type="text/javascript">
+    $(document).keypress(function (event) {
+        var keycode = (event.keyCode ? event.keyCode : event.which);
+        if (keycode == '13') {
+            $("#btnLookupSpecies").click();
+        }
+    });
+
     $("#btnOpenSpeciesLookupModal").click(function () {
         var eventAction = $(this).data("ggtools-action");
         var eventValue = $(this).data("ggtools-value");

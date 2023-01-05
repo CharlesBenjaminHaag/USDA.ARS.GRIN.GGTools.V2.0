@@ -84,7 +84,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         {
             List<CommonName> results = new List<CommonName>();
 
-            SQL = "SELECT * FROM vw_GGTools_Taxon_CommonNames ";
+            SQL = "SELECT * FROM vw_GRINGlobal_Taxonomy_Common_Name ";
 
             SQL += " WHERE  (@ID   IS NULL OR ID            =         @ID)";
             SQL += " AND    (@CreatedByCooperatorID         IS NULL OR CreatedByCooperatorID        =       @CreatedByCooperatorID)";
