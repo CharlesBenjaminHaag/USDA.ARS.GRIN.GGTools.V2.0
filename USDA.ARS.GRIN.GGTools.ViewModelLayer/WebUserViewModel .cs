@@ -74,7 +74,7 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
             {
                 try
                 {
-                    //Entity.WebUserPassword = GetSecurePassword(Entity.WebUserPassword);
+                    Entity.WebUserPassword = GetSecurePassword(Entity.WebUserPassword);
                     Entity.ID = mgr.Insert(Entity);
                 }
                 catch (Exception ex)
@@ -102,6 +102,20 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
             //    return false;
             //}
            return true;
+        }
+
+        public string GetSecurePassword(string password)
+        {
+            password = Crypto.HashText(password);
+            password = SaltAndHash(password);
+            return password;
+        }
+        private static string SaltAndHash(string password)
+        {
+            int saltSize = 6;
+            string salt = Crypto.SaltText(saltSize);
+            string hash = Crypto.HashTextSHA256(salt + password);
+            return salt + "$" + hash;
         }
     }
 }

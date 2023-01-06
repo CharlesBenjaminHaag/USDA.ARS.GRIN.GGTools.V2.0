@@ -425,13 +425,10 @@
     <Content Include="Views\Taxonomy\Genus\Modals\_Lookup.cshtml" />
     <Content Include="Views\Taxonomy\Genus\Modals\_SelectList.cshtml" />
     <Content Include="Views\WebOrder\Modals\_Approve.cshtml" />
-    <Content Include="Views\WebOrder\Modals\_BatchEdit.cshtml" />
     <Content Include="Views\WebOrder\Modals\_Reject.cshtml" />
     <Content Include="Views\WebOrder\Modals\_EmailCurators.cshtml" />
     <Content Include="Views\WebOrder\Modals\_EmailRequestor.cshtml" />
-    <Content Include="Views\WebOrder\Modals\_EndReview.cshtml" />
     <Content Include="Views\WebOrder\Modals\_Note.cshtml" />
-    <Content Include="Views\WebOrder\Modals\_SetCooperatorStatus.cshtml" />
     <Content Include="Views\WebOrder\Dashboard\_List.cshtml" />
     <Content Include="Views\WebOrder\Dashboard\_ListByStatus.cshtml" />
     <Content Include="Views\WebOrder\Dashboard.cshtml" />
@@ -692,6 +689,7 @@
     <Content Include="Views\Taxonomy\Admin\Index.cshtml" />
     <Content Include="Views\SysUser\_ListTaxonomy.cshtml" />
     <Content Include="Views\SysUser\_SelectList.cshtml" />
+    <Content Include="Views\WebOrder\Modals\_Email.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

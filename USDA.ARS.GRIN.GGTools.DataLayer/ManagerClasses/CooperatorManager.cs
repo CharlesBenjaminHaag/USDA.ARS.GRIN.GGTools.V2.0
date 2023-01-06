@@ -92,9 +92,11 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
 
             AddParameter("@out_error_number", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
             AddParameter("@out_cooperator_id", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
+            AddParameter("@out_web_cooperator_id", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
             RowsAffected = ExecuteNonQuery();
 
             entity.ID = GetParameterValue<int>("@out_cooperator_id", -1);
+            entity.WebCooperatorID = GetParameterValue<int>("@out_web_cooperator_id", -1);
             var errorNumber = GetParameterValue<int>("@out_error_number", -1);
 
             if (errorNumber > 0)

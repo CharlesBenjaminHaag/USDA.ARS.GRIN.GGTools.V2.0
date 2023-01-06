@@ -253,12 +253,12 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
                 return false;
             }
 
-            if (DataCollectionGroups.ToList().Where(x => x.GroupTag.Contains("GGTOOLS")).Count() == 0)
-            {
-                Entity.IsAuthenticated = false;
-                UserMessage = "You must be a member of the GGTOOLS group to access this application.";
-                return false;
-            }
+            //if (DataCollectionGroups.ToList().Where(x => x.GroupTag.Contains("GGTOOLS")).Count() == 0)
+            //{
+            //    Entity.IsAuthenticated = false;
+            //    UserMessage = "You must be a member of the GGTOOLS group to access this application.";
+            //    return false;
+            //}
             //else
             //{
             //    Entity.IsSuperCooperator = "N";
@@ -492,6 +492,12 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
                     break;
             }
 
+            infoRequestEmailMessage.Body += "<p>You are receiving this message because a GRIN-Global Curator Tool (CT) account was requested on your behalf.";
+            infoRequestEmailMessage.Body += " Your credentials are below.</p>";
+            infoRequestEmailMessage.Body += "<p>Please access the Self-Service Password Reset tool to reset your temporary password: <br>";
+            infoRequestEmailMessage.Body += " <a href='https://npgsweb.ars-grin.gov/ggtools/Login/RequestPasswordReset'>https://npgsweb.ars-grin.gov/ggtools/Login/RequestPasswordReset</a>";
+            infoRequestEmailMessage.Body += "</p>";
+
             infoRequestEmailMessage.Body += "<table>";
             infoRequestEmailMessage.Body += "<tr>";
             infoRequestEmailMessage.Body += "<td><strong>Environment</strong></td><td>";
@@ -502,7 +508,7 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
             infoRequestEmailMessage.Body += "<td><strong>Username</strong></td><td>" + Entity.SysUserName + "</td>";
             infoRequestEmailMessage.Body += "</tr>";
             infoRequestEmailMessage.Body += "<tr>";
-            infoRequestEmailMessage.Body += "<td><strong>New Password</strong></td><td>" + Entity.SysUserPlainTextPassword + "</td>";
+            infoRequestEmailMessage.Body += "<td><strong>Password</strong></td><td>" + Entity.SysUserPlainTextPassword + "</td>";
             infoRequestEmailMessage.Body += "</tr>";
             infoRequestEmailMessage.Body += "<tr>";
             infoRequestEmailMessage.Body += "<td><strong>Expires</strong></td><td>" + Entity.SysUserPasswordExpirationDate.ToShortDateString() + "</td>";

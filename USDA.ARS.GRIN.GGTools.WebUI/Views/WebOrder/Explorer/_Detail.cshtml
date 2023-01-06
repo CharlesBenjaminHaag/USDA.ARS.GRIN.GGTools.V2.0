@@ -30,15 +30,15 @@
             </h4>
         </div>
     </div>
-    <div class="row" style="margin-bottom:15px;">
+    <div class="row" style="margin-top: 15px; margin-bottom: 15px;">
         <div class="col-sm-12">
-            <button class="btn btn-default btn-sm">
+            <button id="btnOpenNoteModal" data-toggle="modal" data-target="#modal-note" class="btn btn-default btn-sm">
                 <i class="fa fa-sticky-note"></i> Add Note
             </button>
-            <button class="btn btn-default btn-sm">
+            <button id="btnOpenRequestorModal" class="btn btn-default btn-sm">
                 <i class="fa fa-envelope"></i> Email Requestor
             </button>
-            <button class="btn btn-default btn-sm">
+            <button id="btnOpenCuratorModal" class="btn btn-default btn-sm">
                 <i class="fa fa-envelope"></i> Email Curator(s)
             </button>
             <button class="btn btn-default float-right btn-sm">
@@ -120,13 +120,17 @@
             @Model.Entity.IntendedUseNote
         </div>
     </div>
-    <br />
-    <div class="row invoice-info">
-        <div class="col-sm-12 invoice-col">
-            <b>Note:</b><br />
-            @Model.Entity.Note
+
+    @if (!String.IsNullOrEmpty(Model.Entity.Note))
+    {
+        <br />
+        <div class="row invoice-info">
+            <div class="col-sm-12 invoice-col">
+                <b>Note:</b><br />
+                @Model.Entity.Note
+            </div>
         </div>
-    </div>
+    }
     <br />
     <div class="row">
         <div class="col-12 table-responsive">

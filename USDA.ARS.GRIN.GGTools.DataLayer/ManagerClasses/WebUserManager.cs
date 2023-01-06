@@ -98,10 +98,10 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             AddParameter("password", String.IsNullOrEmpty(entity.WebUserPassword) ? DBNull.Value : (object)entity.WebUserPassword, true);
             AddParameter("web_cooperator_id", entity.WebCooperatorID == 0 ? DBNull.Value : (object)entity.WebCooperatorID, true);
             AddParameter("@out_error_number", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
-            AddParameter("@out_sys_user_id", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
+            AddParameter("@out_web_user_id", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
             RowsAffected = ExecuteNonQuery();
 
-            entity.ID = GetParameterValue<int>("@out_sys_user_id", -1);
+            entity.ID = GetParameterValue<int>("@out_web_user_id", -1);
             var errorNumber = GetParameterValue<int>("@out_error_number", -1);
 
             if (errorNumber > 0)

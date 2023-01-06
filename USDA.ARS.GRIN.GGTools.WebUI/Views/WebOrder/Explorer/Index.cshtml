@@ -93,7 +93,7 @@
                         </div>
                     </div>
                     <div class="tab-pane" id="tab-content-web-order-request-timeline">
-               
+
                     </div>
                     <div class="tab-pane" id="settings">
 
@@ -169,6 +169,9 @@
     </div>
 </div>
 
+<div id="section-modal-email"></div>
+@Html.Partial("~/Views/WebOrder/Modals/_Note.cshtml")
+
 <script type="text/javascript">
     $(document).ready(function () {
         LoadWebOrderRequestList("1D");
@@ -207,23 +210,82 @@
 
     $(document).on("click", "[id='btnOpenApproveModal']", function () {
         event.preventDefault();
-        $("#modal-web-order-request-approve").modal("show");
-    });
-
-    $(document).on("click", "[id='btnApprove']", function () {
-        var id = $("#Entity_ID").val();
-        ApproveWebOrderRequest(id);
+        LoadEmailModal("NRR_APPROVE");
     });
 
     $(document).on("click", "[id='btnOpenRejectModal']", function () {
         event.preventDefault();
-        $("#modal-web-order-request-reject").modal("show");
+        LoadEmailModal("NRR_REJECT");
+    });
+
+    $(document).on("click", "[id='btnOpenCuratorModal']", function () {
+        event.preventDefault();
+        LoadEmailModal("NRR_CUR");
+    });
+
+    $(document).on("click", "[id='btnOpenRequestorModal']", function () {
+        event.preventDefault();
+        LoadEmailModal("NRR_REQ");
+    });
+
+    $(document).on("click", "[id='btnOpenNoteModal']", function () {
+        event.preventDefault();
+        LoadNoteModal();
+    });
+
+    $(document).on("click", "[id='btnContinue']", function () {
+        var id = GetEntityID();
+        var actionCode = $(this).data("ggtools-action");
+        HandleAction(actionCode, true);
     });
 
     $(document).on("click", "[id='btnReject']", function () {
-        var id = $("#Entity_ID").val();
-        RejectWebOrderRequest(id);
+        var id = GetEntityID();
+        Reject(id);
     });
+
+    // ********************************************************************************
+    // FUNCTIONS
+    // ********************************************************************************
+
+    function AddNote() {
+        var entityId = GetEntityID();
+        var note = $("#txtNote").val();
+        //TODO
+    }
+
+    function HandleAction(actionCode, sendEmail) {
+        var link = "";
+        var note = $("#txtNote").val();
+
+        // If action originated in email modal, collect email attribs.
+        if (sendEmail) {
+            var emailFrom = $("#Entity_ActionEmailFrom").val();
+            var emailTo = $("#Entity_ActionEmailTo").val();
+            var emailBcc = $("#Entity_ActionEmailBcc").val();
+            var emailSubject = $("#Entity_ActionEmailSubject").val();
+            var emailBody = $("#Entity_ActionEmailBody").val();
+        }
+
+        switch (actionCode) {
+            case "NRR_APPROVE":
+                link = '@Url.Action("Approve", "WebOrder")';
+                break;
+            case "NRR_REJECT":
+                link = '@Url.Action("Reject", "WebOrder")';
+                break;
+            case "NRR_REQ":
+                link = '@Url.Action("SendInformationRequest", "WebOrder")';
+                break;
+            case "NRR_CUR":
+                link = '@Url.Action("SendCuratorNotification", "WebOrder")';
+                break;
+        }
+        //TODO MAKE AJAX CALL
+        
+        LoadWebOrderRequestDetail(GetEntityID());
+        LoadWebOrderRequestList("1D");
+    }
 
     function GetEntityID() {
         var entityID = $("#Entity_ID").val();
@@ -303,17 +365,71 @@
         alert("ORDERS FOR WOR " + id);
     }
 
-    function ApproveWebOrderRequest(id) {
-        //DEBUG
-        alert("APPROVE WOR " + id);
+    function Approve(id) {
+        //TODO:
+        // Get approval email attributes if specified
+        // Submit approval
+        // Get result
+
         LoadWebOrderRequestDetail(id);
         LoadWebOrderRequestList("30D");
     }
 
-    function RejectWebOrderRequest(id) {
-        //DEBUG
-        alert("REJECT WOR " + id);
+    function LoadEmailModal(actionCode) {
+        link = '@Url.Action("RenderEmailModal", "WebOrder")';
+        var webOrderRequestId = GetEntityID();
+        var formData = new FormData();
+
+        formData.append("entityId", webOrderRequestId);
+        formData.append("actionCode", actionCode);
+
+        $.ajax({
+            url: link,
+            type: 'POST',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (response) {
+                $("#section-modal-email").html(response);
+                $("#modal-email").modal("show");
+            }
+        });
+    }
+
+    function LoadRejectModal() {
+        link = '@Url.Action("RenderRejectModal", "WebOrder")';
+        var webOrderRequestId = GetEntityID();
+        var formData = new FormData();
+
+        formData.append("entityId", webOrderRequestId);
+
+        $.ajax({
+            url: link,
+            type: 'POST',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (response) {
+                $("#section-modal-web-order-request-reject").html(response);
+                $("#modal-web-order-request-reject").modal("show");
+            }
+        });
+    }
+
+    function Reject(id) {
+       //TODO
         LoadWebOrderRequestDetail(id);
+        LoadWebOrderRequestList("30D");
+    }
+
+    function LoadNoteModal() {
+
+    }
+
+    function AddNote() {
+
     }
 
     function InitDataTableWebOrderRequests(tableName) {

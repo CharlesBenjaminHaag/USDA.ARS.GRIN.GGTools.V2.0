@@ -184,23 +184,43 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             {
                 if (viewModel.Entity.ID == 0)
                 {
-                    WebCooperatorViewModel webCooperatorViewModel = new WebCooperatorViewModel();
-                    webCooperatorViewModel.Entity.FirstName = viewModel.Entity.FirstName;
-                    webCooperatorViewModel.Entity.LastName = viewModel.Entity.LastName;
-                    webCooperatorViewModel.Entity.EmailAddress = viewModel.Entity.EmailAddress;
-                    webCooperatorViewModel.Entity.Organization = viewModel.Entity.Organization;
-                    webCooperatorViewModel.Entity.OrganizationAbbrev = viewModel.Entity.OrganizationAbbrev;
-                    webCooperatorViewModel.Entity.JobTitle = viewModel.Entity.JobTitle;
-                    webCooperatorViewModel.Entity.Address1 = viewModel.Entity.AddressLine1;
-                    webCooperatorViewModel.Entity.Address2 = viewModel.Entity.AddressLine2;
-                    webCooperatorViewModel.Entity.City = viewModel.Entity.City;
-                    webCooperatorViewModel.Entity.GeographyID = viewModel.Entity.GeographyID;
-                    webCooperatorViewModel.Entity.PostalCode = viewModel.Entity.PostalIndex;
-                    webCooperatorViewModel.Insert();
-
-                    viewModel.Entity.WebCooperatorID = webCooperatorViewModel.Entity.ID;
+                    // COOP
                     viewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
+                    viewModel.Entity.StatusCode = "ACTIVE";
                     viewModel.Insert();
+                    if (viewModel.Entity.ID < 0)
+                    {
+                        throw new Exception("Error adding cooperator.");
+                    }
+
+                    // SYS USER
+                    SysUserViewModel sysUserViewModel = new SysUserViewModel();
+                    sysUserViewModel.Entity.CooperatorID = viewModel.Entity.ID;
+                    sysUserViewModel.Entity.UserName = viewModel.Entity.FirstName.ToLower() + "." + viewModel.Entity.LastName.ToLower();
+                    sysUserViewModel.Entity.SysUserPassword = "GRINTempPa$$word01!";
+                    sysUserViewModel.Entity.Password = "GRINTempPa$$word01!";
+                    sysUserViewModel.Insert();
+                    if (sysUserViewModel.Entity.ID < 0)
+                    {
+                        throw new Exception("Error adding sys user.");
+                    }
+
+                    // WEB USER
+                    WebUserViewModel webUserViewModel = new WebUserViewModel();
+                    webUserViewModel.Entity.WebCooperatorID = viewModel.Entity.WebCooperatorID;
+                    webUserViewModel.Entity.WebUserName = viewModel.Entity.FirstName.ToLower() + "." + viewModel.Entity.LastName.ToLower();
+                    webUserViewModel.Entity.WebUserPassword = "GRINTempPa$$word01!";
+                    webUserViewModel.Insert();
+                    if (webUserViewModel.Entity.ID < 0)
+                    {
+                        throw new Exception("Error adding web user.");
+                    }
+
+                    // Retrieve newly-added sys user.
+                    sysUserViewModel.SearchEntity.ID = sysUserViewModel.Entity.ID;
+                    sysUserViewModel.Search();
+                    sysUserViewModel.Entity.SysUserPlainTextPassword = "GRINTempPa$$word01!";
+                    sysUserViewModel.SendNotification("N");
                 }
                 else
                 {

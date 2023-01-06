@@ -24,16 +24,14 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
             try { 
                 using (WebOrderRequestManager mgr = new WebOrderRequestManager())
                 {
-                        Entity = mgr.Get(entityId);
-                        WebCooperatorVettedStatusCode = Entity.WebCooperatorVettedStatusCode;
-                        DataCollectionItems =  new Collection<WebOrderRequestItem>(mgr.GetWebOrderRequestItems(entityId));
-                        
-                        //CodeValue codeValue = mgr.GetWebOrderRequestEmailAddresses(entityId);
-                        //Entity.EmailAddressList = codeValue.Title;    
+                    Entity = mgr.Get(entityId);
+                    DataCollectionItems =  new Collection<WebOrderRequestItem>(mgr.GetWebOrderRequestItems(entityId));
 
-                        RowsAffected = mgr.RowsAffected; 
-                        DataCollection.Add(Entity);
-                
+                    CodeValue codeValue = mgr.GetWebOrderRequestEmailAddresses(entityId);
+                    Entity.EmailAddressList = codeValue.Title;
+
+                    RowsAffected = mgr.RowsAffected; 
+                    DataCollection.Add(Entity);
                 }
                 using (EmailTemplateManager emailTemplateMgr = new EmailTemplateManager())
                 {
@@ -126,15 +124,28 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
             catch (Exception ex)
             { }
         }
-
-        public void GetWebOrderRequestNotes(int entityID)
-        { 
-        try 
-            { }
+        public EmailTemplate GetEmailTemplate(string typeCode)
+        {
+            EmailTemplate emailTemplate = new EmailTemplate();
+            try
+            {
+                using (EmailTemplateManager mgr = new EmailTemplateManager())
+                {
+                    EmailTemplateSearch emailTemplateSearch = new EmailTemplateSearch();
+                    emailTemplateSearch.CategoryCode = typeCode;
+                    DataCollectionEmailTemplates = new Collection<EmailTemplate>(mgr.Search(emailTemplateSearch));
+                    if (RowsAffected == 1)
+                    {
+                        emailTemplate = DataCollectionEmailTemplates[0];
+                    }
+                }
+            }
             catch (Exception ex)
-            { }
+            {
+                throw (ex);
+            }
+            return emailTemplate;
         }
-
         public void HandleRequest()
         {
             throw new NotImplementedException();
@@ -161,7 +172,15 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
             }
             return rowsAffected;
         }
+        public void InsertAction(WebOrderRequestAction webOrderRequestAction)
+        {
+            int rowsAffected = 0;
 
+            using (WebOrderRequestManager mgr = new WebOrderRequestManager())
+            {
+                rowsAffected = mgr.InsertWebOrderRequestAction(webOrderRequestAction);
+            }
+        }
         public void Search()
         {
             using (WebOrderRequestManager mgr = new WebOrderRequestManager())
@@ -182,26 +201,6 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
                 }
             }
         }
-
-        //public Collection<ReportItem> GetDashboardTotals(int year)
-        //{
-        //    WebOrderRequestSearch webOrderSearch = new WebOrderRequestSearch();
-        //    using (WebOrderRequestManager mgr = new WebOrderRequestManager())
-        //    {
-        //        try
-        //        {
-        //            webOrderSearch.Year = year;
-        //            DataCollectionReportItems = new Collection<ReportItem>(mgr.GetReportItems(webOrderSearch));
-        //            RowsAffected = mgr.Count(year);
-        //            return DataCollectionReportItems;
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            PublishException(ex);
-        //            throw ex;
-        //        }
-        //    }
-        //}
 
         public int Update()
         {
@@ -246,7 +245,6 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
                             webCooperator.VettedStatusCode = "FLAGGED";
                             webCooperator.ModifiedByWebUserID = Entity.OwnedByWebUserID;
                             webCooperator.Note = Entity.Note;
-                            UpdateWebCooperator(webCooperator);
                             break;
                         case "NRR_VET_COOP":
                             //TODO: Refactor --CBH, 2/10/22
@@ -255,7 +253,6 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
                             webCooperator2.VettedStatusCode = "VETTED";
                             webCooperator2.ModifiedByWebUserID = Entity.OwnedByWebUserID;
                             webCooperator2.Note = Entity.Note;
-                            UpdateWebCooperator(webCooperator2);
                             break;
                         case "NRR_NOTE":
                             break;
@@ -340,16 +337,6 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
             return RowsAffected;
         }
 
-        //TODO: Refactor into Web Coop VM --CBH, 2/10/22
-        public int UpdateWebCooperator(WebCooperator webCooperator)
-        {
-            using (WebCooperatorManager mgr = new WebCooperatorManager())
-            {
-                RowsAffected = mgr.Update(webCooperator);
-            }
-            return RowsAffected;
-        }
-
         public string GetCSSClass(string statusCode)
         {
             string cssClass = String.Empty;
@@ -386,11 +373,6 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
                 }
             }
             return cssClass;
-        }
-
-        public List<WebOrderRequest> SearchNotes(string searchText)
-        {
-            throw new NotImplementedException();
         }
     }
 }

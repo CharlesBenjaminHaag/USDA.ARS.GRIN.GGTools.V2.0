@@ -19,7 +19,7 @@ namespace USDA.ARS.GRIN.Common.Library.Email
             try
             {
                 mailMessage.From = new MailAddress("noreply@usda.gov");
-                mailMessage.ReplyToList.Add(new MailAddress("gringlobal-orders@usda.gov"));
+                mailMessage.ReplyToList.Add(new MailAddress("gringlobal-feedback@usda.gov"));
                 recipientList = sMTPMailMessage.To.Split(';');
                 foreach (var recipient in recipientList)
                 {
@@ -30,7 +30,7 @@ namespace USDA.ARS.GRIN.Common.Library.Email
                 }
                 mailMessage.Subject = sMTPMailMessage.Subject;
                 mailMessage.Body = sMTPMailMessage.Body;
-                mailMessage.Bcc.Add("c.benjamin.haag@outlook.com");
+                mailMessage.Bcc.Add("benjamin.haag@usda.gov");
                 mailMessage.IsBodyHtml = true;
                 SmtpClient client = new SmtpClient(SMTP_SERVER);
                 client.Send(mailMessage);

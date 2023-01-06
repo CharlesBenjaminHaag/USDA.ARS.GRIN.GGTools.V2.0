@@ -1,12 +1,12 @@
 ﻿@model USDA.ARS.GRIN.GGTools.ViewModelLayer.WebOrderRequestViewModel
 
-<div class="modal fade" id="modal-web-order-request-approve" style="display: none;" aria-hidden="true">
+<div class="modal fade" id="modal-email" style="display: none;" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title">
                     <i class="fas fa-search"></i>
-                    Approve Web Order Request #@Model.Entity.ID
+                    @Model.EventValue #@Model.Entity.ID
                 </h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">×</span>
@@ -17,8 +17,8 @@
                 <!--BEGIN TEST-->
                 <div class="row">
                     <div class="col-md-12">
-                        <label>Reason for approving this web order request (optional)</label>
-                        @Html.TextAreaFor(x=>x.EventNote, new { @class="form-control" })
+                        <label>Note (Optional)</label>
+                        @Html.TextAreaFor(x=>x.EventNote, new { @id = "txtNote", @class="form-control" })
                     </div>
                 </div>
                 <br />
@@ -68,7 +68,7 @@
             </div>
             <div class="modal-footer justify-content-between">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                <button id="btnSaveSpecies" type="button" class="btn btn-info" data-dismiss="modal">Send Email and Approve</button>
+                <button id="btnContinue" type="button" class="btn btn-info" data-ggtools-action="@Model.EventAction" data-dismiss="modal">Continue</button>
             </div>
         </div>
     </div>
