@@ -128,7 +128,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
         {
             FolderViewModel viewModel = new FolderViewModel();
             viewModel.SearchEntity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
-            viewModel.SearchEntity.FolderType = folderType;
+            viewModel.SearchEntity.FolderTypeDescription = folderType;
             viewModel.Search();
 
             //TODO

@@ -14,17 +14,22 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
         {
             List<AppUserItemFolder> results = new List<AppUserItemFolder>();
 
-            SQL = " SELECT *, 'N' AS IsShared FROM vw_GGTools_GRINGlobal_AppUserItemFolders"; 
-            SQL += " WHERE  (@FolderType                IS NULL OR   FolderType                 =   @FolderType)";
+            SQL = " SELECT *, 'N' AS IsShared FROM vw_GRINGlobal_App_User_Item_Folder"; 
+            SQL += " WHERE  (@FolderType                IS NULL OR   FolderTypeDescription      =   @FolderType)";
+            
             SQL += " AND    (@Category                  IS NULL OR   Category                   =   @Category)";
             SQL += " AND    (@CreatedByCooperatorID     IS NULL OR   CreatedByCooperatorID      =   @CreatedByCooperatorID)";
             SQL += " AND    (@AppUserItemFolderID       IS NULL OR   ID                         =   @AppUserItemFolderID)";
             SQL += " AND    (@IsFavorite                IS NULL OR   IsFavorite                 =   @IsFavorite)";
 
+            //TEMP
+            SQL += " AND FolderType LIKE '%taxon%' ";
+
             // Add folders shared with logged-in user. Make optional? CBH 11/30/22
             SQL += " UNION ";
-            SQL += " SELECT *, 'Y' AS IsShared FROM vw_GGTools_GRINGlobal_AppUserItemFolders";
-            SQL += " WHERE  (@FolderType                IS NULL OR   FolderType                 =   @FolderType)";
+            SQL += " SELECT *, 'Y' AS IsShared FROM vw_GRINGlobal_App_User_Item_Folder";
+            SQL += " WHERE  (@FolderType                IS NULL OR   FolderTypeDescription      =   @FolderType)";
+            
             SQL += " AND ID IN (SELECT app_user_item_folder_id FROM app_user_item_folder_cooperator_map " +
                     " WHERE cooperator_id = @CreatedByCooperatorID )";
 

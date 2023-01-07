@@ -12,6 +12,8 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
         public int EntityID { get; set; }
         public string Title { get; set; }
         public string FolderType { get; set; }
+        public string FolderTypeDescription { get; set; }
+
         public string Category { get; set; }
         public bool IsShared { get; set; }
         public bool IsFavorite { get; set; }

@@ -132,12 +132,28 @@ function InitDataTableLight(tableName) {
 function InitDataTableByClass() {
     $(document).ready(function () {
         table = $("table.ggtools").DataTable({
-            paging: false,
-            responsive: true,
-            select: {
-                style: 'single'
+            dom: 'Blfrtip',
+            paging: true,
+            "pageLength": 10,
+            initComplete: function () {
+                SetControlVisibility(tableName);
             },
-            searching: false,
+            responsive: true,
+            buttons: [
+                'selectAll',
+                'selectNone',
+                'csv',
+                'excel',
+                'pdf'
+                //{
+                //    text: '+ Add',
+                //    action: function (e, dt, node, config) {
+                //        AddRecord();
+                //    }
+                //}
+            ],
+            select: true,
+            lengthMenu: [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],
             columnDefs: [
                 { targets: [0], visible: false }
             ]

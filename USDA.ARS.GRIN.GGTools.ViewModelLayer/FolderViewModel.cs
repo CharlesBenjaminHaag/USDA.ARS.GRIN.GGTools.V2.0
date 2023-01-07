@@ -35,7 +35,7 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
                     RowsAffected = mgr.RowsAffected;
                     
                     // Get types
-                    List<string> DEBUG = DataCollection.Select(x => x.FolderType).Distinct().ToList();
+                    List<string> DEBUG = DataCollection.Select(x => x.FolderTypeDescription).Distinct().ToList();
                     foreach (var type in DEBUG)
                     {
                         DataCollectionFolderTypes.Add(new CodeValue { Value = type, Title = type });
