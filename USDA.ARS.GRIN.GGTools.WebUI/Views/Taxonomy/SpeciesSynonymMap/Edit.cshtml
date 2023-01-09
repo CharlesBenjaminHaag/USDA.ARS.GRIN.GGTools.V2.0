@@ -6,7 +6,7 @@
 
 @Html.Partial("~/Views/Shared/_RevisionHistory.cshtml")
 
-@using (Html.BeginForm("Edit", "SynonymMap", FormMethod.Post, new { id = "frmEdit" }))
+@using (Html.BeginForm("Edit", "SpeciesSynonymMap", FormMethod.Post, new { id = "frmEdit" }))
 {
     @Html.HiddenFor(x => x.EventAction)
     @Html.HiddenFor(x => x.EventValue)

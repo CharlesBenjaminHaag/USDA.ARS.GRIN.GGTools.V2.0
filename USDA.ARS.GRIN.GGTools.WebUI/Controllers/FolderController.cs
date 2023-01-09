@@ -137,11 +137,18 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             return PartialView("~/Views/Folder/_List.cshtml", viewModel);
         }
 
-        public ActionResult _ItemList(int entityId, string itemViewName)
+        public ActionResult _ItemList(int entityId, string eventAction)
         {
-            //TODO
-            
-            return PartialView("~/Views/Folder/Modals/_ItemList.cshtml");
+            try 
+            {
+                return RedirectToAction("_ListFolderItems", eventAction, new { folderId = 1 });
+                //return PartialView("~/Views/Folder/Modals/_ItemList.cshtml");
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
         }
         public PartialViewResult _RelatedFoldersList(string tableName, int entityId)
         {
@@ -193,10 +200,10 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             viewModel.GetCurrentCollaborators();
             return PartialView("~/Views/Folder/_WidgetCurrentCollaborators.cshtml", viewModel);
         }
-        public ActionResult Add()
-        {
-            throw new NotImplementedException();
-        }
+        //public ActionResult Add()
+        //{
+        //    throw new NotImplementedException();
+        //}
 
         [HttpPost]
         public PartialViewResult Add(FormCollection coll)

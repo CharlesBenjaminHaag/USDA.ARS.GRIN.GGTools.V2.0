@@ -182,7 +182,7 @@
     <Compile Include="Controllers\SubfamilyController.cs" />
     <Compile Include="Controllers\SubtribeController.cs" />
     <Compile Include="Controllers\SynchController.cs" />
-    <Compile Include="Controllers\SynonymMapController.cs" />
+    <Compile Include="Controllers\SpeciesSynonymMapController.cs" />
     <Compile Include="Controllers\SysPermissionController.cs" />
     <Compile Include="Controllers\SysGroupController.cs" />
     <Compile Include="Controllers\SysGroupUserMapController.cs" />
@@ -525,13 +525,13 @@
     <Content Include="Views\Taxonomy\Partial\_MenuIndex.cshtml" />
     <Content Include="Views\Taxonomy\Species\Partial\_MenuEdit.cshtml" />
     <Content Include="Views\Shared\Partial\_MenuIndex.cshtml" />
-    <Content Include="Views\Taxonomy\SynonymMap\Add.cshtml" />
-    <Content Include="Views\Taxonomy\SynonymMap\Edit.cshtml" />
-    <Content Include="Views\Taxonomy\SynonymMap\Index.cshtml" />
-    <Content Include="Views\Taxonomy\SynonymMap\_Detail.cshtml" />
-    <Content Include="Views\Taxonomy\SynonymMap\_List.cshtml" />
-    <Content Include="Views\Taxonomy\SynonymMap\_SelectListSpeciesB.cshtml" />
-    <Content Include="Views\Taxonomy\SynonymMap\_SelectListSpeciesA.cshtml" />
+    <Content Include="Views\Taxonomy\SpeciesSynonymMap\Add.cshtml" />
+    <Content Include="Views\Taxonomy\SpeciesSynonymMap\Edit.cshtml" />
+    <Content Include="Views\Taxonomy\SpeciesSynonymMap\Index.cshtml" />
+    <Content Include="Views\Taxonomy\SpeciesSynonymMap\_Detail.cshtml" />
+    <Content Include="Views\Taxonomy\SpeciesSynonymMap\_List.cshtml" />
+    <Content Include="Views\Taxonomy\SpeciesSynonymMap\_SelectListSpeciesB.cshtml" />
+    <Content Include="Views\Taxonomy\SpeciesSynonymMap\_SelectListSpeciesA.cshtml" />
     <Content Include="Views\Taxonomy\Species\_SynonymMapList.cshtml" />
     <Content Include="Views\Taxonomy\EconomicUse\Edit.cshtml" />
     <Content Include="Views\Taxonomy\EconomicUse\Index.cshtml" />
@@ -543,7 +543,7 @@
     <Content Include="Views\WebOrder\Board.cshtml" />
     <Content Include="Views\SysUser\Edit.cshtml" />
     <Content Include="Views\SysUser\Index.cshtml" />
-    <Content Include="Views\Taxonomy\SynonymMap\_BatchList.cshtml" />
+    <Content Include="Views\Taxonomy\SpeciesSynonymMap\_BatchList.cshtml" />
     <Content Include="Views\Portal\Index.cshtml" />
     <Content Include="Views\Portal\Login.cshtml" />
     <Content Include="Views\Portal\Overview.cshtml" />
@@ -621,7 +621,7 @@
     <Content Include="Views\Taxonomy\Author\_DetailExtended.cshtml" />
     <Content Include="Views\Taxonomy\Shared\Modals\_Delete.cshtml" />
     <Content Include="Views\Folder\Modals\_SelectList.cshtml" />
-    <Content Include="Views\Taxonomy\SynonymMap\_DetailExtended.cshtml" />
+    <Content Include="Views\Taxonomy\SpeciesSynonymMap\_DetailExtended.cshtml" />
     <Content Include="Views\Taxonomy\Family\_ListGenera.cshtml" />
     <Content Include="Views\Taxonomy\Family\_OBSOLETE\_EditFamily.cshtml" />
     <Content Include="Views\Taxonomy\Family\_OBSOLETE\_EditFamily - Copy.cshtml" />

@@ -16,8 +16,7 @@
     @Html.Partial("~/Views/Taxonomy/Author/_Detail.cshtml")
 }
 @Html.Partial("~/Views/Taxonomy/Author/_List.cshtml")
-
-@*@{Html.RenderAction("_Edit", "Folder"); }*@
+@{Html.RenderAction("_Edit", "Folder", new { @tableName = "taxonomy_cwr_crop" }); }
 
 <script type="text/javascript">
 

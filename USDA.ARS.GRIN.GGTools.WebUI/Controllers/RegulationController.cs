@@ -31,6 +31,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             try
             {
                 RegulationViewModel viewModel = new RegulationViewModel();
+                viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
                 viewModel.PageTitle = "Regulation Search";
                 viewModel.TableName = "taxonomy_regulation";
                 return View(BASE_PATH + "Index.cshtml", viewModel);

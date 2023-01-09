@@ -15,9 +15,9 @@
     @Html.HiddenFor(x => x.ItemIDList)
     @Html.Partial("~/Views/Taxonomy/Citation/_Detail.cshtml")
 }
+
 @Html.Partial("~/Views/Taxonomy/Citation/_List.cshtml")
-@{ Html.RenderAction("_RenderLookupModal", "SysGroupUserMap", new { @tableName = Model.TableName }); }
-@*@{Html.RenderAction("_Edit", "Folder"); }*@
+@{Html.RenderAction("_Edit", "Folder", new { @tableName = "taxonomy_cwr_crop" }); }
 
 <script type="text/javascript">
 

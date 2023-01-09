@@ -9,9 +9,9 @@ using NLog;
 namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
 {
     [GrinGlobalAuthentication]
-    public class SynonymMapController : BaseController, IController<SynonymMapViewModel>
+    public class SpeciesSynonymMapController : BaseController, IController<SynonymMapViewModel>
     {
-        protected static string BASE_PATH = "~/Views/Taxonomy/SynonymMap/";
+        protected static string BASE_PATH = "~/Views/Taxonomy/SpeciesSynonymMap/";
         private static readonly Logger Log = LogManager.GetCurrentClassLogger();
         public PartialViewResult _ListFolderItems(int folderId)
         {

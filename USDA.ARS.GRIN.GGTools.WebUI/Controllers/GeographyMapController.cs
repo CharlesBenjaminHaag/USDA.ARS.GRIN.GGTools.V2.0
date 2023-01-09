@@ -75,8 +75,8 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 {
                     viewModel.SearchEntity.IsValid = viewModel.SearchEntity.IsValidOption == true ? "Y" : null;
                     viewModel.Search();
-                    viewModel.SearchCountries(new GeographySearch());
-                    viewModel.Countries = new SelectList(viewModel.DataCollectionCountries, "CountryCode", "CountryName");
+                    //viewModel.SearchCountries(new GeographySearch());
+                    //viewModel.Countries = new SelectList(viewModel.DataCollectionCountries, "CountryCode", "CountryName");
                     ModelState.Clear();
                 }
                 return View(BASE_PATH + "Index.cshtml", viewModel);

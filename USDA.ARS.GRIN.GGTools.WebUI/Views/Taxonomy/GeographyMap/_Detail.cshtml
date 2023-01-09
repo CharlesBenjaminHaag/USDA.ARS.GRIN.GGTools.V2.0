@@ -61,7 +61,8 @@
                         <div class="col-md-2">
                             <div class="form-group form-horizontal">
                                 <label>Country</label>
-                                @Html.DropDownListFor(x => x.SearchEntity.CountryCode, Model.Countries, "All countries", new { @class = "form-control" })
+                                @Html.TextBoxFor(x=>x.SearchEntity.CountryName, new { @class = "form-control" })
+                                @*@Html.DropDownListFor(x => x.SearchEntity.CountryCode, Model.Countries, "All countries", new { @class = "form-control" })*@
                             </div>
                         </div>
                         <div class="col-md-4">

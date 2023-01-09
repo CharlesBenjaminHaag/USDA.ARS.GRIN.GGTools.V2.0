@@ -10,7 +10,7 @@
         </div>
     </div>
     <div class="card-body">
-        <table id="data-table-regulations" class="table table-striped" style=" width:100%;">
+        <table id="data_table_taxonomy_regulation" class="table table-striped" style=" width:100%;">
             <thead>
                 <tr>
                     <th></th>
@@ -29,7 +29,7 @@
                 {
                     <tr>
                         <td>
-                            <input type="checkbox" class="form-check-input" style="position: absolute; opacity:1;" id="@result.ID">
+                            @result.ID
                         </td>
                         <td>
                             @result.ID
@@ -66,7 +66,6 @@
 </div>
 <script type="text/javascript">
     $(document).ready(function () {
-       
-        InitDataTable("data-table-regulations");
+        InitDataTable("data_table_taxonomy_regulation");
     });
 </script>

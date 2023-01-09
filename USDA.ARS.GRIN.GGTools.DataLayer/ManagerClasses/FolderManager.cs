@@ -23,7 +23,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             SQL += " AND    (@IsFavorite                IS NULL OR   IsFavorite                 =   @IsFavorite)";
 
             //TEMP
-            SQL += " AND FolderType LIKE '%taxon%' ";
+            SQL += " AND (FolderType LIKE '%taxon%') OR (FolderType LIKE '%citation%') OR (FolderType LIKE '%literature%') OR (FolderType LIKE '%geography%')";
 
             // Add folders shared with logged-in user. Make optional? CBH 11/30/22
             SQL += " UNION ";

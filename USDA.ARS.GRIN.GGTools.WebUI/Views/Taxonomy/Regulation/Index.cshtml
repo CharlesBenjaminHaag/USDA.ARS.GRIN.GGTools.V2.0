@@ -13,20 +13,10 @@
     @Html.HiddenFor(x => x.PageTitle)
     @Html.HiddenFor(x => x.AuthenticatedUserCooperatorID)
     @Html.HiddenFor(x => x.ItemIDList)
-
-    <div class="box box-default">
-        <div class="box-body" style="border:none;">
-            @Html.Partial("~/Views/Taxonomy/Regulation/_Detail.cshtml")
-            <div id="section-species-data">
-                @Html.Partial("~/Views/Taxonomy/Regulation/_List.cshtml")
-            </div>
-            <div class="box-footer no-padding">
-            </div>
-        </div>
-    </div>
+    @Html.Partial("~/Views/Taxonomy/Regulation/_Detail.cshtml")
 }
-
-@{Html.RenderAction("_Edit", "Folder"); }
+@Html.Partial("~/Views/Taxonomy/Regulation/_List.cshtml")
+@{Html.RenderAction("_Edit", "Folder", new { @tableName = "taxonomy_regulation" }); }
 
 <script type="text/javascript">
 
@@ -40,5 +30,5 @@
             $("#btnSearch").click();
         }
     });
-   
+
 </script>
