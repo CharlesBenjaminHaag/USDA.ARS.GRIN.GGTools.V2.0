@@ -26,7 +26,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             WebUser webUser = new WebUser();
             List<WebUser> webUsers = new List<WebUser>();
 
-            SQL = " SELECT * FROM vw_GGTools_GRINGLobal_WebUsers";
+            SQL = " SELECT * FROM vw_GRINGLobal_Web_User";
             SQL += " WHERE  (@UserName  IS NULL OR  UserName = @UserName)";
             SQL += " AND    (@ID        IS NULL OR  ID = @ID)";
 

@@ -9,9 +9,9 @@ using NLog;
 namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
 {
     [GrinGlobalAuthentication]
-    public class FamilyController : BaseController, IController<FamilyMapViewModel>
+    public class FamilyMapController : BaseController, IController<FamilyMapViewModel>
     {
-        protected static string BASE_PATH = "~/Views/Taxonomy/Family/";
+        protected static string BASE_PATH = "~/Views/Taxonomy/FamilyMap/";
         private static readonly Logger Log = LogManager.GetCurrentClassLogger();
         public ActionResult Delete(int entityId)
         {

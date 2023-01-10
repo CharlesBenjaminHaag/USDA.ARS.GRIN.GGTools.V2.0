@@ -6,7 +6,7 @@ using USDA.ARS.GRIN.GGTools.DataLayer;
 
 namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
 {
-    public class WebUserViewModelBase: AppViewModelBase 
+    public class WebUserViewModelBase: AuthenticatedViewModelBase 
     {
         public WebUserViewModelBase() {}
 

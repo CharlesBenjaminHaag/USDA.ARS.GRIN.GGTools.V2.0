@@ -4,12 +4,6 @@
     Layout = "~/Views/Shared/_LayoutAdminLTE3.cshtml";
 }
 
-<style>
-    .row {
-        margin-top: 5px;
-    }
-</style>
-
 <div class="row">
     <div class="col-md-3">
         <div id="section-sys-user-widget">
@@ -33,11 +27,11 @@
             <div class="card-body">
                 <div class="tab-content">
                     <div class="tab-pane active" id="tab-summary">
-                        @*<div class="margin">
-                                <a href="@Url.Action("Edit", "WebCooperator", new { entityId = Model.Entity.WebCooperatorID })" class="btn btn-default btn-sm">
-                                    Web Cooperator
-                                </a>
-                            </div>*@
+                        <div class="margin" style="margin-bottom:15px; margin-top:0px;">
+                            <a href="@Url.Action("Edit", "WebCooperator", new { entityId = Model.Entity.WebCooperatorID })" class="btn btn-default btn-sm">
+                                Web Cooperator
+                            </a>
+                        </div>
                         @using (Html.BeginForm("Edit", "Cooperator", FormMethod.Post, new { id = "frmEditCooperator" }))
                         {
                             @Html.HiddenFor(x => x.PageTitle)

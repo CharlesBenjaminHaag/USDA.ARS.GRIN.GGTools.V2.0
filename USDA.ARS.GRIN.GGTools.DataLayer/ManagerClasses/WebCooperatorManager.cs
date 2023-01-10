@@ -63,18 +63,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
         {
             List<WebCooperator> results = new List<WebCooperator>();
 
-            SQL = " SELECT * FROM vw_GGTools_GRINGlobal_WebCooperators ";
-
-            if (!String.IsNullOrEmpty(searchEntity.Environment) & (searchEntity.Environment == "TRNG"))
-            {
-                SQL = " SELECT * FROM gringlobal.dbo.vw_GGTools_GRINGlobal_WebCooperators";
-            }
-            else
-            {
-                SQL = " SELECT * FROM vw_GGTools_GRINGlobal_WebCooperators";
-
-            }
-
+            SQL = " SELECT * FROM vw_GRINGlobal_Web_Cooperator ";
             SQL += " WHERE (@FirstName      IS NULL     OR      FirstName          LIKE        '%' + @FirstName + '%')";
             SQL += " AND (@LastName         IS NULL     OR      LastName           LIKE        '%' + @LastName + '%')";
             SQL += " AND (@Organization     IS NULL     OR      Organization       LIKE        '%' + @Organization + '%')";

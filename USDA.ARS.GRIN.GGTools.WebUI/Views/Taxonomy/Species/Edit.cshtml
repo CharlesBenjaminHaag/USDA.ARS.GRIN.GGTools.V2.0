@@ -424,7 +424,7 @@
         var genusName = $("#Entity_Name").val();
         var formData = new FormData();
         var sectionData = sectionId.replace("tab_selector", "tab_content");
-
+        
         // Load data in selected section content area based on id.
         switch (sectionId) {
             case "tab_selector_citation":
@@ -445,7 +445,12 @@
             default:
                 // code block
         }
+
         link = link.replace("SPECIES_ID", entityId);
+
+        //DEBUG
+        alert("CALLING " + link);
+
         formData.append("SpeciesID", entityId);
 
         $.ajax({

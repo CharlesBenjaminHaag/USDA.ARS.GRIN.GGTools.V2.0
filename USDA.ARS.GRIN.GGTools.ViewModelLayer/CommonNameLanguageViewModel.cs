@@ -80,7 +80,10 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
                 try
                 {
                     DataCollection = new Collection<CommonNameLanguage>(mgr.Search(SearchEntity));
-                    Entity = DataCollection[0];
+                    if (DataCollection.Count == 1)
+                    {
+                        Entity = DataCollection[0];
+                    }
                     RowsAffected = mgr.RowsAffected;
                 }
                 catch (Exception ex)

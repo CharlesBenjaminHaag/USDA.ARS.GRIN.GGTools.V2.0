@@ -119,6 +119,9 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             {
                 CooperatorViewModel viewModel = new CooperatorViewModel();
                 viewModel.Get(entityId, environment);
+                viewModel.PageTitle = String.Format("Edit Cooperator [{0}]: {1}", entityId, viewModel.Entity.FullName);
+                viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
+                viewModel.AuthenticatedUser = AuthenticatedUser;
                 return PartialView(viewModel);
             }
             catch (Exception ex)

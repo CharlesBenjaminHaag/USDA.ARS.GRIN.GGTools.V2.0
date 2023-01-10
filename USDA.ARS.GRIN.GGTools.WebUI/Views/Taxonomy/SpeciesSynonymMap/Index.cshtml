@@ -4,7 +4,7 @@
     Layout = "~/Views/Shared/_LayoutAdminLTE3.cshtml";
 }
 
-@using (Html.BeginForm("Search", "SynonymMap", FormMethod.Post, new { id = "frmMain" }))
+@using (Html.BeginForm("Search", "SpeciesSynonymMap", FormMethod.Post, new { id = "frmMain" }))
 {
     @Html.HiddenFor(x => x.EventAction)
     @Html.HiddenFor(x => x.TableName)
@@ -13,9 +13,9 @@
     @Html.HiddenFor(x => x.AuthenticatedUserCooperatorID)
     @Html.HiddenFor(x => x.ItemIDList)
     @Html.HiddenFor(x => x.AuthenticatedUserCooperatorID)
-    @Html.Partial("~/Views/Taxonomy/SynonymMap/_Detail.cshtml")
+    @Html.Partial("~/Views/Taxonomy/SpeciesSynonymMap/_Detail.cshtml")
 }
-@Html.Partial("~/Views/Taxonomy/SynonymMap/_List.cshtml")
+@Html.Partial("~/Views/Taxonomy/SpeciesSynonymMap/_List.cshtml")
 
 @{Html.RenderAction("_Edit", "Folder"); }
 

@@ -135,9 +135,9 @@ function InitDataTableByClass() {
             dom: 'Blfrtip',
             paging: true,
             "pageLength": 10,
-            initComplete: function () {
-                SetControlVisibility(tableName);
-            },
+            //initComplete: function () {
+            //    SetControlVisibility(tableName);
+            //},
             responsive: true,
             buttons: [
                 'selectAll',

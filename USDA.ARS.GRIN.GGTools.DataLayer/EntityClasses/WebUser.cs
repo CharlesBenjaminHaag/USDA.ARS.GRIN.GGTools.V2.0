@@ -16,7 +16,9 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
         public string WebUserIsEnabled { get; set; }
         public DateTime WebUserCreatedDate { get; set; }
         public DateTime WebUserModifiedDate { get; set; }
+        public DateTime LastLoginDate { get; set; }
         public DateTime WebUserPasswordExpirationDate { get; set; }
-        public int WebCooperatorID { get; set; } 
+        public int WebCooperatorID { get; set; }
+        public string IsEnabled { get; set; }
     }
 }
