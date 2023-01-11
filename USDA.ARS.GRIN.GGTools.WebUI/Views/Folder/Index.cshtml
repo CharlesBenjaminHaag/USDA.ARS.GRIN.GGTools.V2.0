@@ -4,11 +4,11 @@
     Layout = "~/Views/Shared/_LayoutAdminLTE3.cshtml";
 }
 <div id="overlay"></div>
+
 <div class="card card-primary card-tabs">
     <div id="DEBUG-TABS" class="card-header p-0 pt-1">
         <ul class="nav nav-tabs" id="custom-tabs-two-tab" role="tablist">
-            <li class="pt-2 px-3"><h3 class="card-title">My Folders</h3></li>
-
+            <li id="DEFAULT" class="pt-2 px-3"><h3 class="card-title">My Folders</h3></li>
             @{
                 int i = 0;
                 string tabSelectorCssClass = String.Empty;
@@ -24,15 +24,19 @@
                     tabSelectorCssClass = "nav-link";
                 }
 
-                <li 
-                    id="custom-tabs-two-home-tab-selector-@result.ID" 
-                    title="@result.FolderTypeDescription.Replace(" ","")" 
+                <li id="custom-tabs-two-home-tab-selector-@result.ID"
+                    title="@result.FolderTypeDescription.Replace(" ","")"
                     class="nav-item">
-                    <a class="@tabSelectorCssClass"  data-toggle="pill" href="#custom-tabs-two-home-@result.ID" role="tab" aria-controls="custom-tabs-two-home" aria-selected="true">
+                    <a class="@tabSelectorCssClass" data-toggle="pill" href="#custom-tabs-two-home-@result.ID" role="tab" aria-controls="custom-tabs-two-home" aria-selected="true">
                         @if (result.IsShared == "Y")
                         {
                             <i class="fa fa-users"></i>
                         }
+                        @*@if (result.IsFavorite == true)
+                        {
+                            <i class="fas fa-star text-warning"></i>
+                        }*@
+
                         @result.FolderName
                     </a>
                 </li>
@@ -42,41 +46,11 @@
     </div>
     <div class="card-body">
         <div class="tab-content" id="custom-tabs-two-tabContent">
-            @{
-                int j = 0;
-                string tabContentCssClass = String.Empty;
-            }
 
-            @foreach (var result in Model.DataCollection)
-            {
-                if (j == 0)
-                {
-                    tabContentCssClass = "tab-pane fade show active";
-                }
-                else
-                {
-                    tabContentCssClass = "tab-pane fade show";
-                }
-                <div class="@tabContentCssClass" id="custom-tabs-two-home-@result.ID" role="tabpanel" aria-labelledby="custom-tabs-two-home-tab">
-
-                    @*<h4>@result.FolderName</h4>
-                        <h4>@result.FolderType</h4>
-                        <h4>@result.FolderTypeDescription</h4>
-                        <h4>@result.CreatedByCooperatorName</h4>
-                        <h4>@result.Category</h4>*@
-
-                    @if (result.FolderTypeDescription == "NONE")
-                    {
-                        @Html.Partial("~/Views/Error/_InternalServerError.cshtml")
-                    }
-                    else
-                    {
-                        { Html.RenderAction("_ListFolderItems", result.FolderTypeDescription.Replace(" ", ""), new { @folderId = result.ID, displayFormat = "" }); }
-                    }
-                </div>
-                j++;
-            }
         </div>
+    </div>
+    <div id="progress_overlay" class="overlay">
+        <i class="fas fa-2x fa-sync-alt fa-spin"></i>
     </div>
 </div>
 
@@ -87,10 +61,12 @@
     });
 
     function Init() {
-        //var tabName = $("#DEBUG-TABS ul.nav li:first").attr('id');
-        ////DEBUG
-        //alert("FIRST TAB IS " + tabName);
-        /*InitDataTablesByClass(".folder-table");*/
+        // Note that we must load the *second* sequential <li> in the tabbed folder list: first
+        // is a static display item.
+        var tabName = $("#DEBUG-TABS ul.nav li:nth-child(2)").attr('id');
+        var title = $("#DEBUG-TABS ul.nav li:nth-child(2)").attr('title');
+        var folderId = tabName.replace("custom-tabs-two-home-tab-selector-", "");
+        ListFolderItems(title, folderId);
     }
 
     function InitDataTablesByClass(className) {
@@ -164,16 +140,18 @@
     $('#DEBUG-TABS ul.nav li').on('click', function () {
         var tabName = $(this).attr('id');
         var title = $(this).attr('title');
-        //DEBUG
-        alert("DEBUG " + tabName + " AND " + title);
+        var folderId = tabName.replace("custom-tabs-two-home-tab-selector-","");
+        ListFolderItems(title, folderId);
     });
 
     function ListFolderItems(folderTypeDescription, folderId)  {
-        var link = '@Url.Action("FolderItems", "CONTROLLER_NAME")';
+        var link = '@Url.Action("_ListFolderItems", "CONTROLLER_NAME")';
         link = link.replace("CONTROLLER_NAME", folderTypeDescription);
-
         var formData = new FormData();
-        formData.append("FolderID", folderId);
+
+        formData.append("folderID", folderId);
+
+        $("#progress_overlay").show();
 
         $.ajax({
             url: link,
@@ -183,10 +161,12 @@
             processData: false,
             data: formData,
             success: function (response) {
-                $("#section-folder-items").html(response);
+                $("#custom-tabs-two-tabContent").html(response);
+                $("#progress_overlay").hide();
             },
             error: function (jqXHR) {
-                alert("Error loading folder contents");
+                alert("Error loading folder contents: " + jqXHR.responseText);
+                $("#progress_overlay").hide();
             }
         });
     }
