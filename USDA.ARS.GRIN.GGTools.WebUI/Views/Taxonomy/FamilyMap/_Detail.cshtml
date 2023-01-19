@@ -23,7 +23,7 @@
                             </button>
                         </div>*@
                     </div>
-                    @using (Html.BeginForm("Search", "Family", FormMethod.Post, new { id = "frmMain" }))
+                    @using (Html.BeginForm("Search", "FamilyMap", FormMethod.Post, new { id = "frmMain" }))
                     {
                         <div class="row">
                             <div class="col-md-12">
@@ -79,7 +79,7 @@
                                 </div>
                             </div>
                         </div>
-                        @Html.Partial("~/Views/Taxonomy/Family/_DetailExtended.cshtml")
+                        @Html.Partial("~/Views/Taxonomy/FamilyMap/_DetailExtended.cshtml")
                     }
                 </div>
                 <div>

@@ -189,7 +189,7 @@
         Html.RenderAction("_List", "Citation", new { @familyId = Model.Entity.ID });
     }*@
 
-@Html.Partial("~/Views/Taxonomy/Family/Modals/_Lookup.cshtml")
+@Html.Partial("~/Views/Taxonomy/FamilyMap/Modals/_Lookup.cshtml")
 @Html.Partial("~/Views/Taxonomy/Author/Modals/_Lookup.cshtml")
 @{Html.RenderAction("RenderLookupModal", "Citation", new { isMultiSelect = "Y" }); }
 @Html.Partial("~/Views/Shared/Modals/_NoteLookup2.cshtml")

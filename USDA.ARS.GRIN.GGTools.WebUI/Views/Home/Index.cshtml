@@ -6,19 +6,16 @@
 
 <div class="row">
     <div class="col-md-3">
-        @{Html.RenderAction("RenderWidget", "Cooperator", new { cooperatorId = Model.CooperatorID }); }
-    </div>
-    <div class="col-md-6">
         @if ((Model.AuthenticatedUser.IsInRole("GGTOOLS_ARM")) || (Model.AuthenticatedUser.IsInRole("ADMINS")))
         {
             <div class="small-box bg-info">
                 <div class="inner">
                     <h3>
                         <a href="@Url.Action("Navigate", "Home", new { applicationCode = "GGT-ARM" })" style="color:white; text-decoration:underline;">
-                            ARB
+                            ARM
                         </a>
                     </h3>
-                    <p>Access Rights Management</p>
+                    <p>Administer GRIN-Global accounts</p>
                 </div>
                 <div class="icon">
                     <i class="fas fa-user-cog"></i>
@@ -28,14 +25,15 @@
                 </a>
             </div>
         }
-
+    </div>
+    <div class="col-md-3">
         @if ((Model.AuthenticatedUser.IsInRole("GGTOOLS_TAXON")) || (Model.AuthenticatedUser.IsInRole("ADMINS")))
         {
-            <div class="small-box bg-success">
+            <div class="small-box bg-info">
                 <div class="inner">
                     <h3>
                         <a href="@Url.Action("Navigate", "Home", new { applicationCode = "GGT-TAX" })" style="color:white; text-decoration:underline;">
-                            TurboTaxon
+                            TTax
                         </a>
                     </h3>
                     <p>Edit taxonomical data</p>
@@ -48,13 +46,14 @@
                 </a>
             </div>
         }
-
+    </div>
+    <div class="col-md-3">
 
         @if ((Model.AuthenticatedUser.IsInRole("GGTOOLS_CUR")) || (Model.AuthenticatedUser.IsInRole("ADMINS")))
         {
-            <div class="small-box bg-warning bg-purple">
+            <div class="small-box bg-info">
                 <div class="inner">
-                    <h3>Curator Portal</h3>
+                    <h3>CUR</h3>
                     <p>View accession and inventory data</p>
                 </div>
                 <div class="icon">
@@ -65,13 +64,14 @@
                 </a>
             </div>
         }
-
+    </div>
+    <div class="col-md-3">
         @if ((Model.AuthenticatedUser.IsInRole("GGTOOLS_ORDERS")) || (Model.AuthenticatedUser.IsInRole("ADMINS")))
         {
-            <div class="small-box bg-danger">
+            <div class="small-box bg-info">
                 <div class="inner">
-                    <h3>NRR Tool</h3>
-                    <p>Review and process Non-Research Requests (NRR)</p>
+                    <h3>NRR</h3>
+                    <p>Non-Research Requests (NRR)</p>
                 </div>
                 <div class="icon">
                     <i class="fas fa-angry"></i>
@@ -81,7 +81,8 @@
                 </a>
             </div>
         }
-
+    </div>
+    @*<div class="col-md-3">
         @if ((Model.AuthenticatedUser.IsInRole("GGTOOLS_ARM")) || (Model.AuthenticatedUser.IsInRole("ADMINS")))
         {
             <div class="card card-outline card-warning">
@@ -98,8 +99,16 @@
                 </div>
             </div>
         }
-    </div>
+                        </div>*@
+    
+</div>
+
+<div class="row">
     <div class="col-md-3">
+        @{Html.RenderAction("RenderWidget", "Cooperator", new { cooperatorId = Model.CooperatorID }); }
+    </div>
+    
+    <div class="col-md-9">
         @{Html.RenderAction("RenderWidget", "Site", new { siteId = Model.SiteID }); }
     </div>
 </div>

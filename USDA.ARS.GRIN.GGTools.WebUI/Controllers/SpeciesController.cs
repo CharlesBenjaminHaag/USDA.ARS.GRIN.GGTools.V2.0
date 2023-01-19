@@ -126,12 +126,17 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                     switch (viewModel.EventAction)
                     {
                         case "species-a":
-                            partialViewName = "~/Views/Taxonomy/SynonymMap/_SelectListSpeciesA.cshtml";
+                            partialViewName = "~/Views/Taxonomy/SpeciesSynonymMap/_SelectListSpeciesA.cshtml";
                             break;
                         case "species-b":
-                            partialViewName = "~/Views/Taxonomy/SynonymMap/_SelectListSpeciesB.cshtml";
+                            partialViewName = "~/Views/Taxonomy/SpeciesSynonymMap/_SelectListSpeciesB.cshtml";
                             break;
                     }
+                }
+
+                if (!String.IsNullOrEmpty(formCollection["SpeciesID"]))
+                {
+                    viewModel.SearchEntity.ID = Int32.Parse(formCollection["SpeciesID"]);
                 }
 
                 if (!String.IsNullOrEmpty(formCollection["SpeciesName"]))
@@ -389,22 +394,26 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             }
         }
 
-        public PartialViewResult SetVerificationStatus(FormCollection formCollection)
+        public PartialViewResult SetVerificationStatus(int speciesId, string statusCode)
         {
             try
             {
                 SpeciesViewModel viewModel = new SpeciesViewModel();
-                viewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
+                viewModel.Get(speciesId);
 
-                if (!String.IsNullOrEmpty(formCollection["EntityID"]))
+                if (statusCode == "Y")
                 {
-                    viewModel.Entity.ID = Int32.Parse(formCollection["EntityID"]);
+                    viewModel.Entity.VerifiedByCooperatorID = AuthenticatedUser.CooperatorID;
+                    viewModel.Entity.NameVerifiedDate = System.DateTime.Now;
+                }
+                else
+                {
+                    viewModel.Entity.VerifiedByCooperatorID = 0;
+                    viewModel.Entity.NameVerifiedDate = DateTime.MinValue;
                 }
 
-                if (!String.IsNullOrEmpty(formCollection["StatusCode"]))
-                {
-                    viewModel.SetVerificationStatus(formCollection["StatusCode"]);
-                }
+                viewModel.Update();
+                viewModel.Get(speciesId);
                 return PartialView("~/Views/Taxonomy/Species/_Verification.cshtml", viewModel);
             }
             catch (Exception ex)

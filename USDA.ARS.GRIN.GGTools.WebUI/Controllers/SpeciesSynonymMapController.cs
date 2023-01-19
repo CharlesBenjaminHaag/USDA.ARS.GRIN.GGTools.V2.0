@@ -98,7 +98,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             Session["SPECIES-SYNONYM-MAPS"] = batchedSpeciesSynonymMaps;
             viewModel.DataCollectionBatch = batchedSpeciesSynonymMaps;
 
-            return PartialView("~/Views/Taxonomy/SynonymMap/_BatchList.cshtml", viewModel);
+            return PartialView("~/Views/Taxonomy/SpeciesSynonymMap/_BatchList.cshtml", viewModel);
         }
 
         public PartialViewResult Clear(FormCollection formCollection)
@@ -127,7 +127,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             {
                 SynonymMapViewModel viewModel = new SynonymMapViewModel();
                 viewModel.TableName = "taxonomy_species_synonym_map";
-                viewModel.TableCode = "SynonymMap";
+                viewModel.TableCode = "SpeciesSynonymMap";
                 viewModel.Get(entityId);
                 viewModel.PageTitle = String.Format("Edit [{0}]", viewModel.Entity.ID);
                 return View(BASE_PATH + "Edit.cshtml", viewModel);

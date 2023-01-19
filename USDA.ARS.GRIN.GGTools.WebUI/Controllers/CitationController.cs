@@ -191,7 +191,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             }
         }
 
-        public ActionResult Add(string parentTypeCode="")
+        public ActionResult Add(int literatureId = 0, int familyId = 0, int genusId = 0, int speciesId = 0)
         {
             try 
             { 
@@ -199,8 +199,41 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 viewModel.EventAction = "Add";
                 viewModel.TableName = "citation";
                 viewModel.TableCode = "Citation";
-                viewModel.Entity.ParentTypeCode = parentTypeCode.ToUpper();
+                viewModel.Entity.LiteratureID = literatureId;
+                viewModel.Entity.FamilyID = familyId;
+                viewModel.Entity.GenusID = genusId;
+                viewModel.Entity.SpeciesID = speciesId;
                 viewModel.PageTitle = viewModel.EventAction + " " + viewModel.TableCode;
+
+                if (familyId > 0)
+                {
+                    viewModel.Entity.FamilyID = familyId;
+                    FamilyMapViewModel familyMapViewModel = new FamilyMapViewModel();
+                    familyMapViewModel.SearchEntity.ID = familyId;
+                    familyMapViewModel.Search();
+                    viewModel.Entity.FamilyID = familyMapViewModel.Entity.ID;
+                    viewModel.Entity.FamilyName = familyMapViewModel.Entity.FamilyName;
+                }
+
+                if (genusId > 0)
+                {
+                    GenusViewModel genusViewModel = new GenusViewModel();
+                    genusViewModel.SearchEntity.ID = genusId;
+                    genusViewModel.Search();
+                    viewModel.Entity.GenusID = genusViewModel.Entity.ID;
+                    viewModel.Entity.GenusName = genusViewModel.Entity.Name;
+                }
+
+                if (speciesId > 0)
+                {
+                    SpeciesViewModel speciesViewModel = new SpeciesViewModel();
+                    speciesViewModel.SearchEntity.ID = speciesId;
+                    speciesViewModel.Search();
+                    viewModel.Entity.SpeciesID = speciesViewModel.Entity.ID;
+                    viewModel.Entity.SpeciesName = speciesViewModel.Entity.Name;
+                }
+
+
                 return View(BASE_PATH + "Edit.cshtml", viewModel);
             }
             catch (Exception ex)

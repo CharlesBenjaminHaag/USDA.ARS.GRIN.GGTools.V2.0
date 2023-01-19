@@ -387,7 +387,7 @@
     <Content Include="Views\Shared\Modals\_NoteSelectList.cshtml" />
     <Content Include="Views\Taxonomy\CWRMap\Modals\_Lookup.cshtml" />
     <Content Include="Views\Taxonomy\CWRMap\Modals\_SelectList.cshtml" />
-    <Content Include="Views\Taxonomy\Species\Edit.cshtml" />
+    <Content Include="Views\Taxonomy\Species\Edit_OLD.cshtml" />
     <Content Include="Views\Taxonomy\Species\Index.cshtml" />
     <Content Include="Views\Taxonomy\Species\_List.cshtml" />
     <Content Include="Views\Taxonomy\Species\Modals\_Lookup.cshtml" />
@@ -690,6 +690,12 @@
     <Content Include="Views\SysUser\_ListTaxonomy.cshtml" />
     <Content Include="Views\SysUser\_SelectList.cshtml" />
     <Content Include="Views\WebOrder\Modals\_Email.cshtml" />
+    <Content Include="Views\Shared\_LayoutAdminLTE3Interior.cshtml" />
+    <Content Include="Views\Taxonomy\Species\Edit.cshtml" />
+    <Content Include="Views\Taxonomy\Shared\_RevisionHistory.cshtml" />
+    <Content Include="Views\Taxonomy\Shared\_Note.cshtml" />
+    <Content Include="Views\Folder\_RelatedFoldersMenu.cshtml" />
+    <Content Include="Views\Taxonomy\Species\_RevisionHistory.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

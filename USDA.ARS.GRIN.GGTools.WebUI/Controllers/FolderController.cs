@@ -27,7 +27,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 return PartialView("~/Views/Error/_InternalServerError.cshtml");
             }
         }
-        public ActionResult Index()
+        public ActionResult Explorer(string categoryCode = "", string isFavorite="")
         {
             FolderViewModel viewModel = new FolderViewModel();
 
@@ -35,10 +35,11 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             {
                 viewModel.PageTitle = "TurboTaxon Home";
                 viewModel.AuthenticatedUser = AuthenticatedUser;
-                //viewModel.GetFolderTypes(AuthenticatedUser.CooperatorID);
-                //viewModel.GetFolderCategories(AuthenticatedUser.CooperatorID);
-                //viewModel.GetFolderTypes(AuthenticatedUser.CooperatorID);
-                viewModel.SearchEntity = new FolderSearch { CreatedByCooperatorID = AuthenticatedUser.CooperatorID };
+                viewModel.GetFolderTypes(AuthenticatedUser.CooperatorID);
+                viewModel.GetFolderCategories(AuthenticatedUser.CooperatorID);
+                viewModel.SearchEntity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
+                viewModel.SearchEntity.Category = categoryCode;
+                viewModel.SearchEntity.IsFavoriteOption = isFavorite;
                 viewModel.Search();
                 viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
                 return View(BASE_PATH + "Index.cshtml", viewModel);
@@ -166,7 +167,22 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 return PartialView("~/Views/Error/_InternalServerError.cshtml");
             }
         }
-
+        public PartialViewResult _RelatedFoldersMenu(string tableName, int entityId)
+        {
+            try
+            {
+                FolderViewModel viewModel = new FolderViewModel();
+                viewModel.SearchEntity.TableName = tableName;
+                viewModel.SearchEntity.EntityID = entityId;
+                viewModel.GetRelatedFolders();
+                return PartialView("~/Views/Folder/_RelatedFoldersMenu.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
+        }
         [HttpPost]
         public ActionResult _ListAvailableCollaborators(FormCollection formCollection)
         {
@@ -734,6 +750,11 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
         //}
 
         public ActionResult Delete(FormCollection formCollection)
+        {
+            throw new NotImplementedException();
+        }
+
+        public ActionResult Index()
         {
             throw new NotImplementedException();
         }

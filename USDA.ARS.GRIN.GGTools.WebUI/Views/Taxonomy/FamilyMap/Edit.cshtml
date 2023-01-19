@@ -4,7 +4,7 @@
     Layout = "~/Views/Shared/_LayoutAdminLTE3.cshtml";
 }
 @Html.Partial("~/Views/Shared/_RevisionHistory.cshtml")
-@using (Html.BeginForm("Edit", "Family", FormMethod.Post, new { id = "frmEdit" }))
+@using (Html.BeginForm("Edit", "FamilyMap", FormMethod.Post, new { id = "frmEdit" }))
 {
     @Html.HiddenFor(x => x.PageTitle)
     @Html.HiddenFor(x => x.EventAction)
@@ -261,8 +261,8 @@
     </div>
 }
 
-@Html.Partial("~/Views/Taxonomy/Family/Modals/_Lookup.cshtml")
-@Html.Partial("~/Views/Taxonomy/Family/Modals/_TypeGenusPrompt.cshtml")
+@Html.Partial("~/Views/Taxonomy/FamilyMap/Modals/_Lookup.cshtml")
+@Html.Partial("~/Views/Taxonomy/FamilyMap/Modals/_TypeGenusPrompt.cshtml")
 @Html.Partial("~/Views/Taxonomy/Genus/Modals/_Lookup.cshtml")
 @Html.Partial("~/Views/Taxonomy/Author/Modals/_Lookup.cshtml")
 @{Html.RenderAction("RenderLookupModal", "Citation", new { tableName = Model.TableName, entityId = Model.Entity.ID }); }

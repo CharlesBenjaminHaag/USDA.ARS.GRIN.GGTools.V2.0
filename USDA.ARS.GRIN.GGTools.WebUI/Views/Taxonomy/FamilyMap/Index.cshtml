@@ -4,7 +4,7 @@
     Layout = "~/Views/Shared/_LayoutAdminLTE3.cshtml";
 }
 
-@using (Html.BeginForm("Search", "Family", FormMethod.Post, new { id = "frmMain" }))
+@using (Html.BeginForm("Search", "FamilyMap", FormMethod.Post, new { id = "frmMain" }))
 {
     @Html.HiddenFor(x => x.EventAction)
     @Html.HiddenFor(x => x.EventValue)
@@ -15,9 +15,9 @@
     @Html.HiddenFor(x => x.ItemIDList)
     @Html.HiddenFor(x => x.DetailPartialViewName)
     @Html.HiddenFor(x => x.ListPartialViewName)
-    @Html.Partial("~/Views/Taxonomy/Family/_Detail.cshtml")
+    @Html.Partial("~/Views/Taxonomy/FamilyMap/_Detail.cshtml")
 }
-@Html.Partial("~/Views/Taxonomy/Family/_List.cshtml")
+@Html.Partial("~/Views/Taxonomy/FamilyMap/_List.cshtml")
 @{Html.RenderAction("_Edit", "Folder"); }
 
 <script type="text/javascript">

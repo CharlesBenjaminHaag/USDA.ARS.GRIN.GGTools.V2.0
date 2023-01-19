@@ -266,7 +266,7 @@
             var speciesName = $("#SearchEntity_SpeciesAName").val();
             $("#EventAction").val("subject");
             //$("#txtSpeciesNameSubject").val(speciesName);
-            SearchSpecies("species-a", speciesName, "", "section-search-results-species-a", "table-search-results-species-a");
+            SearchSpecies("species-a", speciesID, speciesName, "", "section-search-results-species-a", "table-search-results-species-a");
         }
         InitDataTableMinimal("table-synonym-codes");
         $("#section-validation-errors").hide();
@@ -280,7 +280,7 @@
         if ($("#SearchEntity_SpeciesAIsAcceptedOption").is(":checked")) {
             isAcceptedName = "Y";
         }
-        SearchSpecies(eventAction, searchText, isAcceptedName, "section-search-results-" + eventAction, "table-search-results-" + eventAction);
+        SearchSpecies(eventAction, 0, searchText, isAcceptedName, "section-search-results-" + eventAction, "table-search-results-" + eventAction);
     });
 
     $("#btnLookupSpeciesB").click(function () {
@@ -291,14 +291,15 @@
         if ($("#SearchEntity_SpeciesBIsAcceptedOption").is(":checked")) {
             isAcceptedName = "Y";
         }
-        SearchSpecies(eventAction, searchText, isAcceptedName, "section-search-results-" + eventAction, "data-table-search-results-" + eventAction);
+        SearchSpecies(eventAction, 0, searchText, isAcceptedName, "section-search-results-" + eventAction, "data-table-search-results-" + eventAction);
     });
 
-    function SearchSpecies(eventAction, searchText, isAcceptedName, searchResultSectionName, searchResultTableName) {
+    function SearchSpecies(eventAction, speciesId, searchText, isAcceptedName, searchResultSectionName, searchResultTableName) {
         var link = '@Url.Action("Lookup","Species")';
         var formData = new FormData();
 
         formData.append("EventAction", eventAction);
+        formData.append("SpeciesID", speciesId);
         formData.append("SpeciesName", searchText);
         formData.append("IsAcceptedName", isAcceptedName);
         formData.append("IsMultiSelect", "Y");
@@ -325,7 +326,7 @@
     });
 
     function GenerateMaps() {
-        var link = '@Url.Action("Add","SynonymMap")';
+        var link = '@Url.Action("Add", "SpeciesSynonymMap")';
         var selectedSpeciesIDListSubject = GetSelectedEntityIDs("data-table-search-results-species-a");
         var selectedSynonymCode = GetSelectedEntityIDs("table-synonym-codes");
         var selectedSpeciesIDListPredicate = GetSelectedEntityIDs("data-table-search-results-species-b");
@@ -368,7 +369,7 @@
     });
 
     function Clear() {
-        var link = '@Url.Action("Clear","SynonymMap")';
+        var link = '@Url.Action("Clear", "SpeciesSynonymMap")';
         var formData = new FormData();
         $.ajax({
             url: link,

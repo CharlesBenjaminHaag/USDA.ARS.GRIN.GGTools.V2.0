@@ -31,23 +31,25 @@
             <div class="row">
                 <div class="col-md-3">
                     @{
-                        switch (Model.Entity.ParentTypeCode)
+                        if (Model.Entity.FamilyID > 0)
                         {
-                            case "FAMILY":
-                                <div class="form-group">
-                                    <label>Family</label>
-                                    <div class="input-group">
-                                        @Html.TextBoxFor(x => x.Entity.FamilyName, new { @class = "form-control", @readonly = "readonly", @style = "background-color:#ecf0f5;" })
-                                        @Html.HiddenFor(x => x.Entity.FamilyID)
-                                        <span class="input-group-btn">
-                                            <button id="btnOpenFamilyLookupModal" type="button" data-ggtools-action="FamilyID" data-ggtools-value="FamilyName" data-toggle="modal" data-target="#modal-family-lookup" class="btn btn-default btn-flat">
-                                                <i class="fa fa-search"></i>
-                                            </button>
-                                        </span>
-                                    </div>
+                            <div class="form-group">
+                                <label>Family</label>
+                                <div class="input-group">
+                                    @Html.TextBoxFor(x => x.Entity.FamilyName, new { @class = "form-control", @readonly = "readonly", @style = "background-color:#ecf0f5;" })
+                                    @Html.HiddenFor(x => x.Entity.FamilyID)
+                                    <span class="input-group-btn">
+                                        <button id="btnOpenFamilyLookupModal" type="button" data-ggtools-action="FamilyID" data-ggtools-value="FamilyName" data-toggle="modal" data-target="#modal-family-lookup" class="btn btn-default btn-flat">
+                                            <i class="fa fa-search"></i>
+                                        </button>
+                                    </span>
                                 </div>
-                                break;
-                            case "GENUS":
+                            </div>
+                        }
+                        else
+                        {
+                            if (Model.Entity.GenusID > 0)
+                            {
                                 <div class="form-group">
                                     <label>Genus</label>
                                     <div class="input-group">
@@ -60,27 +62,43 @@
                                         </span>
                                     </div>
                                 </div>
-                                break;
-                            case "SPECIES":
-                                <div class="form-group">
-                                    <label>Species</label>
-                                    <div class="input-group">
-                                        @Html.TextBoxFor(x => x.Entity.SpeciesName, new { @class = "form-control", @readonly = "readonly", @style = "background-color:#ecf0f5;" })
-                                        @Html.HiddenFor(x => x.Entity.SpeciesID)
-                                        <span class="input-group-btn">
-                                            <button id="btnOpenSpeciesLookupModal" type="button" data-ggtools-action="SpeciesID" data-ggtools-value="SpeciesName" data-toggle="modal" data-target="#modal-species-lookup" class="btn btn-default btn-flat">
-                                                <i class="fa fa-search"></i>
-                                            </button>
-                                        </span>
+                            }
+                            else
+                            {
+                                if (Model.Entity.SpeciesID > 0)
+                                {
+                                    <div class="form-group">
+                                        <label>Species</label>
+                                        <div class="input-group">
+                                            @Html.TextBoxFor(x => x.Entity.SpeciesName, new { @class = "form-control", @readonly = "readonly", @style = "background-color:#ecf0f5;" })
+                                            @Html.HiddenFor(x => x.Entity.SpeciesID)
+                                            <span class="input-group-btn">
+                                                @if (Model.Entity.SpeciesID > 0)
+                                                {
+                                                    <a href="@Url.Action("Edit", "Species", new { entityId = Model.Entity.SpeciesID })" class="btn btn-default btn-flat">
+                                                        <i class="fa fa-globe"></i>
+                                                    </a>
+                                                }
+                                            </span>
+                                            <span class="input-group-btn">
+                                                <button id="btnOpenSpeciesLookupModal" type="button" data-ggtools-action="SpeciesID" data-ggtools-value="SpeciesName" data-toggle="modal" data-target="#modal-species-lookup" class="btn btn-default btn-flat">
+                                                    <i class="fa fa-search"></i>
+                                                </button>
+                                            </span>
+                                        </div>
                                     </div>
-                                </div>
-                                break;
-                            case "ACCESSION":
-                                <div class="form-group">
-                                    <label>Accession ID</label>
-                                    @Html.TextBoxFor(x => x.Entity.AccessionID, new { @class = "form-control", @readonly = "readonly" })
-                                </div>
-                                break;
+                                }
+                                else
+                                {
+                                    if (Model.Entity.AccessionID > 0)
+                                    { 
+                                        <div class="form-group">
+                                            <label>Accession ID</label>
+                                            @Html.TextBoxFor(x => x.Entity.AccessionID, new { @class = "form-control", @readonly = "readonly" })
+                                        </div>
+                                    }
+                                }
+                            }
                         }
                     }
                 </div>
@@ -160,7 +178,7 @@
 }
 
 @{Html.RenderAction("RenderLookupModal", "Literature"); }
-                        @Html.Partial("~/Views/Taxonomy/Family/Modals/_Lookup.cshtml")
+                        @Html.Partial("~/Views/Taxonomy/FamilyMap/Modals/_Lookup.cshtml")
 @Html.Partial("~/Views/Taxonomy/Genus/Modals/_Lookup.cshtml")
 @Html.Partial("~/Views/Taxonomy/Species/Modals/_Lookup.cshtml")
 @Html.Partial("~/Views/Shared/Modals/_NoteLookup2.cshtml")

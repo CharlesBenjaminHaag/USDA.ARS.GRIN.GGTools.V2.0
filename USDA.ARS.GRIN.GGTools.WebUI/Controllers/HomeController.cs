@@ -74,7 +74,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             switch (applicationCode)
             {
                 case "GGT-TAX":
-                    return RedirectToAction("Index", "Folder");
+                    return RedirectToAction("Explorer", "Folder");
                 case "GGT-NRR":
                     return RedirectToAction("Explorer", "WebOrder");
                 case "GGT-CUR":

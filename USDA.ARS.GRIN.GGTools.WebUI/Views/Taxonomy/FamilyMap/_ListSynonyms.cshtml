@@ -40,7 +40,7 @@
                                 </a>
                             </td>
                             <td>
-                                <a href="@Url.Action("Edit", "Family", new { @entityId = result.OrderID })">
+                                <a href="@Url.Action("Edit", "FamilyMap", new { @entityId = result.OrderID })">
                                     @result.FamilyName
                                 </a>
                             </td>
@@ -81,7 +81,7 @@
                                         </a>
                                         break;
                                     default:
-                                        <a href="@Url.Action("Edit", "Family", new { entityId = result.ID })" class="btn btn-primary btn-sm pull-right row-edit">
+                                        <a href="@Url.Action("Edit", "FamilyMap", new { entityId = result.ID })" class="btn btn-primary btn-sm pull-right row-edit">
                                             <i class="fa fa-edit"></i>
                                         </a>
                                         break;

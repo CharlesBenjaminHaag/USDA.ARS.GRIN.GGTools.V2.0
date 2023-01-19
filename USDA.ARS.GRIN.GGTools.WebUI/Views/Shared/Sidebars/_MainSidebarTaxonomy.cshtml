@@ -12,12 +12,13 @@
                 <p>Folders</p>
             </a>
         </li>
-        <li class="nav-item">
+        <!-- Version 1.0.1 Alpha -- disable until page fixes complete. -->
+        @*<li class="nav-item">
             <a href="@Url.Action("Index","Explorer")" class="nav-link">
                 <i class="nav-icon fas fa-globe"></i>
                 <p>Explorer</p>
             </a>
-        </li>
+        </li>*@
         <li class="nav-header">MANAGE DATA</li>
         
         <!-- TODO Make dynamic. Pull from SysTable view. Controller for each will be 
@@ -133,12 +134,13 @@
             </a>
         </li>
         <li class="nav-header">SYSADMIN</li>
-        <li class="nav-item">
+        @*  Version 1.0.1 Alpha: Re-enable once fixes complete.
+            <li class="nav-item">
             <a href="@Url.Action("Explorer","SysGroup")" class="nav-link">
                 <i class="nav-icon fas fa-users-cog"></i>
                 <p>Groups</p>
             </a>
-        </li>
+        </li>*@
         <li class="nav-item">
             <a href="@Url.Action("Index","CodeValue")" class="nav-link">
                 <i class="nav-icon fas fa-table"></i>
