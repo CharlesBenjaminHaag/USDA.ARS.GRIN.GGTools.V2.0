@@ -7,7 +7,9 @@
 
 <div class="row">
     <div class="col-md-3">
-        <div class="card">
+
+        <!-- BEGIN CATEGORY LIST -->
+        <div class="card card-primary">
             <div class="card-header">
                 <h3 class="card-title">Category</h3>
                 <div class="card-tools">
@@ -18,21 +20,18 @@
             </div>
             <div class="card-body p-0">
                 <ul class="nav nav-pills flex-column">
-
                     <li class="nav-item active">
                         <a href="@Url.Action("Explorer","Folder", new { isFavorite="Y" })" class="nav-link">
                             <i class="fas fa-star text-warning"></i> Favorites
                         </a>
                     </li>
-
                     <li class="nav-item active">
                         <a href="#" class="nav-link">
                             <i class="fas fa-folder"></i> All
-
                         </a>
                     </li>
 
-
+                    <!-- TODO LOAD USER-DEFINED CATEGORIES -->
                     @*<li class="nav-item">
                         <a href="#" class="nav-link">
                             <i class="fas fa-filter"></i> Junk
@@ -43,10 +42,42 @@
             </div>
 
         </div>
+        <!-- END CATEGORY LIST -->
+
+        <!-- BEGIN FOLDER TYPE LIST -->
+        <div class="card card-primary">
+            <div class="card-header">
+                <h3 class="card-title">Type</h3>
+                <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                        <i class="fas fa-minus"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="card-body p-0">
+                <ul class="nav nav-pills flex-column">
+                    <li class="nav-item active">
+                        <a href="#" class="nav-link">
+                            <i class="fas fa-folder"></i> All
+                        </a>
+                    </li>
+
+                    <!-- TODO LOAD USER-DEFINED CATEGORIES -->
+                    @*<li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <i class="fas fa-filter"></i> Junk
+                            <span class="badge bg-warning float-right">65</span>
+                        </a>
+                    </li>*@
+                </ul>
+            </div>
+
+        </div>
+        <!-- END FOLDER TYPE LIST -->
     </div>
     <div class="col-md-9">
 
-        <div class="card card-primary card-tabs">
+        <div class="card card-default card-tabs">
             <div id="DEBUG-TABS" class="card-header p-0 pt-1">
                 <ul class="nav nav-tabs" id="custom-tabs-two-tab" role="tablist">
                     <li id="DEFAULT" class="pt-2 px-3"><h3 class="card-title">My Folders</h3></li>

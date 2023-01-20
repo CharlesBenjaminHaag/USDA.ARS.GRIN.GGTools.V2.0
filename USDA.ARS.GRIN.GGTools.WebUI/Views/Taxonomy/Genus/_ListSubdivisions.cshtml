@@ -33,7 +33,7 @@
                             <td>
                                 @result.ID
                             </td>
-                            <td><a href="@Url.Action("Edit","Genus", new { @entityId = result.ID })">@Html.Raw(result.Name)</a></td>
+                            <td><a href="@Url.Action("Edit","Genus", new { @entityId = result.ID })">@Html.Raw(result.AssembledName)</a></td>
                             <td>
                                 @Html.Raw(result.FamilyAssembledName)
                             </td>

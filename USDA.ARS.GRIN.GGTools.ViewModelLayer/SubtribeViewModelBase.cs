@@ -98,7 +98,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
                 CacheItemPolicy policy = new CacheItemPolicy();
                 using (GenusManager mgr = new GenusManager())
                 {
-                    GenusSearch genusSearchEntity = new GenusSearch { GenericRank = "Genus" };
+                    GenusSearch genusSearchEntity = new GenusSearch { Rank = "Genus" };
                     genera = mgr.Search(genusSearchEntity);
                 }
                 cache.Set("DATA-LIST-GENERA", genera, policy);

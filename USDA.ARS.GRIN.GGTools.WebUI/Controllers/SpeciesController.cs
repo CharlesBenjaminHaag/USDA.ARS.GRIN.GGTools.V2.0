@@ -208,9 +208,14 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                     SpeciesViewModel parentViewModel = new SpeciesViewModel();
                     parentViewModel.SearchEntity.ID = speciesId;
                     parentViewModel.Search();
+
+                    // Add link to "parent" taxon.
+                    viewModel.PageTitle = String.Format("Add {0}", viewModel.ToTitleCase(rank));
+                    viewModel.PageTitle += " of <a href=" + Url.Action("Edit", "Species", new { entityId = parentViewModel.Entity.ID }) + ">" + parentViewModel.Entity.Name + "</a>";
+
                     viewModel.ParentEntity = parentViewModel.Entity;
                     viewModel.Entity.ParentID = parentViewModel.ID;
-                    viewModel.Entity.SpeciesEpithet = parentViewModel.Entity.SpeciesEpithet;
+                    viewModel.Entity.Name = parentViewModel.Entity.Name;
                     viewModel.Entity.SpeciesName = parentViewModel.Entity.SpeciesName;
                     viewModel.Entity.SubspeciesName = parentViewModel.Entity.SubspeciesName;
                     viewModel.Entity.VarietyName = parentViewModel.Entity.VarietyName;
@@ -263,7 +268,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 viewModel.TableName = "taxonomy_species";
                 viewModel.TableCode = "Species";
                 viewModel.Get(entityId);
-                viewModel.PageTitle = String.Format("Edit [{0}]: {1}", viewModel.Entity.ID, viewModel.Entity.FullName);
+                viewModel.PageTitle = String.Format("Edit [{0}]: {1}", viewModel.Entity.ID, viewModel.Entity.AssembledName);
                 viewModel.EventValue = viewModel.Entity.Rank.ToLower();
                 viewModel.ID = entityId;
                 viewModel.SpeciesID = entityId;
@@ -313,7 +318,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 viewModel.TableName = "taxonomy_species";
                 viewModel.TableCode = "Species";
                 viewModel.Get(entityId);
-                viewModel.PageTitle = String.Format("Edit [{0}]: {1}", viewModel.Entity.ID, viewModel.Entity.FullName);
+                viewModel.PageTitle = String.Format("Edit [{0}]: {1}", viewModel.Entity.ID, viewModel.Entity.AssembledName);
                 viewModel.EventValue = viewModel.Entity.Rank.ToLower();
                 viewModel.ID = entityId;
                 return View(BASE_PATH + "Edit.cshtml", viewModel);

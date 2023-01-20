@@ -21,7 +21,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         public string FullName { get; set; }
         public string IsAcceptedName { get; set; }
         public string AcceptedName { get; set; }
-        public string GenericRank { get; set; }
+        public string Rank { get; set; }
         public string QualifyingCode { get; set; }
         public string HybridCode { get; set; }
         public bool IsSynonym { get; set; }

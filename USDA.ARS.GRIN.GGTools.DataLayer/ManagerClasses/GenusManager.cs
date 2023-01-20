@@ -144,7 +144,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
                 CreateParameter("FullName", (object)searchEntity.FullName ?? DBNull.Value, true),
                 CreateParameter("IsAcceptedName", (object)searchEntity.IsAcceptedName ?? DBNull.Value, true),
                 CreateParameter("AcceptedName", (object)searchEntity.AcceptedName ?? DBNull.Value, true),
-                CreateParameter("Rank", (object)searchEntity.GenericRank ?? DBNull.Value, true),
+                CreateParameter("Rank", (object)searchEntity.Rank ?? DBNull.Value, true),
                 CreateParameter("Authority", (object)searchEntity.Authority ?? DBNull.Value, true),
             };
 

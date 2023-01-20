@@ -19,12 +19,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         public bool IsSpecificHybridOption { get; set; }
         [Required]
         public string SpeciesName { get; set; }
-        public string SpeciesEpithet { get; set; }
         public string SynonymName { get; set; }
-
-        [AllowHtml]
-        public string FullName { get; set; }
-        public string SpeciesRankName { get; set; }
         public string IsAcceptedName { get; set; }
         public string Tags { get; set; }
         public int TagMapID { get; set; }

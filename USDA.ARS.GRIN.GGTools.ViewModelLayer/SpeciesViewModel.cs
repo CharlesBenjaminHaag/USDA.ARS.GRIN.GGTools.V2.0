@@ -503,6 +503,8 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
 
         public void SetSpeciesName()
         {
+            Entity.Name = Entity.GenusName + " " + Entity.SpeciesName;
+
             if (Entity.IsSpecificHybrid == "Y")
             {
                 Entity.Name = "x " + Entity.SpeciesName;
