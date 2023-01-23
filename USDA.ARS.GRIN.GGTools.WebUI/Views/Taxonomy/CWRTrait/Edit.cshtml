@@ -73,15 +73,10 @@
             </div>
             <div class="row">
                 <div class="col-md-12">
-                    <label>Citation</label>
-                    <div class="input-group">
-                        @Html.HiddenFor(x => x.Entity.CitationID)
-                        @Html.TextBoxFor(x => x.Entity.CitationText, new { @class = "form-control", @readonly = "readonly" })
-                        <span class="input-group-btn">
-                            <button type="button" class="btn btn-default btn-flat" data-toggle="modal" data-target="#modal-citation-lookup">
-                                <i class="fa fa-search"></i>
-                            </button>
-                        </span>
+                    <div class="row">
+                        <div id="section-citation" class="col-md-12">
+                            @{ Html.RenderAction("RenderWidget", "Citation", new { @entityId = Model.Entity.CitationID });}
+                        </div>
                     </div>
                 </div>
             </div>
@@ -111,20 +106,4 @@
     function Init() {
 
     }
-
-    /*
-    * ===================================================================================================
-    * NOTE LOOKUP MODAL
-    * ===================================================================================================
-    */
-
-    $("#btnLookupNote").click(function () {
-        var link = '@Url.Action("Lookup","Note")';
-        SearchNotes(link);
-    });
-
-    $("#btnSaveNote").click(function () {
-        var selectedNote = GetSelectedNote("data-table-note-lookup");
-        $("#txtNote").val(selectedNote);
-    });
 </script>

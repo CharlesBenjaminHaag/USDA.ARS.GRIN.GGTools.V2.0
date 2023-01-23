@@ -114,7 +114,11 @@
             </div>
             <div class="row">
                 <div class="col-md-12">
-                    @{ Html.RenderAction("RenderWidget", "Citation", new { @entityId = Model.Entity.CitationID });}
+                    <div class="row">
+                        <div id="section-citation" class="col-md-12">
+                            @{ Html.RenderAction("RenderWidget", "Citation", new { @entityId = Model.Entity.CitationID });}
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

@@ -242,9 +242,9 @@
         <div id="section-dependent-data" class="card-header p-2">
             <ul id="list-dependent-data" class="nav nav-pills">
                 <li id="tab_selector_citations" data-ggtools-event-action="Citation" data-ggtools-event-value="_List" class="nav-item"><a class="nav-link active" href="#tab_content_citations" data-toggle="tab">Citations</a></li>
-                <li id="tab_selector_genera" data-ggtools-event-action="Family" data-ggtools-event-value="_ListGenera" class="nav-item"><a class="nav-link" href="#tab_content_genera" data-toggle="tab">Genera</a></li>
-                <li id="tab_selector_synonyms" data-ggtools-event-action="Family" data-ggtools-event-value="_ListSynonyms" class="nav-item"><a class="nav-link" href="#tab_content_synonyms" data-toggle="tab">Synonyms</a></li>
-                <li id="tab_selector_subdivisions" data-ggtools-event-action="Family" data-ggtools-event-value="_ListSubdivisions" class="nav-item"><a class="nav-link" href="#tab_content_subdivisions" data-toggle="tab">Subdivisions</a></li>
+                <li id="tab_selector_genera" data-ggtools-event-action="FamilyMap" data-ggtools-event-value="_ListGenera" class="nav-item"><a class="nav-link" href="#tab_content_genera" data-toggle="tab">Genera</a></li>
+                <li id="tab_selector_synonyms" data-ggtools-event-action="FamilyMap" data-ggtools-event-value="_ListSynonyms" class="nav-item"><a class="nav-link" href="#tab_content_synonyms" data-toggle="tab">Synonyms</a></li>
+                <li id="tab_selector_subdivisions" data-ggtools-event-action="FamilyMap" data-ggtools-event-value="_ListSubdivisions" class="nav-item"><a class="nav-link" href="#tab_content_subdivisions" data-toggle="tab">Subdivisions</a></li>
             </ul>
         </div>
         <div class="card-body">
@@ -294,49 +294,37 @@
         var selectedId = $(this).attr('id');
         var eventAction = $(this).data("ggtools-event-action");
         var eventValue = $(this).data("ggtools-event-value");
+
         LoadDependentData(selectedId, eventAction, eventValue);
     });
 
-    function LoadDependentData(sectionId, eventAction, eventValue) {
-        var link = "";
-        var entityId = $("#Entity_ID").val();
-        var familyId = $("#Entity_FamilyID").val();
-        var formData = new FormData();
-        var sectionData = sectionId.replace("tab_selector", "tab_content");
+    function LoadDependentData(controlId, eventAction, eventValue) {
+            var link = '@Url.Action("EVENT_VALUE","EVENT_ACTION", new { familyId = "FAMILY_ID" })';
+            var entityId = $("#Entity_ID").val();
+            var genusId = $("#Entity_GenusID").val();
+            var genusName = $("#Entity_Name").val();
+            var formData = new FormData();
+            var sectionData = controlId.replace("tab_selector", "tab_content");
 
-        // Load data in selected section content area based on id.
-        switch (sectionId) {
-            case "tab_selector_citations":
-                link = '@Url.Action("_List","Citation")';
-                break;
-            case "tab_selector_genera":
-                link = '@Url.Action("_ListGenera","Family")';
-                break;
-            case "tab_selector_synonyms":
-                link = '@Url.Action("_ListSynonyms","Family")';
-                break;
-            case "tab_selector_subdivisions":
-                link = '@Url.Action("_ListSubdivisions", "Family", new { familyId = "FAMILY_ID" })';
-                link = link.replace("FAMILY_ID", familyId);
-                break;
-            default:
-                // code block
+            link = link.replace("EVENT_ACTION", eventAction);
+            link = link.replace("EVENT_VALUE", eventValue);
+            link = link.replace("FAMILY_ID", entityId);
+
+            formData.append("FamilyID", entityId);
+
+            $.ajax({
+                url: link,
+                type: 'POST',
+                cache: false,
+                contentType: false,
+                processData: false,
+                data: formData,
+                success: function (response) {
+                    $("#" + sectionData).html(response);
+                }
+            });
         }
 
-    formData.append("FamilyID", entityId);
-
-    $.ajax({
-        url: link,
-        type: 'POST',
-        cache: false,
-        contentType: false,
-        processData: false,
-        data: formData,
-        success: function (response) {
-            $("#" + sectionData).html(response);
-        }
-    });
-    }
 
     /*
     * ===================================================================================================
@@ -361,6 +349,6 @@
         var link = '@Html.Raw(Url.Action("Add","Genus", new { @eventValue = "genus", @familyId = Model.Entity.ID, @rank="genus", @isType = "Y" }))';
         window.location.href = link;
     });
-   
+
 </script>
 

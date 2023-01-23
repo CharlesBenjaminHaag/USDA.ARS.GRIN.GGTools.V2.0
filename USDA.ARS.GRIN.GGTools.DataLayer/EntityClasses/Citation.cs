@@ -37,6 +37,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         public string VolumeOrPage { get; set; }
         public string DOIReference { get; set; }
         public string IsAcceptedName { get; set; }
+        public bool IsAcceptedNameOption { get; set; }
         public string EditorAuthorName { get; set; }
         public string TypeCode { get; set; }
         public string PublicationYear { get; set; }

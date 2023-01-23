@@ -54,6 +54,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
                     if (DataCollection.Count == 1)
                     {
                         Entity = DataCollection[0];
+                        Entity.IsAcceptedNameOption = ToBool(Entity.IsAcceptedName);
                     }
                 }
                 catch (Exception ex)
@@ -90,6 +91,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
             {
                 try
                 {
+                    Entity.IsAcceptedName = FromBool(Entity.IsAcceptedNameOption);
                     RowsAffected = mgr.Insert(Entity);
                 }
                 catch (Exception ex)
@@ -284,6 +286,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
             {
                 try
                 {
+                    Entity.IsAcceptedName = FromBool(Entity.IsAcceptedNameOption);
                     RowsAffected = mgr.Update(Entity);
                 }
                 catch (Exception ex)

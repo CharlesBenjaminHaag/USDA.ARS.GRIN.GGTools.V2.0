@@ -53,7 +53,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         /// <remarks>Most likely belongs in Genus manager -- to refactor.</remarks>
         public List<Genus> GetGenera(int entityId)
         {
-            SQL = "uusp_GRINGlobal_Taxonomy_Family_Genera_Select";
+            SQL = "usp_GRINGlobal_Taxonomy_Family_Genera_Select";
             var parameters = new List<IDbDataParameter> {
                 CreateParameter("@taxonomy_family_id", (object)entityId, false)
             };

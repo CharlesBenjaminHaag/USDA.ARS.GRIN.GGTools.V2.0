@@ -178,6 +178,18 @@
                         @Html.TextBoxFor(x => x.Entity.DOIReference, new { @class = "form-control" })
                     </div>
                 </div>
+                <div class="col-md-2">
+                    <div class="margin" style="margin-top:40px;">
+                        <div class="form-group clearfix">
+                            <div class="icheck-primary d-inline">
+                                @Html.CheckBoxFor(x=>x.Entity.IsAcceptedNameOption, new { @id= "cbxLookupIsAcceptedName", @class= "custom-control-input" })
+                                <label for="cbxLookupIsAcceptedName">
+                                    Accepted
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="row">
                 <div class="col-md-12">

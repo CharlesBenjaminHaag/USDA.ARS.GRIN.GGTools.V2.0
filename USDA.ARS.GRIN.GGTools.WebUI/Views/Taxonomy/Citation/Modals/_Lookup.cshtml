@@ -188,7 +188,7 @@
         var entityId = $("#Entity_ID").val();
         var selectedItemIdList = GetSelectedEntityIDs(dataTableName);
         var selectedItemLabelList = GetSelectedCitationText(dataTableName);
-
+       
         if (selectedItemIdList.length == 0) {
             alert("DEBUG SEL REC FIRST MODAL HERE");
         }
@@ -292,8 +292,7 @@
                     LoadDependentData("tab_selector_citations");
                 }
                 else {
-                    $("#Entity_CitationID").val(data.citation.ID);
-                    $("#Entity_CitationText").val(data.citation.CitationText);
+                    $("#section-citation-text").html(data.citation.CitationText);
                 }
             },
             error: function (ex) {
