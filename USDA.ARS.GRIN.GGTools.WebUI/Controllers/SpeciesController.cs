@@ -347,14 +347,14 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 }
                 else
                 {
-                    if ((viewModel.EventValue == "VERIFY") || (viewModel.EventValue == "REVERIFY"))
+                    if (viewModel.EventAction == "VERIFY")
                     {
-                        viewModel.Entity.VerifiedByCooperatorID = AuthenticatedUser.CooperatorID;
-                        viewModel.Entity.NameVerifiedDate = DateTime.Now;
-                    }
-                    else
-                    {
-                        if (viewModel.EventValue == "UNVERIFY")
+                        if (viewModel.EventValue == "Y")
+                        {
+                            viewModel.Entity.VerifiedByCooperatorID = AuthenticatedUser.CooperatorID;
+                            viewModel.Entity.NameVerifiedDate = DateTime.Now;
+                        }
+                        else 
                         {
                             viewModel.Entity.VerifiedByCooperatorID = 0;
                             viewModel.Entity.NameVerifiedDate = DateTime.MinValue;

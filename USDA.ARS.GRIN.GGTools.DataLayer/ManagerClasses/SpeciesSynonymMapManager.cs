@@ -76,6 +76,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
 
             SQL = " SELECT * FROM vw_GGTools_Taxon_SpeciesSynonymMaps ";
             SQL += " WHERE      (@ID                        IS NULL OR  ID = @ID) ";
+            SQL += " AND        (@SpeciesBID                IS NULL OR  SpeciesBID = @SpeciesBID) ";
             SQL += " AND        (@CreatedByCooperatorID     IS NULL OR  CreatedByCooperatorID               = @CreatedByCooperatorID)";
             SQL += " AND        ((@SpeciesAName             IS NULL OR  REPLACE(SpeciesAName, ' x ', '')    LIKE    'X ' + @SpeciesAName + '%')";
             SQL += " OR         (@SpeciesAName              IS NULL OR  REPLACE(SpeciesAName, ' x ', '')    LIKE    '+' + @SpeciesAName + '%')";
@@ -92,6 +93,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
 
             var parameters = new List<IDbDataParameter> {
                 CreateParameter("ID", searchEntity.ID > 0 ? (object)searchEntity.ID : DBNull.Value, true),
+                CreateParameter("SpeciesBID", searchEntity.SpeciesBID > 0 ? (object)searchEntity.SpeciesBID : DBNull.Value, true),
                 CreateParameter("CreatedByCooperatorID", searchEntity.CreatedByCooperatorID > 0 ? (object)searchEntity.CreatedByCooperatorID : DBNull.Value, true),
                 CreateParameter("SpeciesAName", (object)searchEntity.SpeciesAName ?? DBNull.Value, true),
                 CreateParameter("SynonymCode", (object)searchEntity.SynonymCode ?? DBNull.Value, true),

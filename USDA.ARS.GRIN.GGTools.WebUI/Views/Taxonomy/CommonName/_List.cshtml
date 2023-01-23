@@ -61,21 +61,9 @@
                                             
                                         </td>
                                         <td style="text-align:right;">
-                                            @if (result.CitationID > 0)
-                                            {
-                                                <button id="@result.CitationID" class="btn btn-default btn-sm citation-detail">
-                                                    <i class="fa fa-book"></i>
-                                                </button>
-                                            }
                                             <a href="@Url.Action("Edit", "CommonName", new { entityId = result.ID })" class="btn btn-default btn-sm pull-right row-edit">
                                                 <i class="fa fa-edit"></i>
                                             </a>
-                                            @*@if (Model.Action == "Folder")
-                                                {
-                                                    <button id="btnDeleteFolderItem_@cropForCWR.ReferenceID" class="btn btn-danger btn-sm pull-right row-edit margin-r-5">
-                                                        <i class="fa fa-trash"></i> Remove From Folder
-                                                    </button>
-                                                }*@
                                         </td>
                                     </tr>
                                 }

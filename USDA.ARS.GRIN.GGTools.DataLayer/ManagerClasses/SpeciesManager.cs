@@ -311,7 +311,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
                 entity.AcceptedID = entity.ID;
             }
 
-            AddParameter("current_taxonomy_species_id", entity.AcceptedID == 0 ? DBNull.Value : (object)entity.AcceptedID, true);
+            AddParameter("current_taxonomy_species_id", entity.AcceptedID == 0 ? entity.ID : (object)entity.AcceptedID, true);
             AddParameter("is_specific_hybrid", entity.IsSpecificHybridOption == true ? "Y" : (object)"N", false);
             AddParameter("name_authority", (object)entity.NameAuthority ?? DBNull.Value, true);
             AddParameter("species_authority", (object)entity.SpeciesAuthority ?? DBNull.Value, true);

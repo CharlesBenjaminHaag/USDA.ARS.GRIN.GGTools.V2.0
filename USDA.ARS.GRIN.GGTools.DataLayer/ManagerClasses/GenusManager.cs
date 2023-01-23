@@ -103,7 +103,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         {
             GenusSearch searchEntity = new GenusSearch { Name = genusName };
 
-            SQL = "SELECT * FROM vw_GGTools_Taxon_Genera WHERE Name = @Name AND GenericRank='GENUS'";
+            SQL = "SELECT * FROM vw_GGTools_Taxon_Genera WHERE Name = @Name AND Rank='GENUS'";
             var parameters = new List<IDbDataParameter> {
                 CreateParameter("Name", (object)searchEntity.Name ?? DBNull.Value, true)
             };
@@ -208,7 +208,6 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             AddParameter("taxonomy_family_id", entity.FamilyID == 0 ? DBNull.Value : (object)entity.FamilyID, true);
             AddParameter("qualifying_code", (object)entity.QualifyingCode ?? DBNull.Value, true);
             AddParameter("hybrid_code", (object)entity.HybridCode ?? DBNull.Value, true);
-            AddParameter("genus_name", String.IsNullOrEmpty(entity.Name) ? DBNull.Value : (object)entity.Name, true);
             AddParameter("genus_name", String.IsNullOrEmpty(entity.Name) ? DBNull.Value : (object)entity.Name, true);
             AddParameter("subgenus_name", String.IsNullOrEmpty(entity.SubgenusName) ? DBNull.Value : (object)entity.SubgenusName, true);
             AddParameter("section_name", String.IsNullOrEmpty(entity.SectionName) ? DBNull.Value : (object)entity.SectionName, true);

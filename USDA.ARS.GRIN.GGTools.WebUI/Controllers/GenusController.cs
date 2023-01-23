@@ -56,6 +56,12 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 viewModel.Entity.Name = genusViewModel.Entity.Name;
                 viewModel.Entity.FamilyID = genusViewModel.Entity.FamilyID;
                 viewModel.Entity.FamilyName = genusViewModel.Entity.FamilyName;
+                viewModel.Entity.Name = genusViewModel.Entity.Name;
+                viewModel.Entity.SubgenusName = genusViewModel.Entity.SubgenusName;
+                viewModel.Entity.SectionName = genusViewModel.Entity.SectionName;
+                viewModel.Entity.SubsectionName = genusViewModel.Entity.SubsectionName;
+                viewModel.Entity.SeriesName = genusViewModel.Entity.SeriesName;
+                viewModel.Entity.SubseriesName = genusViewModel.Entity.SubseriesName;
             }
 
             if (familyId > 0)

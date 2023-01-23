@@ -33,6 +33,8 @@
                     <div class="dropdown-menu" role="menu" style="">
                         <a class="dropdown-item btn-sm" href="@Url.Action("Add", "Genus", new { @genusId = Model.Entity.ID, @rank = "section" })">Section</a>
                         <a class="dropdown-item btn-sm" href="@Url.Action("Add", "Genus", new { @genusId = Model.Entity.ID, @rank = "subsection" })">Subection</a>
+                        <a class="dropdown-item btn-sm" href="@Url.Action("Add", "Genus", new { @genusId = Model.Entity.ID, @rank = "series" })">Series</a>
+                        <a class="dropdown-item btn-sm" href="@Url.Action("Add", "Genus", new { @genusId = Model.Entity.ID, @rank = "subseries" })">Subseries</a>
                     </div>
                 </div>
                 <div class="btn-group">
@@ -138,6 +140,84 @@
                             <div class="form-group">
                                 <label>Section Name</label>
                                 @Html.TextBoxFor(x => x.Entity.SectionName, new { @class = "form-control" })
+                            </div>
+                        </div>
+                        break;
+                    case "SUBSECTION":
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>Subgenus Name</label>
+                                @Html.TextBoxFor(x => x.Entity.SubgenusName, new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>Section Name</label>
+                                @Html.TextBoxFor(x => x.Entity.SectionName, new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>Subsection Name</label>
+                                @Html.TextBoxFor(x => x.Entity.SubsectionName, new { @class = "form-control" })
+                            </div>
+                        </div>
+                        break;
+                    case "SERIES":
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>Subgenus Name</label>
+                                @Html.TextBoxFor(x => x.Entity.SubgenusName, new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>Section Name</label>
+                                @Html.TextBoxFor(x => x.Entity.SectionName, new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>Subsection Name</label>
+                                @Html.TextBoxFor(x => x.Entity.SubsectionName, new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>Series Name</label>
+                                @Html.TextBoxFor(x => x.Entity.SeriesName, new { @class = "form-control" })
+                            </div>
+                        </div>
+                        break;
+                    case "SUBSERIES":
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>Subgenus Name</label>
+                                @Html.TextBoxFor(x => x.Entity.SubgenusName, new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>Section Name</label>
+                                @Html.TextBoxFor(x => x.Entity.SectionName, new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>Subsection Name</label>
+                                @Html.TextBoxFor(x => x.Entity.SubsectionName, new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>Series Name</label>
+                                @Html.TextBoxFor(x => x.Entity.SeriesName, new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>Subseries Name</label>
+                                @Html.TextBoxFor(x => x.Entity.SubseriesName, new { @class = "form-control" })
                             </div>
                         </div>
                         break;

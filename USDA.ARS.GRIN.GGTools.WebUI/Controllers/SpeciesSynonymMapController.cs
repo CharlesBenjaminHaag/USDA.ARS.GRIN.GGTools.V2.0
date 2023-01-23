@@ -13,6 +13,14 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
     {
         protected static string BASE_PATH = "~/Views/Taxonomy/SpeciesSynonymMap/";
         private static readonly Logger Log = LogManager.GetCurrentClassLogger();
+
+        public PartialViewResult _List(int speciesId = 0)
+        {
+            SynonymMapViewModel viewModel = new SynonymMapViewModel();
+            viewModel.SearchEntity = new SpeciesSynonymMapSearch { SpeciesBID = speciesId };
+            viewModel.Search();
+            return PartialView(BASE_PATH + "_List.cshtml", viewModel);
+        }
         public PartialViewResult _ListFolderItems(int folderId)
         {
             SynonymMapViewModel viewModel = new SynonymMapViewModel();

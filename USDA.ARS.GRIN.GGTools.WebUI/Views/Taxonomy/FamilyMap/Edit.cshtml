@@ -66,6 +66,14 @@
                         <div class="input-group">
                             @Html.TextBoxFor(x => x.Entity.AcceptedName, new { @class = "form-control" })
                             @Html.HiddenFor(x => x.Entity.AcceptedID)
+                            @if (Model.Entity.AcceptedID > 0)
+                            {
+                                <span class="input-group-btn">
+                                    <a href="@Url.Action("Edit", "FamilyMap", new { @entityId = Model.Entity.AcceptedID })" class="btn btn-default btn-flat">
+                                        <i class="fa fa-link"></i>
+                                    </a>
+                                </span>
+                            }
                             <span class="input-group-btn">
                                 <button id="btnFamilyNameLookup" type="button" class="btn btn-default btn-flat" data-ggtools-action="AcceptedID" data-ggtools-value="AcceptedName" data-toggle="modal" data-target="#modal-family-lookup">
                                     <i class="fa fa-search"></i>

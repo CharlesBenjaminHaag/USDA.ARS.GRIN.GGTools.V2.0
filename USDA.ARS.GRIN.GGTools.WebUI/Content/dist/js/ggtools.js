@@ -478,9 +478,12 @@ function SetControlVisibility() {
 }
 
 function ToggleAcceptedNameControls(status) {
+    var entityId = $("#Entity_ID").val();
+
+    // If status is set to "ACCEPTED", set accepted (current) ID equal to the species ID.
+    // Otherwise, use the specified accepted-name ID.
     if (status == true) {
-        // Reset accepted data fields.
-        $("#Entity_AcceptedID").val(0);
+        $("#Entity_AcceptedID").val(entityId);
         $("#Entity_AcceptedName").val("");
 
         $("#Entity_IsAcceptedName").val("Y");

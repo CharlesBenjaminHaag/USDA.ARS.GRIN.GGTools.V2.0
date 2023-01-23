@@ -56,6 +56,14 @@
                             <div class="input-group">
                                 @Html.TextBoxFor(x => x.Entity.SpeciesName, new { @class = "form-control", @readonly = "readonly" })
                                 @Html.HiddenFor(x => x.Entity.SpeciesID)
+                                @if (Model.Entity.SpeciesID > 0)
+                                {
+                                    <span class="input-group-btn">
+                                        <a href="@Url.Action("Edit", "Species", new { @entityId = Model.Entity.SpeciesID })" class="btn btn-default btn-flat">
+                                            <i class="fa fa-link"></i>
+                                        </a>
+                                    </span>
+                                }
                                 <span class="input-group-btn">
                                     <button type="button" class="btn btn-default btn-flat" data-toggle="modal" data-target="#modal-species-lookup">
                                         <i class="fa fa-search"></i>
