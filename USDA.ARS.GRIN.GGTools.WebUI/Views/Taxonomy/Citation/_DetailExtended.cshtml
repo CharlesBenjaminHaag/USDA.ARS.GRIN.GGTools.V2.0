@@ -50,20 +50,14 @@
             </div>
             <div class="col-sm-3">
                 <div class="form-group form-horizontal">
-                    <label>Citation Type</label>
-                    @Html.DropDownListFor(x => x.SearchEntity.CitationType, Model.CitationTypes, "All Types", new { @class = "form-control" })
-                </div>
-            </div>
-            <div class="col-sm-3">
-                <div class="form-group form-horizontal">
-                    <label>Citation Author Name</label>
-                    @Html.TextBoxFor(x => x.SearchEntity.CitationAuthorName, new { @class = "form-control" })
+                    <label>(Citation) Author Name</label>
+                    @Html.TextBoxFor(x => x.SearchEntity.AuthorName, new { @class = "form-control" })
                 </div>
             </div>
             <div class="col-sm-3">
                 <div class="form-group form-horizontal">
                     <label>Volume or Page</label>
-                    @Html.TextBoxFor(x => x.SearchEntity.VolumeOrPage, new { @class = "form-control" })
+                    @Html.TextBoxFor(x => x.SearchEntity.Reference, new { @class = "form-control" })
                 </div>
             </div>
             <div class="col-sm-3">

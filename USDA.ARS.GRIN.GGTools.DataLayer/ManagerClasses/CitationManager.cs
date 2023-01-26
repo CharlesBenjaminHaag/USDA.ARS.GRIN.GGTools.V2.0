@@ -15,7 +15,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         {
             Reset(CommandType.StoredProcedure);
             Validate<Citation>(entity);
-            SQL = "usp_GGTools_Taxon_Citation_Insert";
+            SQL = "usp_GRINGlobal_Citation_Insert";
 
             BuildInsertUpdateParameters(entity);
 
@@ -60,7 +60,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         {
             Reset(CommandType.StoredProcedure);
             Validate<Citation>(entity);
-            SQL = "usp_GGTools_Taxon_Citation_Update";
+            SQL = "usp_GRINGlobal_Citation_Update";
 
             BuildInsertUpdateParameters(entity);
 
@@ -159,85 +159,89 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         {
             List<Citation> results = new List<Citation>();
 
-            SQL = "SELECT * FROM vw_GRINGlobal_Citation ";
-
+            SQL = "SELECT * FROM vw_GRINGlobal_Citation_NEW ";
             SQL += " WHERE      (@ID                            IS NULL OR ID                       =       @ID)";
-            SQL += " AND        (@CreatedByCooperatorID         IS NULL OR CreatedByCooperatorID    =       @CreatedByCooperatorID)";
-            SQL += " AND        (@CreatedDate                   IS NULL OR CreatedDate              =       @CreatedDate)";
-            SQL += " AND        (@ModifiedByCooperatorID        IS NULL OR ModifiedByCooperatorID   =       @ModifiedByCooperatorID)";
-            SQL += " AND        (@ModifiedDate                  IS NULL OR ModifiedDate             =       @ModifiedDate)";
-            SQL += " AND        (@Note                          IS NULL OR Note                     LIKE    '%' + @Note + '%')";
-
-            SQL += " AND        (@LiteratureID                  IS NULL OR LiteratureID             =       @LiteratureID)";
-            SQL += " AND        (@TypeCode                      IS NULL OR TypeCode                 =       @TypeCode)";
-            SQL += " AND        (@LiteratureTypeCode            IS NULL OR LiteratureTypeCode       =       @LiteratureTypeCode)";
+            SQL += " AND        (@CitationTitle                 IS NULL OR CitationTitle            LIKE    '%' + @CitationTitle + '%')";
+            SQL += " AND        (@AuthorName                    IS NULL OR AuthorName               LIKE    '%' + @AuthorName + '%')";
+            SQL += " AND        (@CitationYear                  IS NULL OR CitationYear             =       @CitationYear)";
+            SQL += " AND        (@Reference                     IS NULL OR Reference                LIKE    '%' + @Reference + '%')";
+            SQL += " AND        (@DOIReference                  IS NULL OR DOIReference             LIKE    '%' + @DOIReference + '%')";
+            SQL += " AND        (@URL                           IS NULL OR URL                      LIKE    '%' + @URL + '%')";
+            SQL += " AND        (@Title                         IS NULL OR Title                    LIKE    '%' + @Title + '%')";
+            SQL += " AND        (@Description                   IS NULL OR Description             LIKE    '%' + @Description + '%')";
+            // OMITTED
+            // AccessionID
+            // MethodID
             SQL += " AND        (@FamilyID                      IS NULL OR FamilyID                 =       @FamilyID)";
             SQL += " AND        (@GenusID                       IS NULL OR GenusID                  =       @GenusID)";
             SQL += " AND        (@SpeciesID                     IS NULL OR SpeciesID                =       @SpeciesID)";
             SQL += " AND        (@FamilyName                    IS NULL OR FamilyName               =       @FamilyName) ";
             SQL += " AND        (@GenusName                     IS NULL OR GenusName                =       @GenusName) ";
-            SQL += " AND        (@SpeciesName                    IS NULL OR SpeciesName              =       @SpeciesName) ";
-            SQL += " AND        (@StandardAbbreviation          IS NULL OR StandardAbbreviation     =       @StandardAbbreviation)";
+            SQL += " AND        (@SpeciesName                   IS NULL OR SpeciesName              =       @SpeciesName) ";
+            // NOTE: OMITTED
+            // AccessionIPRID
+            // AccessionPedigreeID
+            // GeneticMarkerID
+            SQL += " AND        (@TypeCode                      IS NULL OR TypeCode                 =       @TypeCode)";
+            SQL += " AND        (@UniqueKey                     IS NULL OR UniqueKey                =       @UniqueKey)";
+            SQL += " AND        (@IsAcceptedName                IS NULL OR IsAcceptedName           =       @IsAcceptedName)";
+            SQL += " AND        (@LiteratureID                  IS NULL OR LiteratureID             =       @LiteratureID)";
             SQL += " AND        (@Abbreviation                  IS NULL OR Abbreviation             LIKE    '%' + @Abbreviation + '%')";
-            SQL += " AND        (@CitationTitle                 IS NULL OR CitationTitle            LIKE    '%' + @CitationTitle + '%')";
-            SQL += " AND        (@CitationAuthorName            IS NULL OR CitationAuthorName       LIKE    '%' + @CitationAuthorName + '%')";
-            SQL += " AND        (@EditorAuthorName              IS NULL OR DisplayAuthorName        LIKE    '%' + @EditorAuthorName + '%')";
-            SQL += " AND        (@CitationYear                  IS NULL OR CitationYear             LIKE    '%' + @CitationYear + '%')";
-            SQL += " AND        (@CitationType                  IS NULL OR CitationType             =       @CitationType)";
-            SQL += " AND        (@ReferenceTitle                IS NULL OR ReferenceTitle           LIKE    '%' + @ReferenceTitle + '%')";
-            SQL += " AND        (@CitationTitle                 IS NULL OR CitationTitle            LIKE    '%' + @CitationTitle + '%')";
+            //SQL += " AND        (@StandardAbbreviation          IS NULL OR StandardAbbreviation     =       @StandardAbbreviation)";
+            //SQL += " AND        (@EditorAuthorName              IS NULL OR EditorAuthorName         LIKE    '%' + @EditorAuthorName + '%')";
+            //SQL += " AND        (@ReferenceTitle                IS NULL OR ReferenceTitle           LIKE    '%' + @ReferenceTitle + '%')";
+            //SQL += " AND        (@LiteratureTypeCode            IS NULL OR LiteratureTypeCode       =       @LiteratureTypeCode)";
+            //SQL += " AND        (@PublicationYear               IS NULL OR PublicationYear          =       @PublicationYear)";
+            //SQL += " AND        (@PublisherName                 IS NULL OR PublisherName            LIKE    '%' + @PublisherName + '%')";
+            //SQL += " AND        (@PublisherLocation             IS NULL OR PublisherLocation        LIKE    '%' + @PublisherLocation + '%')";
+            SQL += " AND        (@Note                          IS NULL OR Note                     LIKE    '%' + @Note + '%')";
+            SQL += " AND        (@ModifiedByCooperatorID        IS NULL OR ModifiedByCooperatorID   =       @ModifiedByCooperatorID)";
+            SQL += " AND        (@CreatedByCooperatorID         IS NULL OR CreatedByCooperatorID    =       @CreatedByCooperatorID)";
+            SQL += " AND        (@ModifiedDate                  IS NULL OR ModifiedDate             =       @ModifiedDate)";
+            SQL += " AND        (@ModifiedByCooperatorID        IS NULL OR ModifiedByCooperatorID   =       @ModifiedByCooperatorID)";
 
-            if (!String.IsNullOrEmpty(searchEntity.FamilyIDList))
-            {
-                SQL += " AND    FamilyID IN (" + searchEntity.FamilyIDList + ")";
-            }
-
-            if (!String.IsNullOrEmpty(searchEntity.GenusIDList))
-            {
-                SQL += " AND    GenusID IN (" + searchEntity.GenusIDList + ")";
-            }
-
-            if (!String.IsNullOrEmpty(searchEntity.SpeciesIDList))
-            {
-                SQL += " AND    SpeciesID IN ("  + searchEntity.SpeciesIDList  + ")";
-            }
-
-            // TODO Refactor (?) Limit search scope based on the table involved.
-            switch(searchEntity.TableName)
-            {
-                case "taxonomy_geography_map":
-                    SQL += " AND SpeciesID IS NOT NULL ";
-                    break;
-            }
-
-            SQL += " ORDER BY TaxonName, CitationText ";
+            SQL += " ORDER BY CitationTitle ";
 
             var parameters = new List<IDbDataParameter> {
                 CreateParameter("ID", searchEntity.ID > 0 ? (object)searchEntity.ID : DBNull.Value, true),
+                CreateParameter("CitationTitle", (object)searchEntity.CitationTitle ?? DBNull.Value, true),
+                CreateParameter("AuthorName", (object)searchEntity.AuthorName ?? DBNull.Value, true),
+                CreateParameter("CitationYear", searchEntity.CitationYear > 0 ? (object)searchEntity.CitationYear : DBNull.Value, true),
+                CreateParameter("Reference", (object)searchEntity.Reference ?? DBNull.Value, true),
+                CreateParameter("DOIReference", (object)searchEntity.DOIReference ?? DBNull.Value, true),
+                CreateParameter("URL", (object)searchEntity.URL ?? DBNull.Value, true),
+                CreateParameter("Title", (object)searchEntity.Title ?? DBNull.Value, true),
+                CreateParameter("Description", (object)searchEntity.Title ?? DBNull.Value, true),
+                // RESERVED
+                // AccessionID
+                // MethodID
+                CreateParameter("FamilyID", searchEntity.FamilyID > 0 ? (object)searchEntity.FamilyID : DBNull.Value, true),
+                CreateParameter("FamilyName", (object)searchEntity.FamilyName ?? DBNull.Value, true),
+                CreateParameter("GenusID", searchEntity.GenusID > 0 ? (object)searchEntity.GenusID : DBNull.Value, true),
+                CreateParameter("GenusName", (object)searchEntity.GenusName ?? DBNull.Value, true),
+                CreateParameter("SpeciesID", searchEntity.SpeciesID > 0 ? (object)searchEntity.SpeciesID : DBNull.Value, true),
+                CreateParameter("SpeciesName", (object)searchEntity.SpeciesName ?? DBNull.Value, true),
+                // NOTE: OMITTED
+                // AccessionIPRID
+                // AccessionPedigreeID
+                // GeneticMarkerID
+                CreateParameter("TypeCode", (object)searchEntity.TypeCode ?? DBNull.Value, true),
+                CreateParameter("UniqueKey", searchEntity.UniqueKey > 0 ? (object)searchEntity.UniqueKey : DBNull.Value, true),
+                CreateParameter("IsAcceptedName", (object)searchEntity.IsAcceptedName ?? DBNull.Value, true),
+                CreateParameter("LiteratureID", searchEntity.LiteratureID > 0 ? (object)searchEntity.LiteratureID : DBNull.Value, true),
+                CreateParameter("Abbreviation", (object)searchEntity.Abbreviation ?? DBNull.Value, true),
+                //CreateParameter("StandardAbbreviation", (object)searchEntity.StandardAbbreviation ?? DBNull.Value, true),
+                //CreateParameter("EditorAuthorName", (object)searchEntity.EditorAuthorName ?? DBNull.Value, true),
+                //CreateParameter("ReferenceTitle", (object)searchEntity.ReferenceTitle ?? DBNull.Value, true),
+                //CreateParameter("LiteratureTypeCode", (object)searchEntity.LiteratureTypeCode ?? DBNull.Value, true),
+                //CreateParameter("PublicationYear", (object)searchEntity.PublicationYear ?? DBNull.Value, true),
+                //CreateParameter("PublisherName", (object)searchEntity.PublisherName ?? DBNull.Value, true),
+                //CreateParameter("PublisherLocation", (object)searchEntity.PublisherLocation ?? DBNull.Value, true),
+                CreateParameter("Note", (object)searchEntity.Note ?? DBNull.Value, true),
                 CreateParameter("CreatedByCooperatorID", searchEntity.CreatedByCooperatorID > 0 ? (object)searchEntity.CreatedByCooperatorID : DBNull.Value, true),
                 CreateParameter("CreatedDate", searchEntity.CreatedDate > DateTime.MinValue ? (object)searchEntity.CreatedDate : DBNull.Value, true),
                 CreateParameter("ModifiedByCooperatorID", searchEntity.ModifiedByCooperatorID > 0 ? (object)searchEntity.ModifiedByCooperatorID : DBNull.Value, true),
                 CreateParameter("ModifiedDate", searchEntity.ModifiedDate > DateTime.MinValue ? (object)searchEntity.ModifiedDate : DBNull.Value, true),
-                CreateParameter("Note", (object)searchEntity.Note ?? DBNull.Value, true),
-                CreateParameter("ReferenceTitle", (object)searchEntity.ReferenceTitle ?? DBNull.Value, true),
-                CreateParameter("CitationTitle", (object)searchEntity.CitationTitle ?? DBNull.Value, true),
-                CreateParameter("CitationAuthorName", (object)searchEntity.CitationAuthorName ?? DBNull.Value, true),
-
-                CreateParameter("TypeCode", (object)searchEntity.CitationType ?? DBNull.Value, true),
-                CreateParameter("LiteratureID", searchEntity.LiteratureID > 0 ? (object)searchEntity.LiteratureID : DBNull.Value, true),
-                CreateParameter("LiteratureTypeCode", (object)searchEntity.LiteratureTypeCode ?? DBNull.Value, true),
-                CreateParameter("FamilyID", searchEntity.FamilyID > 0 ? (object)searchEntity.FamilyID : DBNull.Value, true),
-                CreateParameter("GenusID", searchEntity.GenusID > 0 ? (object)searchEntity.GenusID : DBNull.Value, true),
-                CreateParameter("SpeciesID", searchEntity.SpeciesID > 0 ? (object)searchEntity.SpeciesID : DBNull.Value, true),
-                CreateParameter("FamilyName", (object)searchEntity.FamilyName ?? DBNull.Value, true),
-                CreateParameter("GenusName", (object)searchEntity.GenusName ?? DBNull.Value, true),
-                CreateParameter("SpeciesName", (object)searchEntity.SpeciesName ?? DBNull.Value, true),
-                CreateParameter("StandardAbbreviation", (object)searchEntity.StandardAbbreviation ?? DBNull.Value, true),
-                CreateParameter("Abbreviation", (object)searchEntity.Abbreviation ?? DBNull.Value, true),
-                CreateParameter("EditorAuthorName", (object)searchEntity.EditorAuthorName ?? DBNull.Value, true),
-                CreateParameter("CitationYear", (object)searchEntity.CitationYear ?? DBNull.Value, true),
-                CreateParameter("CitationType", (object)searchEntity.CitationType ?? DBNull.Value, true),
-                
             };
 
             results = GetRecords<Citation>(SQL, parameters.ToArray());
@@ -290,13 +294,17 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
 
             AddParameter("literature_id", entity.LiteratureID == 0 ? DBNull.Value : (object)entity.LiteratureID, true);
             AddParameter("citation_title", String.IsNullOrEmpty(entity.CitationTitle) ? DBNull.Value : (object)entity.CitationTitle, true);
-            AddParameter("author_name", String.IsNullOrEmpty(entity.CitationAuthorName) ? DBNull.Value : (object)entity.CitationAuthorName, true);
+            AddParameter("author_name", String.IsNullOrEmpty(entity.AuthorName) ? DBNull.Value : (object)entity.AuthorName, true);
             AddParameter("citation_year", entity.CitationYear == 0 ? DBNull.Value : (object)entity.CitationYear, true);
-            AddParameter("reference", String.IsNullOrEmpty(entity.VolumeOrPage) ? DBNull.Value : (object)entity.VolumeOrPage, true);
+            AddParameter("reference", String.IsNullOrEmpty(entity.Reference) ? DBNull.Value : (object)entity.Reference, true);
             AddParameter("doi_reference", String.IsNullOrEmpty(entity.DOIReference) ? DBNull.Value : (object)entity.DOIReference, true);
+            AddParameter("url", String.IsNullOrEmpty(entity.URL) ? DBNull.Value : (object)entity.URL, true);
+            AddParameter("title", String.IsNullOrEmpty(entity.Title) ? DBNull.Value : (object)entity.Title, true);
+            AddParameter("description", String.IsNullOrEmpty(entity.Description) ? DBNull.Value : (object)entity.Description, true);
             AddParameter("taxonomy_species_id", entity.SpeciesID == 0 ? DBNull.Value : (object)entity.SpeciesID, true);
-            AddParameter("taxonomy_family_id", entity.FamilyID == 0 ? DBNull.Value : (object)entity.FamilyID, true);
             AddParameter("taxonomy_genus_id", entity.GenusID == 0 ? DBNull.Value : (object)entity.GenusID, true);
+            AddParameter("taxonomy_family_id", entity.FamilyID == 0 ? DBNull.Value : (object)entity.FamilyID, true);
+            AddParameter("type_code", String.IsNullOrEmpty(entity.TypeCode) ? DBNull.Value : (object)entity.TypeCode, true);
             AddParameter("is_accepted_name", String.IsNullOrEmpty(entity.IsAcceptedName) ? DBNull.Value : (object)entity.IsAcceptedName, true);
             AddParameter("note", String.IsNullOrEmpty(entity.Note) ? DBNull.Value : (object)entity.Note, true);
 

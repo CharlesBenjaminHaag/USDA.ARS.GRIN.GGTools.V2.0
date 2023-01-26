@@ -696,6 +696,10 @@
     <Content Include="Views\Taxonomy\Shared\_Note.cshtml" />
     <Content Include="Views\Folder\_RelatedFoldersMenu.cshtml" />
     <Content Include="Views\Taxonomy\Species\_RevisionHistory.cshtml" />
+    <Content Include="Views\Taxonomy\SpeciesSynonymMap\_ListSynonyms.cshtml" />
+    <Content Include="Views\Taxonomy\_TEMPLATES\Edit.cshtml" />
+    <Content Include="Views\Taxonomy\Citation\Edit_BACKUP.cshtml" />
+    <Content Include="Views\Taxonomy\Citation\Clone.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

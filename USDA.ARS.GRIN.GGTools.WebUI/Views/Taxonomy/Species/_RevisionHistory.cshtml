@@ -1,12 +1,3 @@
 ﻿@model USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer.SpeciesViewModel
-@if (Model.Entity.ID > 0)
-{
-    @Html.Raw(Model.Entity.RevisionHistoryText)
+@Html.Raw(Model.Entity.RevisionHistoryText)
 
-    @*if (Model.Entity.IsVerified == "Y")
-    { 
-        <span>
-            , <strong>Verified by</strong> @Model.Entity.VerifiedByCooperatorName on @Model.Entity.NameVerifiedDate.ToShortDateString()
-        </span>
-    }*@
-}

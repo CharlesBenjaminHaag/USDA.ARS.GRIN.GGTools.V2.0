@@ -6,81 +6,86 @@
 
 <div class="row">
     <div class="col-md-3">
-        @if ((Model.AuthenticatedUser.IsInRole("GGTOOLS_ARM")) || (Model.AuthenticatedUser.IsInRole("ADMINS")))
-        {
-            <div class="small-box bg-info">
-                <div class="inner">
-                    <h3>
-                        <a href="@Url.Action("Navigate", "Home", new { applicationCode = "GGT-ARM" })" style="color:white; text-decoration:underline;">
-                            ARM
-                        </a>
-                    </h3>
-                    <p>Administer GRIN-Global accounts</p>
-                </div>
-                <div class="icon">
-                    <i class="fas fa-user-cog"></i>
-                </div>
-                <a href="@Url.Action("Navigate", "Home", new { applicationCode = "GGT-ARM" })" class="small-box-footer">
-                    Launch <i class="fas fa-arrow-circle-right"></i>
-                </a>
-            </div>
-        }
-    </div>
-    <div class="col-md-3">
-        @if ((Model.AuthenticatedUser.IsInRole("GGTOOLS_TAXON")) || (Model.AuthenticatedUser.IsInRole("ADMINS")))
-        {
-            <div class="small-box bg-info">
-                <div class="inner">
-                    <h3>
-                        <a href="@Url.Action("Navigate", "Home", new { applicationCode = "GGT-TAX" })" style="color:white; text-decoration:underline;">
-                            TTax
-                        </a>
-                    </h3>
-                    <p>Edit taxonomical data</p>
-                </div>
-                <div class="icon">
-                    <i class="fas fa-leaf"></i>
-                </div>
-                <a href="@Url.Action("Navigate", "Home", new { applicationCode = "GGT-TAX" })" class="small-box-footer">
-                    Launch <i class="fas fa-arrow-circle-right"></i>
-                </a>
-            </div>
-        }
-    </div>
-    <div class="col-md-3">
 
-        @if ((Model.AuthenticatedUser.IsInRole("GGTOOLS_CUR")) || (Model.AuthenticatedUser.IsInRole("ADMINS")))
-        {
-            <div class="small-box bg-info">
-                <div class="inner">
-                    <h3>CUR</h3>
-                    <p>View accession and inventory data</p>
-                </div>
-                <div class="icon">
-                    <i class="fas fa-tree"></i>
-                </div>
-                <a href="@Url.Action("Navigate", "Home", new { applicationCode = "GGT-CUR" })" class="small-box-footer">
-                    Launch <i class="fas fa-arrow-circle-right"></i>
-                </a>
+        <div class="small-box bg-info">
+            <div class="inner">
+                <h3>
+                    <a href="@Url.Action("Navigate", "Home", new { applicationCode = "GGT-ARM" })" style="color:white; text-decoration:underline;">
+                        ARM
+                    </a>
+                </h3>
+                <p>Administer GRIN-Global accounts</p>
             </div>
-        }
+            <div class="icon">
+                <i class="fas fa-user-cog"></i>
+            </div>
+            <a href="@Url.Action("Navigate", "Home", new { applicationCode = "GGT-ARM" })" class="small-box-footer">
+                Launch <i class="fas fa-arrow-circle-right"></i>
+            </a>
+        </div>
+
+        @*@if ((Model.AuthenticatedUser.IsInRole("GGTOOLS_ARM")) || (Model.AuthenticatedUser.IsInRole("ADMINS")))
+        {
+
+        }*@
     </div>
     <div class="col-md-3">
-        @if ((Model.AuthenticatedUser.IsInRole("GGTOOLS_ORDERS")) || (Model.AuthenticatedUser.IsInRole("ADMINS")))
-        {
-            <div class="small-box bg-info">
-                <div class="inner">
-                    <h3>NRR</h3>
-                    <p>Non-Research Requests (NRR)</p>
-                </div>
-                <div class="icon">
-                    <i class="fas fa-angry"></i>
-                </div>
-                <a href="@Url.Action("Navigate", "Home", new { applicationCode = "GGT-NRR" })" class="small-box-footer">
-                    Launch <i class="fas fa-arrow-circle-right"></i>
-                </a>
+        <div class="small-box bg-info">
+            <div class="inner">
+                <h3>
+                    <a href="@Url.Action("Navigate", "Home", new { applicationCode = "GGT-TAX" })" style="color:white; text-decoration:underline;">
+                        TTax
+                    </a>
+                </h3>
+                <p>Edit taxonomical data</p>
             </div>
-        }
+            <div class="icon">
+                <i class="fas fa-leaf"></i>
+            </div>
+            <a href="@Url.Action("Navigate", "Home", new { applicationCode = "GGT-TAX" })" class="small-box-footer">
+                Launch <i class="fas fa-arrow-circle-right"></i>
+            </a>
+        </div>
+        @*@if ((Model.AuthenticatedUser.IsInRole("GGTOOLS_TAXON")) || (Model.AuthenticatedUser.IsInRole("ADMINS")))
+        {
+
+        }*@
+    </div>
+    <div class="col-md-3">
+        <div class="small-box bg-info">
+            <div class="inner">
+                <h3>CUR</h3>
+                <p>View accession and inventory data</p>
+            </div>
+            <div class="icon">
+                <i class="fas fa-tree"></i>
+            </div>
+            <a href="@Url.Action("Navigate", "Home", new { applicationCode = "GGT-CUR" })" class="small-box-footer">
+                Launch <i class="fas fa-arrow-circle-right"></i>
+            </a>
+        </div>
+        @*@if ((Model.AuthenticatedUser.IsInRole("GGTOOLS_CUR")) || (Model.AuthenticatedUser.IsInRole("ADMINS")))
+        {
+
+        }*@
+    </div>
+    <div class="col-md-3">
+        <div class="small-box bg-info">
+            <div class="inner">
+                <h3>NRR</h3>
+                <p>Non-Research Requests (NRR)</p>
+            </div>
+            <div class="icon">
+                <i class="fas fa-angry"></i>
+            </div>
+            <a href="@Url.Action("Navigate", "Home", new { applicationCode = "GGT-NRR" })" class="small-box-footer">
+                Launch <i class="fas fa-arrow-circle-right"></i>
+            </a>
+        </div>
+        @*@if ((Model.AuthenticatedUser.IsInRole("GGTOOLS_ORDERS")) || (Model.AuthenticatedUser.IsInRole("ADMINS")))
+        {
+
+        }*@
     </div>
     @*<div class="col-md-3">
         @if ((Model.AuthenticatedUser.IsInRole("GGTOOLS_ARM")) || (Model.AuthenticatedUser.IsInRole("ADMINS")))

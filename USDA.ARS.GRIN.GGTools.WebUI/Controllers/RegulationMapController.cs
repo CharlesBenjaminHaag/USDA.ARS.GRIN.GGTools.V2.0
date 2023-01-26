@@ -57,17 +57,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             viewModel.Search();
             return PartialView(BASE_PATH + "_List.cshtml", viewModel);
         }
-
-        public PartialViewResult _FolderItemList(int folderId = 0)
-        {
-            RegulationMapViewModel viewModel = new RegulationMapViewModel();
-           
-            
-            //viewModel.SearchEntity = new RegulationMapSearch { SpeciesID = speciesId, RegulationID = regulationId };
-            viewModel.Search();
-            return PartialView(BASE_PATH + "_List.cshtml", viewModel);
-        }
-
+             
         [HttpPost]
         public JsonResult Add(FormCollection formCollection)
         {
@@ -197,24 +187,6 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             }
         }
 
-        public PartialViewResult FolderItems(int folderId)
-        {
-            RegulationMapViewModel viewModel = new RegulationMapViewModel();
-
-            try
-            {
-                viewModel.SearchEntity.FolderID = folderId;
-                viewModel.SearchFolderItems();
-                ModelState.Clear();
-                return PartialView(BASE_PATH + "_List.cshtml", viewModel);
-            }
-            catch (Exception ex)
-            {
-                Log.Error(ex);
-                return PartialView("~/Views/Error/_InternalServerError.cshtml");
-            }
-        }
-
         public PartialViewResult SearchNotes(string searchText)
         {
             throw new NotImplementedException();
@@ -232,9 +204,6 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
         [HttpPost]
         public PartialViewResult Lookup(FormCollection coll)
         {
-#pragma warning disable CS0219 // The variable 'taxonName' is assigned but its value is never used
-            string taxonName = "";
-#pragma warning restore CS0219 // The variable 'taxonName' is assigned but its value is never used
             CitationViewModel vm = new CitationViewModel();
 
             //formData.append("AbbreviatedLiteratureSource", abbreviatedLiteratureSource);
@@ -259,12 +228,12 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
 
             if (!String.IsNullOrEmpty(coll["CitationYear"]))
             {
-                vm.SearchEntity.CitationYear = coll["CitationYear"];
+                vm.SearchEntity.CitationYear = Int32.Parse(coll["CitationYear"]);
             }
 
             if (!String.IsNullOrEmpty(coll["CitationType"]))
             {
-                vm.SearchEntity.CitationType = coll["CitationType"];
+                vm.SearchEntity.TypeCode = coll["CitationType"];
             }
 
             if (!String.IsNullOrEmpty(coll["TaxonIDList"]))
@@ -291,12 +260,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             vm.Search();
             return PartialView("~/Views/Citation/_SelectList.cshtml", vm);
         }
-        [HttpPost]
-        public PartialViewResult FolderItems(FormCollection formCollection)
-        {
-            throw new NotImplementedException();
-        }
-
+   
         public ActionResult Delete(FormCollection formCollection)
         {
             throw new NotImplementedException();

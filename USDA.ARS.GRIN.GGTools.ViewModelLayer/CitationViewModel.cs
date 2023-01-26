@@ -313,5 +313,27 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
                 }
             }
         }
+
+        public override bool Validate()
+        {
+            bool validated = true;
+
+            if ((Entity.FamilyID == 0) && (Entity.GenusID == 0) && (Entity.SpeciesID == 0))
+            {
+                ValidationMessages.Add(new Common.Library.ValidationMessage { Message = "You must specify a taxon." });
+            }
+
+            if ((String.IsNullOrEmpty(Entity.CitationTitle)) && (String.IsNullOrEmpty(Entity.Abbreviation)))
+            {
+                ValidationMessages.Add(new Common.Library.ValidationMessage { Message = "You must specify either a title, or an abbreviated literature source." });
+            }
+
+            if (ValidationMessages.Count > 0)
+            {
+                validated = false;
+            }
+            return validated;
+        }
+
     }
 }

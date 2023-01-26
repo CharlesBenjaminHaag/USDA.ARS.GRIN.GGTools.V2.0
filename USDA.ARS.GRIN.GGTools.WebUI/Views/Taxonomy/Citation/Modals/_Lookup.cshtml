@@ -28,7 +28,7 @@
                                         <div class="col-md-2">
                                             <div id="form-group">
                                                 <label>Type</label>
-                                                @Html.DropDownListFor(x => x.SearchEntity.CitationType, Model.CitationTypes, "All types", new { @class = "form-control" })
+                                                @Html.DropDownListFor(x => x.SearchEntity.TypeCode, Model.CitationTypes, "All types", new { @class = "form-control" })
                                             </div>
                                         </div>
                                         <div class="col-md-2">
@@ -109,7 +109,7 @@
                                     <div class="col-md-3">
                                         <div id="form-group">
                                             <label>Author</label>
-                                            @Html.TextBoxFor(x => x.Entity.CitationAuthorName, new { @class = "form-control" })
+                                            @Html.TextBoxFor(x => x.Entity.AuthorName, new { @class = "form-control" })
                                         </div>
                                     </div>
                                     <div class="col-md-2">
@@ -123,7 +123,7 @@
                                     <div class="col-md-2">
                                         <div id="form-group">
                                             <label>Vol. and Page</label>
-                                            @Html.TextBoxFor(x => x.Entity.VolumeOrPage, new { @class = "form-control" })
+                                            @Html.TextBoxFor(x => x.Entity.Reference, new { @class = "form-control" })
                                         </div>
                                     </div>
                                     <div class="col-md-3">

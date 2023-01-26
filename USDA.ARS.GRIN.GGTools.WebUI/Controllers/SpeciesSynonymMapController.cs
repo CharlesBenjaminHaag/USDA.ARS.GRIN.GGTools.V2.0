@@ -14,6 +14,11 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
         protected static string BASE_PATH = "~/Views/Taxonomy/SpeciesSynonymMap/";
         private static readonly Logger Log = LogManager.GetCurrentClassLogger();
 
+        /// <summary>
+        /// Returns synonym map records.
+        /// </summary>
+        /// <param name="speciesId"></param>
+        /// <returns></returns>
         public PartialViewResult _List(int speciesId = 0)
         {
             SynonymMapViewModel viewModel = new SynonymMapViewModel();
@@ -21,6 +26,20 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             viewModel.Search();
             return PartialView(BASE_PATH + "_List.cshtml", viewModel);
         }
+
+        /// <summary>
+        /// Returns all species that are synonyms of a specified species.
+        /// </summary>
+        /// <param name="speciesId"></param>
+        /// <returns></returns>
+        public PartialViewResult _ListSynonyms(int speciesId)
+        {
+            SynonymMapViewModel viewModel = new SynonymMapViewModel();
+            viewModel.SearchEntity = new SpeciesSynonymMapSearch { SpeciesBID = speciesId };
+            viewModel.Search();
+            return PartialView(BASE_PATH + "_ListSynonyms.cshtml", viewModel);
+        }
+
         public PartialViewResult _ListFolderItems(int folderId)
         {
             SynonymMapViewModel viewModel = new SynonymMapViewModel();

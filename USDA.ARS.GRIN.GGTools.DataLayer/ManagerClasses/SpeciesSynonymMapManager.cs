@@ -74,7 +74,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         {
             List<SpeciesSynonymMap> results = new List<SpeciesSynonymMap>();
 
-            SQL = " SELECT * FROM vw_GGTools_Taxon_SpeciesSynonymMaps ";
+            SQL = " SELECT * FROM vw_GRINGlobal_Taxonomy_Species_Synonym_Map ";
             SQL += " WHERE      (@ID                        IS NULL OR  ID = @ID) ";
             SQL += " AND        (@SpeciesBID                IS NULL OR  SpeciesBID = @SpeciesBID) ";
             SQL += " AND        (@CreatedByCooperatorID     IS NULL OR  CreatedByCooperatorID               = @CreatedByCooperatorID)";

@@ -14,33 +14,42 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
 {
     public class CitationSearch: SearchEntityBase
     {
+        public string CitationTitle { get; set; }
+        public string AuthorName { get; set; }
+        public int CitationYear { get; set; }
+        // Volumr Or Page
+        public string Reference { get; set; }
+        public string DOIReference { get; set; }
+        public string URL { get; set; }
+        public string Title { get; set; }
+        public string Description { get; set; }
+        // NOTE: OMITTED
+        // AccessionID
+        public int AccessionID { get; set; }
+        // MethodID
         public int FamilyID { get; set; }
-        public string FamilyIDList { get; set; }
-        public string TaxonName { get; set; }
         public string FamilyName { get; set; }
         public int GenusID { get; set; }
-        public string GenusIDList { get; set; }
         public string GenusName { get; set; }
         public int SpeciesID { get; set; }
-        public string SpeciesIDList { get; set; }
         public string SpeciesName { get; set; }
-        public string CitationText { get; set; }
-        public string CitationTitle { get; set; }
-        public string CitationType { get; set; }
-        public string URL { get; set; }
+
+        // NOTE: OMITTED
+        // AccessionIPRID
+        // AccessionPedigreeID
+        // GeneticMarkerID
+        public string TypeCode { get; set; }
+        public int UniqueKey { get; set; }
+        public string IsAcceptedName { get; set; }
+        public bool IsAcceptedNameOption { get; set; }
         public int LiteratureID { get; set; }
-        public string LiteratureTypeCode { get; set; }
-        public string ReferenceTitle { get; set; }
         public string Abbreviation { get; set; }
         public string StandardAbbreviation { get; set; }
-        public string LiteratureAuthorName { get; set; }
-
-        public string CitationAuthorName { get; set; }
         public string EditorAuthorName { get; set; }
+        public string ReferenceTitle { get; set; }
+        public string LiteratureTypeCode { get; set; }
         public string PublicationYear { get; set; }
-        public string CitationYear { get; set; }
-        public string VolumeOrPage { get; set; }
-        public string DOIReference { get; set; }
-        public string IsAcceptedName { get; set; }
+        public string PublisherName { get; set; }
+        public string PublisherLocation { get; set; }
     }
 }

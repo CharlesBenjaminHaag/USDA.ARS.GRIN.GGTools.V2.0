@@ -11,13 +11,13 @@
             <div class="tab-pane active" id="activity">
                 <div id="section-search-criteria">
                     <div class="btn-group">
-                        <a class="btn btn-default btn-sm" href="@Url.Action("Add", "Citation", new { @parentTypeCode = "family" })">Add Family Citation</a>
+                        <a class="btn btn-default btn-sm" href="@Url.Action("Add", "Citation", new { @eventValue = "family" })">Add Family Citation</a>
                         <button type="button" class="btn btn-default btn-sm dropdown-toggle dropdown-icon" data-toggle="dropdown" aria-expanded="false">
                             <span class="sr-only">Toggle Dropdown</span>
                         </button>
                         <div class="dropdown-menu" role="menu" style="">
-                            <a class="btn btn-default btn-sm" href="@Url.Action("Add", "Citation", new { @parentTypeCode = "genus" })">Add Genus Citation</a>
-                            <a class="btn btn-default btn-sm" href="@Url.Action("Add", "Citation", new { @parentTypeCode = "species" })">Add Species Citation</a>
+                            <a class="btn btn-default btn-sm" href="@Url.Action("Add", "Citation", new { @eventValue = "genus" })">Add Genus Citation</a>
+                            <a class="btn btn-default btn-sm" href="@Url.Action("Add", "Citation", new { @eventValue = "species" })">Add Species Citation</a>
                         </div>
                     </div>
                     <div class="btn-group">
@@ -31,28 +31,16 @@
                     @using (Html.BeginForm("Search", "Citation", FormMethod.Post, new { id = "frmMain" }))
                     {
                         <div class="row">
-                            <div class="col-md-2">
+                            <div class="col-md-3">
                                 <div class="form-group form-horizontal">
                                     <label>Created By</label>
                                     @Html.DropDownListFor(x => x.SearchEntity.CreatedByCooperatorID, Model.Cooperators, "Any Cooperator", new { @class = "form-control" })
                                 </div>
                             </div>
-                            <div class="col-md-2">
-                                <div id="form-group">
-                                    <label>Type</label>
-                                    @Html.DropDownListFor(x => x.SearchEntity.CitationType, Model.CitationTypes, "All types", new { @class = "form-control" })
-                                </div>
-                            </div>
-                            <div class="col-md-2">
-                                <div id="form-group">
-                                    <label id="lblStandardAbbreviation">Literature Type</label>
-                                    @Html.DropDownListFor(x => x.SearchEntity.LiteratureTypeCode, Model.LiteratureTypes, "All types", new { @class = "form-control" })
-                                </div>
-                            </div>
                             <div class="col-md-3">
                                 <div id="form-group">
-                                    <label id="lblStandardAbbreviation">Standard Abbreviation</label>
-                                    @Html.DropDownListFor(x => x.SearchEntity.StandardAbbreviation, Model.StandardAbbreviations, "All sources", new { @class = "form-control" })
+                                    <label>Type</label>
+                                    @Html.DropDownListFor(x => x.SearchEntity.TypeCode, Model.CitationTypes, "All types", new { @class = "form-control" })
                                 </div>
                             </div>
                             <div class="col-md-3">
@@ -61,8 +49,6 @@
                                     @Html.TextBoxFor(x => x.SearchEntity.Abbreviation, new { @class = "form-control" })
                                 </div>
                             </div>
-                        </div>
-                        <div class="row">
                             <div class="col-md-3">
                                 <div id="form-group">
                                     <label>Citation Title</label>
@@ -71,8 +57,8 @@
                             </div>
                             <div class="col-md-3">
                                 <div id="form-group">
-                                    <label>Editor/Author</label>
-                                    @Html.TextBoxFor(x => x.SearchEntity.EditorAuthorName, new { @class = "form-control" })
+                                    <label>Author</label>
+                                    @Html.TextBoxFor(x => x.SearchEntity.AuthorName, new { @class = "form-control" })
                                 </div>
                             </div>
                             <div class="col-md-1">

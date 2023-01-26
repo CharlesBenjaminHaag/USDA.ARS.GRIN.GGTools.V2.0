@@ -51,14 +51,14 @@
             <p class="text-muted">@Model.Entity.Note</p>*@
     </div>
 
-    @if (Model.AuthenticatedUser.IsInRole("MANAGE_SITE_" + Model.Entity.ShortName))
-    { 
+    @*@if (Model.AuthenticatedUser.IsInRole("MANAGE_SITE_" + Model.Entity.ShortName))
+    {*@ 
         <div class="card-footer">
             <a href="@Url.Action("Edit","Site", new { entityId = Model.Entity.ID })" class="btn btn-primary btn-block">
                 Edit My Site
             </a>
         </div>
-    }
+    @*  *@}
     </div>
 <script type="text/javascript">
     InitWidgetDataTable("data-table-site-cooperators");

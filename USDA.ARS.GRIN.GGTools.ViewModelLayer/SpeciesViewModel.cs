@@ -80,41 +80,19 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
             return Entity;
         }
 
-        public Species GetSummary(int entityId)
+        public void GetConspecific()
         {
             using (SpeciesManager mgr = new SpeciesManager())
             {
                 try
                 {
-                    Entity = mgr.Get2(entityId);
+                    DataCollection = new Collection<Species>(mgr.GetConspecificTaxa(SearchEntity.ID));
                 }
                 catch (Exception ex)
                 {
                     PublishException(ex);
                 }
             }
-            return Entity;
-        }
-
-        public Species GetParent(int entityId)
-        {
-            using (SpeciesManager mgr = new SpeciesManager())
-            {
-                try
-                {
-                    ParentEntity = mgr.Get(entityId);
-                }
-                catch (Exception ex)
-                {
-                    PublishException(ex);
-                }
-            }
-            return ParentEntity;
-        }
-        
-        public void HandleRequest()
-        {
-            throw new NotImplementedException();
         }
 
         public int Insert()

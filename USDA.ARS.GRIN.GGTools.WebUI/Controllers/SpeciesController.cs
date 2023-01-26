@@ -14,6 +14,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
     {
         protected static string BASE_PATH = "~/Views/Taxonomy/Species/";
         private static readonly Logger Log = LogManager.GetCurrentClassLogger();
+
         //public ActionResult Explorer()
         //{
         //    TaxonomyExplorerViewModel viewModel = new TaxonomyExplorerViewModel();
@@ -39,6 +40,48 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
         //        return RedirectToAction("InternalServerError", "Error");
         //    }
         //}
+        public PartialViewResult _List(int entityId = 0, int genusId = 0, string formatCode = "")
+        {
+            SpeciesViewModel viewModel = new SpeciesViewModel();
+            try
+            {
+                viewModel.SearchEntity = new SpeciesSearch { GenusID = genusId };
+                viewModel.Search();
+                viewModel.Entity.GenusID = genusId;
+
+                if (formatCode == "S")
+                {
+                    return PartialView("~/Views/Taxonomy/Species/Modals/_SelectListSimple.cshtml", viewModel);
+                }
+                else
+                {
+                    return PartialView(BASE_PATH + "_List.cshtml", viewModel);
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
+        }
+
+        public PartialViewResult _ListConspecific(int speciesId = 0)
+        {
+            SpeciesViewModel viewModel = new SpeciesViewModel();
+            try
+            {
+                viewModel.SearchEntity.ID  = speciesId;
+                viewModel.GetConspecific();
+                return PartialView(BASE_PATH + "_List.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
+        }
+
+
         public PartialViewResult _ListFolderItems(int folderId, string displayFormat = "")
         {
             SpeciesViewModel viewModel = new SpeciesViewModel();
@@ -87,31 +130,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             }
         }
 
-        public PartialViewResult _List(int entityId = 0, int genusId = 0, string formatCode = "")
-        {
-            SpeciesViewModel viewModel = new SpeciesViewModel();
-            try
-            {
-                viewModel.SearchEntity = new SpeciesSearch { GenusID = genusId };
-                viewModel.Search();
-                viewModel.Entity.GenusID = genusId;
-
-                if (formatCode == "S")
-                {
-                    return PartialView("~/Views/Taxonomy/Species/Modals/_SelectListSimple.cshtml", viewModel);
-                }
-                else
-                {
-                    return PartialView(BASE_PATH + "_List.cshtml", viewModel);
-                }
-            }
-            catch (Exception ex)
-            {
-                Log.Error(ex);
-                return PartialView("~/Views/Error/_InternalServerError.cshtml");
-            }
-        }
-
+     
         [HttpPost]
         public PartialViewResult Lookup(FormCollection formCollection)
         {
@@ -183,6 +202,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             viewModel.SearchProtologues(viewModel.SearchEntity.Protologue);
             return PartialView(partialViewName, viewModel);
         }
+
         public ActionResult Add(int genusId = 0, int speciesId = 0, string rank = "")
         {
             try
@@ -191,7 +211,12 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 viewModel.TableName = "taxonomy_species";
                 viewModel.PageTitle = String.Format("Add {0}", viewModel.ToTitleCase(rank));
                 viewModel.Entity.IsAcceptedName = "Y";
-                viewModel.Entity.Rank = rank;
+                viewModel.Entity.IsAccepted = true;
+                viewModel.Entity.IsWebVisibleOption = true;
+                viewModel.Entity.Rank = String.IsNullOrEmpty(rank) ? "species" : rank;
+                viewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
+                viewModel.Entity.CreatedByCooperatorName = AuthenticatedUser.FullName;
+                viewModel.Entity.CreatedDate = System.DateTime.Now;
 
                 if (genusId > 0)
                 {
@@ -211,8 +236,6 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
 
                     // Add link to "parent" taxon.
                     viewModel.PageTitle = String.Format("Add {0}", viewModel.ToTitleCase(rank));
-                    viewModel.PageTitle += " of <a href=" + Url.Action("Edit", "Species", new { entityId = parentViewModel.Entity.ID }) + ">" + parentViewModel.Entity.Name + "</a>";
-
                     viewModel.ParentEntity = parentViewModel.Entity;
                     viewModel.Entity.ParentID = parentViewModel.ID;
                     viewModel.Entity.Name = parentViewModel.Entity.Name;
@@ -242,6 +265,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 viewModel.TableName = "taxonomy_species";
                 viewModel.Entity.IsAcceptedName = "Y";
                 viewModel.Entity.Rank = "SPECIES";
+                viewModel.Entity.IsWebVisible = "Y";
 
                 if (genusId > 0)
                 {
@@ -318,8 +342,12 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 viewModel.TableName = "taxonomy_species";
                 viewModel.TableCode = "Species";
                 viewModel.Get(entityId);
-                viewModel.PageTitle = String.Format("Edit [{0}]: {1}", viewModel.Entity.ID, viewModel.Entity.AssembledName);
-                viewModel.EventValue = viewModel.Entity.Rank.ToLower();
+
+                //TEST
+                viewModel.Entity.Protologue = System.Web.HttpUtility.HtmlDecode(viewModel.Entity.Protologue);
+
+                viewModel.PageTitle = String.Format("Edit {0} [{1}]: {2}", viewModel.Entity.ID, viewModel.ToTitleCase(viewModel.Entity.Rank), viewModel.Entity.AssembledName);
+                viewModel.EventValue = viewModel.Entity.Rank.ToUpper();
                 viewModel.ID = entityId;
                 return View(BASE_PATH + "Edit.cshtml", viewModel);
             }

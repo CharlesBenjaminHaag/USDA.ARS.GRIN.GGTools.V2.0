@@ -5,7 +5,7 @@
 {
     if (Model.Entity.IsVerified == "Y")
     {
-        <span><strong>Verified</strong> by</span> @Model.Entity.VerifiedByCooperatorName <span>on</span> @Model.Entity.NameVerifiedDate.ToShortDateString()
+        <span>, <strong>Verified</strong> by</span> @Model.Entity.VerifiedByCooperatorName <span>on</span> @Model.Entity.NameVerifiedDate.ToShortDateString()
         <span style="margin-left:.5rem;">
             <button id="btnSetVerifiedUpdate"
                     type="button"

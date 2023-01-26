@@ -16,11 +16,10 @@
                         <th></th>
                         <th width="5%">ID</th>
                         <th>Taxon Name</th>
-                        <th>Standard Abbreviation</th>
-                        <th>Abbreviation</th>
                         <th>Citation Title</th>
-                        <th>Editor/Author</th>
-                        <th>Citation Author</th>
+                        <th>Description</th>
+                        <th>Abbreviation</th>
+                        <th>Author</th>
                         <th>Year</th>
                         <th></th>
                     </tr>
@@ -36,7 +35,7 @@
                             @result.ID
                         </td>
                         <td>
-                            @if (result.TableName == "taxonomy_family")
+                            @if (result.FamilyID > 0)
                             {
                                 <a href="@Url.Action("Edit", "FamilyMap", new { entityId = result.FamilyID })">
                                     @result.FamilyName
@@ -44,7 +43,7 @@
                             }
                             else
                             {
-                                if (result.TableName == "taxonomy_genus")
+                                if (result.GenusID > 0)
                                 {
                                     <a href="@Url.Action("Edit", "Genus", new { entityId = result.GenusID })">
                                         @result.GenusName
@@ -59,36 +58,24 @@
                             }
                         </td>
                         <td>
-                            @result.StandardAbbreviation
+                            @Html.Raw(result.CitationTitle)
+                        </td>
+                        <td>
+                            @Html.Raw(result.Description)
                         </td>
                         <td>
                             @result.Abbreviation
                         </td>
                         <td>
-                            @Html.Raw(@result.CitationTitle)
+                            @result.AuthorName
                         </td>
                         <td>
-                            @result.EditorAuthorName
-                        </td>
-                        <td>
-                            @result.CitationAuthorName
-                        </td>
-                        <td>
-                            @if (result.CitationYear > 0)
-                            {
-                                @result.CitationYear
-                            }
+                            @result.CitationYear
                         </td>
                         <td style="text-align:right;">
                             <a href="@Url.Action("Edit", "Citation", new { entityId = result.ID })" class="btn btn-default btn-sm pull-right row-edit">
                                 <i class="fa fa-edit"></i>
                             </a>
-                            @*@if (Model.Action == "Folder")
-            {
-                <button id="btnDeleteFolderItem_@cropForCWR.ReferenceID" class="btn btn-danger btn-sm pull-right row-edit margin-r-5">
-                    <i class="fa fa-trash"></i> Remove From Folder
-                </button>
-            }*@
                         </td>
                     </tr>
                     }

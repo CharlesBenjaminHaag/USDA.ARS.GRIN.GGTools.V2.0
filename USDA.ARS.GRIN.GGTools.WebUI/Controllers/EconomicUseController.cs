@@ -206,15 +206,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
         [HttpPost]
         public PartialViewResult Lookup(FormCollection coll)
         {
-#pragma warning disable CS0219 // The variable 'taxonName' is assigned but its value is never used
-            string taxonName = "";
-#pragma warning restore CS0219 // The variable 'taxonName' is assigned but its value is never used
             CitationViewModel vm = new CitationViewModel();
-
-            //formData.append("AbbreviatedLiteratureSource", abbreviatedLiteratureSource);
-            //formData.append("CitationTitle", citationTitle);
-            //formData.append("EditorAuthorName", editorAuthorName);
-            //formData.append("CitationYear", citationYear);
 
             if (!String.IsNullOrEmpty(coll["AbbreviatedLiteratureSource"]))
             {
@@ -233,12 +225,12 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
 
             if (!String.IsNullOrEmpty(coll["CitationYear"]))
             {
-                vm.SearchEntity.CitationYear = coll["CitationYear"];
+                vm.SearchEntity.CitationYear = Int32.Parse(coll["CitationYear"]);
             }
 
             if (!String.IsNullOrEmpty(coll["CitationType"]))
             {
-                vm.SearchEntity.CitationType = coll["CitationType"];
+                vm.SearchEntity.TypeCode = coll["CitationType"];
             }
 
             if (!String.IsNullOrEmpty(coll["TaxonIDList"]))

@@ -135,6 +135,11 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
         {
             try
             {
+                if (!viewModel.Validate())
+                {
+                    if (viewModel.ValidationMessages.Count > 0) return View(BASE_PATH + "Edit.cshtml", viewModel);
+                }
+
                 viewModel.Entity.TableName = viewModel.TableName;
 
                 if (!viewModel.Validate())
@@ -191,12 +196,13 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             }
         }
 
-        public ActionResult Add(int literatureId = 0, int familyId = 0, int genusId = 0, int speciesId = 0)
+        public ActionResult Add(int literatureId = 0, int familyId = 0, int genusId = 0, int speciesId = 0, string eventValue = "")
         {
             try 
             { 
                 CitationViewModel viewModel = new CitationViewModel();
                 viewModel.EventAction = "Add";
+                viewModel.EventValue = eventValue;
                 viewModel.TableName = "citation";
                 viewModel.TableCode = "Citation";
                 viewModel.Entity.LiteratureID = literatureId;
@@ -204,6 +210,9 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 viewModel.Entity.GenusID = genusId;
                 viewModel.Entity.SpeciesID = speciesId;
                 viewModel.PageTitle = viewModel.EventAction + " " + viewModel.TableCode;
+                viewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
+                viewModel.Entity.CreatedByCooperatorName = AuthenticatedUser.FullName;
+                viewModel.Entity.CreatedDate = System.DateTime.Now;
 
                 if (familyId > 0)
                 {
@@ -304,7 +313,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
 
             if (!String.IsNullOrEmpty(formCollection["VolumeOrPage"]))
             {
-                viewModel.Entity.VolumeOrPage = formCollection["VolumeOrPage"];
+                viewModel.Entity.Reference = formCollection["VolumeOrPage"];
             }
 
             if (!String.IsNullOrEmpty(formCollection["Note"]))
@@ -332,6 +341,12 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             return Json(new { citation = viewModel.Entity }, JsonRequestBehavior.AllowGet);
         }
 
+        /// <summary>
+        /// Creates a copy of a specified citation, and renders a view allowing a side-by-side
+        /// comparison and edit.
+        /// </summary>
+        /// <param name="entityId"></param>
+        /// <returns></returns>
         public ActionResult Clone(int entityId)
         {
             CitationViewModel viewModel = new CitationViewModel();
@@ -349,7 +364,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 viewModelClone.Entity.GenusName = String.Empty;
                 viewModelClone.Entity.SpeciesID = 0;
                 viewModelClone.Entity.SpeciesName = String.Empty;
-                return View(BASE_PATH + "/Edit.cshtml", viewModelClone);
+                return View(BASE_PATH + "/Clone.cshtml", viewModelClone);
             }
             catch (Exception ex)
             {
@@ -472,7 +487,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 //}
                 if (!String.IsNullOrEmpty(coll["TypeCode"]))
                 {
-                    vm.SearchEntity.CitationType = coll["TypeCode"];
+                    vm.SearchEntity.TypeCode = coll["TypeCode"];
                 }
 
                 if (!String.IsNullOrEmpty(coll["LiteratureTypeCode"]))
@@ -502,7 +517,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
 
                 if (!String.IsNullOrEmpty(coll["CitationYear"]))
                 {
-                    vm.SearchEntity.CitationYear = coll["CitationYear"];
+                    vm.SearchEntity.CitationYear = Int32.Parse(coll["CitationYear"]);
                 }
 
                 if (!String.IsNullOrEmpty(coll["IsMultiSelect"]))

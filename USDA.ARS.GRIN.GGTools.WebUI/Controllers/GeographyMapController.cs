@@ -158,7 +158,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                     speciesViewModel.SearchEntity = new SpeciesSearch { ID = speciesId };
                     speciesViewModel.Search();
                     viewModel.Entity.SpeciesID = speciesViewModel.Entity.ID;
-                    viewModel.Entity.SpeciesName = speciesViewModel.Entity.AssembledName;
+                    viewModel.Entity.SpeciesName = speciesViewModel.Entity.Name;
                 }
 
                 return View(BASE_PATH + "Edit.cshtml", viewModel);

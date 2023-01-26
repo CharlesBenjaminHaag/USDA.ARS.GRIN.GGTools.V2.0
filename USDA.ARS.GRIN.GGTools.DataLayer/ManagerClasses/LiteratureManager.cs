@@ -31,7 +31,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         {
             Reset(CommandType.StoredProcedure);
             Validate<Literature>(entity);
-            SQL = "usp_GGTools_Taxon_Literature_Insert";
+            SQL = "usp_GRINGlobal_Literature_Insert";
 
             BuildInsertUpdateParameters(entity);
 
@@ -92,7 +92,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         {
             Reset(CommandType.StoredProcedure);
             Validate<Literature>(entity);
-            SQL = "usp_GGTools_Taxon_Literature_Update";
+            SQL = "usp_GRINGlobal_Literature_Update";
 
             BuildInsertUpdateParameters(entity);
 
