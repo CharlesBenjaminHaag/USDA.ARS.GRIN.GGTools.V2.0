@@ -9,7 +9,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                @using (Html.BeginForm("_Save", "Cooperator", FormMethod.Post, new { id = "frmAddCooperator" }))
+                @using (Html.BeginForm("_Edit", "Cooperator", FormMethod.Post, new { id = "frmAddCooperator" }))
                 {
                     @Html.HiddenFor(x => x.PageTitle)
                     @*@Html.HiddenFor(x => x.IsReadOnly)*@

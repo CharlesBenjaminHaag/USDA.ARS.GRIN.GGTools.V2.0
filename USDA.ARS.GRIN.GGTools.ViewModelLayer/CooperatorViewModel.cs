@@ -59,15 +59,17 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
       
         public int Insert()
         {
-            // TODO
-            // //Create web coop
-            // Need web user
+            SysUserViewModel sysUserViewModel = new SysUserViewModel();
 
             using (CooperatorManager mgr = new CooperatorManager())
             {
                 try
                 {
                     Entity.ID = mgr.Insert(Entity);
+                    // TODO SEND EMAIL
+                    sysUserViewModel.SearchEntity.ID = Entity.SysUserID;
+                    sysUserViewModel.Search();
+                    sysUserViewModel.SendNotification("N");
                 }
                 catch (Exception ex)
                 {

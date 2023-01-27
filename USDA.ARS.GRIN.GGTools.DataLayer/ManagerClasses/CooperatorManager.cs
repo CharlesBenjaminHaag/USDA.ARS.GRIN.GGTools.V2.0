@@ -92,10 +92,16 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
 
             AddParameter("@out_error_number", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
             AddParameter("@out_cooperator_id", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
+            AddParameter("@out_sys_user_id", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
+            AddParameter("@out_sys_user_name", -1, true, System.Data.DbType.String, System.Data.ParameterDirection.Output);
             AddParameter("@out_web_cooperator_id", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
+            AddParameter("@out_web_user_id", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
+            AddParameter("@out_web_user_name", -1, true, System.Data.DbType.String, System.Data.ParameterDirection.Output);
             RowsAffected = ExecuteNonQuery();
 
             entity.ID = GetParameterValue<int>("@out_cooperator_id", -1);
+            entity.SysUserID = GetParameterValue<int>("@out_sys_user_id", -1);
+            entity.SysUserName = GetParameterValue<string>("@out_sys_user_name", null);
             entity.WebCooperatorID = GetParameterValue<int>("@out_web_cooperator_id", -1);
             var errorNumber = GetParameterValue<int>("@out_error_number", -1);
 
@@ -345,6 +351,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             else
             {
                 AddParameter("created_by", entity.CreatedByCooperatorID == 0 ? DBNull.Value : (object)entity.CreatedByCooperatorID, true);
+                AddParameter("password", String.IsNullOrEmpty(entity.SysUserPassword) ? DBNull.Value : (object)entity.SysUserPassword, true);
             }
         }
 

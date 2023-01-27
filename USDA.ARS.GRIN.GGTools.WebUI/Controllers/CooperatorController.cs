@@ -181,49 +181,23 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 return RedirectToAction("InternalServerError", "Error");
             }
         }
-        public JsonResult _Save(CooperatorViewModel viewModel)
+        [HttpPost]
+        public JsonResult _Edit(CooperatorViewModel viewModel)
         {
-            try 
+            SysUserViewModel sysUserViewModel = new SysUserViewModel();
+            try
             {
+                //if (!viewModel.Validate())
+                //{
+                //    if (viewModel.ValidationMessages.Count > 0) return View(viewModel);
+                //}
+
                 if (viewModel.Entity.ID == 0)
                 {
-                    // COOP
                     viewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
-                    viewModel.Entity.StatusCode = "ACTIVE";
+                    // TODO Set default pw
+                    viewModel.Entity.SysUserPassword = sysUserViewModel.GetSecurePassword("GRIN!Gl@balPa$$");
                     viewModel.Insert();
-                    if (viewModel.Entity.ID < 0)
-                    {
-                        throw new Exception("Error adding cooperator.");
-                    }
-
-                    // SYS USER
-                    SysUserViewModel sysUserViewModel = new SysUserViewModel();
-                    sysUserViewModel.Entity.CooperatorID = viewModel.Entity.ID;
-                    sysUserViewModel.Entity.UserName = viewModel.Entity.FirstName.ToLower() + "." + viewModel.Entity.LastName.ToLower();
-                    sysUserViewModel.Entity.SysUserPassword = "GRINTempPa$$word01!";
-                    sysUserViewModel.Entity.Password = "GRINTempPa$$word01!";
-                    sysUserViewModel.Insert();
-                    if (sysUserViewModel.Entity.ID < 0)
-                    {
-                        throw new Exception("Error adding sys user.");
-                    }
-
-                    // WEB USER
-                    WebUserViewModel webUserViewModel = new WebUserViewModel();
-                    webUserViewModel.Entity.WebCooperatorID = viewModel.Entity.WebCooperatorID;
-                    webUserViewModel.Entity.WebUserName = viewModel.Entity.FirstName.ToLower() + "." + viewModel.Entity.LastName.ToLower();
-                    webUserViewModel.Entity.WebUserPassword = "GRINTempPa$$word01!";
-                    webUserViewModel.Insert();
-                    if (webUserViewModel.Entity.ID < 0)
-                    {
-                        throw new Exception("Error adding web user.");
-                    }
-
-                    // Retrieve newly-added sys user.
-                    sysUserViewModel.SearchEntity.ID = sysUserViewModel.Entity.ID;
-                    sysUserViewModel.Search();
-                    sysUserViewModel.Entity.SysUserPlainTextPassword = "GRINTempPa$$word01!";
-                    sysUserViewModel.SendNotification("N");
                 }
                 else
                 {
