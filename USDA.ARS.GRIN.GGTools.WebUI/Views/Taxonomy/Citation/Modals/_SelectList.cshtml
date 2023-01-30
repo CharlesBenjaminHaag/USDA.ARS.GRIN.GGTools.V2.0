@@ -13,10 +13,7 @@
         <tr>
             <th></th>
             <th width="5%">ID</th>
-            <th>Taxon</th>
-            <th>Text</th>
-            <th>Type</th>
-            <th>Abbreviation</th>
+            <th>Author(s) Name</th>
         </tr>
     </thead>
     <tbody>
@@ -32,17 +29,12 @@
                             @result.ID
                         </td>
                         <td>
-                            @result.TaxonName
+                            @Html.Raw(result.AssembledName)
                         </td>
-                        <td>
-                            @Html.Raw(result.CitationText)
-                        </td>
-                        <td>@result.TypeCode</td>
-                        <td>@result.Abbreviation</td>
                     </tr>
+                }
             }
         }
-    }
     </tbody>
 </table>
 <br />

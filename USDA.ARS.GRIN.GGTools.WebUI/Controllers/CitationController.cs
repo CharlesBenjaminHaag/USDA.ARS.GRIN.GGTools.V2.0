@@ -41,6 +41,22 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 return RedirectToAction("InternalServerError", "Error");
             }
         }
+
+        [HttpPost]
+        public PartialViewResult _Search(CitationViewModel viewModel)
+        {
+            try
+            {
+                viewModel.Search();
+                return PartialView(BASE_PATH + "/Modals/_SelectList.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
+        }
+
         public PartialViewResult _List(int familyId = 0, int genusId = 0, int speciesId = 0, int literatureId = 0)
         {
             CitationViewModel viewModel = new CitationViewModel();
@@ -96,13 +112,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 return RedirectToAction("InternalServerError", "Error");
             }
         }
-     
-        //public ActionResult _Search()
-        //{
-        //    CitationViewModel vm = new CitationViewModel();
-        //    return PartialView("~/Views/Citation/_Search.cshtml", vm);
-        //}
-
+    
         public ActionResult Edit(int entityId)
         {
             try
