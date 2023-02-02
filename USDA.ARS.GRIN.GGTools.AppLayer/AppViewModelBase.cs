@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Globalization;
+using System.Configuration;
 using System.Web.Mvc;
 using System.Threading.Tasks;
 using System.Runtime.Serialization;
@@ -25,6 +26,16 @@ namespace USDA.ARS.GRIN.GGTools.AppLayer
         
         public int ID { get; set; }
         [AllowHtml]
+        public string PublicWebsiteBaseURL
+        {
+            get
+            {
+                string publicWebsiteUrl = String.Empty;
+                publicWebsiteUrl = ConfigurationManager.AppSettings["PublicWebsiteBaseUrl"];
+                return publicWebsiteUrl;
+            }
+        }
+
         public string PageTitle
         {
             get
@@ -65,6 +76,13 @@ namespace USDA.ARS.GRIN.GGTools.AppLayer
         public string TableName { get; set; }
         public string TableCode { get; set; }
         public string TableKeyFieldName { get; set; }
+        public string SessionKeyName 
+        { 
+            get 
+            { 
+                return "SEARCH-" + TableName.Replace("_","-").ToUpper(); 
+            } 
+        }
         public int AuthenticatedUserCooperatorID { get; set; }
         public string ItemIDList { get; set; }
         public string EntityIDList { get; set; }

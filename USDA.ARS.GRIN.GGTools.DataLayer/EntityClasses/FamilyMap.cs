@@ -18,8 +18,9 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         public string TypeGenusName { get; set; }
         public bool IsAccepted { get; set; }
         public string IsAcceptedName { get; set; }
-        public string FamilyRank { get; set; }
+        public string Rank { get; set; }
         public int FamilyID { get; set; }
+        public int LegacyFamilyID { get; set; }
         public string FamilyName { get; set; }
         public string AssembledName { get; set; }
         public string AlternateName { get; set; }

@@ -23,8 +23,8 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             FamilyMapViewModel viewModel = new FamilyMapViewModel();
             try 
             {
-                viewModel.Entity.FamilyRank = viewModel.ToTitleCase(rank);
-                viewModel.PageTitle = "Add " + viewModel.Entity.FamilyRank;
+                viewModel.Entity.Rank = viewModel.ToTitleCase(String.IsNullOrEmpty(rank) ? "family" : rank);
+                viewModel.PageTitle = "Add " + viewModel.Entity.Rank;
                 viewModel.TableName = "taxonomy_family_map";
                 viewModel.Entity.OrderID = orderId;
                 viewModel.Entity.ParentID = familyMapId;
@@ -70,7 +70,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                     viewModel.TableName = "taxonomy_family_map";
                     viewModel.TableCode = "Family";
                     viewModel.PageTitle = viewModel.GetPageTitle();
-                    viewModel.EditPartialViewName = GetEditPartialViewName(viewModel.Entity.FamilyRank.ToUpper());
+                    viewModel.EditPartialViewName = GetEditPartialViewName(viewModel.Entity.Rank.ToUpper());
                 }
                 else
                 {
@@ -105,7 +105,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                     viewModel.Entity.ModifiedByCooperatorID = AuthenticatedUser.CooperatorID;
                     viewModel.Update();
                 }
-                return RedirectToAction("Edit", "Family", new { entityId = viewModel.Entity.ID });
+                return RedirectToAction("Edit", "FamilyMap", new { entityId = viewModel.Entity.ID });
             }
             catch (Exception ex)
             {
@@ -156,7 +156,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
         {
             try
             {
-                viewModel.SearchEntity.FamilyRank = viewModel.EventValue;
+                viewModel.SearchEntity.Rank = viewModel.EventValue;
                 viewModel.Search();
                 ModelState.Clear();
                 return View(BASE_PATH + "Index.cshtml", viewModel);

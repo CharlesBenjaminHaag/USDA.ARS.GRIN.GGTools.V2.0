@@ -20,13 +20,13 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             SQL += " AND    (@CreatedByCooperatorID     IS NULL OR   CreatedByCooperatorID      =   @CreatedByCooperatorID)";
             SQL += " AND    (@AppUserItemFolderID       IS NULL OR   ID                         =   @AppUserItemFolderID)";
             SQL += " AND    (@IsFavoriteOption          IS NULL OR   IsFavoriteOption           =   @IsFavoriteOption)";
-            SQL += " AND    (FolderType LIKE '%taxon%') OR (FolderType LIKE '%citation%') OR (FolderType LIKE '%literature%') OR (FolderType LIKE '%geography%')";
-            SQL += " UNION ";
-            SQL += " SELECT *, 'Y' AS IsShared FROM vw_GRINGlobal_App_User_Item_Folder";
-            SQL += " WHERE  (@FolderType                IS NULL OR   FolderTypeDescription      =   @FolderType)";
+            //SQL += " AND    (FolderType LIKE '%taxon%') OR (FolderType LIKE '%citation%') OR (FolderType LIKE '%literature%') OR (FolderType LIKE '%geography%')";
+            //SQL += " UNION ";
+            //SQL += " SELECT *, 'Y' AS IsShared FROM vw_GRINGlobal_App_User_Item_Folder";
+            //SQL += " WHERE  (@FolderType                IS NULL OR   FolderTypeDescription      =   @FolderType)";
             
-            SQL += " AND ID IN (SELECT app_user_item_folder_id FROM app_user_item_folder_cooperator_map " +
-                    " WHERE cooperator_id = @CreatedByCooperatorID )";
+            //SQL += " AND ID IN (SELECT app_user_item_folder_id FROM app_user_item_folder_cooperator_map " +
+            //        " WHERE cooperator_id = @CreatedByCooperatorID )";
 
             //if (!String.IsNullOrEmpty(searchEntity.CategoryList))
             //{
@@ -41,7 +41,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             //}
 
             var parameters = new List<IDbDataParameter> {
-                CreateParameter("FolderType", (object)searchEntity.FolderType ?? DBNull.Value, true),
+                CreateParameter("FolderType", !String.IsNullOrEmpty(searchEntity.FolderTypeDescription) ? (object)searchEntity.FolderTypeDescription : DBNull.Value, true),
                 CreateParameter("Category", !String.IsNullOrEmpty(searchEntity.Category) ? (object)searchEntity.Category : DBNull.Value, true),
                 CreateParameter("CreatedByCooperatorID", searchEntity.CreatedByCooperatorID > 0 ? (object)searchEntity.CreatedByCooperatorID : DBNull.Value, true),
                 CreateParameter("IsFavoriteOption", searchEntity.IsFavoriteOption == "Y" ? (object)searchEntity.IsFavoriteOption : DBNull.Value, true),
@@ -88,7 +88,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
         {
             List<AppUserItemFolder> results = new List<AppUserItemFolder>();
 
-            SQL = " SELECT * FROM vw_GGTools_GRINGlobal_AppUserItemFolders";
+            SQL = " SELECT * FROM vw_GRINGlobal_App_User_Item_Folder";
             SQL += " WHERE CreatedByCooperatorID = @CreatedByCooperatorID ";
             SQL += " AND FolderType = @FolderType";
 
@@ -145,8 +145,9 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
 
             SQL = " SELECT DISTINCT Category AS Value, " +
                   " Category AS Title " +
-                  " FROM vw_GGTools_GRINGlobal_AppUserItemFolders " +
+                  " FROM vw_GRINGlobal_App_User_Item_Folder " +
                   " WHERE CreatedByCooperatorID = @CreatedByCooperatorID " +
+                  " AND Category IS NOT NULL " +
                   " ORDER BY Category ";
 
             var parameters = new List<IDbDataParameter> {

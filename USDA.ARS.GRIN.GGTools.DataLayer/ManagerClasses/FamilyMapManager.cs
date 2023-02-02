@@ -70,10 +70,14 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
 
             AddParameter("@out_error_number", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
             AddParameter("@out_taxonomy_family_map_id", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
+            AddParameter("@out_taxonomy_family2_id", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
+            AddParameter("@out_taxonomy_family_id", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
 
             RowsAffected = ExecuteNonQuery();
 
             entity.ID = GetParameterValue<int>("@out_taxonomy_family_map_id", -1);
+            entity.FamilyID = GetParameterValue<int>("@out_taxonomy_family2_id", -1);
+            entity.LegacyFamilyID = GetParameterValue<int>("@out_taxonomy_family_id", -1);
             int errorNumber = GetParameterValue<int>("@out_error_number", -1);
 
             if (errorNumber > 0)
@@ -171,17 +175,17 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             SQL += " AND  (@TribeName                   IS NULL OR TribeName                    LIKE '%' +  @TribeName + '%')";
             SQL += " AND  (@SubtribeName                IS NULL OR SubtribeName                 LIKE '%' +  @SubtribeName + '%')";
             SQL += " AND  (@FamilyTypeCode              IS NULL OR FamilyTypeCode               =           @FamilyTypeCode)";
-            SQL += " AND  (@FamilyRank                  IS NULL OR FamilyRank                   =           @FamilyRank)";
+            //SQL += " AND  (@Rank                  IS NULL OR Rank                   =           @Rank)";
             SQL += " AND  (@IsAcceptedName              IS NULL OR IsAcceptedName               =           @IsAcceptedName)";
             SQL += " AND  (@Authority                   IS NULL OR Authority                    LIKE '%' +  @Authority + '%')";
             SQL += " AND  (@Note                        IS NULL OR Note                         LIKE '%' +  @Note + '%')";
 
-            if (searchEntity.IsInfrafamilal == "Y")
-            {
-                SQL += " AND FamilyRank <> 'FAMILY'";
-            }
+            //if (searchEntity.IsInfrafamilal == "Y")
+            //{
+            //    SQL += " AND Rank <> 'FAMILY'";
+            //}
 
-            if (searchEntity.FamilyRank == "") searchEntity.FamilyRank = null;
+            if (searchEntity.Rank == "") searchEntity.Rank = null;
 
             var parameters = new List<IDbDataParameter> {
                 CreateParameter("ID", searchEntity.ID > 0 ? (object)searchEntity.ID : DBNull.Value, true),
@@ -196,7 +200,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
                 CreateParameter("TribeName", (object)searchEntity.TribeName ?? DBNull.Value, true),
                 CreateParameter("SubtribeName", (object)searchEntity.SubTribeName ?? DBNull.Value, true),
                 CreateParameter("FamilyTypeCode", (object)searchEntity.FamilyTypeCode ?? DBNull.Value, true),
-                CreateParameter("FamilyRank", (object)searchEntity.FamilyRank ?? DBNull.Value, true),
+                CreateParameter("Rank", (object)searchEntity.Rank ?? DBNull.Value, true),
                 CreateParameter("IsAcceptedName", (object)searchEntity.IsAcceptedName ?? DBNull.Value, true),
                 CreateParameter("Authority", (object)searchEntity.Authority ?? DBNull.Value, true),
                 CreateParameter("Note", (object)searchEntity.Note ?? DBNull.Value, true)

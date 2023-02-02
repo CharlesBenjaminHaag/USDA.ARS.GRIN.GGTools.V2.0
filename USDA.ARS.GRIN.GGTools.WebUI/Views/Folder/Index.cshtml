@@ -6,124 +6,80 @@
 <div id="overlay"></div>
 
 <div class="row">
-    <!--<div class="col-md-3">
+    <div class="col-md-3">
 
         <!-- BEGIN CATEGORY LIST -->
-        <!--<div class="card card-primary">
+        <div class="card card-primary card-outline">
             <div class="card-header">
-                <h3 class="card-title">Category</h3>
+                <h3 class="card-title"><i class="fas fa-filter"></i> Category</h3>
                 <div class="card-tools">
                     <button type="button" class="btn btn-tool" data-card-widget="collapse">
                         <i class="fas fa-minus"></i>
                     </button>
                 </div>
             </div>
-            <div class="card-body p-0">
+            <div id="section-folder-category" class="card-body p-0">
                 <ul class="nav nav-pills flex-column">
-                    <li class="nav-item active">
+                    <li id="default-favorites" class="nav-item">
                         <a href="@Url.Action("Explorer","Folder", new { isFavorite="Y" })" class="nav-link">
                             <i class="fas fa-star text-warning"></i> Favorites
                         </a>
                     </li>
-                    <li class="nav-item active">
+                    <li id="default-all" class="nav-item">
                         <a href="#" class="nav-link">
-                            <i class="fas fa-folder"></i> All
+                            All
                         </a>
-                    </li>-->
+                    </li>
 
-                    <!-- TODO LOAD USER-DEFINED CATEGORIES -->
-                    <!--@*<li class="nav-item">
-                        <a href="#" class="nav-link">
-                            <i class="fas fa-filter"></i> Junk
-                            <span class="badge bg-warning float-right">65</span>
-                        </a>
-                    </li>*@
-                <!--</ul>
+                    @foreach (var result in Model.DataCollectionFolderCategories)
+                    {
+                        <li id="@result.Value" class="nav-item">
+                            <a href="#" class="nav-link">
+                                @result.Title
+                            </a>
+                        </li>
+                    }
+                </ul>
             </div>
 
-        </div>-->
+        </div>
         <!-- END CATEGORY LIST -->
 
         <!-- BEGIN FOLDER TYPE LIST -->
-        <!--<div class="card card-primary">
+        <div class="card  card-primary card-outline">
             <div class="card-header">
-                <h3 class="card-title">Type</h3>
+                <h3 class="card-title"><i class="fas fa-filter"></i> Type</h3>
                 <div class="card-tools">
                     <button type="button" class="btn btn-tool" data-card-widget="collapse">
                         <i class="fas fa-minus"></i>
                     </button>
                 </div>
             </div>
-            <div class="card-body p-0">
+            <div id="section-folder-type" class="card-body p-0">
                 <ul class="nav nav-pills flex-column">
-                    <li class="nav-item active">
+                    <li id="default-all" class="nav-item active">
                         <a href="#" class="nav-link">
-                            <i class="fas fa-folder"></i> All
+                            All
                         </a>
-                    </li>-->
+                    </li>
 
-                    <!-- TODO LOAD USER-DEFINED CATEGORIES -->
-                    <!--@*<li class="nav-item">
-                        <a href="#" class="nav-link">
-                            <i class="fas fa-filter"></i> Junk
-                            <span class="badge bg-warning float-right">65</span>
-                        </a>
-                    </li>*@
-                </ul>
-            </div>
-
-        </div>-->
-        <!-- END FOLDER TYPE LIST -->
-    <!--</div>-->
-    <div class="col-md-12">
-        <div class="card card-default card-tabs">
-            <div id="DEBUG-TABS" class="card-header p-0 pt-1">
-                <ul class="nav nav-tabs" id="custom-tabs-two-tab" role="tablist">
-                    <li id="DEFAULT" class="pt-2 px-3"><h3 class="card-title">My Folders</h3></li>
-                    @{
-                        int i = 0;
-                        string tabSelectorCssClass = String.Empty;
-                    }
-                    @foreach (var result in Model.DataCollection)
+                    @foreach (var result in Model.DataCollectionFolderTypes)
                     {
-                        if (i == 0)
-                        {
-                            tabSelectorCssClass = "nav-link active";
-                        }
-                        else
-                        {
-                            tabSelectorCssClass = "nav-link";
-                        }
-
-                        <li id="custom-tabs-two-home-tab-selector-@result.ID"
-                            title="@result.FolderTypeDescription.Replace(" ","")"
-                            class="nav-item">
-                            <a class="@tabSelectorCssClass" data-toggle="pill" href="#custom-tabs-two-home-@result.ID" role="tab" aria-controls="custom-tabs-two-home" aria-selected="true">
-                                @if (result.IsShared == "Y")
-                                {
-                                    <i class="fa fa-users"></i>
-                                }
-                                @*@if (result.IsFavorite == true)
-                                {
-                                    <i class="fas fa-star text-warning"></i>
-                                }*@
-
-                                @result.FolderName
+                        <li id="@result.Value" class="nav-item">
+                            <a href="#" class="nav-link">
+                                @result.Title
                             </a>
                         </li>
-                        i++;
                     }
                 </ul>
             </div>
-            <div class="card-body">
-                <div class="tab-content" id="custom-tabs-two-tabContent">
 
-                </div>
-            </div>
-            <div id="progress_overlay" class="overlay">
-                <i class="fas fa-2x fa-sync-alt fa-spin"></i>
-            </div>
         </div>
+        <!-- END FOLDER TYPE LIST -->
+    
+    </div>
+    <div id="section-folder-list" class="col-md-9">
+        @{Html.RenderAction("_ListExplorer","Folder");}
     </div>
 </div>
 
@@ -139,7 +95,7 @@
         var tabName = $("#DEBUG-TABS ul.nav li:nth-child(2)").attr('id');
         var title = $("#DEBUG-TABS ul.nav li:nth-child(2)").attr('title');
         var folderId = tabName.replace("custom-tabs-two-home-tab-selector-", "");
-        ListFolderItems(title, folderId);
+        LoadFolderItems(title, folderId);
     }
 
     function InitDataTablesByClass(className) {
@@ -213,13 +169,51 @@
     $('#DEBUG-TABS ul.nav li').on('click', function () {
         var tabName = $(this).attr('id');
         var title = $(this).attr('title');
-        var folderId = tabName.replace("custom-tabs-two-home-tab-selector-","");
-        ListFolderItems(title, folderId);
+        var folderId = tabName.replace("custom-tabs-two-home-tab-selector-", "");
+        LoadFolderItems(title, folderId);
     });
 
-    function ListFolderItems(folderTypeDescription, folderId)  {
+    $('#section-folder-category ul.nav li').on('click', function () {
+        var category = $(this).attr('id');
+        LoadFolders("", category);
+    });
+
+    $('#section-folder-type ul.nav li').on('click', function () {
+        var type = $(this).attr('id');
+        LoadFolders(type, "");
+    });
+
+    function LoadFolders(folderType, category) {
+        var link = '@Url.Action("_ListExplorer", "Folder")';
+        var formData = new FormData();
+
+        formData.append("folderType", folderType);
+        formData.append("folderCategory", category);
+
+        $("#progress_overlay").show();
+
+        $.ajax({
+            url: link,
+            type: 'POST',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (response) {
+                $("#section-folder-list").html(response);
+                $("#progress_overlay").hide();
+            },
+            error: function (jqXHR) {
+                alert("Error loading folder: " + jqXHR.responseText);
+                $("#progress_overlay").hide();
+            }
+        });
+    }
+
+    function LoadFolderItems(folderTypeDescription, folderId)  {
         var link = '@Url.Action("_ListFolderItems", "CONTROLLER_NAME")';
         link = link.replace("CONTROLLER_NAME", folderTypeDescription);
+
         var formData = new FormData();
 
         formData.append("folderID", folderId);

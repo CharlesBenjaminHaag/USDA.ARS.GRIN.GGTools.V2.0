@@ -332,11 +332,11 @@
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
-    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Shared\_BACKUP\_Layout.cshtml" />
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Shared\_LayoutAdminLTE.cshtml" />
+    <Content Include="Views\Shared\_BACKUP\_LayoutAdminLTE.cshtml" />
     <Content Include="Views\Login\AccountRequest.cshtml" />
     <Content Include="Views\Login\Attestation.cshtml" />
     <Content Include="Views\Login\Confirmation.cshtml" />
@@ -374,7 +374,6 @@
     <Content Include="Views\Shared\Partial\_MainSidebarOrders.cshtml" />
     <Content Include="Views\Shared\Partial\_MainSidebarCurator.cshtml" />
     <Content Include="Views\Shared\Partial\_MainSidebar.cshtml" />
-    <Content Include="Views\Taxonomy\CWRMap\Edit.cshtml" />
     <Content Include="Views\Taxonomy\CWRMap\Index.cshtml" />
     <Content Include="Views\Taxonomy\CWRMap\Map.cshtml" />
     <Content Include="Views\Taxonomy\CWRMap\_Detail.cshtml" />
@@ -511,7 +510,7 @@
     <Content Include="Views\Site\_List.cshtml" />
     <Content Include="Views\Site\Index.cshtml" />
     <Content Include="Views\Taxonomy\Citation\_Widget.cshtml" />
-    <Content Include="Views\Shared\_LayoutUSWDS.cshtml" />
+    <Content Include="Views\Shared\_BACKUP\_LayoutUSWDS.cshtml" />
     <Content Include="Views\Shared\_LayoutAdminLTE3.cshtml" />
     <Content Include="Views\Shared\_LayoutAdminLTE3Login.cshtml" />
     <Content Include="Views\Shared\Sidebars\_MainSidebar.cshtml" />
@@ -700,6 +699,11 @@
     <Content Include="Views\Taxonomy\_TEMPLATES\Edit.cshtml" />
     <Content Include="Views\Taxonomy\Citation\Edit_BACKUP.cshtml" />
     <Content Include="Views\Taxonomy\Citation\Clone.cshtml" />
+    <Content Include="Views\Shared\_Footer.cshtml" />
+    <Content Include="Views\Taxonomy\CWRMap\Edit.cshtml" />
+    <Content Include="Views\Taxonomy\CWRTrait\Edit_BACKUP.cshtml" />
+    <Content Include="Views\Taxonomy\FamilyMap\Edit_BACKUP.cshtml" />
+    <Content Include="Views\Folder\_ListExplorer.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -708,6 +712,7 @@
     <Folder Include="Models\" />
     <Folder Include="Views\Demo\" />
     <Folder Include="Views\Main\" />
+    <Folder Include="Views\Shared\Layout\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

@@ -7,24 +7,12 @@
             </a>
         </li>
         <li class="nav-item">
-            <a href="@Url.Action("Search","Folder")" class="nav-link">
+            <a href="@Url.Action("Index","Folder")" class="nav-link">
                 <i class="nav-icon fas fa-folder"></i>
-                <p>Folders</p>
+                <p>Folder Search</p>
             </a>
         </li>
-        <!-- Version 1.0.1 Alpha -- disable until page fixes complete. -->
-        @*<li class="nav-item">
-            <a href="@Url.Action("Index","Explorer")" class="nav-link">
-                <i class="nav-icon fas fa-globe"></i>
-                <p>Explorer</p>
-            </a>
-        </li>*@
         <li class="nav-header">MANAGE DATA</li>
-        
-        <!-- TODO Make dynamic. Pull from SysTable view. Controller for each will be 
-            table friendly name with spaces removed. -->
-        
-
         <li class="nav-item">
             <a href="@Url.Action("Index","CropForCWR")" class="nav-link">
                 <i class="far fas fa-table nav-icon"></i>

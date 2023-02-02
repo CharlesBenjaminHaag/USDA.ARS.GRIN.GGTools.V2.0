@@ -35,13 +35,9 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             {
                 viewModel.PageTitle = "TurboTaxon Home";
                 viewModel.AuthenticatedUser = AuthenticatedUser;
+                viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
                 viewModel.GetFolderTypes(AuthenticatedUser.CooperatorID);
                 viewModel.GetFolderCategories(AuthenticatedUser.CooperatorID);
-                viewModel.SearchEntity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
-                viewModel.SearchEntity.Category = categoryCode;
-                viewModel.SearchEntity.IsFavoriteOption = isFavorite;
-                viewModel.Search();
-                viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
                 return View(BASE_PATH + "Index.cshtml", viewModel);
             }
             catch (Exception ex)
@@ -50,26 +46,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 return RedirectToAction("InternalServerError", "Error");
             }
         }
-        public ActionResult Search()
-        {
-            FolderViewModel viewModel = new FolderViewModel();
-
-            try
-            {
-                viewModel.PageTitle = "Folder Search";
-                viewModel.GetFolderTypes(AuthenticatedUser.CooperatorID);
-                viewModel.GetFolderCategories(AuthenticatedUser.CooperatorID);
-                viewModel.GetFolderTypes(AuthenticatedUser.CooperatorID);
-                viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
-                return View("~/Views/Folder/Search.cshtml", viewModel);
-            }
-            catch (Exception ex)
-            {
-                Log.Error(ex);
-                return RedirectToAction("InternalServerError", "Error");
-            }
-        }
-
+       
         [HttpPost]
         public ActionResult Search(FolderViewModel viewModel)
         {
@@ -124,7 +101,28 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
         /// <param name="tableName">The type of data contained in the folder.</param>
         /// <returns></returns>
         /// <remarks>The data type is the name of the underlying DB table.</remarks>
-      
+
+        public PartialViewResult _ListExplorer(string folderCategory = "", string folderType = "")
+        {
+            FolderViewModel viewModel = new FolderViewModel();
+
+            // Treat a parameter containing "default" as a non-selection;
+            if (folderCategory.Contains("default"))
+            {
+                folderCategory = "";
+            }
+
+            if (folderType.Contains("default"))
+            {
+                folderType = "";
+            }
+
+            viewModel.SearchEntity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
+            viewModel.SearchEntity.Category = folderCategory;
+            viewModel.SearchEntity.FolderTypeDescription = folderType;
+            viewModel.Search();
+            return PartialView("~/Views/Folder/_List.cshtml", viewModel);
+        }
         public PartialViewResult _List(string folderType = "")
         {
             FolderViewModel viewModel = new FolderViewModel();
@@ -756,7 +754,22 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
 
         public ActionResult Index()
         {
-            throw new NotImplementedException();
+            FolderViewModel viewModel = new FolderViewModel();
+
+            try
+            {
+                viewModel.PageTitle = "Folder Search";
+                viewModel.TableName = "app_user_item_folder";
+                viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
+                viewModel.GetFolderTypes(AuthenticatedUser.CooperatorID);
+                viewModel.GetFolderCategories(AuthenticatedUser.CooperatorID);
+                return View(BASE_PATH + "Search.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return RedirectToAction("InternalServerError", "Error");
+            }
         }
     }
 }

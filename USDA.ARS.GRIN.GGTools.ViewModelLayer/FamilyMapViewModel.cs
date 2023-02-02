@@ -105,7 +105,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
         {
             try
             {
-                switch(Entity.FamilyRank.ToUpper())
+                switch(Entity.Rank.ToUpper())
                 {
                     case "FAMILY":
                         using (FamilyMapManager mgr = new FamilyMapManager())
@@ -243,7 +243,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
 
                 using (FamilyMapManager mgr = new FamilyMapManager())
                 {
-                    switch (Entity.FamilyRank.ToUpper())
+                    switch (Entity.Rank.ToUpper())
                     {
                         case "FAMILY":
                             Entity.ID = mgr.Update(Entity);
@@ -318,19 +318,19 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
         public string GetPageTitle()
         {
             string pageTitle = String.Empty;
-            switch (Entity.FamilyRank.ToUpper())
+            switch (Entity.Rank.ToUpper())
             {
                 case "FAMILY":
-                    pageTitle = String.Format("Edit {0} [{1}]: {2}", ToTitleCase(Entity.FamilyRank.ToLower()), Entity.ID, Entity.FamilyName);
+                    pageTitle = String.Format("Edit {0} [{1}]: {2}", ToTitleCase(Entity.Rank.ToLower()), Entity.ID, Entity.FamilyName);
                     break;
                 case "SUBFAMILY":
-                    pageTitle = String.Format("Edit {0} [{1}]: {2}", ToTitleCase(Entity.FamilyRank.ToLower()), Entity.ID, Entity.SubfamilyName);
+                    pageTitle = String.Format("Edit {0} [{1}]: {2}", ToTitleCase(Entity.Rank.ToLower()), Entity.ID, Entity.SubfamilyName);
                     break;
                 case "TRIBE":
-                    pageTitle = String.Format("Edit {0} [{1}]: {2}", ToTitleCase(Entity.FamilyRank.ToLower()), Entity.ID, Entity.TribeName);
+                    pageTitle = String.Format("Edit {0} [{1}]: {2}", ToTitleCase(Entity.Rank.ToLower()), Entity.ID, Entity.TribeName);
                     break;
                 case "SUBTRIBE":
-                    pageTitle = String.Format("Edit {0} [{1}]: {2}", ToTitleCase(Entity.FamilyRank.ToLower()), Entity.ID, Entity.SubtribeName);
+                    pageTitle = String.Format("Edit {0} [{1}]: {2}", ToTitleCase(Entity.Rank.ToLower()), Entity.ID, Entity.SubtribeName);
                     break;
             }
             return pageTitle;

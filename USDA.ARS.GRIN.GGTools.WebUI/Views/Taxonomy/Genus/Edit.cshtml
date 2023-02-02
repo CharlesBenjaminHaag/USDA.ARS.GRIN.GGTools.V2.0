@@ -313,7 +313,7 @@
 }
 
 @{Html.RenderAction("RenderLookupModal", "Citation", new { tableName = Model.TableName, entityId = Model.Entity.ID }); }
-                @Html.Partial("~/Views/Taxonomy/Author/Modals/_Lookup.cshtml")
+@Html.Partial("~/Views/Taxonomy/Author/Modals/_Lookup.cshtml")
 @Html.Partial("~/Views/Taxonomy/FamilyMap/Modals/_Lookup.cshtml")
 @Html.Partial("~/Views/Taxonomy/Genus/Modals/_Lookup.cshtml")
 @Html.Partial("~/Views/Shared/Modals/_NoteLookup2.cshtml")

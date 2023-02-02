@@ -10,14 +10,6 @@
         <div class="tab-content">
             <div class="tab-pane active" id="activity">
                 <div id="section-search-criteria">
-
-                    <div class="form-group">
-                        <a class="btn btn-default btn-sm" href="@Url.Action("Add","Classification")">
-                            <i class="fa fa-plus"></i> New
-                        </a>
-                        <button id="btnOpenFolderModal" type="button" class="btn btn-default btn-sm"><i class="fa fa-folder"></i></button>
-                    </div>
-
                     @using (Html.BeginForm("Search", "Classification", FormMethod.Post, new { id = "frmMain" }))
                     {
                         <div class="row">
@@ -28,7 +20,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-3">
+                            <div class="col-md-10">
                                 <div class="form-group form-horizontal">
                                     <label>Name</label>
                                     @Html.TextBoxFor(x => x.SearchEntity.Name, new { @class = "form-control" })

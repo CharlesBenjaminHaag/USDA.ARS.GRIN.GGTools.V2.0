@@ -32,12 +32,19 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
 
         public ActionResult Index()
         {
+            CWRMapViewModel viewModel = new CWRMapViewModel();
+
             try
             {
-                CWRMapViewModel viewModel = new CWRMapViewModel();
                 viewModel.PageTitle = "CWR Map Search";
                 viewModel.TableName = "taxonomy_cwr_map";
                 viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
+
+                if (Session[viewModel.SessionKeyName] != null)
+                {
+                    viewModel = Session[viewModel.SessionKeyName] as CWRMapViewModel;
+                }
+
                 return View(BASE_PATH + "Index.cshtml", viewModel);
             }
             catch (Exception ex)
@@ -133,6 +140,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
         {
             try
             {
+                Session[viewModel.SessionKeyName] = viewModel;
                 viewModel.EventAction = "SEARCH";
                 viewModel.Search();
                 ModelState.Clear();

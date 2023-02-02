@@ -27,7 +27,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
             //using (FamilyManager mgr = new FamilyManager())
             //{
             //    Cooperators = new SelectList(mgr.GetCooperators("taxonomy_family_map"), "ID", "FullName");
-            //    Families = new SelectList(GetFamilyMaps().Where(x => x.FamilyRank == "FAMILY").OrderBy(x=>x.FamilyName), "ID", "FamilyName");
+            //    Families = new SelectList(GetFamilyMaps().Where(x => x.Rank == "FAMILY").OrderBy(x=>x.FamilyName), "ID", "FamilyName");
             //    TypeGenera = new SelectList(GetTypeGenera(), "ID", "Name");
             //}
         }

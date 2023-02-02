@@ -16,12 +16,18 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
        
         public ActionResult Index()
         {
+            CropForCWRViewModel viewModel = new CropForCWRViewModel();
             try
             {
-                CropForCWRViewModel viewModel = new CropForCWRViewModel();
                 viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
                 viewModel.PageTitle = "Crop For CWR Search";
                 viewModel.TableName = "taxonomy_cwr_crop";
+
+                if (Session[viewModel.SessionKeyName] != null)
+                {
+                    viewModel = Session[viewModel.SessionKeyName] as CropForCWRViewModel;
+                }
+
                 return View(BASE_PATH + "Index.cshtml", viewModel);
             }
             catch (Exception ex)
@@ -65,11 +71,13 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
 
         public PartialViewResult _Search()
         { return PartialView("~/Views/CropForCWR/_Search.cshtml", new CropForCWRViewModel()); }
-
+        
+        [HttpPost]
         public ActionResult Search(CropForCWRViewModel viewModel)
         {
             try
             {
+                Session[viewModel.SessionKeyName] = viewModel;
                 viewModel.EventAction = "SEARCH";
                 viewModel.Search();
                 ModelState.Clear();

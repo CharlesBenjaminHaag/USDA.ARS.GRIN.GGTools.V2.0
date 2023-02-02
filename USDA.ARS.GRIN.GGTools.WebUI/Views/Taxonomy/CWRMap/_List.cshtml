@@ -15,9 +15,9 @@
                 <tr>
                     <th></th>
                     <th width="5%">ID</th>
-                    <th>Crop Common Name</th>
                     <th>Crop Name</th>
                     <th>Species Name</th>
+                    <th>Crop Common Name</th>
                     <th>Is Crop</th>
                     <th>Is Potential</th>
                     <th>Is Graftstock</th>
@@ -32,40 +32,40 @@
                     {
                         foreach (var result in Model.DataCollection)
                         {
-                            <tr>
-                                <td>
-                                    @result.ID
-                                </td>
-                                <td>
-                                    @result.ID
-                                </td>
-                                <td>@result.CropCommonName</td>
-                                <td>
-                                    <a href="@Url.Action("Edit", "CropForCWR", new { entityId = result.CropForCWRID })">
-                                        @result.CropForCWRName
-                                    </a>
-                                </td>
-                                <td>
-                                    <a href="@Url.Action("Edit", "Species", new { entityId = result.SpeciesID })">
-                                        @result.SpeciesName
-                                    </a>
-                                </td>
-                                <td>@Html.Raw(Model.FormatBoolean(result.IsCrop))</td>
-                                <td>@Html.Raw(Model.FormatBoolean(result.IsPotential))</td>
-                                <td>@Html.Raw(Model.FormatBoolean(result.IsGraftstock))</td>
-                                <td>@result.GenepoolCode</td>
-                                <td>
-                                    <a href="@Url.Action("Edit", "CWRMap", new { entityId = result.ID })" class="btn btn-default btn-sm pull-right row-edit">
-                                        <i class="fa fa-edit"></i>
-                                    </a>
-                                    @*@if (Model.Action == "Folder")
-                                        {
-                                            <button id="btnDeleteFolderItem_@cropForCWR.ReferenceID" class="btn btn-danger btn-sm pull-right row-edit margin-r-5">
-                                                <i class="fa fa-trash"></i> Remove From Folder
-                                            </button>
-                                        }*@
-                                </td>
-                            </tr>
+                    <tr>
+                        <td>
+                            @result.ID
+                        </td>
+                        <td>
+                            @result.ID
+                        </td>
+                        <td>
+                            <a href="@Url.Action("Edit", "CropForCWR", new { entityId = result.CropForCWRID })">
+                                @result.CropForCWRName
+                            </a>
+                        </td>
+                        <td>
+                            <a href="@Url.Action("Edit", "Species", new { entityId = result.SpeciesID })">
+                                @result.SpeciesName
+                            </a>
+                        </td>
+                        <td>@result.CropCommonName</td>
+                        <td>@Html.Raw(Model.FormatBoolean(result.IsCrop))</td>
+                        <td>@Html.Raw(Model.FormatBoolean(result.IsPotential))</td>
+                        <td>@Html.Raw(Model.FormatBoolean(result.IsGraftstock))</td>
+                        <td>@result.GenepoolCode</td>
+                        <td>
+                            <a href="@Url.Action("Edit", "CWRMap", new { entityId = result.ID })" class="btn btn-default btn-sm pull-right row-edit">
+                                <i class="fa fa-edit"></i>
+                            </a>
+                            @*@if (Model.Action == "Folder")
+                {
+                    <button id="btnDeleteFolderItem_@cropForCWR.ReferenceID" class="btn btn-danger btn-sm pull-right row-edit margin-r-5">
+                        <i class="fa fa-trash"></i> Remove From Folder
+                    </button>
+                }*@
+                        </td>
+                    </tr>
                         }
                     }
                 }

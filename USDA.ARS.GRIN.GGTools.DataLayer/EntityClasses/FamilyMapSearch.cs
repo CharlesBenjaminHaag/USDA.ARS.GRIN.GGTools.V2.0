@@ -16,7 +16,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         public string IsInfrafamilal { get; set; }
         public string Authority { get; set; }
         public string FamilyTypeCode { get; set; }
-        public string FamilyRank { get; set; }
+        public string Rank { get; set; }
         public int FamilyID { get; set; }
         public string FamilyName { get; set; }
         public string AlternateName { get; set; }

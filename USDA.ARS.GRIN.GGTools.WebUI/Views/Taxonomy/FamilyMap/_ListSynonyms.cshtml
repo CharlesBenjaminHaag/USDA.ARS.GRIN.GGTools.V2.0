@@ -63,7 +63,7 @@
                                 @Html.Raw(Model.FormatBoolean(result.IsAcceptedName))
                             </td>
                             <td style="text-align:right;">
-                                @switch (result.FamilyRank)
+                                @switch (result.Rank)
                                 {
                                     case "SUBFAMILY":
                                         <a href="@Url.Action("EditSubfamily", "Family", new { entityId = result.ID })" class="btn btn-primary btn-sm pull-right row-edit">

@@ -74,7 +74,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI
                 return null;
             }
         }
-
+       
         //public string IsReadOnly
         //{
         //    get

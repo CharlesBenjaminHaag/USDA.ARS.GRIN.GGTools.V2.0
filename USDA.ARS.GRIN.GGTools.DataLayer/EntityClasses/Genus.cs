@@ -20,7 +20,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         public string FamilyName { get; set; }
         public string FamilyFullName { get; set; }
         public string FamilyAssembledName { get; set; }
-        public string FamilyRank { get; set; }
+        //public string Rank { get; set; }
         public string Name { get; set; }
         public string FullName { get; set; }
         public string QualifyingCode { get; set; }

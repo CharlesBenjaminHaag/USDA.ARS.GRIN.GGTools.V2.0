@@ -122,11 +122,26 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI
         public ActionResult Index()
         {
             CWRTraitViewModel viewModel = new CWRTraitViewModel();
-            viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
-            viewModel.PageTitle = "CWR Trait Search";
-            viewModel.TableName = "taxonomy_cwr_trait";
-            return View(BASE_PATH + "Index.cshtml", viewModel);
-        }
+            
+            try 
+            { 
+                viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
+                viewModel.PageTitle = "CWR Trait Search";
+                viewModel.TableName = "taxonomy_cwr_trait";
+
+                if (Session[viewModel.SessionKeyName] != null)
+                {
+                    viewModel = Session[viewModel.SessionKeyName] as CWRTraitViewModel;
+                }
+
+                return View(BASE_PATH + "Index.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return RedirectToAction("InternalServerError", "Error");
+    }
+}
 
         public PartialViewResult _List(int cwrMapId)
         {
@@ -166,6 +181,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI
         {
             try
             {
+                Session[viewModel.SessionKeyName] = viewModel;
                 viewModel.EventAction = "SEARCH";
                 viewModel.Search();
                 ModelState.Clear();
