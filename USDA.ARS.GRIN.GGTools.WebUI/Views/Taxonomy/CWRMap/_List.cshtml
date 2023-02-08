@@ -22,6 +22,7 @@
                     <th>Is Potential</th>
                     <th>Is Graftstock</th>
                     <th>Genepool Code</th>
+                    <th>Traits</th>
                     <th></th>
                 </tr>
             </thead>
@@ -54,6 +55,11 @@
                         <td>@Html.Raw(Model.FormatBoolean(result.IsPotential))</td>
                         <td>@Html.Raw(Model.FormatBoolean(result.IsGraftstock))</td>
                         <td>@result.GenepoolCode</td>
+                        <td>
+                            <a href="@Url.Action("Index", "CWRTrait", new { cwrMapId = result.ID })">
+                                [@result.RelatedItemCount]
+                            </a>
+                        </td>
                         <td>
                             <a href="@Url.Action("Edit", "CWRMap", new { entityId = result.ID })" class="btn btn-default btn-sm pull-right row-edit">
                                 <i class="fa fa-edit"></i>

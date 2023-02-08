@@ -9,7 +9,7 @@ using NLog;
 namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
 {
     [GrinGlobalAuthentication]
-    public class FamilyMapController : BaseController, IController<FamilyMapViewModel>
+    public class FamilyMapController : BaseController
     {
         protected static string BASE_PATH = "~/Views/Taxonomy/FamilyMap/";
         private static readonly Logger Log = LogManager.GetCurrentClassLogger();
@@ -47,6 +47,14 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                     viewModel.Entity.TribeName = familyMapViewModel.Entity.TribeName;
                     viewModel.Entity.SubtribeID = familyMapViewModel.Entity.SubtribeID;
                     viewModel.Entity.SubtribeName = familyMapViewModel.Entity.SubtribeName;
+
+                    
+
+                    // TODO
+                    // Populate select lists of families and sub-familial data related to the
+                    // parent family.
+
+
                 }
 
                 return View(BASE_PATH + "Edit.cshtml", viewModel);
@@ -70,7 +78,8 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                     viewModel.TableName = "taxonomy_family_map";
                     viewModel.TableCode = "Family";
                     viewModel.PageTitle = viewModel.GetPageTitle();
-                    viewModel.EditPartialViewName = GetEditPartialViewName(viewModel.Entity.Rank.ToUpper());
+                    viewModel.Search();
+                    
                 }
                 else
                 {
@@ -133,7 +142,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
         //    }
         //}
 
-        public ActionResult Index()
+        public ActionResult Index(int orderId = 0)
         {
             FamilyMapViewModel viewModel = new FamilyMapViewModel();
 
@@ -142,6 +151,13 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 viewModel.PageTitle = "Family Search";
                 viewModel.TableName = "taxonomy_family_map";
                 viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
+
+                if (orderId > 0)
+                {
+                    viewModel.SearchEntity.OrderID = orderId;
+                    viewModel.Search();
+                }
+
                 return View(BASE_PATH + "Index.cshtml", viewModel);
             }
             catch (Exception ex)
@@ -190,6 +206,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
 
             try
             {
+                viewModel.EventAction = "FOLDER";
                 viewModel.SearchEntity.FolderID = folderId;
                 viewModel.GetFolderItems();
                 return PartialView(BASE_PATH + "_List.cshtml", viewModel);

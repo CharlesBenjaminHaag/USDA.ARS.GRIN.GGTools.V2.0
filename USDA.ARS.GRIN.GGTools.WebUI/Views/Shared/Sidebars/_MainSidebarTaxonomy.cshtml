@@ -1,19 +1,22 @@
 ﻿<nav class="mt-2">
     <ul class="nav nav-pills nav-sidebar nav-child-indent flex-column" data-widget="treeview" role="menu" data-accordion="false">
         <li class="nav-item">
-            <a href="@Url.Action("Navigate","Home", new { applicationCode = "GGT-TAX"})" class="nav-link">
+            <a href="@Url.Action("Navigate", "Home", new { applicationCode = "GGT-TAX" })" class="nav-link">
                 <i class="nav-icon fas fa-home"></i>
                 <p>Home</p>
             </a>
         </li>
         <li class="nav-item">
-            <a href="@Url.Action("Index","Folder")" class="nav-link">
+            <a href="@Url.Action("Index", "Folder")" class="nav-link">
                 <i class="nav-icon fas fa-folder"></i>
                 <p>Folder Search</p>
             </a>
         </li>
         <li class="nav-header">MANAGE DATA</li>
-        <li class="nav-item">
+
+        @{ Html.RenderAction("_List","SysTable"); }
+
+        @*<li class="nav-item">
             <a href="@Url.Action("Index","CropForCWR")" class="nav-link">
                 <i class="far fas fa-table nav-icon"></i>
                 <p>Crop For CWR</p>
@@ -120,7 +123,8 @@
                 <i class="far fas fa-table nav-icon"></i>
                 <p>Regulation</p>
             </a>
-        </li>
+        </li>*@
+
         <li class="nav-header">SYSADMIN</li>
         @*  Version 1.0.1 Alpha: Re-enable once fixes complete.
             <li class="nav-item">

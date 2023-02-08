@@ -31,10 +31,10 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
             {
                 Cooperators = new SelectList(mgr.GetCooperators("taxonomy_family_map"), "ID", "FullName");
                 FamilyTypes = new SelectList(mgr.GetCodeValues("TAXONOMY_FAMILY_TYPE"), "Value", "Title");
-                Families = new SelectList(GetFamilyMaps().Where(x => x.Rank == "FAMILY").OrderBy(x => x.FamilyName), "FamilyID", "FamilyName");
-                Subfamilies = new SelectList(GetFamilyMaps().Where(x => x.Rank == "SUBFAMILY").OrderBy(x => x.SubfamilyName), "SubfamilyID", "SubfamilyName");
-                Tribes = new SelectList(GetFamilyMaps().Where(x => x.Rank == "TRIBE").OrderBy(x => x.TribeName), "TribeID", "TribeName");
-                Subtribes = new SelectList(GetFamilyMaps().Where(x => x.Rank == "SUBTRIBE").OrderBy(x => x.SubtribeName), "SubtribeID", "SubtribeName");
+                //Families = new SelectList(GetFamilyMaps().Where(x => x.Rank == "FAMILY").OrderBy(x => x.FamilyName), "FamilyID", "FamilyName");
+                //Subfamilies = new SelectList(GetFamilyMaps().Where(x => x.Rank == "SUBFAMILY").OrderBy(x => x.SubfamilyName), "SubfamilyID", "SubfamilyName");
+                //Tribes = new SelectList(GetFamilyMaps().Where(x => x.Rank == "TRIBE").OrderBy(x => x.TribeName), "TribeID", "TribeName");
+                //Subtribes = new SelectList(GetFamilyMaps().Where(x => x.Rank == "SUBTRIBE").OrderBy(x => x.SubtribeName), "SubtribeID", "SubtribeName");
                 YesNoOptions = new SelectList(mgr.GetYesNoOptions(), "Key", "Value");
             }
 

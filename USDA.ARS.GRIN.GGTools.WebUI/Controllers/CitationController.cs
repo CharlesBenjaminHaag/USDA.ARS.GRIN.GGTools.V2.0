@@ -384,38 +384,13 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
         }
 
         [HttpPost]
-        public JsonResult Clone(FormCollection formCollection)
+        public JsonResult Clone(CitationViewModel viewModel)
         {
-            CitationViewModel viewModel = new CitationViewModel();
             CitationViewModel cloneViewModel = new CitationViewModel();
-
-            // Retrieve and clone the citation whose ID is passed as a parameter.
-            if (!String.IsNullOrEmpty(formCollection["CitationID"]))
-            {
-                cloneViewModel.SearchEntity.ID = Int32.Parse(formCollection["CitationID"]);
-            }
+            cloneViewModel.SearchEntity.ID = viewModel.Entity.ID;
             cloneViewModel.Search();
+
             viewModel.Entity = cloneViewModel.Entity;
-
-            if (!String.IsNullOrEmpty(formCollection["TableName"]))
-            {
-                viewModel.TableName = formCollection["TableName"];
-            }
-             
-            if (!String.IsNullOrEmpty(formCollection["FamilyID"]))
-            {
-                viewModel.Entity.FamilyID = Int32.Parse(formCollection["FamilyID"]);
-            }
-
-            if (!String.IsNullOrEmpty(formCollection["GenusID"]))
-            {
-                viewModel.Entity.GenusID = Int32.Parse(formCollection["GenusID"]);
-            }
-
-            if (!String.IsNullOrEmpty(formCollection["SpeciesID"]))
-            {
-                viewModel.Entity.SpeciesID = Int32.Parse(formCollection["SpeciesID"]);
-            }
             viewModel.Entity.ID = 0;
             viewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
             viewModel.Insert();
@@ -445,13 +420,14 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             CitationViewModel viewModel = new CitationViewModel();
             viewModel.IsMultiSelect = isMultiSelect;
 
-            // TEMP: If no table name is passed in, assume use of species citations.
-            if (String.IsNullOrEmpty(tableName))
-            {
-                tableName = "taxonomy_species";
-                entityId = speciesId;
-            }
-            viewModel.GetTaxonCitations(tableName, entityId);
+            // If the table name is not a taxon table, load species citations.
+            if ((tableName != "taxonomy_species") && 
+                (tableName != "taxonomy_genus") && 
+                tableName != "taxonomy_family_map")
+                {
+                    viewModel.SearchEntity.SpeciesID = speciesId;
+                    viewModel.Search();
+                }
             return PartialView(BASE_PATH + "/Modals/_Lookup.cshtml", viewModel);
         }
         public PartialViewResult RenderEditModal(int entityId)

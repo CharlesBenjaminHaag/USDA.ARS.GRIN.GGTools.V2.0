@@ -16,6 +16,7 @@
                         <th width="5%"></th>
                         <th width="5%">ID</th>
                         <th>Order Name</th>
+                        <th style="text-align:center;">Families</th>
                         <th>Created</th>
                         <th>Created By</th>
                         <th>Last Modified</th>
@@ -39,6 +40,9 @@
                         </td>
                         <td>
                             <a href="@Url.Action("Edit","Order", new { entityId = result.ID })">@result.OrderName</a>
+                        </td>
+                        <td style="text-align:center;">
+                            <a href="@Url.Action("Index","FamilyMap", new { orderId = result.ID })">[@result.TotalFamilies]</a>
                         </td>
                         <td>
                             @result.CreatedDate.ToShortDateString()

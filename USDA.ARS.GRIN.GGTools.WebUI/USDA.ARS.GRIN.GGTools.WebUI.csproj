@@ -235,6 +235,7 @@
     <Content Include="Content\dist\img\Reisinger.Marty.jpg" />
     <Content Include="Content\dist\img\search-icon.png" />
     <Content Include="dist\img\GGlogo.gif" />
+    <Content Include="dist\img\GGlogo_BW.gif" />
     <Content Include="dist\img\gringlobal-logo.jfif" />
     <Content Include="dist\img\user-default.png" />
     <Content Include="Content\dist\js\adminlte.js" />
@@ -651,7 +652,6 @@
     <Content Include="Views\SysGroup\Explorer\Index.cshtml" />
     <Content Include="Views\SysGroup\_SelectListSimple.cshtml" />
     <Content Include="Views\SysPermission\_List.cshtml" />
-    <Content Include="Views\SysTable\_ListMenu.cshtml" />
     <Content Include="Views\Cooperator\Synch\_EditWebCooperator.cshtml" />
     <Content Include="Views\Cooperator\Synch\_EditWebUser.cshtml" />
     <Content Include="Views\Cooperator\Synch\_EditCooperator.cshtml" />
@@ -704,6 +704,10 @@
     <Content Include="Views\Taxonomy\CWRTrait\Edit_BACKUP.cshtml" />
     <Content Include="Views\Taxonomy\FamilyMap\Edit_BACKUP.cshtml" />
     <Content Include="Views\Folder\_ListExplorer.cshtml" />
+    <Content Include="Views\Shared\_NavbarRight.cshtml" />
+    <Content Include="Views\Shared\_NavbarListOptions.cshtml" />
+    <Content Include="Views\Shared\_Breadcrumbs.cshtml" />
+    <Content Include="Views\SysTable\_MenuList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

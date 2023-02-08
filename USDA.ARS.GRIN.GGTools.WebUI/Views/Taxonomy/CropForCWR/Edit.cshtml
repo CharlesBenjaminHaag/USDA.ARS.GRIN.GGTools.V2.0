@@ -9,7 +9,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>AdminLTE 3 | Top Navigation</title>
+    <title>@Model.PageTitle</title>
     <link rel="stylesheet" href="~/Content/dist/css/fonts.googleapis.com.css">
     <link rel="stylesheet" href="~/plugins/fontawesome-free/css/all.min.css">
     <link rel="stylesheet" href="~/dist/css/adminlte.css">
@@ -102,7 +102,7 @@
         <nav class="main-header navbar navbar-expand-md navbar-light text-sm">
             <div class="container" style="max-width:1500px;">
                 <a href="@Url.Action("Index","Home")" class="navbar-brand">
-                    <img src="~/dist/img/gringlobal-logo.jfif" alt="GRIN-Global Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+                    <img src="~/dist/img/GGlogo_BW.gif" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
                     <span class="brand-text font-weight-light">GGTools</span>
                 </a>
                 <button class="navbar-toggler order-1" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
@@ -118,34 +118,24 @@
                             </li>
                             Html.RenderAction("_RelatedFoldersMenu", "Folder", new { tableName = Model.TableName, entityId = Model.Entity.ID });
                         }
+
                     </ul>
                     <!-- END EDIT PAGE MENU-->
                 </div>
-
+                <!-- BEGIN RIGHT-ALIGNED NAV MENU -->
                 <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
-                    <li class="nav-item dropdown">
-                        <a class="nav-link" data-toggle="dropdown" href="#">
-                            <i class="far fa-user"></i>
-
-                        </a>
-
-                        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right" style="left: inherit; right: 0px;">
-                            <span class="dropdown-item dropdown-header">@AppInfo.GetAuthenticatedUser().FullName</span>
-                            <div class="dropdown-divider"></div>
-                            <a href="#" class="dropdown-item">
-                                <i class="fas fa-clock mr-2"></i> Logged In
-                                <span class="float-right text-muted text-sm"> </span>
+                    @if (Model.Entity.ID > 0)
+                    {
+                        <li id="nav-item-view-website" class="nav-item">
+                            <a class="nav-link" href="#" role="button">
+                                <i class="far fa-globe"></i>
+                                View on Website
                             </a>
-                            <div class="dropdown-divider"></div>
-                            <a href="@Url.Action("Logout","Login")" class="dropdown-item dropdown-footer bg-danger">Log Out</a>
-                        </div>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" data-widget="fullscreen" href="#" role="button">
-                            <i class="fas fa-expand-arrows-alt"></i>
-                        </a>
-                    </li>
+                        </li>
+                    }
+                    @Html.Partial("~/Views/Shared/_NavbarRight.cshtml")
                 </ul>
+                <!-- END RIGHT-ALIGNED NAV MENU -->
             </div>
         </nav>
         <div class="content-wrapper">
@@ -155,22 +145,10 @@
                         <div class="col-sm-6">
                             <h1 class="m-0">
                                 @Html.Raw(ViewBag.Title)
-                                @*<small>Example 3.0</small>*@
                             </h1>
                         </div>
                         <div class="col-sm-6">
-                            <!-- BEGIN BREADCRUMBS -->
-                            @{
-                                string controllerName = @ViewContext.RouteData.Values["controller"].ToString();
-                                string actionName = @ViewContext.RouteData.Values["action"].ToString();
-                            }
-                            <ol class="breadcrumb float-sm-right">
-                                <li class="breadcrumb-item"><a href="@Url.Action("Index","Home")">Home</a></li>
-                                <li class="breadcrumb-item"><a href="@Url.Action("Navigate","Home", new { applicationCode = "GGT-TAX"})">Turbo Taxon Home</a></li>
-                                <li class="breadcrumb-item"><a href="@Url.Action("Index","CropForCWR")">Crop For CWR Search</a></li>
-                                <li class="breadcrumb-item active">@actionName</li>
-                            </ol>
-                            <!-- END BREADCRUMBS -->
+                            @Html.Partial("~/Views/Shared/_Breadcrumbs.cshtml")
                         </div>
                     </div>
                 </div>
@@ -189,13 +167,12 @@
                         @Html.HiddenFor(x => x.Entity.RelatedItemCount)
                         <div class="card card-default">
                             <div class="card-header">
-                                <!-- BEGIN PW LINK -->
-                                @Html.Partial("~/Views/Taxonomy/Shared/_RevisionHistory.cshtml")
-                                <a href="@Model.PublicWebsiteBaseURL/taxon/cwrcropdetail?id=@Model.Entity.ID&type=crop" target="_blank" class="btn btn-info btn-sm float-right">
-                                    <i class="fa fa-globe"></i>
-                                    View Public Website
-                                </a>
-                                <!-- END PW LINK -->
+                                <h3 class="card-title">Summary</h3>
+                                <div class="card-tools">
+                                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                        <i class="fas fa-minus"></i>
+                                    </button>
+                                </div>
                             </div>
                             <div class="card-body">
                                 @Html.Partial("~/Views/Shared/_ValidationMessages.cshtml")
@@ -222,9 +199,13 @@
                                     </div>
                                     <!-- END NOTE FIELD-->
                                 </div>
+                                <!-- BEGIN REV HIST -->
+                                @Html.Partial("~/Views/Taxonomy/Shared/_RevisionHistory.cshtml")
+                                <!-- END REV HIST-->
                             </div>
                             <div class="card-footer">
-                                <a href="@Url.Action("Refresh")" class="btn btn-default">Cancel</a>
+                                <a href="@Url.Action("Refresh")" class="btn btn-default">Reset</a>
+
                                 @if (Model.Entity.ID > 0)
                                 {
                                     <button id="btnDelete" type="button" class="btn btn-danger">

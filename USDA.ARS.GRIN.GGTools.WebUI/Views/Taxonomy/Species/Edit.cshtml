@@ -134,7 +134,7 @@
         <nav class="main-header navbar navbar-expand-md navbar-light text-sm">
             <div class="container" style="max-width:1500px;">
                 <a href="@Url.Action("Index","Home")" class="navbar-brand">
-                    <img src="~/dist/img/gringlobal-logo.jfif" alt="GRIN-Global Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+                    <img src="~/dist/img/GGlogo_BW.gif" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
                     <span class="brand-text font-weight-light">GGTools</span>
                 </a>
                 <button class="navbar-toggler order-1" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
@@ -177,7 +177,7 @@
                                     </button>
 
                                     @*<a href="@Url.Action("Add", "Citation", new { @speciesId = Model.Entity.ID })"
-                                    class="dropdown-item">Citation</a>*@
+                            class="dropdown-item">Citation</a>*@
                                 </li>
                                 <li><a href="@Url.Action("Add", "CommonName", new { @speciesId = Model.Entity.ID })" class="dropdown-item">Common Name</a></li>
                                 <li><a href="@Url.Action("Add", "GeographyMap", new { @speciesId = Model.Entity.ID })" class="dropdown-item">Distribution</a></li>
@@ -190,126 +190,38 @@
                     </ul>
                     <!-- END EDIT PAGE MENU-->
                 </div>
-                <!-- BEGIN RIGHT-ALIGNED MENU ITEM(S) -->
+
+
+                <!-- BEGIN RIGHT-ALIGNED NAV MENU -->
                 <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
-
-                    <!--<li class="nav-item dropdown">-->
-                    @*<a class="nav-link" data-toggle="dropdown" href="#">
-                        <i class="fas fa-comments"></i>
-                        <span class="badge badge-danger navbar-badge">3</span>
-                    </a>*@
-                    <!--<div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                        <a href="#" class="dropdown-item">
-
-                            <div class="media">
-                                <img src="../../dist/img/user1-128x128.jpg" alt="User Avatar" class="img-size-50 mr-3 img-circle">
-                                <div class="media-body">
-                                    <h3 class="dropdown-item-title">
-                                        Brad Diesel
-                                        <span class="float-right text-sm text-danger"><i class="fas fa-star"></i></span>
-                                    </h3>
-                                    <p class="text-sm">Call me whenever you can...</p>
-                                    <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
-                                </div>
-                            </div>
-
-                        </a>
-                        <div class="dropdown-divider"></div>
-                        <a href="#" class="dropdown-item">
-
-                            <div class="media">
-                                <img src="../../dist/img/user8-128x128.jpg" alt="User Avatar" class="img-size-50 img-circle mr-3">
-                                <div class="media-body">
-                                    <h3 class="dropdown-item-title">
-                                        John Pierce
-                                        <span class="float-right text-sm text-muted"><i class="fas fa-star"></i></span>
-                                    </h3>
-                                    <p class="text-sm">I got your message bro</p>
-                                    <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
-                                </div>
-                            </div>
-
-                        </a>
-                        <div class="dropdown-divider"></div>
-                        <a href="#" class="dropdown-item">
-
-                            <div class="media">
-                                <img src="../../dist/img/user3-128x128.jpg" alt="User Avatar" class="img-size-50 img-circle mr-3">
-                                <div class="media-body">
-                                    <h3 class="dropdown-item-title">
-                                        Nora Silvester
-                                        <span class="float-right text-sm text-warning"><i class="fas fa-star"></i></span>
-                                    </h3>
-                                    <p class="text-sm">The subject goes here</p>
-                                    <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
-                                </div>
-                            </div>
-
-                        </a>
-                        <div class="dropdown-divider"></div>
-                        <a href="#" class="dropdown-item dropdown-footer">See All Messages</a>
-                    </div>
-                </li>
-
-                <li class="nav-item dropdown">
-                    <a class="nav-link" data-toggle="dropdown" href="#">
-                        <i class="far fa-bell"></i>
-                        <span class="badge badge-warning navbar-badge">15</span>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                        <span class="dropdown-header">15 Notifications</span>
-                        <div class="dropdown-divider"></div>
-                        <a href="#" class="dropdown-item">
-                            <i class="fas fa-envelope mr-2"></i> 4 new messages
-                            <span class="float-right text-muted text-sm">3 mins</span>
-                        </a>
-                        <div class="dropdown-divider"></div>
-                        <a href="#" class="dropdown-item">
-                            <i class="fas fa-users mr-2"></i> 8 friend requests
-                            <span class="float-right text-muted text-sm">12 hours</span>
-                        </a>
-                        <div class="dropdown-divider"></div>
-                        <a href="#" class="dropdown-item">
-                            <i class="fas fa-file mr-2"></i> 3 new reports
-                            <span class="float-right text-muted text-sm">2 days</span>
-                        </a>
-                        <div class="dropdown-divider"></div>
-                        <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
-                    </div>
-                </li>-->
-                    <li class="nav-item">
-                        <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button">
-                            <i class="fas fa-th-large"></i>
-                        </a>
-                    </li>
+                    @if (Model.Entity.ID > 0)
+                    {
+                        <li id="nav-item-view-website" class="nav-item">
+                            <a class="nav-link" href="#" role="button">
+                                <i class="far fa-globe"></i>
+                                View on Website
+                            </a>
+                        </li>
+                    }
+                    @Html.Partial("~/Views/Shared/_NavbarRight.cshtml")
                 </ul>
-                <!-- END RIGHT-ALIGNED MENU ITEM(S) -->
+                <!-- END RIGHT-ALIGNED NAV MENU -->
+
             </div>
         </nav>
         <!-- END MAIN NAVBAR -->
-
         <div class="content-wrapper">
             <div class="content-header">
                 <div class="container" style="max-width:1500px;">
                     <div class="row mb-2">
-
-                        <!-- BEGIN PAGE TITLE -->
-                        <div class="col-sm-12">
+                        <div class="col-sm-6">
                             <h1 class="m-0">
-                                @Html.Raw(Model.PageTitle)
-                                @*<small>@Model.Entity.IsAcceptedName</small>*@
+                                @Html.Raw(ViewBag.Title)
                             </h1>
                         </div>
-                        <!-- END PAGE TITLE -->
-                        <!-- BEGIN BREADCRUMBS -->
-                        @*<div class="col-sm-6">
-                            <ol class="breadcrumb float-sm-right">
-                                <li class="breadcrumb-item"><a href="#">Home</a></li>
-                                <li class="breadcrumb-item"><a href="#">CWR Search</a></li>
-                                <li class="breadcrumb-item active">Add</li>
-                            </ol>
-                        </div>*@
-                        <!-- END BREADCRUMBS -->
+                        <div class="col-sm-6">
+                            @Html.Partial("~/Views/Shared/_Breadcrumbs.cshtml")
+                        </div>
 
                     </div>
                 </div>
@@ -340,13 +252,18 @@
                         <input type="hidden" id="hfModalEventValue" />
                         <div class="card card-default">
                             <div class="card-header">
-                                @Html.Partial("~/Views/Taxonomy/Species/_RevisionHistory.cshtml")
+                                <h3 class="card-title">Summary</h3>
+                                <div class="card-tools">
+                                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                        <i class="fas fa-minus"></i>
+                                    </button>
+                                </div>
                                 <span id="section-verification">
                                     @Html.Partial("~/Views/Taxonomy/Species/_Verification.cshtml")
                                 </span>
                             </div>
                             <div class="card-body">
-                                <div class="table-responsive mailbox-messages">
+                                <div>
                                     @Html.Partial("~/Views/Shared/_ValidationMessages.cshtml")
                                     <div class="row accepted">
                                         <div id="section-accepted-name" class="col-md-4 accepted">
@@ -394,7 +311,6 @@
                                                             </a>
                                                         </span>
                                                     }
-
                                                 </div>
                                             </div>
                                         </div>
@@ -430,7 +346,7 @@
                                                         <label>Subspecies Authority</label>
                                                         <div class="input-group">
                                                             @Html.TextBoxFor(x => x.Entity.SubspeciesAuthority, new { @class = "form-control" })
-                                                            <span class="input-group-btn">
+                                                            <span class="input-group-append">
                                                                 <button type="button" data-toggle="modal" data-target="#modal-author-lookup" class="btn btn-default btn-flat">
                                                                     <i class="fa fa-search"></i>
                                                                 </button>
@@ -557,7 +473,7 @@
                                                 <label>Protologue</label>
                                                 <div class="input-group">
                                                     @Html.TextBoxFor(x => x.Entity.Protologue, new { @class = "form-control" })
-                                                    <span class="input-group-btn">
+                                                    <span class="input-group-append">
                                                         <button type="button" class="btn btn-default" data-toggle="modal" data-target="#modal-protologue-lookup">
                                                             <i class="fa fa-search"></i>
                                                         </button>
@@ -603,9 +519,9 @@
                                     <div class="row">
                                         <!-- BEGIN NOTE FIELD -->
                                         <div class="col-md-12">
-                                            <label class="margin-r-5">Note</label>&nbsp;&nbsp;
+                                            <label>Note</label>
                                             <div class="input-group">
-                                                <br />
+                                               
                                                 @Html.TextAreaFor(x => x.Entity.Note, new { @id = "txtNote", @class = "form-control", })
                                                 <span class="input-group-append">
                                                     <button type="button" class="btn btn-default" data-toggle="modal" data-target="#modal-note-lookup">
@@ -616,10 +532,15 @@
                                         </div>
                                         <!-- END NOTE FIELD-->
                                     </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            @Html.Partial("~/Views/Taxonomy/Species/_RevisionHistory.cshtml")
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <div class="card-footer">
-                                <a href="@Url.Action("Refresh")" class="btn btn-default">Cancel</a>
+                                <a href="@Url.Action("Refresh")" class="btn btn-default">Reset</a>
                                 @if (Model.Entity.ID > 0)
                                 {
                                     <button id="btnDelete" type="button" class="btn btn-danger">
@@ -672,18 +593,17 @@
                     @Html.Partial("~/Views/Taxonomy/Species/Modals/_LookupProtologue.cshtml")
                     @Html.Partial("~/Views/Shared/Modals/_NoteLookup2.cshtml")
                     @Html.Partial("~/Views/Taxonomy/Shared/Modals/_Delete.cshtml")
-                    @{Html.RenderAction("RenderLookupModal", "Citation", new { isMultiSelect = "Y" }); }
+                    @{Html.RenderAction("RenderLookupModal", "Citation", new { @tableName = Model.TableName, @isMultiSelect = "Y" }); }
                     @{Html.RenderAction("_Edit", "Folder"); }
                 </div>
             </div>
-
         </div>
-
         <aside class="control-sidebar control-sidebar-dark">
         </aside>
         <!-- Main Footer -->
         @Html.Partial("~/Views/Shared/_Footer.cshtml")
     </div>
+
     <script type="text/javascript">
         $(document).ready(function () {
             Init();

@@ -68,11 +68,12 @@
                                         <div class="col-md-12">
                                             <div class="margin">
                                                 <button id="btnReset" class="btn btn-danger">Reset</button>
-                                                <button id="btnLookupCitation" class="btn btn-info float-right">Search</button>
+                                                <button id="btnSearch" class="btn btn-info float-right">Search</button>
                                             </div>
                                         </div>
                                     </div>
                                     <div id="section-citation-lookup-search-results">
+                                        @Html.Partial("~/Views/Taxonomy/Citation/Modals/_SelectList.cshtml")
                                     </div>
                                 </div>
                             </div>
@@ -181,7 +182,7 @@
 
 <script type="text/javascript">
 
-    $(document).on("click", "[id='btnLookupCitation']", function () {
+    $(document).on("click", "[id='btnSearch']", function () {
         LookupCitations();
     });
 
@@ -235,37 +236,38 @@
         var tableName = $("#TableName").val();
         var entityId = $("#Entity_ID").val();
         var selectedItemIdList = GetSelectedEntityIDs(dataTableName);
-        var selectedItemLabelList = GetSelectedCitationText(dataTableName);
-
+       
         if (selectedItemIdList.length == 0) {
-            alert("DEBUG SEL REC FIRST MODAL HERE");
+            alert("ERROR: NO CITATION SELECTED");
         }
         else {
-            SaveSelectedCitation(editOption, tableName, entityId, selectedItemIdList);
+            SaveSelectedCitation(tableName, entityId, selectedItemIdList);
             $("#modal-citation-lookup").modal("hide");
         }
     }
 
-    $(document).on("click", "[id='btnSaveSelectedTaxonCitation']", function () {
-        var tableName = $("#TableName").val();
-        var entityId = $("#Entity_ID").val();
-        var selectedItemIdList = GetSelectedEntityIDs("data_table_lookup_taxon_citations");
-        var selectedItemLabelList = GetSelectedEntityLabels("data_table_lookup_taxon_citations");
-        SaveSelectedCitation(tableName, entityId, selectedItemIdList);
-    });
+    //$(document).on("click", "[id='btnSaveSelectedTaxonCitation']", function () {
+    //    var tableName = $("#TableName").val();
+
+    //    //DEBUG
+    //    alert("TABLE " + tableName);
+
+    //    var entityId = $("#Entity_ID").val();
+    //    var selectedItemIdList = GetSelectedEntityIDs("data_table_lookup_taxon_citations");
+    //    var selectedItemLabelList = GetSelectedEntityLabels("data_table_lookup_taxon_citations");
+    //    SaveSelectedCitation(tableName, entityId, selectedItemIdList);
+    //});
 
     $(document).on("click", "[id='btnSaveNewCitation']", function () {
         SaveNewCitation();
     });
 
-    function SaveSelectedCitation(editOption, tableName, entityId, citationId) {
+    function SaveSelectedCitation(tableName, entityId, citationId) {
         var link = '@Url.Action("Clone","Citation")';
         var familyId = 0;
         var genusId = 0;
         var speciesId = 0;
         var formData = new FormData();
-
-        formData.append("TableName", tableName);
 
         switch (tableName) {
             case "taxonomy_family_map":
@@ -282,10 +284,14 @@
                 break;
         }
 
-        formData.append("CitationID", citationId);
-        formData.append("FamilyID", familyId);
-        formData.append("GenusID", genusId);
-        formData.append("SpeciesID", speciesId);
+        //DEBUG
+        alert("DEBUG CLONING CIT " + citationId);
+
+        formData.append("Entity.TableName", tableName);
+        formData.append("Entity.ID", citationId);
+        formData.append("Entity.FamilyID", familyId);
+        formData.append("Entity.GenusID", genusId);
+        formData.append("Entity.SpeciesID", speciesId);
 
         $.ajax({
             url: link,
@@ -302,7 +308,11 @@
                     LoadDependentData("tab_selector_citation","Citation","_List");
                 }
                 else {
-                    $("#section-citation-text").html(data.citation.CitationText);
+                    //DEBUG
+                    alert("NEW CITATION " + data.citation.ID + " AND " + data.citation.AssembledName);
+                    $("#Entity_CitationID").val(data.citation.ID);
+                    $("#Entity_CitationTitle").val(data.citation.CitationTitle);
+                    $("#section-citation-assembled-name").html(data.citation.AssembledName);
                 }
             },
             error: function (ex) {

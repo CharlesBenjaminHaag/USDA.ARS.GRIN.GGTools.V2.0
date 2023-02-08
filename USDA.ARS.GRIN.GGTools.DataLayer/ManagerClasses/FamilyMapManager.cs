@@ -158,52 +158,41 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         {
             List<FamilyMap> results = new List<FamilyMap>();
 
-            SQL = "SELECT *, AcceptedID, AcceptedName, LTRIM(RTRIM(COALESCE(FamilyName, ''))) + " +
-            " CASE COALESCE(convert(nvarchar, SubfamilyName), '') WHEN '' THEN '' ELSE '' + ' subfam. ' + LTRIM(RTRIM(SubfamilyName)) END " +
-            " + CASE COALESCE(convert(nvarchar, TribeName), '') WHEN '' THEN '' ELSE '' + ' tr. ' + LTRIM(RTRIM(TribeName)) END " +
-            " + CASE COALESCE(convert(nvarchar, SubtribeName), '') WHEN '' THEN '' ELSE '' + ' subtr. ' + LTRIM(RTRIM(SubtribeName)) END " +
-            " AS AssembledName FROM vw_GRINGlobal_Taxonomy_Family_Map";
-            SQL += " WHERE (@ID                         IS NULL OR ID = @ID) ";
-            SQL += " AND  (@CreatedByCooperatorID       IS NULL OR CreatedByCooperatorID        =           @CreatedByCooperatorID)";
-            SQL += " AND  (@OrderID                     IS NULL OR OrderID                      =           @OrderID)";
-            SQL += " AND  (@FamilyID                    IS NULL OR FamilyID                     =           @FamilyID)";
-            SQL += " AND  (@SubfamilyID                 IS NULL OR SubfamilyID                  =           @SubfamilyID)";
-            SQL += " AND  (@TribeID                     IS NULL OR TribeID                      =           @TribeID)";
-            SQL += " AND  (@SubtribeID                  IS NULL OR SubtribeID                   =           @SubtribeID)";
-            SQL += " AND  (@FamilyName                  IS NULL OR FamilyName                   LIKE '%' +  @FamilyName + '%')";
-            SQL += " AND  (@SubfamilyName               IS NULL OR SubfamilyName                LIKE '%' +  @SubfamilyName + '%')";
-            SQL += " AND  (@TribeName                   IS NULL OR TribeName                    LIKE '%' +  @TribeName + '%')";
-            SQL += " AND  (@SubtribeName                IS NULL OR SubtribeName                 LIKE '%' +  @SubtribeName + '%')";
-            SQL += " AND  (@FamilyTypeCode              IS NULL OR FamilyTypeCode               =           @FamilyTypeCode)";
-            //SQL += " AND  (@Rank                  IS NULL OR Rank                   =           @Rank)";
-            SQL += " AND  (@IsAcceptedName              IS NULL OR IsAcceptedName               =           @IsAcceptedName)";
-            SQL += " AND  (@Authority                   IS NULL OR Authority                    LIKE '%' +  @Authority + '%')";
-            SQL += " AND  (@Note                        IS NULL OR Note                         LIKE '%' +  @Note + '%')";
-
-            //if (searchEntity.IsInfrafamilal == "Y")
-            //{
-            //    SQL += " AND Rank <> 'FAMILY'";
-            //}
-
-            if (searchEntity.Rank == "") searchEntity.Rank = null;
+            SQL = "SELECT * FROM vw_GRINGlobal_Taxonomy_Family_Map";
+            SQL += " WHERE  (@ID                    IS NULL     OR  ID = @ID) ";
+            SQL += " AND    (@IsAcceptedName        IS NULL     OR  IsAcceptedName  =   @IsAcceptedName)";
+            SQL += " AND    (@OrderID               IS NULL     OR OrderID          =   @OrderID)";
+            SQL += " AND    (@OrderName             IS NULL     OR OrderName        LIKE '%' +  @OrderName + '%')";
+            SQL += " AND    (@FamilyName            IS NULL     OR FamilyName       LIKE '%' +  @FamilyName + '%')";
+            SQL += " AND    (@FamilyTypeCode        IS NULL     OR FamilyTypeCode   = @FamilyTypeCode)";
+            SQL += " AND    (@Authority             IS NULL     OR Authority        LIKE '%' +  @Authority + '%')";
+            SQL += " AND    (@AlternateName         IS NULL     OR AlternateName    LIKE '%' +  @AlternateName + '%')";
+            SQL += " AND    (@SubfamilyName         IS NULL     OR SubfamilyName                LIKE '%' +  @SubfamilyName + '%')";
+            SQL += " AND    (@TribeName             IS NULL     OR TribeName                    LIKE '%' +  @TribeName + '%')";
+            SQL += " AND    (@SubtribeName          IS NULL     OR SubtribeName                 LIKE '%' +  @SubtribeName + '%')";
+            SQL += " AND    (@CreatedByCooperatorID IS NULL     OR CreatedByCooperatorID        =           @CreatedByCooperatorID)";
 
             var parameters = new List<IDbDataParameter> {
                 CreateParameter("ID", searchEntity.ID > 0 ? (object)searchEntity.ID : DBNull.Value, true),
-                CreateParameter("CreatedByCooperatorID", searchEntity.CreatedByCooperatorID > 0 ? (object)searchEntity.CreatedByCooperatorID : DBNull.Value, true),
+                CreateParameter("IsAcceptedName", (object)searchEntity.IsAcceptedName ?? DBNull.Value, true),
                 CreateParameter("OrderID", searchEntity.OrderID > 0 ? (object)searchEntity.OrderID : DBNull.Value, true),
-                CreateParameter("FamilyID", searchEntity.FamilyID > 0 ? (object)searchEntity.FamilyID : DBNull.Value, true),
-                CreateParameter("SubfamilyID", searchEntity.SubFamilyID > 0 ? (object)searchEntity.SubFamilyID : DBNull.Value, true),
-                CreateParameter("TribeID", searchEntity.TribeID > 0 ? (object)searchEntity.TribeID : DBNull.Value, true),
-                CreateParameter("SubtribeID", searchEntity.SubTribeID > 0 ? (object)searchEntity.SubTribeID : DBNull.Value, true),
+                CreateParameter("OrderName", (object)searchEntity.OrderName ?? DBNull.Value, true),
                 CreateParameter("FamilyName", (object)searchEntity.FamilyName ?? DBNull.Value, true),
+                CreateParameter("FamilyTypeCode", (object)searchEntity.FamilyTypeCode ?? DBNull.Value, true),
+                CreateParameter("AlternateName", (object)searchEntity.AlternateName ?? DBNull.Value, true),
+                CreateParameter("Authority", (object)searchEntity.Authority ?? DBNull.Value, true),
                 CreateParameter("SubfamilyName", (object)searchEntity.SubFamilyName ?? DBNull.Value, true),
                 CreateParameter("TribeName", (object)searchEntity.TribeName ?? DBNull.Value, true),
                 CreateParameter("SubtribeName", (object)searchEntity.SubTribeName ?? DBNull.Value, true),
-                CreateParameter("FamilyTypeCode", (object)searchEntity.FamilyTypeCode ?? DBNull.Value, true),
-                CreateParameter("Rank", (object)searchEntity.Rank ?? DBNull.Value, true),
-                CreateParameter("IsAcceptedName", (object)searchEntity.IsAcceptedName ?? DBNull.Value, true),
-                CreateParameter("Authority", (object)searchEntity.Authority ?? DBNull.Value, true),
-                CreateParameter("Note", (object)searchEntity.Note ?? DBNull.Value, true)
+                CreateParameter("CreatedByCooperatorID", searchEntity.CreatedByCooperatorID > 0 ? (object)searchEntity.CreatedByCooperatorID : DBNull.Value, true),
+
+                // NEED?
+                //CreateParameter("FamilyID", searchEntity.FamilyID > 0 ? (object)searchEntity.FamilyID : DBNull.Value, true),
+                //CreateParameter("SubfamilyID", searchEntity.SubFamilyID > 0 ? (object)searchEntity.SubFamilyID : DBNull.Value, true),
+                //CreateParameter("TribeID", searchEntity.TribeID > 0 ? (object)searchEntity.TribeID : DBNull.Value, true),
+                //CreateParameter("SubtribeID", searchEntity.SubTribeID > 0 ? (object)searchEntity.SubTribeID : DBNull.Value, true),
+                //CreateParameter("Rank", (object)searchEntity.Rank ?? DBNull.Value, true),
+                //CreateParameter("Note", (object)searchEntity.Note ?? DBNull.Value, true)
             };
 
             results = GetRecords<FamilyMap>(SQL, parameters.ToArray());

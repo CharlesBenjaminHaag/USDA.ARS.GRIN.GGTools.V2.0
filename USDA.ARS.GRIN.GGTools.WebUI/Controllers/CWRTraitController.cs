@@ -10,7 +10,7 @@ using NLog;
 namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI
 {
     [GrinGlobalAuthentication]
-    public class CWRTraitController : BaseController, IController<CWRTraitViewModel>
+    public class CWRTraitController : BaseController
     {
         protected static string BASE_PATH = "~/Views/Taxonomy/CWRTrait/";
         private static readonly Logger Log = LogManager.GetCurrentClassLogger();
@@ -119,7 +119,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI
             }
         }
 
-        public ActionResult Index()
+        public ActionResult Index(int cwrMapId = 0)
         {
             CWRTraitViewModel viewModel = new CWRTraitViewModel();
             
@@ -128,6 +128,12 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI
                 viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
                 viewModel.PageTitle = "CWR Trait Search";
                 viewModel.TableName = "taxonomy_cwr_trait";
+
+                if (cwrMapId > 0)
+                {
+                    viewModel.SearchEntity.CWRMapID = cwrMapId;
+                    viewModel.Search();
+                }
 
                 if (Session[viewModel.SessionKeyName] != null)
                 {

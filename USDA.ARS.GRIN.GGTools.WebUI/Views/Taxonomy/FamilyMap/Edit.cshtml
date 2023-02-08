@@ -226,7 +226,7 @@
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <!-- If the record being edited is infrafamilial, show the family selector; 
+                                    <!-- If the record being edited is infrafamilial, show the family selector;
                                          otherwise, use the family name edit field. -->
                                     @if (Model.Entity.Rank.ToUpper() == "FAMILY")
                                     {
@@ -245,17 +245,35 @@
                                     }
                                     else
                                     {
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label>Family</label>
-                                                @Html.DropDownListFor(x => x.Entity.FamilyID, Model.Families, "Select value", new { @class = "form-control" })
-                                            </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Family</label>
+                                        <div class="input-group">
+                                            @Html.TextBoxFor(x => x.Entity.FamilyName, new { @class = "form-control", @readonly = "readonly", @style = "background-color:#ecf0f5;" })
+                                            @Html.HiddenFor(x => x.Entity.FamilyID)
+
+                                            @if (Model.Entity.FamilyID > 0)
+                                            {
+                                                <span class="input-group-btn">
+                                                    <a href="@Url.Action("Edit", "FamilyMap", new { @entityId = Model.Entity.FamilyID })" class="btn btn-default btn-flat">
+                                                        <i class="fa fa-link"></i>
+                                                    </a>
+                                                </span>
+                                            }
+
+                                            <span class="input-group-btn">
+                                                <button type="button" class="btn btn-default btn-flat" data-toggle="modal" data-target="#modal-family-lookup">
+                                                    <i class="fa fa-search"></i>
+                                                </button>
+                                            </span>
                                         </div>
+                                    </div>
+                                </div>
                                     }
 
                                     <!--
-    Only show the Order (Classification) select list if the record being edited is a family, vs.
-    an infrafamilial record. -->
+                                    Only show the Order (Classification) select list if the record being edited is a family, vs.
+                                    an infrafamilial record. -->
                                     @if (Model.Entity.Rank.ToUpper() == "FAMILY")
                                     {
                                         <div class="col-md-3">
@@ -328,7 +346,13 @@
                                                     </span>
                                                 }
                                                 <span class="input-group-btn">
-                                                    <button id="btnGenusNameLookup" type="button" class="btn btn-default btn-flat" data-ggtools-action="TypeGenusID" data-ggtools-value="TypeGenusName" data-toggle="modal" data-target="#modal-genus-lookup">
+                                                    <button id="btnGenusNameLookup"
+                                                            type="button"
+                                                            class="btn btn-default btn-flat"
+                                                            data-ggtools-action="TypeGenusID"
+                                                            data-ggtools-value="TypeGenusName"
+                                                            data-toggle="modal"
+                                                            data-target="#modal-genus-lookup">
                                                         <i class="fa fa-search"></i>
                                                     </button>
                                                 </span>
@@ -373,7 +397,7 @@
 
                             </div>
                             <div class="card-footer">
-                                <a href="@Url.Action("Refresh")" class="btn btn-default">Cancel</a>
+                                <a href="@Url.Action("Refresh")" class="btn btn-default">Reset</a>
                                 @if (Model.Entity.ID > 0)
                                 {
                                     <button id="btnDelete" type="button" class="btn btn-danger">
@@ -390,22 +414,6 @@
                     @Html.Partial("~/Views/Shared/Modals/_NoteLookup2.cshtml")
                     @Html.Partial("~/Views/Taxonomy/Shared/Modals/_Delete.cshtml")
                     @{Html.RenderAction("_Edit", "Folder"); }
-
-                    <script type="text/javascript">
-                        $(document).ready(function () {
-                            Init();
-                        });
-
-                        function Init() {
-                            SetControlVisibility();
-                            //var defaultId = $('ul#list-dependent-data li:first').attr("id");
-                            //var action = $('ul#list-dependent-data li:first').data("ggtools-action");
-                            //var value = $('ul#list-dependent-data li:first').data("ggtools-value");
-
-                            //LoadDependentData(defaultId, action, value);
-                        }
-                    </script>
-                    <br />
                 </div>
             </div>
 
@@ -415,6 +423,17 @@
         <!-- Main Footer -->
         @Html.Partial("~/Views/Shared/_Footer.cshtml")
     </div>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            Init();
+        });
+
+        function Init() {
+            SetControlVisibility();
+        }
+    </script>
+
     <script src="~/plugins/jquery/jquery.min.js"></script>
     <script src="~/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="~/dist/js/adminlte.js"></script>

@@ -10,6 +10,13 @@
  * General Utilities
   ======================================================================================== */
 
+$(document).keypress(function (event) {
+    var keycode = (event.keyCode ? event.keyCode : event.which);
+    if (keycode == '13') {
+        $("#btnSearch").click();
+    }
+});
+
 function AddRecord() {
     var addNewRecordUrl = $("#hfAddNewRecordLink").val();
     window.location.href = addNewRecordUrl;
@@ -26,7 +33,12 @@ function InitDataTable(tableName) {
             initComplete: function () {
                 SetControlVisibility(tableName);
             },
-            responsive: true,
+            responsive: {
+                details: {
+                    display: $.fn.dataTable.Responsive.display.childRowImmediate,
+                    type: ''
+                }
+            },
             buttons: [
                 'selectAll',
                 'selectNone',

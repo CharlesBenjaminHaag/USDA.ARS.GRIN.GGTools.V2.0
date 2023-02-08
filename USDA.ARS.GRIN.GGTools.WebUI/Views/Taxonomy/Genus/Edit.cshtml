@@ -267,7 +267,7 @@
             </div>
         </div>
         <div class="card-footer">
-            <a href="@Url.Action("Refresh")" class="btn btn-default">Cancel</a>
+            <a href="@Url.Action("Refresh")" class="btn btn-default">Reset</a>
             @if (Model.Entity.ID > 0)
             {
                 <button id="btnDelete" type="button" class="btn btn-danger">
@@ -321,54 +321,54 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
-                    Init();
-                });
+        Init();
+    });
 
-                function Init() {
-                    SetControlVisibility();
-                }
+    function Init() {
+        SetControlVisibility();
+    }
 
-                function Init() {
-                    SetControlVisibility();
-                    var defaultId = $('ul#list-dependent-data li:first').attr("id");
-                    LoadDependentData(defaultId);
-                }
+    function Init() {
+        SetControlVisibility();
+        var defaultId = $('ul#list-dependent-data li:first').attr("id");
+        LoadDependentData(defaultId);
+    }
 
     $('#section-dependent-data ul.nav li').on('click', function () {
-                    var selectedId = $(this).attr('id');
-                    LoadDependentData(selectedId);
-                });
+        var selectedId = $(this).attr('id');
+        LoadDependentData(selectedId);
+    });
 
-                function LoadDependentData(sectionId) {
-                    var link = "";
-                    var entityId = $("#Entity_ID").val();
-                    var genusId = $("#Entity_GenusID").val();
-                    var genusName = $("#Entity_Name").val();
-                    var formData = new FormData();
-                    var sectionData = sectionId.replace("tab_selector", "tab_content");
+    function LoadDependentData(sectionId) {
+        var link = "";
+        var entityId = $("#Entity_ID").val();
+        var genusId = $("#Entity_GenusID").val();
+        var genusName = $("#Entity_Name").val();
+        var formData = new FormData();
+        var sectionData = sectionId.replace("tab_selector", "tab_content");
 
-                    // Load data in selected section content area based on id.
-                    switch (sectionId) {
-                        case "tab_selector_citations":
-                            link = '@Url.Action("_List","Citation")';
-                            break;
-                        case "tab_selector_species":
-                            link = '@Url.Action("_List","Species")';
-                            break;
-                        case "tab_selector_synonyms":
-                            link = '@Url.Action("_ListSynonyms", "Genus")';
-                            break;
-                        case "tab_selector_subdivisions":
-                            link = '@Url.Action("_ListSubdivisions", "Genus", new { genusName = "GENUS_NAME" })';
-                            link = link.replace("GENUS_NAME", genusName);
-                            break;
-                        default:
-                            // code block
-                    }
+        // Load data in selected section content area based on id.
+        switch (sectionId) {
+            case "tab_selector_citations":
+                link = '@Url.Action("_List","Citation")';
+                break;
+            case "tab_selector_species":
+                link = '@Url.Action("_List","Species")';
+                break;
+            case "tab_selector_synonyms":
+                link = '@Url.Action("_ListSynonyms", "Genus")';
+                break;
+            case "tab_selector_subdivisions":
+                link = '@Url.Action("_ListSubdivisions", "Genus", new { genusName = "GENUS_NAME" })';
+                link = link.replace("GENUS_NAME", genusName);
+                break;
+            default:
+                // code block
+        }
 
-    formData.append("GenusID", entityId);
+        formData.append("GenusID", entityId);
 
-    $.ajax({
+        $.ajax({
         url: link,
         type: 'POST',
         cache: false,
@@ -379,5 +379,5 @@
             $("#" + sectionData).html(response);
         }
     });
-    }
+}
 </script>

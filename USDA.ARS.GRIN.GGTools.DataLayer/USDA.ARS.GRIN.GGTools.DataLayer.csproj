@@ -170,6 +170,7 @@
     <Compile Include="ManagerClasses\RegulationManager.cs" />
     <Compile Include="ManagerClasses\RegulationMapManager.cs" />
     <Compile Include="ManagerClasses\ReportManager.cs" />
+    <Compile Include="ManagerClasses\SysTableManager.cs" />
     <Compile Include="ManagerClasses\SiteManager.cs" />
     <Compile Include="ManagerClasses\SpeciesManager.cs" />
     <Compile Include="ManagerClasses\SpeciesSynonymMapManager.cs" />

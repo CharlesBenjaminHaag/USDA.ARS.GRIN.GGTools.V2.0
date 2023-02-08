@@ -48,5 +48,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
             get { return _DataCollectionNotes; }
             set { _DataCollectionNotes = value; }
         }
+
+        public SelectList SpeciesCitations { get; set; }
     }
 }

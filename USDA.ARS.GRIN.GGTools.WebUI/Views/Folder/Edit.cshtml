@@ -71,7 +71,7 @@
                     </div>
                     <div class="row">
                         <div class="col-md-12">
-                            <a href="@Url.Action("Refresh")" class="btn btn-default">Cancel</a>
+                            <a href="@Url.Action("Refresh")" class="btn btn-default">Reset</a>
                             @if (Model.Entity.ID > 0)
                             {
                                 <button id="btnDelete" type="button" class="btn btn-danger">
@@ -178,6 +178,35 @@
         $("#EventValue").val(
             $(this).data("ggtools-value"));
     });
+
+    $(document).on("click", "[id*='btnDeleteItem']", function () {
+        var id = $(this).attr("id");
+        var eventValue = $(this).data("ggtools-value");
+        DeleteItem(eventValue);
+    });
+
+    function DeleteItem(id) {
+        var link = '@Url.Action("DeleteItem","Folder")';
+        var formData = new FormData();
+
+        formData.append("appUserItemListId", id);
+
+        $.ajax({
+            url: link,
+            type: 'POST',
+            cache: false,
+            dataType: 'json',
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (data) {
+                /*console.log(data);*/
+                /*ConfirmFolderSave(data.folder.FolderName);*/
+            },
+            error: function (ex) {
+            }
+        });
+    }
 
     /*
     ==========================================================================================================

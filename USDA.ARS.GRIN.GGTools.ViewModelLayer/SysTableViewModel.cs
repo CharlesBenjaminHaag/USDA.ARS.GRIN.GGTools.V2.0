@@ -1,13 +1,9 @@
 ﻿using System;
 using System.Web.Mvc;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Collections.ObjectModel;
 using System.Text.RegularExpressions;
 using USDA.ARS.GRIN.GGTools.DataLayer;
-
 
 namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
 {
@@ -23,18 +19,13 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
             throw new NotImplementedException();
         }
 
-        public void GetPermissions()
-        {
-            using (SysPermissionManager mgr = new SysPermissionManager())
-            {
-                DataCollectionPermissions = new Collection<SysPermission>(mgr.GetSysPermissionsByTable(SearchEntity.SysUserID, SearchEntity.TableName));
-            }
-        }
-
-        public void HandleRequest()
-        {
-            throw new NotImplementedException();
-        }
+        //public void GetPermissions()
+        //{
+        //    using (SysPermissionManager mgr = new SysPermissionManager())
+        //    {
+        //        DataCollectionPermissions = new Collection<SysPermission>(mgr.GetSysPermissionsByTable(SearchEntity.SysUserID, SearchEntity.TableName));
+        //    }
+        //}+6666
 
         public int Insert()
         {
@@ -43,7 +34,28 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
 
         public void Search()
         {
-            throw new NotImplementedException();
+            using (SysTableManager mgr = new SysTableManager())
+            {
+                try
+                {
+                    DataCollection = new Collection<SysTable>(mgr.Search(SearchEntity));
+                    RowsAffected = mgr.RowsAffected;
+
+                    if (RowsAffected == 1)
+                    {
+                        Entity = DataCollection[0];
+                    }
+
+                    //String DEBUG = SerializeToXml<CitationSearch>(SearchEntity);
+                    //CitationSearch DEBUG2 = Deserialize<CitationSearch>(DEBUG);
+
+                }
+                catch (Exception ex)
+                {
+                    PublishException(ex);
+                    throw ex;
+                }
+            }
         }
 
         public int Update()

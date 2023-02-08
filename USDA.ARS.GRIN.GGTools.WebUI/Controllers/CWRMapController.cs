@@ -11,7 +11,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
 {
     [GrinGlobalAuthentication]
     [ValidateInput(false)]
-    public class CWRMapController : BaseController, IController<CWRMapViewModel>
+    public class CWRMapController : BaseController
     {
         protected static string BASE_PATH = "~/Views/Taxonomy/CWRMap/";
         private static readonly Logger Log = LogManager.GetCurrentClassLogger();
@@ -30,7 +30,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             }
         }
 
-        public ActionResult Index()
+        public ActionResult Index(int cropForCwrId = 0)
         {
             CWRMapViewModel viewModel = new CWRMapViewModel();
 
@@ -39,6 +39,12 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 viewModel.PageTitle = "CWR Map Search";
                 viewModel.TableName = "taxonomy_cwr_map";
                 viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
+
+                if (cropForCwrId > 0)
+                {
+                    viewModel.SearchEntity.CropForCWRID = cropForCwrId;
+                    viewModel.Search();
+                }
 
                 if (Session[viewModel.SessionKeyName] != null)
                 {
@@ -61,8 +67,11 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 CWRMapViewModel viewModel = new CWRMapViewModel();
                 viewModel.TableName = "taxonomy_cwr_map";
                 viewModel.TableCode = "CWRMap";
-                viewModel.PageTitle = String.Format("Edit CWR Map [{0}]", entityId);
                 viewModel.Get(entityId);
+                viewModel.PageTitle = String.Format("Edit CWR Map [{0}]: {1}", entityId, viewModel.Entity.AssembledName);
+                
+                // Load species citations
+                
                 return View(BASE_PATH + "Edit.cshtml", viewModel);
             }
             catch (Exception ex)

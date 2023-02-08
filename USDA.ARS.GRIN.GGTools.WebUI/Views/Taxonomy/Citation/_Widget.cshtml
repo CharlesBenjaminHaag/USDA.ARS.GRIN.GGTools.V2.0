@@ -1,7 +1,33 @@
 ﻿@model USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer.CitationViewModel
-<br />
 
-<div class="card">
+<div class="row">
+    <div class="col-md-12">
+        <div class="form-group">
+            <label>Citation</label>
+            <div class="input-group">
+                @Html.TextBoxFor(x => x.Entity.CitationTitle, new { @class = "form-control", @readonly = "readonly" })
+                <span class="input-group-btn">
+                    <button id="btnEditCitation" type="button" class="btn btn-default btn-flat">
+                        <i class="fa fa-edit"></i>
+                    </button>
+                </span>
+                <span class="input-group-btn">
+                    <button type="button" class="btn btn-default btn-flat" data-toggle="modal" data-target="#modal-citation-lookup">
+                        <i class="fa fa-search"></i>
+                    </button>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div id="section-citation-assembled-name" class="col-md-12">
+        @Html.Raw(Model.Entity.AssembledName)
+    </div>
+</div>
+
+
+@*<div class="card">
     <div class="card-header">
         @Html.HiddenFor(x => x.Entity.ID, new { id = "hfCitationID" })
         <h3 class="card-title">
@@ -11,10 +37,10 @@
     </div>
     <div class="card-body">
         <dl class="row">
-            
+
             @if (Model.Entity.ID > 0)
             {
-                <dt class="col-sm-10"><span id="section-citation-text"></span>@Html.Raw(Model.Entity.CitationText)</dt>
+                <dt class="col-sm-10"><span id="section-citation-text"></span>@Html.Raw(Model.Entity.AssembledName)</dt>
                 <dd class="col-sm-2">
                     <button id="btnEditCitation" type="button" class="btn btn-default btn-sm btn-flat float-right">
                         <i class="fa fa-edit"></i>
@@ -25,7 +51,7 @@
                 </dd>
             }
             else
-            { 
+            {
                 <dd class="col-sm-12">
                     <button type="button" class="btn btn-default btn-flat" data-toggle="modal" data-target="#modal-citation-lookup">
                         <i class="fa fa-plus"></i>Add Citation
@@ -34,23 +60,9 @@
             }
         </dl>
     </div>
-</div>
-
-@*<label>Citation</label>
-    <div class="input-group">
-        @Html.HiddenFor(x => x.Entity.ID, new { id = "hfCitationID" })
-        @Html.TextBoxFor(x => x.Entity.CitationText, new { @class = "form-control", @readonly = "readonly" })
-        <span class="input-group-btn">
-            <button id="btnEditCitation" type="button" class="btn btn-default btn-flat">
-                <i class="fa fa-edit"></i>
-            </button>
-        </span>
-        <span class="input-group-btn">
-            <button type="button" class="btn btn-default btn-flat" data-toggle="modal" data-target="#modal-citation-lookup">
-                <i class="fa fa-search"></i>
-            </button>
-        </span>
 </div>*@
+
+
 
 <script type="text/javascript">
     $(document).on("click", "[id='btnEditCitation']", function () {

@@ -696,6 +696,19 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 return Json(new { errorMessage = ex.Message }, JsonRequestBehavior.AllowGet);
             }
         }
+        [HttpPost]
+        public JsonResult DeleteItem(int appUserItemListId)
+        {
+            try
+            {
+                //TODO
+                return Json(new { success = true }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { errorMessage = ex.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
         public ActionResult Delete(int entityId)
         {
             try 

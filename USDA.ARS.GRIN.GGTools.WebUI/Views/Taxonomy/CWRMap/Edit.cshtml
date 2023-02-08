@@ -120,31 +120,20 @@
                     </ul>
                     <!-- END EDIT PAGE MENU-->
                 </div>
-
+                <!-- BEGIN RIGHT-ALIGNED NAV MENU -->
                 <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
-                    <li class="nav-item dropdown">
-                        <a class="nav-link" data-toggle="dropdown" href="#">
-                            <i class="far fa-user"></i>
-
-                        </a>
-
-                        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right" style="left: inherit; right: 0px;">
-                            <span class="dropdown-item dropdown-header">@AppInfo.GetAuthenticatedUser().FullName</span>
-                            <div class="dropdown-divider"></div>
-                            <a href="#" class="dropdown-item">
-                                <i class="fas fa-clock mr-2"></i> Logged In
-                                <span class="float-right text-muted text-sm"> </span>
+                    @if (Model.Entity.ID > 0)
+                    {
+                        <li id="nav-item-view-website" class="nav-item">
+                            <a class="nav-link" href="#" role="button">
+                                <i class="far fa-globe"></i>
+                                View on Website
                             </a>
-                            <div class="dropdown-divider"></div>
-                            <a href="@Url.Action("Logout","Login")" class="dropdown-item dropdown-footer bg-danger">Log Out</a>
-                        </div>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" data-widget="fullscreen" href="#" role="button">
-                            <i class="fas fa-expand-arrows-alt"></i>
-                        </a>
-                    </li>
+                        </li>
+                    }
+                    @Html.Partial("~/Views/Shared/_NavbarRight.cshtml")
                 </ul>
+                <!-- END RIGHT-ALIGNED NAV MENU -->
             </div>
         </nav>
         <div class="content-wrapper">
@@ -158,20 +147,7 @@
                             </h1>
                         </div>
                         <div class="col-sm-6">
-
-                            <!-- BEGIN BREADCRUMBS -->
-                            @{ 
-                                string controllerName = @ViewContext.RouteData.Values["controller"].ToString();
-                                string actionName = @ViewContext.RouteData.Values["action"].ToString();
-                            } 
-                            <ol class="breadcrumb float-sm-right">
-                                <li class="breadcrumb-item"><a href="@Url.Action("Index","Home")">Home</a></li>
-                                <li class="breadcrumb-item"><a href="@Url.Action("Navigate","Home", new { applicationCode = "GGT-TAX"})">Turbo Taxon Home</a></li>
-                                <li class="breadcrumb-item"><a href="@Url.Action("Index","CWRMap")">CWR Map Search</a></li>
-                                <li class="breadcrumb-item active">@actionName</li>
-                            </ol>
-                            <!-- END BREADCRUMBS -->
-
+                            @Html.Partial("~/Views/Shared/_Breadcrumbs.cshtml")
                         </div>
                     </div>
                 </div>
@@ -188,15 +164,16 @@
                         @Html.HiddenFor(x => x.TableCode)
                         @Html.HiddenFor(x => x.Entity.ID)
                         @Html.HiddenFor(x => x.Entity.IsCrop)
+                        @Html.HiddenFor(x => x.Entity.CitationID)
+
                         <div class="card card-default">
                             <div class="card-header">
-                                <!-- BEGIN PW LINK -->
-                                @Html.Partial("~/Views/Taxonomy/Shared/_RevisionHistory.cshtml")
-                                <a href="@Model.PublicWebsiteBaseURL/taxon/cwrcropdetail?id=@Model.Entity.CropForCWRID&type=crop" target="_blank" class="btn btn-info btn-sm float-right">
-                                    <i class="fa fa-globe"></i>
-                                    View Public Website
-                                </a>
-                                <!-- END PW LINK -->
+                                <h3 class="card-title">Summary</h3>
+                                <div class="card-tools">
+                                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                        <i class="fas fa-minus"></i>
+                                    </button>
+                                </div>
                             </div>
                             <div class="card-body">
                                 @Html.Partial("~/Views/Shared/_ValidationMessages.cshtml")
@@ -281,32 +258,31 @@
                                 <div class="row">
                                     <!-- BEGIN NOTE FIELD -->
                                     <div class="col-md-12">
-                                        <label class="margin-r-5">Note</label>&nbsp;&nbsp;
-                                        <div class="input-group">
-                                            <br />
-                                            @Html.TextAreaFor(x => x.Entity.Note, new { @id = "txtNote", @class = "form-control", })
-                                            <span class="input-group-append">
-                                                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#modal-note-lookup">
-                                                    <i class="fa fa-search margin-r-5"></i>
-                                                </button>
-                                            </span>
+                                        <div class="form-group">
+                                            <label class="margin-r-5">Note</label>&nbsp;&nbsp;
+                                            <div class="input-group">
+                                                <br />
+                                                @Html.TextAreaFor(x => x.Entity.Note, new { @id = "txtNote", @class = "form-control", })
+                                                <span class="input-group-append">
+                                                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#modal-note-lookup">
+                                                        <i class="fa fa-search margin-r-5"></i>
+                                                    </button>
+                                                </span>
+                                            </div>
                                         </div>
                                     </div>
                                     <!-- END NOTE FIELD-->
                                 </div>
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="row">
-                                            <div id="section-citation" class="col-md-12">
-                                                @*@{ Html.RenderAction("RenderWidget", "Citation", new { @entityId = Model.Entity.CitationID });}*@
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
 
+                                @if (Model.Entity.ID > 0)
+                                {
+                                    Html.RenderAction("RenderWidget", "Citation", new { @entityId = Model.Entity.CitationID });
+                                }
+                                <br />
+                                @Html.Partial("~/Views/Taxonomy/Shared/_RevisionHistory.cshtml")
                             </div>
                             <div class="card-footer">
-                                <a href="@Url.Action("Refresh")" class="btn btn-default">Cancel</a>
+                                <a href="@Url.Action("Refresh")" class="btn btn-default">Reset</a>
                                 @if (Model.Entity.ID > 0)
                                 {
                                     <button id="btnDelete" type="button" class="btn btn-danger">
@@ -318,24 +294,16 @@
                         </div>
                     }
 
-                    @{Html.RenderAction("_List", "CWRTrait", new { @cwrMapId = Model.Entity.ID });}
+                    @if (Model.Entity.ID > 0)
+                    {
+                        Html.RenderAction("_List", "CWRTrait", new { @cwrMapId = Model.Entity.ID });
+                        Html.RenderAction("RenderLookupModal", "Citation", new { @tableName = Model.TableName, @speciesId = Model.Entity.SpeciesID });
+                    }
 
                     @Html.Partial("~/Views/Taxonomy/Species/Modals/_Lookup.cshtml")
                     @Html.Partial("~/Views/Shared/Modals/_NoteLookup2.cshtml")
                     @Html.Partial("~/Views/Taxonomy/Shared/Modals/_Delete.cshtml")
                     @{Html.RenderAction("_Edit", "Folder"); }
-
-                    <script type="text/javascript">
-                        $(document).ready(function () {
-                            Init();
-                            /*InitializeCKEditor();*/
-                        });
-
-                        function Init() {
-
-                        }
-                    </script>
-                    <br />
                 </div>
             </div>
 
@@ -345,6 +313,17 @@
         <!-- Main Footer -->
         @Html.Partial("~/Views/Shared/_Footer.cshtml")
     </div>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            Init();
+            /*InitializeCKEditor();*/
+        });
+
+        function Init() {
+
+        }
+    </script>
     <script src="~/plugins/jquery/jquery.min.js"></script>
     <script src="~/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="~/dist/js/adminlte.js"></script>
