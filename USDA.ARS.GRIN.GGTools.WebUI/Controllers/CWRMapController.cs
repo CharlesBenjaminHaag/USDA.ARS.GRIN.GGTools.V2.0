@@ -38,6 +38,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             {
                 viewModel.PageTitle = "CWR Map Search";
                 viewModel.TableName = "taxonomy_cwr_map";
+                viewModel.TableCode = "CWRMap";
                 viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
 
                 if (cropForCwrId > 0)

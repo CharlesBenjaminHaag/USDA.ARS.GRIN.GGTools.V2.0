@@ -45,6 +45,8 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             viewModel.Entity.Rank = rank.ToUpper();
             viewModel.Entity.IsAccepted = true;
             viewModel.Entity.IsAcceptedName = "Y";
+            viewModel.Entity.IsWebVisible = "Y";
+            viewModel.Entity.IsWebVisibleOption = true;
             viewModel.IsTypeGenus = isType;
 
             if (genusId > 0)

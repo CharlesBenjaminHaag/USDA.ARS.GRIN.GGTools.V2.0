@@ -22,6 +22,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
                 viewModel.PageTitle = "Crop For CWR Search";
                 viewModel.TableName = "taxonomy_cwr_crop";
+                viewModel.TableCode = "CropForCWR";
 
                 if (Session[viewModel.SessionKeyName] != null)
                 {

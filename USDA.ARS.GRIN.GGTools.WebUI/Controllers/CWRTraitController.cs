@@ -128,6 +128,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI
                 viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
                 viewModel.PageTitle = "CWR Trait Search";
                 viewModel.TableName = "taxonomy_cwr_trait";
+                viewModel.TableCode = "CWRTrait";
 
                 if (cwrMapId > 0)
                 {

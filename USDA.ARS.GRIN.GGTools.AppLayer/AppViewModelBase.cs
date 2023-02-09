@@ -80,7 +80,7 @@ namespace USDA.ARS.GRIN.GGTools.AppLayer
         { 
             get 
             { 
-                return "SEARCH-" + TableName.Replace("_","-").ToUpper(); 
+                return "SEARCH_" + TableCode.ToUpper(); 
             } 
         }
         public int AuthenticatedUserCooperatorID { get; set; }

@@ -5,11 +5,11 @@
             <th></th>
             <th width="5%">ID</th>
             <th>Name</th>
-            <th>Maps</th>
             <th>Created</th>
             <th>Created By</th>
             <th>Last Modified</th>
             <th>Modified By</th>
+            <th align="center" style="text-align:center;">Maps</th>
             <th></th>
         </tr>
     </thead>
@@ -28,9 +28,6 @@
                             @result.ID
                         </td>
                         <td>@result.CropForCWRName</td>
-                        <td style="text-align:center;">
-                            <a href="@Url.Action("Index","CWRMap", new { cropForCwrId = result.ID })">[@result.RelatedItemCount]</a>
-                        </td>
                         <td>
                             @result.CreatedDate.ToShortDateString()
                         </td>
@@ -45,6 +42,9 @@
                         </td>
                         <td>
                             @result.ModifiedByCooperatorName
+                        </td>
+                        <td align="center">
+                            <a href="@Url.Action("Index","CWRMap", new { cropForCwrId = result.ID })">[@result.RelatedItemCount]</a>
                         </td>
                         <td>
                             <a href="@Url.Action("Edit", "CropForCWR", new { entityId = result.ID })" class="btn btn-default btn-sm float-right row-edit">

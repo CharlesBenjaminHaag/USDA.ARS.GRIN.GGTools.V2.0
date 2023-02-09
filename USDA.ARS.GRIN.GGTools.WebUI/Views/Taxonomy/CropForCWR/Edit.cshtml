@@ -178,23 +178,27 @@
                                 @Html.Partial("~/Views/Shared/_ValidationMessages.cshtml")
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <label>Name</label>
-                                        @Html.TextBoxFor(x => x.Entity.CropForCWRName, new { @class = "form-control" })
-                                        @Html.ValidationMessageFor(x => x.Entity.CropForCWRName, "", new { @class = "text-danger" })
+                                        <div class="form-group">
+                                            <label>Name</label>
+                                            @Html.TextBoxFor(x => x.Entity.CropForCWRName, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(x => x.Entity.CropForCWRName, "", new { @class = "text-danger" })
+                                        </div>
+                                        </div>
                                     </div>
-                                </div>
                                 <div class="row">
                                     <!-- BEGIN NOTE FIELD -->
                                     <div class="col-md-12">
-                                        <label class="margin-r-5">Note</label>&nbsp;&nbsp;
-                                        <div class="input-group">
-                                            <br />
-                                            @Html.TextAreaFor(x => x.Entity.Note, new { @id = "txtNote", @class = "form-control", })
-                                            <span class="input-group-append">
-                                                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#modal-note-lookup">
-                                                    <i class="fa fa-search margin-r-5"></i>
-                                                </button>
-                                            </span>
+                                        <div class="form-group">
+                                            <label class="margin-r-5">Note</label>
+                                            <div class="input-group">
+                                                <br />
+                                                @Html.TextAreaFor(x => x.Entity.Note, new { @id = "txtNote", @class = "form-control", })
+                                                <span class="input-group-append">
+                                                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#modal-note-lookup">
+                                                        <i class="fa fa-search margin-r-5"></i>
+                                                    </button>
+                                                </span>
+                                            </div>
                                         </div>
                                     </div>
                                     <!-- END NOTE FIELD-->

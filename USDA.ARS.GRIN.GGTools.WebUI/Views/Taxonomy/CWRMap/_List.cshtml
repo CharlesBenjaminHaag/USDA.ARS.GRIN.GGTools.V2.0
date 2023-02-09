@@ -22,7 +22,7 @@
                     <th>Is Potential</th>
                     <th>Is Graftstock</th>
                     <th>Genepool Code</th>
-                    <th>Traits</th>
+                    <th style="text-align:center;">Traits</th>
                     <th></th>
                 </tr>
             </thead>
@@ -51,11 +51,11 @@
                             </a>
                         </td>
                         <td>@result.CropCommonName</td>
-                        <td>@Html.Raw(Model.FormatBoolean(result.IsCrop))</td>
-                        <td>@Html.Raw(Model.FormatBoolean(result.IsPotential))</td>
-                        <td>@Html.Raw(Model.FormatBoolean(result.IsGraftstock))</td>
+                        <td align="center">@Html.Raw(Model.FormatBoolean(result.IsCrop))</td>
+                        <td align="center">@Html.Raw(Model.FormatBoolean(result.IsPotential))</td>
+                        <td align="center">@Html.Raw(Model.FormatBoolean(result.IsGraftstock))</td>
                         <td>@result.GenepoolCode</td>
-                        <td>
+                        <td align="center">
                             <a href="@Url.Action("Index", "CWRTrait", new { cwrMapId = result.ID })">
                                 [@result.RelatedItemCount]
                             </a>
@@ -65,11 +65,11 @@
                                 <i class="fa fa-edit"></i>
                             </a>
                             @*@if (Model.Action == "Folder")
-                {
-                    <button id="btnDeleteFolderItem_@cropForCWR.ReferenceID" class="btn btn-danger btn-sm pull-right row-edit margin-r-5">
-                        <i class="fa fa-trash"></i> Remove From Folder
-                    </button>
-                }*@
+                            {
+                                <button id="btnDeleteFolderItem_@cropForCWR.ReferenceID" class="btn btn-danger btn-sm pull-right row-edit margin-r-5">
+                                    <i class="fa fa-trash"></i> Remove From Folder
+                                </button>
+                            }*@
                         </td>
                     </tr>
                         }

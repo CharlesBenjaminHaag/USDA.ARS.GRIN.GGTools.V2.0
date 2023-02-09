@@ -21,49 +21,13 @@
     </div>
 </div>
 <div class="row">
-    <div id="section-citation-assembled-name" class="col-md-12">
-        @Html.Raw(Model.Entity.AssembledName)
+    <div id="section-citation-assembled-name" class="col-md-12" style="margin-bottom:5px;">
+        <p class="text-muted">
+            @Html.Raw(Model.Entity.AssembledName)
+        </p>
     </div>
 </div>
-
-
-@*<div class="card">
-    <div class="card-header">
-        @Html.HiddenFor(x => x.Entity.ID, new { id = "hfCitationID" })
-        <h3 class="card-title">
-            <i class="fas fa-text-width"></i>
-            Citation
-        </h3>
-    </div>
-    <div class="card-body">
-        <dl class="row">
-
-            @if (Model.Entity.ID > 0)
-            {
-                <dt class="col-sm-10"><span id="section-citation-text"></span>@Html.Raw(Model.Entity.AssembledName)</dt>
-                <dd class="col-sm-2">
-                    <button id="btnEditCitation" type="button" class="btn btn-default btn-sm btn-flat float-right">
-                        <i class="fa fa-edit"></i>
-                    </button>
-                    <button type="button" class="btn btn-default btn-sm btn-flat float-right" data-toggle="modal" data-target="#modal-citation-lookup">
-                        <i class="fa fa-search"></i>
-                    </button>
-                </dd>
-            }
-            else
-            {
-                <dd class="col-sm-12">
-                    <button type="button" class="btn btn-default btn-flat" data-toggle="modal" data-target="#modal-citation-lookup">
-                        <i class="fa fa-plus"></i>Add Citation
-                    </button>
-                </dd>
-            }
-        </dl>
-    </div>
-</div>*@
-
-
-
+<div id="section-modal-citation-edit"></div>
 <script type="text/javascript">
     $(document).on("click", "[id='btnEditCitation']", function () {
         var citationId = $("#hfCitationID").val();
