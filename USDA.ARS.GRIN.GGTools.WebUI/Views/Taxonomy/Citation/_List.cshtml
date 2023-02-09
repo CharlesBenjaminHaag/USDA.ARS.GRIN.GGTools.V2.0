@@ -17,7 +17,6 @@
                         <th width="5%">ID</th>
                         <th>Taxon Name</th>
                         <th>Citation Title</th>
-                        <th>Description</th>
                         <th>Abbreviation</th>
                         <th>Author</th>
                         <th>Year</th>
@@ -61,9 +60,6 @@
                             @Html.Raw(result.CitationTitle)
                         </td>
                         <td>
-                            @Html.Raw(result.Description)
-                        </td>
-                        <td>
                             @result.Abbreviation
                         </td>
                         <td>
@@ -72,10 +68,16 @@
                         <td>
                             @result.CitationYear
                         </td>
-                        <td style="text-align:right;">
-                            <a href="@Url.Action("Edit", "Citation", new { entityId = result.ID })" class="btn btn-default btn-sm pull-right row-edit">
+                        <td>
+                            <a href="@Url.Action("Edit", "Citation", new { entityId = result.ID })" class="btn btn-default btn-sm float-right row-edit">
                                 <i class="fa fa-edit"></i>
                             </a>
+                            @if (Model.EventAction == "FOLDER")
+                            {
+                                <button id="btnDeleteFolderItem_@result.FolderID" class="btn btn-danger btn-sm float-right row-edit margin-r-5" style="margin-right:5px;">
+                                    <i class="fa fa-trash"></i>
+                                </button>
+                            }
                         </td>
                     </tr>
                     }

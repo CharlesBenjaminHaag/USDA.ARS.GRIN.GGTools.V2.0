@@ -16,9 +16,13 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
 
         public PartialViewResult _ListFolderItems(int folderId)
         {
+            CitationViewModel viewModel = new CitationViewModel();
             try
             {
-                return PartialView("~/Views/Shared/_UnderConstruction.cshtml");
+                viewModel.EventAction = "FOLDER";
+                viewModel.SearchEntity.FolderID = folderId;
+                viewModel.GetFolderItems();
+                return PartialView(BASE_PATH + "_List.cshtml", viewModel);
             }
             catch (Exception ex)
             {
@@ -125,7 +129,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 if (entityId > 0)
                 {
                     viewModel.Get(entityId);
-                    viewModel.PageTitle = String.Format("Edit Citation [{0}]", viewModel.Entity.ID);
+                    viewModel.PageTitle = String.Format("Edit Citation [{0}]: {1}", viewModel.Entity.ID, viewModel.Entity.AssembledName);
                 }
                 else
                 {
@@ -296,20 +300,20 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 viewModel.EntityIDList = formCollection["EntityIDList"];
             }
 
-            if (!String.IsNullOrEmpty(formCollection["StandardAbbreviation"]))
-            {
-                viewModel.Entity.StandardAbbreviation = formCollection["StandardAbbreviation"];
-            }
+            //if (!String.IsNullOrEmpty(formCollection["StandardAbbreviation"]))
+            //{
+            //    viewModel.Entity.StandardAbbreviation = formCollection["StandardAbbreviation"];
+            //}
 
             if (!String.IsNullOrEmpty(formCollection["CitationTitle"]))
             {
                 viewModel.Entity.CitationTitle = formCollection["CitationTitle"];
             }
 
-            if (!String.IsNullOrEmpty(formCollection["EditorAuthorName"]))
-            {
-                viewModel.Entity.EditorAuthorName = formCollection["EditorAuthorName"];
-            }
+            //if (!String.IsNullOrEmpty(formCollection["EditorAuthorName"]))
+            //{
+            //    viewModel.Entity.EditorAuthorName = formCollection["EditorAuthorName"];
+            //}
 
             if (!String.IsNullOrEmpty(formCollection["CitationYear"]))
             {

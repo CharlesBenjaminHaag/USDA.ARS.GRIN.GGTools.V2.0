@@ -31,31 +31,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
 
             return entity.ID;
         }
-        public int InsertClone(Citation entity)
-        {
-            Reset(CommandType.StoredProcedure);
-            Validate<Citation>(entity);
-
-            //TODO
-            //1. 
-
-            SQL = "usp_GGTools_Taxon_Citation_InsertClone";
-
-            AddParameter("citation_id", entity.ID == 0 ? DBNull.Value : (object)entity.ID, true);
-            AddParameter("created_by", entity.CreatedByCooperatorID == 0 ? DBNull.Value : (object)entity.CreatedByCooperatorID, true);
-            AddParameter("@out_error_number", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
-            AddParameter("@out_citation_id", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
-
-            RowsAffected = ExecuteNonQuery();
-
-            entity.ID = GetParameterValue<int>("@out_citation_id", -1);
-            int errorNumber = GetParameterValue<int>("@out_error_number", -1);
-
-            if (errorNumber > 0)
-                throw new Exception(errorNumber.ToString());
-
-            return entity.ID;
-        }
+        
         public int Update(Citation entity)
         {
             Reset(CommandType.StoredProcedure);
@@ -99,62 +75,12 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         {
             throw new NotImplementedException();
         }
-        public int DeleteReference(string tableName, int entityId, int modifiedBy)
-        {
-            Reset(CommandType.StoredProcedure);
-            SQL = "usp_GGTools_Taxon_CitationReference_Delete";
-
-            AddParameter("table_name", (object)tableName, true);
-            AddParameter("id_value", (object)entityId, true);
-            AddParameter("modified_by", (object)modifiedBy, true);
-
-            RowsAffected = ExecuteNonQuery();
-
-            int errorNumber = GetParameterValue<int>("@out_error_number", -1);
-
-            if (errorNumber > 0)
-                throw new Exception(errorNumber.ToString());
-
-            return RowsAffected;
-        }
+       
         public Citation Get(int entityId)
         {
             return null;
         }
-        public List<Citation> GetTaxonCitations(string tableName, int entityId)
-        {
-            List<Citation> results = new List<Citation>();
-
-            SQL = " SELECT * FROM vw_GGTools_Taxon_Citations ";
-
-            switch (tableName)
-            {
-                case "taxonomy_family_map":
-                    SQL += " WHERE FamilyID IN ";
-                    SQL += " (SELECT ID FROM vw_GGTools_Taxon_FamilyMaps WHERE ID = @ID OR AcceptedID = @ID) ";
-                    break;
-                case "taxonomy_genus":
-                    SQL += " WHERE GenusID IN ";
-                    SQL += " (SELECT ID FROM vw_GGTools_Taxon_Genera WHERE ID = @ID OR AcceptedID = @ID) ";
-                    break;
-                case "taxonomy_species":
-                    SQL += " WHERE SpeciesID IN ";
-                    SQL += " (SELECT ID FROM vw_GGTools_Taxon_Species WHERE ID = @ID OR AcceptedID = @ID) ";
-                    break;
-            }
-            
-            SQL += " ORDER BY TaxonName, CitationText";
-
-            var parameters = new List<IDbDataParameter> {
-                CreateParameter("ID", entityId > 0 ? (object)entityId : DBNull.Value, true),
-            };
-
-            results = GetRecords<Citation>(SQL, parameters.ToArray());
-            RowsAffected = results.Count;
-
-            return results;
-        }
-
+        
         public List<Citation> Search(CitationSearch searchEntity)
         {
             List<Citation> results = new List<Citation>();
@@ -249,20 +175,12 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
 
             return results;
         }
-        public List<Citation> SearchFolderItems(CitationSearch searchEntity)
+
+        public List<Citation> GetFolderItems(CitationSearch searchEntity)
         {
             List<Citation> results = new List<Citation>();
 
-            SQL = " SELECT auil.app_user_item_list_id AS ListID, " +
-                " auil.list_name AS ListName, " +
-                " auil.app_user_item_folder_id AS FolderID, " +
-                " vgtf.* " +
-                " FROM vw_GGTools_Taxon_Families vgtf " +
-                " JOIN app_user_item_list auil " +
-                " ON vgtf.ID = auil.id_number " +
-                " WHERE auil.id_type = 'taxonomy_family' ";
-            SQL += "AND  (@FolderID                          IS NULL OR  auil.app_user_item_folder_id       =           @FolderID)";
-
+            SQL = " SELECT * FROM vw_GRINGlobal_Folder_Citation WHERE FolderID = @FolderID";
             var parameters = new List<IDbDataParameter> {
                 CreateParameter("FolderID", searchEntity.FolderID > 0 ? (object)searchEntity.FolderID : DBNull.Value, true)
             };
@@ -270,6 +188,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             RowsAffected = results.Count;
             return results;
         }
+
         public void BuildInsertUpdateParameters()
         {
             throw new NotImplementedException();

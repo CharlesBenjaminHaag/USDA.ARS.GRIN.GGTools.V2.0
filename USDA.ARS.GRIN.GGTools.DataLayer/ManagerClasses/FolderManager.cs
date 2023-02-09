@@ -14,7 +14,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
         {
             List<AppUserItemFolder> results = new List<AppUserItemFolder>();
 
-            SQL = " SELECT *, 'N' AS IsShared FROM vw_GRINGlobal_App_User_Item_Folder"; 
+            SQL = " SELECT * FROM vw_GRINGlobal_App_User_Item_Folder"; 
             SQL += " WHERE  (@FolderType                IS NULL OR   FolderTypeDescription      =   @FolderType)";
             SQL += " AND    (@Category                  IS NULL OR   Category                   =   @Category)";
             SQL += " AND    (@CreatedByCooperatorID     IS NULL OR   CreatedByCooperatorID      =   @CreatedByCooperatorID)";
@@ -41,7 +41,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             //}
 
             var parameters = new List<IDbDataParameter> {
-                CreateParameter("FolderType", !String.IsNullOrEmpty(searchEntity.FolderTypeDescription) ? (object)searchEntity.FolderTypeDescription : DBNull.Value, true),
+                CreateParameter("FolderType", !String.IsNullOrEmpty(searchEntity.FolderType) ? (object)searchEntity.FolderType : DBNull.Value, true),
                 CreateParameter("Category", !String.IsNullOrEmpty(searchEntity.Category) ? (object)searchEntity.Category : DBNull.Value, true),
                 CreateParameter("CreatedByCooperatorID", searchEntity.CreatedByCooperatorID > 0 ? (object)searchEntity.CreatedByCooperatorID : DBNull.Value, true),
                 CreateParameter("IsFavoriteOption", searchEntity.IsFavoriteOption == "Y" ? (object)searchEntity.IsFavoriteOption : DBNull.Value, true),
@@ -68,22 +68,6 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             return results;
         }
 
-        //public virtual List<AppUserItemFolder> GetSharedFolders(int cooperatorId)
-        //{
-        //    List<AppUserItemFolder> results = new List<AppUserItemFolder>();
-
-        //    SQL = " SELECT * FROM vw_GGTools_GRINGlobal_AppUserItemFolders";
-        //    SQL += " WHERE ID IN ";
-        //    SQL += " (SELECT app_user_item_folder_id FROM app_user_item_folder_cooperator_map WHERE cooperator_id = @CreatedByCooperatorID)";
-
-        //    var parameters = new List<IDbDataParameter> {
-        //        CreateParameter("CreatedByCooperatorID", cooperatorId, true)
-        //    };
-        //    results = GetRecords<AppUserItemFolder>(SQL, parameters.ToArray());
-        //    RowsAffected = results.Count;
-        //    return results;
-        //}
-
         public virtual List<AppUserItemFolder> GetAvailableFolders(int cooperatorId, string tableName)
         {
             List<AppUserItemFolder> results = new List<AppUserItemFolder>();
@@ -101,15 +85,16 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             return results;
         }
 
-        public virtual List<CodeValue> GetFolderTypes(int cooperatorId)
+        public virtual List<CodeValue> GetFolderTypes(int cooperatorId = 0)
         {
             List<CodeValue> codeValues = new List<CodeValue>();
             FolderSearch searchEntity = new FolderSearch { CreatedByCooperatorID = cooperatorId };
 
             SQL = " SELECT DISTINCT FolderTypeDescription AS Value, " +
-                "   FolderTypeDescription + ' (' + CONVERT(NVARCHAR, COUNT(*)) + ')' AS Title " +
-                "   FROM vw_GRINGlobal_App_User_Item_Folder " +
-                "   GROUP BY FolderTypeDescription  ";
+                "   FolderTypeDescription AS Title " +
+                "   FROM vw_GRINGlobal_App_User_Item_Folder ";
+            SQL += " WHERE (@CreatedByCooperatorID IS NULL OR CreatedByCooperatorID =  @CreatedByCooperatorID)";
+            SQL += " GROUP BY FolderTypeDescription  ";
 
             var parameters = new List<IDbDataParameter> {
                 CreateParameter("CreatedByCooperatorID", searchEntity.CreatedByCooperatorID > 0 ? (object)searchEntity.CreatedByCooperatorID : DBNull.Value, true)
@@ -138,17 +123,16 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
         //    return codeValues;
         //}
 
-        public virtual List<CodeValue> GetFolderCategories(int cooperatorId)
+        public virtual List<CodeValue> GetFolderCategories(int cooperatorId = 0)
         {
             List<CodeValue> codeValues = new List<CodeValue>();
             FolderSearch searchEntity = new FolderSearch { CreatedByCooperatorID = cooperatorId };
 
             SQL = " SELECT DISTINCT Category AS Value, " +
                   " Category AS Title " +
-                  " FROM vw_GRINGlobal_App_User_Item_Folder " +
-                  " WHERE CreatedByCooperatorID = @CreatedByCooperatorID " +
-                  " AND Category IS NOT NULL " +
-                  " ORDER BY Category ";
+                  " FROM vw_GRINGlobal_App_User_Item_Folder ";
+            SQL += " WHERE (@CreatedByCooperatorID IS NULL OR CreatedByCooperatorID =  @CreatedByCooperatorID)";
+            SQL += " GROUP BY Category  ";
 
             var parameters = new List<IDbDataParameter> {
                 CreateParameter("CreatedByCooperatorID", searchEntity.CreatedByCooperatorID > 0 ? (object)searchEntity.CreatedByCooperatorID : DBNull.Value, true)

@@ -132,21 +132,11 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             RowsAffected = results.Count;
             return results;
         }
-
-        public List<Geography> SearchFolderItems(GeographySearch searchEntity)
+        public List<Geography> GetFolderItems(GeographySearch searchEntity)
         {
             List<Geography> results = new List<Geography>();
 
-            SQL = " SELECT auil.app_user_item_list_id AS ListID, " +
-                " auil.list_name AS ListName, " +
-                " auil.app_user_item_folder_id AS FolderID, " +
-                " vgtf.* " +
-                " FROM vw_GGTools_Taxon_Geographies vgtf " +
-                " JOIN app_user_item_list auil " +
-                " ON vgtf.ID = auil.id_number " +
-                " WHERE auil.id_type = 'geography' ";
-            SQL += "AND  (@FolderID                          IS NULL OR  auil.app_user_item_folder_id       =           @FolderID)";
-
+            SQL = " SELECT * FROM vw_GRINGlobal_Folder_Geography WHERE FolderID = @FolderID";
             var parameters = new List<IDbDataParameter> {
                 CreateParameter("FolderID", searchEntity.FolderID > 0 ? (object)searchEntity.FolderID : DBNull.Value, true)
             };
@@ -154,7 +144,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             RowsAffected = results.Count;
             return results;
         }
-
+       
         public int Update(Geography entity)
         {
             Reset(CommandType.StoredProcedure);

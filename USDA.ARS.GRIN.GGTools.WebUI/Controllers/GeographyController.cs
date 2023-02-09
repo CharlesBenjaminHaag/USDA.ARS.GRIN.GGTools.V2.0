@@ -17,9 +17,13 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
         private static readonly Logger Log = LogManager.GetCurrentClassLogger();
         public PartialViewResult _ListFolderItems(int folderId)
         {
+            GeographyViewModel viewModel = new GeographyViewModel();
             try
             {
-                return PartialView("~/Views/Shared/_UnderConstruction.cshtml");
+                viewModel.EventAction = "FOLDER";
+                viewModel.SearchEntity.FolderID = folderId;
+                viewModel.GetFolderItems();
+                return PartialView(BASE_PATH + "_List.cshtml", viewModel);
             }
             catch (Exception ex)
             {
@@ -187,25 +191,6 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             {
                 Log.Error(ex);
                 return Json(new { success = false }, JsonRequestBehavior.AllowGet);
-            }
-        }
-
-        public PartialViewResult FolderItems(int folderId)
-        {
-            try
-            {
-                GeographyViewModel viewModel = new GeographyViewModel();
-                viewModel.EventAction = "SEARCH";
-                viewModel.EventValue = "FOLDER";
-                viewModel.SearchEntity.FolderID = folderId;
-                viewModel.SearchFolderItems();
-                ModelState.Clear();
-                return PartialView("~/Views/Geography/_List.cshtml", viewModel);
-            }
-            catch (Exception ex)
-            {
-                Log.Error(ex);
-                return null;
             }
         }
 

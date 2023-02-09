@@ -21,34 +21,30 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         [AllowHtml]
         public string Title { get; set; }
         public string Description { get; set; }
-        // NOTE: OMITTED
-        // AccessionID
         public int AccessionID { get; set; }
-        // MethodID
+        public int MethodID { get; set; }
         public int FamilyID { get; set; }
         public string FamilyName { get; set; }
         public int GenusID { get; set; }
         public string GenusName { get; set; }
         public int SpeciesID { get; set; }
         public string SpeciesName { get; set; }
-
-        // NOTE: OMITTED
-        // AccessionIPRID
-        // AccessionPedigreeID
-        // GeneticMarkerID
+        public int AccessionIPRID { get; set; }
+        public int AccessionPedigreeID { get; set; }
+        public int GeneticMarkerID { get; set; }
         public string TypeCode { get; set; }
         public int UniqueKey { get; set; }
         public string IsAcceptedName { get; set; }
         public bool IsAcceptedNameOption { get; set; }
         public int LiteratureID { get; set; }
         public string Abbreviation { get; set; }
-        public string StandardAbbreviation { get; set; }
-        public string EditorAuthorName { get; set; }
-        public string ReferenceTitle { get; set; }
-        public string LiteratureTypeCode { get; set; }
-        public string PublicationYear { get; set; }
-        public string PublisherName { get; set; }
-        public string PublisherLocation { get; set; }
+        //public string StandardAbbreviation { get; set; }
+        //public string EditorAuthorName { get; set; }
+        //public string ReferenceTitle { get; set; }
+        //public string LiteratureTypeCode { get; set; }
+        //public string PublicationYear { get; set; }
+        //public string PublisherName { get; set; }
+        //public string PublisherLocation { get; set; }
         [AllowHtml]
         public string Note { get; set; }
     }

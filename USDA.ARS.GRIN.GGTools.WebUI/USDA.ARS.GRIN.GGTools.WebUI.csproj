@@ -697,7 +697,6 @@
     <Content Include="Views\Taxonomy\Species\_RevisionHistory.cshtml" />
     <Content Include="Views\Taxonomy\SpeciesSynonymMap\_ListSynonyms.cshtml" />
     <Content Include="Views\Taxonomy\_TEMPLATES\Edit.cshtml" />
-    <Content Include="Views\Taxonomy\Citation\Edit_BACKUP.cshtml" />
     <Content Include="Views\Taxonomy\Citation\Clone.cshtml" />
     <Content Include="Views\Shared\_Footer.cshtml" />
     <Content Include="Views\Taxonomy\CWRMap\Edit.cshtml" />
@@ -708,6 +707,8 @@
     <Content Include="Views\Shared\_NavbarListOptions.cshtml" />
     <Content Include="Views\Shared\_Breadcrumbs.cshtml" />
     <Content Include="Views\SysTable\_MenuList.cshtml" />
+    <Content Include="Views\Taxonomy\Citation\_EditExtended.cshtml" />
+    <Content Include="Views\Taxonomy\Citation\Edit_BACKUP.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

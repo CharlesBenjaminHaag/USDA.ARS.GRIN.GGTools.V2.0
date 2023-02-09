@@ -11,6 +11,26 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
 {
     public class GeographyViewModel : GeographyViewModelBase, IViewModel<GeographyViewModel>
     {
+        public void GetFolderItems()
+        {
+            using (GeographyManager mgr = new GeographyManager())
+            {
+                try
+                {
+                    DataCollection = new Collection<Geography>(mgr.GetFolderItems(SearchEntity));
+                    RowsAffected = mgr.RowsAffected;
+                    if (RowsAffected == 1)
+                    {
+                        Entity = DataCollection[0];
+                    }
+                }
+                catch (Exception ex)
+                {
+                    PublishException(ex);
+                    throw ex;
+                }
+            }
+        }
         public void Delete()
         {
             try
@@ -231,27 +251,6 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
             using (GeographyManager mgr = new GeographyManager())
             {
                 DataCollectionCountries = new Collection<Country>(mgr.SearchCountries(searchEntity));
-            }
-        }
-
-        public void SearchFolderItems()
-        {
-            using (GeographyManager mgr = new GeographyManager())
-            {
-                try
-                {
-                    DataCollection = new Collection<Geography>(mgr.SearchFolderItems(SearchEntity));
-                    RowsAffected = mgr.RowsAffected;
-                    if (RowsAffected == 1)
-                    {
-                        Entity = DataCollection[0];
-                    }
-                }
-                catch (Exception ex)
-                {
-                    PublishException(ex);
-                    throw ex;
-                }
             }
         }
 

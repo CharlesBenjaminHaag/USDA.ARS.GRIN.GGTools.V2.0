@@ -53,8 +53,8 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             try
             {
                 viewModel.Search();
-                viewModel.GetFolderTypes(AuthenticatedUser.CooperatorID);
-                viewModel.GetFolderCategories(AuthenticatedUser.CooperatorID);
+                viewModel.GetFolderTypes();
+                viewModel.GetFolderCategories();
                 return View("~/Views/Folder/Search.cshtml", viewModel);
             }
             catch (Exception ex)
@@ -774,8 +774,8 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 viewModel.PageTitle = "Folder Search";
                 viewModel.TableName = "app_user_item_folder";
                 viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
-                viewModel.GetFolderTypes(AuthenticatedUser.CooperatorID);
-                viewModel.GetFolderCategories(AuthenticatedUser.CooperatorID);
+                viewModel.GetFolderTypes();
+                viewModel.GetFolderCategories();
                 return View(BASE_PATH + "Search.cshtml", viewModel);
             }
             catch (Exception ex)

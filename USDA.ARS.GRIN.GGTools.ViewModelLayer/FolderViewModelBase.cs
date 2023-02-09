@@ -132,7 +132,7 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
             set { _DataCollectionFolderItems = value; }
         }
 
-        public void GetFolderTypes(int cooperatorID)
+        public void GetFolderTypes(int cooperatorID = 0)
         {
             List<CodeValue> types = new List<CodeValue>();
             using (FolderManager mgr = new FolderManager())
@@ -142,7 +142,7 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
                 Types = new SelectList(types, "Value", "Title");
             }
         }
-        public void GetFolderCategories(int cooperatorID)
+        public void GetFolderCategories(int cooperatorID = 0)
         {
             List<CodeValue> categories = new List<CodeValue>();
             using (FolderManager mgr = new FolderManager())

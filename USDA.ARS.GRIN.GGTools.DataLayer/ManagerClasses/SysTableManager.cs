@@ -46,7 +46,10 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
 
             // Temp (?)
             SQL += " AND TableTitle IS NOT NULL ";
-            
+
+            // Also temp
+            SQL += " AND TableName <> 'taxonomy_family'";
+
             SQL += " ORDER BY TableTitle ";
 
              var parameters = new List<IDbDataParameter> {
