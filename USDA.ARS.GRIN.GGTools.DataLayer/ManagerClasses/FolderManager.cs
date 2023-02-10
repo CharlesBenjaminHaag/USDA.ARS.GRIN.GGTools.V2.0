@@ -20,11 +20,12 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             SQL += " AND    (@CreatedByCooperatorID     IS NULL OR   CreatedByCooperatorID      =   @CreatedByCooperatorID)";
             SQL += " AND    (@AppUserItemFolderID       IS NULL OR   ID                         =   @AppUserItemFolderID)";
             SQL += " AND    (@IsFavoriteOption          IS NULL OR   IsFavoriteOption           =   @IsFavoriteOption)";
+
             //SQL += " AND    (FolderType LIKE '%taxon%') OR (FolderType LIKE '%citation%') OR (FolderType LIKE '%literature%') OR (FolderType LIKE '%geography%')";
             //SQL += " UNION ";
             //SQL += " SELECT *, 'Y' AS IsShared FROM vw_GRINGlobal_App_User_Item_Folder";
             //SQL += " WHERE  (@FolderType                IS NULL OR   FolderTypeDescription      =   @FolderType)";
-            
+
             //SQL += " AND ID IN (SELECT app_user_item_folder_id FROM app_user_item_folder_cooperator_map " +
             //        " WHERE cooperator_id = @CreatedByCooperatorID )";
 
@@ -41,7 +42,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             //}
 
             var parameters = new List<IDbDataParameter> {
-                CreateParameter("FolderType", !String.IsNullOrEmpty(searchEntity.FolderType) ? (object)searchEntity.FolderType : DBNull.Value, true),
+                CreateParameter("FolderType", !String.IsNullOrEmpty(searchEntity.FolderTypeDescription) ? (object)searchEntity.FolderTypeDescription : DBNull.Value, true),
                 CreateParameter("Category", !String.IsNullOrEmpty(searchEntity.Category) ? (object)searchEntity.Category : DBNull.Value, true),
                 CreateParameter("CreatedByCooperatorID", searchEntity.CreatedByCooperatorID > 0 ? (object)searchEntity.CreatedByCooperatorID : DBNull.Value, true),
                 CreateParameter("IsFavoriteOption", searchEntity.IsFavoriteOption == "Y" ? (object)searchEntity.IsFavoriteOption : DBNull.Value, true),
@@ -91,10 +92,10 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             FolderSearch searchEntity = new FolderSearch { CreatedByCooperatorID = cooperatorId };
 
             SQL = " SELECT DISTINCT FolderTypeDescription AS Value, " +
-                "   FolderTypeDescription AS Title " +
+                "   FolderTypeTitle AS Title " +
                 "   FROM vw_GRINGlobal_App_User_Item_Folder ";
             SQL += " WHERE (@CreatedByCooperatorID IS NULL OR CreatedByCooperatorID =  @CreatedByCooperatorID)";
-            SQL += " GROUP BY FolderTypeDescription  ";
+            SQL += " GROUP BY FolderTypeDescription, FolderTypeTitle  ";
 
             var parameters = new List<IDbDataParameter> {
                 CreateParameter("CreatedByCooperatorID", searchEntity.CreatedByCooperatorID > 0 ? (object)searchEntity.CreatedByCooperatorID : DBNull.Value, true)
@@ -275,11 +276,9 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
         public int Delete(AppUserItemFolder entity)
         {
             Reset(CommandType.StoredProcedure);
-            Validate<AppUserItemFolder>(entity);
 
-            SQL = "usp_GGTools_Taxon_Entity_Delete";
-            AddParameter("table_name", (object)"app_user_item_folder",false);
-            AddParameter("entity_id", (object)entity.ID, false);
+            SQL = "usp_GRINGlobal_AppUserItemFolder_Delete";
+            AddParameter("@app_user_item_folder_id", (object)entity.ID, false);
             AddParameter("@out_error_number", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
             RowsAffected = ExecuteNonQuery();
 
@@ -292,6 +291,23 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             return RowsAffected;
         }
 
+        public int DeleteItem(int appUserItemListId)
+        {
+            Reset(CommandType.StoredProcedure);
+
+            SQL = "usp_GRINGlobal_AppUserItemList_Delete";
+            AddParameter("@app_user_item_list_id", (object)appUserItemListId, false);
+            AddParameter("@out_error_number", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
+            RowsAffected = ExecuteNonQuery();
+
+            int errorNumber = GetParameterValue<int>("@out_error_number", -1);
+            if (errorNumber > 0)
+            {
+                throw new Exception(errorNumber.ToString());
+            }
+
+            return RowsAffected;
+        }
         public int DeleteCollaborator(int cooperatorId, int folderId)
         {
             Reset(CommandType.StoredProcedure);

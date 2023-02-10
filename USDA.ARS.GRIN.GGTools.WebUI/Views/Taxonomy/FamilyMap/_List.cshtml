@@ -73,24 +73,20 @@
                                     </a>
                                     break;
                                 default:
-                                    <a href="@Url.Action("Edit", "FamilyMap", new { entityId = result.ID })" 
+                                    <a href="@Url.Action("Edit", "FamilyMap", new { entityId = result.ID })"
                                        class="btn btn-default btn-sm btn-flat pull-right row-edit">
                                         <i class="fa fa-edit"></i>
                                     </a>
                                     if (Model.EventAction == "FOLDER")
                                     {
-                                        string buttonId = "btnDeleteItem" + @result.AppUserItemListID.ToString();
-                                        <button id="@buttonId"
-                                                data-ggtools-action="delete"
-                                                data-ggtools-value="@result.AppUserItemListID"
-                                                type="button" 
-                                                class="btn btn-default btn-sm btn-flat pull-right">
+                                        <a href="@Url.Action("DeleteItem", "Folder", new { @folderId = result.FolderID, @appUserItemListId = result.AppUserItemListID })"
+                                           class="btn btn-danger btn-sm float-right row-edit margin-r-5">
                                             <i class="fa fa-trash"></i>
-                                        </button>
+                                        </a>
                                     }
                                     break;
-                                }
-                            </td>
+                            }
+                        </td>
                         </tr>
                     }
                 </tbody>

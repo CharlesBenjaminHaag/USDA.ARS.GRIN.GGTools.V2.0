@@ -117,8 +117,27 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 folderType = "";
             }
 
+            if (folderCategory.ToLower() == "favorites")
+            {
+                viewModel.SearchEntity.IsFavoriteOption = "Y";
+                viewModel.SearchEntity.IsFavorite = true;
+            }
+
             viewModel.SearchEntity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
-            viewModel.SearchEntity.Category = folderCategory;
+
+            if (!String.IsNullOrEmpty(viewModel.SearchEntity.Category))
+            {
+                if (viewModel.SearchEntity.Category.ToLower() == "favorites")
+                {
+                    viewModel.SearchEntity.IsFavoriteOption = "Y";
+                    viewModel.SearchEntity.IsFavorite = true;
+                }
+                else
+                {
+                    viewModel.SearchEntity.Category = folderCategory;
+                }
+            }
+            
             viewModel.SearchEntity.FolderTypeDescription = folderType;
             viewModel.Search();
             return PartialView("~/Views/Folder/_List.cshtml", viewModel);
@@ -696,17 +715,19 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 return Json(new { errorMessage = ex.Message }, JsonRequestBehavior.AllowGet);
             }
         }
-        [HttpPost]
-        public JsonResult DeleteItem(int appUserItemListId)
+        
+        public ActionResult DeleteItem(int folderId, int appUserItemListId)
         {
             try
             {
-                //TODO
-                return Json(new { success = true }, JsonRequestBehavior.AllowGet);
+                FolderViewModel viewModel = new FolderViewModel();
+                viewModel.DeleteItem(appUserItemListId);
+                return RedirectToAction("Edit", "Folder", new { @entityId = folderId });
             }
             catch (Exception ex)
             {
-                return Json(new { errorMessage = ex.Message }, JsonRequestBehavior.AllowGet);
+                Log.Error(ex);
+                return RedirectToAction("InternalServerError", "Error");
             }
         }
         public ActionResult Delete(int entityId)

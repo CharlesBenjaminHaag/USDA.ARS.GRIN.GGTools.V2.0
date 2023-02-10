@@ -12,6 +12,26 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
 {
     public class LiteratureViewModel : LiteratureViewModelBase, IViewModel<Literature>
     {
+        public void GetFolderItems()
+        {
+            using (LiteratureManager mgr = new LiteratureManager())
+            {
+                try
+                {
+                    DataCollection = new Collection<Literature>(mgr.GetFolderItems(SearchEntity));
+                    RowsAffected = mgr.RowsAffected;
+                    if (RowsAffected == 1)
+                    {
+                        Entity = DataCollection[0];
+                    }
+                }
+                catch (Exception ex)
+                {
+                    PublishException(ex);
+                    throw ex;
+                }
+            }
+        }
         public void Delete()
         {
             try

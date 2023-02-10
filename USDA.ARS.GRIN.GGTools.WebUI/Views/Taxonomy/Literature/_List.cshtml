@@ -54,12 +54,13 @@
                                     <a href="@Url.Action("Edit", "Literature", new { entityId = result.ID })" class="btn btn-default btn-sm pull-right row-edit">
                                         <i class="fa fa-edit"></i>
                                     </a>
-                                    @*@if (Model.Action == "Folder")
-                                        {
-                                            <button id="btnDeleteFolderItem_@cropForCWR.ReferenceID" class="btn btn-danger btn-sm pull-right row-edit margin-r-5">
-                                                <i class="fa fa-trash"></i> Remove From Folder
-                                            </button>
-                                        }*@
+                                    @if (Model.EventAction == "FOLDER")
+                                    {
+                                        <a href="@Url.Action("DeleteItem", "Folder", new { @folderId = result.FolderID, @appUserItemListId = result.AppUserItemListID })"
+                                           class="btn btn-danger btn-sm float-right row-edit margin-r-5">
+                                            <i class="fa fa-trash"></i>
+                                        </a>
+                                    }
                                 </td>
                             </tr>
                         }

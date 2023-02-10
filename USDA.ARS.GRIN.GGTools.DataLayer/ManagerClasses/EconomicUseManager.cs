@@ -24,7 +24,18 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         {
             throw new NotImplementedException();
         }
+        public List<EconomicUse> GetFolderItems(EconomicUseSearch searchEntity)
+        {
+            List<EconomicUse> results = new List<EconomicUse>();
 
+            SQL = " SELECT * FROM vw_GRINGlobal_Folder_Taxonomy_Economic_Use WHERE FolderID = @FolderID";
+            var parameters = new List<IDbDataParameter> {
+                CreateParameter("FolderID", searchEntity.FolderID > 0 ? (object)searchEntity.FolderID : DBNull.Value, true)
+            };
+            results = GetRecords<EconomicUse>(SQL, parameters.ToArray());
+            RowsAffected = results.Count;
+            return results;
+        }
         public virtual int Insert(EconomicUse entity)
         {
             Reset(CommandType.StoredProcedure);

@@ -52,9 +52,16 @@
                                         @result.VerifiedByCooperatorName
                                     </td>
                                     <td class="table-col-align-right">
-                                        <a href="@Url.Action("Edit", "Species", new { entityId = result.ID })" class="btn btn-default btn-sm pull-right row-edit">
+                                        <a href="@Url.Action("Edit", "Species", new { entityId = result.ID })" class="btn btn-default btn-sm float-right row-edit">
                                             <i class="fa fa-edit"></i>
                                         </a>
+                                        @if (Model.EventAction == "FOLDER")
+                                        {
+                                            <a href="@Url.Action("DeleteItem", "Folder", new { @folderId = result.FolderID, @appUserItemListId = result.AppUserItemListID })"
+                                               class="btn btn-danger btn-sm float-right row-edit margin-r-5">
+                                                <i class="fa fa-trash"></i>
+                                            </a>
+                                        }
                                     </td>
                                 </tr>
                             }

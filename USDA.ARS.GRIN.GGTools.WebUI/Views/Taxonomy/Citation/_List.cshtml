@@ -18,7 +18,7 @@
                         <th>Taxon Name</th>
                         <th>Citation Title</th>
                         <th>Abbreviation</th>
-                        <th>Author</th>
+                        @*<th>Author</th>*@
                         <th>Year</th>
                         <th></th>
                     </tr>
@@ -62,9 +62,9 @@
                         <td>
                             @result.Abbreviation
                         </td>
-                        <td>
+                        @*<td>
                             @result.AuthorName
-                        </td>
+                        </td>*@
                         <td>
                             @result.CitationYear
                         </td>
@@ -74,9 +74,10 @@
                             </a>
                             @if (Model.EventAction == "FOLDER")
                             {
-                                <button id="btnDeleteFolderItem_@result.FolderID" class="btn btn-danger btn-sm float-right row-edit margin-r-5" style="margin-right:5px;">
+                                <a href="@Url.Action("DeleteItem", "Folder", new { @folderId = result.FolderID, @appUserItemListId = result.AppUserItemListID })"
+                                   class="btn btn-danger btn-sm float-right row-edit margin-r-5">
                                     <i class="fa fa-trash"></i>
-                                </button>
+                                </a>
                             }
                         </td>
                     </tr>

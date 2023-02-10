@@ -239,46 +239,22 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
                 }
             }
         }
-        //public string GetCssClass(string tableName)
-        //{
-        //    string cssClass = String.Empty;
-        //    switch (tableName)
-        //    {
-        //        case "taxonomy_family":
-        //            cssClass = "bg-green";
-        //            break;
-        //        case "taxonomy_genus":
-        //            cssClass = "bg-fuschia";
-        //            break;
-        //        case "taxonomy_species":
-        //            cssClass = "bg-green";
-        //            break;
-        //        case "taxonomy_cwr_crop":
-        //            cssClass = "bg-aqua";
-        //            break;
-        //        case "taxonomy_cwr_map":
-        //            cssClass = "bg-teal";
-        //            break;
-        //        case "taxonomy_cwr_trait":
-        //            cssClass = "bg-orange";
-        //            break;
-        //        case "citation":
-        //            cssClass = "bg-maroon";
-        //            break;
-        //        case "regulation":
-        //            cssClass = "bg-purple";
-        //            break;
-        //        default:
-        //            cssClass = "bg-navy";
-        //            break;
-        //    }
-        //    return cssClass;
-        //}
 
-        //public List<Folder> SearchNotes(string searchText)
-        //{
-        //    throw new NotImplementedException();
-        //}
+        public void DeleteItem(int appUserItemListId)
+        {
+            using (FolderManager mgr = new FolderManager())
+            {
+                try
+                {
+                    RowsAffected = mgr.DeleteItem(appUserItemListId);
+                }
+                catch (Exception ex)
+                {
+                    PublishException(ex);
+                    throw ex;
+                }
+            }
+        }
         Folder IViewModel<Folder>.Get(int entityId)
         {
             throw new NotImplementedException();

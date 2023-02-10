@@ -12,6 +12,18 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
 {
     public class LiteratureManager : AppDataManagerBase, IManager<Literature, LiteratureSearch>
     {
+        public List<Literature> GetFolderItems(LiteratureSearch searchEntity)
+        {
+            List<Literature> results = new List<Literature>();
+
+            SQL = " SELECT * FROM vw_GRINGlobal_Folder_Literature WHERE FolderID = @FolderID";
+            var parameters = new List<IDbDataParameter> {
+                CreateParameter("FolderID", searchEntity.FolderID > 0 ? (object)searchEntity.FolderID : DBNull.Value, true)
+            };
+            results = GetRecords<Literature>(SQL, parameters.ToArray());
+            RowsAffected = results.Count;
+            return results;
+        }
         public void BuildInsertUpdateParameters()
         {
             throw new NotImplementedException();

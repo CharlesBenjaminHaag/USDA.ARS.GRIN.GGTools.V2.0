@@ -31,40 +31,47 @@
                         {
                             foreach (var result in Model.DataCollection)
                             {
-                    <tr>
-                        <td>
-                            @result.ID
-                        </td>
-                        <td>
-                            @result.ID
-                        </td>
-                        <td>
-                            <a href="@Url.Action("Edit","Order", new { entityId = result.ID })">@result.OrderName</a>
-                        </td>
-                        <td style="text-align:center;">
-                            <a href="@Url.Action("Index","FamilyMap", new { orderId = result.ID })">[@result.TotalFamilies]</a>
-                        </td>
-                        <td>
-                            @result.CreatedDate.ToShortDateString()
-                        </td>
-                        <td>
-                            @result.CreatedByCooperatorName
-                        </td>
-                        <td>
-                            @if (result.ModifiedDate > DateTime.MinValue)
-                            {
-                                @result.ModifiedDate.ToShortDateString()
-                            }
-                        </td>
-                        <td>
-                            @result.ModifiedByCooperatorName
-                        </td>
-                        <td style="text-align:right;">
-                            <a href="@Url.Action("Edit", "Classification", new { entityId = result.ID })" class="btn btn-default btn-flat btn-sm pull-right row-edit">
-                                <i class="fa fa-edit"></i>
-                            </a>
-                        </td>
-                    </tr>
+                                <tr>
+                                    <td>
+                                        @result.ID
+                                    </td>
+                                    <td>
+                                        @result.ID
+                                    </td>
+                                    <td>
+                                        <a href="@Url.Action("Edit","Order", new { entityId = result.ID })">@result.OrderName</a>
+                                    </td>
+                                    <td style="text-align:center;">
+                                        <a href="@Url.Action("Index","FamilyMap", new { orderId = result.ID })">[@result.TotalFamilies]</a>
+                                    </td>
+                                    <td>
+                                        @result.CreatedDate.ToShortDateString()
+                                    </td>
+                                    <td>
+                                        @result.CreatedByCooperatorName
+                                    </td>
+                                    <td>
+                                        @if (result.ModifiedDate > DateTime.MinValue)
+                                        {
+                                            @result.ModifiedDate.ToShortDateString()
+                                        }
+                                    </td>
+                                    <td>
+                                        @result.ModifiedByCooperatorName
+                                    </td>
+                                    <td style="text-align:right;">
+                                        <a href="@Url.Action("Edit", "Classification", new { entityId = result.ID })" class="btn btn-default btn-flat btn-sm pull-right row-edit">
+                                            <i class="fa fa-edit"></i>
+                                        </a>
+                                        @if (Model.EventAction == "FOLDER")
+                                        {
+                                            <a href="@Url.Action("DeleteItem", "Folder", new { @folderId = result.FolderID, @appUserItemListId = result.AppUserItemListID })"
+                                               class="btn btn-danger btn-sm float-right row-edit margin-r-5">
+                                                <i class="fa fa-trash"></i>
+                                            </a>
+                                        }
+                                    </td>
+                                </tr>
                             }
                         }
                     }
