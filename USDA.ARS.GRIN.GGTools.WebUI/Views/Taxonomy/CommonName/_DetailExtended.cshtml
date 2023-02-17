@@ -19,6 +19,12 @@
             </div>
             <div class="col-md-2">
                 <div class="form-group form-horizontal">
+                    <label>Created By</label>
+                    @Html.DropDownListFor(x => x.SearchEntity.CreatedByCooperatorID, Model.Cooperators, "All Cooperators", new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group form-horizontal">
                     <label>Created Date</label>
                     @Html.TextBoxFor(x => x.SearchEntity.CreatedDate, new { @class = "form-control" })
                 </div>

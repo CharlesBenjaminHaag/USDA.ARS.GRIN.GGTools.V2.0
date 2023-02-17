@@ -78,7 +78,28 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
                 }
             }
         }
+        public void GetInframilialFamilyMaps()
+        {
+            List<FamilyMap> familyMaps = new List<FamilyMap>();
+            using (FamilyMapManager mgr = new FamilyMapManager())
+            {
+                SearchEntity.IsInfrafamilal = "Y";
+                DataCollectionInfrafamilial = new Collection<FamilyMap>(mgr.Search(SearchEntity));
+            }
 
+            //ObjectCache cache = MemoryCache.Default;
+            //familyMaps = cache["DATA-LIST-FAMILY-MAPS"] as List<FamilyMap>;
+
+            //if (familyMaps == null)
+            //{
+            //    CacheItemPolicy policy = new CacheItemPolicy();
+            //    using (FamilyMapManager mgr = new FamilyMapManager())
+            //    {
+            //        familyMaps = mgr.Search(new FamilyMapSearch());
+            //    }
+            //    cache.Set("DATA-LIST-FAMILY-MAPS", familyMaps, policy);
+            //}
+        }
         public void GetGenera(int entityId)
         {
             using (FamilyMapManager mgr = new FamilyMapManager())
@@ -315,25 +336,25 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
             }
             return Entity.ID;
         }
-        public string GetPageTitle()
-        {
-            string pageTitle = String.Empty;
-            switch (Entity.Rank.ToUpper())
-            {
-                case "FAMILY":
-                    pageTitle = String.Format("Edit {0} [{1}]: {2}", ToTitleCase(Entity.Rank.ToLower()), Entity.ID, Entity.FamilyName);
-                    break;
-                case "SUBFAMILY":
-                    pageTitle = String.Format("Edit {0} [{1}]: {2}", ToTitleCase(Entity.Rank.ToLower()), Entity.ID, Entity.SubfamilyName);
-                    break;
-                case "TRIBE":
-                    pageTitle = String.Format("Edit {0} [{1}]: {2}", ToTitleCase(Entity.Rank.ToLower()), Entity.ID, Entity.TribeName);
-                    break;
-                case "SUBTRIBE":
-                    pageTitle = String.Format("Edit {0} [{1}]: {2}", ToTitleCase(Entity.Rank.ToLower()), Entity.ID, Entity.SubtribeName);
-                    break;
-            }
-            return pageTitle;
-        }
+        //public string GetPageTitle()
+        //{
+        //    string pageTitle = String.Empty;
+        //    switch (Entity.Rank.ToUpper())
+        //    {
+        //        case "FAMILY":
+        //            pageTitle = String.Format("Edit {0} [{1}]: {2}", ToTitleCase(Entity.Rank.ToLower()), Entity.ID, Entity.FamilyName);
+        //            break;
+        //        case "SUBFAMILY":
+        //            pageTitle = String.Format("Edit {0} [{1}]: {2}", ToTitleCase(Entity.Rank.ToLower()), Entity.ID, Entity.SubfamilyName);
+        //            break;
+        //        case "TRIBE":
+        //            pageTitle = String.Format("Edit {0} [{1}]: {2}", ToTitleCase(Entity.Rank.ToLower()), Entity.ID, Entity.TribeName);
+        //            break;
+        //        case "SUBTRIBE":
+        //            pageTitle = String.Format("Edit {0} [{1}]: {2}", ToTitleCase(Entity.Rank.ToLower()), Entity.ID, Entity.SubtribeName);
+        //            break;
+        //    }
+        //    return pageTitle;
+        //}
     }
 }

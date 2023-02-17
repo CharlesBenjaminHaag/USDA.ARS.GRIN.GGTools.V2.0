@@ -1,10 +1,4 @@
 ﻿@if (Model.Entity.ID > 0)
 {
-    <div class="row">
-        <div class="col-md-12">
-            <div class="form-group">
-                @Html.Raw(Model.Entity.RevisionHistoryText)
-            </div>
-            </div>
-    </div>
+<span title="3 New Messages" class="badge bg-default-accent-cool" style="color:#adb5bd;">@Html.Raw(Model.Entity.RevisionHistoryText)</span>
 }

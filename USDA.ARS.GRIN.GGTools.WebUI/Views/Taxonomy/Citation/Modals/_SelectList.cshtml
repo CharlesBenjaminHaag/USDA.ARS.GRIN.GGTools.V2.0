@@ -13,6 +13,7 @@
         <tr>
             <th></th>
             <th width="5%">ID</th>
+            <th>Type</th>
             <th>Author(s) Name</th>
         </tr>
     </thead>
@@ -27,6 +28,9 @@
                         <td>@result.ID</td>
                         <td>
                             @result.ID
+                        </td>
+                        <td>
+                            @result.TypeCode
                         </td>
                         <td>
                             @Html.Raw(result.AssembledName)

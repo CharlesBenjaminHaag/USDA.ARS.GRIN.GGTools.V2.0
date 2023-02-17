@@ -313,7 +313,7 @@
                                         </div>
 
                                         <!-- If this is a sub-specific rank, show the top-ranked
-                                    species name. -->
+                        species name. -->
                                         @if (Model.Entity.Rank.ToUpper() != "SPECIES")
                                         {
                                             <div class="col-md-3">
@@ -518,7 +518,7 @@
                                         <div class="col-md-12">
                                             <label>Note</label>
                                             <div class="input-group">
-                                               
+
                                                 @Html.TextAreaFor(x => x.Entity.Note, new { @id = "txtNote", @class = "form-control", })
                                                 <span class="input-group-append">
                                                     <button type="button" class="btn btn-default" data-toggle="modal" data-target="#modal-note-lookup">
@@ -587,8 +587,8 @@
                         </div>
                     }
 
-                    @Html.Partial("~/Views/Taxonomy/Genus/Modals/_Lookup.cshtml")
-                    @Html.Partial("~/Views/Taxonomy/Species/Modals/_Lookup.cshtml")
+                    @{Html.RenderAction("RenderLookupModal", "Genus"); }
+                    @{Html.RenderAction("RenderLookupModal", "Species"); }
                     @Html.Partial("~/Views/Taxonomy/Author/Modals/_Lookup.cshtml")
                     @Html.Partial("~/Views/Taxonomy/Species/Modals/_LookupProtologue.cshtml")
                     @Html.Partial("~/Views/Shared/Modals/_NoteLookup2.cshtml")
@@ -614,7 +614,6 @@
             var defaultId = $('ul#list-dependent-data li:first').attr("id");
             var action = $('ul#list-dependent-data li:first').data("ggtools-action");
             var value = $('ul#list-dependent-data li:first').data("ggtools-value");
-
             LoadDependentData(defaultId, action, value);
         }
 

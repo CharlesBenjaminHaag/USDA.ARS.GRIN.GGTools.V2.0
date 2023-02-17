@@ -46,6 +46,46 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             throw new NotImplementedException();
         }
 
+        public PartialViewResult _Edit(int entityId)
+        {
+            try
+            {
+                CodeValueViewModel viewModel = new CodeValueViewModel();
+                viewModel.Get(entityId);
+                viewModel.PageTitle = String.Format("Edit Code Value [{0}]", viewModel.Entity.ID);
+                return PartialView("~/Views/CodeValue/Modals/_Detail.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
+        }
+
+        [HttpPost]
+        public JsonResult Save(CodeValueViewModel viewModel)
+        {
+            try
+            {
+                if (viewModel.Entity.ID == 0)
+                {
+                    viewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
+                    viewModel.Insert();
+                }
+                else
+                {
+                    viewModel.Entity.ModifiedByCooperatorID = AuthenticatedUser.CooperatorID;
+                    viewModel.Update();
+                }
+                return null;
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return null;
+            }
+        }
+
         public ActionResult Edit(int entityId)
         {
             try
@@ -100,9 +140,10 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             viewModel.PageTitle = "Code Value Search";
             return View(viewModel);
         }
-        public ActionResult Explore()
+        public ActionResult Explorer()
         {
-            return View();
+            CodeValueViewModel viewModel = new CodeValueViewModel();
+            return View("~/Views/CodeValue/Explorer/Index.cshtml", viewModel);
         }
         [HttpPost]
         public ActionResult Index(CodeValueViewModel viewModel)
@@ -129,6 +170,14 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 Log.Error(ex);
                 return RedirectToAction("InternalServerError", "Error");
             }
+        }
+
+        public PartialViewResult _List(string groupName)
+        {
+            CodeValueViewModel viewModel = new CodeValueViewModel();
+            viewModel.SearchEntity.GroupName = groupName;
+            viewModel.Search();
+            return PartialView("~/Views/CodeValue/_List.cshtml", viewModel);
         }
 
         public PartialViewResult FolderItems(FormCollection formCollection)

@@ -139,7 +139,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             List<WebOrderRequestItem> webOrderRequestItems = GetRecords<WebOrderRequestItem>(SQL, CommandType.StoredProcedure, parameters.ToArray());
             return webOrderRequestItems;
         }
-        public List<WebOrderRequestAction> GetWebOrderRequestActions(int entityId)
+        public List<WebOrderRequestAction> GetWebOrderRequestActions(int? entityId)
         {
             SQL = "usp_GRINGlobal_Web_Order_Request_Actions_Select";
             var parameters = new List<IDbDataParameter> {

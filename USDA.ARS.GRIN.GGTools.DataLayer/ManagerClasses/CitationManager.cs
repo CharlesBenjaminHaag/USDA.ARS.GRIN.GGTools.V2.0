@@ -86,33 +86,33 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             List<Citation> results = new List<Citation>();
 
             SQL = "SELECT * FROM vw_GRINGlobal_Citation ";
-            SQL += " WHERE      (@ID                            IS NULL OR ID                       =       @ID)";
-            SQL += " AND        (@CitationTitle                 IS NULL OR CitationTitle            LIKE    '%' + @CitationTitle + '%')";
-            SQL += " AND        (@AuthorName                    IS NULL OR AuthorName               LIKE    '%' + @AuthorName + '%')";
-            SQL += " AND        (@CitationYear                  IS NULL OR CitationYear             =       @CitationYear)";
-            SQL += " AND        (@Reference                     IS NULL OR Reference                LIKE    '%' + @Reference + '%')";
-            SQL += " AND        (@DOIReference                  IS NULL OR DOIReference             LIKE    '%' + @DOIReference + '%')";
-            SQL += " AND        (@URL                           IS NULL OR URL                      LIKE    '%' + @URL + '%')";
-            SQL += " AND        (@Title                         IS NULL OR Title                    LIKE    '%' + @Title + '%')";
-            SQL += " AND        (@Description                   IS NULL OR Description             LIKE    '%' + @Description + '%')";
+            SQL += " WHERE      (@ID                            IS NULL OR ID               =       @ID)";
+            SQL += " AND        (@CitationTitle                 IS NULL OR CitationTitle    LIKE    '%' + @CitationTitle + '%')";
+            SQL += " AND        (@AuthorName                    IS NULL OR AuthorName       LIKE    '%' + @AuthorName + '%')";
+            SQL += " AND        (@CitationYear                  IS NULL OR CitationYear     =       @CitationYear)";
+            SQL += " AND        (@Reference                     IS NULL OR Reference        LIKE    '%' + @Reference + '%')";
+            SQL += " AND        (@DOIReference                  IS NULL OR DOIReference     LIKE    '%' + @DOIReference + '%')";
+            SQL += " AND        (@URL                           IS NULL OR URL              LIKE    '%' + @URL + '%')";
+            SQL += " AND        (@Title                         IS NULL OR Title            LIKE    '%' + @Title + '%')";
+            SQL += " AND        (@Description                   IS NULL OR Description      LIKE    '%' + @Description + '%')";
             // OMITTED
             // AccessionID
             // MethodID
-            SQL += " AND        (@FamilyID                      IS NULL OR FamilyID                 =       @FamilyID)";
-            SQL += " AND        (@GenusID                       IS NULL OR GenusID                  =       @GenusID)";
-            SQL += " AND        (@SpeciesID                     IS NULL OR SpeciesID                =       @SpeciesID)";
-            SQL += " AND        (@FamilyName                    IS NULL OR FamilyName               =       @FamilyName) ";
-            SQL += " AND        (@GenusName                     IS NULL OR GenusName                =       @GenusName) ";
-            SQL += " AND        (@SpeciesName                   IS NULL OR SpeciesName              =       @SpeciesName) ";
+            SQL += " AND        (@FamilyID                      IS NULL OR FamilyID         =       @FamilyID)";
+            SQL += " AND        (@GenusID                       IS NULL OR GenusID          =       @GenusID)";
+            SQL += " AND        (@SpeciesID                     IS NULL OR SpeciesID        =       @SpeciesID)";
+            SQL += " AND        (@FamilyName                    IS NULL OR FamilyName       LIKE    '%' +       @FamilyName + '%') ";
+            SQL += " AND        (@GenusName                     IS NULL OR GenusName        LIKE    '%' +       @GenusName + '%') ";
+            SQL += " AND        (@SpeciesName                   IS NULL OR SpeciesName      LIKE    '%' + @SpeciesName + '%') ";
             // NOTE: OMITTED
             // AccessionIPRID
             // AccessionPedigreeID
             // GeneticMarkerID
-            SQL += " AND        (@TypeCode                      IS NULL OR TypeCode                 =       @TypeCode)";
-            SQL += " AND        (@UniqueKey                     IS NULL OR UniqueKey                =       @UniqueKey)";
-            SQL += " AND        (@IsAcceptedName                IS NULL OR IsAcceptedName           =       @IsAcceptedName)";
-            SQL += " AND        (@LiteratureID                  IS NULL OR LiteratureID             =       @LiteratureID)";
-            SQL += " AND        (@Abbreviation                  IS NULL OR Abbreviation             LIKE    '%' + @Abbreviation + '%')";
+            SQL += " AND        (@TypeCode                      IS NULL OR TypeCode         =       @TypeCode)";
+            SQL += " AND        (@UniqueKey                     IS NULL OR UniqueKey        =       @UniqueKey)";
+            SQL += " AND        (@IsAcceptedName                IS NULL OR IsAcceptedName   =       @IsAcceptedName)";
+            SQL += " AND        (@LiteratureID                  IS NULL OR LiteratureID     =       @LiteratureID)";
+            SQL += " AND        (@Abbreviation                  IS NULL OR Abbreviation     LIKE    '%' + @Abbreviation + '%')";
             //SQL += " AND        (@StandardAbbreviation          IS NULL OR StandardAbbreviation     =       @StandardAbbreviation)";
             //SQL += " AND        (@EditorAuthorName              IS NULL OR EditorAuthorName         LIKE    '%' + @EditorAuthorName + '%')";
             //SQL += " AND        (@ReferenceTitle                IS NULL OR ReferenceTitle           LIKE    '%' + @ReferenceTitle + '%')";

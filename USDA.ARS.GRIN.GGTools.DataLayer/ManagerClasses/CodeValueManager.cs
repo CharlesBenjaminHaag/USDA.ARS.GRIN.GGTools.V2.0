@@ -38,11 +38,8 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
         public List<CodeValue> GetGroups()
         {
             List<CodeValue> results = new List<CodeValue>();
-            SQL = "SELECT DISTINCT GroupName AS Value, GroupName AS Title FROM vw_GGTools_GRINGlobal_CodeValues ORDER BY GroupName ASC";
+            SQL = "SELECT DISTINCT GroupName AS Value, GroupName AS Title FROM vw_GRINGlobal_Code_Value ORDER BY GroupName ASC";
             results = GetRecords<CodeValue>(SQL);
-
-            results.Add(new CodeValue { CodeValueID = -9, Title = "(New Group)", Description = "(New Group)" });
-
             RowsAffected = results.Count;
             return results;
         }
@@ -99,7 +96,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
         {
             Reset(CommandType.StoredProcedure);
             Validate<CodeValue>(entity);
-            SQL = "usp_GGTools_GRINGlobal_CodeValue_Update";
+            SQL = "usp_GRINGlobal_Code_Value_Update";
 
             BuildInsertUpdateParameters(entity);
 
@@ -128,6 +125,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             if (entity.ID > 0)
             {
                 AddParameter("code_value_id", entity.ID == 0 ? DBNull.Value : (object)entity.ID, true);
+                AddParameter("code_value_lang_id", entity.CodeValueLangID == 0 ? DBNull.Value : (object)entity.CodeValueLangID, true);
             }
             AddParameter("group_name", String.IsNullOrEmpty(entity.GroupName) ? DBNull.Value : (object)entity.GroupName, true);
             AddParameter("code_value", String.IsNullOrEmpty(entity.Code) ? DBNull.Value : (object)entity.Code, true);

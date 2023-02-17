@@ -42,6 +42,12 @@
             </div>
         </div>
         <div class="row">
+            <div class="col-md-3">
+                <div class="form-group form-horizontal">
+                    <label>Created By</label>
+                    @Html.DropDownListFor(x => x.SearchEntity.CreatedByCooperatorID, Model.Cooperators, "Any Cooperator", new { @class = "form-control" })
+                </div>
+            </div>
             <div class="col-sm-3">
                 <div class="form-group form-horizontal">
                     <label>Reference Title</label>
@@ -70,24 +76,6 @@
                 <div class="form-group form-horizontal">
                     <label>Accepted Name</label>
                     @Html.DropDownListFor(x => x.SearchEntity.IsAcceptedName, Model.YesNoOptions, "Either", new { @class = "form-control" })
-                </div>
-            </div>
-            <div class="col-sm-3">
-                <div class="form-group form-horizontal">
-                    <label>Family Name</label>
-                    @Html.TextBoxFor(x => x.SearchEntity.FamilyName, new { @class = "form-control" })
-                </div>
-            </div>
-            <div class="col-sm-3">
-                <div class="form-group form-horizontal">
-                    <label>Genus Name</label>
-                    @Html.TextBoxFor(x => x.SearchEntity.GenusName, new { @class = "form-control" })
-                </div>
-            </div>
-            <div class="col-sm-3">
-                <div class="form-group form-horizontal">
-                    <label>Species Name</label>
-                    @Html.TextBoxFor(x => x.SearchEntity.SpeciesName, new { @class = "form-control" })
                 </div>
             </div>
         </div>

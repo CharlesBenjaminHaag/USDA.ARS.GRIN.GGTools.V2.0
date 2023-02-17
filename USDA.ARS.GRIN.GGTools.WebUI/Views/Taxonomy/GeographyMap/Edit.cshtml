@@ -105,7 +105,7 @@
         </div>
     </div>
 }
-@Html.Partial("~/Views/Taxonomy/Species/Modals/_Lookup.cshtml")
+@{Html.RenderAction("RenderLookupModal", "Species"); }
 @Html.Partial("~/Views/Shared/Modals/_NoteLookup2.cshtml")
 @Html.Partial("~/Views/Taxonomy/Shared/Modals/_Delete.cshtml")
 @{Html.RenderAction("RenderLookupModal", "Citation"); }

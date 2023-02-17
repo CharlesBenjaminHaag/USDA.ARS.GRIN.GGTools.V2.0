@@ -241,23 +241,17 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             }
         }
 
-        [HttpPost]
-        public PartialViewResult Lookup(FormCollection formCollection)
+        public PartialViewResult RenderLookupModal()
         {
             GenusViewModel viewModel = new GenusViewModel();
+            return PartialView(BASE_PATH + "/Modals/_Lookup.cshtml", viewModel);
+        }
 
+        [HttpPost]
+        public PartialViewResult Lookup(GenusViewModel viewModel)
+        {
             try
             {
-                if (!String.IsNullOrEmpty(formCollection["GenusName"]))
-                {
-                    viewModel.SearchEntity.FullName = formCollection["GenusName"];
-                }
-
-                if (!String.IsNullOrEmpty(formCollection["IsAcceptedName"]))
-                {
-                    viewModel.SearchEntity.IsAcceptedName = formCollection["IsAcceptedName"];
-                }
-
                 viewModel.Search();
                 return PartialView(BASE_PATH + "/Modals/_SelectList.cshtml", viewModel);
             }

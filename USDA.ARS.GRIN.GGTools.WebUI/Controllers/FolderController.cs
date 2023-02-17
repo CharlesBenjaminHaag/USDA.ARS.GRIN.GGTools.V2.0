@@ -38,7 +38,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
                 viewModel.GetFolderTypes(AuthenticatedUser.CooperatorID);
                 viewModel.GetFolderCategories(AuthenticatedUser.CooperatorID);
-                return View(BASE_PATH + "Index.cshtml", viewModel);
+                return View(BASE_PATH + "/Explorer/Index.cshtml", viewModel);
             }
             catch (Exception ex)
             {
@@ -106,21 +106,30 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
         {
             FolderViewModel viewModel = new FolderViewModel();
 
-            // Treat a parameter containing "default" as a non-selection;
-            if (folderCategory.Contains("default"))
+            if (!String.IsNullOrEmpty(folderType))
             {
-                folderCategory = "";
+                if (folderType.Contains("default"))
+                {
+                    folderType = "";
+                }
             }
 
-            if (folderType.Contains("default"))
+            if (!String.IsNullOrEmpty(folderCategory))
             {
-                folderType = "";
-            }
-
-            if (folderCategory.ToLower() == "favorites")
-            {
-                viewModel.SearchEntity.IsFavoriteOption = "Y";
-                viewModel.SearchEntity.IsFavorite = true;
+                if (folderCategory.Contains("default"))
+                {
+                    folderCategory = "";
+                }
+                
+                if (folderCategory.ToLower() == "favorites")
+                {
+                    viewModel.SearchEntity.IsFavoriteOption = "Y";
+                    viewModel.SearchEntity.IsFavorite = true;
+                }
+                else
+                {
+                    viewModel.SearchEntity.FolderType = folderType;
+                }
             }
 
             viewModel.SearchEntity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;

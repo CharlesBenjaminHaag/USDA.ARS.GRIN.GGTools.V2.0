@@ -1,47 +1,52 @@
-﻿<div class="modal fade" id="modal-species-lookup" style="display: none;" aria-hidden="true">
+﻿@model USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer.SpeciesViewModelBase
+<div class="modal fade" id="modal-species-lookup" style="display: none;" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title">
                     <i class="fas fa-search"></i>
-                    Species Lookup</h4>
+                    Species Lookup
+                </h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                 <span aria-hidden="true">×</span>
+                    <span aria-hidden="true">×</span>
                 </button>
             </div>
             <div id="section-search-criteria" class="modal-body">
-                <input type="hidden" id="hfSpeciesLookupIDFieldName" />
-                <input type="hidden" id="hfSpeciesLookupNameFieldName" />
-                <div class="row">
-                    <div class="col-md-12">
-                        <input type="text" id="txtLookupSpeciesName" class="form-control" />
+                @using (Html.BeginForm(new { id = "frmSpeciesLookup", onsubmit = "return false;" }))
+                {
+                    <input type="hidden" id="hfSpeciesLookupIDFieldName" />
+                    <input type="hidden" id="hfSpeciesLookupNameFieldName" />
+                    <div class="row">
+                        <div class="col-md-12">
+                            @Html.TextBoxFor(x => x.SearchEntity.SpeciesName, new { @id = "txtLookupSpeciesName", @class = "form-control" })
+                        </div>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="margin">
-                            <div class="form-group clearfix">
-                                <div class="icheck-primary d-inline">
-                                    <input class="custom-control-input" type="checkbox" id="cbxLookupIsAcceptedName" value="option1">
-                                    <label for="cbxLookupIsAcceptedName">
-                                        Search accepted names only.
-                                    </label>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="margin">
+                                <div class="form-group clearfix">
+                                    <div class="icheck-primary d-inline">
+                                        <input class="custom-control-input" type="checkbox" id="cbxLookupIsAcceptedName" value="option1">
+                                        <label for="cbxLookupIsAcceptedName">
+                                            Search accepted names only.
+                                        </label>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                }
                 <div class="row">
                     <div class="col-md-12">
                         <div class="margin">
-                            <button id="btnReset" class="btn btn-danger">Reset</button>
-                            <button id="btnLookupSpecies" class="btn btn-primary float-right">Search</button>
+                            <button id="btnReset" type="button" class="btn btn-danger">Reset</button>
+                            <button id="btnLookupSpecies" type="button" class="btn btn-primary float-right">Search</button>
                         </div>
                     </div>
                 </div>
                 <div class="row">
                     <div id="section-species-lookup-search-results" class="col-md-12">
-                     </div>
+                    </div>
                 </div>
             </div>
             <div class="modal-footer justify-content-between">
@@ -52,10 +57,12 @@
     </div>
 </div>
 <script type="text/javascript">
-    $(document).keypress(function (event) {
+    $('#modal-species-lookup').on('keypress', function (event) {
         var keycode = (event.keyCode ? event.keyCode : event.which);
         if (keycode == '13') {
-            $("#btnLookupSpecies").click();
+            alert("ENTER clicked");
+            SearchSpecies();
+            event.preventDefault();
         }
     });
 
@@ -70,26 +77,14 @@
         SearchSpecies();
     });
 
-    $("#btnSaveSpecies").click(function () {
-        var idField = $("#hfSpeciesLookupIDFieldName").val();
-        var nameField = $("#hfSpeciesLookupNameFieldName").val();
-        var isAcceptedName = "";
-        var idList = GetSelectedEntityIDs("data-table-species-lookup");
-        var nameList = GetSelectedEntityLabels("data-table-species-lookup");
-
-        $("#Entity_" + idField).val(idList);
-        $("#Entity_" + nameField).val(nameList);
-        $('#modal-species-lookup').modal('hide');
-    });
-
     function SearchSpecies() {
         var link = '@Url.Action("Lookup","Species")';
         var speciesName = $("#txtLookupSpeciesName").val();
         var formData = new FormData();
 
-        formData.append("SpeciesName", speciesName);
+        formData.append("SearchEntity.SpeciesName", speciesName);
         if ($("#cbxLookupIsAcceptedName").is(":checked")) {
-            formData.append("IsAcceptedName", "Y");
+            formData.append("SearchEntity.IsAcceptedName", "Y");
         }
 
         $.ajax({
@@ -102,18 +97,31 @@
             success: function (response) {
                 $("#section-species-lookup-search-results").html(response);
             },
-            error: function () {
+            error: function (ex) {
                 alert("Error");
             }
         });
     }
+
+    $("#btnSaveSpecies").click(function () {
+        var idField = $("#hfSpeciesLookupIDFieldName").val();
+        var nameField = $("#hfSpeciesLookupNameFieldName").val();
+        var isAcceptedName = "";
+        var idList = GetSelectedEntityIDs("data-table-species-lookup");
+        var nameList = GetSelectedEntityLabels("data-table-species-lookup");
+
+        $("#Entity_" + idField).val(idList);
+        $("#Entity_" + nameField).val(nameList);
+        $('#modal-species-lookup').modal('hide');
+    });
+
 
     function SelectSpecies(ID, speciesName) {
         var eventAction = "";
         var eventValue = "";
 
         $('#modal-species-lookup').modal('hide');
-        
+
 
         eventValue = $("#hfModalEventValue").val();
         if (eventValue == 'SPECIES') {

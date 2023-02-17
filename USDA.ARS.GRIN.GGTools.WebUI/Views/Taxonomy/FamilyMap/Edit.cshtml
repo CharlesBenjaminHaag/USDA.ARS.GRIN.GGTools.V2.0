@@ -121,35 +121,27 @@
                                     <li><a href="@Url.Action("Add", "FamilyMap", new { @rank = "subtribe", @familyMapId = Model.Entity.ID })" class="dropdown-item">Subtribe</a></li>
                                 </ul>
                             </li>
+                            <!-- FOLDERS -->
+                            Html.RenderAction("_RelatedFoldersMenu", "Folder", new { tableName = Model.TableName, entityId = Model.Entity.ID });
                         }
                     </ul>
                     <!-- END EDIT PAGE MENU-->
                 </div>
 
+                <!-- BEGIN RIGHT-ALIGNED NAV MENU -->
                 <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
-                    <li class="nav-item dropdown">
-                        <a class="nav-link" data-toggle="dropdown" href="#">
-                            <i class="far fa-user"></i>
-
-                        </a>
-
-                        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right" style="left: inherit; right: 0px;">
-                            <span class="dropdown-item dropdown-header">@AppInfo.GetAuthenticatedUser().FullName</span>
-                            <div class="dropdown-divider"></div>
-                            <a href="#" class="dropdown-item">
-                                <i class="fas fa-clock mr-2"></i> Logged In
-                                <span class="float-right text-muted text-sm"> </span>
+                    @if (Model.Entity.ID > 0)
+                    {
+                        <li id="nav-item-view-website" class="nav-item">
+                            <a class="nav-link" href="#" role="button">
+                                <i class="far fa-globe"></i>
+                                View on Website
                             </a>
-                            <div class="dropdown-divider"></div>
-                            <a href="@Url.Action("Logout","Login")" class="dropdown-item dropdown-footer bg-danger">Log Out</a>
-                        </div>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" data-widget="fullscreen" href="#" role="button">
-                            <i class="fas fa-expand-arrows-alt"></i>
-                        </a>
-                    </li>
+                        </li>
+                    }
+                    @Html.Partial("~/Views/Shared/_NavbarRight.cshtml")
                 </ul>
+                <!-- END RIGHT-ALIGNED NAV MENU -->
             </div>
         </nav>
         <div class="content-wrapper">
@@ -159,7 +151,6 @@
                         <div class="col-sm-6">
                             <h1 class="m-0">
                                 @Html.Raw(ViewBag.Title)
-                                @*<small>Example 3.0</small>*@
                             </h1>
                         </div>
                         <div class="col-sm-6">
@@ -184,14 +175,13 @@
                         @Html.HiddenFor(x => x.TableName)
                         @Html.HiddenFor(x => x.TableCode)
                         @Html.HiddenFor(x => x.Entity.ID)
-                        @Html.HiddenFor(x => x.Entity.ParentID)
+                        @Html.HiddenFor(x => x.Entity.SubfamilyID)
                         @Html.HiddenFor(x => x.Entity.TribeID)
                         @Html.HiddenFor(x => x.Entity.SubtribeID)
                         @Html.HiddenFor(x => x.Entity.Rank)
                         @Html.HiddenFor(x => x.Entity.IsAcceptedName)
                         <div class="card card-default">
                             <div class="card-header">
-                                @Html.Partial("~/Views/Taxonomy/Shared/_RevisionHistory.cshtml")
                                 <!-- BEGIN PW LINK -->
                                 <a href="@Model.PublicWebsiteBaseURL/taxon/taxonomyfamily?id=@Model.Entity.ID" target="_blank" class="btn btn-info btn-sm float-right">
                                     <i class="fa fa-globe"></i>
@@ -227,7 +217,7 @@
                                 </div>
                                 <div class="row">
                                     <!-- If the record being edited is infrafamilial, show the family selector;
-                                         otherwise, use the family name edit field. -->
+                    otherwise, use the family name edit field. -->
                                     @if (Model.Entity.Rank.ToUpper() == "FAMILY")
                                     {
                                         <div class="col-md-3">
@@ -245,35 +235,35 @@
                                     }
                                     else
                                     {
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label>Family</label>
-                                        <div class="input-group">
-                                            @Html.TextBoxFor(x => x.Entity.FamilyName, new { @class = "form-control", @readonly = "readonly", @style = "background-color:#ecf0f5;" })
-                                            @Html.HiddenFor(x => x.Entity.FamilyID)
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label>Family</label>
+                                                <div class="input-group">
+                                                    @Html.TextBoxFor(x => x.Entity.FamilyName, new { @class = "form-control", @readonly = "readonly", @style = "background-color:#ecf0f5;" })
+                                                    @Html.HiddenFor(x => x.Entity.FamilyID)
 
-                                            @if (Model.Entity.FamilyID > 0)
-                                            {
-                                                <span class="input-group-btn">
-                                                    <a href="@Url.Action("Edit", "FamilyMap", new { @entityId = Model.Entity.FamilyID })" class="btn btn-default btn-flat">
-                                                        <i class="fa fa-link"></i>
-                                                    </a>
-                                                </span>
-                                            }
+                                                    @if (Model.Entity.FamilyID > 0)
+                                                    {
+                                                        <span class="input-group-btn">
+                                                            <a href="@Url.Action("Edit", "FamilyMap", new { @entityId = Model.Entity.FamilyID })" class="btn btn-default btn-flat">
+                                                                <i class="fa fa-link"></i>
+                                                            </a>
+                                                        </span>
+                                                    }
 
-                                            <span class="input-group-btn">
-                                                <button type="button" class="btn btn-default btn-flat" data-toggle="modal" data-target="#modal-family-lookup">
-                                                    <i class="fa fa-search"></i>
-                                                </button>
-                                            </span>
+                                                    <span class="input-group-btn">
+                                                        <button type="button" class="btn btn-default btn-flat" data-toggle="modal" data-target="#modal-family-lookup">
+                                                            <i class="fa fa-search"></i>
+                                                        </button>
+                                                    </span>
+                                                </div>
+                                            </div>
                                         </div>
-                                    </div>
-                                </div>
                                     }
 
                                     <!--
-                                    Only show the Order (Classification) select list if the record being edited is a family, vs.
-                                    an infrafamilial record. -->
+                    Only show the Order (Classification) select list if the record being edited is a family, vs.
+                    an infrafamilial record. -->
                                     @if (Model.Entity.Rank.ToUpper() == "FAMILY")
                                     {
                                         <div class="col-md-3">
@@ -297,8 +287,8 @@
                                         case "TRIBE":
                                             <div class="col-md-3">
                                                 <div class="form-group">
-                                                    <label>Subfamily</label>
-                                                    @Html.DropDownListFor(x => x.Entity.SubfamilyID, Model.Subfamilies, "Select value", new { @class = "form-control" })
+                                                    <label>Subfamily Name</label>
+                                                    @Html.TextBoxFor(x => x.Entity.SubfamilyName, new { @class = "form-control" })
                                                 </div>
                                             </div>
                                             <div class="col-md-3">
@@ -311,14 +301,14 @@
                                         case "SUBTRIBE":
                                             <div class="col-md-3">
                                                 <div class="form-group">
-                                                    <label>Subfamily</label>
-                                                    @Html.DropDownListFor(x => x.Entity.SubfamilyID, Model.Subfamilies, "Select value", new { @class = "form-control" })
+                                                    <label>Subfamily Name</label>
+                                                    @Html.TextBoxFor(x => x.Entity.SubfamilyName, new { @class = "form-control" })
                                                 </div>
                                             </div>
                                             <div class="col-md-3">
                                                 <div class="form-group">
-                                                    <label>Tribe</label>
-                                                    @Html.DropDownListFor(x => x.Entity.TribeID, Model.Tribes, "Select value", new { @class = "form-control" })
+                                                    <label>Tribe Name</label>
+                                                    @Html.TextBoxFor(x => x.Entity.TribeName, new { @class = "form-control" })
                                                 </div>
                                             </div>
                                             <div class="col-md-3">
@@ -409,7 +399,31 @@
                         </div>
                     }
 
-                    <!-- RELATED DATA HERE -->
+                    @if (Model.Entity.ID > 0)
+                    {
+                        <div class="card">
+                            <div id="section-dependent-data" class="card-header p-2">
+                                <ul id="list-dependent-data" class="nav nav-pills">
+                                    <li id="tab_selector_citation" data-ggtools-action="Citation" data-ggtools-value="_List" class="nav-item"><a class="nav-link active" href="#tab_content_citation" data-toggle="tab">Citations</a></li>
+                                    <li id="tab_selector_taxonomy_genus" data-ggtools-action="Genus" data-ggtools-value="_List" class="nav-item"><a class="nav-link" href="#tab_content_taxonomy_genus" data-toggle="tab">Genera</a></li>
+                                    <li id="tab_selector_subdivisions" data-ggtools-action="FamilyMap" data-ggtools-value="_ListSubdivisions" class="nav-item"><a class="nav-link" href="#tab_content_subdivisions" data-toggle="tab">Subdivisions</a></li>
+                                </ul>
+                            </div>
+                            <div class="card-body">
+                                <div class="tab-content">
+                                    <div class="tab-pane" id="tab_content_citation">
+                                    </div>
+                                    <div class="tab-pane" id="tab_content_taxonomy_genus">
+                                    </div>
+                                    <div class="tab-pane" id="tab_content_subdivisions">
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="progress_overlay" class="overlay">
+                                <i class="fas fa-2x fa-sync-alt fa-spin"></i>
+                            </div>
+                        </div>
+                    }
 
                     @Html.Partial("~/Views/Shared/Modals/_NoteLookup2.cshtml")
                     @Html.Partial("~/Views/Taxonomy/Shared/Modals/_Delete.cshtml")
@@ -431,8 +445,52 @@
 
         function Init() {
             SetControlVisibility();
+            var defaultId = $('ul#list-dependent-data li:first').attr("id");
+            var action = $('ul#list-dependent-data li:first').data("ggtools-action");
+            var value = $('ul#list-dependent-data li:first').data("ggtools-value");
+            LoadDependentData(defaultId, action, value);
         }
-    </script>
+
+        $('#section-dependent-data ul.nav li').on('click', function () {
+            var selectedId = $(this).attr('id');
+            var action = $(this).data("ggtools-action");
+            var value = $(this).data("ggtools-value");
+            LoadDependentData(selectedId, action, value);
+        });
+
+        function LoadDependentData(controlId, eventAction, eventValue) {
+        var link = '@Url.Action("EVENT_VALUE","EVENT_ACTION", new { familyId = "FAMILY_ID" })';
+        var entityId = $("#Entity_ID").val();
+        var genusId = $("#Entity_GenusID").val();
+        var genusName = $("#Entity_Name").val();
+        var formData = new FormData();
+        var sectionData = controlId.replace("tab_selector", "tab_content");
+
+        link = link.replace("EVENT_ACTION", eventAction);
+        link = link.replace("EVENT_VALUE", eventValue);
+        link = link.replace("SPECIES_ID", entityId);
+
+        //DEBUG
+        alert("DEBUG CALLING " + link);
+
+        formData.append("FamilyID", entityId);
+
+        $("#progress_overlay").show();
+
+        $.ajax({
+            url: link,
+            type: 'POST',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (response) {
+                $("#" + sectionData).html(response);
+                $("#progress_overlay").hide();
+            }
+        });
+    }
+</script>
 
     <script src="~/plugins/jquery/jquery.min.js"></script>
     <script src="~/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>

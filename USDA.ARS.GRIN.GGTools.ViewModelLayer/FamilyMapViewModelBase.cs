@@ -23,6 +23,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
         private Collection<FamilyMap> _DataCollection = new Collection<FamilyMap>();
         private Collection<FamilyMap> _DataCollectionSynonyms = new Collection<FamilyMap>();
         private Collection<FamilyMap> _DataCollectionSubdivisions = new Collection<FamilyMap>();
+        private Collection<FamilyMap> _DataCollectionInframilial = new Collection<FamilyMap>();
         private Collection<Genus> _DataCollectionGenera = new Collection<Genus>();
 
         public FamilyMapViewModelBase()
@@ -89,33 +90,16 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
             get { return _DataCollectionSubdivisions; }
             set { _DataCollectionSubdivisions = value; }
         }
+        public Collection<FamilyMap> DataCollectionInfrafamilial
+        {
+            get { return _DataCollectionInframilial; }
+            set { _DataCollectionInframilial = value; }
+        }
+
         public Collection<Genus> DataCollectionGenera
         {
             get { return _DataCollectionGenera; }
             set { _DataCollectionGenera = value; }
-        }
-
-        private List<FamilyMap> GetFamilyMaps()
-        {
-            List<FamilyMap> familyMaps = new List<FamilyMap>();
-            using (FamilyMapManager mgr = new FamilyMapManager())
-            {
-                familyMaps = mgr.Search(new FamilyMapSearch());
-            }
-
-            //ObjectCache cache = MemoryCache.Default;
-            //familyMaps = cache["DATA-LIST-FAMILY-MAPS"] as List<FamilyMap>;
-
-            //if (familyMaps == null)
-            //{
-            //    CacheItemPolicy policy = new CacheItemPolicy();
-            //    using (FamilyMapManager mgr = new FamilyMapManager())
-            //    {
-            //        familyMaps = mgr.Search(new FamilyMapSearch());
-            //    }
-            //    cache.Set("DATA-LIST-FAMILY-MAPS", familyMaps, policy);
-            //}
-            return familyMaps;
         }
 
         public SelectList FamilyTypes { get; set; }

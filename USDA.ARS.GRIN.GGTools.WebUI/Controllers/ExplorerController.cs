@@ -116,7 +116,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             {
                 if (familyId == 0)
                 {
-                    viewModel.SearchEntity.FullName = "Poa";
+                   //TODO
                 }
                 else
                 {

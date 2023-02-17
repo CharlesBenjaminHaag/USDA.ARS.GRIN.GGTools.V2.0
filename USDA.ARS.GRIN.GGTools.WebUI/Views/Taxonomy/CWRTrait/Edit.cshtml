@@ -166,6 +166,7 @@
                             <div class="card-header">
                                 <h3 class="card-title">Summary</h3>
                                 <div class="card-tools">
+                                    @Html.Partial("~/Views/Taxonomy/Shared/_RevisionHistory.cshtml")
                                     <button type="button" class="btn btn-tool" data-card-widget="collapse">
                                         <i class="fas fa-minus"></i>
                                     </button>
@@ -255,7 +256,6 @@
                                         </div>
                                     </div>
                                 }
-                                @Html.Partial("~/Views/Taxonomy/Shared/_RevisionHistory.cshtml")
                             </div>
                             <div class="card-footer">
                                 <a href="@Url.Action("Refresh")" class="btn btn-default">Reset</a>

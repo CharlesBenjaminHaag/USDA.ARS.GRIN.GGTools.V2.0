@@ -37,7 +37,7 @@
                             @if (result.FamilyID > 0)
                             {
                                 <a href="@Url.Action("Edit", "FamilyMap", new { entityId = result.FamilyID })">
-                                    @result.FamilyName
+                                    @Html.Raw(result.FamilyName)
                                 </a>
                             }
                             else
@@ -45,13 +45,13 @@
                                 if (result.GenusID > 0)
                                 {
                                     <a href="@Url.Action("Edit", "Genus", new { entityId = result.GenusID })">
-                                        @result.GenusName
+                                        @Html.Raw(result.GenusName)
                                     </a>
                                 }
                                 else
                                 {
                                     <a href="@Url.Action("Edit", "Species", new { entityId = result.SpeciesID })">
-                                        @result.SpeciesName
+                                        @Html.Raw(result.SpeciesName)
                                     </a>
                                 }
                             }

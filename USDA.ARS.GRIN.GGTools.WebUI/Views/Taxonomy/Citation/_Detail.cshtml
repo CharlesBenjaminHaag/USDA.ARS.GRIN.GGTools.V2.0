@@ -11,64 +11,58 @@
         <div class="tab-content">
             <div class="tab-pane active" id="activity">
                 <div id="section-search-criteria">
-                    <div class="btn-group">
-                        <a class="btn btn-default btn-sm" href="@Url.Action("Add", "Citation", new { @eventValue = "family" })">Add Family Citation</a>
-                        <button type="button" class="btn btn-default btn-sm dropdown-toggle dropdown-icon" data-toggle="dropdown" aria-expanded="false">
-                            <span class="sr-only">Toggle Dropdown</span>
-                        </button>
-                        <div class="dropdown-menu" role="menu" style="">
-                            <a class="btn btn-default btn-sm" href="@Url.Action("Add", "Citation", new { @eventValue = "genus" })">Add Genus Citation</a>
-                            <a class="btn btn-default btn-sm" href="@Url.Action("Add", "Citation", new { @eventValue = "species" })">Add Species Citation</a>
-                        </div>
-                    </div>
-                    <div class="btn-group">
-                        <button id="btnOpenFolderModal" type="button" class="btn btn-default btn-sm"><i class="fa fa-folder"></i></button>
-                    </div>
-                    <div class="btn-group float-right">
-                        <button id="btnShowTablePermissions" type="button" class="btn btn-default btn-sm pull-right" data-toggle="modal" data-target="#modal-sys-table-permission-lookup">
-                            <i class="fa fa-table"></i>
-                        </button>
-                    </div>
                     @using (Html.BeginForm("Search", "Citation", FormMethod.Post, new { id = "frmMain" }))
                     {
-                        <div class="row">
-                            <div class="col-md-3">
-                                <div class="form-group form-horizontal">
-                                    <label>Created By</label>
-                                    @Html.DropDownListFor(x => x.SearchEntity.CreatedByCooperatorID, Model.Cooperators, "Any Cooperator", new { @class = "form-control" })
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div id="form-group">
-                                    <label>Type</label>
-                                    @Html.DropDownListFor(x => x.SearchEntity.TypeCode, Model.CitationTypes, "All types", new { @class = "form-control" })
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div id="form-group">
-                                    <label>Abbreviation</label>
-                                    @Html.TextBoxFor(x => x.SearchEntity.Abbreviation, new { @class = "form-control" })
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div id="form-group">
-                                    <label>Citation Title</label>
-                                    @Html.TextBoxFor(x => x.SearchEntity.CitationTitle, new { @class = "form-control" })
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div id="form-group">
-                                    <label>Author</label>
-                                    @Html.TextBoxFor(x => x.SearchEntity.AuthorName, new { @class = "form-control" })
-                                </div>
-                            </div>
-                            <div class="col-md-1">
-                                <div id="form-group form-group-horizontal">
-                                    <label>Cit. Year</label>
-                                    @Html.TextBoxFor(x => x.SearchEntity.CitationYear, new { @class = "form-control" })
-                                </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div id="form-group">
+                                <label>Type</label>
+                                @Html.DropDownListFor(x => x.SearchEntity.TypeCode, Model.CitationTypes, "All types", new { @class = "form-control" })
                             </div>
                         </div>
+                        <div class="col-md-3">
+                            <div id="form-group">
+                                <label>Abbreviation</label>
+                                @Html.TextBoxFor(x => x.SearchEntity.Abbreviation, new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div id="form-group">
+                                <label>Citation Title</label>
+                                @Html.TextBoxFor(x => x.SearchEntity.CitationTitle, new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div id="form-group">
+                                <label>Author</label>
+                                @Html.TextBoxFor(x => x.SearchEntity.AuthorName, new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="form-group form-horizontal">
+                                <label>Family Name</label>
+                                @Html.TextBoxFor(x => x.SearchEntity.FamilyName, new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="form-group form-horizontal">
+                                <label>Genus Name</label>
+                                @Html.TextBoxFor(x => x.SearchEntity.GenusName, new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="form-group form-horizontal">
+                                <label>Species Name</label>
+                                @Html.TextBoxFor(x => x.SearchEntity.SpeciesName, new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="col-md-1">
+                            <div id="form-group form-group-horizontal">
+                                <label>Cit. Year</label>
+                                @Html.TextBoxFor(x => x.SearchEntity.CitationYear, new { @class = "form-control" })
+                            </div>
+                        </div>
+                    </div>
                         <br />
                         @Html.Partial("~/Views/Taxonomy/Citation/_DetailExtended.cshtml")
                     }

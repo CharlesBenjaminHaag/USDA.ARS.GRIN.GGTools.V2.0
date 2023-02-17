@@ -81,7 +81,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             return species;
         }
 
-        public List<Species> GetConspecificTaxa(int entityId)
+        public List<Species> GetConspecificTaxa(int? entityId)
         {
             SQL = "usp_GRINGlobal_Taxonomy_Species_Conspecific_Select";
             List<Species> speciesList = new List<Species>();

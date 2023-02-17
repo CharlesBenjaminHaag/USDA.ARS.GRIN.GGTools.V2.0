@@ -22,12 +22,6 @@
                 </div>
                 <div id="section-search-criteria">
                     <div class="row">
-                        <div class="col-md-2">
-                            <div class="form-group form-horizontal">
-                                <label>Created By</label>
-                                @Html.DropDownListFor(x => x.SearchEntity.CreatedByCooperatorID, Model.Cooperators, "All Cooperators", new { @class = "form-control" })
-                            </div>
-                        </div>
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label>Genus Name</label>
@@ -46,27 +40,19 @@
                                 @Html.TextBoxFor(x => x.SearchEntity.Name, new { @class = "form-control" })
                             </div>
                         </div>
+                    
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Language Description</label>
+                            @Html.TextBoxFor(x => x.SearchEntity.LanguageDescription, new { @class = "form-control" })
+                        </div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label>Language Description</label>
-                                @Html.TextBoxFor(x => x.SearchEntity.LanguageDescription, new { @class = "form-control" })
-                            </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Transcription</label>
+                            @Html.TextBoxFor(x => x.SearchEntity.SimplifiedName, new { @class = "form-control" })
                         </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label>Transcription</label>
-                                @Html.TextBoxFor(x => x.SearchEntity.SimplifiedName, new { @class = "form-control" })
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label>Note</label>
-                                @Html.TextBoxFor(x => x.SearchEntity.Note, new { @class = "form-control" })
-                            </div>
-                        </div>
-
+                    </div>
                     </div>
                     @Html.Partial("~/Views/Taxonomy/CommonName/_DetailExtended.cshtml")
                     <div>

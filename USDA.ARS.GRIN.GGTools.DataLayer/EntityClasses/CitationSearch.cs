@@ -16,7 +16,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
     {
         public string CitationTitle { get; set; }
         public string AuthorName { get; set; }
-        public int CitationYear { get; set; }
+        public int? CitationYear { get; set; }
         // Volumr Or Page
         public string Reference { get; set; }
         public string DOIReference { get; set; }

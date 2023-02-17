@@ -158,15 +158,23 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         {
             List<FamilyMap> results = new List<FamilyMap>();
 
-            SQL = "SELECT * FROM vw_GRINGlobal_Taxonomy_Family_Map";
+            SQL = "SELECT *, ";
+            SQL += "LTRIM(RTRIM(COALESCE(FamilyName, ''))) + " +
+                " CASE COALESCE(convert(nvarchar, SubfamilyName), '') " +
+                " WHEN '' THEN '' ELSE '' + ' subfam. ' + LTRIM(RTRIM(SubfamilyName)) END " +
+                " + CASE COALESCE(convert(nvarchar, TribeName), '') WHEN '' THEN '' ELSE '' + " +
+                "' tr. ' + LTRIM(RTRIM(TribeName)) END " +
+                " + CASE COALESCE(convert(nvarchar, SubtribeName), '') WHEN '' THEN '' ELSE '' + " +
+                "' subtr. ' + LTRIM(RTRIM(SubtribeName)) END AS AssembledName FROM vw_GRINGlobal_Taxonomy_Family_Map ";
             SQL += " WHERE  (@ID                    IS NULL     OR  ID = @ID) ";
-            SQL += " AND    (@IsAcceptedName        IS NULL     OR  IsAcceptedName  =   @IsAcceptedName)";
-            SQL += " AND    (@OrderID               IS NULL     OR OrderID          =   @OrderID)";
-            SQL += " AND    (@OrderName             IS NULL     OR OrderName        LIKE '%' +  @OrderName + '%')";
-            SQL += " AND    (@FamilyName            IS NULL     OR FamilyName       LIKE '%' +  @FamilyName + '%')";
-            SQL += " AND    (@FamilyTypeCode        IS NULL     OR FamilyTypeCode   = @FamilyTypeCode)";
-            SQL += " AND    (@Authority             IS NULL     OR Authority        LIKE '%' +  @Authority + '%')";
-            SQL += " AND    (@AlternateName         IS NULL     OR AlternateName    LIKE '%' +  @AlternateName + '%')";
+            SQL += " AND    (@IsAcceptedName        IS NULL     OR  IsAcceptedName      =       @IsAcceptedName)";
+            SQL += " AND    (@IsInfrafamilial       IS NULL     OR  IsInfrafamilial     =       @IsInfrafamilial)";
+            SQL += " AND    (@OrderID               IS NULL     OR OrderID              =       @OrderID)";
+            SQL += " AND    (@OrderName             IS NULL     OR OrderName            LIKE '%' +  @OrderName + '%')";
+            SQL += " AND    (@FamilyName            IS NULL     OR FamilyName           LIKE '%' +  @FamilyName + '%')";
+            SQL += " AND    (@FamilyTypeCode        IS NULL     OR FamilyTypeCode       = @FamilyTypeCode)";
+            SQL += " AND    (@Authority             IS NULL     OR Authority            LIKE '%' +  @Authority + '%')";
+            SQL += " AND    (@AlternateName         IS NULL     OR AlternateName        LIKE '%' +  @AlternateName + '%')";
             SQL += " AND    (@SubfamilyName         IS NULL     OR SubfamilyName                LIKE '%' +  @SubfamilyName + '%')";
             SQL += " AND    (@TribeName             IS NULL     OR TribeName                    LIKE '%' +  @TribeName + '%')";
             SQL += " AND    (@SubtribeName          IS NULL     OR SubtribeName                 LIKE '%' +  @SubtribeName + '%')";
@@ -175,6 +183,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             var parameters = new List<IDbDataParameter> {
                 CreateParameter("ID", searchEntity.ID > 0 ? (object)searchEntity.ID : DBNull.Value, true),
                 CreateParameter("IsAcceptedName", (object)searchEntity.IsAcceptedName ?? DBNull.Value, true),
+                CreateParameter("IsInfrafamilial", (object)searchEntity.IsInfrafamilal ?? DBNull.Value, true),
                 CreateParameter("OrderID", searchEntity.OrderID > 0 ? (object)searchEntity.OrderID : DBNull.Value, true),
                 CreateParameter("OrderName", (object)searchEntity.OrderName ?? DBNull.Value, true),
                 CreateParameter("FamilyName", (object)searchEntity.FamilyName ?? DBNull.Value, true),

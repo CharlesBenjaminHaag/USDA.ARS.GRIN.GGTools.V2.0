@@ -1,4 +1,5 @@
-﻿<div class="modal fade" id="modal-genus-lookup" style="display: none;" aria-hidden="true">
+﻿@model USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer.GenusViewModelBase
+<div class="modal fade" id="modal-genus-lookup" style="display: none;" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
@@ -11,38 +12,40 @@
                 </button>
             </div>
             <div id="section-search-criteria" class="modal-body">
-                <input type="hidden" id="hfGenusLookupIDFieldName" />
-                <input type="hidden" id="hfGenusLookupNameFieldName" />
-                <div class="row">
-                    <div class="col-md-12">
-                        <label>Name</label>
-                        <input type="text" id="txtLookupGenusName" class="form-control" />
+                @using (Html.BeginForm(new { id = "frmGenusLookup", onsubmit = "return false;" }))
+                {
+                    <input type="hidden" id="hfGenusLookupIDFieldName" />
+                    <input type="hidden" id="hfGenusLookupNameFieldName" />
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label>Name</label>
+                            @Html.TextBoxFor(x => x.SearchEntity.Name, new { @id = "txtLookupGenusName", @class = "form-control" })
+                        </div>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="margin">
-                            <div class="form-group clearfix">
-                                <div class="icheck-primary d-inline">
-                                    <input class="custom-control-input" type="checkbox" id="cbxLookupIsAcceptedName" value="option1">
-                                    <label for="cbxLookupIsAcceptedName">
-                                        Search accepted names only.
-                                    </label>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="margin">
+                                <div class="form-group clearfix">
+                                    <div class="icheck-primary d-inline">
+                                        <input class="custom-control-input" type="checkbox" id="cbxLookupIsAcceptedName" value="option1">
+                                        <label for="cbxLookupIsAcceptedName">
+                                            Search accepted names only.
+                                        </label>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                }
                 <div class="row">
                     <div class="col-md-12">
                         <div class="margin">
                             <button id="btnReset" class="btn btn-danger">Reset</button>
                             <button id="btnLookupGenus" class="btn btn-default float-right">Search</button>
-                        </div>                    
+                        </div>
                     </div>
                 </div>
                 <div id="section-genus-lookup-search-results">
-
                 </div>
             </div>
             <div class="modal-footer justify-content-between">
@@ -54,10 +57,12 @@
 </div>
 <script type="text/javascript">
 
-    $(document).keypress(function (event) {
+    $('#modal-genus-lookup').on('keypress', function (event) {
         var keycode = (event.keyCode ? event.keyCode : event.which);
         if (keycode == '13') {
-            $("#btnLookupGenus").click();
+            alert("ENTER clicked");
+            SearchGenus();
+            event.preventDefault();
         }
     });
 
@@ -88,9 +93,9 @@
         var genusName = $("#txtLookupGenusName").val();
         var formData = new FormData();
 
-        formData.append("GenusName", genusName);
+        formData.append("SearchEntity.Name", genusName);
         if ($("#cbxLookupIsAcceptedName").is(":checked")) {
-            formData.append("IsAcceptedName", "Y");
+            formData.append("SearchEntity.IsAcceptedName", "Y");
         }
         $.ajax({
             url: link,

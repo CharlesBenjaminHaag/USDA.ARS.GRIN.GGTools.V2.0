@@ -170,6 +170,7 @@
                             <div class="card-header">
                                 <h3 class="card-title">Summary</h3>
                                 <div class="card-tools">
+                                    @Html.Partial("~/Views/Taxonomy/Shared/_RevisionHistory.cshtml")
                                     <button type="button" class="btn btn-tool" data-card-widget="collapse">
                                         <i class="fas fa-minus"></i>
                                     </button>
@@ -277,7 +278,6 @@
                                 {
                                     Html.RenderAction("RenderWidget", "Citation", new { @entityId = Model.Entity.CitationID });
                                 }
-                                @Html.Partial("~/Views/Taxonomy/Shared/_RevisionHistory.cshtml")
                             </div>
                             <div class="card-footer">
                                 <a href="@Url.Action("Refresh")" class="btn btn-default">Reset</a>
@@ -298,10 +298,11 @@
                         Html.RenderAction("RenderLookupModal", "Citation", new { @tableName = Model.TableName, @speciesId = Model.Entity.SpeciesID });
                     }
 
-                    @Html.Partial("~/Views/Taxonomy/Species/Modals/_Lookup.cshtml")
+                    @{Html.RenderAction("RenderLookupModal", "Species"); }
                     @Html.Partial("~/Views/Shared/Modals/_NoteLookup2.cshtml")
                     @Html.Partial("~/Views/Taxonomy/Shared/Modals/_Delete.cshtml")
                     @{Html.RenderAction("_Edit", "Folder"); }
+                    <div id="section-modal-citation-edit"></div>
                 </div>
             </div>
 

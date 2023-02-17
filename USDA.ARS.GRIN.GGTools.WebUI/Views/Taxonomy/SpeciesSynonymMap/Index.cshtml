@@ -20,6 +20,11 @@
 @{Html.RenderAction("_Edit", "Folder"); }
 
 <script type="text/javascript">
+    $(document).ready(function () {
+        Init();
+        SetExtendedFields();
+    });
+
     $(document).keypress(function (event) {
         var keycode = (event.keyCode ? event.keyCode : event.which);
         if (keycode == '13') {

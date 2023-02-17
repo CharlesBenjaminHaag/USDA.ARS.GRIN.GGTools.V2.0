@@ -10,12 +10,12 @@
  * General Utilities
   ======================================================================================== */
 
-$(document).keypress(function (event) {
-    var keycode = (event.keyCode ? event.keyCode : event.which);
-    if (keycode == '13') {
-        $("#btnSearch").click();
-    }
-});
+//$(document).keypress(function (event) {
+//    var keycode = (event.keyCode ? event.keyCode : event.which);
+//    if (keycode == '13') {
+//        $("#btnSearch").click();
+//    }
+//});
 
 function AddRecord() {
     var addNewRecordUrl = $("#hfAddNewRecordLink").val();
@@ -128,6 +128,7 @@ function InitDataTableLight(tableName) {
         tableName = "#" + tableName;
         table = $(tableName).DataTable({
             paging: true,
+            "pageLength": 20,
             responsive: true,
             select: {
                 style: 'single'
@@ -135,6 +136,32 @@ function InitDataTableLight(tableName) {
             searching: true,
             columnDefs: [
                 { targets: [0], visible: false }
+            ]
+        });
+        table.row(':eq(0)', { page: 'current' }).select();
+    });
+}
+
+function InitDataTableWithAssembledName(tableName) {
+    $(document).ready(function () {
+        tableName = "#" + tableName;
+        table = $(tableName).DataTable({
+            paging: true,
+            responsive: true,
+            select: {
+                style: 'single'
+            },
+            searching: true,
+            columnDefs: [
+                {
+                    target: 0,
+                    visible: false,
+                    searchable: false,
+                },
+                {
+                    target: 1,
+                    visible: false,
+                },
             ]
         });
         table.row(':eq(0)', { page: 'current' }).select();
@@ -205,7 +232,15 @@ function InitDataTableLightMultiSelect(tableName) {
             },
             searching: false,
             columnDefs: [
-                { targets: [0], visible: false }
+                {
+                    target: 0,
+                    visible: false,
+                    searchable: false,
+                },
+                {
+                    target: 1,
+                    visible: false,
+                },
             ]
         });
     });
@@ -238,7 +273,7 @@ function GetSelectedEntityIDs(tableName) {
 function GetSelectedEntityLabels(tableName) {
     var table = $('#' + tableName).DataTable();
     var ids = $.map(table.rows('.selected').data(), function (item) {
-        return item[2]
+        return item[1]
     });
     console.log(ids)
     return ids;

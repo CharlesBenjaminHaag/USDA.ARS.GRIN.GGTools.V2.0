@@ -125,7 +125,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             SQL += " AND    (@Note                          IS NULL OR Note                     LIKE    '%' + @Note + '%')";
 
             SQL += " AND    (@FamilyMapID                   IS NULL OR FamilyMapID              =       @FamilyMapID)";
-            SQL += " AND    (@FullName                      IS NULL OR FullName                 LIKE    @FullName + '%')";
+            SQL += " AND    (@Name                          IS NULL OR Name                     LIKE    @Name + '%')";
             SQL += " AND    (@IsAcceptedName                IS NULL OR IsAcceptedName           =       @IsAcceptedName)";
             SQL += " AND    (@AcceptedName                  IS NULL OR AcceptedName             LIKE    @AcceptedName + '%')";
             SQL += " AND    (@Rank                          IS NULL OR Rank                     LIKE    '%' + @Rank + '%')";
@@ -141,7 +141,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
                 CreateParameter("Note", (object)searchEntity.Note ?? DBNull.Value, true),
 
                 CreateParameter("FamilyMapID", searchEntity.FamilyID > 0 ? (object)searchEntity.FamilyID : DBNull.Value, true),
-                CreateParameter("FullName", (object)searchEntity.FullName ?? DBNull.Value, true),
+                CreateParameter("Name", (object)searchEntity.Name ?? DBNull.Value, true),
                 CreateParameter("IsAcceptedName", (object)searchEntity.IsAcceptedName ?? DBNull.Value, true),
                 CreateParameter("AcceptedName", (object)searchEntity.AcceptedName ?? DBNull.Value, true),
                 CreateParameter("Rank", (object)searchEntity.Rank ?? DBNull.Value, true),

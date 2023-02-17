@@ -1,0 +1,188 @@
+﻿@model USDA.ARS.GRIN.GGTools.ViewModelLayer.CodeValueViewModel
+@{
+    ViewBag.Title = "Code Value Search";
+    Layout = "~/Views/Shared/_LayoutAdminLTE3.cshtml";
+}
+<div class="row">
+    <div class="col-md-3">
+        <!-- BEGIN CATEGORY LIST -->
+        <div class="card card-primary card-outline">
+            <div class="card-header">
+                <h3 class="card-title"><i class="fas fa-filter"></i> Groups</h3>
+                <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                        <i class="fas fa-minus"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="card-body">
+
+                <table id="data_table_code_value" class="display responsive" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th>Group</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.DataCollectionGroups.Count() > 0)
+                        {
+                            foreach (var result in Model.DataCollectionGroups)
+                            {
+                                <tr>
+                                    <td>@result.Value</td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="3">
+                                    <div class="callout callout-info" style="vertical-align:middle; margin-top:5px;">
+                                        Your search returned no matches.
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
+
+            </div>
+        </div>
+        <!-- END CATEGORY LIST -->
+    </div>
+    <div class="col-md-9">
+        <div id="section-search-results" class="card card-default">
+            <div class="card-header">
+                <h3 class="card-title">Code Values (@Model.DataCollection.Count)</h3>
+                <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                        <i class="fas fa-minus"></i>
+                    </button>
+                </div>
+            </div>
+            <div id="section-code-value-list" class="card-body">
+            </div>
+            @*<div id="progress_overlay" class="overlay">
+                <i class="fas fa-2x fa-sync-alt fa-spin"></i>
+            </div>*@
+        </div>
+    </div>
+</div>
+
+@Html.Partial("~/Views/CodeValue/Modals/_Edit.cshtml")
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        InitSelectorDataTable("data_table_code_value");
+    });
+
+    function InitSelectorDataTable(tableName) {
+        tableName = "#" + tableName ;
+        table = $(tableName).DataTable({
+            paging: false,
+            responsive: true,
+            select: {
+                style: 'single'
+            },
+            searching: true,
+            //columnDefs: [
+            //    { targets: [0], visible: false }
+            //]
+        });
+
+        //Select first row by default; load related data.
+        table.row(':eq(0)', { page: 'current' }).select();
+        var firstRowData = table.row(':eq(0)', { page: 'current' }).data();
+
+        LoadCodeValues(firstRowData[0]);
+
+        var tableNameSelector = tableName + " tbody";
+        $(tableNameSelector).on('click', 'tr', function () {
+            var data = table.row(this).data();
+            LoadCodeValues(data);
+        });
+    }
+
+    function LoadCodeValues(groupName) {
+        var link = '@Url.Action("_List", "CodeValue", new { groupName = "GROUP_NAME" })';
+        link = link.replace("GROUP_NAME", groupName);
+        var formData = new FormData();
+
+        formData.append("groupName", groupName);
+
+        $("#progress_overlay").show();
+
+        $.ajax({
+            url: link,
+            type: 'POST',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (response) {
+                $("#section-code-value-list").html(response);
+                $("#progress_overlay").hide();
+            }
+        });
+
+        }
+
+    $(document).on("click", "[id='btnEditCodeValue']", function () {
+        $("#modal-code-value-edit").modal("show");
+        var codeValueId = $(this).data('ggtools-entity-id');
+        RenderEditModal(codeValueId);
+    });
+
+    function RenderEditModal(codeValueId) {
+        var link = '@Url.Action("_Edit", "CodeValue", new { entityId = "ENTITY_ID" })';
+        link = link.replace("ENTITY_ID", codeValueId);
+        var formData = new FormData();
+
+        formData.append("entityId", codeValueId);
+
+        $.ajax({
+            url: link,
+            type: 'POST',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (response) {
+                $("#section-code-value-edit").html(response);
+            }
+        });
+        $("#modal-code-value-edit").show();
+    }
+
+    $("#btnSaveCodeValue").click(function () {
+        SaveChanges();
+    });
+
+    function SaveChanges() {
+        var link = '@Url.Action("Save","CodeValue")';
+        var formData = new FormData();
+
+        formData.append("Entity.ID", $("#Entity_ID").val());
+        formData.append("Entity.CodeValueID", $("#Entity_CodeValueID").val());
+        formData.append("Entity.CodeValueLangID", $("#Entity_CodeValueLangID").val());
+        formData.append("Entity.GroupName", $("#Entity_GroupName").val());
+        formData.append("Entity.Code", $("#Entity_Code").val());
+        formData.append("Entity.CodeTitle", $("#Entity_CodeTitle").val());
+        formData.append("Entity.CodeDescription", $("#Entity_CodeDescription").val());
+
+        $.ajax({
+            url: link,
+            type: 'POST',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (response) {
+                $("#modal-code-value-edit").hide();
+            }
+        });
+        
+    }
+</script>

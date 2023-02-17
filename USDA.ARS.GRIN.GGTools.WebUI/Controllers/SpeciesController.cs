@@ -130,54 +130,28 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             }
         }
 
-     
+        public PartialViewResult RenderLookupModal()
+        {
+            SpeciesViewModel viewModel = new SpeciesViewModel();
+            return PartialView(BASE_PATH + "/Modals/_Lookup.cshtml", viewModel);
+        }
+
         [HttpPost]
-        public PartialViewResult Lookup(FormCollection formCollection)
+        public PartialViewResult Lookup(SpeciesViewModel viewModel)
         {
             string partialViewName = "~/Views/Taxonomy/Species/Modals/_SelectList.cshtml";
-            SpeciesViewModel viewModel = new SpeciesViewModel();
 
             try
             {
-                if (!String.IsNullOrEmpty(formCollection["EventAction"]))
+                switch (viewModel.EventAction)
                 {
-                    viewModel.EventAction = formCollection["EventAction"];
-                    switch (viewModel.EventAction)
-                    {
-                        case "species-a":
-                            partialViewName = "~/Views/Taxonomy/SpeciesSynonymMap/_SelectListSpeciesA.cshtml";
-                            break;
-                        case "species-b":
-                            partialViewName = "~/Views/Taxonomy/SpeciesSynonymMap/_SelectListSpeciesB.cshtml";
-                            break;
-                    }
+                    case "species-a":
+                        partialViewName = "~/Views/Taxonomy/SpeciesSynonymMap/_SelectListSpeciesA.cshtml";
+                        break;
+                    case "species-b":
+                        partialViewName = "~/Views/Taxonomy/SpeciesSynonymMap/_SelectListSpeciesB.cshtml";
+                        break;
                 }
-
-                if (!String.IsNullOrEmpty(formCollection["SpeciesID"]))
-                {
-                    viewModel.SearchEntity.ID = Int32.Parse(formCollection["SpeciesID"]);
-                }
-
-                if (!String.IsNullOrEmpty(formCollection["SpeciesName"]))
-                {
-                    viewModel.SearchEntity.SpeciesName = formCollection["SpeciesName"];
-                }
-
-                if (!String.IsNullOrEmpty(formCollection["SynonymCode"]))
-                {
-                    viewModel.SearchEntity.SynonymCode = formCollection["SynonymCode"];
-                }
-
-                if (!String.IsNullOrEmpty(formCollection["IsAcceptedName"]))
-                {
-                    viewModel.SearchEntity.IsAcceptedName = formCollection["IsAcceptedName"];
-                }
-
-                if (!String.IsNullOrEmpty(formCollection["IsMultiSelect"]))
-                {
-                    viewModel.IsMultiSelect = formCollection["IsMultiSelect"];
-                }
-
                 viewModel.Search();
                 return PartialView(partialViewName, viewModel);
             }

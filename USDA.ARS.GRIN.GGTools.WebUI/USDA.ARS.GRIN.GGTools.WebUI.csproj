@@ -393,7 +393,7 @@
     <Content Include="Views\Taxonomy\Species\Modals\_Lookup.cshtml" />
     <Content Include="Views\Taxonomy\Species\Modals\_SelectList.cshtml" />
     <Content Include="Views\Folder\Edit.cshtml" />
-    <Content Include="Views\Folder\Index.cshtml" />
+    <Content Include="Views\Folder\Explorer\Index.cshtml" />
     <Content Include="Views\Folder\_List.cshtml" />
     <Content Include="Views\Folder\_BACKUP\_SelectList.cshtml" />
     <Content Include="Views\Folder\_BACKUP\_Widget.cshtml" />
@@ -709,11 +709,15 @@
     <Content Include="Views\SysTable\_MenuList.cshtml" />
     <Content Include="Views\Taxonomy\Citation\_EditExtended.cshtml" />
     <Content Include="Views\Taxonomy\Citation\Edit_BACKUP.cshtml" />
+    <Content Include="Views\CodeValue\Explorer\Index.cshtml" />
+    <Content Include="Views\CodeValue\Modals\_Edit.cshtml" />
+    <Content Include="Views\CodeValue\Modals\_Detail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Content\bower_components\font-awesome\fonts\" />
     <Folder Include="Content\dist\js\pages\" />
+    <Folder Include="logs\" />
     <Folder Include="Models\" />
     <Folder Include="Views\Demo\" />
     <Folder Include="Views\Main\" />

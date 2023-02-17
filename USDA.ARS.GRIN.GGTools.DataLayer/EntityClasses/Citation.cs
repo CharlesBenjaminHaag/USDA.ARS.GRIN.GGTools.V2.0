@@ -13,7 +13,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
     {
         public string CitationTitle { get; set; }
         public string AuthorName { get; set; }
-        public int CitationYear { get; set; }
+        public int? CitationYear { get; set; }
         // Volumr Or Page
         public string Reference { get; set; }
         public string DOIReference { get; set; }
@@ -33,6 +33,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         public int AccessionPedigreeID { get; set; }
         public int GeneticMarkerID { get; set; }
         public string TypeCode { get; set; }
+        public string CategoryCode { get; set; }
         public int UniqueKey { get; set; }
         public string IsAcceptedName { get; set; }
         public bool IsAcceptedNameOption { get; set; }

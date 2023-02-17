@@ -24,16 +24,16 @@
                         </div>
                     </div>
                     <div class="col-md-4">
-                        <div class="form-group">
-                            <label>Short Name</label>
-                            <div class="input-group">
-                                @Html.TextBoxFor(x => x.SearchEntity.ShortName, new { @class = "form-control" })
+                        <label>Short Name</label>
+                        <div class="input-group">
+                            <div class="input-group-append">
+                                <span class="input-group-text">
+                                    <input type="checkbox" id="cbxIsAcceptedNameSubject">
+                                    &nbsp;Exact Match
+                                </span>
                             </div>
+                            @Html.TextBoxFor(x => x.SearchEntity.ShortName, new { @class = "form-control" })
                         </div>
-                        <span>
-                            <input id="cbxIsAcceptedNameSubject" type="checkbox">
-                            <label>Exact Match</label>
-                        </span>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">

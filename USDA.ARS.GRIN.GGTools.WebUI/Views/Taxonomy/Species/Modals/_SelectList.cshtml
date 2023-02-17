@@ -3,6 +3,7 @@
     <thead>
         <tr>
             <th></th>
+            <th></th>
             <th>ID</th>
             <th>Name</th>
             <th>Accepted</th>
@@ -14,11 +15,10 @@
             foreach (var result in Model.DataCollection)
             {
                 <tr>
-                    <td>
-                        @result.ID
-                    </td>
-                    <td><span class="label label-default">@result.ID</span></td>
+                    <td>@result.ID</td>
                     <td>@result.Name</td>
+                    <td>@result.ID</td>
+                    <td>@Html.Raw(result.AssembledName)</td>
                     <td>@Html.Raw(Model.FormatBoolean(result.IsAcceptedName))</td>
                 </tr>
             }
@@ -37,6 +37,6 @@
 </table>
 <script type="text/javascript">
     $(document).ready(function () {
-        InitDataTableLight("data-table-species-lookup");
+        InitDataTableWithAssembledName("data-table-species-lookup");
     });
 </script>

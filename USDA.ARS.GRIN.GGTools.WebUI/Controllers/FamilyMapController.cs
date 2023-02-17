@@ -30,15 +30,12 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 viewModel.Entity.ParentID = familyMapId;
                 viewModel.Entity.IsAccepted = true;
                 viewModel.Entity.IsAcceptedName = "Y";
-           
-                // If the family being added is an infraramilial rank, retrieve the map record of the parent
-                // rank.
-                if (rank.ToUpper() != "FAMILY")
+
+                if (familyMapId > 0)
                 {
                     FamilyMapViewModel familyMapViewModel = new FamilyMapViewModel();
                     familyMapViewModel.SearchEntity.ID = familyMapId;
                     familyMapViewModel.Search();
-                    viewModel.Entity.ParentID = familyMapViewModel.Entity.ID;
                     viewModel.Entity.FamilyID = familyMapViewModel.Entity.FamilyID;
                     viewModel.Entity.FamilyName = familyMapViewModel.Entity.FamilyName;
                     viewModel.Entity.SubfamilyID = familyMapViewModel.Entity.SubfamilyID;
@@ -47,15 +44,33 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                     viewModel.Entity.TribeName = familyMapViewModel.Entity.TribeName;
                     viewModel.Entity.SubtribeID = familyMapViewModel.Entity.SubtribeID;
                     viewModel.Entity.SubtribeName = familyMapViewModel.Entity.SubtribeName;
+                }
+
+                // If the family being added is an infraramilial rank, retrieve the map record of the parent
+                // rank.
+                //if (rank.ToUpper() != "FAMILY")
+                //{
+                //    FamilyMapViewModel familyMapViewModel = new FamilyMapViewModel();
+                //    familyMapViewModel.SearchEntity.ID = familyMapId;
+                //    familyMapViewModel.Search();
+                //    viewModel.Entity.ParentID = familyMapViewModel.Entity.ID;
+                //    viewModel.Entity.FamilyID = familyMapViewModel.Entity.FamilyID;
+                //    viewModel.Entity.FamilyName = familyMapViewModel.Entity.FamilyName;
+                //    viewModel.Entity.SubfamilyID = familyMapViewModel.Entity.SubfamilyID;
+                //    viewModel.Entity.SubfamilyName = familyMapViewModel.Entity.SubfamilyName;
+                //    viewModel.Entity.TribeID = familyMapViewModel.Entity.TribeID;
+                //    viewModel.Entity.TribeName = familyMapViewModel.Entity.TribeName;
+                //    viewModel.Entity.SubtribeID = familyMapViewModel.Entity.SubtribeID;
+                //    viewModel.Entity.SubtribeName = familyMapViewModel.Entity.SubtribeName;
 
                     
 
-                    // TODO
-                    // Populate select lists of families and sub-familial data related to the
-                    // parent family.
+                //    // TODO
+                //    // Populate select lists of families and sub-familial data related to the
+                //    // parent family.
 
 
-                }
+                //}
 
                 return View(BASE_PATH + "Edit.cshtml", viewModel);
             }
@@ -74,12 +89,10 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
 
                 if (entityId > 0)
                 {
-                    viewModel.Get(entityId);
                     viewModel.TableName = "taxonomy_family_map";
                     viewModel.TableCode = "Family";
-                    viewModel.PageTitle = viewModel.GetPageTitle();
-                    viewModel.Search();
-                    
+                    viewModel.Get(entityId);
+                    viewModel.PageTitle = String.Format("Edit {0} [{1}]", viewModel.Entity.AssembledName, viewModel.Entity.ID);
                 }
                 else
                 {
