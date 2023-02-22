@@ -17,7 +17,7 @@
             </div>
             <div class="card-body">
 
-                <table id="data_table_code_value" class="display responsive" style="width:100%">
+                <table id="data-table-groups" class="display responsive" style="width:100%">
                     <thead>
                         <tr>
                             <th>Group</th>
@@ -75,7 +75,7 @@
 <script type="text/javascript">
 
     $(document).ready(function () {
-        InitSelectorDataTable("data_table_code_value");
+        InitSelectorDataTable("data-table-groups");
     });
 
     function InitSelectorDataTable(tableName) {
@@ -153,7 +153,7 @@
                 $("#section-code-value-edit").html(response);
             }
         });
-        $("#modal-code-value-edit").show();
+        $("#modal-code-value-edit").modal("show");
     }
 
     $("#btnSaveCodeValue").click(function () {
@@ -168,6 +168,7 @@
         formData.append("Entity.CodeValueID", $("#Entity_CodeValueID").val());
         formData.append("Entity.CodeValueLangID", $("#Entity_CodeValueLangID").val());
         formData.append("Entity.GroupName", $("#Entity_GroupName").val());
+        formData.append("Entity.SysLangID", $("#Entity_SysLangID").val());
         formData.append("Entity.Code", $("#Entity_Code").val());
         formData.append("Entity.CodeTitle", $("#Entity_CodeTitle").val());
         formData.append("Entity.CodeDescription", $("#Entity_CodeDescription").val());
@@ -180,7 +181,12 @@
             processData: false,
             data: formData,
             success: function (response) {
-                $("#modal-code-value-edit").hide();
+                // 1. Close modal
+                $("#modal-code-value-edit").modal("hide");
+                // 2. Get selected group
+                var selectedGroupName = GetSelectedEntityIDs("data-table-groups");
+                // 3. Refresh the group-filtered code values.
+                LoadCodeValues(selectedGroupName);
             }
         });
         

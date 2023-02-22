@@ -712,6 +712,7 @@
     <Content Include="Views\CodeValue\Explorer\Index.cshtml" />
     <Content Include="Views\CodeValue\Modals\_Edit.cshtml" />
     <Content Include="Views\CodeValue\Modals\_Detail.cshtml" />
+    <Content Include="Views\Taxonomy\CommonName\Edit - Copy.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

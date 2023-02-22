@@ -242,9 +242,9 @@
                                                 </div>
                                             </div>
                                             @*<div class="form-group">
-                                    <label>Accession ID</label>
-                                    @Html.TextBoxFor(x => x.Entity.AccessionID, new { @class = "form-control", @readonly = "readonly" })
-                                </div>*@
+                <label>Accession ID</label>
+                @Html.TextBoxFor(x => x.Entity.AccessionID, new { @class = "form-control", @readonly = "readonly" })
+            </div>*@
                                         </div>
                                         <div class="col-md-3">
                                             <div class="form-group">
@@ -272,6 +272,12 @@
                                             <div id="form-group">
                                                 <label>Citation Title</label>
                                                 @Html.TextBoxFor(x => x.Entity.CitationTitle, new { @class = "form-control", @autocomplete = "off", @data_lpignore = "true" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div id="form-group">
+                                                <label>Reference Title</label>
+                                                @Html.TextBoxFor(x => x.Entity.ReferenceTitle, new { @class = "form-control", @autocomplete = "off", @data_lpignore = "true" })
                                             </div>
                                         </div>
                                         <div class="col-md-3">

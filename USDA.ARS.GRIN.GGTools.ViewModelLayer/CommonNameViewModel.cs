@@ -163,9 +163,9 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
         {
             bool validated = true;
 
-            if (String.IsNullOrEmpty(Entity.SpeciesName))
+            if ((Entity.SpeciesID == 0) && (Entity.GenusID == 0))
             {
-                ValidationMessages.Add(new Common.Library.ValidationMessage { Message = "Please select a species." });
+                ValidationMessages.Add(new Common.Library.ValidationMessage { Message = "Please identify either a species or genus in reference to this common name." });
             }
 
             if (String.IsNullOrEmpty(Entity.Name))

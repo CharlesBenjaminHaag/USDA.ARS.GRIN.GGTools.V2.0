@@ -23,7 +23,7 @@ namespace USDA.ARS.GRIN.GGTools.AppLayer
         private string _ResultText;
         private string _UserMessage;
         private string _IsMultiSelectable;
-        
+
         public int ID { get; set; }
         [AllowHtml]
         public string PublicWebsiteBaseURL

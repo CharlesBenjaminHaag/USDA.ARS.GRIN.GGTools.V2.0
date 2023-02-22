@@ -59,6 +59,12 @@ function InitDataTable(tableName) {
             ]
         });
 
+        function AddRecord() {
+            var eventAction = $("#EventAction").val();
+            // DEBUG
+            alert("EVENT ACTION " + eventAction);
+        }
+
         //var table = $(tableName).DataTable(); // Valid initialized DataTable
         //if (table instanceof $.fn.dataTable.Api) {
         //    //DEBUG

@@ -109,8 +109,8 @@
                                     </div>
                                     <div class="col-md-3">
                                         <div id="form-group">
-                                            <label>Description</label>
-                                            @Html.TextBoxFor(x => x.Entity.Description, new { @class = "form-control", @autocomplete = "off", @data_lpignore = "true" })
+                                            <label>Ref. Description</label>
+                                            @Html.TextBoxFor(x => x.Entity.ReferenceDescription, new { @class = "form-control", @autocomplete = "off", @data_lpignore = "true" })
                                         </div>
                                     </div>
                                     <div class="col-md-3">
@@ -245,19 +245,7 @@
             $("#modal-citation-lookup").modal("hide");
         }
     }
-
-    //$(document).on("click", "[id='btnSaveSelectedTaxonCitation']", function () {
-    //    var tableName = $("#TableName").val();
-
-    //    //DEBUG
-    //    alert("TABLE " + tableName);
-
-    //    var entityId = $("#Entity_ID").val();
-    //    var selectedItemIdList = GetSelectedEntityIDs("data_table_lookup_taxon_citations");
-    //    var selectedItemLabelList = GetSelectedEntityLabels("data_table_lookup_taxon_citations");
-    //    SaveSelectedCitation(tableName, entityId, selectedItemIdList);
-    //});
-
+   
     $(document).on("click", "[id='btnSaveNewCitation']", function () {
         SaveNewCitation();
     });
@@ -283,9 +271,6 @@
                 speciesId = $("#Entity_SpeciesID").val();
                 break;
         }
-
-        //DEBUG
-        alert("DEBUG CLONING CIT " + citationId);
 
         formData.append("Entity.TableName", tableName);
         formData.append("Entity.ID", citationId);

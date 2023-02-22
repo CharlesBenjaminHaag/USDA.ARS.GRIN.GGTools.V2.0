@@ -19,8 +19,8 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         public string DOIReference { get; set; }
         public string URL { get; set; }
         [AllowHtml]
-        public string Title { get; set; }
-        public string Description { get; set; }
+        public string ReferenceTitle { get; set; }
+        public string ReferenceDescription { get; set; }
         public int AccessionID { get; set; }
         public int MethodID { get; set; }
         public int FamilyID { get; set; }

@@ -37,16 +37,16 @@
 </div>
 
 <script type="text/javascript">
-    $(document).on("click", "[id='btnEditCitation']", function () {
-        var citationId = $("#hfCitationID").val();
-        EditCitation(citationId);
-    });
+    //$(document).on("click", "[id='btnEditCitation']", function () {
+    //    var citationId = $("#hfCitationID").val();
+    //    EditCitation(citationId);
+    //});
 
-    $(document).on("click", "[id='btnCitationEditSave']", function () {
-        SaveCitation();
-    });
+    //$(document).on("click", "[id='btnCitationEditSave']", function () {
+    //    SaveCitation();
+    //});
 
-    function SaveCitation() {
+    @*function SaveCitation() {
         link = '@Url.Action("_Save","Citation")';
         var formData = new FormData();
 
@@ -93,6 +93,6 @@
                 $("#modal-citation-edit").modal("show");
             }
         });
-    }
+    }*@
 
 </script>

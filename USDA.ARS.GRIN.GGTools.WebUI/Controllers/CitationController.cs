@@ -362,31 +362,31 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
         /// </summary>
         /// <param name="entityId"></param>
         /// <returns></returns>
-        public ActionResult Clone(int entityId)
-        {
-            CitationViewModel viewModel = new CitationViewModel();
-            CitationViewModel viewModelClone = new CitationViewModel();
-            try
-            {
-                viewModel.Get(entityId);
-                viewModelClone.Entity = viewModel.Entity;
-                viewModelClone.TableName = "citation";
-                viewModelClone.TableCode = "Citation";
-                viewModelClone.PageTitle = "Add Citation (Clone)";
-                viewModelClone.Entity.FamilyID = 0;
-                viewModelClone.Entity.FamilyName = String.Empty;
-                viewModelClone.Entity.GenusID = 0;
-                viewModelClone.Entity.GenusName = String.Empty;
-                viewModelClone.Entity.SpeciesID = 0;
-                viewModelClone.Entity.SpeciesName = String.Empty;
-                return View(BASE_PATH + "/Clone.cshtml", viewModelClone);
-            }
-            catch (Exception ex)
-            {
-                Log.Error(ex);
-                return RedirectToAction("InternalServerError", "Error");
-            }
-        }
+        //public ActionResult Clone(int entityId)
+        //{
+        //    CitationViewModel viewModel = new CitationViewModel();
+        //    CitationViewModel viewModelClone = new CitationViewModel();
+        //    try
+        //    {
+        //        viewModel.Get(entityId);
+        //        viewModelClone.Entity = viewModel.Entity;
+        //        viewModelClone.TableName = "citation";
+        //        viewModelClone.TableCode = "Citation";
+        //        viewModelClone.PageTitle = "Add Citation (Clone)";
+        //        viewModelClone.Entity.FamilyID = 0;
+        //        viewModelClone.Entity.FamilyName = String.Empty;
+        //        viewModelClone.Entity.GenusID = 0;
+        //        viewModelClone.Entity.GenusName = String.Empty;
+        //        viewModelClone.Entity.SpeciesID = 0;
+        //        viewModelClone.Entity.SpeciesName = String.Empty;
+        //        return View(BASE_PATH + "/Clone.cshtml", viewModelClone);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Log.Error(ex);
+        //        return RedirectToAction("InternalServerError", "Error");
+        //    }
+        //}
 
         [HttpPost]
         public JsonResult Clone(CitationViewModel viewModel)

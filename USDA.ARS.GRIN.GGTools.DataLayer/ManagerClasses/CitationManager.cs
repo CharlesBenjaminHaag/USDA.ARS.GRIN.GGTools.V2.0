@@ -218,8 +218,8 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             AddParameter("reference", String.IsNullOrEmpty(entity.Reference) ? DBNull.Value : (object)entity.Reference, true);
             AddParameter("doi_reference", String.IsNullOrEmpty(entity.DOIReference) ? DBNull.Value : (object)entity.DOIReference, true);
             AddParameter("url", String.IsNullOrEmpty(entity.URL) ? DBNull.Value : (object)entity.URL, true);
-            AddParameter("title", String.IsNullOrEmpty(entity.Title) ? DBNull.Value : (object)entity.Title, true);
-            AddParameter("description", String.IsNullOrEmpty(entity.Description) ? DBNull.Value : (object)entity.Description, true);
+            AddParameter("title", String.IsNullOrEmpty(entity.ReferenceTitle) ? DBNull.Value : (object)entity.ReferenceTitle, true);
+            AddParameter("description", String.IsNullOrEmpty(entity.ReferenceDescription) ? DBNull.Value : (object)entity.ReferenceDescription, true);
             AddParameter("taxonomy_species_id", entity.SpeciesID == 0 ? DBNull.Value : (object)entity.SpeciesID, true);
             AddParameter("taxonomy_genus_id", entity.GenusID == 0 ? DBNull.Value : (object)entity.GenusID, true);
             AddParameter("taxonomy_family_id", entity.FamilyID == 0 ? DBNull.Value : (object)entity.FamilyID, true);

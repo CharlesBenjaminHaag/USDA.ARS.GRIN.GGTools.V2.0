@@ -60,7 +60,6 @@
     $('#modal-genus-lookup').on('keypress', function (event) {
         var keycode = (event.keyCode ? event.keyCode : event.which);
         if (keycode == '13') {
-            alert("ENTER clicked");
             SearchGenus();
             event.preventDefault();
         }
@@ -97,6 +96,7 @@
         if ($("#cbxLookupIsAcceptedName").is(":checked")) {
             formData.append("SearchEntity.IsAcceptedName", "Y");
         }
+
         $.ajax({
             url: link,
             type: 'POST',
