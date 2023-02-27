@@ -9,30 +9,33 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
     public class CooperatorController : BaseController, IController<CooperatorViewModel>
     {
         private static readonly Logger Log = LogManager.GetCurrentClassLogger();
-        public ViewResult Explorer()
-        {
-            return View();
-        }
-        public PartialViewResult _RenderLookupModal()
+        public ActionResult Get(int entityId)
         {
             try
             {
                 CooperatorViewModel viewModel = new CooperatorViewModel();
-                return PartialView("~/Views/Cooperator/Modals/_Lookup.cshtml",viewModel);
+                viewModel.Get(entityId, "");
+                viewModel.PageTitle = String.Format("Edit Cooperator [{0}]: {1}, {2}", entityId, viewModel.Entity.LastName, viewModel.Entity.FirstName);
+                viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
+                viewModel.AuthenticatedUser = AuthenticatedUser;
+                return View("~/Views/Cooperator/Edit.cshtml", viewModel);
             }
             catch (Exception ex)
             {
                 Log.Error(ex);
-                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+                return RedirectToAction("InternalServerError", "Error");
             }
         }
-        [HttpPost]
-        public PartialViewResult _Lookup(CooperatorViewModel viewModel)
+        public PartialViewResult _Get(int entityId, string environment)
         {
             try
             {
-                viewModel.Search();
-                return PartialView("~/Views/Cooperator/Modals/_SelectList.cshtml", viewModel);
+                CooperatorViewModel viewModel = new CooperatorViewModel();
+                viewModel.Get(entityId, environment);
+                viewModel.PageTitle = String.Format("Edit Cooperator [{0}]: {1}", entityId, viewModel.Entity.FullName);
+                viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
+                viewModel.AuthenticatedUser = AuthenticatedUser;
+                return PartialView("~/Views/Cooperator/_Edit.cshtml", viewModel);
             }
             catch (Exception ex)
             {
@@ -40,11 +43,26 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 return PartialView("~/Views/Error/_InternalServerError.cshtml");
             }
         }
-        public PartialViewResult _ListFolderItems(int folderId)
+        public PartialViewResult Save(CooperatorViewModel viewModel)
         {
             try
             {
-                return PartialView("~/Views/Shared/_UnderConstruction.cshtml");
+                //if (!viewModel.Validate())
+                //{
+                //    if (viewModel.ValidationMessages.Count > 0) return View(viewModel);
+                //}
+
+                if (viewModel.Entity.ID == 0)
+                {
+                    viewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
+                    viewModel.Insert();
+                }
+                else
+                {
+                    viewModel.Entity.ModifiedByCooperatorID = AuthenticatedUser.CooperatorID;
+                    viewModel.Update();
+                }
+                return _Get(viewModel.Entity.ID, "");
             }
             catch (Exception ex)
             {
@@ -52,27 +70,75 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 return PartialView("~/Views/Error/_InternalServerError.cshtml");
             }
         }
+
+        // ******************************************************************************
+        // BEGIN OLD CODE
+        // ******************************************************************************
+
+        //public ViewResult Explorer()
+        //{
+        //    return View();
+        //}
+        //public PartialViewResult _RenderLookupModal()
+        //{
+        //    try
+        //    {
+        //        CooperatorViewModel viewModel = new CooperatorViewModel();
+        //        return PartialView("~/Views/Cooperator/Modals/_Lookup.cshtml",viewModel);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Log.Error(ex);
+        //        return PartialView("~/Views/Error/_InternalServerError.cshtml");
+        //    }
+        //}
         [HttpPost]
-        public JsonResult Add(FormCollection formCollection)
-        {
-            throw new NotImplementedException();
-        }
+        //public PartialViewResult _Lookup(CooperatorViewModel viewModel)
+        //{
+        //    try
+        //    {
+        //        viewModel.Search();
+        //        return PartialView("~/Views/Cooperator/Modals/_SelectList.cshtml", viewModel);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Log.Error(ex);
+        //        return PartialView("~/Views/Error/_InternalServerError.cshtml");
+        //    }
+        //}
+        //public PartialViewResult _ListFolderItems(int folderId)
+        //{
+        //    try
+        //    {
+        //        return PartialView("~/Views/Shared/_UnderConstruction.cshtml");
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Log.Error(ex);
+        //        return PartialView("~/Views/Error/_InternalServerError.cshtml");
+        //    }
+        //}
+        //[HttpPost]
+        //public JsonResult Add(FormCollection formCollection)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
-        public ActionResult Delete(int entityId)
-        {
-            throw new NotImplementedException();
-        }
+        //public ActionResult Delete(int entityId)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
-        public ActionResult View(int entityId)
-        {
-            // Retrieve main cooperator record (to be copied). Assumption is use case 
-            // where user is updating a training record.
-            CooperatorViewModel viewModel = new CooperatorViewModel();
-            viewModel.SearchEntity.ID = entityId;
-            viewModel.Get(entityId, "PROD");
-            viewModel.AuthenticatedUser = AuthenticatedUser;
-            return View(viewModel);
-        }
+        //public ActionResult View(int entityId)
+        //{
+        //    Retrieve main cooperator record(to be copied). Assumption is use case 
+        //     where user is updating a training record.
+        //    CooperatorViewModel viewModel = new CooperatorViewModel();
+        //    viewModel.SearchEntity.ID = entityId;
+        //    viewModel.Get(entityId, "PROD");
+        //    viewModel.AuthenticatedUser = AuthenticatedUser;
+        //    return View(viewModel);
+        //}
         public ActionResult Add()
         {
             try

@@ -1,86 +1,111 @@
 ﻿@model USDA.ARS.GRIN.GGTools.ViewModelLayer.CooperatorViewModel
-<div class="card card-default">
-    <div class="card-header">
-        <h3 class="card-title">Cooperator</h3>
-        <div class="card-tools">
-            <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                <i class="fas fa-minus"></i>
-            </button>
+@using (Html.BeginForm("Save", "Cooperator", FormMethod.Post, new { id = "frmEditCooperator" }))
+{
+    @Html.HiddenFor(x => x.PageTitle)
+    @*@Html.HiddenFor(x => x.IsReadOnly)*@
+    @Html.HiddenFor(x => x.EventAction)
+    @Html.HiddenFor(x => x.EventValue)
+    @Html.HiddenFor(x => x.TableName)
+    @Html.HiddenFor(x => x.TableCode)
+    @Html.HiddenFor(x => x.Entity.ID)
+    @Html.HiddenFor(x => x.Entity.StatusCode)
+    @Html.Partial("~/Views/Shared/_RevisionHistory.cshtml")
+    @Html.Partial("~/Views/Shared/_ValidationMessages.cshtml")
+    <div class="row">
+        <div class="col-md-2">
+            <div class="form-group">
+                <label>Salutation</label>
+                @Html.DropDownListFor(x => x.Entity.Salutation, Model.Salutations, "Select value", new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="col-md-5">
+            <div class="form-group">
+                <label>First Name</label>
+                @Html.TextBoxFor(x => x.Entity.FirstName, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="col-md-5">
+            <div class="form-group">
+                <label>Last Name</label>
+                @Html.TextBoxFor(x => x.Entity.LastName, new { @class = "form-control" })
+            </div>
         </div>
     </div>
-    <div class="card-body">
-        @Html.Partial("~/Views/Shared/_RevisionHistory.cshtml")
-        <div class="row">
-            <div class="col-md-12">
-                <div class="form-group">
-                    <label>Status</label>
-                    <br />
-                    @if (Model.Entity.StatusCode == "ACTIVE")
-                    {
-                        <span class="badge bg-green">
-                            @Model.Entity.StatusCode
-                        </span>
-                    }
-                    else
-                    {
-                        <span class="badge bg-red">
-                            @Model.Entity.StatusCode
-                        </span>
-                    }
-                </div>
-            </div>
-            <div class="col-md-12">
-                <div class="form-group">
-                    <label>Salutation</label>
-                    @Html.DropDownListFor(x => x.Entity.Salutation, Model.Salutations, "Select value", new { @class = "form-control" })
-                </div>
-            </div>
-            <div class="col-md-12">
-                <div class="form-group">
-                    <label>First Name</label>
-                    @Html.TextBoxFor(x => x.Entity.FirstName, new { @class = "form-control" })
-                </div>
-            </div>
-            <div class="col-md-12">
-                <div class="form-group">
-                    <label>Last Name</label>
-                    @Html.TextBoxFor(x => x.Entity.LastName, new { @class = "form-control" })
-                </div>
-            </div>
-            <div class="col-md-12">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
                 <label>Job Title</label>
                 @Html.TextBoxFor(x => x.Entity.JobTitle, new { @class = "form-control" })
             </div>
-            <div class="col-md-3">
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
                 <label>Organization</label>
                 @Html.TextBoxFor(x => x.Entity.Organization, new { @class = "form-control" })
-                <!--<div class="input-group">
-            <span class="input-group-btn">-->
-                @*@Html.TextBoxFor(x => x.Entity.OrganizationAbbrev, new { @class = "form-control", @style = "width:80px;" })*@
-                <!--<button type="button" data-toggle="modal" data-target="#modal-organization-lookup" class="btn btn-default btn-flat">
-                        <i class="fa fa-search"></i>
-                    </button>
-                </span>
-            </div>-->
             </div>
-            <div class="col-md-2">
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
                 <label>Abbrev</label>
                 @Html.TextBoxFor(x => x.Entity.OrganizationAbbrev, new { @class = "form-control" })
             </div>
-            <div class="col-md-4">
-                <div class="form-group">
-                    <label>Site</label>
-                    @Html.DropDownListFor(x => x.Entity.SiteID, Model.Sites, "Select site", new { @class = "form-control" })
-                </div>
-            </div>
-            <div class="col-md-3">
-                <label>Category</label>
-                @Html.DropDownListFor(x => x.Entity.CategoryCode, Model.Categories, "Select value", new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <label>Email</label>
+                @Html.TextBoxFor(x => x.Entity.EmailAddress, new { @class = "form-control" })
             </div>
         </div>
-
+        <div class="col-md-4">
+            <div class="form-group">
+                <label>Phone</label>
+                @Html.TextBoxFor(x => x.Entity.PrimaryPhone, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="col-md-4">
+            <label>Category</label>
+            @Html.DropDownListFor(x => x.Entity.CategoryCode, Model.Categories, "Select value", new { @class = "form-control" })
+        </div>
     </div>
-    <div class="card-footer">
-        <button id="btnSave" type="button" data-ggtools-action="sync" data-ggtools-value="cooperator" class="btn btn-default btn-block float-right">Copy >></button>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <label>Site</label>
+                @Html.DropDownListFor(x => x.Entity.SiteID, Model.Sites, "Select site", new { @class = "form-control" })
+            </div>
+            <div class="form-group">
+                <label>Address</label>
+                @Html.TextBoxFor(x => x.Entity.AddressLine1, new { @class = "form-control" })
+            </div>
+            <div class="form-group">
+                @Html.TextBoxFor(x => x.Entity.AddressLine2, new { @class = "form-control" })
+            </div>
+            <div class="form-group">
+                @Html.TextBoxFor(x => x.Entity.AddressLine3, new { @class = "form-control" })
+            </div>
+        </div>
     </div>
-</div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label>City</label>
+                @Html.TextBoxFor(x => x.Entity.City, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="col-md-3">
+            <label>State/Geo</label>
+            @Html.DropDownListFor(x => x.Entity.GeographyID, Model.States, "Select state", new { @class = "form-control" })
+        </div>
+        <div class="col-md-3">
+            <label>Postal Code</label>
+            @Html.TextBoxFor(x => x.Entity.PostalIndex, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <button id="btnSaveCooperator" type="button" class="btn btn-info float-right">Save</button>
+        </div>
+    </div>
+}

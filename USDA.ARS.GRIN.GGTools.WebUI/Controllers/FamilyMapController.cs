@@ -90,7 +90,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 if (entityId > 0)
                 {
                     viewModel.TableName = "taxonomy_family_map";
-                    viewModel.TableCode = "Family";
+                    viewModel.TableCode = "FamilyMap";
                     viewModel.Get(entityId);
                     viewModel.PageTitle = String.Format("Edit {0} [{1}]", viewModel.Entity.AssembledName, viewModel.Entity.ID);
                 }
@@ -105,6 +105,12 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 Log.Error(ex);
                 return RedirectToAction("InternalServerError", "Error");
             }
+        }
+
+        public PartialViewResult RenderLookupModal()
+        {
+            FamilyMapViewModel viewModel = new FamilyMapViewModel();
+            return PartialView(BASE_PATH + "/Modals/_Lookup.cshtml", viewModel);
         }
 
         [HttpPost]

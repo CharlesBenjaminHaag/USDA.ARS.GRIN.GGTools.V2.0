@@ -4,110 +4,6 @@
     Layout = "~/Views/Shared/_LayoutAdminLTE3.cshtml";
 }
 
-<!--<div class="row">
-    <div class="col-md-3">
-
-        <div class="small-box bg-info">
-            <div class="inner">
-                <h3>
-                    <a href="@Url.Action("Navigate", "Home", new { applicationCode = "GGT-ARM" })" style="color:white; text-decoration:underline;">
-                        ARM
-                    </a>
-                </h3>
-                <p>Administer GRIN-Global accounts</p>
-            </div>
-            <div class="icon">
-                <i class="fas fa-user-cog"></i>
-            </div>
-            <a href="@Url.Action("Navigate", "Home", new { applicationCode = "GGT-ARM" })" class="small-box-footer">
-                Launch <i class="fas fa-arrow-circle-right"></i>
-            </a>
-        </div>-->
-
-        @*@if ((Model.AuthenticatedUser.IsInRole("GGTOOLS_ARM")) || (Model.AuthenticatedUser.IsInRole("ADMINS")))
-        {
-
-        }*@
-    <!--</div>
-    <div class="col-md-3">
-        <div class="small-box bg-info">
-            <div class="inner">
-                <h3>
-                    <a href="@Url.Action("Navigate", "Home", new { applicationCode = "GGT-TAX" })" style="color:white; text-decoration:underline;">
-                        TTax
-                    </a>
-                </h3>
-                <p>Edit taxonomical data</p>
-            </div>
-            <div class="icon">
-                <i class="fas fa-leaf"></i>
-            </div>
-            <a href="@Url.Action("Navigate", "Home", new { applicationCode = "GGT-TAX" })" class="small-box-footer">
-                Launch <i class="fas fa-arrow-circle-right"></i>
-            </a>
-        </div>-->
-        @*@if ((Model.AuthenticatedUser.IsInRole("GGTOOLS_TAXON")) || (Model.AuthenticatedUser.IsInRole("ADMINS")))
-        {
-
-        }*@
-    <!--</div>
-    <div class="col-md-3">
-        <div class="small-box bg-info">
-            <div class="inner">
-                <h3>CUR</h3>
-                <p>View accession and inventory data</p>
-            </div>
-            <div class="icon">
-                <i class="fas fa-tree"></i>
-            </div>
-            <a href="@Url.Action("Navigate", "Home", new { applicationCode = "GGT-CUR" })" class="small-box-footer">
-                Launch <i class="fas fa-arrow-circle-right"></i>
-            </a>
-        </div>-->
-        @*@if ((Model.AuthenticatedUser.IsInRole("GGTOOLS_CUR")) || (Model.AuthenticatedUser.IsInRole("ADMINS")))
-        {
-
-        }*@
-    <!--</div>
-    <div class="col-md-3">
-        <div class="small-box bg-info">
-            <div class="inner">
-                <h3>NRR</h3>
-                <p>Non-Research Requests (NRR)</p>
-            </div>
-            <div class="icon">
-                <i class="fas fa-angry"></i>
-            </div>
-            <a href="@Url.Action("Navigate", "Home", new { applicationCode = "GGT-NRR" })" class="small-box-footer">
-                Launch <i class="fas fa-arrow-circle-right"></i>
-            </a>
-        </div>-->
-        @*@if ((Model.AuthenticatedUser.IsInRole("GGTOOLS_ORDERS")) || (Model.AuthenticatedUser.IsInRole("ADMINS")))
-        {
-
-        }*@
-    <!--</div>-->
-    @*<div class="col-md-3">
-        @if ((Model.AuthenticatedUser.IsInRole("GGTOOLS_ARM")) || (Model.AuthenticatedUser.IsInRole("ADMINS")))
-        {
-            <div class="card card-outline card-warning">
-                <div class="card-header">
-                    <h3 class="card-title">Pending Cooperator Requests</h3>
-                    <div class="card-tools">
-                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                            <i class="fas fa-minus"></i>
-                        </button>
-                    </div>
-                </div>
-                <div id="section-cooperator-list-pending" class="card-body">
-                    @{Html.RenderAction("_List", "Cooperator", new { statusCode = "PENDING", formatCode = "SLST" }); }
-                </div>
-            </div>
-        }
-                        </div>*@
-    
-<!--</div>-->
-
 <div class="row">
     <div class="col-md-3">
         @{Html.RenderAction("RenderWidget", "Cooperator", new { cooperatorId = Model.CooperatorID }); }
@@ -141,19 +37,19 @@
 
 <script type="text/javascript">
 
-    $(document).on("click", "[id='btnSubmitCooperatorAdd']", function () {
+    $(document).on("click", "[id='btnSaveCooperator']", function () {
         $("#modal-cooperator-add").modal("hide");
-        AjaxFormSubmit();
+        SaveCooperator();
         LoadPendingCooperatorsList();
     });
 
-    function AjaxFormSubmit() {
-        var link = $("#frmAddCooperator").attr("action");
+    function SaveCooperator() {
+        var link = $("#frmEditCooperator").attr("action");
 
         //Add the Field values to FormData object.
         var formData = new FormData();
-        formData.append("Entity.StatusCode", "PENDING");
-        formData.append("Entity.ID", $("#Entity_ID").val());
+        formData.append("Entity.StatusCode", "ACTIVE");
+        formData.append("Entity.ID", $("#frmEditCooperator #Entity_ID").val());
         formData.append("Entity.Salutation", $("#Entity_Salutation").val());
         formData.append("Entity.FirstName", $("#Entity_FirstName").val());
         formData.append("Entity.LastName", $("#Entity_LastName").val());

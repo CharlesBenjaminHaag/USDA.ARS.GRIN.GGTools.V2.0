@@ -66,10 +66,17 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
                 try
                 {
                     Entity.ID = mgr.Insert(Entity);
-                    // TODO SEND EMAIL
-                    sysUserViewModel.SearchEntity.ID = Entity.SysUserID;
-                    sysUserViewModel.Search();
-                    sysUserViewModel.SendNotification("N");
+
+                    if (Entity.ID > 0)
+                    {
+                        sysUserViewModel.Entity.UserName = Entity.FirstName + "." + Entity.LastName;
+                        sysUserViewModel.Entity.CooperatorID = Entity.ID;
+                        sysUserViewModel.Entity.CooperatorID = Entity.CreatedByCooperatorID;
+                        sysUserViewModel.Entity.Password = sysUserViewModel.GetSecurePassword("TEST");
+                        sysUserViewModel.Insert();
+                    }
+
+                    //sysUserViewModel.SendNotification("N");
                 }
                 catch (Exception ex)
                 {

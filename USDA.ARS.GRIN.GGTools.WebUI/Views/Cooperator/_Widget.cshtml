@@ -25,8 +25,6 @@
                     }
                 </a>
             </li>
-            
-            
             <li class="list-group-item">
                 <b>Organization</b> <a class="float-right"> @Model.Entity.Organization</a>
             </li>
@@ -36,13 +34,14 @@
             <li class="list-group-item">
                 <b>Phone</b> <a class="float-right">@Model.Entity.PrimaryPhone</a>
             </li>
-            <br />
-            <strong><i class="fas fa-map-marker-alt mr-1"></i> Address</strong>
-            <p class="text-muted">
-                @Model.Entity.AddressLine1<br />
-                @Model.Entity.AddressLine2<br />
-                @Model.Entity.City @Model.Entity.PostalIndex<br />
-            </p>
+            <li class="list-group-item">
+                <strong><i class="fas fa-map-marker-alt mr-1"></i> Address</strong>
+                <p class="text-muted">
+                    @Model.Entity.AddressLine1<br />
+                    @Model.Entity.AddressLine2<br />
+                    @Model.Entity.City @Model.Entity.PostalIndex<br />
+                </p>
+            </li>
         </ul>
         
     </div>

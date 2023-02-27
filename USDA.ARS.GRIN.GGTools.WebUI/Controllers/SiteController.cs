@@ -7,14 +7,19 @@ using NLog;
 namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
 {
     [GrinGlobalAuthentication]
-    public class SiteController : BaseController, IController<SiteViewModel>
+    public class SiteController : BaseController
     {
         private static readonly Logger Log = LogManager.GetCurrentClassLogger();
-        public PartialViewResult _ListFolderItems(int folderId)
+
+        public PartialViewResult _Get(int entityId)
         {
             try
             {
-                return PartialView("~/Views/Shared/_UnderConstruction.cshtml");
+                SiteViewModel viewModel = new SiteViewModel();
+                viewModel.Get(entityId);
+                viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
+                viewModel.AuthenticatedUser = AuthenticatedUser;
+                return PartialView("~/Views/Site/_Edit.cshtml", viewModel);
             }
             catch (Exception ex)
             {
@@ -22,23 +27,76 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 return PartialView("~/Views/Error/_InternalServerError.cshtml");
             }
         }
-        public ActionResult Delete(int entityId)
+        public PartialViewResult Save(CooperatorViewModel viewModel)
         {
-            throw new NotImplementedException();
-        }
-        public ActionResult Add()
-        {
-            throw new NotImplementedException();
+            try
+            {
+                //if (!viewModel.Validate())
+                //{
+                //    if (viewModel.ValidationMessages.Count > 0) return View(viewModel);
+                //}
+
+                if (viewModel.Entity.ID == 0)
+                {
+                    viewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
+                    viewModel.Insert();
+                }
+                else
+                {
+                    viewModel.Entity.ModifiedByCooperatorID = AuthenticatedUser.CooperatorID;
+                    viewModel.Update();
+                }
+                return _Get(viewModel.Entity.ID);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
         }
 
-        public ActionResult Edit(int entityId)
-        {
-            SiteViewModel viewModel = new SiteViewModel();
-            viewModel.TableName = "site";
-            viewModel.Get(entityId);
-            viewModel.PageTitle = String.Format("Edit Site [{0}]", viewModel.Entity.ID);
-            return View(viewModel);
-        }
+
+
+
+
+
+
+
+
+
+        // ******************************************************************************
+        // BEGIN OLD CODE
+        // ******************************************************************************
+
+        //public PartialViewResult _ListFolderItems(int folderId)
+        //{
+        //    try
+        //    {
+        //        return PartialView("~/Views/Shared/_UnderConstruction.cshtml");
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Log.Error(ex);
+        //        return PartialView("~/Views/Error/_InternalServerError.cshtml");
+        //    }
+        //}
+        //public ActionResult Delete(int entityId)
+        //{
+        //    throw new NotImplementedException();
+        //}
+        //public ActionResult Add()
+        //{
+        //    throw new NotImplementedException();
+        //}
+
+        //public ActionResult Edit(int entityId)
+        //{
+        //    SiteViewModel viewModel = new SiteViewModel();
+        //    viewModel.TableName = "site";
+        //    viewModel.Get(entityId);
+        //    viewModel.PageTitle = String.Format("Edit Site [{0}]", viewModel.Entity.ID);
+        //    return View(viewModel);
+        //}
 
         [HttpPost]
         public ActionResult Edit(SiteViewModel viewModel)
@@ -69,21 +127,21 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             }
         }
 
-        [HttpPost]
-        public JsonResult _Get(int siteId)
-        {
-            SiteViewModel viewModel = new SiteViewModel();
-            try
-            {
-                viewModel.Get(siteId);
-                return Json(new { site = viewModel.Entity }, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception ex)
-            {
-                Log.Error(ex.Message);
-                return Json(new { site = viewModel.Entity }, JsonRequestBehavior.AllowGet);
-            }
-        }
+        //[HttpPost]
+        //public JsonResult _Get(int siteId)
+        //{
+        //    SiteViewModel viewModel = new SiteViewModel();
+        //    try
+        //    {
+        //        viewModel.Get(siteId);
+        //        return Json(new { site = viewModel.Entity }, JsonRequestBehavior.AllowGet);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Log.Error(ex.Message);
+        //        return Json(new { site = viewModel.Entity }, JsonRequestBehavior.AllowGet);
+        //    }
+        //}
 
         public ActionResult Index()
         {
@@ -116,10 +174,10 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             return null;
         }
 
-        public PartialViewResult FolderItems(FormCollection formCollection)
-        {
-            throw new NotImplementedException();
-        }
+        //public PartialViewResult FolderItems(FormCollection formCollection)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
         public PartialViewResult RenderWidget(int siteId)
         {

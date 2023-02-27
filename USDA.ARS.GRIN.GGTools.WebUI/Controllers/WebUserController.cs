@@ -6,9 +6,54 @@ using NLog;
 
 namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
 {
-    public class WebUserController : Controller
+    public class WebUserController : BaseController
     {
         private static readonly Logger Log = LogManager.GetCurrentClassLogger();
+        public PartialViewResult _Get(int entityId, string environment = "")
+        {
+            try
+            {
+                WebUserViewModel viewModel = new WebUserViewModel();
+                viewModel.Get(entityId);
+                return PartialView("~/Views/WebUser/_Edit.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
+        }
+        public PartialViewResult Save(WebUserViewModel viewModel)
+        {
+            try
+            {
+                //if (!viewModel.Validate())
+                //{
+                //    if (viewModel.ValidationMessages.Count > 0) return View(viewModel);
+                //}
+
+                if (viewModel.Entity.ID == 0)
+                {
+                    viewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
+                    viewModel.Insert();
+                }
+                else
+                {
+                    viewModel.Entity.ModifiedByCooperatorID = AuthenticatedUser.CooperatorID;
+                    //viewModel.Update();
+                }
+                return _Get(viewModel.Entity.ID, "");
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
+        }
+
+        // ******************************************************************************
+        // BEGIN OLD CODE
+        // ******************************************************************************
 
         [HttpPost]
         public PartialViewResult Add(FormCollection formCollection)

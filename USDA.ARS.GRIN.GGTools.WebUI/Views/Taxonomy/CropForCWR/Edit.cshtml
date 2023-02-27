@@ -166,11 +166,11 @@
                         @Html.HiddenFor(x => x.TableCode)
                         @Html.HiddenFor(x => x.Entity.ID)
                         @Html.HiddenFor(x => x.Entity.RelatedItemCount)
+                        @Html.Partial("~/Views/Taxonomy/Shared/_RevisionHistory.cshtml")
                         <div class="card card-default">
                             <div class="card-header">
                                 <h3 class="card-title">Summary</h3>
                                 <div class="card-tools">
-                                    @Html.Partial("~/Views/Taxonomy/Shared/_RevisionHistory.cshtml")
                                     <button type="button" class="btn btn-tool" data-card-widget="collapse">
                                         <i class="fas fa-minus"></i>
                                     </button>
@@ -185,8 +185,8 @@
                                             @Html.TextBoxFor(x => x.Entity.CropForCWRName, new { @class = "form-control" })
                                             @Html.ValidationMessageFor(x => x.Entity.CropForCWRName, "", new { @class = "text-danger" })
                                         </div>
-                                        </div>
                                     </div>
+                                </div>
                                 <div class="row">
                                     <!-- BEGIN NOTE FIELD -->
                                     <div class="col-md-12">
@@ -205,7 +205,7 @@
                                     </div>
                                     <!-- END NOTE FIELD-->
                                 </div>
-                                
+
                             </div>
                             <div class="card-footer">
                                 <a href="@Url.Action("Refresh")" class="btn btn-default">Reset</a>

@@ -9,7 +9,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                @using (Html.BeginForm("_Edit", "Cooperator", FormMethod.Post, new { id = "frmAddCooperator" }))
+                @using (Html.BeginForm("Save", "Cooperator", FormMethod.Post, new { id = "frmEditCooperator" }))
                 {
                     @Html.HiddenFor(x => x.PageTitle)
                     @*@Html.HiddenFor(x => x.IsReadOnly)*@
@@ -116,7 +116,7 @@
             </div>
             <div class="modal-footer justify-content-between">
                 <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-                <button id="btnSubmitCooperatorAdd" type="button" class="btn btn-info float-right" data-dismiss="modal">Submit Request</button>
+                <button id="btnSaveCooperator" type="button" class="btn btn-info float-right" data-dismiss="modal">Submit Request</button>
             </div>
         </div>
     </div>

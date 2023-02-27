@@ -661,7 +661,6 @@
     <Content Include="Views\SysGroupUserMap\Modals\_Lookup.cshtml" />
     <Content Include="Views\WebOrder\Explorer\Index.cshtml" />
     <Content Include="Views\WebOrder\Explorer\_List.cshtml" />
-    <Content Include="Views\Site\_ListWidget.cshtml" />
     <Content Include="Views\Folder\_Confirmation.cshtml" />
     <Content Include="Views\WebOrder\Explorer\_Detail.cshtml" />
     <Content Include="Views\WebOrder\Explorer\_Timeline.cshtml" />
@@ -713,6 +712,8 @@
     <Content Include="Views\CodeValue\Modals\_Edit.cshtml" />
     <Content Include="Views\CodeValue\Modals\_Detail.cshtml" />
     <Content Include="Views\Taxonomy\CommonName\Edit - Copy.cshtml" />
+    <Content Include="Views\Site\_Edit.cshtml" />
+    <Content Include="Views\Taxonomy\Genus\Edit - Copy.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -1,4 +1,4 @@
-﻿@if (Model.Entity.ID > 0)
-{
-<span title="3 New Messages" class="badge bg-default-accent-cool" style="color:#adb5bd;">@Html.Raw(Model.Entity.RevisionHistoryText)</span>
-}
+﻿<div class="callout callout-info">
+    @Html.Raw(Model.Entity.RevisionHistoryText)
+</div>
+

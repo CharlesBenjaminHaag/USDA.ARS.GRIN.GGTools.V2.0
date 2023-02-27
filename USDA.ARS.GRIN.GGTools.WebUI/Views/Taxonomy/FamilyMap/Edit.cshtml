@@ -182,12 +182,12 @@
                         @Html.HiddenFor(x => x.Entity.IsAcceptedName)
                         <div class="card card-default">
                             <div class="card-header">
-                                <!-- BEGIN PW LINK -->
-                                <a href="@Model.PublicWebsiteBaseURL/taxon/taxonomyfamily?id=@Model.Entity.ID" target="_blank" class="btn btn-info btn-sm float-right">
-                                    <i class="fa fa-globe"></i>
-                                    View Public Website
-                                </a>
-                                <!-- END PW LINK -->
+                                <h3 class="card-title">Summary</h3>
+                                <div class="card-tools">
+                                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                        <i class="fas fa-minus"></i>
+                                    </button>
+                                </div>
                             </div>
                             <div class="card-body">
                                 @Html.Partial("~/Views/Shared/_ValidationMessages.cshtml")
@@ -207,7 +207,7 @@
                                                     </span>
                                                 }
                                                 <span class="input-group-btn">
-                                                    <button id="btnFamilyNameLookup" type="button" class="btn btn-default btn-flat" data-ggtools-action="AcceptedID" data-ggtools-value="AcceptedName" data-toggle="modal" data-target="#modal-family-lookup">
+                                                    <button id="btnOpenFamilyLookupModal" type="button" class="btn btn-default btn-flat" data-ggtools-action="AcceptedID" data-ggtools-value="AcceptedName" data-toggle="modal" data-target="#modal-family-lookup">
                                                         <i class="fa fa-search"></i>
                                                     </button>
                                                 </span>
@@ -217,7 +217,7 @@
                                 </div>
                                 <div class="row">
                                     <!-- If the record being edited is infrafamilial, show the family selector;
-                    otherwise, use the family name edit field. -->
+                                        otherwise, use the family name edit field. -->
                                     @if (Model.Entity.Rank.ToUpper() == "FAMILY")
                                     {
                                         <div class="col-md-3">
@@ -262,8 +262,8 @@
                                     }
 
                                     <!--
-                    Only show the Order (Classification) select list if the record being edited is a family, vs.
-                    an infrafamilial record. -->
+                                    Only show the Order (Classification) select list if the record being edited is a family, vs.
+                                    an infrafamilial record. -->
                                     @if (Model.Entity.Rank.ToUpper() == "FAMILY")
                                     {
                                         <div class="col-md-3">
@@ -336,7 +336,7 @@
                                                     </span>
                                                 }
                                                 <span class="input-group-btn">
-                                                    <button id="btnGenusNameLookup"
+                                                    <button id="btnOpenGenusLookupModal"
                                                             type="button"
                                                             class="btn btn-default btn-flat"
                                                             data-ggtools-action="TypeGenusID"
@@ -379,10 +379,20 @@
                                     }
                                 </div>
                                 <div class="row">
+                                    <!-- BEGIN NOTE FIELD -->
                                     <div class="col-md-12">
                                         <label>Note</label>
-                                        @Html.TextAreaFor(x => x.Entity.Note, new { @id = "txtNote", @class = "form-control" })
+                                        <div class="input-group">
+
+                                            @Html.TextAreaFor(x => x.Entity.Note, new { @id = "txtNote", @class = "form-control", })
+                                            <span class="input-group-append">
+                                                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#modal-note-lookup">
+                                                    <i class="fa fa-search margin-r-5"></i>
+                                                </button>
+                                            </span>
+                                        </div>
                                     </div>
+                                    <!-- END NOTE FIELD-->
                                 </div>
 
                             </div>
@@ -425,6 +435,7 @@
                         </div>
                     }
 
+                    @{Html.RenderAction("RenderLookupModal", "FamilyMap"); }
                     @{Html.RenderAction("RenderLookupModal", "Genus"); }
                     @Html.Partial("~/Views/Shared/Modals/_NoteLookup2.cshtml")
                     @Html.Partial("~/Views/Taxonomy/Shared/Modals/_Delete.cshtml")
@@ -470,9 +481,6 @@
         link = link.replace("EVENT_ACTION", eventAction);
         link = link.replace("EVENT_VALUE", eventValue);
         link = link.replace("SPECIES_ID", entityId);
-
-        //DEBUG
-        alert("DEBUG CALLING " + link);
 
         formData.append("FamilyID", entityId);
 
