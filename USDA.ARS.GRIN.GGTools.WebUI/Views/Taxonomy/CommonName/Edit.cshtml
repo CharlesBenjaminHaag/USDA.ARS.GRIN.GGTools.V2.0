@@ -178,6 +178,7 @@
                         @Html.HiddenFor(x => x.TableCode)
                         @Html.HiddenFor(x => x.Entity.ID)
                         @Html.HiddenFor(x => x.Entity.RelatedItemCount)
+                        @Html.HiddenFor(x => x.Entity.CategoryCode)
                         <div id="section-taxon-tabs" class="card card-primary card-outline card-outline-tabs">
                             <div class="card-header p-0 border-bottom-0">
                                 <ul class="nav nav-tabs" id="custom-tabs-four-tab" role="tablist">
@@ -237,8 +238,14 @@
                                                             </a>
                                                         </span>
                                                     }
-                                                    <span class="input-group-append">
-                                                        <button type="button" class="btn btn-default btn-flat" data-toggle="modal" data-target="#modal-species-lookup">
+                                                    <span class="input-group-btn">
+                                                        <button id="btnOpenSpeciesLookupModal"
+                                                                type="button"
+                                                                data-toggle="modal"
+                                                                data-ggtools-action="SpeciesID"
+                                                                data-ggtools-value="SpeciesName"
+                                                                data-target="#modal-species-lookup"
+                                                                class="btn btn-default btn-flat">
                                                             <i class="fa fa-search"></i>
                                                         </button>
                                                     </span>
@@ -358,11 +365,14 @@
         if (entityId == 0) {
             $('[id*="section-fields"]').hide();
             $("#section-fields-taxonomy-genus").show();
-
         }
         else {
             var categoryTab = $("#Entity_CategoryCode").val() + "-tab";
             var categoryCode = "#section-fields-" + $("#Entity_CategoryCode").val();
+
+            //DEBUG
+            /*alert("CAT CODE " + categoryCode);*/
+
             $('[id*="section-fields"]').hide();
             $('.nav-link').removeClass("active");
             $(categoryCode).show();

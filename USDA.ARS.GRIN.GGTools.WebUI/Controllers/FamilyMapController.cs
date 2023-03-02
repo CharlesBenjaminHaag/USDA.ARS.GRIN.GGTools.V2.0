@@ -161,7 +161,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
         //    }
         //}
 
-        public ActionResult Index(int orderId = 0)
+        public ActionResult Index(int orderId = 0, string rank="")
         {
             FamilyMapViewModel viewModel = new FamilyMapViewModel();
 
@@ -174,6 +174,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 if (orderId > 0)
                 {
                     viewModel.SearchEntity.OrderID = orderId;
+                    viewModel.SearchEntity.Rank = rank;
                     viewModel.Search();
                 }
 
@@ -203,13 +204,14 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             }
         }
 
-        public PartialViewResult _List(string eventValue = "", int orderId=0)
+        public PartialViewResult _List(int orderId=0, string rank="")
         {
             FamilyMapViewModel viewModel = new FamilyMapViewModel();
 
             try
             {
                 viewModel.SearchEntity.OrderID = orderId;
+                viewModel.SearchEntity.Rank = rank;
                 viewModel.Search();
                 return PartialView(BASE_PATH + "_List.cshtml", viewModel);
             }

@@ -76,7 +76,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             {
                 if (!viewModel.Validate())
                 {
-                    if (viewModel.ValidationMessages.Count > 0) return View(viewModel);
+                    if (viewModel.ValidationMessages.Count > 0) return View(BASE_PATH + "Edit.cshtml", viewModel);
                 }
 
                 if (viewModel.Entity.ID == 0)
@@ -122,6 +122,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             try
             {
                 viewModel.EventAction = "SEARCH";
+                viewModel.SearchEntity.IsShortNameExactMatch = viewModel.FromBool(viewModel.SearchEntity.IsShortNameExactMatchOption);
                 viewModel.Search();
                 ModelState.Clear();
                 return View(BASE_PATH + "Index.cshtml", viewModel);
@@ -133,12 +134,6 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             }
         }
 
-        [HttpPost]
-        public JsonResult Add(FormCollection formCollection)
-        {
-            throw new NotImplementedException();
-        }
-    
         [HttpPost]
         public PartialViewResult Lookup(FormCollection formCollection)
         {
@@ -168,22 +163,28 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
         }
 
         [HttpPost]
-        public PartialViewResult LookupTaxa(FormCollection formCollection)
+        public JsonResult Add(FormCollection formCollection)
         {
-            AuthorViewModel viewModel = new AuthorViewModel();
-
-            if (!String.IsNullOrEmpty(formCollection["TableName"]))
-            {
-                viewModel.SearchEntity.TableName = formCollection["TableName"];
-            }
-
-            if (!String.IsNullOrEmpty(formCollection["AuthorityText"]))
-            {
-                viewModel.SearchEntity.AuthorityText = formCollection["AuthorityText"];
-            }
-            viewModel.Search();
-            return PartialView("~/Views/Author/Modals/_AuthoritySelectList.cshtml", viewModel);
+            throw new NotImplementedException();
         }
+   
+        //[HttpPost]
+        //public PartialViewResult LookupTaxa(FormCollection formCollection)
+        //{
+        //    AuthorViewModel viewModel = new AuthorViewModel();
+
+        //    if (!String.IsNullOrEmpty(formCollection["TableName"]))
+        //    {
+        //        viewModel.SearchEntity.TableName = formCollection["TableName"];
+        //    }
+
+        //    if (!String.IsNullOrEmpty(formCollection["AuthorityText"]))
+        //    {
+        //        viewModel.SearchEntity.AuthorityText = formCollection["AuthorityText"];
+        //    }
+        //    viewModel.Search();
+        //    return PartialView("~/Views/Author/Modals/_AuthoritySelectList.cshtml", viewModel);
+        //}
 
         public ActionResult Add()
         {

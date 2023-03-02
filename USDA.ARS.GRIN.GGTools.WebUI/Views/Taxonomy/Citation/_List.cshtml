@@ -15,10 +15,10 @@
                     <tr>
                         <th></th>
                         <th width="5%">ID</th>
+                        <th>Type</th>
                         <th>Taxon Name</th>
                         <th>Citation Title</th>
                         <th>Abbreviation</th>
-                        @*<th>Author</th>*@
                         <th>Year</th>
                         <th></th>
                     </tr>
@@ -32,6 +32,9 @@
                         </td>
                         <td>
                             @result.ID
+                        </td>
+                        <td>
+                            @result.TypeCode
                         </td>
                         <td>
                             @if (result.FamilyID > 0)

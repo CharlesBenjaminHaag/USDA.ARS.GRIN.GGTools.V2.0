@@ -19,7 +19,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         public string LanguageDescription { get; set; }
         public string Name { get; set; }
         public string SimplifiedName { get; set; }
-        
         public string AlternateTranscription { get; set; }
+        public string CategoryCode { get; set; }
     }
 }

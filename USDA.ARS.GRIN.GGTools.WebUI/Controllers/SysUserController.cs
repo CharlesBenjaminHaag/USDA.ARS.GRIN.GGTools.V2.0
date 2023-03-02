@@ -219,18 +219,18 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             return View(viewModel);
         }
 
-        public PartialViewResult _ListAvailableSysGroups(int sysUserId)
-        {
-            SysUserViewModel viewModel = new SysUserViewModel();
-            viewModel.GetAvailableSysGroups(sysUserId);
-            return PartialView("~/Views/SysUser/Group/_ListAvailable.cshtml", viewModel);
-        }
-        public PartialViewResult _ListAssignedSysGroups(int sysUserId)
-        {
-            SysUserViewModel viewModel = new SysUserViewModel();
-            viewModel.GetAssignedSysGroups(sysUserId);
-            return PartialView("~/Views/SysUser/Group/_ListAssigned.cshtml", viewModel);
-        }
+        //public PartialViewResult _ListAvailableSysGroups(int sysUserId)
+        //{
+        //    SysUserViewModel viewModel = new SysUserViewModel();
+        //    viewModel.GetAvailableSysGroups(sysUserId);
+        //    return PartialView("~/Views/SysUser/Group/_ListAvailable.cshtml", viewModel);
+        //}
+        //public PartialViewResult _ListAssignedSysGroups(int sysUserId)
+        //{
+        //    SysUserViewModel viewModel = new SysUserViewModel();
+        //    viewModel.GetAssignedSysGroups(sysUserId);
+        //    return PartialView("~/Views/SysUser/Group/_ListAssigned.cshtml", viewModel);
+        //}
         public PartialViewResult _ListTaxonomy()
         {
             try

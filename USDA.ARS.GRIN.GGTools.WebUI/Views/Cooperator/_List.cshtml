@@ -56,9 +56,21 @@
                                     }
                                     else
                                     {
-                                        <span class="badge bg-red">
-                                            @result.StatusCode
-                                        </span>
+                                        if (result.StatusCode == "INACTIVE")
+                                        {
+                                            <span class="badge bg-red">
+                                                @result.StatusCode
+                                            </span>
+                                        }
+                                        else
+                                        {
+                                            if (result.StatusCode == "PENDING")
+                                            {
+                                                <span class="badge bg-yellow">
+                                                    @result.StatusCode
+                                                </span>
+                                            }
+                                        }
                                     }
                                 </td>
                                 <td>@Html.Raw(result.FirstName)</td>

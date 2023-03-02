@@ -6,14 +6,13 @@
 
 <div class="row">
     <div class="col-md-12">
-
         <div id="accordion">
             <!-- COOP -->
             <div class="card card-success">
                 <div class="card-header">
                     <h4 class="card-title w-100">
                         <a class="d-block w-100 collapsed" data-toggle="collapse" href="#collapseCooperator" aria-expanded="false">
-                            Cooperator
+                            Create Cooperator
                         </a>
                     </h4>
                 </div>
@@ -29,7 +28,7 @@
                 <div class="card-header">
                     <h4 class="card-title w-100">
                         <a class="d-block w-100 collapsed" data-toggle="collapse" href="#collapseWebCooperator" aria-expanded="false">
-                            Web Cooperator
+                            Create Web Cooperator
                         </a>
                     </h4>
                 </div>
@@ -45,7 +44,7 @@
                 <div class="card-header">
                     <h4 class="card-title w-100">
                         <a class="d-block w-100 collapsed" data-toggle="collapse" href="#collapseSysUser" aria-expanded="false">
-                            Sys User
+                            Create Sys User
                         </a>
                     </h4>
                 </div>
@@ -56,12 +55,28 @@
                 </div>
             </div>
 
+            <!-- SYS GROUPS-->
+            <div class="card card-success">
+                <div class="card-header">
+                    <h4 class="card-title w-100">
+                        <a class="d-block w-100 collapsed" data-toggle="collapse" href="#collapseSysGroupUserMaps" aria-expanded="false">
+                            Assign Sys Groups
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapseSysGroupUserMaps" class="collapse" data-parent="#accordion" style="">
+                    <div id="section-sys-group-user-map" class="card-body">
+                        @{Html.RenderAction("RenderWidget", "SysGroupUserMap", new { @sysUserId = Model.Entity.SysUserID }); }
+                    </div>
+                </div>
+            </div>
+
             <!-- WEB USER -->
             <div class="card card-success">
                 <div class="card-header">
                     <h4 class="card-title w-100">
                         <a class="d-block w-100" data-toggle="collapse" href="#collapseThree" aria-expanded="false">
-                            Web User
+                            Create Web User
                         </a>
                     </h4>
                 </div>

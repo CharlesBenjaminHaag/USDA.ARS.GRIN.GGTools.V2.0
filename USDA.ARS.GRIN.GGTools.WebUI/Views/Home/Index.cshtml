@@ -40,7 +40,6 @@
     $(document).on("click", "[id='btnSaveCooperator']", function () {
         $("#modal-cooperator-add").modal("hide");
         SaveCooperator();
-        LoadPendingCooperatorsList();
     });
 
     function SaveCooperator() {
@@ -48,7 +47,7 @@
 
         //Add the Field values to FormData object.
         var formData = new FormData();
-        formData.append("Entity.StatusCode", "ACTIVE");
+        formData.append("Entity.StatusCode", "PENDING");
         formData.append("Entity.ID", $("#frmEditCooperator #Entity_ID").val());
         formData.append("Entity.Salutation", $("#Entity_Salutation").val());
         formData.append("Entity.FirstName", $("#Entity_FirstName").val());
@@ -80,33 +79,8 @@
                 if (data.cooperator.ID < 0) {
                     $("#modal-error").modal("show");
                 }
-            },
-            error: function (ex) {
-                alert("Error Saving Cooperator.");
             }
         });
     }
-
-    // TODO
-    function LoadPendingCooperatorsList() {
-        link = '@Url.Action("_List","Cooperator")';
-        var formData = new FormData();
-
-        formData.append("statusCode", "PENDING");
-        formData.append("formatCode", "SLST");
-
-        $.ajax({
-            url: link,
-            type: 'POST',
-            cache: false,
-            contentType: false,
-            processData: false,
-            data: formData,
-            success: function (response) {
-                $("#section-cooperator-list-pending").html(response);
-            }
-        });}
-
-    function LoadSiteList() { }
 
 </script>

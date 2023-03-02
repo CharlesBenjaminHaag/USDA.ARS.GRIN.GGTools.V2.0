@@ -34,7 +34,11 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
                 YesNoOptions = new SelectList(mgr.GetYesNoOptions(), "Key", "Value");
                 StandardAbbreviations = new SelectList(GetStandardAbbreviations(), "Value", "Title");
                 LiteratureTypes = new SelectList(mgr.GetCodeValues("LITERATURE_TYPE"), "Value", "Title");
-                CitationTypes = new SelectList(mgr.GetCodeValues("CITATION_TYPE"), "Value", "Title");
+
+                List<CodeValue> citationTypes = new List<CodeValue>();
+                citationTypes = mgr.GetCodeValues("CITATION_TYPE");
+                citationTypes.Add(new CodeValue { Value = "NULL", Title = "NULL" });
+                CitationTypes = new SelectList(citationTypes, "Value", "Title");
             }
         }
 

@@ -109,38 +109,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             RowsAffected = sysGroupUserMaps.Count;
             return sysGroupUserMaps;
         }
-        public virtual List<SysGroup> GetAvailableSysGroups(int sysUserId)
-        {
-            List<SysGroup> sysGroups = new List<SysGroup>();
-
-            SQL = " SELECT TOP 10 [ID], [GroupTag], [GroupTitle], [GroupDescription] " +
-                    " FROM [vw_GRINGlobal_Sys_Group] WHERE " +
-                    " GroupTag LIKE '%TAXON%' " +
-                    " OR GroupTag = 'MANAGE_CITATION' " +
-                    " OR GroupTag = 'LITERATURE'";
-
-            var parameters = new List<IDbDataParameter> {
-                CreateParameter("ID", sysUserId, true)
-            };
-            sysGroups = GetRecords<SysGroup>(SQL, CommandType.Text, parameters.ToArray());
-            return sysGroups;
-        }
-        public virtual List<SysGroup> GetAssignedSysGroups(int sysUserId)
-        {
-            List<SysGroup> sysGroups = new List<SysGroup>();
-
-            SQL = " SELECT TOP 10 [ID], [GroupTag], [GroupTitle], [GroupDescription] " +
-                    " FROM [vw_GRINGlobal_Sys_Group] WHERE " +
-                    " GroupTag LIKE '%TAXON%' " +
-                    " OR GroupTag = 'MANAGE_CITATION' " +
-                    " OR GroupTag = 'LITERATURE'";
-
-            var parameters = new List<IDbDataParameter> {
-                CreateParameter("ID", sysUserId, true)
-            };
-            sysGroups = GetRecords<SysGroup>(SQL, CommandType.Text, parameters.ToArray());
-            return sysGroups;
-        }
+        
         public int InsertSysGroupUserMap(SysGroupUserMap sysGroupUserMap)
         {
             Reset(CommandType.StoredProcedure);

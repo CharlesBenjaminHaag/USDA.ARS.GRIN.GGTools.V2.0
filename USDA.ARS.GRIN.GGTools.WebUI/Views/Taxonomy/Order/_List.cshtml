@@ -39,10 +39,10 @@
                                         @result.ID
                                     </td>
                                     <td>
-                                        <a href="@Url.Action("Edit","Order", new { entityId = result.ID })">@result.OrderName</a>
+                                        @result.OrderName
                                     </td>
                                     <td style="text-align:center;">
-                                        <a href="@Url.Action("Index","FamilyMap", new { orderId = result.ID })">[@result.TotalFamilies]</a>
+                                        <a href="@Url.Action("Index","FamilyMap", new { @orderId = result.ID, @rank = "FAMILY" })">[@result.TotalFamilies]</a>
                                     </td>
                                     <td>
                                         @result.CreatedDate.ToShortDateString()

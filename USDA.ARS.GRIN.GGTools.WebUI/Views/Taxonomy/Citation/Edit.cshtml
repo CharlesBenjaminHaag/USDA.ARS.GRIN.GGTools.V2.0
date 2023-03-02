@@ -157,9 +157,7 @@
                         @Html.HiddenFor(x => x.Entity.ID)
                         @Html.HiddenFor(x => x.Entity.CategoryCode)
                         @Html.Partial("~/Views/Shared/_ValidationMessages.cshtml")
-
-                        <!-- BEGIN CIT TYPE TABS -->
-
+                        @Html.Partial("~/Views/Taxonomy/Shared/_RevisionHistory.cshtml")
                         <div id="section-citation-taxon-tabs" class="card card-primary card-outline card-outline-tabs">
                             <div class="card-header p-0 border-bottom-0">
                                 <ul class="nav nav-tabs" id="custom-tabs-four-tab" role="tablist">
@@ -172,9 +170,6 @@
                                     <li id="taxonomy-species" class="nav-item">
                                         <a class="nav-link" id="taxonomy-species-tab" data-toggle="pill" href="#custom-tabs-four-messages" role="tab" aria-controls="custom-tabs-four-messages" aria-selected="false">Species</a>
                                     </li>
-                                    @*<li class="nav-item">
-                                        <a class="nav-link" id="custom-tabs-four-settings-tab" data-toggle="pill" href="#custom-tabs-four-settings" role="tab" aria-controls="custom-tabs-four-settings" aria-selected="false">Accession</a>
-                                    </li>*@
                                 </ul>
                             </div>
                             <div class="card-body">
@@ -241,10 +236,60 @@
                                                     </span>
                                                 </div>
                                             </div>
-                                            @*<div class="form-group">
-                <label>Accession ID</label>
-                @Html.TextBoxFor(x => x.Entity.AccessionID, new { @class = "form-control", @readonly = "readonly" })
-            </div>*@
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="margin" style="margin-top:40px;">
+                                                <div class="form-group clearfix">
+                                                    <div class="icheck-primary d-inline">
+                                                        @Html.CheckBoxFor(x => x.Entity.IsAcceptedNameOption, new { @id = "cbxLookupIsAcceptedName", @class = "custom-control-input" })
+                                                        <label for="cbxLookupIsAcceptedName">
+                                                            Accepted Name
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div id="form-group">
+                                                <label>Citation Title</label>
+                                                @Html.TextAreaFor(x => x.Entity.CitationTitle, new { @class = "form-control", @autocomplete = "off", @data_lpignore = "true", @rows = 1 })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div id="form-group">
+                                                <label>Author Name</label>
+                                                @Html.TextAreaFor(x => x.Entity.AuthorName, new { @class = "form-control", @autocomplete = "off", @data_lpignore = "true", @rows=1 })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <div id="form-group">
+                                                <label>Reference Title</label>
+                                                @Html.TextBoxFor(x => x.Entity.ReferenceTitle, new { @class = "form-control", @autocomplete = "off", @data_lpignore = "true" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div id="form-group">
+                                                <label>URL</label>
+                                                @Html.TextBoxFor(x => x.Entity.URL, new { @class = "form-control", @autocomplete = "off", @data_lpignore = "true" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div id="form-group">
+                                                <label>Type</label>
+                                                @Html.DropDownListFor(x => x.Entity.TypeCode, Model.CitationTypes, "NULL", new { @class = "form-control" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-1">
+                                            <div id="form-group">
+                                                <label>Year</label>
+                                                @Html.TextBoxFor(x => x.Entity.CitationYear, new { @class = "form-control", @autocomplete = "off", @data_lpignore = "true" })
+                                            </div>
                                         </div>
                                         <div class="col-md-3">
                                             <div class="form-group">
@@ -268,42 +313,6 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-md-3">
-                                            <div id="form-group">
-                                                <label>Citation Title</label>
-                                                @Html.TextBoxFor(x => x.Entity.CitationTitle, new { @class = "form-control", @autocomplete = "off", @data_lpignore = "true" })
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <div id="form-group">
-                                                <label>Reference Title</label>
-                                                @Html.TextBoxFor(x => x.Entity.ReferenceTitle, new { @class = "form-control", @autocomplete = "off", @data_lpignore = "true" })
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <div id="form-group">
-                                                <label>URL</label>
-                                                @Html.TextBoxFor(x => x.Entity.URL, new { @class = "form-control", @autocomplete = "off", @data_lpignore = "true" })
-                                            </div>
-                                        </div>
-                                        <div class="col-md-2">
-                                            <div id="form-group">
-                                                <label>Type</label>
-                                                @Html.DropDownListFor(x => x.Entity.TypeCode, Model.CitationTypes, "NULL", new { @class = "form-control" })
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <div id="form-group">
-                                                <label>Author Name</label>
-                                                @Html.TextBoxFor(x => x.Entity.AuthorName, new { @class = "form-control", @autocomplete = "off", @data_lpignore = "true" })
-                                            </div>
-                                        </div>
-                                        <div class="col-md-1">
-                                            <div id="form-group">
-                                                <label>Year</label>
-                                                @Html.TextBoxFor(x => x.Entity.CitationYear, new { @class = "form-control", @autocomplete = "off", @data_lpignore = "true" })
-                                            </div>
-                                        </div>
                                         <div class="col-md-2">
                                             <div id="form-group">
                                                 <label>Vol. and Page</label>
@@ -314,18 +323,6 @@
                                             <div id="form-group">
                                                 <label>DOI</label>
                                                 @Html.TextBoxFor(x => x.Entity.DOIReference, new { @class = "form-control" })
-                                            </div>
-                                        </div>
-                                        <div class="col-md-2">
-                                            <div class="margin" style="margin-top:40px;">
-                                                <div class="form-group clearfix">
-                                                    <div class="icheck-primary d-inline">
-                                                        @Html.CheckBoxFor(x => x.Entity.IsAcceptedNameOption, new { @id = "cbxLookupIsAcceptedName", @class = "custom-control-input" })
-                                                        <label for="cbxLookupIsAcceptedName">
-                                                            Accepted
-                                                        </label>
-                                                    </div>
-                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -351,9 +348,6 @@
                                             @Html.Partial("~/Views/Taxonomy/Citation/_EditExtended.cshtml")
                                         </div>
                                     </div>
-                                    <!-- BEGIN REV HIST -->
-                                    @Html.Partial("~/Views/Taxonomy/Shared/_RevisionHistory.cshtml")
-                                    <!-- END REV HIST-->
                                 </div>
                             </div>
                         </div>

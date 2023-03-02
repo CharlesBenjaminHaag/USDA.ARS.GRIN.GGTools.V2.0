@@ -152,6 +152,40 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
             }
         }
 
+        public override bool Validate()
+        {
+            bool validated = true;
+
+            if (String.IsNullOrEmpty(Entity.ShortName))
+            {
+                ValidationMessages.Add(new Common.Library.ValidationMessage { Message = "The author short name is required." });
+            }
+            else
+            {
+                if (String.IsNullOrEmpty(Entity.ShortName.Trim()))
+                {
+                    ValidationMessages.Add(new Common.Library.ValidationMessage { Message = "The author short name is required." });
+                }
+                else
+                {
+                    // See if author exists.
+                    AuthorViewModel validationViewModel = new AuthorViewModel();
+                    validationViewModel.SearchEntity.ShortName = Entity.ShortName;
+                    validationViewModel.Search();
+                    if (validationViewModel.RowsAffected > 0)
+                    {
+                        ValidationMessages.Add(new Common.Library.ValidationMessage { Message = String.Format("The author with short name {0} already exists.", Entity.ShortName) });
+                    }
+                }
+            }
+
+            if (ValidationMessages.Count > 0)
+            {
+                validated = false;
+            }
+            return validated;
+        }
+
         AuthorViewModel IViewModel<AuthorViewModel>.Get(int entityId)
         {
             throw new NotImplementedException();

@@ -714,6 +714,8 @@
     <Content Include="Views\Taxonomy\CommonName\Edit - Copy.cshtml" />
     <Content Include="Views\Site\_Edit.cshtml" />
     <Content Include="Views\Taxonomy\Genus\Edit - Copy.cshtml" />
+    <Content Include="Views\SysGroupUserMap\_Widget.cshtml" />
+    <Content Include="Views\Taxonomy\Author\Edit - Copy.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

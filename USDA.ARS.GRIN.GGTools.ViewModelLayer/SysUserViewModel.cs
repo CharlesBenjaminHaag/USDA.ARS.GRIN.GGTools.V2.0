@@ -105,39 +105,39 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
             }
         }
 
-        public void GetAvailableSysGroups(int sysUserId)
-        {
-            using (SysUserManager mgr = new SysUserManager())
-            {
-                try
-                {
-                    DataCollectionAvailableSysGroups = new Collection<SysGroup>(mgr.GetAvailableSysGroups(sysUserId));
-                    RowsAffected = mgr.RowsAffected;
-                }
-                catch (Exception ex)
-                {
-                    PublishException(ex);
-                    throw ex;
-                }
-            }
-        }
+        //public void GetAvailableSysGroups(int sysUserId)
+        //{
+        //    using (SysUserManager mgr = new SysUserManager())
+        //    {
+        //        try
+        //        {
+        //            DataCollectionAvailableSysGroups = new Collection<SysGroup>(mgr.GetAvailableSysGroups(sysUserId));
+        //            RowsAffected = mgr.RowsAffected;
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            PublishException(ex);
+        //            throw ex;
+        //        }
+        //    }
+        //}
 
-        public void GetAssignedSysGroups(int sysUserId)
-        {
-            using (SysUserManager mgr = new SysUserManager())
-            {
-                try
-                {
-                    DataCollectionAssignedSysGroups = new Collection<SysGroup>(mgr.GetAssignedSysGroups(sysUserId));
-                    RowsAffected = mgr.RowsAffected;
-                }
-                catch (Exception ex)
-                {
-                    PublishException(ex);
-                    throw ex;
-                }
-            }
-        }
+        //public void GetAssignedSysGroups(int sysUserId)
+        //{
+        //    using (SysUserManager mgr = new SysUserManager())
+        //    {
+        //        try
+        //        {
+        //            DataCollectionAssignedSysGroups = new Collection<SysGroup>(mgr.GetAssignedSysGroups(sysUserId));
+        //            RowsAffected = mgr.RowsAffected;
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            PublishException(ex);
+        //            throw ex;
+        //        }
+        //    }
+        //}
 
         public int Search()
         {

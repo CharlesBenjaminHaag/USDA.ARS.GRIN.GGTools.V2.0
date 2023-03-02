@@ -71,7 +71,6 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
                     {
                         sysUserViewModel.Entity.UserName = Entity.FirstName + "." + Entity.LastName;
                         sysUserViewModel.Entity.CooperatorID = Entity.ID;
-                        sysUserViewModel.Entity.CooperatorID = Entity.CreatedByCooperatorID;
                         sysUserViewModel.Entity.Password = sysUserViewModel.GetSecurePassword("TEST");
                         sysUserViewModel.Insert();
                     }

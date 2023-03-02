@@ -217,7 +217,7 @@
                     <div class="row mb-2">
                         <div class="col-sm-6">
                             <h1 class="m-0">
-                                @Html.Raw(ViewBag.Title)
+                                @Html.Raw(Model.PageTitle)
                             </h1>
                         </div>
                         <div class="col-sm-6">
@@ -250,6 +250,7 @@
                         @Html.HiddenFor(x => x.Entity.VerifiedByCooperatorName)
                         @Html.HiddenFor(x => x.Entity.NameVerifiedDate)
                         <input type="hidden" id="hfModalEventValue" />
+                        @Html.Partial("~/Views/Taxonomy/Species/_RevisionHistory.cshtml")
                         <div class="card card-default">
                             <div class="card-header">
                                 <h3 class="card-title">Summary</h3>
@@ -279,14 +280,13 @@
                                                         </span>
                                                     }
                                                     <span class="input-group-btn">
-                                                        <button 
-                                                            id="btnOpenSpeciesLookupModal" 
-                                                            type="button" 
-                                                            data-toggle="modal" 
-                                                            data-ggtools-action="AcceptedID" 
-                                                            data-ggtools-value="AcceptedName" 
-                                                            data-target="#modal-species-lookup" 
-                                                            class="btn btn-default btn-flat">
+                                                        <button id="btnOpenSpeciesLookupModal"
+                                                                type="button"
+                                                                data-toggle="modal"
+                                                                data-ggtools-action="AcceptedID"
+                                                                data-ggtools-value="AcceptedName"
+                                                                data-target="#modal-species-lookup"
+                                                                class="btn btn-default btn-flat">
                                                             <i class="fa fa-search"></i>
                                                         </button>
                                                     </span>
@@ -446,7 +446,7 @@
                                                         <label>Epithet</label>
                                                         <div class="input-group">
                                                             @Html.TextBoxFor(x => x.Entity.SpeciesName, new { @class = "form-control" })
-                                                            <span class="input-group-btn">
+                                                            <span class="input-group-append">
                                                                 <a id="btnSetAcceptedOn" class="btn btn-default" href="#" role="button"><i class="fas fa-thumbs-down"></i> Not Accepted</a>
                                                                 <a id="btnSetAcceptedOff" class="btn btn-default" href="#" role="button"><i class="fas fa-thumbs-up"></i> Accepted</a>
                                                             </span>
@@ -458,7 +458,7 @@
                                                         <label>Authority</label>
                                                         <div class="input-group">
                                                             @Html.TextBoxFor(x => x.Entity.SpeciesAuthority, new { @class = "form-control" })
-                                                            <span class="input-group-btn">
+                                                            <span class="input-group-append">
                                                                 <button type="button" data-toggle="modal" data-target="#modal-author-lookup" class="btn btn-default btn-flat">
                                                                     <i class="fa fa-search"></i>
                                                                 </button>
@@ -535,14 +535,6 @@
                                             </div>
                                         </div>
                                         <!-- END NOTE FIELD-->
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            @Html.Partial("~/Views/Taxonomy/Species/_RevisionHistory.cshtml")
-                                            <span id="section-verification">
-                                                @Html.Partial("~/Views/Taxonomy/Species/_Verification.cshtml")
-                                            </span>
-                                        </div>
                                     </div>
                                 </div>
                             </div>

@@ -8,24 +8,30 @@
     @Html.HiddenFor(x => x.Entity.ID)
     @Html.HiddenFor(x => x.Entity.SysUserID)
     @Html.Partial("~/Views/Shared/_RevisionHistory.cshtml")
-    <div class="row">
-        <div class="col-md-3">
-            <div class="form-group">
-                <label>User Name</label><br />
-                @Html.TextBoxFor(x => x.Entity.SysUserName, new { @class = "form-control", @readonly = "readonly", disabled = "disabled" })
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="form-group">
-                <label>Password</label>
-                @Html.TextBoxFor(x => x.Entity.SysUserPassword, new { @class = "form-control", type = "text" })
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="form-group">
-                <label>Expires</label>
-                @Html.TextBoxFor(x => x.Entity.SysUserPasswordExpirationDate, new { @class = "form-control", @readonly = "readonly", disabled = "disabled" })
-            </div>
+<div class="row">
+    <div class="col-md-3">
+        <div class="form-group">
+            <label>User Name</label><br />
+            @Html.TextBoxFor(x => x.Entity.SysUserName, new { @class = "form-control", @readonly = "readonly", disabled = "disabled" })
         </div>
     </div>
+    <div class="col-md-3">
+        <div class="form-group">
+            <label>Password</label>
+            @Html.TextBoxFor(x => x.Entity.SysUserPassword, new { @class = "form-control", type = "password" })
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="form-group">
+            <label>Confirm Password</label>
+            @Html.TextBoxFor(x => x.Entity.SysUserPasswordConfirm, new { @class = "form-control", type = "password" })
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="form-group">
+            <label>Expires</label>
+            @Html.TextBoxFor(x => x.Entity.SysUserPasswordExpirationDate, new { @class = "form-control", @readonly = "readonly", disabled = "disabled" })
+        </div>
+    </div>
+</div>
 }

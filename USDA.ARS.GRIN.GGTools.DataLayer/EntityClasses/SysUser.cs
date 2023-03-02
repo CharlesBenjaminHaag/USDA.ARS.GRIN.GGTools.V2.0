@@ -20,6 +20,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
         
         public string SysUserName { get; set; }
         public string SysUserPassword { get; set; }
+        public string SysUserPasswordConfirm { get; set; }
         public string SysUserPlainTextPassword { get; set; }
         public string SysUserIsEnabled { get; set; }
         public DateTime SysUserCreatedDate { get; set; }

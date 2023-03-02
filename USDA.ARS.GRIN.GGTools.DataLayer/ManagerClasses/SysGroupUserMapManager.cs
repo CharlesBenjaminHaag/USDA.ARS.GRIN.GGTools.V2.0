@@ -26,18 +26,47 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             throw new NotImplementedException();
         }
 
-        public List<SysGroupUserMap> GetSysGroupUserMapsByTable(string tableName)
+        public virtual List<SysGroupUserMap> GetAvailable(int sysUserId)
         {
-            SQL = "usp_GRINGlobal_Sys_Group_User_Maps_ByTable_Select";
             List<SysGroupUserMap> sysGroupUserMaps = new List<SysGroupUserMap>();
 
-            var parameters = new List<IDbDataParameter> {
-                CreateParameter("sys_table_name", (object)tableName, false)
-            };
+            SQL = " SELECT * FROM vw_GRINGlobal_Sys_Group " +
+                " WHERE ID IN " +
+                " (SELECT SysGroupID FROM vw_GRINGlobal_Sys_Group_User_Map WHERE SysUserID <> @SysUserID)";
 
-            sysGroupUserMaps = GetRecords<SysGroupUserMap>(SQL, CommandType.StoredProcedure, parameters.ToArray());
+            var parameters = new List<IDbDataParameter> {
+                CreateParameter("SysUserID", sysUserId, true)
+            };
+            sysGroupUserMaps = GetRecords<SysGroupUserMap>(SQL, CommandType.Text, parameters.ToArray());
             return sysGroupUserMaps;
         }
+        public virtual List<SysGroupUserMap> GetUnavailable(int sysUserId)
+        {
+            List<SysGroupUserMap> sysGroupUserMaps = new List<SysGroupUserMap>();
+
+            SQL = " SELECT * FROM vw_GRINGlobal_Sys_Group " +
+                " WHERE ID IN " +
+                " (SELECT SysGroupID FROM vw_GRINGlobal_Sys_Group_User_Map WHERE SysUserID = @SysUserID)";
+
+            var parameters = new List<IDbDataParameter> {
+                CreateParameter("SysUserID", sysUserId, true)
+            };
+            sysGroupUserMaps = GetRecords<SysGroupUserMap>(SQL, CommandType.Text, parameters.ToArray());
+            return sysGroupUserMaps;
+        }
+
+        //public List<SysGroupUserMap> GetSysGroupUserMapsByTable(string tableName)
+        //{
+        //    SQL = "usp_GRINGlobal_Sys_Group_User_Maps_ByTable_Select";
+        //    List<SysGroupUserMap> sysGroupUserMaps = new List<SysGroupUserMap>();
+
+        //    var parameters = new List<IDbDataParameter> {
+        //        CreateParameter("sys_table_name", (object)tableName, false)
+        //    };
+
+        //    sysGroupUserMaps = GetRecords<SysGroupUserMap>(SQL, CommandType.StoredProcedure, parameters.ToArray());
+        //    return sysGroupUserMaps;
+        //}
 
         public int Insert(SysGroupUserMap entity)
         {

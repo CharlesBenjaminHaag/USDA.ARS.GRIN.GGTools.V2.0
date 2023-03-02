@@ -338,6 +338,7 @@ function Reset() {
     $("#section-search-criteria input[type=text]").val("");
     $("#ItemIDList").val("");
     $("#EventValue").val("");
+    $('input:checkbox').removeAttr('checked');
 
     // NOTE: With the addition of saved-search list on each page, the main data table will be
     // the second one on the page.

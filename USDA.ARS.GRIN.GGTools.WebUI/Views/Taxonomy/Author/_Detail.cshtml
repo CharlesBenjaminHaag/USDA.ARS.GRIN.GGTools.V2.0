@@ -28,7 +28,7 @@
                         <div class="input-group">
                             <div class="input-group-append">
                                 <span class="input-group-text">
-                                    <input type="checkbox" id="cbxIsAcceptedNameSubject">
+                                    @Html.CheckBoxFor(x => x.SearchEntity.IsShortNameExactMatchOption, new { id = "cbxAuthorLookupIsExactMatch" })
                                     &nbsp;Exact Match
                                 </span>
                             </div>
