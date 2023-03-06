@@ -4,91 +4,13 @@
     Layout = "~/Views/Shared/_LayoutAdminLTE3.cshtml";
 }
 
-<div class="row">
-    <div class="col-md-12">
-        <div id="accordion">
-            <!-- COOP -->
-            <div class="card card-success">
-                <div class="card-header">
-                    <h4 class="card-title w-100">
-                        <a class="d-block w-100 collapsed" data-toggle="collapse" href="#collapseCooperator" aria-expanded="false">
-                            Create Cooperator
-                        </a>
-                    </h4>
-                </div>
-                <div id="collapseCooperator" class="collapse" data-parent="#accordion" style="">
-                    <div id="section-cooperator" class="card-body">
-                        @{Html.RenderAction("_Get", "Cooperator", new { @entityId = Model.Entity.ID }); }
-                    </div>
-                </div>
-            </div>
-
-            <!-- WEB COOP -->
-            <div class="card card-success">
-                <div class="card-header">
-                    <h4 class="card-title w-100">
-                        <a class="d-block w-100 collapsed" data-toggle="collapse" href="#collapseWebCooperator" aria-expanded="false">
-                            Create Web Cooperator
-                        </a>
-                    </h4>
-                </div>
-                <div id="collapseWebCooperator" class="collapse" data-parent="#accordion" style="">
-                    <div id="section-cooperator" class="card-body">
-                        @{Html.RenderAction("_Get", "WebCooperator", new { @entityId = Model.Entity.WebCooperatorID }); }
-                    </div>
-                </div>
-            </div>
-
-            <!-- SYS USER-->
-            <div class="card card-success">
-                <div class="card-header">
-                    <h4 class="card-title w-100">
-                        <a class="d-block w-100 collapsed" data-toggle="collapse" href="#collapseSysUser" aria-expanded="false">
-                            Create Sys User
-                        </a>
-                    </h4>
-                </div>
-                <div id="collapseSysUser" class="collapse" data-parent="#accordion" style="">
-                    <div id="section-sys-user" class="card-body">
-                        @{Html.RenderAction("_Get", "SysUser", new { @entityId = Model.Entity.SysUserID }); }
-                    </div>
-                </div>
-            </div>
-
-            <!-- SYS GROUPS-->
-            <div class="card card-success">
-                <div class="card-header">
-                    <h4 class="card-title w-100">
-                        <a class="d-block w-100 collapsed" data-toggle="collapse" href="#collapseSysGroupUserMaps" aria-expanded="false">
-                            Assign Sys Groups
-                        </a>
-                    </h4>
-                </div>
-                <div id="collapseSysGroupUserMaps" class="collapse" data-parent="#accordion" style="">
-                    <div id="section-sys-group-user-map" class="card-body">
-                        @{Html.RenderAction("RenderWidget", "SysGroupUserMap", new { @sysUserId = Model.Entity.SysUserID }); }
-                    </div>
-                </div>
-            </div>
-
-            <!-- WEB USER -->
-            <div class="card card-success">
-                <div class="card-header">
-                    <h4 class="card-title w-100">
-                        <a class="d-block w-100" data-toggle="collapse" href="#collapseThree" aria-expanded="false">
-                            Create Web User
-                        </a>
-                    </h4>
-                </div>
-                <div id="collapseThree" class="collapse" data-parent="#accordion" style="">
-                    <div id="section-web-user" class="card-body">
-                        @{Html.RenderAction("_Get", "WebUser", new { @entityId = Model.Entity.WebUserID }); }
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+<div id="section-cooperator">
+    @{Html.RenderAction("_Get", "Cooperator", new { @entityId = Model.Entity.ID }); }
 </div>
+@{Html.RenderAction("_Get", "SysUser", new { @entityId = Model.Entity.SysUserID, @cooperatorId = Model.Entity.ID }); }
+@{Html.RenderAction("RenderWidget", "SysGroupUserMap", new { @sysUserId = Model.Entity.SysUserID }); }
+@{Html.RenderAction("_Get", "WebCooperator", new { @entityId = Model.Entity.WebCooperatorID, cooperatorId = Model.Entity.ID }); }
+@{Html.RenderAction("_Get", "WebUser", new { @entityId = Model.Entity.WebUserID }); }
 
 <script type="text/javascript">
     $(document).ready(function () {
@@ -105,6 +27,10 @@
 
     $(document).on("click", "[id*='btnSaveWebCooperator']", function () {
         SaveWebCooperator();
+    });
+
+    $(document).on("click", "[id*='btnCopyWebCooperator']", function () {
+        CopyWebCooperator();
     });
 
     $(document).on("click", "[id*='btnSaveSysUser']", function () {
@@ -160,8 +86,31 @@
         alert("SAVE WC");
     }
 
+    function CopyWebCooperator() {
+        var link = '@Url.Action("Copy","WebCooperator")';
+        var formData = new FormData();
+
+        formData.append("Entity.ID", $("#frmEditWebCooperator #Entity_ID").val());
+        formData.append("CooperatorID", $("#frmEditWebCooperator #CooperatorID").val());
+
+        $.ajax({
+            url: link,
+            type: 'POST',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (response) {
+                $("#section-web-cooperator").html(response);
+            },
+            error: function () {
+                alert("Error");
+            }
+        });
+    }
+
     function SaveSysUser() {
-        var link = $("#frmEditSysCooperator").attr("action");
+        var link = $("#frmEditSysUser").attr("action");
         // DEBUG
         alert("SAVE SU " + link);
     }

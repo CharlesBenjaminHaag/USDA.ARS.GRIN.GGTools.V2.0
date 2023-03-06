@@ -70,6 +70,15 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
             throw new NotImplementedException();
         }
 
+        // Create a web cooperator based on an existing cooperator.
+        public void Copy(int cooperatorId)
+        {
+            using (WebCooperatorManager mgr = new WebCooperatorManager())
+            {
+                Entity.ID = mgr.Copy(cooperatorId);
+            }
+        }
+
         public List<WebCooperator> SearchNotes(string searchText)
         {
             throw new NotImplementedException();

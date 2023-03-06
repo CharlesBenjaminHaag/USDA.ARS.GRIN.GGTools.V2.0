@@ -177,8 +177,8 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             Validate<SysUser>(entity);
             SQL = "usp_GRINGLobal_Sys_User_Insert";
 
-            AddParameter("user_name", String.IsNullOrEmpty(entity.UserName) ? DBNull.Value : (object)entity.UserName, true);
-            AddParameter("password", String.IsNullOrEmpty(entity.Password) ? DBNull.Value : (object)entity.Password, true);
+            AddParameter("user_name", String.IsNullOrEmpty(entity.SysUserName) ? DBNull.Value : (object)entity.SysUserName, true);
+            AddParameter("password", String.IsNullOrEmpty(entity.SysUserPassword) ? DBNull.Value : (object)entity.SysUserPassword, true);
             AddParameter("cooperator_id", entity.CooperatorID == 0 ? DBNull.Value : (object)entity.CooperatorID, true);
             AddParameter("@out_error_number", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
             AddParameter("@out_sys_user_id", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);

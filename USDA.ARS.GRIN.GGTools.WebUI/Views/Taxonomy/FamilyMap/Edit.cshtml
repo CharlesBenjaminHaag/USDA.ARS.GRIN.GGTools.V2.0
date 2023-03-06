@@ -217,7 +217,7 @@
                                 </div>
                                 <div class="row">
                                     <!-- If the record being edited is infrafamilial, show the family selector;
-                                        otherwise, use the family name edit field. -->
+                        otherwise, use the family name edit field. -->
                                     @if (Model.Entity.Rank.ToUpper() == "FAMILY")
                                     {
                                         <div class="col-md-3">
@@ -262,8 +262,8 @@
                                     }
 
                                     <!--
-                                    Only show the Order (Classification) select list if the record being edited is a family, vs.
-                                    an infrafamilial record. -->
+                    Only show the Order (Classification) select list if the record being edited is a family, vs.
+                    an infrafamilial record. -->
                                     @if (Model.Entity.Rank.ToUpper() == "FAMILY")
                                     {
                                         <div class="col-md-3">
@@ -437,6 +437,7 @@
 
                     @{Html.RenderAction("RenderLookupModal", "FamilyMap"); }
                     @{Html.RenderAction("RenderLookupModal", "Genus"); }
+                    @{Html.RenderAction("RenderLookupModal", "Author"); }
                     @Html.Partial("~/Views/Shared/Modals/_NoteLookup2.cshtml")
                     @Html.Partial("~/Views/Taxonomy/Shared/Modals/_Delete.cshtml")
                     @{Html.RenderAction("_Edit", "Folder"); }

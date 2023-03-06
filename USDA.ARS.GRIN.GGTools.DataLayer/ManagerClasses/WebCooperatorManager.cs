@@ -15,12 +15,10 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
         {
             throw new NotImplementedException();
         }
-
         public int Delete(WebCooperator entity)
         {
             throw new NotImplementedException();
         }
-
         public WebCooperator Get(int entityId, string environment)
         {
             List<WebCooperator> webCooperators = new List<WebCooperator>();
@@ -36,7 +34,6 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             }
             return webCooperator;
         }
-
         public int Insert(WebCooperator entity)
         {
             Reset(CommandType.StoredProcedure);
@@ -57,8 +54,6 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
 
             return entity.ID;
         }
-
-
         public List<WebCooperator> Search(WebCooperatorSearch searchEntity)
         {
             List<WebCooperator> results = new List<WebCooperator>();
@@ -80,7 +75,6 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             RowsAffected = results.Count;
             return results;
         }
-        
         public int Update(WebCooperator entity)
         {
             Reset(CommandType.StoredProcedure);
@@ -94,6 +88,28 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             AddParameter("modified_by_web_user_id", entity.ModifiedByWebUserID == 0 ? DBNull.Value : (object)entity.ModifiedByWebUserID, true);
             RowsAffected = ExecuteNonQuery();
             return RowsAffected;
+        }
+        public int Copy(int cooperatorId)
+        {
+            int entityId = 0;
+            Reset(CommandType.StoredProcedure);
+         
+            SQL = "usp_GRINGlobal_Web_Cooperator_Copy";
+
+            AddParameter("cooperator_id", cooperatorId == 0 ? DBNull.Value : (object)cooperatorId, true);
+            AddParameter("@out_error_number", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
+            AddParameter("@out_web_cooperator_id", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
+
+            RowsAffected = ExecuteNonQuery();
+
+            entityId = GetParameterValue<int>("@out_web_cooperator_id", -1);
+            int errorNumber = GetParameterValue<int>("@out_error_number", -1);
+            if (errorNumber > 0)
+            {
+                throw new Exception(errorNumber.ToString());
+            }
+
+            return entityId;
         }
         public virtual List<CodeValue> GetCodeValues(string groupName)
         {

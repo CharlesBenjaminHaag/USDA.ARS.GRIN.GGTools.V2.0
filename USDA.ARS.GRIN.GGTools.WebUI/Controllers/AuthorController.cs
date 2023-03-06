@@ -13,6 +13,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
     {
         protected static string BASE_PATH = "~/Views/Taxonomy/Author/";
         private static readonly Logger Log = LogManager.GetCurrentClassLogger();
+        
         public PartialViewResult _ListFolderItems(int folderId)
         {
             try
@@ -25,6 +26,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 return PartialView("~/Views/Error/_InternalServerError.cshtml");
             }
         }
+        
         public ActionResult Index()
         {
             try
@@ -134,6 +136,22 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             }
         }
 
+        public PartialViewResult _Search(AuthorViewModel viewModel)
+        {
+            try
+            {
+                viewModel.EventAction = "SEARCH";
+                viewModel.SearchEntity.IsShortNameExactMatch = viewModel.FromBool(viewModel.SearchEntity.IsShortNameExactMatchOption);
+                viewModel.Search();
+                return PartialView(BASE_PATH + "/Modals/_SelectList.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml", viewModel);
+            }
+        }
+
         [HttpPost]
         public PartialViewResult Lookup(FormCollection formCollection)
         {
@@ -167,7 +185,21 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
         {
             throw new NotImplementedException();
         }
-   
+
+        public PartialViewResult RenderLookupModal()
+        {
+            try
+            {
+                AuthorViewModel viewModel = new AuthorViewModel();
+                return PartialView("~/Views/Taxonomy/Author/Modals/_Lookup.cshtml",viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
+        }
+
         //[HttpPost]
         //public PartialViewResult LookupTaxa(FormCollection formCollection)
         //{
@@ -194,54 +226,54 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             return View(BASE_PATH + "Edit.cshtml", viewModel);
         }
 
-        public PartialViewResult FolderItems(int folderId)
-        {
-            try
-            {
-                AuthorViewModel viewModel = new AuthorViewModel();
-                viewModel.EventAction = "SEARCH";
-                viewModel.EventValue = "FOLDER";
-                viewModel.SearchEntity.FolderID = folderId;
-                viewModel.SearchFolderItems();
-                ModelState.Clear();
-                return PartialView("~/Views/Author/_List.cshtml", viewModel);
-            }
-            catch (Exception ex)
-            {
-                Log.Error(ex);
-                return null;
-            }
-        }
+        //public PartialViewResult FolderItems(int folderId)
+        //{
+        //    try
+        //    {
+        //        AuthorViewModel viewModel = new AuthorViewModel();
+        //        viewModel.EventAction = "SEARCH";
+        //        viewModel.EventValue = "FOLDER";
+        //        viewModel.SearchEntity.FolderID = folderId;
+        //        viewModel.SearchFolderItems();
+        //        ModelState.Clear();
+        //        return PartialView("~/Views/Author/_List.cshtml", viewModel);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Log.Error(ex);
+        //        return null;
+        //    }
+        //}
 
-        [HttpPost]
-        public PartialViewResult LookupNotes(FormCollection formCollection)
-        {
-            string partialViewName = "~/Views/Author/Modals/_NoteSelectList.cshtml";
-            AuthorViewModel viewModel = new AuthorViewModel();
+        //[HttpPost]
+        //public PartialViewResult LookupNotes(FormCollection formCollection)
+        //{
+        //    string partialViewName = "~/Views/Author/Modals/_NoteSelectList.cshtml";
+        //    AuthorViewModel viewModel = new AuthorViewModel();
 
-            if (!String.IsNullOrEmpty(formCollection["TableName"]))
-            {
-                viewModel.SearchEntity.TableName = formCollection["TableName"];
-            }
+        //    if (!String.IsNullOrEmpty(formCollection["TableName"]))
+        //    {
+        //        viewModel.SearchEntity.TableName = formCollection["TableName"];
+        //    }
 
-            if (!String.IsNullOrEmpty(formCollection["Note"]))
-            {
-                viewModel.SearchEntity.Note = formCollection["Note"];
-            }
+        //    if (!String.IsNullOrEmpty(formCollection["Note"]))
+        //    {
+        //        viewModel.SearchEntity.Note = formCollection["Note"];
+        //    }
 
-            viewModel.SearchNotes();
-            return PartialView(partialViewName, viewModel);
-        }
+        //    viewModel.SearchNotes();
+        //    return PartialView(partialViewName, viewModel);
+        //}
 
         public ActionResult Search(Author viewModel)
         {
             throw new NotImplementedException();
         }
 
-        public PartialViewResult FolderItems(FormCollection formCollection)
-        {
-            throw new NotImplementedException();
-        }
+        //public PartialViewResult FolderItems(FormCollection formCollection)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
         public ActionResult Delete(FormCollection formCollection)
         {

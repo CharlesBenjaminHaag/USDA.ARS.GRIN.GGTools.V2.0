@@ -11,7 +11,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
     {
         private static readonly Logger Log = LogManager.GetCurrentClassLogger();
 
-        public PartialViewResult _Get(int entityId)
+        public PartialViewResult _Get(int entityId, int cooperatorId = 0)
         {
             try
             {
@@ -20,6 +20,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 viewModel.PageTitle = String.Format("Edit Web Cooperator [{0}]: {1}", entityId, viewModel.Entity.AssembledName);
                 viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
                 viewModel.AuthenticatedUser = AuthenticatedUser;
+                viewModel.CooperatorID = cooperatorId;
                 return PartialView("~/Views/WebCooperator/_Edit.cshtml", viewModel);
             }
             catch (Exception ex)
@@ -27,6 +28,12 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 Log.Error(ex);
                 return PartialView("~/Views/Error/_InternalServerError.cshtml");
             }
+        }
+
+        public PartialViewResult Copy(WebCooperatorViewModel viewModel)
+        {
+            viewModel.Copy(viewModel.CooperatorID);
+            return _Get(viewModel.Entity.ID);
         }
 
         public PartialViewResult Save(WebCooperatorViewModel viewModel)

@@ -9,6 +9,7 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
 {
     public class WebCooperatorViewModelBase : AuthenticatedViewModelBase
     {
+        private int _CooperatorID;
         private WebCooperator _Entity = new WebCooperator();
         private WebCooperatorSearch _SearchEntity = new WebCooperatorSearch();
         private Collection<WebCooperator> _DataCollection = new Collection<WebCooperator>();
@@ -21,6 +22,13 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
                 Salutations = new SelectList(mgr.GetCodeValues("COOPERATOR_TITLE"), "Value", "Title");
             }
         }
+        
+        public int CooperatorID
+        {
+            get { return _CooperatorID; }
+            set { _CooperatorID = value; }
+        }
+        
         public WebCooperator Entity
         {
             get { return _Entity; }

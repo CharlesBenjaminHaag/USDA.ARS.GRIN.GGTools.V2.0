@@ -71,15 +71,13 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             AddParameter("@out_error_number", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
             AddParameter("@out_taxonomy_family_map_id", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
             AddParameter("@out_taxonomy_family2_id", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
-            AddParameter("@out_taxonomy_family_id", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
-
+      
             RowsAffected = ExecuteNonQuery();
 
             entity.ID = GetParameterValue<int>("@out_taxonomy_family_map_id", -1);
             entity.FamilyID = GetParameterValue<int>("@out_taxonomy_family2_id", -1);
-            entity.LegacyFamilyID = GetParameterValue<int>("@out_taxonomy_family_id", -1);
-            int errorNumber = GetParameterValue<int>("@out_error_number", -1);
 
+            int errorNumber = GetParameterValue<int>("@out_error_number", -1);
             if (errorNumber > 0)
                 throw new Exception(errorNumber.ToString());
 
@@ -96,6 +94,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
 
             AddParameter("@out_error_number", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
             AddParameter("@out_taxonomy_family_map_id", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
+            AddParameter("@out_taxonomy_subfamily_id", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
 
             RowsAffected = ExecuteNonQuery();
 
@@ -301,7 +300,6 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             {
                 AddParameter("taxonomy_family_map_id", entity.ID == 0 ? DBNull.Value : (object)entity.ID, true);
             }
-            AddParameter("parent_taxonomy_family_map_id", entity.ParentID == 0 ? DBNull.Value : (object)entity.ParentID, true);
             AddParameter("taxonomy_family_map_accepted_id", entity.AcceptedID == 0 ? DBNull.Value : (object)entity.AcceptedID, true);
             AddParameter("type_taxonomy_genus_id", entity.TypeGenusID == 0 ? DBNull.Value : (object)entity.TypeGenusID, true);
             AddParameter("taxonomy_order_id", entity.OrderID == 0 ? DBNull.Value : (object)entity.OrderID, true);
@@ -323,17 +321,13 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
 
         public void BuildSubfamilyInsertUpdateParameters(FamilyMap entity)
         {
-            if (entity.ParentID > 0)
-            {
-                AddParameter("parent_taxonomy_family_map_id", entity.ParentID == 0 ? DBNull.Value : (object)entity.ParentID, true);
-            }
-
             if (entity.ID > 0)
             {
                 AddParameter("taxonomy_family_map_id", entity.ID == 0 ? DBNull.Value : (object)entity.ID, true);
             }
 
             AddParameter("taxonomy_family_map_accepted_id", entity.AcceptedID == 0 ? DBNull.Value : (object)entity.AcceptedID, true);
+            AddParameter("taxonomy_family_id", entity.FamilyID == 0 ? DBNull.Value : (object)entity.FamilyID, true);
             AddParameter("type_taxonomy_genus_id", entity.TypeGenusID == 0 ? DBNull.Value : (object)entity.TypeGenusID, true);
             AddParameter("subfamily_name", (object)entity.SubfamilyName ?? DBNull.Value, true);
             AddParameter("authority", (object)entity.Authority ?? DBNull.Value, true);
