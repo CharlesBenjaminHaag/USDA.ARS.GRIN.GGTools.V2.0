@@ -149,6 +149,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
         {
             try
             {
+                Session[SessionKeyName] = viewModel;
                 viewModel.Search();
                 ModelState.Clear();
                 return View(BASE_PATH + "Index.cshtml", viewModel);

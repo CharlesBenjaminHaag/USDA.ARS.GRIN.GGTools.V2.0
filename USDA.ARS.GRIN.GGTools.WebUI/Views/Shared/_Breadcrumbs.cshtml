@@ -18,7 +18,7 @@
 
     @if ((actionName == "Add") || (actionName == "Edit"))
     {
-        if (Session[sessionKeyName] != null)
+        if (Session[controllerName + "_SEARCH"] != null)
         {
             <li class="breadcrumb-item">
                 <a href="@Url.Action("Index",controllerName)">Return to Search</a>

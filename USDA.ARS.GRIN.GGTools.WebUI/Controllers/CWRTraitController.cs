@@ -136,9 +136,10 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI
                     viewModel.Search();
                 }
 
-                if (Session[viewModel.SessionKeyName] != null)
+                string targetKey = this.ControllerContext.RouteData.Values["controller"].ToString().ToUpper() + "_SEARCH";
+                if (Session[targetKey] != null)
                 {
-                    viewModel = Session[viewModel.SessionKeyName] as CWRTraitViewModel;
+                    viewModel = Session[targetKey] as CWRTraitViewModel;
                 }
 
                 return View(BASE_PATH + "Index.cshtml", viewModel);
@@ -188,7 +189,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI
         {
             try
             {
-                Session[viewModel.SessionKeyName] = viewModel;
+                Session[SessionKeyName] = viewModel;
                 viewModel.EventAction = "SEARCH";
                 viewModel.Search();
                 ModelState.Clear();

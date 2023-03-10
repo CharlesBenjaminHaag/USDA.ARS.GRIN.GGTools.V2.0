@@ -16,9 +16,9 @@
                         <th></th>
                         <th width="5%">ID</th>
                         <th>Species Name</th>
-                        <th>Usage Code</th>
                         <th>Usage Description</th>
                         <th>Usage Type</th>
+                        <th>Citation</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -30,10 +30,18 @@
                                 @result.ID
                             </td>
                             <td>@result.ID</td>
-                            <td>@result.SpeciesName</td>
-                            <td>@result.EconomicUsageCode</td>
+                            <td>
+                                <a href="@Url.Action("Edit","Species", new { @entityId = result.SpeciesID })">
+                                    @result.SpeciesName
+                                </a>
+                            </td>
                             <td>@result.EconomicUsageDescription</td>
                             <td>@result.EconomicUsageType</td>
+                            <td>
+                                <a href="@Url.Action("Edit","Citation", new { @entityId = result.CitationID })">
+                                    @result.Abbreviation
+                                </a>
+                            </td>
                             <td>
                                 <a href="@Url.Action("Edit", "EconomicUse", new { entityId = result.ID })" class="btn btn-default btn-sm float-right row-edit">
                                     <i class="fa fa-edit"></i>

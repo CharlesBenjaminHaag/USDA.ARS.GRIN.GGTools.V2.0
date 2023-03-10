@@ -158,201 +158,205 @@
                         @Html.HiddenFor(x => x.Entity.CategoryCode)
                         @Html.Partial("~/Views/Shared/_ValidationMessages.cshtml")
                         @Html.Partial("~/Views/Taxonomy/Shared/_RevisionHistory.cshtml")
-                        <div id="section-citation-taxon-tabs" class="card card-primary card-outline card-outline-tabs">
-                            <div class="card-header p-0 border-bottom-0">
-                                <ul class="nav nav-tabs" id="custom-tabs-four-tab" role="tablist">
-                                    <li id="taxonomy-family" class="nav-item">
-                                        <a class="nav-link active" id="taxonomy-family-tab" data-toggle="pill" href="#custom-tabs-four-home" role="tab" aria-controls="custom-tabs-four-home" aria-selected="true">Family</a>
-                                    </li>
-                                    <li id="taxonomy-genus" class="nav-item">
-                                        <a class="nav-link" id="taxonomy-genus-tab" data-toggle="pill" href="#custom-tabs-four-profile" role="tab" aria-controls="custom-tabs-four-profile" aria-selected="false">Genus</a>
-                                    </li>
-                                    <li id="taxonomy-species" class="nav-item">
-                                        <a class="nav-link" id="taxonomy-species-tab" data-toggle="pill" href="#custom-tabs-four-messages" role="tab" aria-controls="custom-tabs-four-messages" aria-selected="false">Species</a>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="card-body">
-                                <div class="tab-content" id="custom-tabs-four-tabContent">
-                                    <div class="row">
-                                        <div class="col-md-3">
-                                            <div id="section-fields-taxonomy-family" class="form-group">
-                                                <label>Family</label>
-                                                <div class="input-group">
-                                                    @Html.TextBoxFor(x => x.Entity.FamilyName, new { @class = "form-control", @readonly = "readonly", @style = "background-color:#ecf0f5;" })
-                                                    @Html.HiddenFor(x => x.Entity.FamilyID)
-                                                    @if (Model.Entity.FamilyID > 0)
-                                                    {
+
+                        <!-- If the user is creating a new citation, then and only then allow
+                             them to select the taxon type. -->
+                        if (Model.Entity.ID == 0)
+                        {
+                            <div id="section-citation-taxon-tabs" class="card card-primary card-outline card-outline-tabs">
+                                <div class="card-header p-0 border-bottom-0">
+                                    <ul class="nav nav-tabs" id="custom-tabs-four-tab" role="tablist">
+                                        <li id="taxonomy-family" class="nav-item">
+                                            <a class="nav-link active" id="taxonomy-family-tab" data-toggle="pill" href="#custom-tabs-four-home" role="tab" aria-controls="custom-tabs-four-home" aria-selected="true">Family</a>
+                                        </li>
+                                        <li id="taxonomy-genus" class="nav-item">
+                                            <a class="nav-link" id="taxonomy-genus-tab" data-toggle="pill" href="#custom-tabs-four-profile" role="tab" aria-controls="custom-tabs-four-profile" aria-selected="false">Genus</a>
+                                        </li>
+                                        <li id="taxonomy-species" class="nav-item">
+                                            <a class="nav-link" id="taxonomy-species-tab" data-toggle="pill" href="#custom-tabs-four-messages" role="tab" aria-controls="custom-tabs-four-messages" aria-selected="false">Species</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="card-body">
+                                    <div class="tab-content" id="custom-tabs-four-tabContent">
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <div id="section-fields-taxonomy-family" class="form-group">
+                                                    <label>Family</label>
+                                                    <div class="input-group">
+                                                        @Html.TextBoxFor(x => x.Entity.FamilyName, new { @class = "form-control", @readonly = "readonly", @style = "background-color:#ecf0f5;" })
+                                                        @Html.HiddenFor(x => x.Entity.FamilyID)
+                                                        @if (Model.Entity.FamilyID > 0)
+                                                        {
+                                                            <span class="input-group-btn">
+                                                                <a href="@Url.Action("Edit", "FamilyMap", new { @entityId = Model.Entity.FamilyID })" class="btn btn-default btn-flat">
+                                                                    <i class="fa fa-link"></i>
+                                                                </a>
+                                                            </span>
+                                                        }
                                                         <span class="input-group-btn">
-                                                            <a href="@Url.Action("Edit", "FamilyMap", new { @entityId = Model.Entity.FamilyID })" class="btn btn-default btn-flat">
-                                                                <i class="fa fa-link"></i>
-                                                            </a>
+                                                            <button id="btnOpenFamilyLookupModal" type="button" data-ggtools-action="FamilyID" data-ggtools-value="FamilyName" data-toggle="modal" data-target="#modal-family-lookup" class="btn btn-default btn-flat">
+                                                                <i class="fa fa-search"></i>
+                                                            </button>
                                                         </span>
-                                                    }
-                                                    <span class="input-group-btn">
-                                                        <button id="btnOpenFamilyLookupModal" type="button" data-ggtools-action="FamilyID" data-ggtools-value="FamilyName" data-toggle="modal" data-target="#modal-family-lookup" class="btn btn-default btn-flat">
-                                                            <i class="fa fa-search"></i>
-                                                        </button>
-                                                    </span>
+                                                    </div>
+                                                </div>
+                                                <div id="section-fields-taxonomy-genus" class="form-group">
+                                                    <label>Genus</label>
+                                                    <div class="input-group">
+                                                        @Html.TextBoxFor(x => x.Entity.GenusName, new { @class = "form-control", @readonly = "readonly", @style = "background-color:#ecf0f5;" })
+                                                        @Html.HiddenFor(x => x.Entity.GenusID)
+                                                        @if (Model.Entity.GenusID > 0)
+                                                        {
+                                                            <span class="input-group-btn">
+                                                                <a href="@Url.Action("Edit", "Genus", new { @entityId = Model.Entity.GenusID })" class="btn btn-default btn-flat">
+                                                                    <i class="fa fa-link"></i>
+                                                                </a>
+                                                            </span>
+                                                        }
+                                                        <span class="input-group-btn">
+                                                            <button id="btnOpenGenusLookupModal" type="button" data-ggtools-action="GenusID" data-ggtools-value="GenusName" data-toggle="modal" data-target="#modal-genus-lookup" class="btn btn-default btn-flat">
+                                                                <i class="fa fa-search"></i>
+                                                            </button>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <div id="section-fields-taxonomy-species" class="form-group">
+                                                    <label>Species</label>
+                                                    <div class="input-group">
+                                                        @Html.TextBoxFor(x => x.Entity.SpeciesName, new { @class = "form-control", @readonly = "readonly", @style = "background-color:#ecf0f5;" })
+                                                        @Html.HiddenFor(x => x.Entity.SpeciesID)
+                                                        @if (Model.Entity.SpeciesID > 0)
+                                                        {
+                                                            <span class="input-group-btn">
+                                                                <a href="@Url.Action("Edit", "Species", new { @entityId = Model.Entity.SpeciesID })" class="btn btn-default btn-flat">
+                                                                    <i class="fa fa-link"></i>
+                                                                </a>
+                                                            </span>
+                                                        }
+                                                        <span class="input-group-btn">
+                                                            <button id="btnOpenSpeciesLookupModal" type="button" data-ggtools-action="SpeciesID" data-ggtools-value="SpeciesName" data-toggle="modal" data-target="#modal-species-lookup" class="btn btn-default btn-flat">
+                                                                <i class="fa fa-search"></i>
+                                                            </button>
+                                                        </span>
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <div id="section-fields-taxonomy-genus" class="form-group">
-                                                <label>Genus</label>
-                                                <div class="input-group">
-                                                    @Html.TextBoxFor(x => x.Entity.GenusName, new { @class = "form-control", @readonly = "readonly", @style = "background-color:#ecf0f5;" })
-                                                    @Html.HiddenFor(x => x.Entity.GenusID)
-                                                    @if (Model.Entity.GenusID > 0)
-                                                    {
-                                                        <span class="input-group-btn">
-                                                            <a href="@Url.Action("Edit", "Genus", new { @entityId = Model.Entity.GenusID })" class="btn btn-default btn-flat">
-                                                                <i class="fa fa-link"></i>
-                                                            </a>
-                                                        </span>
-                                                    }
-                                                    <span class="input-group-btn">
-                                                        <button id="btnOpenGenusLookupModal" type="button" data-ggtools-action="GenusID" data-ggtools-value="GenusName" data-toggle="modal" data-target="#modal-genus-lookup" class="btn btn-default btn-flat">
-                                                            <i class="fa fa-search"></i>
-                                                        </button>
-                                                    </span>
-                                                </div>
-                                            </div>
-                                            <div id="section-fields-taxonomy-species" class="form-group">
-                                                <label>Species</label>
-                                                <div class="input-group">
-                                                    @Html.TextBoxFor(x => x.Entity.SpeciesName, new { @class = "form-control", @readonly = "readonly", @style = "background-color:#ecf0f5;" })
-                                                    @Html.HiddenFor(x => x.Entity.SpeciesID)
-                                                    @if (Model.Entity.SpeciesID > 0)
-                                                    {
-                                                        <span class="input-group-btn">
-                                                            <a href="@Url.Action("Edit", "Species", new { @entityId = Model.Entity.SpeciesID })" class="btn btn-default btn-flat">
-                                                                <i class="fa fa-link"></i>
-                                                            </a>
-                                                        </span>
-                                                    }
-                                                    <span class="input-group-btn">
-                                                        <button id="btnOpenSpeciesLookupModal" type="button" data-ggtools-action="SpeciesID" data-ggtools-value="SpeciesName" data-toggle="modal" data-target="#modal-species-lookup" class="btn btn-default btn-flat">
-                                                            <i class="fa fa-search"></i>
-                                                        </button>
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-2">
-                                            <div class="margin" style="margin-top:40px;">
-                                                <div class="form-group clearfix">
-                                                    <div class="icheck-primary d-inline">
-                                                        @Html.CheckBoxFor(x => x.Entity.IsAcceptedNameOption, new { @id = "cbxLookupIsAcceptedName", @class = "custom-control-input" })
-                                                        <label for="cbxLookupIsAcceptedName">
-                                                            Accepted Name
-                                                        </label>
+                                            <div class="col-md-2">
+                                                <div class="margin" style="margin-top:40px;">
+                                                    <div class="form-group clearfix">
+                                                        <div class="icheck-primary d-inline">
+                                                            @Html.CheckBoxFor(x => x.Entity.IsAcceptedNameOption, new { @id = "cbxLookupIsAcceptedName", @class = "custom-control-input" })
+                                                            <label for="cbxLookupIsAcceptedName">
+                                                                Accepted Name
+                                                            </label>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <div id="form-group">
-                                                <label>Citation Title</label>
-                                                @Html.TextAreaFor(x => x.Entity.CitationTitle, new { @class = "form-control", @autocomplete = "off", @data_lpignore = "true", @rows = 1 })
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div id="form-group">
+                                                    <label>Citation Title</label>
+                                                    @Html.TextAreaFor(x => x.Entity.CitationTitle, new { @class = "form-control", @autocomplete = "off", @data_lpignore = "true", @rows = 1 })
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <div id="form-group">
-                                                <label>Author Name</label>
-                                                @Html.TextAreaFor(x => x.Entity.AuthorName, new { @class = "form-control", @autocomplete = "off", @data_lpignore = "true", @rows=1 })
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div id="form-group">
+                                                    <label>Author Name</label>
+                                                    @Html.TextAreaFor(x => x.Entity.AuthorName, new { @class = "form-control", @autocomplete = "off", @data_lpignore = "true", @rows = 1 })
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-3">
-                                            <div id="form-group">
-                                                <label>Reference Title</label>
-                                                @Html.TextBoxFor(x => x.Entity.ReferenceTitle, new { @class = "form-control", @autocomplete = "off", @data_lpignore = "true" })
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <div id="form-group">
+                                                    <label>Reference Title</label>
+                                                    @Html.TextBoxFor(x => x.Entity.ReferenceTitle, new { @class = "form-control", @autocomplete = "off", @data_lpignore = "true" })
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <div id="form-group">
-                                                <label>URL</label>
-                                                @Html.TextBoxFor(x => x.Entity.URL, new { @class = "form-control", @autocomplete = "off", @data_lpignore = "true" })
+                                            <div class="col-md-3">
+                                                <div id="form-group">
+                                                    <label>URL</label>
+                                                    @Html.TextBoxFor(x => x.Entity.URL, new { @class = "form-control", @autocomplete = "off", @data_lpignore = "true" })
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="col-md-2">
-                                            <div id="form-group">
-                                                <label>Type</label>
-                                                @Html.DropDownListFor(x => x.Entity.TypeCode, Model.CitationTypes, "NULL", new { @class = "form-control" })
+                                            <div class="col-md-2">
+                                                <div id="form-group">
+                                                    <label>Type</label>
+                                                    @Html.DropDownListFor(x => x.Entity.TypeCode, Model.CitationTypes, "NULL", new { @class = "form-control" })
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="col-md-1">
-                                            <div id="form-group">
-                                                <label>Year</label>
-                                                @Html.TextBoxFor(x => x.Entity.CitationYear, new { @class = "form-control", @autocomplete = "off", @data_lpignore = "true" })
+                                            <div class="col-md-1">
+                                                <div id="form-group">
+                                                    <label>Year</label>
+                                                    @Html.TextBoxFor(x => x.Entity.CitationYear, new { @class = "form-control", @autocomplete = "off", @data_lpignore = "true" })
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label>Abbreviated Lit. Source</label>
-                                                <div class="input-group">
-                                                    @Html.TextBoxFor(x => x.Entity.Abbreviation, new { @class = "form-control", @readonly = "readonly", @style = "background-color:#ecf0f5;" })
-                                                    @Html.HiddenFor(x => x.Entity.LiteratureID)
-                                                    @if (Model.Entity.LiteratureID > 0)
-                                                    {
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label>Abbreviated Lit. Source</label>
+                                                    <div class="input-group">
+                                                        @Html.TextBoxFor(x => x.Entity.Abbreviation, new { @class = "form-control", @readonly = "readonly", @style = "background-color:#ecf0f5;" })
+                                                        @Html.HiddenFor(x => x.Entity.LiteratureID)
+                                                        @if (Model.Entity.LiteratureID > 0)
+                                                        {
+                                                            <span class="input-group-btn">
+                                                                <a href="@Url.Action("Edit", "Literature", new { @entityId = Model.Entity.LiteratureID })" class="btn btn-default btn-flat">
+                                                                    <i class="fa fa-link"></i>
+                                                                </a>
+                                                            </span>
+                                                        }
                                                         <span class="input-group-btn">
-                                                            <a href="@Url.Action("Edit", "Literature", new { @entityId = Model.Entity.LiteratureID })" class="btn btn-default btn-flat">
-                                                                <i class="fa fa-link"></i>
-                                                            </a>
+                                                            <button type="button" class="btn btn-default btn-flat" data-toggle="modal" data-target="#modal-literature-lookup">
+                                                                <i class="fa fa-search"></i>
+                                                            </button>
                                                         </span>
-                                                    }
-                                                    <span class="input-group-btn">
-                                                        <button type="button" class="btn btn-default btn-flat" data-toggle="modal" data-target="#modal-literature-lookup">
-                                                            <i class="fa fa-search"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div id="form-group">
+                                                    <label>Vol. and Page</label>
+                                                    @Html.TextBoxFor(x => x.Entity.Reference, new { @class = "form-control" })
+                                                </div>
+                                            </div>
+                                            <div class="col-md-1">
+                                                <div id="form-group">
+                                                    <label>DOI</label>
+                                                    @Html.TextBoxFor(x => x.Entity.DOIReference, new { @class = "form-control" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <!-- BEGIN NOTE FIELD -->
+                                            <div class="col-md-12">
+                                                <label class="margin-r-5">Note</label>&nbsp;&nbsp;
+                                                <div class="input-group">
+                                                    <br />
+                                                    @Html.TextAreaFor(x => x.Entity.Note, new { @id = "txtNote", @class = "form-control", })
+                                                    <span class="input-group-append">
+                                                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#modal-note-lookup">
+                                                            <i class="fa fa-search margin-r-5"></i>
                                                         </button>
                                                     </span>
                                                 </div>
                                             </div>
+                                            <!-- END NOTE FIELD-->
                                         </div>
-                                        <div class="col-md-2">
-                                            <div id="form-group">
-                                                <label>Vol. and Page</label>
-                                                @Html.TextBoxFor(x => x.Entity.Reference, new { @class = "form-control" })
+                                        <br />
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                @Html.Partial("~/Views/Taxonomy/Citation/_EditExtended.cshtml")
                                             </div>
-                                        </div>
-                                        <div class="col-md-1">
-                                            <div id="form-group">
-                                                <label>DOI</label>
-                                                @Html.TextBoxFor(x => x.Entity.DOIReference, new { @class = "form-control" })
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <!-- BEGIN NOTE FIELD -->
-                                        <div class="col-md-12">
-                                            <label class="margin-r-5">Note</label>&nbsp;&nbsp;
-                                            <div class="input-group">
-                                                <br />
-                                                @Html.TextAreaFor(x => x.Entity.Note, new { @id = "txtNote", @class = "form-control", })
-                                                <span class="input-group-append">
-                                                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#modal-note-lookup">
-                                                        <i class="fa fa-search margin-r-5"></i>
-                                                    </button>
-                                                </span>
-                                            </div>
-                                        </div>
-                                        <!-- END NOTE FIELD-->
-                                    </div>
-                                    <br />
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            @Html.Partial("~/Views/Taxonomy/Citation/_EditExtended.cshtml")
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-
-                        <!-- END CIT TYPE TABS -->
+                        }
 
                         <div class="card card-default">
                             <div class="card-header">

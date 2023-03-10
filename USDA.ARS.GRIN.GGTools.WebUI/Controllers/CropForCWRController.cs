@@ -24,9 +24,10 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 viewModel.TableName = "taxonomy_cwr_crop";
                 viewModel.TableCode = "CropForCWR";
 
-                if (Session[viewModel.SessionKeyName] != null)
+                string targetKey = this.ControllerContext.RouteData.Values["controller"].ToString().ToUpper() + "_SEARCH";
+                if (Session[targetKey] != null)
                 {
-                    viewModel = Session[viewModel.SessionKeyName] as CropForCWRViewModel;
+                    viewModel = Session[targetKey] as CropForCWRViewModel;
                 }
 
                 return View(BASE_PATH + "Index.cshtml", viewModel);
@@ -78,7 +79,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
         {
             try
             {
-                Session[viewModel.SessionKeyName] = viewModel;
+                Session[SessionKeyName] = viewModel;
                 viewModel.EventAction = "SEARCH";
                 viewModel.Search();
                 ModelState.Clear();
@@ -123,7 +124,6 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 viewModel.TableCode = "CropForCWR";
                 viewModel.PageTitle = String.Format("Edit Crop For CWR [{0}]", entityId);
                 viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
-                //viewModel.AuthenticatedUser = AuthenticatedUser;
                 viewModel.Get(entityId);
                 return View(BASE_PATH + "Edit.cshtml", viewModel);
             }

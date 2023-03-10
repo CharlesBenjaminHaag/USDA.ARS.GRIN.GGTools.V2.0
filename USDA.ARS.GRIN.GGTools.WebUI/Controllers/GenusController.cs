@@ -35,9 +35,11 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             throw new NotImplementedException();
         }
 
-        public ActionResult Add(int familyId = 0, int genusId = 0, string isType="", string rank = "")
+        public ActionResult Add(string eventAction="", string eventValue="", int familyMapId = 0, int genusId = 0, string isType="", string rank = "")
         {
             GenusViewModel viewModel = new GenusViewModel();
+            viewModel.EventAction = eventAction;
+            viewModel.EventValue = eventValue;
             viewModel.TableName = "taxonomy_genus";
             viewModel.TableCode = "Genus";
             viewModel.PageTitle = String.Format("Add {0}", viewModel.ToTitleCase(rank));
@@ -66,16 +68,14 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 viewModel.Entity.SubseriesName = genusViewModel.Entity.SubseriesName;
             }
 
-            if (familyId > 0)
+            if (familyMapId > 0)
             {
-                viewModel.Entity.FamilyID = familyId;
+                viewModel.Entity.FamilyID = familyMapId;
                 FamilyMapViewModel familyMapViewModel = new FamilyMapViewModel();
-                familyMapViewModel.SearchEntity.ID = familyId;
+                familyMapViewModel.SearchEntity.ID = familyMapId;
                 familyMapViewModel.Search();
-
-                viewModel.FamilyMapEntity = familyMapViewModel.Entity;
-                viewModel.Entity.FamilyID = viewModel.FamilyMapEntity.ID;
-                viewModel.Entity.FamilyName = viewModel.FamilyMapEntity.FamilyName;
+                viewModel.Entity.FamilyID = familyMapViewModel.Entity.ID;
+                viewModel.Entity.FamilyName = familyMapViewModel.Entity.FamilyName;
             }
 
             return View(BASE_PATH + "Edit.cshtml", viewModel);

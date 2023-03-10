@@ -121,6 +121,16 @@
                                     <li><a href="@Url.Action("Add", "FamilyMap", new { @rank = "subtribe", @familyMapId = Model.Entity.ID })" class="dropdown-item">Subtribe</a></li>
                                 </ul>
                             </li>
+
+                            <!-- RELATED DATA -->
+                            <li class="nav-item dropdown">
+                                <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Add Dependent Data</a>
+                                <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow">
+                                    <li><a href="@Url.Action("Add", "Citation", new { @eventAction = "FamilyMap", @eventValue = "AddDependentData", @familyMapId = Model.Entity.ID })" class="dropdown-item">Citation </a></li>
+                                    <li><a href="@Url.Action("Add", "Genus", new { @eventAction = "FamilyMap", @eventValue = "AddDependentData", @familyMapId = Model.Entity.ID })" class="dropdown-item">Genus</a></li>
+                                </ul>
+                            </li>
+
                             <!-- FOLDERS -->
                             Html.RenderAction("_RelatedFoldersMenu", "Folder", new { tableName = Model.TableName, entityId = Model.Entity.ID });
                         }
@@ -421,7 +431,7 @@
                             </div>
                             <div class="card-body">
                                 <div class="tab-content">
-                                    <div class="tab-pane" id="tab_content_citation">
+                                    <div class="tab-pane active" id="tab_content_citation">
                                     </div>
                                     <div class="tab-pane" id="tab_content_taxonomy_genus">
                                     </div>
@@ -481,7 +491,11 @@
 
         link = link.replace("EVENT_ACTION", eventAction);
         link = link.replace("EVENT_VALUE", eventValue);
-        link = link.replace("SPECIES_ID", entityId);
+        link = link.replace("FAMILY_ID", entityId);
+
+        // DEBUG
+        alert("CALLING " + link);
+        alert("SECTION " + sectionData);
 
         formData.append("FamilyID", entityId);
 

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Text;
 using System.Web.Mvc;
 using USDA.ARS.GRIN.GGTools.DataLayer;
 using NLog;
@@ -10,6 +11,18 @@ namespace USDA.ARS.GRIN.GGTools.WebUI
 {
     public class BaseController : Controller
     {
+        public string SessionKeyName
+        {
+            get 
+            {
+                StringBuilder sessionKeyName = new StringBuilder();
+                sessionKeyName.Append(this.ControllerContext.RouteData.Values["controller"].ToString().ToUpper());
+                sessionKeyName.Append("_");
+                sessionKeyName.Append(this.ControllerContext.RouteData.Values["action"].ToString().ToUpper());
+                return sessionKeyName.ToString();
+            }
+        }
+
         //public class RouteInfo
         //{
         //    public RouteInfo(RouteData data)

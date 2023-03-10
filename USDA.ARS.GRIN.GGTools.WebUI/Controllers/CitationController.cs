@@ -31,13 +31,14 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             }
         }
         [HttpPost]
-        public ActionResult Search(CitationViewModel vm)
+        public ActionResult Search(CitationViewModel viewModel)
         {
             try
             {
-                vm.Search();
+                Session[SessionKeyName] = viewModel;
+                viewModel.Search();
                 ModelState.Clear();
-                return View(BASE_PATH + "Index.cshtml", vm);
+                return View(BASE_PATH + "Index.cshtml", viewModel);
             }
             catch (Exception ex)
             {
@@ -106,6 +107,13 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             try
             {
                 CitationViewModel viewModel = new CitationViewModel();
+
+                string targetKey = this.ControllerContext.RouteData.Values["controller"].ToString().ToUpper() + "_SEARCH";
+                if (Session[targetKey] != null)
+                {
+                    viewModel = Session[targetKey] as CitationViewModel;
+                }
+
                 viewModel.PageTitle = "Citation Search";
                 viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
                 return View(BASE_PATH + "Index.cshtml", viewModel);
@@ -211,7 +219,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             }
         }
 
-        public ActionResult Add(int literatureId = 0, int familyId = 0, int genusId = 0, int speciesId = 0, string eventValue = "")
+        public ActionResult Add(int literatureId = 0, int familyMapId = 0, int genusId = 0, int speciesId = 0, string eventValue = "")
         {
             try 
             { 
@@ -221,7 +229,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 viewModel.TableName = "citation";
                 viewModel.TableCode = "Citation";
                 viewModel.Entity.LiteratureID = literatureId;
-                viewModel.Entity.FamilyID = familyId;
+                viewModel.Entity.FamilyID = familyMapId;
                 viewModel.Entity.GenusID = genusId;
                 viewModel.Entity.SpeciesID = speciesId;
                 viewModel.PageTitle = viewModel.EventAction + " " + viewModel.TableCode;
@@ -229,11 +237,11 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 viewModel.Entity.CreatedByCooperatorName = AuthenticatedUser.FullName;
                 viewModel.Entity.CreatedDate = System.DateTime.Now;
 
-                if (familyId > 0)
+                if (familyMapId > 0)
                 {
-                    viewModel.Entity.FamilyID = familyId;
+                    viewModel.Entity.FamilyID = familyMapId;
                     FamilyMapViewModel familyMapViewModel = new FamilyMapViewModel();
-                    familyMapViewModel.SearchEntity.ID = familyId;
+                    familyMapViewModel.SearchEntity.ID = familyMapId;
                     familyMapViewModel.Search();
                     viewModel.Entity.FamilyID = familyMapViewModel.Entity.ID;
                     viewModel.Entity.FamilyName = familyMapViewModel.Entity.FamilyName;

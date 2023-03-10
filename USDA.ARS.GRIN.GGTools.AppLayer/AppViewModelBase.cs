@@ -75,14 +75,6 @@ namespace USDA.ARS.GRIN.GGTools.AppLayer
         public string EventNote { get; set; }
         public string TableName { get; set; }
         public string TableCode { get; set; }
-        public string TableKeyFieldName { get; set; }
-        public string SessionKeyName 
-        { 
-            get 
-            { 
-                return "SEARCH_" + TableCode.ToUpper(); 
-            } 
-        }
         public int AuthenticatedUserCooperatorID { get; set; }
         public string ItemIDList { get; set; }
         public string EntityIDList { get; set; }

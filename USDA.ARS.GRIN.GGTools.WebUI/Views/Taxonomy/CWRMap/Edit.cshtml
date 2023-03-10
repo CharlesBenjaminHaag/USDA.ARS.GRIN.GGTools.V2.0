@@ -165,12 +165,11 @@
                         @Html.HiddenFor(x => x.Entity.ID)
                         @Html.HiddenFor(x => x.Entity.IsCrop)
                         @Html.HiddenFor(x => x.Entity.CitationID)
-
+                        @Html.Partial("~/Views/Taxonomy/Shared/_RevisionHistory.cshtml")
                         <div class="card card-default">
                             <div class="card-header">
                                 <h3 class="card-title">Summary</h3>
                                 <div class="card-tools">
-                                    @Html.Partial("~/Views/Taxonomy/Shared/_RevisionHistory.cshtml")
                                     <button type="button" class="btn btn-tool" data-card-widget="collapse">
                                         <i class="fas fa-minus"></i>
                                     </button>

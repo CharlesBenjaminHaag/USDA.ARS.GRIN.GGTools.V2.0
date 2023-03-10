@@ -41,6 +41,11 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 return PartialView("~/Views/Error/_InternalServerError.cshtml");
             }
         }
+        public PartialViewResult RenderWidget()
+        {
+            SysTableViewModel viewModel = new SysTableViewModel();
+            return PartialView("~/Views/SysTable/_Widget.cshtml", viewModel);
+        }
         public ActionResult Delete(FormCollection formCollection)
         {
             throw new NotImplementedException();

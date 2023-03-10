@@ -40,7 +40,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         {
             Reset(CommandType.StoredProcedure);
             Validate<EconomicUse>(entity);
-            SQL = "usp_GGTools_Taxon_EconomicUse_Insert";
+            SQL = "usp_GRINGlobal_Taxonomy_Use_Insert";
 
             BuildInsertUpdateParameters(entity);
 
@@ -66,7 +66,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             Reset(CommandType.StoredProcedure);
             Validate<EconomicUse>(entity);
 
-            SQL = "usp_GGTools_Taxon_EconomicUse_Update";
+            SQL = "usp_GRINGlobal_Taxonomy_Use_Update";
 
             BuildInsertUpdateParameters(entity);
             AddParameter("@out_error_number", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
@@ -85,7 +85,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         {
             List<EconomicUse> results = new List<EconomicUse>();
 
-            SQL = "SELECT * FROM vw_GGTools_Taxon_EconomicUses ";
+            SQL = "SELECT * FROM vw_GRINGlobal_Taxonomy_Use ";
             SQL += " WHERE  (@CreatedByCooperatorID     IS NULL     OR CreatedByCooperatorID    =       @CreatedByCooperatorID)";
             SQL += " AND    (@ID                        IS NULL     OR ID                       =       @ID)";
             SQL += " AND    (@SpeciesID                 IS NULL     OR SpeciesID                =       @SpeciesID)";

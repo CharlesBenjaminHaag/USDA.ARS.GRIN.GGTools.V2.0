@@ -179,8 +179,6 @@
     <Compile Include="Controllers\SiteAdminController.cs" />
     <Compile Include="Controllers\SiteController.cs" />
     <Compile Include="Controllers\SpeciesController.cs" />
-    <Compile Include="Controllers\SubfamilyController.cs" />
-    <Compile Include="Controllers\SubtribeController.cs" />
     <Compile Include="Controllers\SynchController.cs" />
     <Compile Include="Controllers\SpeciesSynonymMapController.cs" />
     <Compile Include="Controllers\SysPermissionController.cs" />
@@ -189,7 +187,6 @@
     <Compile Include="Controllers\SysTableController.cs" />
     <Compile Include="Controllers\SysUserController.cs" />
     <Compile Include="Controllers\TaxonomyController.cs" />
-    <Compile Include="Controllers\TribeController.cs" />
     <Compile Include="Controllers\WebCooperatorController.cs" />
     <Compile Include="Controllers\WebOrderController.cs" />
     <Compile Include="Controllers\WebUserController.cs" />
@@ -716,6 +713,8 @@
     <Content Include="Views\Taxonomy\Genus\Edit - Copy.cshtml" />
     <Content Include="Views\SysGroupUserMap\_Widget.cshtml" />
     <Content Include="Views\Taxonomy\Author\Edit - Copy.cshtml" />
+    <Content Include="Views\Taxonomy\EconomicUse\Edit - Copy.cshtml" />
+    <Content Include="Views\SysTable\_Widget.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

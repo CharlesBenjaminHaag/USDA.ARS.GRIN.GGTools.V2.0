@@ -20,5 +20,6 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         public string PlantPartDescription { get; set; }
         public int CitationID { get; set; }
         public string CitationText { get; set; }
+        public string Abbreviation { get; set; }
     }
 }

@@ -5,6 +5,10 @@
 }
 <div id="overlay"></div>
 
+<!-- BEGIN TEST TABLE LIST -->
+@*@{Html.RenderAction("RenderWidget", "SysTable"); }*@
+<!--END TEST TABLE LIST -->
+
 <div class="row">
     <div class="col-md-3">
 
@@ -44,7 +48,6 @@
 
         </div>
         <!-- END CATEGORY LIST -->
-
         <!-- BEGIN FOLDER TYPE LIST -->
         <div class="card  card-primary card-outline">
             <div class="card-header">
@@ -76,10 +79,10 @@
 
         </div>
         <!-- END FOLDER TYPE LIST -->
-    
+
     </div>
     <div id="section-folder-list" class="col-md-9">
-        @{Html.RenderAction("_ListExplorer","Folder");}
+        @{Html.RenderAction("_ListExplorer", "Folder");}
     </div>
 </div>
 
