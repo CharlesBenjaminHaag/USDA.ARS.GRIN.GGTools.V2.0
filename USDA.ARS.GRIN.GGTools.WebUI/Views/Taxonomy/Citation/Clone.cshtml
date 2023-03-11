@@ -152,12 +152,11 @@
                     <div class="row mb-2">
                         <div class="col-sm-6">
                             <h1 class="m-0">
-                                @Html.Raw(ViewBag.Title)
-                                @*<small>Example 3.0</small>*@
+                                Clone Citation                             
                             </h1>
                         </div>
                         <div class="col-sm-6">
-                            <!-- TODO BREADCRUMBS -->
+                            @Html.Partial("~/Views/Shared/_Breadcrumbs.cshtml")
                         </div>
                     </div>
                 </div>
@@ -165,64 +164,20 @@
             <div class="content">
                 <div class="container" style="max-width:1500px;">
                     <div class="row">
-                        <div class="col-md-6">
-                            <div class="card card-default">
-                                <div class="card-header">
-                                    <h3 class="card-title">Source</h3>
-                                    <div class="card-tools">
-                                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                                            <i class="fas fa-minus"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                                <div class="card-body">
-
-
-                                </div>
-                                <div class="card-footer">
-                                    
-                                </div>
-                            </div>
+                        <div id="section-citation" class="col-md-6">
+                            @*@{Html.RenderAction("_Edit", "Citation", new { entityId = Model.Entity.ID });}*@
                         </div>
-                        <div class="col-md-6">
-                            <div class="card card-default">
-                                <div class="card-header">
-                                    <h3 class="card-title">Source</h3>
-                                    <div class="card-tools">
-                                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                                            <i class="fas fa-minus"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                                <div class="card-body">
-
-
-                                </div>
-                                <div class="card-footer">
-
-                                </div>
-                            </div>
-
+                        <div id="section-citation-clone" class="col-md-6">
+                            @{Html.RenderAction("_Edit", "Citation", new { entityId = Model.Entity.ID, isClone = "Y", eventAction = Model.EventAction, eventValue = Model.EventValue });}
                         </div>
                     </div>
-                    
-               
-              
+
+                    @*@{Html.RenderAction("RenderLookupModal", "FamilyMap"); }
+                    @{Html.RenderAction("RenderLookupModal", "Genus"); }
+                    @{Html.RenderAction("RenderLookupModal", "Species"); }
                     @Html.Partial("~/Views/Shared/Modals/_NoteLookup2.cshtml")
                     @Html.Partial("~/Views/Taxonomy/Shared/Modals/_Delete.cshtml")
-                    @{Html.RenderAction("_Edit", "Folder"); }
-
-                    <script type="text/javascript">
-                        $(document).ready(function () {
-                            Init();
-                            /*InitializeCKEditor();*/
-                        });
-
-                        function Init() {
-
-                        }
-                    </script>
-                    <br />
+                    @{Html.RenderAction("_Edit", "Folder"); }*@
                 </div>
             </div>
 
@@ -232,6 +187,60 @@
         <!-- Main Footer -->
         @Html.Partial("~/Views/Shared/_Footer.cshtml")
     </div>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            Init();
+            /*InitializeCKEditor();*/
+        });
+
+        function Init() {
+
+        }
+
+        $(document).on("click", "[id*='btnSaveCitation']", function () {
+            SaveCitation();
+        });
+
+        function SaveCitation() {
+            var link = $("#frmEditCitation").attr("action");
+            var formData = new FormData();
+
+            //DEBUG
+            alert("LINK " + link);
+
+            formData.append("Entity.ID", $("#frmEditCitation #Entity_ID").val());
+            //formData.append("Entity.FamilyID", $("#frmEditCitation #Entity_FamilyID").val());
+            //formData.append("Entity.GenusID", $("#frmEditCitation #Entity_GenusID").val());
+            //formData.append("Entity.SpeciesID", $("#frmEditCitation #Entity_SpeciesID").val());
+            //formData.append("Entity.IsAcceptedNameOption", $("#frmEditCitation #Entity_IsAcceptedNameOption").val());
+            //formData.append("Entity.CitationTitle", $("#frmEditCitation #Entity_CitationTitle").val());
+            //formData.append("Entity.ReferenceTitle", $("#frmEditCitation #Entity_ReferenceTitle").val());
+            //formData.append("Entity.URL", $("#frmEditCitation #Entity_URL").val());
+            //formData.append("Entity.TypeCode", $("#frmEditCitation #Entity_TypeCode").val());
+            //formData.append("Entity.CitationYear", $("#frmEditCitation #Entity_CitationYear").val());
+            //formData.append("Entity.Reference", $("#frmEditCitation #Entity_Reference").val());
+            //formData.append("Entity.DOIReference", $("#frmEditCitation #Entity_DOIReference").val());
+            //formData.append("Entity.LiteratureID", $("#frmEditCitation #Entity_LiteratureID").val());
+            //formData.append("Entity.Note", $("#frmEditCitation #Entity_Note").val());
+
+            $.ajax({
+                url: link,
+                type: 'POST',
+                cache: false,
+                contentType: false,
+                processData: false,
+                data: formData,
+                success: function (response) {
+                    $("#section-citation-clone").html(response);
+                },
+                error: function () {
+                    alert("Error");
+                }
+            });
+        }
+
+
+    </script>
     <script src="~/plugins/jquery/jquery.min.js"></script>
     <script src="~/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="~/dist/js/adminlte.js"></script>

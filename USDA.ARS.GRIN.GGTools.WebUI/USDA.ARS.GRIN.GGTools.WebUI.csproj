@@ -563,7 +563,6 @@
     <Content Include="Views\SysGroupUserMap\_SysPermissionList.cshtml" />
     <Content Include="Views\SysGroupUserMap\_SysPermissionFieldList.cshtml" />
     <Content Include="Views\SysGroup\_Widget.cshtml" />
-    <Content Include="Views\Taxonomy\Citation\_NotCited.cshtml" />
     <Content Include="Views\Shared\Modals\_SaveSearch.cshtml" />
     <Content Include="Views\Site\_Widget.cshtml" />
     <Content Include="Views\Site\Edit.cshtml" />
@@ -702,7 +701,6 @@
     <Content Include="Views\Shared\_Breadcrumbs.cshtml" />
     <Content Include="Views\SysTable\_MenuList.cshtml" />
     <Content Include="Views\Taxonomy\Citation\_EditExtended.cshtml" />
-    <Content Include="Views\Taxonomy\Citation\Edit_BACKUP.cshtml" />
     <Content Include="Views\CodeValue\Explorer\Index.cshtml" />
     <Content Include="Views\CodeValue\Modals\_Edit.cshtml" />
     <Content Include="Views\CodeValue\Modals\_Detail.cshtml" />
@@ -713,8 +711,8 @@
     <Content Include="Views\Taxonomy\Author\Edit - Copy.cshtml" />
     <Content Include="Views\Taxonomy\EconomicUse\Edit - Copy.cshtml" />
     <Content Include="Views\SysTable\_Widget.cshtml" />
-    <Content Include="Views\Taxonomy\Citation\Clone - Copy.cshtml" />
     <Content Include="Views\Cooperator\_ListWidget.cshtml" />
+    <Content Include="Views\Taxonomy\Citation\_Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

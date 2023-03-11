@@ -117,13 +117,13 @@
                                 <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Clone</a>
                                 <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow">
                                     <li>
-                                        <a href="@Url.Action("Clone", "Citation", new { @entityId = Model.Entity.ID, @taxonType = "family" })" class="dropdown-item">Family</a>
+                                        <a href="@Url.Action("Clone", "Citation", new { @entityId = Model.Entity.ID, @eventAction="clone", @eventValue = "taxonomy_family_map" })" class="dropdown-item">Family</a>
                                     </li>
                                     <li>
-                                        <a href="@Url.Action("Clone", "Citation", new { @entityId = Model.Entity.ID, @taxonType = "genus" })" class="dropdown-item">Genus</a>
+                                        <a href="@Url.Action("Clone", "Citation", new { @entityId = Model.Entity.ID, @eventAction="clone", @eventValue = "taxonomy_genus" })" class="dropdown-item">Genus</a>
                                     </li>
                                     <li>
-                                        <a href="@Url.Action("Clone", "Citation", new { @entityId = Model.Entity.ID, @taxonType = "species" })" class="dropdown-item">Species</a>
+                                        <a href="@Url.Action("Clone", "Citation", new { @entityId = Model.Entity.ID, @eventAction="clone", @eventValue = "taxonomy_species" })" class="dropdown-item">Species</a>
                                     </li>
                                 </ul>
                             </li>
@@ -145,7 +145,7 @@
                     <div class="row mb-2">
                         <div class="col-sm-6">
                             <h1 class="m-0">
-                                @Html.Raw(ViewBag.Title)
+                                @Html.Raw(Model.PageTitle)
                             </h1>
                         </div>
                         <div class="col-sm-6">

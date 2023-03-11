@@ -14,6 +14,35 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
         protected static string BASE_PATH = "~/Views/Taxonomy/Citation/";
         private static readonly Logger Log = LogManager.GetCurrentClassLogger();
 
+        public PartialViewResult Save(CitationViewModel viewModel)
+        {
+            try
+            {
+                //if (!viewModel.Validate())
+                //{
+                //    if (viewModel.ValidationMessages.Count > 0) return View(viewModel);
+                //}
+
+                if (viewModel.Entity.ID == 0)
+                {
+                    viewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
+                    viewModel.Insert();
+                }
+                else
+                {
+                    viewModel.Entity.ModifiedByCooperatorID = AuthenticatedUser.CooperatorID;
+                    viewModel.Update();
+                }
+                return _Edit(viewModel.Entity.ID, "");
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
+        }
+
+
         public PartialViewResult _ListFolderItems(int folderId)
         {
             CitationViewModel viewModel = new CitationViewModel();
@@ -124,7 +153,41 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 return RedirectToAction("InternalServerError", "Error");
             }
         }
-    
+
+        public PartialViewResult _Edit(int entityId, string isClone = "N", string eventAction = "", string eventValue = "")
+        {
+            CitationViewModel viewModel = new CitationViewModel();
+            try
+            {
+                viewModel.Get(entityId);
+                viewModel.PageTitle = String.Format("Edit Citation [{0}]: {1}", viewModel.Entity.ID, viewModel.Entity.AssembledName);
+
+                if (isClone == "Y")
+                {
+                    CitationViewModel cloneViewModel = new CitationViewModel();
+                    cloneViewModel.Entity = viewModel.Entity;
+                    cloneViewModel.EventAction = eventAction;
+                    cloneViewModel.EventValue = eventValue;
+                    cloneViewModel.Entity.SpeciesID = 0;
+                    cloneViewModel.Entity.FamilyID = 0;
+                    cloneViewModel.Entity.GenusID = 0;
+                    return PartialView("~/Views/Taxonomy/Citation/_Edit.cshtml", cloneViewModel);
+                }
+                else
+                {
+                    if (viewModel.Entity.FamilyID > 0) viewModel.EventValue = "taxonomy_family_map";
+                    if (viewModel.Entity.GenusID > 0) viewModel.EventValue = "taxonomy_genus";
+                    if (viewModel.Entity.SpeciesID > 0) viewModel.EventValue = "taxonomy_species";
+                }
+                return PartialView("~/Views/Taxonomy/Citation/_Edit.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
+        }
+
         public ActionResult Edit(int entityId)
         {
             try
@@ -187,37 +250,36 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 return RedirectToAction("InternalServerError", "Error");
             }
         }
-
        
-        public PartialViewResult _Save(CitationViewModel viewModel)
-        {
-            try
-            {
-                viewModel.Entity.TableName = viewModel.TableName;
+        //public PartialViewResult _Save(CitationViewModel viewModel)
+        //{
+        //    try
+        //    {
+        //        viewModel.Entity.TableName = viewModel.TableName;
 
-                //if (!viewModel.Validate())
-                //{
-                //    if (viewModel.ValidationMessages.Count > 0) return View(viewModel);
-                //}
+        //        //if (!viewModel.Validate())
+        //        //{
+        //        //    if (viewModel.ValidationMessages.Count > 0) return View(viewModel);
+        //        //}
 
-                if (viewModel.Entity.ID == 0)
-                {
-                    viewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
-                    viewModel.Insert();
-                }
-                else
-                {
-                    viewModel.Entity.ModifiedByCooperatorID = AuthenticatedUser.CooperatorID;
-                    viewModel.Update();
-                }
-                return PartialView("~/Views/Taxonomy/Citation/_Edit.cshtml", viewModel);
-            }
-            catch (Exception ex)
-            {
-                Log.Error(ex);
-                return PartialView("~/Views/Error/_InternalServerError.cshtml");
-            }
-        }
+        //        if (viewModel.Entity.ID == 0)
+        //        {
+        //            viewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
+        //            viewModel.Insert();
+        //        }
+        //        else
+        //        {
+        //            viewModel.Entity.ModifiedByCooperatorID = AuthenticatedUser.CooperatorID;
+        //            viewModel.Update();
+        //        }
+        //        return PartialView("~/Views/Taxonomy/Citation/_Edit.cshtml", viewModel);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Log.Error(ex);
+        //        return PartialView("~/Views/Error/_InternalServerError.cshtml");
+        //    }
+        //}
 
         public ActionResult Add(int literatureId = 0, int familyMapId = 0, int genusId = 0, int speciesId = 0, string eventValue = "")
         {
@@ -395,7 +457,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
         //        return RedirectToAction("InternalServerError", "Error");
         //    }
         //}
-        public ActionResult Clone(int entityId, string taxonType)
+        public ActionResult Clone(int entityId, string eventAction="", string eventValue="")
         {
             // Retrieve citation to be cloned.
             CitationViewModel viewModel = new CitationViewModel();
@@ -406,6 +468,8 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
 
             // Create copy of source citation, resetting taxon attributes.
             viewModel.CloneEntity = viewModel.Entity;
+            viewModel.EventAction = eventAction;
+            viewModel.EventValue = eventValue;
             viewModel.CloneEntity.FamilyID = 0;
             viewModel.CloneEntity.FamilyName = String.Empty;
             viewModel.CloneEntity.GenusID = 0;
