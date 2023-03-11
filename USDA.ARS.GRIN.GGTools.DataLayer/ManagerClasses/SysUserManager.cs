@@ -10,7 +10,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
         public SysUser Get(int entityId)
         {
             SysUser sysUser = new SysUser();
-            SQL = "usp_GGTools_GRINGlobal_SysUser_Select";
+            SQL = "usp_GRINGlobal_Sys_User_Select";
 
             var parameters = new List<IDbDataParameter> {
                 CreateParameter("sys_user_id", (object)entityId, false)
@@ -206,7 +206,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             SQL = "usp_GRINGlobal_Sys_User_Password_Update";
 
             AddParameter("sys_user_id", (object)entity.SysUserID, false);
-            AddParameter("password", (object)entity.Password, false);
+            AddParameter("password", (object)entity.SysUserPassword, false);
             AddParameter("@out_error_number", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
 
             RowsAffected = ExecuteNonQuery();

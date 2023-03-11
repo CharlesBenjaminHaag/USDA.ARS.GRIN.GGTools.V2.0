@@ -166,40 +166,8 @@
                 }
             </div>
             <div class="tab-pane fade" id="custom-tabs-two-profile" role="tabpanel" aria-labelledby="custom-tabs-two-profile-tab">
-                @if (Model.AuthenticatedUser.IsInRole("MANAGE_SITE_" + Model.Entity.ShortName) || Model.AuthenticatedUser.IsInRole("ADMINS"))
-                {
-                    <div class="margin">
-                        <button id="btnAddCooperator"
-                                class="btn btn-default float-right"
-                                data-target="#modal-cooperator-add"
-                                data-toggle="modal">
-                            Add Cooperator
-                        </button>
-                    </div>
-                }
-                <table id="data-table-site-cooperators" class="table table-striped" style="width:100%;">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Name</th>
-                            <th>Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var result in Model.DataCollectionSiteCooperators)
-                        {
-                            <tr>
-                                <td>@result.ID</td>
-                                <td>
-                                    <a href="@Url.Action("Edit","Cooperator", new { entityId = result.ID })">
-                                        @result.FullName
-                                    </a>
-                                </td>
-                                <td>@result.StatusCode</td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
+                
+                @{Html.RenderAction("_List", "Cooperator", new { @siteId = Model.Entity.ID, @formatCode = "LWGT" }); }
             </div>
         </div>
     </div>

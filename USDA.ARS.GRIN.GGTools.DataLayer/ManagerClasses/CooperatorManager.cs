@@ -114,17 +114,8 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
         public List<Cooperator> Search(CooperatorSearch searchEntity)
         {
             List<Cooperator> results = new List<Cooperator>();
-
-            if (!String.IsNullOrEmpty(searchEntity.Environment) & (searchEntity.Environment == "TRNG"))
-            {
-                SQL = " SELECT * FROM gringlobal.dbo.vw_GRINGlobal_Cooperator";
-            }
-            else
-            {
-                SQL = " SELECT * FROM vw_GRINGlobal_Cooperator";
-
-            }
-
+            
+            SQL = " SELECT * FROM vw_GRINGlobal_Cooperator";
             SQL += " WHERE (@ID                     IS NULL     OR ID                       =       @ID)";
             SQL += " AND (@FirstName                IS NULL     OR FirstName                LIKE    '%' + @FirstName + '%')";
             SQL += " AND (@LastName                 IS NULL     OR LastName                 LIKE    '%' + @LastName + '%')";
@@ -134,13 +125,6 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             SQL += " AND (@SysUserIsEnabled         IS NULL     OR SysUserIsEnabled         =       @SysUserIsEnabled)";
 
             SQL += " OR SysUserID = 48 ";
-
-            //REFACTOR? If site ID is being used, restrict search to only records with user ID's -- matching criteria of web coop
-            //report. Needed b/c view outer-joins coop and sys user tables.
-            if (searchEntity.SiteID > 0)
-            {
-                SQL += " AND (SysUserID IS NOT NULL) ";
-            }
 
             switch (searchEntity.CreatedTimeFrame)
             {

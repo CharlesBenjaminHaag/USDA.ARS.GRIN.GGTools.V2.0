@@ -187,13 +187,13 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 viewModel.Get(siteId);
 
                 // Get a list of all active cooperators at the specified site.
-                CooperatorViewModel cooperatorViewModel = new CooperatorViewModel();
-                cooperatorViewModel.SearchEntity.SiteID = siteId;
-                cooperatorViewModel.SearchEntity.SysUserIsEnabled = "Y";
-                cooperatorViewModel.SearchEntity.StatusCode = "ACTIVE";
-                cooperatorViewModel.Search();
+                //CooperatorViewModel cooperatorViewModel = new CooperatorViewModel();
+                //cooperatorViewModel.SearchEntity.SiteID = siteId;
+                //cooperatorViewModel.SearchEntity.SysUserIsEnabled = "Y";
+                //cooperatorViewModel.SearchEntity.StatusCode = "ACTIVE";
+                //cooperatorViewModel.Search();
                 
-                viewModel.DataCollectionSiteCooperators = cooperatorViewModel.DataCollection;
+                //viewModel.DataCollectionSiteCooperators = cooperatorViewModel.DataCollection;
                 viewModel.AuthenticatedUser = AuthenticatedUser;
 
                 return PartialView("~/Views/Site/_Widget.cshtml", viewModel);

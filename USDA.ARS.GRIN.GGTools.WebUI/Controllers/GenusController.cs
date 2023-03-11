@@ -35,7 +35,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             throw new NotImplementedException();
         }
 
-        public ActionResult Add(string eventAction="", string eventValue="", int familyMapId = 0, int genusId = 0, string isType="", string rank = "")
+        public ActionResult Add(string eventAction="", string eventValue="", int familyMapId = 0, int genusId = 0, string isType="", string rank = "genus")
         {
             GenusViewModel viewModel = new GenusViewModel();
             viewModel.EventAction = eventAction;
@@ -90,6 +90,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 viewModel.PageTitle = viewModel.GetPageTitle();
                 viewModel.TableName = "taxonomy_genus";
                 viewModel.TableCode = "Genus";
+                viewModel.Entity.IsWebVisibleOption = viewModel.ToBool(viewModel.Entity.IsWebVisible);
                 return View(BASE_PATH + "Edit.cshtml", viewModel);
             }
             catch (Exception ex)
@@ -104,6 +105,9 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
         {
             try
             {
+                // TODO: Refactor.
+                viewModel.Entity.IsWebVisible = viewModel.FromBool(viewModel.Entity.IsWebVisibleOption);
+
                 if (!viewModel.Validate())
                 {
                     if (viewModel.ValidationMessages.Count > 0) return View(viewModel);
@@ -147,6 +151,13 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 viewModel.PageTitle = "Genus Search";
                 viewModel.TableName = "taxonomy_genus";
                 viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
+
+                string targetKey = this.ControllerContext.RouteData.Values["controller"].ToString().ToUpper() + "_SEARCH";
+                if (Session[targetKey] != null)
+                {
+                    viewModel = Session[targetKey] as GenusViewModel;
+                }
+
                 return View(BASE_PATH + "Index.cshtml", viewModel);
             }
             catch (Exception ex)
@@ -163,6 +174,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
         {
             try
             {
+                Session[SessionKeyName] = viewModel;
                 viewModel.PageTitle = "Genus Home";
                 ViewBag.Title = viewModel.PageTitle;
                 viewModel.Search();

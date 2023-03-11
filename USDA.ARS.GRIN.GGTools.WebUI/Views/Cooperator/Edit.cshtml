@@ -4,13 +4,36 @@
     Layout = "~/Views/Shared/_LayoutAdminLTE3.cshtml";
 }
 
-<div id="section-cooperator">
-    @{Html.RenderAction("_Get", "Cooperator", new { @entityId = Model.Entity.ID }); }
+<div class="card">
+    <div class="card-header p-2">
+        <ul class="nav nav-pills">
+            <li class="nav-item"><a class="nav-link active" href="#tab-cooperator" data-toggle="tab">Cooperator</a></li>
+            <li class="nav-item"><a class="nav-link" href="#tab-sys-user" data-toggle="tab">Sys User</a></li>
+            <li class="nav-item"><a class="nav-link" href="#tab-sys-group-user-map" data-toggle="tab">Sys Groups</a></li>
+            <li class="nav-item"><a class="nav-link" href="#tab-web-cooperator" data-toggle="tab">Web Cooperator</a></li>
+            <li class="nav-item"><a class="nav-link" href="#tab-web-user" data-toggle="tab">Web User</a></li>
+        </ul>
+    </div>
+    <div class="card-body">
+        <div class="tab-content">
+            <div class="tab-pane active" id="tab-cooperator">
+                @{Html.RenderAction("_Get", "Cooperator", new { @entityId = Model.Entity.ID }); }
+            </div>
+            <div class="tab-pane" id="tab-sys-user">
+                @{Html.RenderAction("_Get", "SysUser", new { @entityId = Model.Entity.SysUserID, @cooperatorId = Model.Entity.ID }); }
+            </div>
+            <div class="tab-pane" id="tab-sys-group-user-map">
+                @{Html.RenderAction("RenderWidget", "SysGroupUserMap", new { @sysUserId = Model.Entity.SysUserID }); }
+            </div>
+            <div class="tab-pane" id="tab-web-cooperator">
+                @{Html.RenderAction("_Get", "WebCooperator", new { @entityId = Model.Entity.WebCooperatorID, cooperatorId = Model.Entity.ID }); }
+            </div>
+            <div class="tab-pane" id="tab-web-user">
+                @{Html.RenderAction("_Get", "WebUser", new { @entityId = Model.Entity.WebUserID }); }
+            </div>
+        </div>
+    </div>
 </div>
-@{Html.RenderAction("_Get", "SysUser", new { @entityId = Model.Entity.SysUserID, @cooperatorId = Model.Entity.ID }); }
-@{Html.RenderAction("RenderWidget", "SysGroupUserMap", new { @sysUserId = Model.Entity.SysUserID }); }
-@{Html.RenderAction("_Get", "WebCooperator", new { @entityId = Model.Entity.WebCooperatorID, cooperatorId = Model.Entity.ID }); }
-@{Html.RenderAction("_Get", "WebUser", new { @entityId = Model.Entity.WebUserID }); }
 
 <script type="text/javascript">
     $(document).ready(function () {
@@ -72,7 +95,7 @@
             processData: false,
             data: formData,
             success: function (response) {
-                $("#section-cooperator").html(response);
+                $("#tab-cooperator").html(response);
             },
             error: function () {
                 alert("Error");
@@ -84,6 +107,8 @@
         var link = $("#frmEditWebCooperator").attr("action");
         // DEBUG
         alert("SAVE WC");
+        $("#section-card-web-cooperator").removeClass("card-danger");
+        $("#section-card-web-cooperator").addClass("card-default");
     }
 
     function CopyWebCooperator() {
@@ -101,7 +126,7 @@
             processData: false,
             data: formData,
             success: function (response) {
-                $("#section-web-cooperator").html(response);
+                $("#tab-web-cooperator").html(response);
             },
             error: function () {
                 alert("Error");
@@ -111,14 +136,35 @@
 
     function SaveSysUser() {
         var link = $("#frmEditSysUser").attr("action");
-        // DEBUG
-        alert("SAVE SU " + link);
+        var formData = new FormData();
+
+        formData.append("Entity.SysUserID", $("#frmEditSysUser #Entity_SysUserID").val());
+        formData.append("Entity.SysUserName", $("#frmEditSysUser #Entity_SysUserName").val());
+        formData.append("Entity.SysUserPassword", $("#frmEditSysUser #Entity_SysUserPassword").val());
+        formData.append("Entity.SysUserPasswordConfirm", $("#frmEditSysUser #Entity_SysUserPasswordConfirm").val());
+
+        $.ajax({
+            url: link,
+            type: 'POST',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (response) {
+                $("#tab-sys-user").html(response);
+            },
+            error: function () {
+                alert("Error");
+            }
+        });
     }
 
     function SaveWebUser() {
         var link = $("#frmEditWebUser").attr("action");
         // DEBUG
         alert("SAVE WU " + link);
+        $("#section-card-web-user").removeClass("card-danger");
+        $("#section-card-web-user").addClass("card-default");
     }
 
     //$('#btnEditGroups').on('click', function () {

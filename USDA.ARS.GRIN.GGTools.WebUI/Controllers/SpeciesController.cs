@@ -177,7 +177,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             return PartialView(partialViewName, viewModel);
         }
 
-        public ActionResult Add(int genusId = 0, int speciesId = 0, string rank = "")
+        public ActionResult Add(int genusId = 0, int speciesId = 0, string rank = "species")
         {
             try
             {

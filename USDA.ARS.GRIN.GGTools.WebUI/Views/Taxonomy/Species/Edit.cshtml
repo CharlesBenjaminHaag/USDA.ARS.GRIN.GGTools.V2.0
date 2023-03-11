@@ -143,55 +143,53 @@
                 <div class="collapse navbar-collapse order-3" id="navbarCollapse">
                     <!-- BEGIN EDIT PAGE MENU -->
                     <ul class="navbar-nav">
-                        <li class="nav-item d-none d-sm-inline-block">
-                            <a href="@Url.Action("Navigate","Home", new { applicationCode = "GGT-TAX"})" class="nav-link">Home</a>
-                        </li>
-                        <!-- INFRASPECIFIC-->
-                        <li class="nav-item dropdown">
-                            <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Add Infraspecific Taxon</a>
-                            <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow">
-                                <li><a href="@Url.Action("Add", "Species", new { @rank = "subspecies", @speciesId = Model.Entity.ID })" class="dropdown-item">Subspecies </a></li>
-                                <li><a href="@Url.Action("Add", "Species", new { @rank = "variety", @speciesId = Model.Entity.ID })" class="dropdown-item">Variety</a></li>
-                                <li><a href="@Url.Action("Add", "Species", new { @rank = "subvariety", @speciesId = Model.Entity.ID })" class="dropdown-item">Subvariety</a></li>
-                                <li><a href="@Url.Action("Add", "Species", new { @rank = "form", @speciesId = Model.Entity.ID })" class="dropdown-item">Form</a></li>
-                            </ul>
-                        </li>
-                        <!-- SYN -->
-                        <li class="nav-item dropdown">
-                            <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Add Synonym</a>
-                            <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow">
-                                <li><a href="@Url.Action("Add", "SpeciesSynonymMap", new { @speciesId = Model.Entity.ID, @synonymType="basionym" })" class="dropdown-item">Basionym </a></li>
-                                <li><a href="@Url.Action("Add", "SpeciesSynonymMap", new { @speciesId = Model.Entity.ID, @synonymType="heterotypic" })" class="dropdown-item">Heterotypic</a></li>
-                                <li><a href="@Url.Action("Add", "SpeciesSynonymMap", new { @speciesId = Model.Entity.ID, @synonymType="homotypic" })" class="dropdown-item">Homotypic</a></li>
-                                <li><a href="@Url.Action("Add", "SpeciesSynonymMap", new { @speciesId = Model.Entity.ID, @synonymType="invalid" })" class="dropdown-item">Invalid</a></li>
-                            </ul>
-                        </li>
-                        <!-- REL DATA -->
-                        <li class="nav-item dropdown">
-                            <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Add Related Data</a>
-                            <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow">
-                                <li>
+                        @if (Model.Entity.ID > 0)
+                        {
+                            <!-- INFRASPECIFIC-->
+                            <li class="nav-item dropdown">
+                                <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Add Infraspecific Taxon</a>
+                                <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow">
+                                    <li><a href="@Url.Action("Add", "Species", new { @rank = "subspecies", @speciesId = Model.Entity.ID })" class="dropdown-item">Subspecies </a></li>
+                                    <li><a href="@Url.Action("Add", "Species", new { @rank = "variety", @speciesId = Model.Entity.ID })" class="dropdown-item">Variety</a></li>
+                                    <li><a href="@Url.Action("Add", "Species", new { @rank = "subvariety", @speciesId = Model.Entity.ID })" class="dropdown-item">Subvariety</a></li>
+                                    <li><a href="@Url.Action("Add", "Species", new { @rank = "form", @speciesId = Model.Entity.ID })" class="dropdown-item">Form</a></li>
+                                </ul>
+                            </li>
+                            <!-- SYN -->
+                            <li class="nav-item dropdown">
+                                <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Add Synonym</a>
+                                <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow">
+                                    <li><a href="@Url.Action("Add", "SpeciesSynonymMap", new { @speciesId = Model.Entity.ID, @synonymType = "basionym" })" class="dropdown-item">Basionym </a></li>
+                                    <li><a href="@Url.Action("Add", "SpeciesSynonymMap", new { @speciesId = Model.Entity.ID, @synonymType = "heterotypic" })" class="dropdown-item">Heterotypic</a></li>
+                                    <li><a href="@Url.Action("Add", "SpeciesSynonymMap", new { @speciesId = Model.Entity.ID, @synonymType = "homotypic" })" class="dropdown-item">Homotypic</a></li>
+                                    <li><a href="@Url.Action("Add", "SpeciesSynonymMap", new { @speciesId = Model.Entity.ID, @synonymType = "invalid" })" class="dropdown-item">Invalid</a></li>
+                                </ul>
+                            </li>
+                            <!-- REL DATA -->
+                            <li class="nav-item dropdown">
+                                <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Add Related Data</a>
+                                <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow">
+                                    <li>
 
-                                    <button type="button" class="dropdown-item" data-toggle="modal" data-target="#modal-citation-lookup">
-                                        Citation
-                                    </button>
+                                        <button type="button" class="dropdown-item" data-toggle="modal" data-target="#modal-citation-lookup">
+                                            Citation
+                                        </button>
 
-                                    @*<a href="@Url.Action("Add", "Citation", new { @speciesId = Model.Entity.ID })"
-                            class="dropdown-item">Citation</a>*@
-                                </li>
-                                <li><a href="@Url.Action("Add", "CommonName", new { @speciesId = Model.Entity.ID })" class="dropdown-item">Common Name</a></li>
-                                <li><a href="@Url.Action("Add", "GeographyMap", new { @speciesId = Model.Entity.ID })" class="dropdown-item">Distribution</a></li>
-                                <li><a href="@Url.Action("Add", "Economic Use", new { @speciesId = Model.Entity.ID })" class="dropdown-item">Economic Use</a></li>
-                                <li><a href="@Url.Action("Add", "RegualtionMap", new { @speciesId = Model.Entity.ID })" class="dropdown-item">Regulation</a></li>
-                            </ul>
-                        </li>
-                        <!-- FOLDERS -->
-                        @{ Html.RenderAction("_RelatedFoldersMenu", "Folder", new { tableName = Model.TableName, entityId = Model.Entity.ID }); }
-                    </ul>
+                                        @*<a href="@Url.Action("Add", "Citation", new { @speciesId = Model.Entity.ID })"
+                        class="dropdown-item">Citation</a>*@
+                                    </li>
+                                    <li><a href="@Url.Action("Add", "CommonName", new { @speciesId = Model.Entity.ID })" class="dropdown-item">Common Name</a></li>
+                                    <li><a href="@Url.Action("Add", "GeographyMap", new { @speciesId = Model.Entity.ID })" class="dropdown-item">Distribution</a></li>
+                                    <li><a href="@Url.Action("Add", "Economic Use", new { @speciesId = Model.Entity.ID })" class="dropdown-item">Economic Use</a></li>
+                                    <li><a href="@Url.Action("Add", "RegualtionMap", new { @speciesId = Model.Entity.ID })" class="dropdown-item">Regulation</a></li>
+                                </ul>
+                            </li>
+                            <!-- FOLDERS -->
+                            { Html.RenderAction("_RelatedFoldersMenu", "Folder", new { tableName = Model.TableName, entityId = Model.Entity.ID }); }
+                        }
+                        </ul>
                     <!-- END EDIT PAGE MENU-->
                 </div>
-
-
                 <!-- BEGIN RIGHT-ALIGNED NAV MENU -->
                 <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
                     @if (Model.Entity.ID > 0)

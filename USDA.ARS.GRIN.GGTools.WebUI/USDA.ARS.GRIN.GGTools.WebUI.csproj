@@ -347,7 +347,6 @@
     <Content Include="Views\Cooperator\Edit.cshtml" />
     <Content Include="Views\Cooperator\Index.cshtml" />
     <Content Include="Views\Cooperator\_Detail.cshtml" />
-    <Content Include="Views\Cooperator\_DetailList.cshtml" />
     <Content Include="Views\Cooperator\_List.cshtml" />
     <Content Include="Views\Cooperator\_Widget.cshtml" />
     <Content Include="Views\SysUser\_Widget.cshtml" />
@@ -361,7 +360,6 @@
     <Content Include="Views\Shared\_RevisionHistory.cshtml" />
     <Content Include="Views\Shared\_UnderConstruction.cshtml" />
     <Content Include="Views\Shared\_ValidationMessages.cshtml" />
-    <Content Include="Views\Cooperator\_AppUserItemList.cshtml" />
     <Content Include="Views\Cooperator\_RecordsOwnedListTarget.cshtml" />
     <Content Include="Views\Taxonomy\CropForCWR\Edit.cshtml" />
     <Content Include="Views\Taxonomy\CropForCWR\Index.cshtml" />
@@ -715,6 +713,8 @@
     <Content Include="Views\Taxonomy\Author\Edit - Copy.cshtml" />
     <Content Include="Views\Taxonomy\EconomicUse\Edit - Copy.cshtml" />
     <Content Include="Views\SysTable\_Widget.cshtml" />
+    <Content Include="Views\Taxonomy\Citation\Clone - Copy.cshtml" />
+    <Content Include="Views\Cooperator\_ListWidget.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

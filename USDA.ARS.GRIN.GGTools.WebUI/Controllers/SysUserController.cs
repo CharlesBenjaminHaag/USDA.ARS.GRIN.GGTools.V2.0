@@ -32,10 +32,20 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             {
                 //if (!viewModel.Validate())
                 //{
-                //    if (viewModel.ValidationMessages.Count > 0) return View(viewModel);
+                //    if (viewModel.ValidationMessages.Count > 0) return PartialView(viewModel);
                 //}
 
-                if (viewModel.Entity.ID == 0)
+                viewModel.Entity.Password = viewModel.Entity.SysUserPassword;
+                viewModel.Entity.PasswordConfirm = viewModel.Entity.SysUserPasswordConfirm;
+
+                if (viewModel.Entity.SysUserPassword != viewModel.Entity.SysUserPasswordConfirm)
+                {
+                    viewModel.UserMessage = "The passwords that you have entered do not match.";
+                    viewModel.ValidationMessages.Add(new Common.Library.ValidationMessage { Message = viewModel.UserMessage });
+                    if (viewModel.ValidationMessages.Count > 0) return PartialView("~/Views/SysUser/_Edit.cshtml", viewModel);
+                }
+
+                if (viewModel.Entity.SysUserID == 0)
                 {
                     viewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
                     viewModel.Insert();
@@ -45,7 +55,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                     viewModel.Entity.ModifiedByCooperatorID = AuthenticatedUser.CooperatorID;
                     viewModel.Update();
                 }
-                return _Get(viewModel.Entity.ID, viewModel.Entity.CooperatorID, "");
+                return _Get(viewModel.Entity.SysUserID, viewModel.Entity.CooperatorID, "");
             }
             catch (Exception ex)
             {

@@ -112,13 +112,20 @@
                     <ul class="navbar-nav">
                         @if (Model.Entity.ID > 0)
                         {
-                            <li class="nav-item d-none d-sm-inline-block">
-                                <a href="@Url.Action("Add", "CWRMap", new { cropForCwrId = Model.Entity.ID })" class="nav-link">Add CWR Map</a>
+                            <!-- RELATED DATA -->
+                            <li class="nav-item dropdown">
+                                <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Add Dependent Data</a>
+                                <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow">
+                                    <li><a href="@Url.Action("Add", "Citation", new { @eventAction = "Genus", @eventValue = "AddDependentData", @genusId = Model.Entity.ID })" class="dropdown-item">Citation </a></li>
+                                    <li><a href="@Url.Action("Add", "Species", new { @eventAction = "Genus", @eventValue = "AddDependentData", @genusId = Model.Entity.ID })" class="dropdown-item">Species</a></li>
+                                </ul>
                             </li>
+
                             Html.RenderAction("_RelatedFoldersMenu", "Folder", new { tableName = Model.TableName, entityId = Model.Entity.ID });
                         }
                     </ul>
                     <!-- END EDIT PAGE MENU-->
+
                     <!-- BEGIN RIGHT-ALIGNED NAV MENU -->
                     <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
                         @if (Model.Entity.ID > 0)
@@ -143,8 +150,7 @@
                     <div class="row mb-2">
                         <div class="col-sm-6">
                             <h1 class="m-0">
-                                @Html.Raw(ViewBag.Title)
-                                @*<small>Example 3.0</small>*@
+                                @Html.Raw(Model.PageTitle)
                             </h1>
                         </div>
                         <div class="col-sm-6">
@@ -174,7 +180,7 @@
                         <input id="hfCurrentValue" type="hidden" />
                         <div class="card card-default">
                             <div class="card-header">
-                                <!--TODO-->  
+                                <!--TODO-->
                             </div>
                             <div class="card-body">
                                 @Html.Partial("~/Views/Shared/_ValidationMessages.cshtml")
@@ -211,12 +217,12 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-md-3">
-                                        <div class="form-group">
+
+                                        <div id="section-fields-taxonomy-family" class="form-group">
                                             <label>Family</label>
                                             <div class="input-group">
-                                                @Html.TextBoxFor(x => x.Entity.FamilyName, new { @class = "form-control", @readonly = "readonly", @style = "background-color:#ecf0f5;" })
+                                                @Html.TextBoxFor(x => x.Entity.FamilyAssembledName, new { @class = "form-control", @readonly = "readonly", @style = "background-color:#ecf0f5;" })
                                                 @Html.HiddenFor(x => x.Entity.FamilyID)
-
                                                 @if (Model.Entity.FamilyID > 0)
                                                 {
                                                     <span class="input-group-btn">
@@ -225,14 +231,15 @@
                                                         </a>
                                                     </span>
                                                 }
-
                                                 <span class="input-group-btn">
-                                                    <button type="button" class="btn btn-default btn-flat" data-toggle="modal" data-target="#modal-family-lookup">
+                                                    <button id="btnOpenFamilyLookupModal" type="button" data-ggtools-action="FamilyID" data-ggtools-value="FamilyAssembledName" data-toggle="modal" data-target="#modal-family-lookup" class="btn btn-default btn-flat">
                                                         <i class="fa fa-search"></i>
                                                     </button>
                                                 </span>
                                             </div>
                                         </div>
+
+
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group">
@@ -416,10 +423,9 @@
                                 }
 
                                 @if (!String.IsNullOrEmpty(Model.EventAction))
-                                { 
-                                    <a 
-                                        class="btn btn-default"
-                                        href="@Url.Action("Edit", Model.EventAction, new { entityId = Model.Entity.FamilyID })">
+                                {
+                                    <a class="btn btn-default"
+                                       href="@Url.Action("Edit", Model.EventAction, new { entityId = Model.Entity.FamilyID })">
                                         Return to @Model.EventAction
                                     </a>
                                 }
@@ -462,8 +468,8 @@
                         </div>
                     }
 
+                    @{Html.RenderAction("RenderLookupModal", "FamilyMap"); }
                     @{Html.RenderAction("RenderLookupModal", "Citation", new { tableName = Model.TableName, entityId = Model.Entity.ID }); }
-                    
                     @Html.Partial("~/Views/Shared/Modals/_NoteLookup2.cshtml")
                     @Html.Partial("~/Views/Taxonomy/Shared/Modals/_Delete.cshtml")
 

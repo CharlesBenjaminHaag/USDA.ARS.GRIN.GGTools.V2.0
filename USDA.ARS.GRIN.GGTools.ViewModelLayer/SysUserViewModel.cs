@@ -185,9 +185,9 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
             {
                 using (SysUserManager mgr = new SysUserManager())
                 {
-                    Entity.SysUserPlainTextPassword = Entity.Password;
-                    Entity.Password = GetSecurePassword(Entity.Password);
-                    //mgr.UpdatePassword(Entity);
+                    Entity.SysUserPlainTextPassword = Entity.SysUserPassword;
+                    Entity.Password = GetSecurePassword(Entity.SysUserPassword);
+                    mgr.UpdatePassword(Entity);
                 }
             }
             catch (Exception ex)

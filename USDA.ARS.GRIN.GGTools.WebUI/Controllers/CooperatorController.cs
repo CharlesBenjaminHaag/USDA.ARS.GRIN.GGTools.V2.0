@@ -376,7 +376,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 return RedirectToAction("InternalServerError", "Error");
             }
         }
-        public PartialViewResult _List(int siteId = 0, string statusCode = "", string formatCode = "", string sysGroupTag = "", bool isDetailFormat = false)
+        public PartialViewResult _List(int siteId = 0, string sysUserIsEnabled = "Y", string statusCode = "ACTIVE", string formatCode = "", string sysGroupTag = "", bool isDetailFormat = false)
         {
             string partialViewName = "_List.cshtml";
 
@@ -384,17 +384,11 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             {
                 switch(formatCode)
                 {
-                    case "DLST":
-                        partialViewName = "_DetailList.cshtml";
-                        break;
                     case "LIST":
                         partialViewName = "_List.cshtml";
                         break;
-                    case "SLST":
-                        partialViewName = "/Modals/_SelectList.cshtml";
-                        break;
-                    case "CTCT":
-                        partialViewName = "_ContactWidget.cshtml";
+                    case "LWGT":
+                        partialViewName = "_ListWidget.cshtml";
                         break;
                 }
 
@@ -408,7 +402,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 viewModel.AuthenticatedUser = AuthenticatedUser;
                 viewModel.SearchEntity.SiteID = siteId;
                 viewModel.SearchEntity.StatusCode = statusCode;
-                viewModel.SearchEntity.SysGroupTag = sysGroupTag;
+                viewModel.SearchEntity.SysUserIsEnabled = sysUserIsEnabled;
                 viewModel.Search();
                 return PartialView("~/Views/Cooperator/" + partialViewName, viewModel);
             }
@@ -434,7 +428,6 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 return PartialView("~/Views/Error/_InternalServerError.cshtml");
             }
         }
-
         public PartialViewResult RenderLookupModal()
         {
             CooperatorViewModel viewModel = new CooperatorViewModel();
@@ -455,23 +448,6 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 return PartialView("~/Views/Error/_InternalServerError.cshtml");
             }
         }
-
-        public PartialViewResult RenderAppUserItemList(int cooperatorId)
-        {
-            //CooperatorViewModel viewModel = new CooperatorViewModel();
-            try
-            {
-                //viewModel.SearchEntity.ID = cooperatorId;
-                //viewModel.Search();
-                return PartialView("~/Views/Cooperator/_AppUserItemList.cshtml");
-            }
-            catch (Exception ex)
-            {
-                Log.Error(ex);
-                return PartialView("~/Views/Error/_InternalServerError.cshtml");
-            }
-        }
-
         public PartialViewResult _RenderRecordsOwnedList(int cooperatorId)
         {
             CooperatorViewModel viewModel = new CooperatorViewModel();
@@ -486,40 +462,6 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 return PartialView("~/Views/Error/_InternalServerError.cshtml");
             }
         }
-
-        //[HttpPost]
-        //public PartialViewResult RenderRecordsOwnedList(FormCollection formCollection)
-        //{
-        //    string partialViewName = String.Empty;
-        //    CooperatorViewModel viewModel = new CooperatorViewModel();
-
-        //    try
-        //    {
-        //        if (!String.IsNullOrEmpty(formCollection["CooperatorID"]))
-        //        {
-        //            viewModel.Entity.ID = Int32.Parse(formCollection["CooperatorID"]);
-        //        }
-
-        //        if (!String.IsNullOrEmpty(formCollection["Category"]))
-        //        {
-        //            partialViewName = "_RecordsOwnedList" + formCollection["Category"] + ".cshtml";
-        //        }
-
-        //        viewModel.GetRecordsOwned(viewModel.Entity.ID);
-        //        return PartialView("~/Views/Cooperator/" + partialViewName, viewModel);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Log.Error(ex);
-        //        return PartialView("~/Views/Error/_InternalServerError.cshtml");
-        //    }
-        //}
-
-        public PartialViewResult FolderItems(FormCollection formCollection)
-        {
-            throw new NotImplementedException();
-        }
-
         public ActionResult RecordOwnershipEdit(int entityId = 0)
         {
             try

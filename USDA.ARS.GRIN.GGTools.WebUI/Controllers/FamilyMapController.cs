@@ -178,6 +178,12 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                     viewModel.Search();
                 }
 
+                string targetKey = this.ControllerContext.RouteData.Values["controller"].ToString().ToUpper() + "_SEARCH";
+                if (Session[targetKey] != null)
+                {
+                    viewModel = Session[targetKey] as FamilyMapViewModel;
+                }
+
                 return View(BASE_PATH + "Index.cshtml", viewModel);
             }
             catch (Exception ex)
@@ -192,6 +198,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
         {
             try
             {
+                Session[SessionKeyName] = viewModel;
                 viewModel.SearchEntity.Rank = viewModel.EventValue;
                 viewModel.Search();
                 ModelState.Clear();

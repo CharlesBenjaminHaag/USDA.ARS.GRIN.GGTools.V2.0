@@ -130,6 +130,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             SQL += " AND    (@AcceptedName                  IS NULL OR AcceptedName             LIKE    @AcceptedName + '%')";
             SQL += " AND    (@Rank                          IS NULL OR Rank                     LIKE    '%' + @Rank + '%')";
             SQL += " AND    (@Authority                     IS NULL OR Authority                LIKE    '%' + @Authority + '%')";
+            SQL += " AND    (@QualifyingCode                IS NULL OR QualifyingCode           =       @QualifyingCode)";
             SQL += " ORDER BY Name ";
 
             var parameters = new List<IDbDataParameter> {
@@ -146,6 +147,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
                 CreateParameter("AcceptedName", (object)searchEntity.AcceptedName ?? DBNull.Value, true),
                 CreateParameter("Rank", (object)searchEntity.Rank ?? DBNull.Value, true),
                 CreateParameter("Authority", (object)searchEntity.Authority ?? DBNull.Value, true),
+                CreateParameter("QualifyingCode", (object)searchEntity.QualifyingCode ?? DBNull.Value, true),
             };
 
             results = GetRecords<Genus>(SQL, parameters.ToArray());

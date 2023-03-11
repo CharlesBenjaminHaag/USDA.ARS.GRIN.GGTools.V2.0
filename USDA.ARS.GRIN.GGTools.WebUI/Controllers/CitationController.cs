@@ -395,20 +395,24 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
         //        return RedirectToAction("InternalServerError", "Error");
         //    }
         //}
-
-        [HttpPost]
-        public JsonResult Clone(CitationViewModel viewModel)
+        public ActionResult Clone(int entityId, string taxonType)
         {
+            // Retrieve citation to be cloned.
+            CitationViewModel viewModel = new CitationViewModel();
             CitationViewModel cloneViewModel = new CitationViewModel();
-            cloneViewModel.SearchEntity.ID = viewModel.Entity.ID;
-            cloneViewModel.Search();
 
-            viewModel.Entity = cloneViewModel.Entity;
-            viewModel.Entity.ID = 0;
-            viewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
-            viewModel.Insert();
+            viewModel.SearchEntity.ID = entityId;
+            viewModel.Search();
 
-            return Json(new { citation = viewModel.Entity }, JsonRequestBehavior.AllowGet);
+            // Create copy of source citation, resetting taxon attributes.
+            viewModel.CloneEntity = viewModel.Entity;
+            viewModel.CloneEntity.FamilyID = 0;
+            viewModel.CloneEntity.FamilyName = String.Empty;
+            viewModel.CloneEntity.GenusID = 0;
+            viewModel.CloneEntity.GenusName = String.Empty;
+            viewModel.CloneEntity.SpeciesID = 0;
+            viewModel.CloneEntity.SpeciesName = String.Empty;
+            return View(BASE_PATH + "Clone.cshtml", viewModel);
         }
         public ActionResult Delete(int entityId)
         {

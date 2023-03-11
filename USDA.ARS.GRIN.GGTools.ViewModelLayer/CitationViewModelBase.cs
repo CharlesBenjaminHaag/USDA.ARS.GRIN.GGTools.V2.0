@@ -17,6 +17,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
         public string _IsMultiSelect { get; set; }
         private int _ReferencedEntityID = 0;
         private Citation _Entity = new Citation();
+        private Citation _CloneEntity = new Citation();
         private CitationSearch _SearchEntity = new CitationSearch();
         private Collection<Citation> _DataCollection = new Collection<Citation>();
         private Collection<Citation> _DataCollectionTaxon = new Collection<Citation>();
@@ -61,6 +62,11 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
         {
             get { return _Entity; }
             set { _Entity = value; }
+        }
+        public Citation CloneEntity
+        {
+            get { return _CloneEntity; }
+            set { _CloneEntity = value; }
         }
 
         public CitationSearch SearchEntity
