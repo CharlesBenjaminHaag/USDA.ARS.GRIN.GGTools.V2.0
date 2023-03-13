@@ -165,10 +165,10 @@
                 <div class="container" style="max-width:1500px;">
                     <div class="row">
                         <div id="section-citation" class="col-md-6">
-                            @*@{Html.RenderAction("_Edit", "Citation", new { entityId = Model.Entity.ID });}*@
+                            @{Html.RenderAction("_Edit", "Citation", new { entityId = Model.Entity.ID });}
                         </div>
                         <div id="section-citation-clone" class="col-md-6">
-                            @{Html.RenderAction("_Edit", "Citation", new { entityId = Model.Entity.ID, isClone = "Y", eventAction = Model.EventAction, eventValue = Model.EventValue });}
+                             
                         </div>
                     </div>
 
@@ -194,7 +194,37 @@
         });
 
         function Init() {
+            AddClone("");
+        }
 
+        
+        $(document).on("click", "[id*='btnAddCloneFamily']", function () {
+            AddClone("taxonomy_family_map");
+        });
+
+        function AddClone(taxonType) {
+            var link = '@Url.Action("_AddClone","Citation")';
+            var entityId = $("#Entity_ID").val();
+            var formData = new FormData();
+
+            formData.append("entityId", entityId);
+            formData.append("eventAction", "add");
+            formData.append("eventValue", taxonType);
+
+            $.ajax({
+                url: link,
+                type: 'POST',
+                cache: false,
+                contentType: false,
+                processData: false,
+                data: formData,
+                success: function (response) {
+                    $("#section-citation-clone").html(response);
+                },
+                error: function () {
+                    alert("Error");
+                }
+            });
         }
 
         $(document).on("click", "[id*='btnSaveCitation']", function () {

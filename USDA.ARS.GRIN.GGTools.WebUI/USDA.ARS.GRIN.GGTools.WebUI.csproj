@@ -713,6 +713,7 @@
     <Content Include="Views\SysTable\_Widget.cshtml" />
     <Content Include="Views\Cooperator\_ListWidget.cshtml" />
     <Content Include="Views\Taxonomy\Citation\_Edit.cshtml" />
+    <Content Include="Views\Taxonomy\Citation\_Clone.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -110,7 +110,7 @@
                 </button>
                 <div class="collapse navbar-collapse order-3" id="navbarCollapse">
                     <!-- BEGIN EDIT PAGE MENU -->
-                    <ul class="navbar-nav">
+                    @*<ul class="navbar-nav">
                         @if (Model.Entity.ID > 0)
                         {
                             <li class="nav-item dropdown">
@@ -129,7 +129,7 @@
                             </li>
                             Html.RenderAction("_RelatedFoldersMenu", "Folder", new { tableName = Model.TableName, entityId = Model.Entity.ID });
                         }
-                    </ul>
+                    </ul>*@
                     <!-- END EDIT PAGE MENU-->
                 </div>
                 <!-- BEGIN RIGHT-ALIGNED NAV MENU -->

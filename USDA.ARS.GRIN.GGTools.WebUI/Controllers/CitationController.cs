@@ -154,6 +154,38 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             }
         }
 
+        public PartialViewResult _AddClone(int entityId = 0, string eventAction = "add", string eventValue = "")
+        {
+            CitationViewModel viewModel = new CitationViewModel();
+            try
+            {
+                CitationViewModel cloneViewModel = new CitationViewModel();
+                viewModel.DataCollection.Add(new Citation { ID = 100, CitationTitle = "TITLE" });
+                return PartialView("~/Views/Taxonomy/Citation/_Clone.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
+        }
+        
+        
+        public PartialViewResult _Clone(int entityId)
+        {
+            CitationViewModel viewModel = new CitationViewModel();
+            try
+            {
+                CitationViewModel cloneViewModel = new CitationViewModel();
+                return PartialView("~/Views/Taxonomy/Citation/_Clone.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
+        }
+
         public PartialViewResult _Edit(int entityId, string isClone = "N", string eventAction = "", string eventValue = "")
         {
             CitationViewModel viewModel = new CitationViewModel();
