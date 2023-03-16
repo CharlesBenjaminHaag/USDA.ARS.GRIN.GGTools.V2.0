@@ -26,6 +26,14 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
             return Entity;
         }
 
+        public void GetStatus(int entityId)
+        {
+            using (CooperatorManager mgr = new CooperatorManager())
+            {
+                StatusEntity = mgr.GetStatus(entityId);
+            }
+        }
+
         public void GetCooperatorsBySysGroup(string sysGroupName)
         {
             using (CooperatorManager mgr = new CooperatorManager())

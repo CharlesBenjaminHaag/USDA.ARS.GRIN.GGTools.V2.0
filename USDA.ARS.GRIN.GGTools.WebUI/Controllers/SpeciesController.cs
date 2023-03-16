@@ -40,12 +40,13 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
         //        return RedirectToAction("InternalServerError", "Error");
         //    }
         //}
-        public PartialViewResult _List(int entityId = 0, int genusId = 0, string formatCode = "")
+        public PartialViewResult _List(int entityId = 0, int genusId = 0, string formatCode = "", string speciesAuthority = "")
         {
             SpeciesViewModel viewModel = new SpeciesViewModel();
             try
             {
-                viewModel.SearchEntity = new SpeciesSearch { GenusID = genusId };
+                viewModel.SearchEntity.GenusID = genusId;
+                viewModel.SearchEntity.SpeciesAuthority = speciesAuthority;
                 viewModel.Search();
                 viewModel.Entity.GenusID = genusId;
 

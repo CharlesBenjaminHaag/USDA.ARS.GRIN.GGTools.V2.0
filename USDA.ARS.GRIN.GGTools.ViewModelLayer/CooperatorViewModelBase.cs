@@ -13,6 +13,7 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
         private string _ResetPasswordField;
         private string _ResetPasswordConfirmField;
         private Cooperator _Entity = new Cooperator();
+        private CooperatorStatus _StatusEntity = new CooperatorStatus();
         private SysUser _SysUserEntity = new SysUser();
         private CooperatorSearch _SearchEntity = new CooperatorSearch();
         private Collection<Cooperator> _DataCollection = new Collection<Cooperator>();
@@ -57,6 +58,11 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
         {
             get { return _Entity; }
             set { _Entity = value; }
+        }
+        public CooperatorStatus StatusEntity
+        {
+            get { return _StatusEntity; }
+            set { _StatusEntity = value; }
         }
         public SysUser SysUserEntity
         {

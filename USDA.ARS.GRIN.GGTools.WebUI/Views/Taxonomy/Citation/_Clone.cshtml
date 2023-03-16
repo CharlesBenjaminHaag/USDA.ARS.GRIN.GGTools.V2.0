@@ -8,59 +8,216 @@
                     Taxon Type <span class="caret"></span>
                 </a>
                 <div class="dropdown-menu" style="">
-                    <a id="btnAddCloneFamily" class="dropdown-item" tabindex="-1" href="">Family</a>
-                    <a class="dropdown-item" tabindex="-1" href="#">Genus</a>
-                    <a class="dropdown-item" tabindex="-1" href="#">Species</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" tabindex="-1" href="#">Separated link</a>
+                    <a id="btnAddCloneFamily" class="dropdown-item" tabindex="-1" href="#">Family</a>
+                    <a id="btnAddCloneGenus" class="dropdown-item" tabindex="-1" href="#">Genus</a>
+                    <a id="btnAddCloneSpecies" class="dropdown-item" tabindex="-1" href="#">Species</a>
                 </div>
             </li>
-
-            @foreach (var result in Model.DataCollection)
-            { 
-                <li class="nav-item"><a class="nav-link" href="#tab_1" data-toggle="tab">Family Citation</a></li>
+            @if (Model.EventAction == "add")
+            {
+                <li class="nav-item"><a class="nav-link active" href="#tab_1" data-toggle="tab">@Model.EventValue</a></li>
             }
-
-            @*<li class="nav-item"><a class="nav-link" href="#tab_1" data-toggle="tab">Tab 1</a></li>
-                <li class="nav-item"><a class="nav-link" href="#tab_2" data-toggle="tab">Tab 2</a></li>
-                <li class="nav-item"><a class="nav-link active" href="#tab_3" data-toggle="tab">Tab 3</a></li>*@
 
         </ul>
     </div>
     <div class="card-body">
         <div class="tab-content">
-            @*<div class="tab-pane" id="tab_1">
-                    A wonderful serenity has taken possession of my entire soul,
-                    like these sweet mornings of spring which I enjoy with my whole heart.
-                    I am alone, and feel the charm of existence in this spot,
-                    which was created for the bliss of souls like mine. I am so happy,
-                    my dear friend, so absorbed in the exquisite sense of mere tranquil existence,
-                    that I neglect my talents. I should be incapable of drawing a single stroke
-                    at the present moment; and yet I feel that I never was a greater artist than now.
-                </div>*@
+            
+        @if (!String.IsNullOrEmpty(Model.EventAction))
+        {
+            using (Html.BeginForm("Save", "Citation", FormMethod.Post, new { id = "frmEditCitation" }))
+            {
+                @Html.HiddenFor(x => x.EventAction)
+                @Html.HiddenFor(x => x.EventValue)
+                @Html.HiddenFor(x => x.TableName)
+                @Html.HiddenFor(x => x.TableCode)
+                @Html.HiddenFor(x => x.PageTitle)
+                @Html.HiddenFor(x => x.Entity.ID)
+                @Html.HiddenFor(x => x.Entity.CategoryCode)
+                @Html.Partial("~/Views/Shared/_ValidationMessages.cshtml")
+                <div class="row">
+                    <div class="col-md-6">
+                        @if (Model.EventValue == "Family")
+                        {
+                            <div id="section-fields-taxonomy-family" class="form-group">
+                                <label>Family</label>
+                                <div class="input-group">
+                                    @Html.TextBoxFor(x => x.Entity.FamilyName, new { @class = "form-control", @readonly = "readonly", @style = "background-color:#ecf0f5;" })
+                                    @Html.HiddenFor(x => x.Entity.FamilyID)
+                                    @if (Model.Entity.FamilyID > 0)
+                                    {
+                                        <span class="input-group-btn">
+                                            <a href="@Url.Action("Edit", "FamilyMap", new { @entityId = Model.Entity.FamilyID })" class="btn btn-default btn-flat">
+                                                <i class="fa fa-link"></i>
+                                            </a>
+                                        </span>
+                                    }
+                                    <span class="input-group-btn">
+                                        <button id="btnOpenFamilyLookupModal" type="button" data-ggtools-action="FamilyID" data-ggtools-value="FamilyName" data-toggle="modal" data-target="#modal-family-lookup" class="btn btn-default btn-flat">
+                                            <i class="fa fa-search"></i>
+                                        </button>
+                                    </span>
+                                </div>
+                            </div>
+                        }
 
-            @*<div class="tab-pane" id="tab_2">
-                    The European languages are members of the same family. Their separate existence is a myth.
-                    For science, music, sport, etc, Europe uses the same vocabulary. The languages only differ
-                    in their grammar, their pronunciation and their most common words. Everyone realizes why a
-                    new common language would be desirable: one could refuse to pay expensive translators. To
-                    achieve this, it would be necessary to have uniform grammar, pronunciation and more common
-                    words. If several languages coalesce, the grammar of the resulting language is more simple
-                    and regular than that of the individual languages.
-                </div>*@
+                        @if (Model.EventValue == "Genus")
+                        {
+                            <div id="section-fields-taxonomy-genus" class="form-group">
+                                <label>Genus</label>
+                                <div class="input-group">
+                                    @Html.TextBoxFor(x => x.Entity.GenusName, new { @class = "form-control", @readonly = "readonly", @style = "background-color:#ecf0f5;" })
+                                    @Html.HiddenFor(x => x.Entity.GenusID)
+                                    @if (Model.Entity.GenusID > 0)
+                                    {
+                                        <span class="input-group-btn">
+                                            <a href="@Url.Action("Edit", "Genus", new { @entityId = Model.Entity.GenusID })" class="btn btn-default btn-flat">
+                                                <i class="fa fa-link"></i>
+                                            </a>
+                                        </span>
+                                    }
+                                    <span class="input-group-btn">
+                                        <button id="btnOpenGenusLookupModal" type="button" data-ggtools-action="GenusID" data-ggtools-value="GenusName" data-toggle="modal" data-target="#modal-genus-lookup" class="btn btn-default btn-flat">
+                                            <i class="fa fa-search"></i>
+                                        </button>
+                                    </span>
+                                </div>
+                            </div>
+                        }
 
-            @*<div class="tab-pane active" id="tab_3">
-                    Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                    Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
-                    when an unknown printer took a galley of type and scrambled it to make a type specimen book.
-                    It has survived not only five centuries, but also the leap into electronic typesetting,
-                    remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset
-                    sheets containing Lorem Ipsum passages, and more recently with desktop publishing software
-                    like Aldus PageMaker including versions of Lorem Ipsum.
-                </div>*@
+                        @if (Model.EventValue == "Species")
+                        {
+                            <div id="section-fields-taxonomy-species" class="form-group">
+                                <label>Species</label>
+                                <div class="input-group">
+                                    @Html.TextBoxFor(x => x.Entity.SpeciesName, new { @class = "form-control", @readonly = "readonly", @style = "background-color:#ecf0f5;" })
+                                    @Html.HiddenFor(x => x.Entity.SpeciesID)
+                                    @if (Model.Entity.SpeciesID > 0)
+                                    {
+                                        <span class="input-group-btn">
+                                            <a href="@Url.Action("Edit", "Species", new { @entityId = Model.Entity.SpeciesID })" class="btn btn-default btn-flat">
+                                                <i class="fa fa-link"></i>
+                                            </a>
+                                        </span>
+                                    }
+                                    <span class="input-group-btn">
+                                        <button id="btnOpenSpeciesLookupModal" type="button" data-ggtools-action="SpeciesID" data-ggtools-value="SpeciesName" data-toggle="modal" data-target="#modal-species-lookup" class="btn btn-default btn-flat">
+                                            <i class="fa fa-search"></i>
+                                        </button>
+                                    </span>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                    <div class="col-md-6">
+                        <div class="margin" style="margin-top:40px;">
+                            <div class="form-group clearfix">
+                                <div class="icheck-primary d-inline">
+                                    @Html.CheckBoxFor(x => x.Entity.IsAcceptedNameOption, new { @id = "cbxLookupIsAcceptedName", @class = "custom-control-input" })
+                                    <label for="cbxLookupIsAcceptedName">
+                                        Accepted Name
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>Citation Title</label>
+                            @Html.TextAreaFor(x => x.Entity.CitationTitle, new { @class = "form-control", @autocomplete = "off", @data_lpignore = "true", @rows = 1 })
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>Author Name</label>
+                            @Html.TextAreaFor(x => x.Entity.AuthorName, new { @class = "form-control", @autocomplete = "off", @data_lpignore = "true", @rows = 1 })
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>Reference Title</label>
+                            @Html.TextBoxFor(x => x.Entity.ReferenceTitle, new { @class = "form-control", @autocomplete = "off", @data_lpignore = "true" })
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>URL</label>
+                            @Html.TextBoxFor(x => x.Entity.URL, new { @class = "form-control", @autocomplete = "off", @data_lpignore = "true" })
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Type</label>
+                            @Html.DropDownListFor(x => x.Entity.TypeCode, Model.CitationTypes, "NULL", new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Year</label>
+                            @Html.TextBoxFor(x => x.Entity.CitationYear, new { @class = "form-control", @autocomplete = "off", @data_lpignore = "true" })
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Vol. and Page</label>
+                            @Html.TextBoxFor(x => x.Entity.Reference, new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>DOI</label>
+                            @Html.TextBoxFor(x => x.Entity.DOIReference, new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>Abbreviated Lit. Source</label>
+                            <div class="input-group">
+                                @Html.TextBoxFor(x => x.Entity.Abbreviation, new { @class = "form-control", @readonly = "readonly", @style = "background-color:#ecf0f5;" })
+                                @Html.HiddenFor(x => x.Entity.LiteratureID)
+                                @if (Model.Entity.LiteratureID > 0)
+                                {
+                                    <span class="input-group-btn">
+                                        <a href="@Url.Action("Edit", "Literature", new { @entityId = Model.Entity.LiteratureID })" class="btn btn-default btn-flat">
+                                            <i class="fa fa-link"></i>
+                                        </a>
+                                    </span>
+                                }
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-default btn-flat" data-toggle="modal" data-target="#modal-literature-lookup">
+                                        <i class="fa fa-search"></i>
+                                    </button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <!-- BEGIN NOTE FIELD -->
+                    <div class="col-md-12">
+                        <label class="margin-r-5">Note</label>&nbsp;&nbsp;
+                        <div class="input-group">
+                            <br />
+                            @Html.TextAreaFor(x => x.Entity.Note, new { @id = "txtNote", @class = "form-control", })
+                            <span class="input-group-append">
+                                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#modal-note-lookup">
+                                    <i class="fa fa-search margin-r-5"></i>
+                                </button>
+                            </span>
+                        </div>
+                    </div>
+                    <!-- END NOTE FIELD-->
+                </div>
+            }
+        }
 
         </div>
-
     </div>
 </div>
 

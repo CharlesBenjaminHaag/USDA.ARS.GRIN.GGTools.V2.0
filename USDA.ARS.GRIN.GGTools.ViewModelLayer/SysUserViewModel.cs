@@ -169,6 +169,7 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
                 {
                     Entity.Password = GetSecurePassword(Entity.SysUserPassword);
                     Entity.ID = mgr.Insert(Entity);
+                    Entity.SysUserID = Entity.ID;
                 }
                 catch (Exception ex)
                 {

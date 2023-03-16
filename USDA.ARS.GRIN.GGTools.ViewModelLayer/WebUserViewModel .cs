@@ -85,7 +85,13 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
                 return Entity.ID;
             }
         }
-
+        public void Copy()
+        {
+            using (WebUserManager mgr = new WebUserManager())
+            {
+                Entity.ID = mgr.Copy(SysUserID, Entity.WebCooperatorID);
+            }
+        }
         public override bool Validate()
         {
             if (String.IsNullOrEmpty(Entity.WebUserName))

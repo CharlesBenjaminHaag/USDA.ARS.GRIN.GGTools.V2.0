@@ -91,7 +91,12 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
                     {
                         DataCollection = new Collection<Author>(mgr.Search(SearchEntity));
                     }
-                    Entity = DataCollection[0];
+
+                    if (DataCollection.Count == 1)
+                    {
+                        Entity = DataCollection[0];
+                    }
+
                     RowsAffected = mgr.RowsAffected;
 
                     //String DEBUG = SerializeToXml<CitationSearch>(SearchEntity);
@@ -101,6 +106,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
                 catch (Exception ex)
                 {
                     PublishException(ex);
+                    throw ex;
                 }
             }
         }

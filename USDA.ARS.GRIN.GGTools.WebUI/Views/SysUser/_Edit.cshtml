@@ -1,57 +1,77 @@
 ﻿@model USDA.ARS.GRIN.GGTools.ViewModelLayer.SysUserViewModel
-@using (Html.BeginForm("Save", "SysUser", FormMethod.Post, new { id = "frmEditSysUser" }))
-{
-    @Html.HiddenFor(x => x.EventAction)
-    @Html.HiddenFor(x => x.EventValue)
-    @Html.HiddenFor(x => x.TableName)
-    @Html.HiddenFor(x => x.TableCode)
-    @Html.HiddenFor(x => x.Entity.ID)
-    @Html.HiddenFor(x => x.Entity.SysUserID)
-    @Html.HiddenFor(x => x.Entity.CooperatorID)
-    @Html.Partial("~/Views/Shared/_RevisionHistory.cshtml")
+@{
+    string cssClassCard = "card card-default collapsed-card";
+    string cssClassCardBody = "display: none;";
+    string cssClassExpandCollapseButton = "fas fa-plus";
 
-    if (!String.IsNullOrEmpty(Model.UserMessage))
+    if (Model.Entity.ID == 0)
     {
-        <div class="alert alert-danger alert-dismissible">
-            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-            <h5><i class="icon fas fa-ban"></i> Login Error</h5>
-            @Model.UserMessage
-        </div>
+        cssClassCard = "card card-danger";
+        cssClassCardBody = "collapse in show";
+        cssClassExpandCollapseButton = "fas fa-minus";
     }
-
-    <div class="row">
-        <div class="col-md-3">
-            <div class="form-group">
-                <label>User Name</label><br />
-                @Html.TextBoxFor(x => x.Entity.SysUserName, new { @class = "form-control", @readonly = "readonly" })
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="form-group">
-                <label>Password</label>
-                @Html.TextBoxFor(x => x.Entity.SysUserPassword, new { @class = "form-control", type = "password" })
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="form-group">
-                <label>Confirm Password</label>
-                @Html.TextBoxFor(x => x.Entity.SysUserPasswordConfirm, new { @class = "form-control", type = "password" })
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="form-group">
-                <label>Expires</label>
-                @Html.TextBoxFor(x => x.Entity.SysUserPasswordExpirationDate, new { @class = "form-control", @readonly = "readonly", disabled = "disabled" })
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-12">
-            <button id="btnSaveSysUser" type="button" class="btn btn-primary float-right">Save</button>
-        </div>
-    </div>
-    <br />
 }
 
+<div class="card card-default">
+    <div class="card-header">
+        <h3 class="card-title">Sys User</h3>
+        <div class="card-tools">
+            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                <i class="fas fa-minus"></i>
+            </button>
+        </div>
+    </div>
+    <div id="section-sys-user" class="card-body">
+        @using (Html.BeginForm("Save", "SysUser", FormMethod.Post, new { id = "frmEditSysUser" }))
+        {
+            @Html.HiddenFor(x => x.EventAction)
+            @Html.HiddenFor(x => x.EventValue)
+            @Html.HiddenFor(x => x.TableName)
+            @Html.HiddenFor(x => x.TableCode)
+            @Html.HiddenFor(x => x.Entity.ID)
+            @Html.HiddenFor(x => x.Entity.SysUserID)
+            @Html.HiddenFor(x => x.Entity.CooperatorID)
+
+            if (!String.IsNullOrEmpty(Model.UserMessage))
+            {
+                <div class="alert alert-danger alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                    <h5><i class="icon fas fa-ban"></i> Login Error</h5>
+                    @Model.UserMessage
+                </div>
+            }
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>User Name</label><br />
+                        @Html.TextBoxFor(x => x.Entity.SysUserName, new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label>Password</label>
+                        @Html.TextBoxFor(x => x.Entity.SysUserPassword, new { @class = "form-control", type = "password" })
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label>Confirm Password</label>
+                        @Html.TextBoxFor(x => x.Entity.SysUserPasswordConfirm, new { @class = "form-control", type = "password" })
+                    </div>
+                </div>
+                @*<div class="col-md-3">
+                    <div class="form-group">
+                        <label>Expires</label>
+                        @Html.TextBoxFor(x => x.Entity.SysUserPasswordExpirationDate, new { @class = "form-control", @readonly = "readonly", disabled = "disabled" })
+                    </div>
+                </div>*@
+            </div>
+            @Html.Partial("~/Views/Shared/_RevisionHistorySimple.cshtml")
+        }
+    </div>
+    <div class="card-footer">
+        <button id="btnSaveSysUser" type="button" class="btn btn-primary float-right">Save</button>
+    </div>
+</div>
 
 

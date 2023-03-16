@@ -35,6 +35,13 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
                 viewModel.PageTitle = "Author Search";
                 viewModel.TableName = "taxonomy_author";
+
+                string targetKey = this.ControllerContext.RouteData.Values["controller"].ToString().ToUpper() + "_SEARCH";
+                if (Session[targetKey] != null)
+                {
+                    viewModel = Session[targetKey] as AuthorViewModel;
+                }
+
                 return View(BASE_PATH + "Index.cshtml", viewModel);
             }
             catch (Exception ex)
@@ -123,6 +130,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
         {
             try
             {
+                Session[SessionKeyName] = viewModel;
                 viewModel.EventAction = "SEARCH";
                 viewModel.SearchEntity.IsShortNameExactMatch = viewModel.FromBool(viewModel.SearchEntity.IsShortNameExactMatchOption);
                 viewModel.Search();

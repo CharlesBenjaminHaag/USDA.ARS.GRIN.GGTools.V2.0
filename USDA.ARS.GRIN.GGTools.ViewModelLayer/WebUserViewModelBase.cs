@@ -10,12 +10,18 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
     {
         public WebUserViewModelBase() {}
 
+        private int _SysUserID; 
         private string _PasswordResetToken;
         private WebUser _Entity = new WebUser();
         private WebUserSearch _SearchEntity = new WebUserSearch();
         private Collection<WebUser> _DataCollection = new Collection<WebUser>();
         private Collection<SysGroupUserMap> _DataCollectionGroups = new Collection<SysGroupUserMap>();
- 
+
+        public int SysUserID
+        {
+            get { return _SysUserID; }
+            set { _SysUserID = value; }
+        }
         public string PasswordResetToken 
         {
             get { return _PasswordResetToken; }

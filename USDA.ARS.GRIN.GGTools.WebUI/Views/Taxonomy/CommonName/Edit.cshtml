@@ -179,80 +179,65 @@
                         @Html.HiddenFor(x => x.Entity.ID)
                         @Html.HiddenFor(x => x.Entity.RelatedItemCount)
                         @Html.HiddenFor(x => x.Entity.CategoryCode)
-                        <div id="section-taxon-tabs" class="card card-primary card-outline card-outline-tabs">
-                            <div class="card-header p-0 border-bottom-0">
-                                <ul class="nav nav-tabs" id="custom-tabs-four-tab" role="tablist">
-                                    <li id="taxonomy-genus" class="nav-item">
-                                        <a class="nav-link active" id="taxonomy-genus-tab" data-toggle="pill" href="#custom-tabs-four-profile" role="tab" aria-controls="custom-tabs-four-profile" aria-selected="false">Genus</a>
-                                    </li>
-                                    <li id="taxonomy-species" class="nav-item">
-                                        <a class="nav-link" id="taxonomy-species-tab" data-toggle="pill" href="#custom-tabs-four-messages" role="tab" aria-controls="custom-tabs-four-messages" aria-selected="false">Species</a>
-                                    </li>
-                                </ul>
+                        <div class="card card-default">
+                            <div class="card-header">
+                                
                             </div>
                             <div class="card-body">
                                 <div class="tab-content" id="custom-tabs-four-tabContent">
                                     @Html.Partial("~/Views/Shared/_ValidationMessages.cshtml")
                                     <div class="row">
-
-                                        <div id="section-fields-taxonomy-genus" class="col-md-3">
+                                        <div id="section-taxon-select" class="col-md-3">
                                             <div class="form-group">
+                                                <label>Taxon Type</label>
+                                                <select id="ddlTaxonType" class="form-control">
+                                                    <option value="taxonomy-genus">Genus</option>
+                                                    <option value="taxonomy-species">Species</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div id="section-fields-taxonomy-genus" class="form-group">
                                                 <label>Genus</label>
                                                 <div class="input-group">
-                                                    @Html.TextBoxFor(x => x.Entity.GenusName, new { @class = "form-control", @readonly = "readonly" })
+                                                    @Html.TextBoxFor(x => x.Entity.GenusName, new { @class = "form-control", @readonly = "readonly", @style = "background-color:#ecf0f5;" })
                                                     @Html.HiddenFor(x => x.Entity.GenusID)
                                                     @if (Model.Entity.GenusID > 0)
                                                     {
-                                                        <span class="input-group-append">
+                                                        <span class="input-group-btn">
                                                             <a href="@Url.Action("Edit", "Genus", new { @entityId = Model.Entity.GenusID })" class="btn btn-default btn-flat">
                                                                 <i class="fa fa-link"></i>
                                                             </a>
                                                         </span>
                                                     }
                                                     <span class="input-group-btn">
-                                                        <button id="btnOpenGenusLookupModal"
-                                                                type="button"
-                                                                data-toggle="modal"
-                                                                data-ggtools-action="GenusID"
-                                                                data-ggtools-value="GenusName"
-                                                                data-target="#modal-genus-lookup"
-                                                                class="btn btn-default btn-flat">
+                                                        <button id="btnOpenGenusLookupModal" type="button" data-ggtools-action="GenusID" data-ggtools-value="GenusName" data-toggle="modal" data-target="#modal-genus-lookup" class="btn btn-default btn-flat">
                                                             <i class="fa fa-search"></i>
                                                         </button>
                                                     </span>
                                                 </div>
                                             </div>
-                                        </div>
-
-                                        <div id="section-fields-taxonomy-species" class="col-md-3">
-                                            <div class="form-group">
+                                            <div id="section-fields-taxonomy-species" class="form-group">
                                                 <label>Species</label>
-                                                <div class="input-group mb-3">
-                                                    @Html.TextBoxFor(x => x.Entity.SpeciesName, new { @class = "form-control", @readonly = "readonly" })
+                                                <div class="input-group">
+                                                    @Html.TextBoxFor(x => x.Entity.SpeciesName, new { @class = "form-control", @readonly = "readonly", @style = "background-color:#ecf0f5;" })
                                                     @Html.HiddenFor(x => x.Entity.SpeciesID)
                                                     @if (Model.Entity.SpeciesID > 0)
                                                     {
-                                                        <span class="input-group-append">
+                                                        <span class="input-group-btn">
                                                             <a href="@Url.Action("Edit", "Species", new { @entityId = Model.Entity.SpeciesID })" class="btn btn-default btn-flat">
                                                                 <i class="fa fa-link"></i>
                                                             </a>
                                                         </span>
                                                     }
                                                     <span class="input-group-btn">
-                                                        <button id="btnOpenSpeciesLookupModal"
-                                                                type="button"
-                                                                data-toggle="modal"
-                                                                data-ggtools-action="SpeciesID"
-                                                                data-ggtools-value="SpeciesName"
-                                                                data-target="#modal-species-lookup"
-                                                                class="btn btn-default btn-flat">
+                                                        <button id="btnOpenSpeciesLookupModal" type="button" data-ggtools-action="SpeciesID" data-ggtools-value="SpeciesName" data-toggle="modal" data-target="#modal-species-lookup" class="btn btn-default btn-flat">
                                                             <i class="fa fa-search"></i>
                                                         </button>
                                                     </span>
                                                 </div>
                                             </div>
                                         </div>
-
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <label>Name</label>
@@ -280,7 +265,7 @@
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <label>Language</label>
-                                                @Html.DropDownListFor(x => x.Entity.LanguageID, Model.CommonNameLanguages, "Select language", new { @class = "form-control" })
+                                                @Html.DropDownListFor(x => x.Entity.LanguageID, Model.CommonNameLanguages, "Select language", new { @id="ddlLanguage", @class = "form-control" })
                                             </div>
                                         </div>
                                     </div>
@@ -320,6 +305,9 @@
                                     <button type="submit" class="btn btn-primary float-right">Save</button>
                                 </div>
                             </div>
+                            <div class="card-footer">
+
+                            </div>
                         </div>
                     }
 
@@ -352,42 +340,44 @@
     @{Html.RenderAction("RenderLookupModal", "Species"); }
     @Html.Partial("~/Views/Shared/Modals/_NoteLookup2.cshtml")
 
-    <script>
-    $(document).ready(function () {
-        Init();
-    });
+    <script type="text/javascript">
+        $(document).ready(function () {
+            Init();
+        });
 
-    function Init() {
-        $('[id*="section-fields"]').hide();
-        // If adding a new record, show Family by default; otherwise, show section that corresponds to the
-        // citation taxon.
-        var entityId = $("#Entity_ID").val();
-        if (entityId == 0) {
+        function Init() {
             $('[id*="section-fields"]').hide();
-            $("#section-fields-taxonomy-genus").show();
+            // If adding a new record, show Family by default; otherwise, show section that corresponds to the
+            // citation taxon.
+            var entityId = $("#Entity_ID").val();
+            if (entityId == 0) {
+                $('[id*="section-fields"]').hide();
+                $("#section-fields-taxonomy-genus").show();
+            }
+            else {
+                var categoryTab = $("#Entity_CategoryCode").val() + "-tab";
+                var categoryCode = "#section-fields-" + $("#Entity_CategoryCode").val();
+
+                //DEBUG
+                /*alert("CAT CODE " + categoryCode);*/
+
+                $('[id*="section-fields"]').hide();
+                $('.nav-link').removeClass("active");
+                $(categoryCode).show();
+                $("#" + categoryTab).addClass("active");
+            }
         }
-        else {
-            var categoryTab = $("#Entity_CategoryCode").val() + "-tab";
-            var categoryCode = "#section-fields-" + $("#Entity_CategoryCode").val();
 
-            //DEBUG
-            /*alert("CAT CODE " + categoryCode);*/
+        $('#ddlTaxonType').on('change', function () {
+            ToggleTaxonFields(this.value);
+        });
 
+        function ToggleTaxonFields(taxonType) {
             $('[id*="section-fields"]').hide();
-            $('.nav-link').removeClass("active");
-            $(categoryCode).show();
-            $("#" + categoryTab).addClass("active");
+            $("#section-fields-" + taxonType).show();
         }
-    }
 
-    $('#section-taxon-tabs ul.nav li').on('click', function () {
-        var selectedCitationTaxonTab = $(this).attr('id');
-        var sectionFields = "section-fields-" + selectedCitationTaxonTab;
-        $('[id*="section-fields"]').hide();
-        $("#" + sectionFields).show();
-    });
-
-        $('select').on('change', function () {
+        $('#ddlLanguage').on('change', function () {
             var selectedText = $(this).find("option:selected").text();
             $("#Entity_LanguageDescription").val(selectedText);
         });

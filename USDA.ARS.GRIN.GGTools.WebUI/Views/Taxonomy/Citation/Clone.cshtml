@@ -90,7 +90,6 @@
             margin-bottom: 10px;
         }
     </style>
-
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/adminlte/js")
@@ -194,12 +193,47 @@
         });
 
         function Init() {
-            AddClone("");
+            RenderCloneWidget();
+            $("#section-citation select").attr('readonly', true);
+            $("#section-citation select").prop('disabled', true);
+            $("#section-citation input").attr('readonly', true);
+            $("#section-citation textarea").attr('readonly', true);
+            $(':button').prop('disabled', true); // Disable all the buttons
+
         }
 
-        
+        function RenderCloneWidget() {
+            var link = '@Url.Action("RenderCloneWidget","Citation")';
+            var entityId = $("#Entity_ID").val();
+            var formData = new FormData();
+            formData.append("entityId", entityId);
+
+            $.ajax({
+                url: link,
+                type: 'POST',
+                cache: false,
+                contentType: false,
+                processData: false,
+                data: formData,
+                success: function (response) {
+                    $("#section-citation-clone").html(response);
+                },
+                error: function () {
+                    alert("Error");
+                }
+            });
+        }
+
         $(document).on("click", "[id*='btnAddCloneFamily']", function () {
-            AddClone("taxonomy_family_map");
+            AddClone("Family");
+        });
+
+        $(document).on("click", "[id*='btnAddCloneGenus']", function () {
+            AddClone("Genus");
+        });
+
+        $(document).on("click", "[id*='btnAddCloneSpecies']", function () {
+            AddClone("Species");
         });
 
         function AddClone(taxonType) {

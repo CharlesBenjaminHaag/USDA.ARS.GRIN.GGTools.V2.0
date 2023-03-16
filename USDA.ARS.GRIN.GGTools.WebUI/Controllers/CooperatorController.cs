@@ -448,6 +448,20 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 return PartialView("~/Views/Error/_InternalServerError.cshtml");
             }
         }
+        public PartialViewResult RenderStatusWidget(int cooperatorId)
+        {
+            CooperatorViewModel viewModel = new CooperatorViewModel();
+            try
+            {
+                viewModel.GetStatus(cooperatorId);
+                return PartialView("~/Views/Cooperator/_StatusWidget.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
+        }
         public PartialViewResult _RenderRecordsOwnedList(int cooperatorId)
         {
             CooperatorViewModel viewModel = new CooperatorViewModel();

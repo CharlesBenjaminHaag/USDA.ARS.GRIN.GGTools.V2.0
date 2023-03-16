@@ -109,6 +109,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             //SQL += " AND (@VarietyName                    IS NULL OR VarietyName LIKE '%' + @VarietyName + '%')";
             SQL += " AND        (@SynonymCode               IS NULL OR  SynonymCode = @SynonymCode)";
             SQL += " AND        (@IsAcceptedName            IS NULL OR  IsAcceptedName              =       @IsAcceptedName)";
+            SQL += " AND        (@SpeciesAuthority          IS NULL OR  SpeciesAuthority            =       @SpeciesAuthority)";
 
             if (!String.IsNullOrEmpty(searchEntity.IDList))
             {
@@ -128,6 +129,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
                 CreateParameter("SpeciesName", (object)searchEntity.SpeciesName ?? DBNull.Value, true),
                 CreateParameter("SynonymCode", (object)searchEntity.SynonymCode ?? DBNull.Value, true),
                 CreateParameter("IsAcceptedName", (object)searchEntity.IsAcceptedName ?? DBNull.Value, true),
+                CreateParameter("SpeciesAuthority", (object)searchEntity.SpeciesAuthority ?? DBNull.Value, true),
             };
 
             results = GetRecords<Species>(SQL, parameters.ToArray());

@@ -3,40 +3,108 @@
     ViewBag.Title = Model.PageTitle;
     Layout = "~/Views/Shared/_LayoutAdminLTE3.cshtml";
 }
-
-<div class="card">
-    <div class="card-header p-2">
-        <ul class="nav nav-pills">
-            <li class="nav-item"><a class="nav-link active" href="#tab-cooperator" data-toggle="tab">Cooperator</a></li>
-            <li class="nav-item"><a class="nav-link" href="#tab-sys-user" data-toggle="tab">Sys User</a></li>
-            <li class="nav-item"><a class="nav-link" href="#tab-sys-group-user-map" data-toggle="tab">
-                <i class="fa fa-exclamation-triangle" style="color:red;"></i>
-                Sys Groups</a>
-            </li>
-            <li class="nav-item"><a class="nav-link" href="#tab-web-cooperator" data-toggle="tab">Web Cooperator</a></li>
-            <li class="nav-item"><a class="nav-link" href="#tab-web-user" data-toggle="tab">Web User</a></li>
-        </ul>
+@Html.Partial("~/Views/Cooperator/_ChecklistWidget.cshtml")
+<div class="row">
+    <div class="col-md-6">
+        <div id="card-sys-user">
+            @{Html.RenderAction("_Get", "SysUser", new { @entityId = Model.Entity.SysUserID, @cooperatorId = Model.Entity.ID }); }
+        </div>
+        <div id="card-cooperator">
+            @{Html.RenderAction("_Get", "Cooperator", new { @entityId = Model.Entity.ID }); }
+        </div>
     </div>
-    <div class="card-body">
-        <div class="tab-content">
-            <div class="tab-pane active" id="tab-cooperator">
-                @{Html.RenderAction("_Get", "Cooperator", new { @entityId = Model.Entity.ID }); }
+    <div class="col-md-6">
+        <div id="card-web-user">
+            @{Html.RenderAction("_Get", "WebUser", new { @entityId = Model.Entity.WebUserID }); }
+        </div>
+        <div id="card-web-cooperator">
+            @{Html.RenderAction("_Get", "WebCooperator", new { @entityId = Model.Entity.WebCooperatorID, cooperatorId = Model.Entity.ID }); }
+        </div>
+    </div>
+</div>
+
+<!-- BEGIN CONF EMAIL -->
+<div class="modal fade" id="modal-email-preview" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">
+                    <i class="fas fa-envelope"></i>
+                    Send Confirmation Email
+                </h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
             </div>
-            <div class="tab-pane" id="tab-sys-user">
-                @{Html.RenderAction("_Get", "SysUser", new { @entityId = Model.Entity.SysUserID, @cooperatorId = Model.Entity.ID }); }
+            <div class="modal-body">
+                @*<div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label>Add Note (Internal User Only)</label>
+                    <textarea id="txtEmailRequestorNote" class="form-control note-format" rows="3"></textarea>
+                </div>
             </div>
-            <div class="tab-pane" id="tab-sys-group-user-map">
-                @{Html.RenderAction("RenderWidget", "SysGroupUserMap", new { @sysUserId = Model.Entity.SysUserID }); }
+        </div>*@
+                <div class="form-group">
+                    <label>To</label>
+                    <input id="txtEmailRequestorTo" class="form-control" type="text" placeholder="To" value="">
+                </div>
+                <div class="form-group">
+                    <label>From</label>
+                    <input id="txtEmailRequestorFrom" class="form-control" type="text" placeholder="To" value="">
+                </div>
+                <div class="form-group">
+                    <label>Subject</label>
+                    <input id="txtEmailRequestorSubject" class="form-control" type="text" placeholder="Subject" value="Request For Additional Information [Web Order #@Model.Entity.ID]">
+                    @*<input class="form-control" placeholder="Subject" value="@Model.InformationRequestEmailTemplate.Subject.Replace("[ID_HERE]", Model.ID.ToString())">*@
+                </div>
+                <br />
+                <div class="card">
+                    <div class="card-header p-2">
+                        <ul class="nav nav-pills">
+                            <li class="nav-item"><a class="nav-link active" href="#tab-email-preview" data-toggle="tab">Preview</a></li>
+                            <li class="nav-item"><a class="nav-link" href="#tab-email-edit" data-toggle="tab">Edit</a></li>
+                        </ul>
+                    </div>
+                    <div class="card-body">
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="tab-email-preview">
+                                <p>Dear Person</p>
+                                <p>Your GRIN-Global Curator Tool Account has been created:</p>
+                                <table>
+                                    <tr>
+                                        <td>Database</td>
+                                        <td>PRODUCTION</td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="tab-pane" id="tab-email-edit">
+                                
+                                    <textarea id="txtEmailRequestorBody" class="form-control" rows="10">
+                                    <p>Dear Person</p>
+                                    <p>Your GRIN-Global Curator Tool Account has been created:</p>
+                                    <table>
+                                    <tr>
+                                    <td>Database</td>
+                                    <td>PRODUCTION</td>
+                                            </tr>
+                                        </table>        
+                                    </textarea>
+                                </div>
+                            
+                        </div>
+                    </div>
+                </div>
+
             </div>
-            <div class="tab-pane" id="tab-web-cooperator">
-                @{Html.RenderAction("_Get", "WebCooperator", new { @entityId = Model.Entity.WebCooperatorID, cooperatorId = Model.Entity.ID }); }
-            </div>
-            <div class="tab-pane" id="tab-web-user">
-                @{Html.RenderAction("_Get", "WebUser", new { @entityId = Model.Entity.WebUserID }); }
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                <button type="button" id="btnSubmitEmailRequestor" class="btn btn-primary" data-dismiss="modal">Send Email</button>
             </div>
         </div>
     </div>
 </div>
+<!-- END CONF EMAIL -->
 
 <script type="text/javascript">
     $(document).ready(function () {
@@ -65,6 +133,10 @@
 
     $(document).on("click", "[id*='btnSaveWebUser']", function () {
         SaveWebUser();
+    });
+
+    $(document).on("click", "[id*='btnCopyWebUser']", function () {
+        CopyWebUser();
     });
 
     function SaveCooperator() {
@@ -98,7 +170,7 @@
             processData: false,
             data: formData,
             success: function (response) {
-                $("#tab-cooperator").html(response);
+                $("#card-cooperator").html(response);
             },
             error: function () {
                 alert("Error");
@@ -129,7 +201,7 @@
             processData: false,
             data: formData,
             success: function (response) {
-                $("#tab-web-cooperator").html(response);
+                $("#card-web-cooperator").html(response);
             },
             error: function () {
                 alert("Error");
@@ -141,6 +213,7 @@
         var link = $("#frmEditSysUser").attr("action");
         var formData = new FormData();
 
+        formData.append("Entity.CooperatorID", $("#frmEditSysUser #Entity_CooperatorID").val());
         formData.append("Entity.SysUserID", $("#frmEditSysUser #Entity_SysUserID").val());
         formData.append("Entity.SysUserName", $("#frmEditSysUser #Entity_SysUserName").val());
         formData.append("Entity.SysUserPassword", $("#frmEditSysUser #Entity_SysUserPassword").val());
@@ -154,7 +227,7 @@
             processData: false,
             data: formData,
             success: function (response) {
-                $("#tab-sys-user").html(response);
+                $("#card-sys-user").html(response);
             },
             error: function () {
                 alert("Error");
@@ -170,6 +243,33 @@
         $("#section-card-web-user").addClass("card-default");
     }
 
+    function CopyWebUser() {
+        var link = '@Url.Action("Copy","WebUser")';
+        var sysUserId = $("#frmEditSysUser #Entity_ID").val();
+        var webCooperatorId = $("#frmEditWebCooperator #Entity_ID").val();
+        var formData = new FormData();
+
+        //DEBUG
+        /*alert("SU IS " + sysUserId + " AND WC IS " + webCooperatorId);*/
+
+        formData.append("SysUserID", sysUserId);
+        formData.append("Entity.WebCooperatorID", webCooperatorId);
+
+        $.ajax({
+            url: link,
+            type: 'POST',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (response) {
+                $("#card-web-user").html(response);
+            },
+            error: function () {
+                alert("Error");
+            }
+        });
+    }
     //$('#btnEditGroups').on('click', function () {
     //    $("#modal_sys_group_user_map_lookup").modal("show");
     //});

@@ -45,7 +45,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         {
             List<Author> results = new List<Author>();
 
-            SQL = "SELECT * FROM vw_GGTools_Taxon_Authors";
+            SQL = "SELECT * FROM vw_GRINGlobal_Taxonomy_Author";
             SQL += " WHERE  (@ID                IS NULL     OR  ID = @ID) ";
             SQL += " AND    (@CreatedByCooperatorID         IS NULL OR CreatedByCooperatorID    =       @CreatedByCooperatorID)";
             SQL += " AND    (@CreatedDate                   IS NULL OR CreatedDate              =       @CreatedDate)";
@@ -64,6 +64,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
                 SQL += " AND      (@ShortName   IS NULL     OR ShortName        LIKE    '%' + @ShortName + '%')";
             }
             
+
             var parameters = new List<IDbDataParameter> {
                 CreateParameter("ID", searchEntity.ID > 0 ? (object)searchEntity.ID : DBNull.Value, true),
                 CreateParameter("CreatedByCooperatorID", searchEntity.CreatedByCooperatorID > 0 ? (object)searchEntity.CreatedByCooperatorID : DBNull.Value, true),

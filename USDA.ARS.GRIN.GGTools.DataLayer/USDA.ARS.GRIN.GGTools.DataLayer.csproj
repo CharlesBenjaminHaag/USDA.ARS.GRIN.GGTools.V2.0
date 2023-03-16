@@ -68,6 +68,7 @@
     <Compile Include="EntityClasses\CommonNameLanguage.cs" />
     <Compile Include="EntityClasses\CommonNameLanguageSearch.cs" />
     <Compile Include="EntityClasses\CommonNameSearch.cs" />
+    <Compile Include="EntityClasses\CooperatorStatus.cs" />
     <Compile Include="EntityClasses\Cooperator.cs" />
     <Compile Include="EntityClasses\CooperatorGroup.cs" />
     <Compile Include="EntityClasses\CooperatorMapSearch.cs" />

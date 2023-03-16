@@ -38,6 +38,19 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             return cooperator;
         }
 
+        public CooperatorStatus GetStatus(int entityId)
+        {
+            CooperatorStatus cooperatorStatus = new CooperatorStatus();
+
+            SQL = "usp_GRINGlobal_Cooperator_Status_Select";
+
+            var parameters = new List<IDbDataParameter> {
+                    CreateParameter("cooperator_id", (object)entityId, false)
+                };
+
+            cooperatorStatus = GetRecord<CooperatorStatus>(SQL, CommandType.StoredProcedure, parameters.ToArray());
+            return cooperatorStatus;
+        }
         public List<Cooperator> GetCooperatorsBySysGroup(string sysGroupName)
         {
             List<Cooperator> cooperators = new List<Cooperator>();
