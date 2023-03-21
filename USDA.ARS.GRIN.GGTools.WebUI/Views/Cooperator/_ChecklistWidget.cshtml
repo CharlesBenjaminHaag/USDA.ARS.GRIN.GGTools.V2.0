@@ -1,17 +1,22 @@
 ﻿@model USDA.ARS.GRIN.GGTools.ViewModelLayer.CooperatorViewModel
 
 <div class="timeline timeline-inverse">
+    @{ 
+        string cssClassIsComplete = "fas fa-check bg-success";
+        string cssClassIsNotComplete = "fas fa-skull-crossbones bg-danger";
+    }
+
     <div class="time-label">
         <span class="bg-warning">
-            DEBUG
+            @Model.StatusEntity.StatusCode
         </span>
     </div>
 
     <!-- COOP -->
     <div>
-        <i class="fas fa-check bg-success"></i>
+        <i class="@cssClassIsComplete"></i>
         <div class="timeline-item">
-            <span class="time"><i class="far fa-clock"></i> @System.DateTime.Now</span>
+            <span class="time"><i class="far fa-clock"></i> @Model.StatusEntity.CooperatorCreatedDate</span>
             <h3 class="timeline-header border-0">
                 <a href="#">Cooperator</a> created by System
             </h3>

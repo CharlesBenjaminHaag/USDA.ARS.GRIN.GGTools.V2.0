@@ -3,7 +3,9 @@
     ViewBag.Title = Model.PageTitle;
     Layout = "~/Views/Shared/_LayoutAdminLTE3.cshtml";
 }
-@Html.Partial("~/Views/Cooperator/_ChecklistWidget.cshtml")
+
+@{Html.RenderAction("RenderStatusWidget", "Cooperator", new { @cooperatorId = Model.Entity.ID }); }
+
 <div class="row">
     <div class="col-md-6">
         <div id="card-sys-user">
@@ -247,6 +249,7 @@
         var link = '@Url.Action("Copy","WebUser")';
         var sysUserId = $("#frmEditSysUser #Entity_ID").val();
         var webCooperatorId = $("#frmEditWebCooperator #Entity_ID").val();
+        var webUserName = $("#frmEditCooperator #Entity_EmailAddress").val();
         var formData = new FormData();
 
         //DEBUG
@@ -254,6 +257,7 @@
 
         formData.append("SysUserID", sysUserId);
         formData.append("Entity.WebCooperatorID", webCooperatorId);
+       /* formData.append("Entity.WebCooperatorID", webCooperatorId);*/
 
         $.ajax({
             url: link,

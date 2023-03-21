@@ -109,13 +109,16 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse order-3" id="navbarCollapse">
-                    <!-- BEGIN EDIT PAGE MENU -->
-                    <ul class="navbar-nav">
-                        <li class="nav-item d-none d-sm-inline-block">
-                            <a href="@Url.Action("Clone", "Citation", new { entityId = Model.Entity.ID })" class="nav-link">Clone</a>
-                        </li>
-                    </ul>
-                    <!-- END EDIT PAGE MENU-->
+                    @if (Model.Entity.ID > 0)
+                    {
+                        <!-- BEGIN EDIT PAGE MENU -->
+                        <ul class="navbar-nav">
+                            <li class="nav-item d-none d-sm-inline-block">
+                                <a href="@Url.Action("Clone", "Citation", new { entityId = Model.Entity.ID })" class="nav-link">Clone</a>
+                            </li>
+                        </ul>
+                        <!-- END EDIT PAGE MENU-->
+                    }
                 </div>
                 <!-- BEGIN RIGHT-ALIGNED NAV MENU -->
                 <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">

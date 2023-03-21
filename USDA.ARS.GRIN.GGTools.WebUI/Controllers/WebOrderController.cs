@@ -1,9 +1,8 @@
-﻿using System;
+﻿using NLog;
+using System;
 using System.Web.Mvc;
 using USDA.ARS.GRIN.GGTools.DataLayer;
 using USDA.ARS.GRIN.GGTools.ViewModelLayer;
-using USDA.ARS.GRIN.GGTools.ViewModelLayer;
-using NLog;
 
 namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
 {
@@ -154,9 +153,33 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             viewModel.ActionEmailFrom = "gringlobal.orders@usda.gov";
             viewModel.ActionEmailBody = emailTemplate.Body;
 
+            // REFACTOR: Replace placeholder variables with WOR data.
+            //viewModel.ActionEmailBody.Replace("@WebCooperatorFullName", viewModel.Entity.WebCooperatorFullName);
+            viewModel.ActionEmailBody = viewModel.ActionEmailBody.Replace("[ID_HERE]", viewModel.Entity.ID.ToString());
+            viewModel.ActionEmailSubject = viewModel.ActionEmailSubject.Replace("[ID_HERE]", viewModel.Entity.ID.ToString());
             return PartialView("~/Views/WebOrder/Modals/_Email.cshtml", viewModel);
         }
-      
+
+        public JsonResult SendEmail(WebOrderRequestViewModel viewModel)
+        {
+            try
+            {
+                viewModel.SendEmail();
+                WebOrderRequestAction webOrderRequestAction = new WebOrderRequestAction();
+                webOrderRequestAction.WebOrderRequestID = viewModel.Entity.ID;
+                webOrderRequestAction.ActionCode = viewModel.EventAction;
+                webOrderRequestAction.Note = viewModel.EventNote + "==========================================" + viewModel.ActionEmailBody;
+                webOrderRequestAction.OwnedByWebUserID = AuthenticatedUser.WebUserID;
+                viewModel.InsertAction(webOrderRequestAction);
+                return Json(new { success = true }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return Json(new { success = false }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
         public PartialViewResult RenderRejectModal(int entityId)
         {
             WebOrderRequestViewModel viewModel = new WebOrderRequestViewModel();
@@ -177,53 +200,6 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             return PartialView("~/Views/WebOrder/Modals/_Note.cshtml", viewModel);
         }
 
-
-        //public PartialViewResult _ListFolderItems(int folderId)
-        //{
-        //    try
-        //    {
-        //        return PartialView("~/Views/Shared/_UnderConstruction.cshtml");
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Log.Error(ex);
-        //        return PartialView("~/Views/Error/_InternalServerError.cshtml");
-        //    }
-        //}
-        //public JsonResult Add(FormCollection formCollection)
-        //{
-        //    throw new NotImplementedException();
-        //}
-        //public ActionResult Delete(int entityId)
-        //{
-        //    throw new NotImplementedException();
-        //}
-        //public ActionResult View(int entityId)
-        //{
-        //    try
-        //    {
-        //        WebOrderRequestViewModel viewModel = new WebOrderRequestViewModel();
-        //        viewModel.Get(entityId);
-        //        if (viewModel.Entity.ID == 0)
-        //        {
-        //            return View("~/Views/Error/RecordNotFound.cshtml");                
-        //        }
-
-        //        viewModel.PageTitle = String.Format("View Web Order [{0}]", entityId);
-        //        viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
-        //        viewModel.AuthenticatedUserWebUserID = AuthenticatedUser.WebUserID;
-        //        return View(viewModel);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Log.Error(ex);
-        //        return RedirectToAction("InternalServerError", "Error");
-        //    }
-        //}
-        public ActionResult Board()
-        {
-            return View();
-        }
         public ActionResult Edit(int entityId)
         {
             throw new NotImplementedException();
@@ -278,29 +254,6 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 return RedirectToAction("InternalServerError", "Error");
             }
         }
-
-        //public ActionResult Lookup(int entityId = 0)
-        //{
-        //    try
-        //    {
-        //        WebOrderRequestViewModel viewModel = new WebOrderRequestViewModel();
-        //        viewModel.SearchEntity.ID = entityId;
-        //        viewModel.Search();
-        //        if (viewModel.RowsAffected == 0)
-        //        {
-        //            return View("~/Views/Error/RecordNotFound.cshtml");
-        //        }
-        //        else
-        //        {
-        //            return RedirectToAction("View","WebOrder", new { entityId = viewModel.Entity.ID });
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Log.Error(ex);
-        //        return RedirectToAction("InternalServerError", "Error");
-        //    }
-        //}
 
         public ActionResult Search(int id=0, string status="", string requestorName="", string emailAddress="", string organization="", string intendedUseCode="")
         {
@@ -397,38 +350,6 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
         public JsonResult AddWebOrderRequestAction(FormCollection formCollection)
         {
             return null;
-        }
-
-        [HttpPost]
-        public JsonResult SendEmail(FormCollection formCollection)
-        {
-            int entityId = 0;
-            int webUserId = 0;
-            string actionNote = String.Empty;
-            WebOrderRequestViewModel viewModel = new WebOrderRequestViewModel();
-
-            return null;
-
-            //try
-            //{
-            //    webUserId = AuthenticatedUser.WebUserID;
-            //    if (!String.IsNullOrEmpty(formCollection["EntityID"]))
-            //    {
-            //        entityId = Int32.Parse(formCollection["EntityID"]);
-            //    }
-
-            //    if (!String.IsNullOrEmpty(formCollection["ActionNote"]))
-            //    {
-            //        actionNote = formCollection["ActionNote"];
-            //    }
-            //    viewModel.InsertNote(entityId, actionNote, webUserId);
-            //    return Json(new { success = true }, JsonRequestBehavior.AllowGet);
-            //}
-            //catch (Exception ex)
-            //{
-            //    Log.Error(ex);
-            //    return Json(new { success = false }, JsonRequestBehavior.AllowGet);
-            //}
         }
 
         [HttpPost]

@@ -350,9 +350,25 @@
             // If adding a new record, show Family by default; otherwise, show section that corresponds to the
             // citation taxon.
             var entityId = $("#Entity_ID").val();
+            var genusId = $("#Entity_GenusID").val();
+            var speciesId = $("#Entity_SpeciesID").val();
+
+            //DEBUG
+            /*alert("GENUS " + genusId + " SPECIES " + speciesId);*/
+
             if (entityId == 0) {
                 $('[id*="section-fields"]').hide();
-                $("#section-fields-taxonomy-genus").show();
+
+                if (genusId > 0) {
+                    $("#ddlTaxonType option[value=taxonomy-genus]").attr('selected', 'selected');
+                    $("#section-fields-taxonomy-genus").show();
+                }
+                else {
+                    if (speciesId > 0) {
+                        $("#ddlTaxonType option[value=taxonomy-species]").attr('selected', 'selected');
+                        $("#section-fields-taxonomy-species").show();
+                    }
+                }
             }
             else {
                 var categoryTab = $("#Entity_CategoryCode").val() + "-tab";

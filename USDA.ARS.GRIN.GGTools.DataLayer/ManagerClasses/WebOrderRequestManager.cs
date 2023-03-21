@@ -44,9 +44,17 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             AddParameter("action_code", String.IsNullOrEmpty(entity.ActionCode) ? DBNull.Value : (object)entity.ActionCode, true);
             AddParameter("note", (object)entity.Note ?? DBNull.Value, true);
             AddParameter("created_by", (object)entity.OwnedByWebUserID ?? DBNull.Value, true);
+
+            AddParameter("@out_web_order_request_action_id", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
             AddParameter("@out_error_number", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
-            
-            //TODO Get err no.
+
+            entity.ID = GetParameterValue<int>("@out_web_order_request_action_id", -1);
+            int errorNumber = GetParameterValue<int>("@out_error_number", -1);
+
+            if (errorNumber > 0)
+            {
+                throw new Exception(errorNumber.ToString());
+            }
             RowsAffected = ExecuteNonQuery();
             return RowsAffected;
         }

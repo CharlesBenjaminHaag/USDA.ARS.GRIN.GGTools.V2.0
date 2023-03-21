@@ -454,7 +454,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             try
             {
                 viewModel.GetStatus(cooperatorId);
-                return PartialView("~/Views/Cooperator/_StatusWidget.cshtml", viewModel);
+                return PartialView("~/Views/Cooperator/_ChecklistWidget.cshtml", viewModel);
             }
             catch (Exception ex)
             {

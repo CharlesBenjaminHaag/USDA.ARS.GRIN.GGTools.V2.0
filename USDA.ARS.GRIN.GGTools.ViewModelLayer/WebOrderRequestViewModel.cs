@@ -85,45 +85,7 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
             catch (Exception ex)
             { }
         }
-
-        public void GetOrderRequestActions()
-        {
-            try
-            {
-                using (WebOrderRequestManager mgr = new WebOrderRequestManager())
-                {
-                    DataCollectionActions = new Collection<WebOrderRequestAction>(mgr.GetWebOrderRequestActions(SearchEntity.ID));
-
-                    // Get web order request actions, grouped by day
-                    var queryWebOrderRequestActionDates =
-                    from action in DataCollectionActions
-                    group action by action.ActionDate into webOrderRequestActionGroup
-                    orderby webOrderRequestActionGroup.Key descending
-                    select webOrderRequestActionGroup;
-
-                    foreach (var group in queryWebOrderRequestActionDates)
-                    {
-                        WebOrderRequestActionGroup webOrderRequestActionGroup = new WebOrderRequestActionGroup { DateGroup = DateTime.Parse(group.Key.ToString()) };
-                        foreach (var subGroup in group)
-                        {
-                            WebOrderRequestAction webOrderRequestAction = new WebOrderRequestAction();
-                            webOrderRequestAction.ID = subGroup.ID;
-                            webOrderRequestAction.ActionCode = subGroup.ActionCode;
-                            webOrderRequestAction.ActionTitle = subGroup.ActionTitle;
-                            webOrderRequestAction.ActionDescription = subGroup.ActionDescription;
-                            webOrderRequestAction.Note = subGroup.Note;
-                            webOrderRequestAction.CreatedDate = subGroup.CreatedDate;
-                            webOrderRequestAction.CreatedByCooperatorID = subGroup.CreatedByCooperatorID;
-                            webOrderRequestAction.CreatedByCooperatorName = subGroup.CreatedByCooperatorName;
-                            webOrderRequestActionGroup.WebOrderRequestActions.Add(webOrderRequestAction);
-                        }
-                        DataCollectionActionGroups.Add(webOrderRequestActionGroup);
-                    }
-                }
-            }
-            catch (Exception ex)
-            { }
-        }
+        
         public EmailTemplate GetEmailTemplate(string typeCode)
         {
             EmailTemplate emailTemplate = new EmailTemplate();
@@ -146,6 +108,26 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
             }
             return emailTemplate;
         }
+
+        public void SendEmail()
+        {
+            try
+            {
+                SMTPManager sMTPManager = new SMTPManager();
+                SMTPMailMessage sMTPMailMessage = new SMTPMailMessage();
+                sMTPMailMessage.To = ActionEmailTo;
+                sMTPMailMessage.CC = ActionEmailBCC;
+                sMTPMailMessage.From = ActionEmailFrom;
+                sMTPMailMessage.Subject = ActionEmailSubject;
+                sMTPMailMessage.Body = ActionEmailBody;
+                sMTPManager.SendMessage(sMTPMailMessage);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         public void HandleRequest()
         {
             throw new NotImplementedException();

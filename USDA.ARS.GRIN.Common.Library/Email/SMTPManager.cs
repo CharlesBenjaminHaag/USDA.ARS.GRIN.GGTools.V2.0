@@ -30,7 +30,12 @@ namespace USDA.ARS.GRIN.Common.Library.Email
                 }
                 mailMessage.Subject = sMTPMailMessage.Subject;
                 mailMessage.Body = sMTPMailMessage.Body;
-                mailMessage.Bcc.Add("benjamin.haag@usda.gov");
+
+                if (!String.IsNullOrEmpty(sMTPMailMessage.CC))
+                {
+                    mailMessage.Bcc.Add(sMTPMailMessage.CC);
+                }
+
                 mailMessage.IsBodyHtml = true;
                 SmtpClient client = new SmtpClient(SMTP_SERVER);
                 client.Send(mailMessage);

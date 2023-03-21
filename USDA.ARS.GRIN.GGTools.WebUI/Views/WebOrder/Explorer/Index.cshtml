@@ -53,11 +53,6 @@
             </div>
             <div class="card-body web-order-request">
                 <div class="tab-content">
-
-                    
-
-
-
                     <div class="tab-pane active" id="activity" style="padding:0px;">
 
                     </div>
@@ -238,10 +233,12 @@
         LoadNoteModal();
     });
 
-    $(document).on("click", "[id='btnContinue']", function () {
+    $(document).on("click", "[id='btnSendEmail']", function () {
         var id = GetEntityID();
         var actionCode = $(this).data("ggtools-action");
-        HandleAction(actionCode, true);
+        SendEmail(actionCode);
+        LoadWebOrderRequestDetail(GetEntityID());
+        LoadWebOrderRequestList("1D");
     });
 
     $(document).on("click", "[id='btnReject']", function () {
@@ -257,6 +254,37 @@
         var entityId = GetEntityID();
         var note = $("#txtNote").val();
         //TODO
+    }
+
+    function SendEmail(actionCode) {
+        var link = $("#frmEditEmail").attr("action");
+        var formData = new FormData();
+
+        formData.append("EventAction", $("#frmEditEmail #EventAction").val());
+        formData.append("EventValue", $("#frmEditEmail #EventValue").val());
+        formData.append("EventNote", $("#frmEditEmail #EventNote").val());
+        formData.append("Entity.ID", $("#frmEditEmail #Entity_ID").val());
+        formData.append("ActionEmailFrom", $("#frmEditEmail #ActionEmailFrom").val());
+        formData.append("ActionEmailTo", $("#frmEditEmail #ActionEmailTo").val());
+        formData.append("ActionEmailBCC", $("#frmEditEmail #ActionEmailBCC").val());
+        formData.append("ActionEmailSubject", $("#frmEditEmail #ActionEmailSubject").val());
+        formData.append("ActionEmailBody", $("#frmEditEmail #ActionEmailBody").val());
+
+        $.ajax({
+            url: link,
+            type: 'POST',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (response) {
+                alert("DEBUG Email Sent");
+            },
+            error: function () {
+                alert("Error");
+            }
+        });
+        
     }
 
     function HandleAction(actionCode, sendEmail) {
@@ -288,8 +316,7 @@
         }
         //TODO MAKE AJAX CALL
         
-        LoadWebOrderRequestDetail(GetEntityID());
-        LoadWebOrderRequestList("1D");
+        
     }
 
     function GetEntityID() {
@@ -382,7 +409,7 @@
 
     function LoadEmailModal(actionCode) {
         link = '@Url.Action("RenderEmailModal", "WebOrder")';
-        var webOrderRequestId = GetEntityID();
+        var webOrderRequestId = $("#Entity_ID").val();
         var formData = new FormData();
 
         formData.append("entityId", webOrderRequestId);

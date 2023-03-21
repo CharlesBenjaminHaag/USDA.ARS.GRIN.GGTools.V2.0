@@ -23,7 +23,7 @@
                             <div class="timeline-body">
                                 @if (webOrderRequestAction.CreatedByCooperatorID != 1)
                                 {
-                                    @webOrderRequestAction.Note
+                                    @Html.Raw(webOrderRequestAction.Note)
                                 }
                             </div>
                         }
