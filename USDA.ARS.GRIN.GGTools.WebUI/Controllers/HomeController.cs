@@ -80,7 +80,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 case "GGT-CUR":
                     return RedirectToAction("Index", "AccessionInventoryAttachment");
                 case "GGT-ARM":
-                    return RedirectToAction("Index", "Cooperator");
+                    return RedirectToAction("Explorer", "Cooperator");
                 default:
                     return RedirectToAction("Index", "Home");
             }

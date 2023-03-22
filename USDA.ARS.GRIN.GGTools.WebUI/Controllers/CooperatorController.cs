@@ -9,6 +9,13 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
     public class CooperatorController : BaseController, IController<CooperatorViewModel>
     {
         private static readonly Logger Log = LogManager.GetCurrentClassLogger();
+
+        public ActionResult Explorer()
+        {
+            CooperatorViewModel viewModel = new CooperatorViewModel();
+            return View("~/Views/Cooperator/Explorer/Index.cshtml", viewModel);
+        }
+        
         public ActionResult Get(int entityId)
         {
             try
@@ -386,6 +393,9 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 {
                     case "LIST":
                         partialViewName = "_List.cshtml";
+                        break;
+                    case "SLST":
+                        partialViewName = "_SelectList.cshtml";
                         break;
                     case "LWGT":
                         partialViewName = "_ListWidget.cshtml";

@@ -47,7 +47,7 @@
 
         //Add the Field values to FormData object.
         var formData = new FormData();
-        formData.append("Entity.StatusCode", "PENDING");
+        formData.append("Entity.StatusCode", "ACTIVE");
         formData.append("Entity.ID", $("#frmEditCooperator #Entity_ID").val());
         formData.append("Entity.Salutation", $("#Entity_Salutation").val());
         formData.append("Entity.FirstName", $("#Entity_FirstName").val());
@@ -55,7 +55,7 @@
         formData.append("Entity.JobTitle", $("#Entity_JobTitle").val());
         formData.append("Entity.Organization", $("#Entity_Organization").val());
         formData.append("Entity.OrganizationAbbrev", $("#Entity_OrganizationAbbrev").val());
-        formData.append("Entity.EmailAddress", $("#Entity_EmailAddress").val());
+        formData.append("Entity.EmailAddress", $("#frmEditCooperator #Entity_EmailAddress").val());
         formData.append("Entity.PrimaryPhone", $("#Entity_PrimaryPhone").val());
         formData.append("Entity.CategoryCode", $("#Entity_CategoryCode").val());
         formData.append("Entity.SiteID", $("#Entity_SiteID").val());

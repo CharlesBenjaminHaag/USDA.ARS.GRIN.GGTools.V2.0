@@ -24,11 +24,21 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
             return Entity;
         }
 
-        public SysUser Get(int entityId)
+        public SysUser Get(int sysUserId, int cooperatorId)
         {
             using (SysUserManager mgr = new SysUserManager())
             {
-                Entity = mgr.Get(entityId);
+                if (sysUserId > 0)
+                {
+                    Entity = mgr.Get(sysUserId);
+                }
+                else
+                {
+                    if (cooperatorId > 0)
+                    {
+                        Entity = mgr.GetByCooperatorID(cooperatorId);
+                    }
+                }
             }
             return Entity;
         }

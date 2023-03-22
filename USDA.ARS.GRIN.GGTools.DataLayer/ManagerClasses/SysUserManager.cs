@@ -10,26 +10,8 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
         public SysUser Get(int entityId)
         {
             SysUser sysUser = new SysUser();
-            SQL = "usp_GRINGlobal_Sys_User_Select";
-
-            var parameters = new List<IDbDataParameter> {
-                CreateParameter("sys_user_id", (object)entityId, false)
-            };
-            sysUser = GetRecord<SysUser>(SQL, CommandType.StoredProcedure, parameters.ToArray());
-            parameters.Clear();
-            return sysUser;
-        }
-
-        public SysUser Get(int entityId, string environment = "")
-        {
-            SysUser sysUser = new SysUser();
             SQL = "usp_GGTools_GRINGlobal_SysUser_Select";
 
-            if (environment == "TRNG")
-            {
-                SQL = "training.dbo.usp_GGTools_GRINGlobal_SysUser_Select";
-            }
-
             var parameters = new List<IDbDataParameter> {
                 CreateParameter("sys_user_id", (object)entityId, false)
             };
@@ -37,6 +19,20 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             parameters.Clear();
             return sysUser;
         }
+
+        public SysUser GetByCooperatorID(int cooperatorId)
+        {
+            SysUser sysUser = new SysUser();
+            SQL = "usp_GRINGlobal_Sys_User_By_Cooperator_Select";
+
+            var parameters = new List<IDbDataParameter> {
+                CreateParameter("cooperator_id", (object)cooperatorId, false)
+            };
+            sysUser = GetRecord<SysUser>(SQL, CommandType.StoredProcedure, parameters.ToArray());
+            parameters.Clear();
+            return sysUser;
+        }
+
         public List<SysUser> GetTaxonomySysUsers()
         {
             List<SysUser> sysUsers = new List<SysUser>();

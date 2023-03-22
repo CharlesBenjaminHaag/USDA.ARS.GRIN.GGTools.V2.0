@@ -16,7 +16,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             try
             {
                 WebCooperatorViewModel viewModel = new WebCooperatorViewModel();
-                viewModel.Get(entityId, "");
+                viewModel.Get(entityId, cooperatorId);
                 viewModel.PageTitle = String.Format("Edit Web Cooperator [{0}]: {1}", entityId, viewModel.Entity.AssembledName);
                 viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
                 viewModel.AuthenticatedUser = AuthenticatedUser;

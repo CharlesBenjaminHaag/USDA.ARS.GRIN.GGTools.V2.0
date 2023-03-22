@@ -19,14 +19,14 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
         {
             throw new NotImplementedException();
         }
-        public WebCooperator Get(int entityId, string environment)
+        public WebCooperator Get(int entityId)
         {
             List<WebCooperator> webCooperators = new List<WebCooperator>();
             WebCooperator webCooperator = new WebCooperator();
 
             WebCooperatorSearch webCooperatorSearch = new WebCooperatorSearch();
-            webCooperatorSearch.Environment = environment;
             webCooperatorSearch.ID = entityId;
+            
             webCooperators = Search(webCooperatorSearch);
             if (webCooperators.Count == 1)
             {
@@ -34,6 +34,21 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             }
             return webCooperator;
         }
+
+        public WebCooperator GetByCooperatorID(int cooperatorId)
+        {
+            WebCooperator webCooperator = new WebCooperator();
+            SQL = "usp_GRINGlobal_Web_Cooperator_By_Cooperator_Select";
+
+            var parameters = new List<IDbDataParameter> {
+                CreateParameter("cooperator_id", (object)cooperatorId, false)
+            };
+            webCooperator = GetRecord<WebCooperator>(SQL, CommandType.StoredProcedure, parameters.ToArray());
+            parameters.Clear();
+            return webCooperator;
+        }
+
+
         public int Insert(WebCooperator entity)
         {
             Reset(CommandType.StoredProcedure);
@@ -120,10 +135,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             List<CodeValue> codeValues = GetRecords<CodeValue>(SQL, CommandType.StoredProcedure, parameters.ToArray());
             return codeValues;
         }
-        public WebCooperator Get(int entityId)
-        {
-            throw new NotImplementedException();
-        }
+        
         public void BuildInsertUpdateParameters(WebCooperator entity)
         {
             if (entity.ID > 0)

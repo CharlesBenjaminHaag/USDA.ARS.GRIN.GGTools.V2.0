@@ -17,11 +17,21 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
             throw new NotImplementedException();
         }
 
-        public WebCooperator Get(int entityId, string environment = "")
+        public WebCooperator Get(int entityId, int cooperatorId = 0)
         {
             using (WebCooperatorManager mgr = new WebCooperatorManager())
             {
-                Entity = mgr.Get(entityId, environment);
+                if (entityId > 0)
+                {
+                    Entity = mgr.Get(entityId);
+                }
+                else
+                {
+                    if (cooperatorId > 0)
+                    {
+                        Entity = mgr.GetByCooperatorID(cooperatorId);
+                    }
+                }
             }
             return Entity;
         }

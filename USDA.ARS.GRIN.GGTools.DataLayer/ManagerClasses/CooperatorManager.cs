@@ -63,22 +63,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             cooperators = GetRecords<Cooperator>(SQL, CommandType.StoredProcedure, parameters.ToArray());
             return cooperators;
         }
-
-        //public List<Cooperator> GetApplicationCooperators()
-        //{
-        //    string appCode = ConfigurationManager.AppSettings["AppCode"];
-
-        //    List<Cooperator> applicationCooperators = new List<Cooperator>();
-        //    SQL = "usp_GGTools_GRINGlobal_SysUsersByGroup_Select";
-
-        //    var parameters = new List<IDbDataParameter> {
-        //        CreateParameter("group_name", (object)appCode, false)
-        //    };
-
-        //    applicationCooperators = GetRecords<Cooperator>(SQL, CommandType.StoredProcedure, parameters.ToArray());
-        //    return applicationCooperators;
-        //}
-
+        
         public List<ReportItem> GetRecordsOwned(int cooperatorId)
         {
             List<ReportItem> reportItems = new List<ReportItem>();
@@ -198,20 +183,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             RowsAffected = results.Count;
             return results;
         }
-        
-        //public List<Cooperator> SearchSiteCurators(int siteId)
-        //{
-        //    SQL = "usp_GGTools_GRINGlobal_CooperatorsBySite_Select";
-        //    List<Cooperator> cooperators = new List<Cooperator>();
-
-        //    var parameters = new List<IDbDataParameter> {
-        //        CreateParameter("site_id", (object)siteId, false)
-        //    };
-
-        //    cooperators = GetRecords<Cooperator>(SQL, CommandType.StoredProcedure, parameters.ToArray());
-        //    return cooperators;
-        //}
-
+       
         public int Update(Cooperator entity)
         {
             Reset(CommandType.StoredProcedure);
@@ -290,7 +262,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
         public List<Site> GetSites()
         {
             List<Site> sites = new List<Site>();
-            SQL = "SELECT * FROM vw_GGTools_GRINGlobal_Sites ORDER BY AssembledName";
+            SQL = "SELECT * FROM vw_GRINGlobal_Site ORDER BY LongName";
             sites = GetRecords<Site>(SQL);
             return sites;
         }

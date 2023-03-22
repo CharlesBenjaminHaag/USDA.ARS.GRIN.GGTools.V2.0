@@ -133,7 +133,8 @@ function InitDataTableLight(tableName) {
     $(document).ready(function () {
         tableName = "#" + tableName;
         table = $(tableName).DataTable({
-            paging: true,
+            paging: false,
+            "bLengthChange": false,
             "pageLength": 20,
             responsive: true,
             select: {

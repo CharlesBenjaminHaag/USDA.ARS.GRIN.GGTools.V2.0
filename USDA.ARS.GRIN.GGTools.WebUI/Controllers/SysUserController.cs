@@ -10,12 +10,12 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
     {
         private static readonly Logger Log = LogManager.GetCurrentClassLogger();
 
-        public PartialViewResult _Get(int entityId, int cooperatorId = 0, string environment = "")
+        public PartialViewResult _Get(int sysUserId = 0, int cooperatorId = 0)
         {
             try
             {
                 SysUserViewModel viewModel = new SysUserViewModel();
-                viewModel.Get(entityId);
+                viewModel.Get(sysUserId, cooperatorId);
                 viewModel.Entity.CooperatorID = cooperatorId;
                 return PartialView("~/Views/SysUser/_Edit.cshtml", viewModel);
             }
@@ -55,7 +55,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                     viewModel.Entity.ModifiedByCooperatorID = AuthenticatedUser.CooperatorID;
                     viewModel.Update();
                 }
-                return _Get(viewModel.Entity.SysUserID, viewModel.Entity.CooperatorID, "");
+                return _Get(viewModel.Entity.SysUserID, viewModel.Entity.CooperatorID);
             }
             catch (Exception ex)
             {
