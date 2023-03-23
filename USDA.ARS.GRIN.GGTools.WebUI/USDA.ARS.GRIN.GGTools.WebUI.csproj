@@ -518,7 +518,7 @@
     <Content Include="Views\Taxonomy\Partial\_MenuIndex.cshtml" />
     <Content Include="Views\Taxonomy\Species\Partial\_MenuEdit.cshtml" />
     <Content Include="Views\Shared\Partial\_MenuIndex.cshtml" />
-    <Content Include="Views\Taxonomy\SpeciesSynonymMap\Add.cshtml" />
+    <Content Include="Views\Taxonomy\SpeciesSynonymMap\Map.cshtml" />
     <Content Include="Views\Taxonomy\SpeciesSynonymMap\Edit.cshtml" />
     <Content Include="Views\Taxonomy\SpeciesSynonymMap\Index.cshtml" />
     <Content Include="Views\Taxonomy\SpeciesSynonymMap\_Detail.cshtml" />

@@ -96,6 +96,7 @@
             data: formData,
             success: function (response) {
                 $("#section-species-lookup-search-results").html(response);
+                InitDataTableWithAssembledName("data-table-species-lookup");
             },
             error: function (ex) {
                 alert("Error");
@@ -111,7 +112,7 @@
         var nameList = GetSelectedEntityLabels("data-table-species-lookup");
 
         //DEBUG
-        alert("ID FLD " + idField + " NAME FLD " + nameField);
+        /*alert("ID FLD " + idField + " NAME FLD " + nameField);*/
 
         $("#Entity_" + idField).val(idList);
         $("#Entity_" + nameField).val(nameList);

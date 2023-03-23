@@ -180,8 +180,8 @@
                                     </li>
                                     <li><a href="@Url.Action("Add", "CommonName", new { @speciesId = Model.Entity.ID })" class="dropdown-item">Common Name</a></li>
                                     <li><a href="@Url.Action("Add", "GeographyMap", new { @speciesId = Model.Entity.ID })" class="dropdown-item">Distribution</a></li>
-                                    <li><a href="@Url.Action("Add", "Economic Use", new { @speciesId = Model.Entity.ID })" class="dropdown-item">Economic Use</a></li>
-                                    <li><a href="@Url.Action("Add", "RegualtionMap", new { @speciesId = Model.Entity.ID })" class="dropdown-item">Regulation</a></li>
+                                    <li><a href="@Url.Action("Add", "EconomicUse", new { @speciesId = Model.Entity.ID })" class="dropdown-item">Economic Use</a></li>
+                                    <li><a href="@Url.Action("Add", "RegulationMap", new { @speciesId = Model.Entity.ID })" class="dropdown-item">Regulation</a></li>
                                 </ul>
                             </li>
                             <!-- FOLDERS -->
@@ -226,6 +226,7 @@
             </div>
             <div class="content">
                 <div class="container" style="max-width:1500px;">
+                    <div id="section-folder-confirmation"></div>
                     @using (Html.BeginForm("Edit", "Species", FormMethod.Post, new { id = "frmEdit" }))
                     {
                         @Html.HiddenFor(x => x.EventAction)
@@ -268,16 +269,13 @@
                                                 <div class="input-group">
                                                     @Html.TextBoxFor(x => x.Entity.AcceptedName, new { @class = "form-control" })
                                                     @Html.HiddenFor(x => x.Entity.AcceptedID)
-
-                                                    @if (Model.Entity.AcceptedID > 0)
-                                                    {
-                                                        <span class="input-group-btn">
+                                                    <span class="input-group-append">
+                                                        @if (Model.Entity.AcceptedID > 0)
+                                                        {
                                                             <a href="@Url.Action("Edit", "Species", new { @entityId = Model.Entity.AcceptedID })" class="btn btn-default btn-flat">
                                                                 <i class="fa fa-link"></i>
                                                             </a>
-                                                        </span>
-                                                    }
-                                                    <span class="input-group-btn">
+                                                        }
                                                         <button id="btnOpenSpeciesLookupModal"
                                                                 type="button"
                                                                 data-toggle="modal"
@@ -305,14 +303,23 @@
                                                 <div class="input-group mb-3">
                                                     @Html.TextBoxFor(x => x.Entity.GenusName, new { @class = "form-control rounded-0", @readonly = "readonly", @style = "background-color:#f4f6f9;" })
                                                     @Html.HiddenFor(x => x.Entity.GenusID)
-                                                    @if (Model.Entity.GenusID > 0)
-                                                    {
-                                                        <span class="input-group-append">
+                                                    <span class="input-group-append">
+                                                        @if (Model.Entity.GenusID > 0)
+                                                        {
                                                             <a href="@Url.Action("Edit", "Genus", new { @entityId = Model.Entity.GenusID })" class="btn btn-default btn-flat">
                                                                 <i class="fa fa-link"></i>
                                                             </a>
-                                                        </span>
-                                                    }
+                                                        }
+                                                        <button id="btnOpenGenusLookupModal"
+                                                                type="button"
+                                                                data-toggle="modal"
+                                                                data-ggtools-action="GenusID"
+                                                                data-ggtools-value="GenusName"
+                                                                data-target="#modal-genus-lookup"
+                                                                class="btn btn-default btn-flat">
+                                                            <i class="fa fa-search"></i>
+                                                        </button>
+                                                    </span>
                                                 </div>
                                             </div>
                                         </div>

@@ -18,10 +18,10 @@
 
     <div class="card card-default">
         <div class="card-header">
-            <div class="btn-group">
-                <button type="button" class="btn btn-default btn-sm pull-right" data-toggle="modal" data-target="#modal-note-lookup">
-                    <i class="fa fa-search margin-r-5"></i>
-                    Notes
+            <h3 class="card-title">Summary</h3>
+            <div class="card-tools">
+                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                    <i class="fas fa-minus"></i>
                 </button>
             </div>
         </div>
@@ -33,7 +33,7 @@
                         <div class="input-group">
                             @Html.TextBoxFor(x => x.Entity.SpeciesName, new { @class = "form-control", @readonly = "readonly" })
                             @Html.HiddenFor(x => x.Entity.SpeciesID)
-                            <span class="input-group-btn">
+                            <span class="input-group-append">
                                 <button type="button" data-toggle="modal" data-target="#modal-species-lookup" class="btn btn-default btn-flat">
                                     <i class="fa fa-search"></i>
                                 </button>
@@ -47,7 +47,7 @@
                         <div class="input-group">
                             @Html.TextBoxFor(x => x.Entity.GeographyDescription, new { @class = "form-control", @readonly = "readonly" })
                             @Html.HiddenFor(x => x.Entity.GeographyID)
-                            <span class="input-group-btn">
+                            <span class="input-group-append">
                                 <button type="button" data-toggle="modal" data-target="#modal-geography-lookup" class="btn btn-default btn-flat">
                                     <i class="fa fa-search"></i>
                                 </button>
@@ -69,32 +69,30 @@
                 </div>
             </div>
             <div class="row">
+                <!-- BEGIN NOTE FIELD -->
                 <div class="col-md-12">
                     <div class="form-group">
-                        <label>Note</label>
-                        @Html.TextAreaFor(x => x.Entity.Note, new { @id = "txtNote", @class = "form-control" })
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="form-group">
-                        <label>Citation</label>
+                        <label class="margin-r-5">Note</label>
                         <div class="input-group">
-                            @Html.HiddenFor(x => x.Entity.CitationID)
-                            @Html.TextBoxFor(x => x.Entity.CitationText, new { @class = "form-control", @readonly = "readonly" })
-                            <span class="input-group-btn">
-                                <button type="button" class="btn btn-default btn-flat" data-toggle="modal" data-target="#modal-citation-lookup">
-                                    <i class="fa fa-search"></i>
+                            <br />
+                            @Html.TextAreaFor(x => x.Entity.Note, new { @id = "txtNote", @class = "form-control", })
+                            <span class="input-group-append">
+                                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#modal-note-lookup">
+                                    <i class="fa fa-search margin-r-5"></i>
                                 </button>
                             </span>
                         </div>
                     </div>
                 </div>
+                <!-- END NOTE FIELD-->
             </div>
+            @if (Model.Entity.ID > 0)
+            {
+                Html.RenderAction("RenderWidget", "Citation", new { @entityId = Model.Entity.CitationID });
+            }
         </div>
         <div class="card-footer">
-            <a href="@Url.Action("Refresh")" class="btn btn-warning">Cancel</a>
+            <a href="@Url.Action("Refresh")" class="btn btn-default">Reset</a>
             @if (Model.Entity.ID > 0)
             {
                 <button id="btnDelete" type="button" class="btn btn-danger">
@@ -105,10 +103,16 @@
         </div>
     </div>
 }
+
+@if (Model.Entity.ID > 0)
+{
+    Html.RenderAction("_List", "CWRTrait", new { @cwrMapId = Model.Entity.ID });
+}
+
 @{Html.RenderAction("RenderLookupModal", "Species"); }
+@{Html.RenderAction("RenderLookupModal", "Citation", new { @tableName = Model.TableName, @speciesId = Model.Entity.SpeciesID });}
 @Html.Partial("~/Views/Shared/Modals/_NoteLookup2.cshtml")
 @Html.Partial("~/Views/Taxonomy/Shared/Modals/_Delete.cshtml")
-@{Html.RenderAction("RenderLookupModal", "Citation"); }
 @{Html.RenderAction("RenderLookupModal", "Geography"); }
 
 <script type="text/javascript">

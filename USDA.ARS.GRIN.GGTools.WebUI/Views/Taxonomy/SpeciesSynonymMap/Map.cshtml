@@ -234,10 +234,10 @@
                                             <input type="checkbox" class="form-check-input" style="position: absolute; opacity:1;" id="@result.ID">
                                         </td>
                                         <td>@result.SpeciesAName</td>
-                                        <td>@Html.Raw(result.SpeciesAssembledNameSubject)</td>
+                                        <td>@Html.Raw(result.SpeciesAName)</td>
                                         <td>@result.SynonymDescription</td>
                                         <td>@result.SpeciesBName</td>
-                                        <td>@Html.Raw(result.SpeciesAssembledNamePredicate)</td>
+                                        <td>@Html.Raw(result.SpeciesBName)</td>
                                         <td>
                                             <button id="btnDelete" value="@result.ID" class="btn btn-danger btn-sm proto pull-right" onclick="SelectSpecies(@result.ID, this.value);return false;">Select</button>
                                         </td>
@@ -280,6 +280,10 @@
         if ($("#SearchEntity_SpeciesAIsAcceptedOption").is(":checked")) {
             isAcceptedName = "Y";
         }
+
+        //DEBUG
+        /*alert("DEBUG " + eventAction + " " + searchText);*/
+
         SearchSpecies(eventAction, 0, searchText, isAcceptedName, "section-search-results-" + eventAction, "table-search-results-" + eventAction);
     });
 
@@ -298,11 +302,11 @@
         var link = '@Url.Action("Lookup","Species")';
         var formData = new FormData();
 
-        formData.append("EventAction", eventAction);
-        formData.append("SpeciesID", speciesId);
-        formData.append("SpeciesName", searchText);
-        formData.append("IsAcceptedName", isAcceptedName);
-        formData.append("IsMultiSelect", "Y");
+        formData.append("SearchEntity.EventAction", eventAction);
+        formData.append("SearchEntity.SpeciesID", speciesId);
+        formData.append("SearchEntity.SpeciesName", searchText);
+        formData.append("SearchEntity.IsAcceptedName", isAcceptedName);
+        formData.append("SearchEntity.IsMultiSelect", "Y");
 
         $.ajax({
             url: link,
@@ -313,7 +317,8 @@
             data: formData,
             success: function (response) {
                 $("#" + searchResultSectionName).html(response);
-
+                InitDataTableSingleSelect("data-table-species-a-lookup");
+                InitDataTableSingleSelect("data-table-species-b-lookup");
             },
             error: function () {
                 alert("Error");

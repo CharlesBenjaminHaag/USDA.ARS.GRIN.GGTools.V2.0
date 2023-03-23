@@ -83,7 +83,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 else
                 {
                 }
-                return View(BASE_PATH + "Add.cshtml", viewModel);
+                return View(BASE_PATH + "Map.cshtml", viewModel);
             }
             catch (Exception ex)
             {

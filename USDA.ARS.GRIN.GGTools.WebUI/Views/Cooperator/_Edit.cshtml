@@ -1,16 +1,4 @@
 ﻿@model USDA.ARS.GRIN.GGTools.ViewModelLayer.CooperatorViewModel
-@{
-    string cssClassCard = "card card-default collapsed-card";
-    string cssClassCardBody = "display: none;";
-    string cssClassExpandCollapseButton = "fas fa-plus";
-
-    if (Model.Entity.ID == 0)
-    {
-        cssClassCard = "card card-danger";
-        cssClassCardBody = "collapse in show";
-        cssClassExpandCollapseButton = "fas fa-minus";
-    }
-}
 @using (Html.BeginForm("Save", "Cooperator", FormMethod.Post, new { id = "frmEditCooperator" }))
 {
     @Html.HiddenFor(x => x.PageTitle)

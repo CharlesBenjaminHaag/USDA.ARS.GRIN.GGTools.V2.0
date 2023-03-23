@@ -76,6 +76,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 familyMapViewModel.Search();
                 viewModel.Entity.FamilyID = familyMapViewModel.Entity.ID;
                 viewModel.Entity.FamilyName = familyMapViewModel.Entity.FamilyName;
+                viewModel.Entity.FamilyAssembledName = familyMapViewModel.Entity.AssembledName;
             }
 
             return View(BASE_PATH + "Edit.cshtml", viewModel);

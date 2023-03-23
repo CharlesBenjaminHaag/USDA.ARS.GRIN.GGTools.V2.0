@@ -122,43 +122,51 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             SQL += " AND (@SiteID                   IS NULL     OR SiteID                   =       @SiteID)";
             SQL += " AND (@SysUserIsEnabled         IS NULL     OR SysUserIsEnabled         =       @SysUserIsEnabled)";
 
-            SQL += " OR SysUserID = 48 ";
+            //SQL += " OR SysUserID = 48 ";
 
             switch (searchEntity.CreatedTimeFrame)
             {
                 case "TDY":
-                    SQL += " AND (CONVERT(date, CooperatorCreatedDate) = CONVERT(date, GETDATE()))";
+                    SQL += " AND (CONVERT(date, CreatedDate) = CONVERT(date, GETDATE()))";
                     break;
                 case "3DY":
-                    SQL += " AND CooperatorCreatedDate >= DATEADD(day,-3, GETDATE())";
+                    SQL += " AND (CreatedDate >= CAST(DATEADD(day, -3, GETDATE()) AS date) ";
+                    SQL += " AND CreatedDate < CAST(GETDATE() AS date)) ";
                     break;
                 case "7DY":
-                    SQL += " AND CooperatorCreatedDate >= DATEADD(day,-7, GETDATE())";
+                    SQL += " AND (CreatedDate >= CAST(DATEADD(day, -7, GETDATE()) AS date) ";
+                    SQL += " AND CreatedDate < CAST(GETDATE() AS date)) ";
                     break;
                 case "30D":
-                    SQL += " AND CooperatorCreatedDate >= DATEADD(day,-30, GETDATE())";
+                    SQL += " AND (CreatedDate >= CAST(DATEADD(day, -30, GETDATE()) AS date) ";
+                    SQL += " AND CreatedDate < CAST(GETDATE() AS date)) ";
                     break;
                 case "60D":
-                    SQL += " AND CooperatorCreatedDate >= DATEADD(day,-60, GETDATE())";
+                    SQL += " AND (CreatedDate >= CAST(DATEADD(day, -60, GETDATE()) AS date) ";
+                    SQL += " AND CreatedDate < CAST(GETDATE() AS date)) ";
                     break;
             }
 
             switch (searchEntity.ModifiedTimeFrame)
             {
                 case "TDY":
-                    SQL += " AND (CONVERT(date, CooperatorModifiedDate) = CONVERT(date, GETDATE()))";
+                    SQL += " AND (CONVERT(date, ModifiedDate) = CONVERT(date, GETDATE()))";
                     break;
                 case "3DY":
-                    SQL += " AND CooperatorModifiedDate >= DATEADD(day,-3, GETDATE())";
+                    SQL += " WHERE CreatedDate >= CAST(DATEADD(day, -3, GETDATE()) AS date) ";
+                    SQL += " AND CreatedDate<CAST(GETDATE() AS date) ";
                     break;
                 case "7DY":
-                    SQL += " AND CooperatorModifiedDate >= DATEADD(day,-7, GETDATE())";
+                    SQL += " WHERE CreatedDate >= CAST(DATEADD(day, -7, GETDATE()) AS date) ";
+                    SQL += " AND CreatedDate<CAST(GETDATE() AS date) ";
                     break;
                 case "30D":
-                    SQL += " AND CooperatorModifiedDate >= DATEADD(day,-30, GETDATE())";
+                    SQL += " WHERE CreatedDate >= CAST(DATEADD(day, -30, GETDATE()) AS date) ";
+                    SQL += " AND CreatedDate<CAST(GETDATE() AS date) ";
                     break;
                 case "60D":
-                    SQL += " AND CooperatorModifiedDate >= DATEADD(day,-60, GETDATE())";
+                    SQL += " WHERE CreatedDate >= CAST(DATEADD(day, -60, GETDATE()) AS date) ";
+                    SQL += " AND CreatedDate<CAST(GETDATE() AS date) ";
                     break;
             }
             SQL += " ORDER BY FullName";

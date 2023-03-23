@@ -4,128 +4,46 @@
     Layout = "~/Views/Shared/_LayoutAdminLTE3.cshtml";
 }
 
-@{Html.RenderAction("RenderStatusWidget", "Cooperator", new { @cooperatorId = Model.Entity.ID }); }
-
 <div class="row">
-    <div class="col-md-3"></div>
+    <div class="col-md-3">
+        <div id="card-sys-user">
+            @{Html.RenderAction("RenderWidget", "SysUser", new { @sysUserId = Model.Entity.SysUserID }); }
+        </div>
+        <div id="card-sys-group-user-map">
+             
+        </div>
+    </div>
     <div class="col-md-9">
+      
         <div class="card card-primary card-tabs">
-            <div id="section-web-order-request-tabs" class="card-header p-0 pt-1">
+            <div id="section-cooperator-tabs" class="card-header p-0 pt-1">
                 <ul class="nav nav-tabs" id="custom-tabs-two-tab" role="tablist">
-                    <li class="pt-2 px-3"><h3 class="card-title">Web Order Request</h3></li>
-                    <li id="section-web-order-request-tabs-detail" class="nav-item">
-                        <a class="nav-link active" id="custom-tabs-two-home-tab" data-toggle="pill" href="#tab-content-web-order-request-detail" role="tab" aria-controls="custom-tabs-two-home" aria-selected="true">Detail</a>
+                    <li class="pt-2 px-3"><h3 id="placeholder-cooperator-name" class="card-title">@Model.Entity.FullName [@Model.Entity.ID]</h3></li>
+                    <li id="tab-cooperator" class="nav-item">
+                        <a class="nav-link active" id="custom-tabs-two-home-tab" data-toggle="pill" href="#tab-content-cooperator" role="tab" aria-controls="custom-tabs-two-home" aria-selected="true">Cooperator</a>
                     </li>
-                    <li id="section-web-order-request-tabs-timeline" class="nav-item">
-                        <a class="nav-link" id="custom-tabs-two-profile-tab" data-toggle="pill" href="#tab-content-web-order-request-timeline" role="tab" aria-controls="custom-tabs-two-profile" aria-selected="false">Action Timeline</a>
+                    <li id="tab-web-cooperator" class="nav-item">
+                        <a class="nav-link" id="custom-tabs-two-profile-tab" data-toggle="pill" href="#tab-content-web-cooperator" role="tab" aria-controls="custom-tabs-two-profile" aria-selected="false">Web Cooperator</a>
                     </li>
-                    <li id="section-web-order-request-tabs-order-request-history" class="nav-item">
+                    @*<li id="section-web-order-request-tabs-order-request-history" class="nav-item">
                         <a class="nav-link" id="custom-tabs-two-messages-tab" data-toggle="pill" href="#custom-tabs-two-messages" role="tab" aria-controls="custom-tabs-two-messages" aria-selected="false">Order Request History</a>
-                    </li>
+                    </li>*@
                 </ul>
             </div>
             <div class="card-body web-order-request">
                 <div class="tab-content">
-                    <div class="tab-pane active" id="tab-content-web-order-request-detail" style="padding:0px;">
-                        <div id="section-web-order-request-detail">
-
-                        </div>
+                    <div class="tab-pane fade show active" id="tab-content-cooperator" role="tabpanel" aria-labelledby="custom-tabs-two-home-tab">
+                        @{Html.RenderAction("_Get", "Cooperator", new { @entityId = Model.Entity.ID }); }
                     </div>
-                    <div class="tab-pane" id="tab-content-web-order-request-timeline">
-
-                    </div>
-                    <div class="tab-pane" id="settings">
-
-                        <div class="direct-chat-messages">
-
-                            <div class="direct-chat-msg">
-                                <div class="direct-chat-infos clearfix">
-                                    <span class="direct-chat-name float-left">Marty Reisinger</span>
-                                    <span class="direct-chat-timestamp float-right">23 Jan 2:00 pm</span>
-                                </div>
-
-                                <img class="direct-chat-img" src="~/Content/dist/img/Kinard.Gary_TO_CROP.jpg" alt="Message User Image">
-
-                                <div class="direct-chat-text">
-                                    This person has tried this before.
-                                </div>
-
-                            </div>
-                            <div class="direct-chat-msg">
-                                <div class="direct-chat-infos clearfix">
-                                    <span class="direct-chat-name float-left">Gary Kinard</span>
-                                    <span class="direct-chat-timestamp float-right">23 Jan 2:00 pm</span>
-                                </div>
-
-                                <img class="direct-chat-img" src="~/Content/dist/img/Reisinger.Marty.jpg" alt="Message User Image">
-
-                                <div class="direct-chat-text">
-                                    Agreed.
-                                </div>
-
-                            </div>
-
-
-
-                        </div>
-
-
-                        <div class="direct-chat-contacts">
-                            <ul class="contacts-list">
-                                <li>
-                                    <a href="#">
-                                        <img class="contacts-list-img" src="../dist/img/user1-128x128.jpg" alt="User Avatar">
-                                        <div class="contacts-list-info">
-                                            <span class="contacts-list-name">
-                                                Count Dracula
-                                                <small class="contacts-list-date float-right">2/28/2015</small>
-                                            </span>
-                                            <span class="contacts-list-msg">How have you been? I was...</span>
-                                        </div>
-
-                                    </a>
-                                </li>
-
-                            </ul>
-
-                        </div>
-                        <div class="card-footer">
-                            <form action="#" method="post">
-                                <div class="input-group">
-                                    <input type="text" name="message" placeholder="Enter note..." class="form-control">
-                                    <span class="input-group-append">
-                                        <button type="submit" class="btn btn-primary">Send</button>
-                                    </span>
-                                </div>
-                            </form>
-                        </div>
-
+                    <div class="tab-pane fade" id="tab-content-web-cooperator" role="tabpanel" aria-labelledby="custom-tabs-two-home-tab">
+                        @{Html.RenderAction("_Get", "WebCooperator", new { @entityId = Model.Entity.WebCooperatorID }); }
                     </div>
                 </div>
             </div>
+        </div>
 
-        </div>
-    </div>
-</div>
 
-<!-- OLD -->
 
-<div class="row">
-    <div class="col-md-6">
-        <div id="card-sys-user">
-            @{Html.RenderAction("_Get", "SysUser", new { @entityId = Model.Entity.SysUserID, @cooperatorId = Model.Entity.ID }); }
-        </div>
-        <div id="card-cooperator">
-            @{Html.RenderAction("_Get", "Cooperator", new { @entityId = Model.Entity.ID }); }
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div id="card-web-user">
-            @{Html.RenderAction("_Get", "WebUser", new { @entityId = Model.Entity.WebUserID }); }
-        </div>
-        <div id="card-web-cooperator">
-            @{Html.RenderAction("_Get", "WebCooperator", new { @entityId = Model.Entity.WebCooperatorID, cooperatorId = Model.Entity.ID }); }
-        </div>
     </div>
 </div>
 
