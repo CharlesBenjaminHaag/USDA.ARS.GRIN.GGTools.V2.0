@@ -20,7 +20,7 @@
                         @result.ID
                     </td>
                     <td><span class="label label-default">@result.ID</span></td>
-                    <td>@Html.Raw(result.FullName)</td>
+                    <td>@Html.Raw(result.AssembledName)</td>
                     <td>@Html.Raw(Model.FormatBoolean(result.IsAcceptedName))</td>
                     <td>
                         @if (Model.IsMultiSelect != "Y")

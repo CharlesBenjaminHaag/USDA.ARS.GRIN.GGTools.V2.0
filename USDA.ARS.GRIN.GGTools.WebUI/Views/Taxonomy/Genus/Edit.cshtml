@@ -112,6 +112,17 @@
                     <ul class="navbar-nav">
                         @if (Model.Entity.ID > 0)
                         {
+                            <!-- INFRAGENERIC -->
+                            <li class="nav-item dropdown">
+                                <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Add Infraspecific Taxon</a>
+                                <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow">
+                                    <li><a href="@Url.Action("Add", "Genus", new { @rank = "subgenus", @genusId = Model.Entity.ID })" class="dropdown-item">Subgenus</a></li>
+                                    <li><a href="@Url.Action("Add", "Genus", new { @rank = "section", @genusId = Model.Entity.ID })" class="dropdown-item">Section</a></li>
+                                    <li><a href="@Url.Action("Add", "Genus", new { @rank = "subsection", @genusId = Model.Entity.ID })" class="dropdown-item">Subsection</a></li>
+                                    <li><a href="@Url.Action("Add", "Genus", new { @rank = "series", @genusId = Model.Entity.ID })" class="dropdown-item">Series</a></li>
+                                    <li><a href="@Url.Action("Add", "Genus", new { @rank = "subseries", @genusId = Model.Entity.ID })" class="dropdown-item">Subseries</a></li>
+                                </ul>
+                            </li>
                             <!-- RELATED DATA -->
                             <li class="nav-item dropdown">
                                 <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Add Dependent Data</a>

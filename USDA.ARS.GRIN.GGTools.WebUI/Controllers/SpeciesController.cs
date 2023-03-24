@@ -422,7 +422,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
 
                 viewModel.Update();
                 viewModel.Get(speciesId);
-                return PartialView("~/Views/Taxonomy/Species/_Verification.cshtml", viewModel);
+                return PartialView("~/Views/Taxonomy/Species/_RevisionHistory.cshtml", viewModel);
             }
             catch (Exception ex)
             {

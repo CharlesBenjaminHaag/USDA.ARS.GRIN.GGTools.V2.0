@@ -66,19 +66,10 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 viewModel.Entity.SubsectionName = genusViewModel.Entity.SubsectionName;
                 viewModel.Entity.SeriesName = genusViewModel.Entity.SeriesName;
                 viewModel.Entity.SubseriesName = genusViewModel.Entity.SubseriesName;
+                viewModel.Entity.FamilyID = genusViewModel.Entity.FamilyID;
+                viewModel.Entity.FamilyName = genusViewModel.Entity.FamilyName;
+                viewModel.Entity.FamilyName = genusViewModel.Entity.FamilyAssembledName;
             }
-
-            if (familyMapId > 0)
-            {
-                viewModel.Entity.FamilyID = familyMapId;
-                FamilyMapViewModel familyMapViewModel = new FamilyMapViewModel();
-                familyMapViewModel.SearchEntity.ID = familyMapId;
-                familyMapViewModel.Search();
-                viewModel.Entity.FamilyID = familyMapViewModel.Entity.ID;
-                viewModel.Entity.FamilyName = familyMapViewModel.Entity.FamilyName;
-                viewModel.Entity.FamilyAssembledName = familyMapViewModel.Entity.AssembledName;
-            }
-
             return View(BASE_PATH + "Edit.cshtml", viewModel);
         }
 

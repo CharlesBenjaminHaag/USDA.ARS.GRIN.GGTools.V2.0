@@ -21,6 +21,8 @@
                     @Html.HiddenFor(x => x.PageTitle)
                     @Html.HiddenFor(x => x.AuthenticatedUserCooperatorID)
                     @Html.HiddenFor(x => x.ItemIDList)
+                    <input type="hidden" id="hfAuthorLookupIDFieldName" />
+                    <input type="hidden" id="hfAuthorLookupNameFieldName" />
                     <div class="row">
                         <div class="col-md-6">
                             <label>Short Name</label>
@@ -44,8 +46,8 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="margin">
-                            <button id="btnReset" class="btn btn-danger">Reset</button>
-                            <button id="btnLookupAuthor" type="button" class="btn btn-default float-right">Search</button>
+                                <button id="btnReset" class="btn btn-danger">Reset</button>
+                                <button id="btnLookupAuthor" type="button" class="btn btn-default float-right">Search</button>
                             </div>
                         </div>
                     </div>
@@ -121,15 +123,14 @@
     }
 
     $("#btnSaveAuthor").click(function () {
+        var nameField = $("#hfAuthorLookupNameFieldName").val();
+
+        //DEBUG
+        alert("FIELD NAME " + nameField);
+
         var tableName = $("#TableName").val();
         $('#modal-author-lookup').modal('hide');
         var selectedAuthor = GetSelectedEntityText("data-table-author-lookup");
-
-        // TEMP: Should probably keep name consistent. Or use data attribs..
-        if (tableName == "taxonomy_species") {
-            $("#Entity_SpeciesAuthority").val(selectedAuthor);
-        }
-        else {
-            $("#Entity_Authority").val(selectedAuthor);        }
+        $("#" + nameField).val(selectedAuthor);
     });
 </script>

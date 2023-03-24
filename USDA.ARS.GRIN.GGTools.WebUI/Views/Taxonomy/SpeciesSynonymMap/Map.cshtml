@@ -38,7 +38,9 @@
     <div class="col-md-5">
         <div class="card card-primary card-outline dual-select">
             <div class="card-header">
-                <h3 class="card-title">Species A</h3>
+                <h3 class="card-title">
+                    <i class="fas fa-leaf"></i> Species A
+                </h3>
                 <div class="card-tools">
                     <button type="button" class="btn btn-tool" data-card-widget="collapse">
                         <i class="fas fa-minus"></i>
@@ -51,7 +53,7 @@
                         <div class="input-group">
                             @Html.TextBoxFor(x => x.SearchEntity.SpeciesAName, new { @class = "form-control" })
                             @Html.HiddenFor(x => x.SearchEntity.SpeciesAID)
-                            <span class="input-group-btn">
+                            <span class="input-group-append">
                                 <button type="button" id="btnLookupSpeciesA" data-ggtools-action="species-a" data-ggtools-value="" class="btn btn-default btn-flat"><i class="fa fa-search"></i></button>
                             </span>
                         </div>
@@ -67,44 +69,22 @@
                 </div>
                 <div class="row">
                     <div id="section-search-results-species-a" class="col-md-12">
-                        <table id="data-table-species-a-lookup" class="table table-striped">
-                            <thead>
-                                <tr>
-                                    <th></th>
-                                    <th>ID</th>
-                                    <th>Name</th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach (var result in Model.DataCollectionSubject)
-                                {
-                                    <tr>
-                                        <td>
-                                            <input type="checkbox" class="form-check-input" style="position: absolute; opacity:1;" id="@result.ID">
-                                        </td>
-                                        <td>@result.ID</td>
-                                        <td>@Html.Raw(result.Name)</td>
-                                        <td>
-                                            <button value="@result.Name" class="btn btn-primary btn-sm proto pull-right" onclick="SelectSpecies(@result.ID, this.value);return false;">Select</button>
-                                        </td>
-                                    </tr>
-                                }
-                            </tbody>
-                        </table>
+                           <!-- DATA HERE -->
                     </div>
                 </div>
             </div>
             <div class="card-footer">
-                <button id="btnClearAllSpeciesA" class="btn btn-default">Clear All</button>
-                <button id="btnClearSelectedSpeciesA" class="btn btn-default">Clear Selected</button>
+                <button id="btnClearAllSpeciesA" class="btn btn-default">Reset</button>
             </div>
         </div>
     </div>
     <div class="col-md-2">
-        <div class="card card-default dual-select">
+        <div class="card card-primary dual-select">
             <div class="card-header">
-                <h3 class="card-title">Relationship</h3>
+                <h3 class="card-title">
+                    <i class="fas fa-link"></i>
+                    Relationship
+                </h3>
                 <div class="card-tools">
                     <button type="button" class="btn btn-tool" data-card-widget="collapse">
                         <i class="fas fa-minus"></i>
@@ -135,7 +115,9 @@
     <div class="col-md-5">
         <div class="card card-primary card-outline dual-select">
             <div class="card-header">
-                <h3 class="card-title">Species B</h3>
+                <h3 class="card-title">
+                    <i class="fas fa-leaf"></i>
+                     Species B</h3>
                 <div class="card-tools">
                     <button type="button" class="btn btn-tool" data-card-widget="collapse">
                         <i class="fas fa-minus"></i>
@@ -148,7 +130,7 @@
                         <div class="input-group">
                             @Html.TextBoxFor(x => x.SearchEntity.SpeciesBName, new { @class = "form-control" })
                             @Html.HiddenFor(x => x.SearchEntity.SpeciesBID)
-                            <span class="input-group-btn">
+                            <span class="input-group-append">
                                 <button type="button" id="btnLookupSpeciesB" data-ggtools-action="species-b" data-ggtools-value="" class="btn btn-default btn-flat"><i class="fa fa-search"></i></button>
                             </span>
                         </div>
@@ -164,37 +146,12 @@
                 </div>
                 <div class="row">
                     <div id="section-search-results-species-b" class="col-md-12">
-                        <table id="data-table-species-b-lookup" class="table table-striped">
-                            <thead>
-                                <tr>
-                                    <th></th>
-                                    <th>ID</th>
-                                    <th>Name</th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach (var result in Model.DataCollectionPredicate)
-                                {
-                                    <tr>
-                                        <td>
-                                            <input type="checkbox" class="form-check-input" style="position: absolute; opacity:1;" id="@result.ID">
-                                        </td>
-                                        <td>@result.ID</td>
-                                        <td>@Html.Raw(result.Name)</td>
-                                        <td>
-                                            <button value="@result.Name" class="btn btn-primary btn-sm proto pull-right" onclick="SelectSpecies(@result.ID, this.value);return false;">Select</button>
-                                        </td>
-                                    </tr>
-                                }
-                            </tbody>
-                        </table>
+                        <!-- DATA HERE -->
                     </div>
                 </div>
             </div>
             <div class="card-footer">
-                <button id="btnClearAllSpeciesB" class="btn btn-default">Clear All</button>
-                <button id="btnClearSelectedSpeciesB" class="btn btn-default">Clear Selected</button>
+                <button id="btnClearAllSpeciesB" class="btn btn-default">Reset</button>
                 <button id="btnGenerateMaps" class="btn btn-info float-right">Generate Maps</button>
             </div>
         </div>
@@ -204,10 +161,7 @@
     <div class="col-md-12">
         <div class="card card-default">
             <div class="card-header">
-                @*<h3 class="card-title">Maps</h3>*@
-                <div class="btn-group">
-                    <button id="btnOpenFolderModal" type="button" class="btn btn-default btn-sm"><i class="fa fa-folder"></i></button>
-                </div>
+                <h3 class="card-title">Maps</h3>
                 <div class="card-tools">
                     <button type="button" class="btn btn-tool" data-card-widget="collapse">
                         <i class="fas fa-minus"></i>
@@ -302,7 +256,7 @@
         var link = '@Url.Action("Lookup","Species")';
         var formData = new FormData();
 
-        formData.append("SearchEntity.EventAction", eventAction);
+        formData.append("EventAction", eventAction);
         formData.append("SearchEntity.SpeciesID", speciesId);
         formData.append("SearchEntity.SpeciesName", searchText);
         formData.append("SearchEntity.IsAcceptedName", isAcceptedName);
@@ -317,8 +271,6 @@
             data: formData,
             success: function (response) {
                 $("#" + searchResultSectionName).html(response);
-                InitDataTableSingleSelect("data-table-species-a-lookup");
-                InitDataTableSingleSelect("data-table-species-b-lookup");
             },
             error: function () {
                 alert("Error");
