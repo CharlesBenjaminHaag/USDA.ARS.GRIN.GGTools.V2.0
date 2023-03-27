@@ -40,7 +40,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 viewModel.PageTitle = "Distribution Search";
                 viewModel.TableName = "taxonomy_geography_map";
                 viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
-                viewModel.SearchCountries(new GeographySearch());
+                //viewModel.SearchCountries(new GeographySearch());
                 viewModel.Countries = new SelectList(viewModel.DataCollectionCountries, "CountryCode", "CountryName");
 
                 if (TempData.ContainsKey("GEO-MAP-SEARCH"))
@@ -63,22 +63,22 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
         {
             try 
             {
-                if (viewModel.EventAction == "SAVE-SEARCH")
-                {
-                    viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
-                    viewModel.SaveSearch();
-                    Session["taxonomy_geography_map_SEARCH"] = viewModel.SearchEntity;
-                    viewModel.SearchCountries(new GeographySearch());
-                    viewModel.Countries = new SelectList(viewModel.DataCollectionCountries, "CountryCode", "CountryName");
-                }
-                else
-                {
+                //if (viewModel.EventAction == "SAVE-SEARCH")
+                //{
+                //    viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
+                //    viewModel.SaveSearch();
+                //    Session["taxonomy_geography_map_SEARCH"] = viewModel.SearchEntity;
+                //    viewModel.SearchCountries(new GeographySearch());
+                //    viewModel.Countries = new SelectList(viewModel.DataCollectionCountries, "CountryCode", "CountryName");
+                //}
+                //else
+                //{
                     viewModel.SearchEntity.IsValid = viewModel.SearchEntity.IsValidOption == true ? "Y" : null;
                     viewModel.Search();
                     //viewModel.SearchCountries(new GeographySearch());
                     //viewModel.Countries = new SelectList(viewModel.DataCollectionCountries, "CountryCode", "CountryName");
                     ModelState.Clear();
-                }
+                //}
                 return View(BASE_PATH + "Index.cshtml", viewModel);
             }
             catch (Exception ex)
@@ -150,7 +150,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
 
                 GeographyViewModel geographyViewModel = new GeographyViewModel();
-                viewModel.Countries = new SelectList(geographyViewModel.GetCountries(), "CountryCode", "CountryName");
+                viewModel.Countries = new SelectList(geographyViewModel.GetCountries(""), "CountryCode", "CountryName");
 
                 if (speciesId > 0)
                 {
@@ -180,7 +180,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
 
                 GeographyViewModel geographyViewModel = new GeographyViewModel();
-                viewModel.Countries = new SelectList(geographyViewModel.GetCountries(), "CountryCode", "CountryName");
+                viewModel.Countries = new SelectList(geographyViewModel.GetCountries(""), "CountryCode", "CountryName");
 
                 return PartialView(BASE_PATH + "_Edit.cshtml", viewModel);
             }
@@ -201,7 +201,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 viewModel.PageTitle = String.Format("Edit Distribution [{0}]: {1}", entityId, viewModel.Entity.GeographyDescription + " to " + viewModel.Entity.SpeciesName);
           
                 GeographyViewModel geographyViewModel = new GeographyViewModel();
-                viewModel.Countries = new SelectList(geographyViewModel.GetCountries(),"CountryCode","CountryName");
+                viewModel.Countries = new SelectList(geographyViewModel.GetCountries(""),"CountryCode","CountryName");
 
                 return View(BASE_PATH + "Edit.cshtml", viewModel);
             }

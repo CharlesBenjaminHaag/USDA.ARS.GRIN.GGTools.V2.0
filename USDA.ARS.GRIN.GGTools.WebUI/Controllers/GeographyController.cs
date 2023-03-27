@@ -56,7 +56,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 viewModel.PageTitle = "Geography Search";
                 viewModel.Entity.TableName = "geography";
                 //viewModel.DataCollectionRegions = new System.Collections.ObjectModel.Collection<Region>(viewModel.GetRegions());
-                viewModel.DataCollectionCountries = new System.Collections.ObjectModel.Collection<Country>(viewModel.GetCountries());
+                //viewModel.DataCollectionCountries = new System.Collections.ObjectModel.Collection<Country>(viewModel.GetCountries());
                 viewModel.DataCollection = new System.Collections.ObjectModel.Collection<Geography>(viewModel.GetGeographies());
                 viewModel.Search();
                 return View(BASE_PATH + "Index.cshtml", viewModel);
@@ -96,8 +96,8 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                     viewModel.Get(entityId);
                     viewModel.EventAction = "Edit";
                     viewModel.PageTitle = String.Format("Edit Geography [{0}]: {1}", entityId, viewModel.Entity.GeographyText);
-                    viewModel.DataCollectionCountries = new System.Collections.ObjectModel.Collection<Country>(viewModel.GetCountries());
-                    viewModel.Countries = new SelectList(viewModel.GetCountries(),"CountryCode","CountryName");
+                    viewModel.DataCollectionCountries = new System.Collections.ObjectModel.Collection<Country>(viewModel.GetCountries(""));
+                    viewModel.Countries = new SelectList(viewModel.GetCountries(""),"CountryCode","CountryName");
                 }
                 else
                 {
@@ -156,8 +156,8 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 GeographyViewModel viewModel = new GeographyViewModel();
                 viewModel.TableName = "geography";
                 viewModel.PageTitle = "Add Geography";
-                viewModel.DataCollectionCountries = new System.Collections.ObjectModel.Collection<Country>(viewModel.GetCountries());
-                viewModel.Countries = new SelectList(viewModel.GetCountries(),"CountryCode", "CountryName");
+                viewModel.DataCollectionCountries = new System.Collections.ObjectModel.Collection<Country>(viewModel.GetCountries(""));
+                viewModel.Countries = new SelectList(viewModel.GetCountries(""),"CountryCode", "CountryName");
                 return View(BASE_PATH + "Edit.cshtml", viewModel);
             }
             catch (Exception ex)
@@ -198,54 +198,53 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
         {
             throw new NotImplementedException();
         }
-
-        //public JsonResult LoadSubContinents(string continentName)
-        //{
-        //    return null;
-        //}
-
-        //public JsonResult LoadCountries(string subContinentName)
-        //{
-        //    return null;
-        //}
-
-        //public JsonResult LoadStates(string countryCode)
-        //{
-        //    return null;
-        //}
-
-        //[HttpPost]
-        //public PartialViewResult SearchSubcontinents(FormCollection formCollection)
-        //{
-        //    string partialViewName = "~/Views/Geography/_SubContinentList.cshtml";
-        //    GeographyViewModel viewModel = new GeographyViewModel();
-
-        //    if (!String.IsNullOrEmpty(formCollection["ContinentNameList"]))
-        //    {
-        //        viewModel.SearchEntity.ContinentNameList = formCollection["ContinentNameList"];
-        //    }
-        //    viewModel.SearchSubContinents(viewModel.SearchEntity);
-        //    return PartialView(partialViewName, viewModel);
-        //}
-        
-        [HttpPost]
-        public PartialViewResult SearchCountries(FormCollection formCollection)
+        public PartialViewResult _ListContinents()
         {
-            string partialViewName = "~/Views/Geography/_CountryList.cshtml";
+            try {
+                //TODO
+                GeographyViewModel viewModel = new GeographyViewModel();
+                viewModel.GetContinents();
+                return PartialView("~/Views/Taxonomy/Geography/Modals/_SelectListContinent.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
+        }
+
+        public PartialViewResult _ListSubContinents()
+        {
+            try
+            {
+                //TODO
+                GeographyViewModel viewModel = new GeographyViewModel();
+                viewModel.GetSubContinents();
+                return PartialView("~/Views/Taxonomy/Geography/Modals/_SelectListSubContinent.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
+        }
+
+        public PartialViewResult _ListCountries(string idList = "")
+        {
             GeographyViewModel viewModel = new GeographyViewModel();
 
-            if (!String.IsNullOrEmpty(formCollection["RegionIDList"]))
-            {
-                viewModel.SearchEntity.SubContinentIDList = formCollection["RegionIDList"];
-            }
+            //if (!String.IsNullOrEmpty(formCollection["RegionIDList"]))
+            //{
+            //    viewModel.SearchEntity.SubContinentIDList = formCollection["RegionIDList"];
+            //}
 
-            if (!String.IsNullOrEmpty(formCollection["IncludeNonRegions"]))
-            {
-                viewModel.SearchEntity.IncludeNonRegions = formCollection["IncludeNonRegions"];
-            }
+            //if (!String.IsNullOrEmpty(formCollection["IncludeNonRegions"]))
+            //{
+            //    viewModel.SearchEntity.IncludeNonRegions = formCollection["IncludeNonRegions"];
+            //}
 
-            viewModel.SearchCountries(viewModel.SearchEntity);
-            return PartialView(partialViewName, viewModel);
+            viewModel.GetCountries(idList);
+            return PartialView("~/Views/Taxonomy/Geography/Modal/_SelectListCountry.cshtml", viewModel);
         }
 
         [HttpPost]

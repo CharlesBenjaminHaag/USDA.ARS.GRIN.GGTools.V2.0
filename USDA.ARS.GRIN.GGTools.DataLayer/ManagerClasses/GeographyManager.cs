@@ -61,10 +61,8 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             SQL += " AND    (@ModifiedByCooperatorID        IS NULL OR ModifiedByCooperatorID   =       @ModifiedByCooperatorID)";
             SQL += " AND    (@ModifiedDate                  IS NULL OR ModifiedDate             =       @ModifiedDate)";
             SQL += " AND    (@Note                          IS NULL OR Note                     LIKE    '%' + @Note + '%')";
-
-            SQL += " AND    (@CountryCode               IS NULL OR   CountryCode                =       @CountryCode)";
-            SQL += " AND    (@ContinentRegionID         IS NULL OR   ContinentRegionID          =       @ContinentRegionID)";
-            SQL += " AND    (@SubContinentRegionID      IS NULL OR   SubContinentRegionID       =       @SubContinentRegionID)";
+            SQL += " AND    (@CountryCode                   IS NULL OR   CountryCode            =       @CountryCode)";
+            SQL += " AND    (@RegionID                      IS NULL OR   RegionID               =       @RegionID)";
             SQL += " AND    (@IsValid                   IS NULL OR   IsValid                    =       @IsValid)";
 
             // EXTENDED
@@ -239,7 +237,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         {
             List<Region> results = new List<Region>();
 
-            SQL = " SELECT ID, Continent FROM [vw_GGTools_GRINGlobal_Regions] WHERE SubContinent IS NULL ";
+            SQL = " SELECT * FROM vw_GRINGlobal_Geography_Continent ";
             SQL += " ORDER BY Continent ASC ";
 
             results = GetRecords<Region>(SQL);
@@ -247,11 +245,17 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             return results;
         }
 
-        public List<Region> GetSubContinents()
+        public List<Region> GetSubContinents(string continentList = "")
         {
             List<Region> results = new List<Region>();
 
-            SQL = " SELECT ID, SubContinent FROM [vw_GGTools_GRINGlobal_Regions] WHERE SubContinent IS NOT NULL ";
+            SQL = " SELECT * FROM vw_GRINGlobal_Geography_SubContinent ";
+
+            if (!String.IsNullOrEmpty(continentList))
+            {
+                SQL += " WHERE Continent IN (" + continentList + ')';
+            }
+
             SQL += " ORDER BY SubContinent ASC ";
 
             results = GetRecords<Region>(SQL);
@@ -259,36 +263,23 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             return results;
         }
 
-        public List<Country> SearchCountries(GeographySearch searchEntity)
+        public List<Geography> GetCountries(int regionId)
         {
-            List<Country> results = new List<Country>();
+            List<Geography> results = new List<Geography>();
 
-            SQL = " SELECT DISTINCT CountryCode, CountryName FROM vw_GRINGlobal_Geography ";
-
-            if (!String.IsNullOrEmpty(searchEntity.SubContinentIDList))
-            {
-                SQL += " WHERE RegionID IN (" + searchEntity.SubContinentIDList + ')';
-            }
-
-            if (searchEntity.IncludeNonRegions == "Y")
-            {
-                SQL += "OR RegionID IS NULL ";
-            }
-            
+            SQL = " SELECT * FROM vw_GRINGlobal_Geography_Countries ";
             SQL += " ORDER BY CountryName ASC ";
 
-            results = GetRecords<Country>(SQL);
+            results = GetRecords<Geography>(SQL);
             RowsAffected = results.Count;
             return results;
-
         }
 
         public List<Country> GetCountries()
         {
             List<Country> results = new List<Country>();
 
-            SQL = " SELECT * FROM [vw_GGTools_GRINGlobal_Countries]  ";
-            SQL += " ORDER BY SortOrder, CountryName ASC ";
+            SQL = " SELECT * FROM vw_GRINGlobal_Geography_Country  ";
 
             results = GetRecords<Country>(SQL);
             RowsAffected = results.Count;

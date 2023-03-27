@@ -137,10 +137,8 @@ function InitDataTableLight(tableName) {
             "bLengthChange": false,
             "pageLength": 20,
             responsive: true,
-            select: {
-                style: 'single'
-            },
-            searching: true,
+            select: true,
+            searching: false,
             columnDefs: [
                 { targets: [0], visible: false }
             ]

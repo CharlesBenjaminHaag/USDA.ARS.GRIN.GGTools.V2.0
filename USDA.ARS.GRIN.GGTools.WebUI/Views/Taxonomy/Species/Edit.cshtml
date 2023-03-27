@@ -169,17 +169,17 @@
                             <li class="nav-item dropdown">
                                 <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Add Related Data</a>
                                 <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow">
-                                    <li>
-
-                                        <button type="button" class="dropdown-item" data-toggle="modal" data-target="#modal-citation-lookup">
-                                            Citation
-                                        </button>
-
-                                        @*<a href="@Url.Action("Add", "Citation", new { @speciesId = Model.Entity.ID })"
-                        class="dropdown-item">Citation</a>*@
-                                    </li>
+                                    <li><a href="@Url.Action("Add", "Citation", new { @eventAction = "Species", @eventValue = "AddDependentData", @speciesId = Model.Entity.ID })" class="dropdown-item">Citation </a></li>
                                     <li><a href="@Url.Action("Add", "CommonName", new { @speciesId = Model.Entity.ID })" class="dropdown-item">Common Name</a></li>
-                                    <li><a href="@Url.Action("Add", "GeographyMap", new { @speciesId = Model.Entity.ID })" class="dropdown-item">Distribution</a></li>
+                                    <li>
+                                        <button id="btnOpenGeographyLookupModal"
+                                                type="button"
+                                                data-toggle="modal"
+                                                data-target="#modal-geography-lookup"
+                                                class="dropdown-item">
+                                            Distribution
+                                        </button>
+                                    </li>
                                     <li><a href="@Url.Action("Add", "EconomicUse", new { @speciesId = Model.Entity.ID })" class="dropdown-item">Economic Use</a></li>
                                     <li><a href="@Url.Action("Add", "RegulationMap", new { @speciesId = Model.Entity.ID })" class="dropdown-item">Regulation</a></li>
                                 </ul>
@@ -362,13 +362,12 @@
                                                         <div class="input-group">
                                                             @Html.TextBoxFor(x => x.Entity.SubspeciesAuthority, new { @class = "form-control" })
                                                             <span class="input-group-append">
-                                                                <button 
-                                                                    id="btnOpenAuthorityLookupModal"
-                                                                    type="button" 
-                                                                    data-toggle="modal" 
-                                                                    data-target="#modal-author-lookup" 
-                                                                    data-ggtools-value="Entity_SubspeciesAuthority"
-                                                                    class="btn btn-default btn-flat">
+                                                                <button id="btnOpenAuthorityLookupModal"
+                                                                        type="button"
+                                                                        data-toggle="modal"
+                                                                        data-target="#modal-author-lookup"
+                                                                        data-ggtools-value="Entity_SubspeciesAuthority"
+                                                                        class="btn btn-default btn-flat">
                                                                     <i class="fa fa-search"></i>
                                                                 </button>
                                                             </span>
@@ -406,7 +405,7 @@
                                                                 <button type="button"
                                                                         id="btnOpenAuthorityLookupModal"
                                                                         data-toggle="modal"
-                                                                        data-target="#modal-author-lookup" 
+                                                                        data-target="#modal-author-lookup"
                                                                         class="btn btn-default btn-flat"
                                                                         data-ggtools-value="Entity_VarietyAuthority">
                                                                     <i class="fa fa-search"></i>
@@ -449,13 +448,12 @@
                                                         <div class="input-group">
                                                             @Html.TextBoxFor(x => x.Entity.SubvarietyAuthority, new { @class = "form-control" })
                                                             <span class="input-group-append">
-                                                                <button 
-                                                                    id="btnOpenAuthorityLookupModal"
-                                                                    type="button" 
-                                                                    data-toggle="modal" 
-                                                                    data-target="#modal-author-lookup"
-                                                                    data-ggtools-value="Entity_SubvarietyAuthority"                                                                        
-                                                                    class="btn btn-default btn-flat">
+                                                                <button id="btnOpenAuthorityLookupModal"
+                                                                        type="button"
+                                                                        data-toggle="modal"
+                                                                        data-target="#modal-author-lookup"
+                                                                        data-ggtools-value="Entity_SubvarietyAuthority"
+                                                                        class="btn btn-default btn-flat">
                                                                     <i class="fa fa-search"></i>
                                                                 </button>
                                                             </span>
@@ -502,13 +500,12 @@
                                                         <div class="input-group">
                                                             @Html.TextBoxFor(x => x.Entity.FormaAuthority, new { @class = "form-control" })
                                                             <span class="input-group-append">
-                                                                <button 
-                                                                    id="btnOpenAuthorityLookupModal"    
-                                                                    type="button" 
-                                                                    data-toggle="modal" 
-                                                                    data-target="#modal-author-lookup" 
-                                                                    data-ggtools-value="Entity_FormaAuthority" 
-                                                                    class="btn btn-default btn-flat">
+                                                                <button id="btnOpenAuthorityLookupModal"
+                                                                        type="button"
+                                                                        data-toggle="modal"
+                                                                        data-target="#modal-author-lookup"
+                                                                        data-ggtools-value="Entity_FormaAuthority"
+                                                                        class="btn btn-default btn-flat">
                                                                     <i class="fa fa-search"></i>
                                                                 </button>
                                                             </span>
@@ -665,10 +662,11 @@
                     @{Html.RenderAction("RenderLookupModal", "Genus"); }
                     @{Html.RenderAction("RenderLookupModal", "Species"); }
                     @{Html.RenderAction("RenderLookupModal", "Author"); }
+                    @{Html.RenderAction("RenderLookupModal", "Geography"); }
+                    @{Html.RenderAction("RenderLookupModal", "Citation", new { @tableName = Model.TableName, @isMultiSelect = "Y" }); }
                     @Html.Partial("~/Views/Taxonomy/Species/Modals/_LookupProtologue.cshtml")
                     @Html.Partial("~/Views/Shared/Modals/_NoteLookup2.cshtml")
                     @Html.Partial("~/Views/Taxonomy/Shared/Modals/_Delete.cshtml")
-                    @{Html.RenderAction("RenderLookupModal", "Citation", new { @tableName = Model.TableName, @isMultiSelect = "Y" }); }
                     @{Html.RenderAction("_Edit", "Folder"); }
                 </div>
             </div>

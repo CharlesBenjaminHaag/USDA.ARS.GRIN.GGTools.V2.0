@@ -24,6 +24,11 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
                 ValidationMessages.Add(new Common.Library.ValidationMessage { Message = "Please select a species." });
             }
 
+            if ((Entity.IsCrop == "Y") && (String.IsNullOrEmpty(Entity.CropCommonName)))
+            {
+                ValidationMessages.Add(new Common.Library.ValidationMessage { Message = "Because you have designated this map as a crop, you must specify a common name." });
+            }
+
             if (ValidationMessages.Count > 0)
                 validated = false;
 

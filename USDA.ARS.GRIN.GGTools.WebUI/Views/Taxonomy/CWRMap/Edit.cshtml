@@ -318,8 +318,22 @@
         });
 
         function Init() {
-
+            var isCrop = $("#Entity_IsCrop").val();
+            var cropCommonName = $("#Entity_CropCommonName").val();
         }
+
+        $('#cbxIsCrop').click(function () {
+            if (!$(this).is(':checked')) {
+                $("#section-common-name").hide();
+                $("#Entity_CropCommonName").val("");
+                $("#Entity_IsCrop").val("Y");
+            }
+            else {
+                $("#section-common-name").show();
+                $("#Entity_IsCrop").val("Y");
+            }
+        });
+
     </script>
     <script src="~/plugins/jquery/jquery.min.js"></script>
     <script src="~/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>

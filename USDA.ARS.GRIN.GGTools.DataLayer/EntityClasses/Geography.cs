@@ -10,6 +10,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
 {
     public class Geography : AppEntityBase
     {
+        public int RegionID { get; set; }
         public string CountryCode { get; set; }
         public string Admin1 { get; set; }
         public string Admin1TypeCode { get; set; }
@@ -23,7 +24,9 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
         public bool IsValidOption { get; set; }
         public string GeographyText { get; set; }
         public string Continent { get; set; }
+        public string ContinentAbbreviation { get; set; }
         public string SubContinent { get; set; }
+        public string SubContinentAbbreviation { get; set; }
         public string RegionText { get; set; }
     }
 }

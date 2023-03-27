@@ -1,0 +1,16 @@
+﻿@model USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer.GeographyViewModel
+<div class="row">
+    @foreach (var result in Model.DataCollectionContinents)
+    { 
+        <div class="col-md-2">
+            <div class="form-group clearfix">
+                <div class="icheck-primary d-inline">
+                    <input type="checkbox" id="@result.Continent" value="@result.Continent" />
+                    <label for="@result.Continent">
+                        @result.Continent
+                    </label>
+                </div>
+            </div>
+        </div>
+    }
+</div>

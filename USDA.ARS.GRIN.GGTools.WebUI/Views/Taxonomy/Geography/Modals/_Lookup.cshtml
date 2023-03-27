@@ -12,41 +12,19 @@
                 </button>
             </div>
             <div class="modal-body">
-                <div class="row">
-                    <div class="col-md-3">
-                        <div class="form-group form-horizontal">
-                            <label>Continent</label>
-                            @Html.DropDownListFor(x => x.SearchEntity.ContinentRegionID, Model.Continents, "All continents", new { @class = "form-control" })
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="form-group form-horizontal">
-                            <label>Subcontinents</label>
-                            @Html.DropDownListFor(x => x.SearchEntity.SubContinentRegionID, Model.SubContinents, "All subcontinents", new { @class = "form-control" })
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="form-group form-horizontal">
-                            <label>Country</label>
-                            @Html.DropDownListFor(x => x.SearchEntity.CountryCode, Model.Countries, "All countries", new { @class = "form-control" })
-                        </div>
-                    </div>
-                    <div class="col-md-1">
-                        <div class="form-group form-horizontal">
-                            <label>IsValid</label>
-                            @Html.DropDownListFor(x => x.SearchEntity.IsValid, Model.YesNoOptions, "Either", new { @class = "form-control" })
-                        </div>
-                    </div>
+                <div id="section-continents" class="row">
+                    @{Html.RenderAction("_ListContinents","Geography"); }
                 </div>
                 <div class="row">
-                    <div class="col-md-12">
-                        <button id="btnLookupGeography" class="btn btn-default float-right">Search</button>
+                    <div class="col-md-3">
+                        <h5>Sub-Continents</h5>
+                        @{Html.RenderAction("_ListSubContinents", "Geography"); }
                     </div>
-                </div>
-                <div class="row">
-                    <div id="section-geography-lookup-search-results" class="col-md-12">
-                        <!--SEARCH RESULTS HERE-->
+                    <div class="col-md-3">
+                        <h5>Countries</h5>
+                        @{Html.RenderAction("_ListCountries", "Geography"); }
                     </div>
+                    <div class="col-md-3"><h5>Admin. Units</h5></div>
                 </div>
             </div>
             <div class="modal-footer justify-content-between">

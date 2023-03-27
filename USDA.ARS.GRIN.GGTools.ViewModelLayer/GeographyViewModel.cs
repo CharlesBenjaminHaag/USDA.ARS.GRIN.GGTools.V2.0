@@ -97,7 +97,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
         //    return regions;
         //}
 
-        public List<Region> GetContinents()
+        public void GetContinents()
         {
             List<Region> regions = new List<Region>();
 
@@ -113,10 +113,10 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
                 }
                 cache.Set("DATA-LIST-GEOGRAPHY-CONTINENTS", regions, policy);
             }
-            return regions;
+            DataCollectionContinents = new Collection<Region>(regions);
         }
 
-        public List<Region> GetSubContinents()
+        public void GetSubContinents()
         {
             List<Region> regions = new List<Region>();
 
@@ -132,10 +132,10 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
                 }
                 cache.Set("DATA-LIST-GEOGRAPHY-SUBCONTINENTS", regions, policy);
             }
-            return regions;
+            DataCollectionSubContinents = new Collection<Region>(regions);
         }
 
-        public List<Country> GetCountries()
+        public List<Country> GetCountries(string idList)
         {
             List<Country> countries = new List<Country>();
 
@@ -236,22 +236,6 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
                 DataCollectionNotes = new Collection<CodeValue>(mgr.SearchNotes(SearchEntity.TableName, SearchEntity.Note));
             }
             return codeValues;
-        }
-
-        //public void SearchSubContinents(GeographySearch searchEntity)
-        //{
-        //    using (GeographyManager mgr = new GeographyManager())
-        //    {
-        //        //DataCollectionSubContinents = new Collection<Region>(mgr.SearchSubContinents(searchEntity));
-        //    }
-        //}
-
-        public void SearchCountries(GeographySearch searchEntity)
-        {
-            using (GeographyManager mgr = new GeographyManager())
-            {
-                DataCollectionCountries = new Collection<Country>(mgr.SearchCountries(searchEntity));
-            }
         }
 
         GeographyViewModel IViewModel<GeographyViewModel>.Get(int entityId)

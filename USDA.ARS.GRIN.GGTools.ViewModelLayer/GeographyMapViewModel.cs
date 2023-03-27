@@ -210,14 +210,6 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
             }
         }
 
-        public void SearchCountries(GeographySearch searchEntity)
-        {
-            using (GeographyManager mgr = new GeographyManager())
-            {
-                DataCollectionCountries = new Collection<Country>(mgr.SearchCountries(searchEntity));
-            }
-        }
-
         public void SearchFolderItems()
         {
             using (GeographyMapManager mgr = new GeographyMapManager())
