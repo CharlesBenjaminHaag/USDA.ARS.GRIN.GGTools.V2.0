@@ -121,8 +121,18 @@
 
     function SaveLiterature(link, refreshLink) {
         var selectedItemIdList = GetSelectedEntityIDs("data-table-literature-lookup");
-        var selectedItemNameList = GetSelectedEntityLabels("data-table-literature-lookup");
+        var selectedItemNameList = GetSelectedCitationText("data-table-literature-lookup");
         $("#Entity_LiteratureID").val(selectedItemIdList);
         $("#Entity_Abbreviation").val(selectedItemNameList);
     }
+
+    function GetSelectedCitationText(tableName) {
+        var table = $('#' + tableName).DataTable();
+        var ids = $.map(table.rows('.selected').data(), function (item) {
+            return item[2]
+        });
+        console.log(ids)
+        return ids;
+    }
+
 </script>

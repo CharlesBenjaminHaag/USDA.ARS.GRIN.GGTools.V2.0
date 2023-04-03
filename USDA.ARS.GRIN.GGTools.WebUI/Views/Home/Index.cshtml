@@ -3,13 +3,49 @@
     ViewBag.Title = "My GGTools";
     Layout = "~/Views/Shared/_LayoutAdminLTE3.cshtml";
 }
-
 <div class="row">
     <div class="col-md-3">
         @{Html.RenderAction("RenderWidget", "Cooperator", new { cooperatorId = Model.CooperatorID }); }
     </div>
-    
-    <div class="col-md-9">
+    <div class="col-md-6">
+        <div class="small-box bg-danger">
+            <div class="inner">
+                <h3>NRR Tool</h3>
+                <p>Review web order requests</p>
+            </div>
+            <div class="icon">
+                <i class="fas fa-shopping-cart"></i>
+            </div>
+            <a href="@Url.Action("Navigate","Home", new { applicationCode = "GGT-NRR"})" class="small-box-footer">
+                Launch <i class="fas fa-arrow-circle-right"></i>
+            </a>
+        </div>
+        <div class="small-box bg-purple">
+            <div class="inner">
+                <h3>User Manager</h3>
+                <p>Create and manage CT accounts</p>
+            </div>
+            <div class="icon">
+                <i class="fas fa-users"></i>
+            </div>
+            <a href="@Url.Action("Navigate","Home", new { applicationCode = "GGT-ARM"})" class="small-box-footer">
+                Launch <i class="fas fa-arrow-circle-right"></i>
+            </a>
+        </div>
+        <div class="small-box bg-success">
+            <div class="inner">
+                <h3>Taxonomy Editor</h3>
+                <p>Edit taxonomical data</p>
+            </div>
+            <div class="icon">
+                <i class="fas fa-leaf"></i>
+            </div>
+            <a href="@Url.Action("Navigate","Home", new { applicationCode = "GGT-TAX"})" class="small-box-footer">
+                Launch <i class="fas fa-arrow-circle-right"></i>
+            </a>
+        </div>
+    </div>
+    <div class="col-md-3">
         @{Html.RenderAction("RenderWidget", "Site", new { siteId = Model.SiteID }); }
     </div>
 </div>

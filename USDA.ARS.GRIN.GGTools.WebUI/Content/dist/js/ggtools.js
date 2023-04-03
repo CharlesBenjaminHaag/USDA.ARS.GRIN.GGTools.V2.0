@@ -135,7 +135,9 @@ function InitDataTableLight(tableName) {
         table = $(tableName).DataTable({
             paging: false,
             "bLengthChange": false,
-            "pageLength": 20,
+            scrollY: '200px',
+            scrollCollapse: true,
+            paging: false,
             responsive: true,
             select: true,
             searching: false,
@@ -284,14 +286,7 @@ function GetSelectedEntityLabels(tableName) {
     return ids;
 }
 
-function GetSelectedCitationText(tableName) {
-    var table = $('#' + tableName).DataTable();
-    var ids = $.map(table.rows('.selected').data(), function (item) {
-        return item[3]
-    });
-    console.log(ids)
-    return ids;
-}
+
 
 function GetSelectedEntityText(tableName) {
     var table = $('#' + tableName).DataTable();

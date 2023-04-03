@@ -662,7 +662,7 @@
                     @{Html.RenderAction("RenderLookupModal", "Genus"); }
                     @{Html.RenderAction("RenderLookupModal", "Species"); }
                     @{Html.RenderAction("RenderLookupModal", "Author"); }
-                    @{Html.RenderAction("RenderLookupModal", "Geography"); }
+                    @*@{Html.RenderAction("RenderLookupModal", "Geography"); }*@
                     @{Html.RenderAction("RenderLookupModal", "Citation", new { @tableName = Model.TableName, @isMultiSelect = "Y" }); }
                     @Html.Partial("~/Views/Taxonomy/Species/Modals/_LookupProtologue.cshtml")
                     @Html.Partial("~/Views/Shared/Modals/_NoteLookup2.cshtml")

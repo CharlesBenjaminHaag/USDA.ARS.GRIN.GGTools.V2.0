@@ -244,7 +244,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             //}
 
             viewModel.GetCountries(idList);
-            return PartialView("~/Views/Taxonomy/Geography/Modal/_SelectListCountry.cshtml", viewModel);
+            return PartialView("~/Views/Taxonomy/Geography/Modals/_SelectListCountry.cshtml", viewModel);
         }
 
         [HttpPost]

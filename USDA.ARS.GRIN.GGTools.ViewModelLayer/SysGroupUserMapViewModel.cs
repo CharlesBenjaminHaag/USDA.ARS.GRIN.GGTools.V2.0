@@ -32,7 +32,7 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
                 }
                 else
                 {
-                    mgr.GetUnavailable(sysUserId);
+                  DataCollectionUnavailable = new Collection<SysGroupUserMap>(mgr.GetUnavailable(sysUserId));
                 }
             }
         }

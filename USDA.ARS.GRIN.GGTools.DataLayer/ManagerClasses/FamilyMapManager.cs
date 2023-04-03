@@ -327,7 +327,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             }
 
             AddParameter("taxonomy_family_map_accepted_id", entity.AcceptedID == 0 ? DBNull.Value : (object)entity.AcceptedID, true);
-            AddParameter("taxonomy_family_id", entity.FamilyID == 0 ? DBNull.Value : (object)entity.FamilyID, true);
+            AddParameter("taxonomy_family2_id", entity.FamilyID == 0 ? DBNull.Value : (object)entity.FamilyID, true);
             AddParameter("type_taxonomy_genus_id", entity.TypeGenusID == 0 ? DBNull.Value : (object)entity.TypeGenusID, true);
             AddParameter("subfamily_name", (object)entity.SubfamilyName ?? DBNull.Value, true);
             AddParameter("authority", (object)entity.Authority ?? DBNull.Value, true);

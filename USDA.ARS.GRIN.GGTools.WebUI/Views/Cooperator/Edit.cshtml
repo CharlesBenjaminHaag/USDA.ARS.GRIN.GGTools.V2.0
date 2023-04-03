@@ -5,16 +5,7 @@
 }
 
 <div class="row">
-    <div class="col-md-3">
-        <div id="card-sys-user">
-            @{Html.RenderAction("RenderWidget", "SysUser", new { @sysUserId = Model.Entity.SysUserID }); }
-        </div>
-        <div id="card-sys-group-user-map">
-             
-        </div>
-    </div>
-    <div class="col-md-9">
-      
+    <div class="col-md-12">
         <div class="card card-primary card-tabs">
             <div id="section-cooperator-tabs" class="card-header p-0 pt-1">
                 <ul class="nav nav-tabs" id="custom-tabs-two-tab" role="tablist">
@@ -22,12 +13,15 @@
                     <li id="tab-cooperator" class="nav-item">
                         <a class="nav-link active" id="custom-tabs-two-home-tab" data-toggle="pill" href="#tab-content-cooperator" role="tab" aria-controls="custom-tabs-two-home" aria-selected="true">Cooperator</a>
                     </li>
+                    <li id="tab-sys-user" class="nav-item">
+                        <a class="nav-link" id="custom-tabs-two-profile-tab" data-toggle="pill" href="#tab-content-sys-user" role="tab" aria-controls="custom-tabs-two-profile" aria-selected="false">Sys User</a>
+                    </li>
                     <li id="tab-web-cooperator" class="nav-item">
                         <a class="nav-link" id="custom-tabs-two-profile-tab" data-toggle="pill" href="#tab-content-web-cooperator" role="tab" aria-controls="custom-tabs-two-profile" aria-selected="false">Web Cooperator</a>
                     </li>
-                    @*<li id="section-web-order-request-tabs-order-request-history" class="nav-item">
-                        <a class="nav-link" id="custom-tabs-two-messages-tab" data-toggle="pill" href="#custom-tabs-two-messages" role="tab" aria-controls="custom-tabs-two-messages" aria-selected="false">Order Request History</a>
-                    </li>*@
+                    <li id="tab-web-user" class="nav-item">
+                        <a class="nav-link" id="custom-tabs-two-profile-tab" data-toggle="pill" href="#tab-content-web-user" role="tab" aria-controls="custom-tabs-two-profile" aria-selected="false">Web User</a>
+                    </li>
                 </ul>
             </div>
             <div class="card-body web-order-request">
@@ -35,15 +29,19 @@
                     <div class="tab-pane fade show active" id="tab-content-cooperator" role="tabpanel" aria-labelledby="custom-tabs-two-home-tab">
                         @{Html.RenderAction("_Get", "Cooperator", new { @entityId = Model.Entity.ID }); }
                     </div>
+                    <div class="tab-pane fade" id="tab-content-sys-user" role="tabpanel" aria-labelledby="custom-tabs-two-home-tab">
+                        @{Html.RenderAction("_Get", "SysUser", new { @sysUserId = Model.Entity.SysUserID }); }
+                        @{Html.RenderAction("RenderWidget", "SysGroupUserMap", new { @sysUserId = Model.Entity.SysUserID }); }
+                    </div>
                     <div class="tab-pane fade" id="tab-content-web-cooperator" role="tabpanel" aria-labelledby="custom-tabs-two-home-tab">
                         @{Html.RenderAction("_Get", "WebCooperator", new { @entityId = Model.Entity.WebCooperatorID }); }
+                    </div>
+                    <div class="tab-pane fade" id="tab-content-web-user" role="tabpanel" aria-labelledby="custom-tabs-two-home-tab">
+                        @{Html.RenderAction("_Get", "WebUser", new { @entityId = Model.Entity.WebUserID }); }
                     </div>
                 </div>
             </div>
         </div>
-
-
-
     </div>
 </div>
 
@@ -194,7 +192,7 @@
             processData: false,
             data: formData,
             success: function (response) {
-                $("#card-cooperator").html(response);
+                $("#tab-content-cooperator").html(response);
             },
             error: function () {
                 alert("Error");

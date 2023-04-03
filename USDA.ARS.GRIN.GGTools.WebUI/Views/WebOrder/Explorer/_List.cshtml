@@ -7,7 +7,7 @@
             <th>
                Requestor 
             </th>
-            <th>Status</th>
+            <th>Email</th>
         </tr>
     </thead>
     <tbody>
@@ -36,13 +36,11 @@
                     @webOrderRequest.WebCooperatorFullName
                     <br>
                     <small>
-                        @webOrderRequest.WebCooperatorEmail
+                        @webOrderRequest.WebCooperatorOrganization
                     </small>
                 </td>
                 <td>
-                    <span class="@statusCssClass">
-                        @webOrderRequest.StatusCode
-                    </span>
+                    @webOrderRequest.WebCooperatorEmail
                 </td>
             </tr>
         }

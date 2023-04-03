@@ -1,6 +1,36 @@
 ﻿@model USDA.ARS.GRIN.GGTools.ViewModelLayer.SiteViewModel
 
-<div class="card card-primary card-tabs">
+<div class="card card-primary">
+    <div class="card-header">
+        <h3 class="card-title">My Site @Model.Entity.ID</h3>
+    </div>
+    <div class="card-body">
+        <strong><i class="fas fa-book mr-1"></i> Name</strong>
+        <p class="text-muted">
+            @Model.Entity.LongName
+        </p>
+        <hr>
+        <strong><i class="fas fa-envelope mr-1"></i> Email</strong>
+        <p class="text-muted">@Model.Entity.EmailAddress</p>
+        <hr>
+        <strong><i class="fas fa-users mr-1"></i> Site Cooperators</strong>
+
+        <button id="btnAddCooperator" class="btn btn-default btn-block" style="margin-top:15px;" data-target="#modal-cooperator-add" data-toggle="modal">
+            Add Cooperator
+        </button>
+        <div id="data-table-site-cooperators_wrapper" class="dataTables_wrapper no-footer">
+            @{Html.RenderAction("_List", "Cooperator", new { @siteId = Model.Entity.ID, formatCode = "LWGT" }); }
+        </div>
+    </div>
+    <!-- TODO -->
+    <div class="card-footer">
+        <a href="@Url.Action("Edit","Site", new { @entityId = Model.Entity.ID })" class="btn btn-primary btn-block">
+            Edit My Site
+        </a>
+    </div>
+</div>
+
+@*<div class="card card-primary card-tabs">
     <div class="card-header p-0 pt-1">
         <ul class="nav nav-tabs" id="custom-tabs-two-tab" role="tablist">
             <li class="pt-2 px-3"><h3 class="card-title">My Site</h3></li>
@@ -171,7 +201,7 @@
             </div>
         </div>
     </div>
-</div>
+</div>*@
 <script type="text/javascript">
     InitWidgetDataTable("data-table-site-cooperators");
     function InitWidgetDataTable(tableName) {

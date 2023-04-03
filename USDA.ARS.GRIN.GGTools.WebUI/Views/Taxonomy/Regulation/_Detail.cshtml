@@ -26,25 +26,25 @@
                         </div>
                     </div>
                     <div class="col-md-3">
-                        <div id="form-group">
+                        <div class="form-group">
                             <label id="lblStandardAbbreviation">Geography</label>
                             @Html.DropDownListFor(x => x.SearchEntity.GeographyID, Model.States, "All geographies", new { @class = "form-control" })
                         </div>
                     </div>
                     <div class="col-md-2">
-                        <div id="form-group">
+                        <div class="form-group">
                             <label>Regulation Type</label>
                             @Html.DropDownListFor(x => x.SearchEntity.RegulationTypeCode, Model.RegulationTypeCodes, "All types", new { @class = "form-control" })
                         </div>
                     </div>
                     <div class="col-md-2">
-                        <div id="form-group">
+                        <div class="form-group">
                             <label>Regulation Level</label>
                             @Html.DropDownListFor(x => x.SearchEntity.RegulationLevelCode, Model.RegulationLevelCodes, "All levels", new { @class = "form-control" })
                         </div>
                     </div>
                     <div class="col-md-3">
-                        <div id="form-group">
+                        <div class="form-group">
                             <label>Description</label>
                             @Html.TextBoxFor(x => x.SearchEntity.Description, new { @class = "form-control" })
                         </div>

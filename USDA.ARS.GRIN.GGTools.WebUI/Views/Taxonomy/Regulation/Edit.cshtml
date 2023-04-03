@@ -34,25 +34,25 @@
             @Html.Partial("~/Views/Shared/_ValidationMessages.cshtml")
             <div class="row">
                 <div class="col-md-3">
-                    <div id="form-group">
+                    <div class="form-group">
                         <label id="lblStandardAbbreviation">Geography</label>
                         @Html.DropDownListFor(x => x.Entity.GeographyID, Model.States, "NULL", new { @class = "form-control" })
                     </div>
                 </div>
                 <div class="col-md-2">
-                    <div id="form-group">
+                    <div class="form-group">
                         <label>Regulation Type</label>
                         @Html.DropDownListFor(x => x.Entity.RegulationTypeCode, Model.RegulationTypeCodes, "NULL", new { @class = "form-control" })
                     </div>
                 </div>
                 <div class="col-md-2">
-                    <div id="form-group">
+                    <div class="form-group">
                         <label>Regulation Level</label>
                         @Html.DropDownListFor(x => x.Entity.RegulationLevelCode, Model.RegulationLevelCodes, "NULL", new { @class = "form-control" })
                     </div>
                 </div>
                 <div class="col-md-3">
-                    <div id="form-group">
+                    <div class="form-group">
                         <label>Description</label>
                         @Html.TextBoxFor(x => x.Entity.Description, new { @class = "form-control" })
                     </div>
@@ -60,13 +60,13 @@
             </div>
             <div class="row">
                 <div class="col-md-6">
-                    <div id="form-group">
+                    <div class="form-group">
                         <label>URL 1</label>
                         @Html.TextBoxFor(x => x.Entity.URL1, new { @class = "form-control" })
                     </div>
                 </div>
                 <div class="col-md-6">
-                    <div id="form-group">
+                    <div class="form-group">
                         <label>URL 2</label>
                         @Html.TextBoxFor(x => x.Entity.URL2, new { @class = "form-control" })
                     </div>

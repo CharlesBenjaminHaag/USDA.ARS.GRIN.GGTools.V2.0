@@ -27,7 +27,8 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
         private Collection<WebOrderRequest> _DataCollection = new Collection<WebOrderRequest>();
         private Collection<WebOrderRequestItem> _DataCollectionItems = new Collection<WebOrderRequestItem>();
         private Collection<WebOrderRequestAction> _DataCollectionActions = new Collection<WebOrderRequestAction>();
-        
+        private Collection<WebOrderRequestAction> _DataCollectionNotes = new Collection<WebOrderRequestAction>();
+
         private Collection<WebOrderRequestActionGroup> _DataCollectionActionGroups = new Collection<WebOrderRequestActionGroup>();
         private Collection<CodeValue> _DataCollectionStatusCodes = new Collection<CodeValue>();
         private Collection<CodeValue> _DataCollectionIntendedUseCodes = new Collection<CodeValue>();
@@ -75,6 +76,11 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
         {
             get { return _DataCollectionActions; }
             set { _DataCollectionActions = value; }
+        }
+        public Collection<WebOrderRequestAction> DataCollectionNotes
+        {
+            get { return _DataCollectionNotes; }
+            set { _DataCollectionNotes = value; }
         }
         public Collection<WebOrderRequestActionGroup> DataCollectionActionGroups
         {

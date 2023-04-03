@@ -33,25 +33,25 @@
                                             </div>
                                         </div>
                                         <div class="col-md-3">
-                                            <div id="form-group">
+                                            <div class="form-group">
                                                 <label>Type</label>
                                                 @Html.DropDownListFor(x => x.SearchEntity.TypeCode, Model.CitationTypes, "All types", new { @class = "form-control" })
                                             </div>
                                         </div>
                                         <div class="col-md-3">
-                                            <div id="form-group">
+                                            <div class="form-group">
                                                 <label>Abbreviation</label>
                                                 @Html.TextBoxFor(x => x.SearchEntity.Abbreviation, new { @class = "form-control" })
                                             </div>
                                         </div>
                                         <div class="col-md-3">
-                                            <div id="form-group">
+                                            <div class="form-group">
                                                 <label>Citation Title</label>
                                                 @Html.TextBoxFor(x => x.SearchEntity.CitationTitle, new { @class = "form-control" })
                                             </div>
                                         </div>
                                         <div class="col-md-3">
-                                            <div id="form-group">
+                                            <div class="form-group">
                                                 <label>Author</label>
                                                 @Html.TextBoxFor(x => x.SearchEntity.AuthorName, new { @class = "form-control" })
                                             </div>
@@ -102,19 +102,19 @@
                                         </div>
                                     </div>
                                     <div class="col-md-3">
-                                        <div id="form-group">
+                                        <div class="form-group">
                                             <label>Citation Title</label>
                                             @Html.TextBoxFor(x => x.Entity.CitationTitle, new { @class = "form-control", @autocomplete = "off", @data_lpignore = "true" })
                                         </div>
                                     </div>
                                     <div class="col-md-3">
-                                        <div id="form-group">
+                                        <div class="form-group">
                                             <label>Ref. Description</label>
                                             @Html.TextBoxFor(x => x.Entity.ReferenceDescription, new { @class = "form-control", @autocomplete = "off", @data_lpignore = "true" })
                                         </div>
                                     </div>
                                     <div class="col-md-3">
-                                        <div id="form-group">
+                                        <div class="form-group">
                                             <label>URL</label>
                                             @Html.TextBoxFor(x => x.Entity.URL, new { @class = "form-control", @autocomplete = "off", @data_lpignore = "true" })
                                         </div>
@@ -122,31 +122,31 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-md-2">
-                                        <div id="form-group">
+                                        <div class="form-group">
                                             <label>Type</label>
                                             @Html.DropDownListFor(x => x.Entity.TypeCode, Model.CitationTypes, "NULL", new { @class = "form-control" })
                                         </div>
                                     </div>
                                     <div class="col-md-3">
-                                        <div id="form-group">
+                                        <div class="form-group">
                                             <label>Author Name</label>
                                             @Html.TextBoxFor(x => x.Entity.AuthorName, new { @class = "form-control", @autocomplete = "off", @data_lpignore = "true" })
                                         </div>
                                     </div>
                                     <div class="col-md-1">
-                                        <div id="form-group">
+                                        <div class="form-group">
                                             <label>Year</label>
                                             @Html.TextBoxFor(x => x.Entity.CitationYear, new { @class = "form-control", @autocomplete = "off", @data_lpignore = "true" })
                                         </div>
                                     </div>
                                     <div class="col-md-2">
-                                        <div id="form-group">
+                                        <div class="form-group">
                                             <label>Vol. and Page</label>
                                             @Html.TextBoxFor(x => x.Entity.Reference, new { @class = "form-control" })
                                         </div>
                                     </div>
                                     <div class="col-md-1">
-                                        <div id="form-group">
+                                        <div class="form-group">
                                             <label>DOI</label>
                                             @Html.TextBoxFor(x => x.Entity.DOIReference, new { @class = "form-control" })
                                         </div>

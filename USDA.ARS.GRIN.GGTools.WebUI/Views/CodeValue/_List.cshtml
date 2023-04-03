@@ -5,10 +5,11 @@
     <thead>
         <tr>
             <th></th>
-            <th>Code Value ID</th>
+            <th>ID</th>
+            <th>Lang ID</th>
             <th>Code</th>
-            <th>Code Value Lang ID</th>
             <th>Title</th>
+            <th>Created</th>
             <th>Last Modified</th>
             <th></th>
         </tr>
@@ -18,26 +19,29 @@
         {
             foreach (var result in Model.DataCollection)
             {
-                <tr>
-                    <td>
-                        @result.ID
-                    </td>
-                    <td>@result.CodeValueID</td>
-                    <td>@result.Code</td>
-                    <td>@result.CodeValueLangID</td>
-                    <td>@result.CodeTitle</td>
-                    <td>
-                        @if (result.ModifiedDate > DateTime.MinValue)
-                        {
-                            @result.ModifiedDate.ToString("yyyy-MM-dd")
-                        }
-                    </td>
-                    <td class="table-col-align-right">
-                        <button id="btnEditCodeValue" data-ggtools-entity-id="@result.CodeValueID" class="btn btn-default btn-sm pull-right">
-                            <i class="fa fa-edit"></i>
-                        </button>
-                    </td>
-                </tr>
+        <tr>
+            <td>
+                @result.ID
+            </td>
+            <td>@result.CodeValueID</td>
+            <td>@result.CodeValueLangID</td>
+            <td>@result.Code</td>
+            <td>@result.CodeTitle</td>
+            <td>
+                @result.CreatedDate.ToString("yyyy-MM-dd")
+            </td>
+            <td>
+                @if (result.ModifiedDate > DateTime.MinValue)
+                {
+                    @result.ModifiedDate.ToString("yyyy-MM-dd")
+                }
+            </td>
+            <td class="table-col-align-right">
+                <button id="btnEditCodeValue" data-ggtools-entity-id="@result.CodeValueID" class="btn btn-default btn-sm pull-right">
+                    <i class="fa fa-edit"></i>
+                </button>
+            </td>
+        </tr>
             }
         }
     </tbody>

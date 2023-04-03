@@ -221,8 +221,6 @@
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <!-- If the record being edited is infrafamilial, show the family selector;
-                        otherwise, use the family name edit field. -->
                                     @if (Model.Entity.Rank.ToUpper() == "FAMILY")
                                     {
                                         <div class="col-md-3">
@@ -265,10 +263,6 @@
                                             </div>
                                         </div>
                                     }
-
-                                    <!--
-                    Only show the Order (Classification) select list if the record being edited is a family, vs.
-                    an infrafamilial record. -->
                                     @if (Model.Entity.Rank.ToUpper() == "FAMILY")
                                     {
                                         <div class="col-md-3">
@@ -285,7 +279,13 @@
                                             <div class="col-md-3">
                                                 <div class="form-group">
                                                     <label>Subfamily Name</label>
-                                                    @Html.TextBoxFor(x => x.Entity.SubfamilyName, new { @class = "form-control" })
+                                                    <div class="input-group">
+                                                        @Html.TextBoxFor(x => x.Entity.SubfamilyName, new { @class = "form-control" })
+                                                        <span class="input-group-btn">
+                                                            <a id="btnSetAcceptedOn" class="btn btn-default" href="#" role="button"><i class="fas fa-thumbs-down"></i> Not Accepted</a>
+                                                            <a id="btnSetAcceptedOff" class="btn btn-default" href="#" role="button"><i class="fas fa-thumbs-up"></i> Accepted</a>
+                                                        </span>
+                                                    </div>
                                                 </div>
                                             </div>
                                             break;
@@ -296,10 +296,14 @@
                                                     @Html.TextBoxFor(x => x.Entity.SubfamilyName, new { @class = "form-control" })
                                                 </div>
                                             </div>
-                                            <div class="col-md-3">
-                                                <div class="form-group">
-                                                    <label>Tribe Name</label>
+                                            <div class="form-group">
+                                                <label>Tribe Name</label>
+                                                <div class="input-group">
                                                     @Html.TextBoxFor(x => x.Entity.TribeName, new { @class = "form-control" })
+                                                    <span class="input-group-btn">
+                                                        <a id="btnSetAcceptedOn" class="btn btn-default" href="#" role="button"><i class="fas fa-thumbs-down"></i> Not Accepted</a>
+                                                        <a id="btnSetAcceptedOff" class="btn btn-default" href="#" role="button"><i class="fas fa-thumbs-up"></i> Accepted</a>
+                                                    </span>
                                                 </div>
                                             </div>
                                             break;
@@ -319,7 +323,13 @@
                                             <div class="col-md-3">
                                                 <div class="form-group">
                                                     <label>Subtribe Name</label>
-                                                    @Html.TextBoxFor(x => x.Entity.SubtribeName, new { @class = "form-control" })
+                                                    <div class="input-group">
+                                                        @Html.TextBoxFor(x => x.Entity.SubtribeName, new { @class = "form-control" })
+                                                        <span class="input-group-btn">
+                                                            <a id="btnSetAcceptedOn" class="btn btn-default" href="#" role="button"><i class="fas fa-thumbs-down"></i> Not Accepted</a>
+                                                            <a id="btnSetAcceptedOff" class="btn btn-default" href="#" role="button"><i class="fas fa-thumbs-up"></i> Accepted</a>
+                                                        </span>
+                                                    </div>
                                                 </div>
                                             </div>
                                             break;
@@ -329,7 +339,7 @@
                                         <div class="form-group">
                                             <label>Type Genus</label>
                                             <div class="input-group">
-                                                @Html.TextBoxFor(x => x.Entity.TypeGenusName, new { @class = "form-control" })
+                                                @Html.TextBoxFor(x => x.Entity.TypeGenusName, new { @class = "form-control", @readonly="readonly" })
                                                 @Html.HiddenFor(x => x.Entity.TypeGenusID)
 
                                                 @if (Model.Entity.TypeGenusID > 0)
@@ -366,7 +376,14 @@
                                             <div class="input-group">
                                                 @Html.TextBoxFor(x => x.Entity.Authority, new { @class = "form-control" })
                                                 <span class="input-group-btn">
-                                                    <button type="button" data-toggle="modal" data-target="#modal-author-lookup" class="btn btn-default btn-flat">
+                                                    <button 
+                                                        id="btnOpenAuthorityLookupModal"
+                                                        type="button" 
+                                                        data-ggtools-action="Entity_Authority"
+                                                        data-ggtools-value="Entity_Authority"
+                                                        data-toggle="modal" 
+                                                        data-target="#modal-author-lookup" 
+                                                        class="btn btn-default btn-flat">
                                                         <i class="fa fa-search"></i>
                                                     </button>
                                                 </span>

@@ -175,6 +175,13 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
 
             BuildInsertUpdateParameters(entity);
             AddParameter("@out_error_number", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
+            int errorNumber = GetParameterValue<int>("@out_error_number", -1);
+
+            if (errorNumber > 0)
+            {
+                throw new Exception(errorNumber.ToString());
+            }
+
             RowsAffected = ExecuteNonQuery();
             return RowsAffected;
         }

@@ -718,6 +718,8 @@
     <Content Include="Views\Taxonomy\Geography\Modals\_SelectListSubContinent.cshtml" />
     <Content Include="Views\Taxonomy\Geography\Modals\_SelectListAdmin.cshtml" />
     <Content Include="Views\Taxonomy\Geography\Modals\_SelectListCountry.cshtml" />
+    <Content Include="Views\WebOrder\Explorer\Index - Copy.cshtml" />
+    <Content Include="Views\WebOrder\Explorer\_NoteWidget.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

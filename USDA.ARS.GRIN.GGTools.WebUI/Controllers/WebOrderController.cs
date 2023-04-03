@@ -89,74 +89,57 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
         }
         public JsonResult Approve(WebOrderRequestViewModel viewModel)
         {
-            //TODO
-            //Get WOR
-            //Set status "NRR_APPROVE"
-            //Add action
-            //Send TWO emails
+            viewModel.Get(viewModel.Entity.ID);
+            viewModel.Entity.StatusCode = "NRR_APPROVE";
+            viewModel.Entity.OwnedByWebUserID = AuthenticatedUser.WebUserID;
+            viewModel.Update();
             return null;
         }
         public JsonResult Reject(WebOrderRequestViewModel viewModel)
         {
-            //TODO
-            //Get WOR
-            //Set status "NRR_REJECT"
-            //Add action
-            //Send TWO emails
+            viewModel.Get(viewModel.Entity.ID);
+            viewModel.Entity.StatusCode = "NRR_REJECT";
+            viewModel.Entity.OwnedByWebUserID = AuthenticatedUser.WebUserID;
+            viewModel.Update();
             return null;
         }
 
-        [HttpPost]
-        public JsonResult SendInformationRequest(WebOrderRequestViewModel viewModel)
-        {
-            return null;
-        }
-
-        [HttpPost]
-        public JsonResult SendCuratorNotification(WebOrderRequestViewModel viewModel)
-        {
-            return null;
-        }
-
-        public PartialViewResult RenderEmailModal(int entityId, string actionCode)
+        public PartialViewResult RenderEmailModal(int entityId, string actionCode, string actionEmailTo)
         {
             WebOrderRequestViewModel viewModel = new WebOrderRequestViewModel();
             EmailTemplate emailTemplate = new EmailTemplate();
 
-            viewModel.Get(entityId);
-            viewModel.EventAction = actionCode;
             switch (actionCode)
             {
                 case "NRR_APPROVE":
                     viewModel.EventValue = "Approve Web Order Request";
-                    viewModel.ActionEmailTo = viewModel.Entity.WebCooperatorEmail;
                     emailTemplate = viewModel.GetEmailTemplate("CAP");
                     break;
                 case "NRR_REJECT":
                     viewModel.EventValue = "Reject Web Order Request";
-                    viewModel.ActionEmailTo = viewModel.Entity.WebCooperatorEmail;
                     emailTemplate = viewModel.GetEmailTemplate("RRJ");
                     break;
                 case "NRR_REQ":
                     viewModel.EventValue = "Request Additional Information";
-                    viewModel.ActionEmailTo = viewModel.Entity.WebCooperatorEmail;
                     emailTemplate = viewModel.GetEmailTemplate("RQI");
                     break;
                 case "NRR_CUR":
                     viewModel.EventValue = "Email Curators";
-                    viewModel.ActionEmailTo = viewModel.Entity.EmailAddressList;
                     emailTemplate = viewModel.GetEmailTemplate("CUR");
                     break;
             }
 
+            viewModel.EventAction = actionCode;
+            viewModel.Entity.ID = entityId;
+            viewModel.ActionEmailTo = actionEmailTo;
             viewModel.ActionEmailSubject = emailTemplate.Subject;
             viewModel.ActionEmailFrom = "gringlobal.orders@usda.gov";
             viewModel.ActionEmailBody = emailTemplate.Body;
 
             // REFACTOR: Replace placeholder variables with WOR data.
             //viewModel.ActionEmailBody.Replace("@WebCooperatorFullName", viewModel.Entity.WebCooperatorFullName);
-            viewModel.ActionEmailBody = viewModel.ActionEmailBody.Replace("[ID_HERE]", viewModel.Entity.ID.ToString());
-            viewModel.ActionEmailSubject = viewModel.ActionEmailSubject.Replace("[ID_HERE]", viewModel.Entity.ID.ToString());
+            viewModel.ActionEmailBody = viewModel.ActionEmailBody.Replace("[ID_HERE]", entityId.ToString());
+            viewModel.ActionEmailSubject = viewModel.ActionEmailSubject.Replace("[ID_HERE]", entityId.ToString());
             return PartialView("~/Views/WebOrder/Modals/_Email.cshtml", viewModel);
         }
 
@@ -199,7 +182,6 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             WebOrderRequestViewModel viewModel = new WebOrderRequestViewModel();
             return PartialView("~/Views/WebOrder/Modals/_Note.cshtml", viewModel);
         }
-
         public ActionResult Edit(int entityId)
         {
             throw new NotImplementedException();
@@ -351,28 +333,28 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
         {
             return null;
         }
-
-        [HttpPost]
-        public JsonResult AddNote(FormCollection formCollection)
+        public PartialViewResult _RenderNoteWidget(int webOrderRequestId)
         {
-            int entityId = 0;
-            int webUserId = 0;
-            string actionNote = String.Empty;
-            WebOrderRequestViewModel viewModel = new WebOrderRequestViewModel();
-
             try
             {
-                webUserId = AuthenticatedUser.WebUserID;
-                if (!String.IsNullOrEmpty(formCollection["EntityID"]))
-                {
-                    entityId = Int32.Parse(formCollection["EntityID"]);
-                }
+                WebOrderRequestViewModel viewModel = new WebOrderRequestViewModel();
+                viewModel.SearchEntity.ID = webOrderRequestId;
+                viewModel.GetNotes();
+                return PartialView("~/Views/WebOrder/Explorer/_NoteWidget.cshtml", viewModel);
+            }
+            catch(Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
+        }
 
-                if (!String.IsNullOrEmpty(formCollection["ActionNote"]))
-                {
-                    actionNote = formCollection["ActionNote"];
-                }
-                viewModel.InsertNote(entityId, actionNote, webUserId);
+        [HttpPost]
+        public JsonResult AddNote(WebOrderRequestViewModel viewModel)
+        {
+            try
+            {
+                viewModel.InsertNote(viewModel.Entity.ID, viewModel.Entity.Note, AuthenticatedUser.WebUserID);
                 return Json(new { success = true }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
