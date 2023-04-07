@@ -134,8 +134,9 @@ function InitDataTableLight(tableName) {
         tableName = "#" + tableName;
         table = $(tableName).DataTable({
             paging: false,
+            stateSave: true,
             "bLengthChange": false,
-            scrollY: '200px',
+            scrollY: '300px',
             scrollCollapse: true,
             paging: false,
             responsive: true,
@@ -145,7 +146,7 @@ function InitDataTableLight(tableName) {
                 { targets: [0], visible: false }
             ]
         });
-        table.row(':eq(0)', { page: 'current' }).select();
+        /*table.row(':eq(0)', { page: 'current' }).select();*/
     });
 }
 
@@ -272,6 +273,15 @@ function GetSelectedEntityIDs(tableName) {
     var table = $('#' + tableName).DataTable();
     var ids = $.map(table.rows('.selected').data(), function (item) {
         return item[0]
+    });
+    console.log(ids)
+    return ids;
+}
+
+function GetSelectedEntityStringIDs(tableName) {
+    var table = $('#' + tableName).DataTable();
+    var ids = $.map(table.rows('.selected').data(), function (item) {
+        return "'" + item[0] + "'"
     });
     console.log(ids)
     return ids;

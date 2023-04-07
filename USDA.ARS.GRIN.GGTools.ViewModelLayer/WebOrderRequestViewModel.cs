@@ -26,8 +26,7 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
                 using (WebOrderRequestManager mgr = new WebOrderRequestManager())
                 {
                     Entity = mgr.Get(entityId);
-                    DataCollectionItems =  new Collection<WebOrderRequestItem>(mgr.GetWebOrderRequestItems(entityId));
-
+                   
                     CodeValue codeValue = mgr.GetWebOrderRequestEmailAddresses(entityId);
                     Entity.EmailAddressList = codeValue.Title;
 
@@ -47,7 +46,13 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
 
             return Entity;
         }
-
+        public void GetWebOrderRequestItems(int entityId)
+        {
+            using (WebOrderRequestManager mgr = new WebOrderRequestManager())
+            {
+                DataCollectionItems = new Collection<WebOrderRequestItem>(mgr.GetWebOrderRequestItems(entityId));
+            }
+        }
         public void GetWebOrderRequestActions()
         {
             try 
@@ -135,6 +140,20 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
                 sMTPMailMessage.Subject = ActionEmailSubject;
                 sMTPMailMessage.Body = ActionEmailBody;
                 sMTPManager.SendMessage(sMTPMailMessage);
+
+                if ((EventAction == "NRR_REQ") || (EventAction == "NRR_CUR"))
+                {
+                    WebOrderRequestAction webOrderRequestAction = new WebOrderRequestAction();
+                    webOrderRequestAction.WebOrderRequestID = Entity.ID;
+                    webOrderRequestAction.ActionCode = EventAction;
+                    webOrderRequestAction.CreatedByWebUserID = Entity.OwnedByWebUserID;
+                    //webOrderRequestAction.Note = Ac;
+
+                    using (WebOrderRequestManager mgr = new WebOrderRequestManager())
+                    {
+                        mgr.InsertWebOrderRequestAction(webOrderRequestAction);
+                    }
+                }
             }
             catch (Exception ex)
             {

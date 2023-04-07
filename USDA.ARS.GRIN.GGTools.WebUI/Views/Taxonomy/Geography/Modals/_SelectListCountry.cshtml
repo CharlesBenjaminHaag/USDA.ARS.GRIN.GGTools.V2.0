@@ -1,5 +1,7 @@
 ﻿@model USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer.GeographyViewModel
-<table id="data-table-geography-subcontinents" class="table table-striped ggtools" style="width:100%">
+<button id="btnGetSelectedCountries" type="button" class="btn btn-primary btn-sm btn-block">Load Admin Units >></button>
+<br />
+<table id="data-table-geography-countries" class="table table-striped ggtools" style="width:100%">
     <thead>
         <tr>
             <th></th>
@@ -33,6 +35,6 @@
 </table>
 <script type="text/javascript">
     $(document).ready(function () {
-        InitDataTableLight("data-table-geography-subcontinents");
+        InitDataTableGeo("data-table-geography-countries");
     });
 </script>

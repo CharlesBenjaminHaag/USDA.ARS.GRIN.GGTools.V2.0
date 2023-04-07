@@ -1,5 +1,9 @@
 ﻿@model USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer.GeographyViewModel
-<div class="row">
+<input type="button" class="check" value="check all" />
+<div id="section-select-continents" class="row">
+    
+    
+    
     @foreach (var result in Model.DataCollectionContinents)
     { 
         <div class="col-md-2">
@@ -14,3 +18,26 @@
         </div>
     }
 </div>
+<script type="text/javascript">
+
+    $('#section-select-continents :checkbox').change(function () {
+        // this will contain a reference to the checkbox   
+        if (this.checked) {
+            
+        } else {
+            
+        }
+        GetSelectedContinents();
+    });
+
+    $(document).ready(function () {
+        $('.check:button').toggle(function () {
+            $('input:checkbox').attr('checked', 'checked');
+            $(this).val('uncheck all');
+        }, function () {
+            $('input:checkbox').removeAttr('checked');
+            $(this).val('check all');
+        })
+    })
+
+</script>

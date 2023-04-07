@@ -119,58 +119,72 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
         public void GetSubContinents()
         {
             List<Region> regions = new List<Region>();
-
-            ObjectCache cache = MemoryCache.Default;
-            regions = cache["DATA-LIST-GEOGRAPHY-SUBCONTINENTS"] as List<Region>;
-
-            if (regions == null)
+            using (GeographyManager mgr = new GeographyManager())
             {
-                CacheItemPolicy policy = new CacheItemPolicy();
-                using (GeographyManager mgr = new GeographyManager())
-                {
-                    regions = mgr.GetSubContinents();
-                }
-                cache.Set("DATA-LIST-GEOGRAPHY-SUBCONTINENTS", regions, policy);
+                regions = mgr.GetSubContinents(SearchEntity.ContinentNameList);
             }
             DataCollectionSubContinents = new Collection<Region>(regions);
+            // TOD: SEE WHERE WE CAN USE THIS. -CBH, 4/5/23
+            //ObjectCache cache = MemoryCache.Default;
+            //regions = cache["DATA-LIST-GEOGRAPHY-SUBCONTINENTS"] as List<Region>;
+
+            //if (regions == null)
+            //{
+            //    CacheItemPolicy policy = new CacheItemPolicy();
+            //    using (GeographyManager mgr = new GeographyManager())
+            //    {
+            //        regions = mgr.GetSubContinents();
+            //    }
+            //    cache.Set("DATA-LIST-GEOGRAPHY-SUBCONTINENTS", regions, policy);
+            //}
+
         }
 
-        public List<Country> GetCountries(string idList)
+        public void GetCountries()
         {
             List<Country> countries = new List<Country>();
-
-            ObjectCache cache = MemoryCache.Default;
-            countries = cache["DATA-LIST-GEOGRAPHY-COUNTRIES"] as List<Country>;
-
-            if (countries == null)
+            using (GeographyManager mgr = new GeographyManager())
             {
-                CacheItemPolicy policy = new CacheItemPolicy();
-                using (GeographyManager mgr = new GeographyManager())
-                {
-                    countries = mgr.GetCountries();
-                }
-                cache.Set("DATA-LIST-GEOGRAPHY-COUNTRIES", countries, policy);
+                countries = mgr.GetCountries(SearchEntity.SubContinentIDList);
             }
-            return countries;
+            DataCollectionCountries = new Collection<Country>(countries);
+            //ObjectCache cache = MemoryCache.Default;
+            //countries = cache["DATA-LIST-GEOGRAPHY-COUNTRIES"] as List<Country>;
+
+            //if (countries == null)
+            //{
+            //    CacheItemPolicy policy = new CacheItemPolicy();
+            //    using (GeographyManager mgr = new GeographyManager())
+            //    {
+            //        countries = mgr.GetCountries();
+            //    }
+            //    cache.Set("DATA-LIST-GEOGRAPHY-COUNTRIES", countries, policy);
+            //}
+
         }
 
-        public List<Geography> GetGeographies()
+        public List<Geography> GetAdministrativeUnits()
         {
             List<Geography> geographies = new List<Geography>();
-
-            ObjectCache cache = MemoryCache.Default;
-            geographies = cache["DATA-LIST-GEOGRAPHY-GEOGRAPHIES"] as List<Geography>;
-
-            if (geographies == null)
+            using (GeographyManager mgr = new GeographyManager())
             {
-                CacheItemPolicy policy = new CacheItemPolicy();
-                using (GeographyManager mgr = new GeographyManager())
-                {
-                    geographies = mgr.GetGeographies();
-                }
-                cache.Set("DATA-LIST-GEOGRAPHY-GEOGRAPHIES", geographies, policy);
+                geographies = mgr.GetGeographies(SearchEntity.CountryCodeList);
             }
+            DataCollection = new Collection<Geography>(geographies);
             return geographies;
+
+            //ObjectCache cache = MemoryCache.Default;
+            //geographies = cache["DATA-LIST-GEOGRAPHY-GEOGRAPHIES"] as List<Geography>;
+
+            //if (geographies == null)
+            //{
+            //    CacheItemPolicy policy = new CacheItemPolicy();
+            //    using (GeographyManager mgr = new GeographyManager())
+            //    {
+            //        geographies = mgr.GetGeographies();
+            //    }
+            //    cache.Set("DATA-LIST-GEOGRAPHY-GEOGRAPHIES", geographies, policy);
+            //}
         }
 
         public void HandleRequest()

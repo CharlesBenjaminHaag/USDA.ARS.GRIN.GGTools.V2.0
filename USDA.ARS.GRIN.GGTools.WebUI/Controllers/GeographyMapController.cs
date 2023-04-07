@@ -111,6 +111,21 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 return PartialView("~/Views/Error/_InternalServerError.cshtml");
             }
         }
+        public PartialViewResult _SelectList(int speciesId = 0)
+        {
+            try
+            {
+                GeographyMapViewModel viewModel = new GeographyMapViewModel();
+                viewModel.SearchEntity = new GeographyMapSearch { SpeciesID = speciesId };
+                viewModel.Search();
+                return PartialView(BASE_PATH + "_SelectList.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
+        }
 
         [HttpPost]
         public PartialViewResult Add(FormCollection formCollection)
@@ -150,7 +165,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
 
                 GeographyViewModel geographyViewModel = new GeographyViewModel();
-                viewModel.Countries = new SelectList(geographyViewModel.GetCountries(""), "CountryCode", "CountryName");
+                //viewModel.Countries = new SelectList(geographyViewModel.GetCountries(), "CountryCode", "CountryName");
 
                 if (speciesId > 0)
                 {
@@ -180,7 +195,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
 
                 GeographyViewModel geographyViewModel = new GeographyViewModel();
-                viewModel.Countries = new SelectList(geographyViewModel.GetCountries(""), "CountryCode", "CountryName");
+                //viewModel.Countries = new SelectList(geographyViewModel.GetCountries(""), "CountryCode", "CountryName");
 
                 return PartialView(BASE_PATH + "_Edit.cshtml", viewModel);
             }
@@ -201,7 +216,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 viewModel.PageTitle = String.Format("Edit Distribution [{0}]: {1}", entityId, viewModel.Entity.GeographyDescription + " to " + viewModel.Entity.SpeciesName);
           
                 GeographyViewModel geographyViewModel = new GeographyViewModel();
-                viewModel.Countries = new SelectList(geographyViewModel.GetCountries(""),"CountryCode","CountryName");
+                //viewModel.Countries = new SelectList(geographyViewModel.GetCountries(""),"CountryCode","CountryName");
 
                 return View(BASE_PATH + "Edit.cshtml", viewModel);
             }

@@ -176,6 +176,7 @@
                                                 type="button"
                                                 data-toggle="modal"
                                                 data-target="#modal-geography-lookup"
+                                                data-ggtools-species-id="@Model.ID"
                                                 class="dropdown-item">
                                             Distribution
                                         </button>
@@ -662,7 +663,7 @@
                     @{Html.RenderAction("RenderLookupModal", "Genus"); }
                     @{Html.RenderAction("RenderLookupModal", "Species"); }
                     @{Html.RenderAction("RenderLookupModal", "Author"); }
-                    @*@{Html.RenderAction("RenderLookupModal", "Geography"); }*@
+                    @{Html.RenderAction("RenderLookupModal", "Geography", new { @speciesId = Model.Entity.ID }); }
                     @{Html.RenderAction("RenderLookupModal", "Citation", new { @tableName = Model.TableName, @isMultiSelect = "Y" }); }
                     @Html.Partial("~/Views/Taxonomy/Species/Modals/_LookupProtologue.cshtml")
                     @Html.Partial("~/Views/Shared/Modals/_NoteLookup2.cshtml")

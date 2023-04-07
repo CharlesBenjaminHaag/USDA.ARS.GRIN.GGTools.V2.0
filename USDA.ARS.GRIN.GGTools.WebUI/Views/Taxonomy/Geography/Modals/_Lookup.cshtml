@@ -4,32 +4,110 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title">
-                    <i class="fas fa-search"></i>
-                    Geography Lookup
+                    <i class="fas fa-globe"></i>
+                    Map Geography: @Html.Raw(Model.SpeciesName)
                 </h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">×</span>
                 </button>
             </div>
             <div class="modal-body">
+                <!--DEBUG-->
+                @*<div class="row">
+                    <div class="col-md-12">
+                        <input type="text" id="txtDEBUGSubContinents" style="background-color:yellow; width:100%;" />
+                        <input type="text" id="txtDEBUGCountries" style="background-color:yellow; width:100%;" />
+                    </div>
+                </div>*@
+
                 <div id="section-continents" class="row">
-                    @{Html.RenderAction("_ListContinents","Geography"); }
+                    <div class="card-title">Continents</div>
+                    <div class="col-md-12">
+                        @{Html.RenderAction("_ListContinents", "Geography"); }
+                    </div>
                 </div>
+                <br />
                 <div class="row">
+                    <!-- SUBCONTINENT -->
                     <div class="col-md-3">
-                        <h5>Sub-Continents</h5>
-                        @{Html.RenderAction("_ListSubContinents", "Geography"); }
+                        <div class="card card-default card-outline">
+                            <div class="card-header">
+                                <h3 class="card-title">SubContinents</h3>
+                                <div class="card-tools">
+                                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                        <i class="fas fa-minus"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div id="section-subcontinents">
+
+                                </div>
+                            </div>
+                        </div>
                     </div>
+                    <!-- COUNTRY -->
                     <div class="col-md-3">
-                        <h5>Countries</h5>
-                        @{Html.RenderAction("_ListCountries", "Geography"); }
+                        <div class="card card-default card-outline">
+                            <div class="card-header">
+                                <h3 class="card-title">Countries</h3>
+                                <div class="card-tools">
+                                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                        <i class="fas fa-minus"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div id="section-countries">
+
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="col-md-3"><h5>Admin. Units</h5></div>
+                    <!-- ADMIN -->
+                    <div class="col-md-3">
+                        <div class="card card-default card-outline">
+                            <div class="card-header">
+                                <h3 class="card-title">Administrative Units</h3>
+                                <div class="card-tools">
+                                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                        <i class="fas fa-minus"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="card-body">
+
+                                
+
+                                <div id="section-administrative-units">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- GEO MAP -->
+                    <div class="col-md-3">
+                        <div class="card card-primary card-outline">
+                            <div class="card-header">
+                                <h3 class="card-title">Maps</h3>
+                                <div class="card-tools">
+                                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                        <i class="fas fa-minus"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div id="section-geography-maps">
+                                    @{Html.RenderAction("_SelectList","GeographyMap", new {@speciesId = Model.SpeciesID }); }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
             <div class="modal-footer justify-content-between">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button id="btnSaveGeography" type="button" class="btn btn-info" data-dismiss="modal">Add Selected Geography</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
             </div>
         </div>
     </div>
@@ -39,19 +117,36 @@
         SearchGeography();
     });
 
-    function SearchGeography() {
-        var link = '@Url.Action("Lookup","Geography")';
-        var continentRegionID = $("#SearchEntity_ContinentRegionID").val();
-        var subContinentRegionID = $("#SearchEntity_SubContinentRegionID").val();
-        var countryCode = $("#SearchEntity_CountryCode").val();
-        var isValid = $("#SearchEntity_IsValid").val();
+    $(document).on("click", "[id='btnGetSelectedSubContinents']", function () {
+        var selectedSubContinents = GetSelectedEntityIDs("data-table-geography-subcontinents");
+        //DEBUG
+        /*alert("GET SEL" + selectedSubContinents);*/
 
+        //DEBUG
+        $("#txtDEBUGSubContinents").val(selectedSubContinents);
+        LoadCountries(selectedSubContinents);
+    });
+
+    $(document).on("click", "[id='btnGetSelectedCountries']", function () {
+        var selectedCountries = GetSelectedEntityStringIDs("data-table-geography-countries");
+        //DEBUG
+        $("#txtDEBUGCountries").val(selectedCountries);
+        //TODO Get admin units
+        LoadAdministrativeUnits(selectedCountries);
+    });
+
+    function GetSelectedContinents() {
+        var selected = [];
+        $('#section-select-continents input:checked').each(function () {
+            selected.push("'" + $(this).attr('id') + "'");
+        });
+        LoadSubContinents(selected);
+    }
+
+    function LoadSubContinents(continents) {
+        var link = '@Url.Action("_ListSubContinents", "Geography")';
         var formData = new FormData();
-        
-        formData.append("ContinentRegionID", continentRegionID);
-        formData.append("SubContinentRegionID", subContinentRegionID);
-        formData.append("CountryCode", countryCode);
-        formData.append("IsValid", isValid);
+        formData.append("continents", continents);
 
         $.ajax({
             url: link,
@@ -61,7 +156,7 @@
             processData: false,
             data: formData,
             success: function (response) {
-                $("#section-geography-lookup-search-results").html(response);
+                $("#section-subcontinents").html(response);
             },
             error: function () {
                 alert("Error searching geography");
@@ -69,11 +164,85 @@
         });
     }
 
-    $("#btnSaveGeography").click(function () {
-        $('#modal-geography-lookup').modal('hide');
-        var selectedItemIdList = GetSelectedEntityIDs("data-table-geography-lookup");
-        var selectedItemNameList = GetSelectedEntityText("data-table-geography-lookup");
-        $("#Entity_GeographyID").val(selectedItemIdList);
-        $("#Entity_GeographyDescription").val(selectedItemNameList);
-    });
+    function LoadCountries(subContinents) {
+        var link = '@Url.Action("_ListCountries", "Geography")';
+        var formData = new FormData();
+        formData.append("subContinents", subContinents);
+
+        $.ajax({
+            url: link,
+            type: 'POST',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (response) {
+                $("#section-countries").html(response);
+            },
+            error: function () {
+                alert("Error searching geography");
+            }
+        });
+    }
+
+    function LoadAdministrativeUnits(countries) {
+        var link = '@Url.Action("_ListAdministrativeUnits", "Geography")';
+        var formData = new FormData();
+        formData.append("countries", countries);
+
+        $.ajax({
+            url: link,
+            type: 'POST',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (response) {
+                $("#section-administrative-units").html(response);
+            },
+            error: function () {
+                alert("Error searching geography");
+            }
+        });
+    }
+
+    function AddGeographyMaps(administrativeUnits, status) {
+
+    }
+
+    // ======================================================================
+    // Utilities
+    // ======================================================================
+    function InitDataTableGeo(tableName) {
+        $(document).ready(function () {
+            table = $("#" + tableName).DataTable({
+                dom: 'Blfrtip',
+                paging: false,
+                rowId: 'extn',
+                stateSave: true,
+                "bLengthChange": false,
+                scrollY: '300px',
+                scrollCollapse: true,
+                paging: false,
+                responsive: true,
+                select: true,
+                searching: false,
+                buttons: [
+                    'selectAll',
+                    'selectNone'
+                ],
+                columnDefs: [
+                    { targets: [0], visible: false }
+                ]
+            });
+            table.row(':contains("Basionym")').select()
+            //$("#" + tableName + ' tbody').on('click', 'tr', function () {
+            //    var selectedSubContinents = GetSelectedEntityIDs(tableName);
+            //    //DEBUG
+            //    //alert("SELECTED SUBCONTINENTS " + selectedSubContinents);
+            //    $("#txtDEBUGSubContinents").val(selectedSubContinents);
+            //});
+        });
+    }
+
 </script>

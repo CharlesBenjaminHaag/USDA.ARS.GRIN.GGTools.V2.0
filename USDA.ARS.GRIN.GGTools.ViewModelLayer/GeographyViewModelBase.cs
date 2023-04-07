@@ -16,7 +16,10 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
 {
     public class GeographyViewModelBase: AppViewModelBase
     {
+        // REFACTOR. Bad idea to couple geo to species? May be valid; only use of
+        // geo is to map species. -- CBH, 3/6/23
         private int _SpeciesID;
+        private string _SpeciesName;
        
         private Geography _Entity = new Geography();
         private Geography _ParentEntity = new Geography();
@@ -37,12 +40,21 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
                 YesNoOptions = new SelectList(mgr.GetYesNoOptions(), "Key", "Value");
                 Admin1Types = new SelectList(mgr.GetCodeValues("GEOGRAPHY_ADMIN1_TYPE"), "Value", "Title");
                 Admin2Types = new SelectList(mgr.GetCodeValues("GEOGRAPHY_ADMIN2_TYPE"), "Value", "Title");
-                Continents = new SelectList(mgr.GetContinents(), "ID", "Continent");
-                SubContinents = new SelectList(mgr.GetSubContinents(), "ID", "SubContinent");
-                Countries = new SelectList(mgr.GetCountries(), "CountryCode", "CountryName");
+                //Continents = new SelectList(mgr.GetContinents(), "ID", "Continent");
+                //SubContinents = new SelectList(mgr.GetSubContinents(), "ID", "SubContinent");
+                //Countries = new SelectList(mgr.GetCountries(), "CountryCode", "CountryName");
             }
         }
-
+        public int SpeciesID
+        {
+            get { return _SpeciesID; }
+            set { _SpeciesID = value; }
+        }
+        public string SpeciesName 
+        { 
+            get { return _SpeciesName; }
+            set { _SpeciesName = value; } 
+        }
         public Geography Entity
         {
             get { return _Entity; }

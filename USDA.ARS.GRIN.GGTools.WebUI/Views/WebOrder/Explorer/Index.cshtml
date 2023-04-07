@@ -344,11 +344,14 @@
         var id = GetEntityID();
         var actionCode = $(this).data("ggtools-action");
 
-        if (actionCode == "NRR_APPROVE") {
-            Approve(id);
-        }
-        else {
-            Reject(id);
+        //DEBUG
+        alert("ACTION " + actionCode);
+
+        switch (actionCode) {
+            case "NRR_APPROVE":
+                Approve(id);
+            case "NRR_REJECT":
+                Reject(id);
         }
         SendEmail(actionCode);
         LoadWebOrderRequestDetail(id);
@@ -510,8 +513,22 @@
     }
 
     function LoadWebOrderRequestItems(webOrderRequestId) {
-        //DEBUG
-        alert("ITEMS " + webOrderRequestId);
+        link = '@Url.Action("_ListItems", "WebOrder")';
+        var formData = new FormData();
+
+        formData.append("webOrderRequestId", webOrderRequestId);
+
+        $.ajax({
+            url: link,
+            type: 'POST',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (response) {
+                $("#tab-content-web-order-request-items").html(response);
+            }
+        });
     }
 
     function LoadWebOrderRequestTimeLine(webOrderRequestId) {
@@ -539,6 +556,9 @@
 
         formData.append("webOrderRequestId", webOrderRequestId);
 
+        //DEBUG
+        alert("DEBUG NOTES " + link);
+
         $.ajax({
             url: link,
             type: 'POST',
@@ -547,7 +567,7 @@
             processData: false,
             data: formData,
             success: function (response) {
-                $("#tab-content-web-order-request-timeline").html(response);
+                $("#section-notes").html(response);
             }
         });
     }
@@ -690,6 +710,7 @@
             var firstRowData = table.row(':eq(0)', { page: 'current' }).data();
             LoadWebOrderRequestDetail(firstRowData[0]);
             LoadWebOrderRequestTimeLine(firstRowData[0]);
+            LoadWebOrderRequestNotes(firstRowData[0]);
 
             $('#table_web_order_requests tbody').on('click', 'tr', function () {
                 var data = table.row(this).data();

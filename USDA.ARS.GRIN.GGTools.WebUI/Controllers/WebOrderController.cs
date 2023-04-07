@@ -87,12 +87,34 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             WebOrderRequestViewModel viewModel = new WebOrderRequestViewModel();
             return PartialView();
         }
+        public PartialViewResult _ListItems(int webOrderRequestId)
+        {
+            try
+            {
+                WebOrderRequestViewModel viewModel = new WebOrderRequestViewModel();
+                viewModel.GetWebOrderRequestItems(webOrderRequestId);
+                return PartialView("~/Views/WebOrder/_ListItems.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
+        }
         public JsonResult Approve(WebOrderRequestViewModel viewModel)
         {
             viewModel.Get(viewModel.Entity.ID);
             viewModel.Entity.StatusCode = "NRR_APPROVE";
             viewModel.Entity.OwnedByWebUserID = AuthenticatedUser.WebUserID;
             viewModel.Update();
+
+            WebOrderRequestAction webOrderRequestAction = new WebOrderRequestAction();
+            webOrderRequestAction.WebOrderRequestID = viewModel.Entity.ID;
+            webOrderRequestAction.ActionCode = viewModel.EventAction;
+            webOrderRequestAction.Note = viewModel.EventNote + "==========================================" + viewModel.ActionEmailBody;
+            webOrderRequestAction.OwnedByWebUserID = AuthenticatedUser.WebUserID;
+            viewModel.InsertAction(webOrderRequestAction);
+
             return null;
         }
         public JsonResult Reject(WebOrderRequestViewModel viewModel)
@@ -101,6 +123,14 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             viewModel.Entity.StatusCode = "NRR_REJECT";
             viewModel.Entity.OwnedByWebUserID = AuthenticatedUser.WebUserID;
             viewModel.Update();
+
+            WebOrderRequestAction webOrderRequestAction = new WebOrderRequestAction();
+            webOrderRequestAction.WebOrderRequestID = viewModel.Entity.ID;
+            webOrderRequestAction.ActionCode = viewModel.EventAction;
+            webOrderRequestAction.Note = viewModel.EventNote + "==========================================" + viewModel.ActionEmailBody;
+            webOrderRequestAction.OwnedByWebUserID = AuthenticatedUser.WebUserID;
+            viewModel.InsertAction(webOrderRequestAction);
+
             return null;
         }
 
@@ -148,12 +178,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             try
             {
                 viewModel.SendEmail();
-                WebOrderRequestAction webOrderRequestAction = new WebOrderRequestAction();
-                webOrderRequestAction.WebOrderRequestID = viewModel.Entity.ID;
-                webOrderRequestAction.ActionCode = viewModel.EventAction;
-                webOrderRequestAction.Note = viewModel.EventNote + "==========================================" + viewModel.ActionEmailBody;
-                webOrderRequestAction.OwnedByWebUserID = AuthenticatedUser.WebUserID;
-                viewModel.InsertAction(webOrderRequestAction);
+                
                 return Json(new { success = true }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
@@ -180,7 +205,22 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
         public PartialViewResult RenderNoteModal(int entityId)
         {
             WebOrderRequestViewModel viewModel = new WebOrderRequestViewModel();
+            viewModel.SearchEntity.ID = entityId;
+            viewModel.GetNotes();
             return PartialView("~/Views/WebOrder/Modals/_Note.cshtml", viewModel);
+        }
+        public JsonResult AddNote(int webOrderRequestId, string noteText)
+        {
+            try 
+            {
+                WebOrderRequestViewModel viewModel = new WebOrderRequestViewModel();
+                //viewModel.InsertNote(webOrderRequestId, noteText);
+                return Json(new { success = true }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false }, JsonRequestBehavior.AllowGet);
+            }
         }
         public ActionResult Edit(int entityId)
         {
