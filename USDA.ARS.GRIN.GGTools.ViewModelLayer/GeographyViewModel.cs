@@ -100,20 +100,25 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
         public void GetContinents()
         {
             List<Region> regions = new List<Region>();
-
-            ObjectCache cache = MemoryCache.Default;
-            regions = cache["DATA-LIST-GEOGRAPHY-CONTINENTS"] as List<Region>;
-
-            if (regions == null)
+            using (GeographyManager mgr = new GeographyManager())
             {
-                CacheItemPolicy policy = new CacheItemPolicy();
-                using (GeographyManager mgr = new GeographyManager())
-                {
-                    regions = mgr.GetContinents();
-                }
-                cache.Set("DATA-LIST-GEOGRAPHY-CONTINENTS", regions, policy);
+                regions = mgr.GetContinents();
             }
             DataCollectionContinents = new Collection<Region>(regions);
+
+            //ObjectCache cache = MemoryCache.Default;
+            //regions = cache["DATA-LIST-GEOGRAPHY-CONTINENTS"] as List<Region>;
+
+            //if (regions == null)
+            //{
+            //    CacheItemPolicy policy = new CacheItemPolicy();
+            //    using (GeographyManager mgr = new GeographyManager())
+            //    {
+            //        regions = mgr.GetContinents();
+            //    }
+            //    cache.Set("DATA-LIST-GEOGRAPHY-CONTINENTS", regions, policy);
+            //}
+
         }
 
         public void GetSubContinents()
@@ -145,7 +150,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
             List<Country> countries = new List<Country>();
             using (GeographyManager mgr = new GeographyManager())
             {
-                countries = mgr.GetCountries(SearchEntity.SubContinentIDList);
+                countries = mgr.GetCountries(SearchEntity.ContinentNameList, SearchEntity.SubContinentIDList);
             }
             DataCollectionCountries = new Collection<Country>(countries);
             //ObjectCache cache = MemoryCache.Default;

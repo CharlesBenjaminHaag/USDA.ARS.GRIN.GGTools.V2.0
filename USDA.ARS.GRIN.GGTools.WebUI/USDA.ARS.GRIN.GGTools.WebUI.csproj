@@ -722,6 +722,11 @@
     <Content Include="Views\WebOrder\Explorer\_NoteWidget.cshtml" />
     <Content Include="Views\WebOrder\_ListItems.cshtml" />
     <Content Include="Views\Taxonomy\GeographyMap\_SelectList.cshtml" />
+    <Content Include="Views\Taxonomy\Citation\Modals\_LookupBySpecies.cshtml" />
+    <Content Include="Views\Taxonomy\Citation\Modals\_SelectListBySpecies.cshtml" />
+    <Content Include="Views\Taxonomy\Species\Index_BACKUP.cshtml" />
+    <Content Include="Views\Taxonomy\Species\Modals\_LookupParent.cshtml" />
+    <Content Include="Views\Taxonomy\Species\Modals\_SelectListParent.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

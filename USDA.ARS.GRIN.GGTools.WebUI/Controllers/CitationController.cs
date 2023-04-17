@@ -102,6 +102,13 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             return PartialView(BASE_PATH + "_List.cshtml", viewModel);
         }
 
+        public PartialViewResult _ListBySpecies(int speciesId)
+        {
+            CitationViewModel viewModel = new CitationViewModel();
+            viewModel.SearchEntity.SpeciesID = speciesId;
+            viewModel.Search();
+            return PartialView(BASE_PATH + "Modals/_SelectListBySpecies.cshtml", viewModel);
+        }
         //[HttpPost]
         //public PartialViewResult _List(FormCollection formCollection)
         //{
@@ -562,6 +569,13 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                     viewModel.Search();
                 }
             return PartialView(BASE_PATH + "/Modals/_Lookup.cshtml", viewModel);
+        }
+        public PartialViewResult RenderLookupBySpeciesModal(int speciesId)
+        {
+            CitationViewModel viewModel = new CitationViewModel();
+            viewModel.SearchEntity.SpeciesID = speciesId;
+            viewModel.Search();
+            return PartialView(BASE_PATH + "/Modals/_LookupBySpecies.cshtml", viewModel);
         }
         public PartialViewResult RenderEditModal(int entityId)
         {

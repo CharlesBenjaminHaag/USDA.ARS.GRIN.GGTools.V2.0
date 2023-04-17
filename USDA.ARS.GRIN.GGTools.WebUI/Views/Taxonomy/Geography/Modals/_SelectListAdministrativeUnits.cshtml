@@ -1,14 +1,14 @@
 ﻿@model USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer.GeographyViewModel
 <div class="input-group">
-    <select class="form-control-sm">
+    <select id="ddlStatus" class="form-control-sm">
         <option value="a">Adventive</option>
         <option value="c">Cultivated</option>
-        <option value="n">Native</option>
+        <option value="n" selected>Native</option>
         <option value="i">Naturalized</option>
         <option value="o">Other</option>
         <option value="u">Uncertain</option>
     </select>
-    <button id="btnGetSelectedAdmins" type="button" class="btn btn-primary btn-sm">Map >></button>
+    <button id="btnGenerateMaps" type="button" class="btn btn-primary btn-sm">Map >></button>
 </div>
 <br />
 <table id="data-table-geography-lookup" class="table table-striped ggtools" style="width:100%">

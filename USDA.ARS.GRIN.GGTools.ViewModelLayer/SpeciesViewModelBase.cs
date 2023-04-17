@@ -31,7 +31,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
                 TimeFrameOptions = new SelectList(mgr.GetCodeValues("TAXONOMY_SEARCH_TIME_FRAME"), "Value", "Title");
                 SynonymCodes = new SelectList(mgr.GetCodeValues("TAXONOMY_SPECIES_QUALIFIER"), "Value", "Title");
                 Ranks = new SelectList(mgr.GetRanks(),"Value","Title");
-                FormaRankTypes = new SelectList(mgr.GetCodeValues("TAXONOMY_SPECIES_FORMA_RANK_TYPE"), "Value", "Title");
+                FormaRankTypes = new SelectList(mgr.GetCodeValues("TAXONOMY_FORMA_RANK_TYPE"), "Value", "Title");
             }
         }
         public int SpeciesID

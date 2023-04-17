@@ -230,9 +230,10 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             }
         }
 
-        public PartialViewResult _ListCountries(string subContinents = "")
+        public PartialViewResult _ListCountries(string continents = "", string subContinents = "")
         {
             GeographyViewModel viewModel = new GeographyViewModel();
+            viewModel.SearchEntity.ContinentNameList = continents;
             viewModel.SearchEntity.SubContinentIDList = subContinents;
             viewModel.GetCountries();
             return PartialView("~/Views/Taxonomy/Geography/Modals/_SelectListCountry.cshtml", viewModel);

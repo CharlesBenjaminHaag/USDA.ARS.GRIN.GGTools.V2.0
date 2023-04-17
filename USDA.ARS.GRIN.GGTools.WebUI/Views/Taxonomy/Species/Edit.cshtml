@@ -159,10 +159,12 @@
                             <li class="nav-item dropdown">
                                 <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Add Synonym</a>
                                 <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow">
-                                    <li><a href="@Url.Action("Add", "SpeciesSynonymMap", new { @speciesId = Model.Entity.ID, @synonymType = "basionym" })" class="dropdown-item">Basionym </a></li>
-                                    <li><a href="@Url.Action("Add", "SpeciesSynonymMap", new { @speciesId = Model.Entity.ID, @synonymType = "heterotypic" })" class="dropdown-item">Heterotypic</a></li>
-                                    <li><a href="@Url.Action("Add", "SpeciesSynonymMap", new { @speciesId = Model.Entity.ID, @synonymType = "homotypic" })" class="dropdown-item">Homotypic</a></li>
-                                    <li><a href="@Url.Action("Add", "SpeciesSynonymMap", new { @speciesId = Model.Entity.ID, @synonymType = "invalid" })" class="dropdown-item">Invalid</a></li>
+                                    <li><a href="@Url.Action("Add", "Species", new { @speciesId = Model.Entity.ID, @synonymTypeCode = "basionym" })" class="dropdown-item">Basionym </a></li>
+                                    <li><a href="@Url.Action("Add", "Species", new { @speciesId = Model.Entity.ID, @synonymTypeCode = "heterotypic" })" class="dropdown-item">Heterotypic</a></li>
+                                    <li><a href="@Url.Action("Add", "Species", new { @speciesId = Model.Entity.ID, @synonymTypeCode = "homotypic" })" class="dropdown-item">Homotypic</a></li>
+                                    <li><a href="@Url.Action("Add", "Species", new { @speciesId = Model.Entity.ID, @synonymTypeCode = "invalid" })" class="dropdown-item">Invalid</a></li>
+                                    <div class="dropdown-divider"></div>
+                                    <li><a href="@Url.Action("Add", "SpeciesSynonymMap", new { @speciesId = Model.Entity.ID, @synonymType = "invalid" })" class="dropdown-item">Map</a></li>
                                 </ul>
                             </li>
                             <!-- REL DATA -->
@@ -250,6 +252,7 @@
                         @Html.HiddenFor(x => x.Entity.VerifiedByCooperatorName)
                         @Html.HiddenFor(x => x.Entity.NameVerifiedDate)
                         <input type="hidden" id="hfModalEventValue" />
+                        
                         <div id="section-verification">
                             @Html.Partial("~/Views/Taxonomy/Species/_RevisionHistory.cshtml")
                         </div>
@@ -265,6 +268,42 @@
                             <div class="card-body">
                                 <div>
                                     @Html.Partial("~/Views/Shared/_ValidationMessages.cshtml")
+
+                                    @if (Model.Entity.ID == 0)
+                                    {
+                                        <div id="section-create-options" class="row">
+                                            <div class="col-md-6">
+                                            <div class="form-group">
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control" readonly="readonly" value="Create a basionym record" />
+                                                    <span class="input-group-append">
+                                                        <span class="input-group-text">
+                                                            <input 
+                                                                type="checkbox" 
+                                                                id="cbxAuthorLookupIsExactMatch" 
+                                                                checked="checked" />
+                                                        </span>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                            <div class="col-md-6">
+                                            <div class="form-group">
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control" readonly="readonly" value="Create an autonym record" />
+                                                    <span class="input-group-append">
+                                                        <span class="input-group-text">
+                                                            <input 
+                                                                type="checkbox" 
+                                                                id="cbxAuthorLookupIsExactMatch"
+                                                                checked="checked" />
+                                                        </span>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            </div>
+                                        </div>
+                                    }
                                     <div class="row accepted">
                                         <div id="section-accepted-name" class="col-md-4 accepted">
                                             <div class="form-group">
@@ -495,6 +534,12 @@
                                                         </div>
                                                     </div>
                                                 </div>
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label>Rank Type</label>
+                                                        @Html.DropDownListFor(x => x.Entity.FormaRankType, Model.FormaRankTypes, new { @class = "form-control" })
+                                                    </div>
+                                                </div>
                                                 <div class="col-md-12">
                                                     <div class="form-group">
                                                         <label>Forma Authority</label>
@@ -663,8 +708,13 @@
                     @{Html.RenderAction("RenderLookupModal", "Genus"); }
                     @{Html.RenderAction("RenderLookupModal", "Species"); }
                     @{Html.RenderAction("RenderLookupModal", "Author"); }
-                    @{Html.RenderAction("RenderLookupModal", "Geography", new { @speciesId = Model.Entity.ID }); }
-                    @{Html.RenderAction("RenderLookupModal", "Citation", new { @tableName = Model.TableName, @isMultiSelect = "Y" }); }
+
+                    @if (Model.Entity.ID > 0)
+                    {
+                        { Html.RenderAction("RenderLookupModal", "Geography", new { @speciesId = Model.Entity.ID }); }
+                        { Html.RenderAction("RenderLookupModal", "Citation", new { @tableName = Model.TableName, @isMultiSelect = "Y" }); }
+                    }
+
                     @Html.Partial("~/Views/Taxonomy/Species/Modals/_LookupProtologue.cshtml")
                     @Html.Partial("~/Views/Shared/Modals/_NoteLookup2.cshtml")
                     @Html.Partial("~/Views/Taxonomy/Shared/Modals/_Delete.cshtml")

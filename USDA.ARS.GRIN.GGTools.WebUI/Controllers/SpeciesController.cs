@@ -136,6 +136,11 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             SpeciesViewModel viewModel = new SpeciesViewModel();
             return PartialView(BASE_PATH + "/Modals/_Lookup.cshtml", viewModel);
         }
+        public PartialViewResult RenderParentLookupModal()
+        {
+            SpeciesViewModel viewModel = new SpeciesViewModel();
+            return PartialView(BASE_PATH + "/Modals/_LookupParent.cshtml", viewModel);
+        }
 
         [HttpPost]
         public PartialViewResult Lookup(SpeciesViewModel viewModel)
@@ -164,6 +169,21 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
         }
 
         [HttpPost]
+        public PartialViewResult LookupParent(SpeciesViewModel viewModel)
+        {
+            try
+            {
+                viewModel.Search();
+                return PartialView("~/Views/Taxonomy/Species/Modals/_SelectListParent.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
+        }
+
+        [HttpPost]
         public PartialViewResult LookupProtologues(FormCollection formCollection)
         {
             string partialViewName = BASE_PATH + "/Modals/_SelectListProtologue.cshtml";
@@ -178,13 +198,13 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             return PartialView(partialViewName, viewModel);
         }
 
-        public ActionResult Add(int genusId = 0, int speciesId = 0, string rank = "species")
+        public ActionResult Add(int genusId = 0, int speciesId = 0, string rank = "species", string synonymTypeCode = "")
         {
             try
             {
                 SpeciesViewModel viewModel = new SpeciesViewModel();
                 viewModel.TableName = "taxonomy_species";
-                viewModel.PageTitle = String.Format("Add {0}", viewModel.ToTitleCase(rank));
+
                 viewModel.Entity.IsAcceptedName = "Y";
                 viewModel.Entity.IsAccepted = true;
                 viewModel.Entity.IsWebVisibleOption = true;
@@ -210,7 +230,6 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                     parentViewModel.Search();
 
                     // Add link to "parent" taxon.
-                    viewModel.PageTitle = String.Format("Add {0}", viewModel.ToTitleCase(rank));
                     viewModel.ParentEntity = parentViewModel.Entity;
                     viewModel.Entity.ParentID = parentViewModel.ID;
                     viewModel.Entity.Name = parentViewModel.Entity.Name;
@@ -221,6 +240,17 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                     viewModel.Entity.GenusID = parentViewModel.Entity.GenusID;
                     viewModel.Entity.GenusName = parentViewModel.Entity.GenusName;
                     viewModel.Entity.Protologue= parentViewModel.Entity.Protologue;
+                }
+
+                if (!String.IsNullOrEmpty(synonymTypeCode))
+                {
+                    viewModel.PageTitle = String.Format("Add {0} Synonym of {1}", viewModel.ToTitleCase(synonymTypeCode), viewModel.ParentEntity.Name);
+                    viewModel.EventAction = "ADD_SYNONYM";
+                    viewModel.EventValue = synonymTypeCode;
+                }
+                else
+                {
+                    viewModel.PageTitle = String.Format("Add {0}", viewModel.ToTitleCase(rank));
                 }
 
                 return View(BASE_PATH + "Edit.cshtml", viewModel);
@@ -367,6 +397,15 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                     viewModel.Entity.ModifiedByCooperatorID = AuthenticatedUser.CooperatorID;
                     viewModel.Update();
                 }
+
+                // If action code indicates that the species being added is a synonym, add
+                // the necessary map record.
+                if (viewModel.EventAction == "ADD_SYNONYM")
+                {
+                    SynonymMapViewModel synonymMapViewModel = new SynonymMapViewModel();
+                    // TODO
+                }
+
                 return RedirectToAction("Edit", "Species", new { entityId = viewModel.Entity.ID });
             }
             catch (Exception ex)

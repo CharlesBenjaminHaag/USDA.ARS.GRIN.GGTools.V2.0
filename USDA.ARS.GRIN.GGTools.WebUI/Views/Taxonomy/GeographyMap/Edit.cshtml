@@ -61,12 +61,6 @@
                         @Html.DropDownListFor(x => x.Entity.GeographyStatusCode, Model.GeographyStatusCodes, "All Statuses", new { @class = "form-control" })
                     </div>
                 </div>
-                <div class="col-md-2">
-                    <div class="form-group form-horizontal">
-                        <label>Country</label>
-                        @Html.DropDownListFor(x => x.Entity.CountryCode, Model.Countries, "All countries", new { @class = "form-control" })
-                    </div>
-                </div>
             </div>
             <div class="row">
                 <!-- BEGIN NOTE FIELD -->
@@ -104,67 +98,13 @@
     </div>
 }
 
-@if (Model.Entity.ID > 0)
-{
-    Html.RenderAction("_List", "CWRTrait", new { @cwrMapId = Model.Entity.ID });
-}
-
 @{Html.RenderAction("RenderLookupModal", "Species"); }
-@{Html.RenderAction("RenderLookupModal", "Citation", new { @tableName = Model.TableName, @speciesId = Model.Entity.SpeciesID });}
+@*@{Html.RenderAction("RenderLookupModal", "Citation", new { @tableName = Model.TableName, @speciesId = Model.Entity.SpeciesID });}*@
 @Html.Partial("~/Views/Shared/Modals/_NoteLookup2.cshtml")
 @Html.Partial("~/Views/Taxonomy/Shared/Modals/_Delete.cshtml")
-@{Html.RenderAction("RenderLookupModal", "Geography"); }
+@*@{Html.RenderAction("RenderLookupModal", "Geography", new { @speciesId = 0 }); }*@
 
 <script type="text/javascript">
     $(document).ready(function () {
-        /*InitializeCKEditor();*/
     });
-
-    /*
-    * ===================================================================================================
-    * SPECIES MODAL
-    * ===================================================================================================
-    */
-
-    $(document).on("click", "[id='btnLookupSpecies']", function () {
-        var link = '@Url.Action("Lookup","Species")';
-        SearchSpecies(link);
-    });
-
-    $(document).on("click", "[id='btnSaveSpecies']", function () {
-        SaveSpecies();
-    });
-
-    function SaveSpecies() {
-        var selectedItemIdList = GetSelectedEntityIDs("data-table-species-lookup");
-        var selectedSpeciesNameList = GetSelectedEntityLabels("data-table-species-lookup");
-        $("#Entity_SpeciesID").val(selectedItemIdList);
-        $("#Entity_SpeciesName").val(selectedSpeciesNameList);
-    }
-
-    /*
-    * ===================================================================================================
-    * CITATION MODAL
-    * ===================================================================================================
-    */
-
-    $(document).on("click", "[id='btnLookupCitations']", function () {
-        var link = '@Url.Action("Lookup","Citation")';
-        LookupCitations(link);
-    });
-
-    $(document).on("click", "[id='btnSaveCitations']", function () {
-        var entityId = $("#Entity_ID").val();
-        var link = '@Url.Action("AddReference","Citation")';
-        var refreshLink = '@Url.Action("Edit","GeographyMap")' + '?entityId=' + entityId;
-        SaveCitations(link, refreshLink);
-    });
-
-    $(document).on("click", "[id='btnDeleteCitations']", function () {
-        var entityId = $("#Entity_ID").val();
-        var link = '@Url.Action("DeleteReference","Citation")';
-        var refreshLink = '@Url.Action("Edit","GeographyMap")' + '?entityId=' + entityId;
-        DeleteCitations(link, refreshLink);
-    });
-
 </script>

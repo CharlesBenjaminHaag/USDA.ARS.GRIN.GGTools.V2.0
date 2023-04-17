@@ -276,16 +276,25 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             return results;
         }
 
-        public List<Country> GetCountries(string subContinents = "")
+        public List<Country> GetCountries(string continentNameList = "", string subContinents = "")
         {
             List<Country> results = new List<Country>();
 
             SQL = " SELECT * FROM vw_GRINGlobal_Geography_Country  ";
 
+            if (!String.IsNullOrEmpty(continentNameList))
+            {
+                SQL +=  " WHERE RegionID IN " +
+                        " (SELECT region_id FROM region " +
+                        " WHERE continent IN (" + continentNameList + ")) ";
+            }
+
             if (!String.IsNullOrEmpty(subContinents))
             {
                 SQL += " WHERE RegionID IN (" + subContinents + ')';
             }
+
+            SQL += " ORDER BY CountryName ASC ";
 
             results = GetRecords<Country>(SQL);
             RowsAffected = results.Count;

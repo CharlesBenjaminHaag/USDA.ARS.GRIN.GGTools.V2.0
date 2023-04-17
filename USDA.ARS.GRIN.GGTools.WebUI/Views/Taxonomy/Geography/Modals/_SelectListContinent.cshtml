@@ -9,9 +9,9 @@
         <div class="col-md-2">
             <div class="form-group clearfix">
                 <div class="icheck-primary d-inline">
-                    <input type="checkbox" id="@result.Continent" value="@result.Continent" />
-                    <label for="@result.Continent">
-                        @result.Continent
+                    <input type="checkbox" id="@result.ID" value="@result.Continent" />
+                    <label for="@result.ID">
+                        @result.Continent @result.ID
                     </label>
                 </div>
             </div>
@@ -19,16 +19,6 @@
     }
 </div>
 <script type="text/javascript">
-
-    $('#section-select-continents :checkbox').change(function () {
-        // this will contain a reference to the checkbox   
-        if (this.checked) {
-            
-        } else {
-            
-        }
-        GetSelectedContinents();
-    });
 
     $(document).ready(function () {
         $('.check:button').toggle(function () {

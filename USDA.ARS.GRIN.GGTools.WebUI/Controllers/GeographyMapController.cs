@@ -36,13 +36,11 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             try
             {
                 GeographyMapViewModel viewModel = new GeographyMapViewModel();
-
                 viewModel.PageTitle = "Distribution Search";
                 viewModel.TableName = "taxonomy_geography_map";
                 viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
-                //viewModel.SearchCountries(new GeographySearch());
-                viewModel.Countries = new SelectList(viewModel.DataCollectionCountries, "CountryCode", "CountryName");
 
+             
                 if (TempData.ContainsKey("GEO-MAP-SEARCH"))
                 {
                     viewModel.SearchEntity = TempData["GEO-MAP-SEARCH"] as GeographyMapSearch;
@@ -127,34 +125,50 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             }
         }
 
-        [HttpPost]
-        public PartialViewResult Add(FormCollection formCollection)
+        public JsonResult _Add(GeographyMapViewModel viewModel)
         {
-            GeographyMapViewModel viewModel = new GeographyMapViewModel();
-            viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
-
             try
             {
                 viewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
-
-                if (!String.IsNullOrEmpty(formCollection["SpeciesID"]))
-                {
-                    viewModel.Entity.SpeciesID = Int32.Parse(formCollection["SpeciesID"]);
-                }
-                if (!String.IsNullOrEmpty(formCollection["IDList"]))
-                {
-                    viewModel.Entity.ItemIDList = formCollection["IDList"];
-                }
                 viewModel.Insert();
-                return PartialView(BASE_PATH + "_EditList.cshtml", viewModel);
-
+                // TODO
+                return Json(new { success = true }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
                 Log.Error(ex);
-                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+                return Json(new { success = false }, JsonRequestBehavior.AllowGet);
             }
         }
+
+        //[HttpPost]
+        //public PartialViewResult Add(FormCollection formCollection)
+        //{
+        //    GeographyMapViewModel viewModel = new GeographyMapViewModel();
+        //    viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
+
+        //    try
+        //    {
+        //        viewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
+
+        //        if (!String.IsNullOrEmpty(formCollection["SpeciesID"]))
+        //        {
+        //            viewModel.Entity.SpeciesID = Int32.Parse(formCollection["SpeciesID"]);
+        //        }
+        //        if (!String.IsNullOrEmpty(formCollection["IDList"]))
+        //        {
+        //            viewModel.Entity.ItemIDList = formCollection["IDList"];
+        //        }
+        //        viewModel.Insert();
+        //        return PartialView(BASE_PATH + "_EditList.cshtml", viewModel);
+
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Log.Error(ex);
+        //        return PartialView("~/Views/Error/_InternalServerError.cshtml");
+        //    }
+        //}
         public ActionResult Add(int speciesId = 0)
         {
             try
@@ -163,10 +177,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 viewModel.TableName = "taxonomy_geography_map";
                 viewModel.PageTitle = "Add Distribution";
                 viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
-
-                GeographyViewModel geographyViewModel = new GeographyViewModel();
-                //viewModel.Countries = new SelectList(geographyViewModel.GetCountries(), "CountryCode", "CountryName");
-
+               
                 if (speciesId > 0)
                 {
                     SpeciesViewModel speciesViewModel = new SpeciesViewModel();
@@ -185,26 +196,26 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             }
         }
 
-        public PartialViewResult _Add()
-        {
-            try
-            {
-                GeographyMapViewModel viewModel = new GeographyMapViewModel();
-                viewModel.TableName = "taxonomy_geography_map";
-                viewModel.PageTitle = "Add Distribution";
-                viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
+        //public PartialViewResult _Add()
+        //{
+        //    try
+        //    {
+        //        GeographyMapViewModel viewModel = new GeographyMapViewModel();
+        //        viewModel.TableName = "taxonomy_geography_map";
+        //        viewModel.PageTitle = "Add Distribution";
+        //        viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
 
-                GeographyViewModel geographyViewModel = new GeographyViewModel();
-                //viewModel.Countries = new SelectList(geographyViewModel.GetCountries(""), "CountryCode", "CountryName");
+        //        GeographyViewModel geographyViewModel = new GeographyViewModel();
+        //        //viewModel.Countries = new SelectList(geographyViewModel.GetCountries(""), "CountryCode", "CountryName");
 
-                return PartialView(BASE_PATH + "_Edit.cshtml", viewModel);
-            }
-            catch (Exception ex)
-            {
-                Log.Error(ex);
-                return PartialView("~/Views/Error/_InternalServerError.cshtml");
-            }
-        }
+        //        return PartialView(BASE_PATH + "_Edit.cshtml", viewModel);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Log.Error(ex);
+        //        return PartialView("~/Views/Error/_InternalServerError.cshtml");
+        //    }
+        //}
 
         public ActionResult Edit(int entityId)
         {
@@ -214,10 +225,6 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 viewModel.TableName = "taxonomy_geography_map";
                 viewModel.Get(entityId);
                 viewModel.PageTitle = String.Format("Edit Distribution [{0}]: {1}", entityId, viewModel.Entity.GeographyDescription + " to " + viewModel.Entity.SpeciesName);
-          
-                GeographyViewModel geographyViewModel = new GeographyViewModel();
-                //viewModel.Countries = new SelectList(geographyViewModel.GetCountries(""),"CountryCode","CountryName");
-
                 return View(BASE_PATH + "Edit.cshtml", viewModel);
             }
             catch (Exception ex)

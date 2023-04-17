@@ -1,5 +1,6 @@
 ﻿@model USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer.GeographyViewModelBase
 <div class="modal fade" id="modal-geography-lookup" style="display: none;" aria-hidden="true">
+    @Html.HiddenFor(x => x.SpeciesID)
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header">
@@ -13,12 +14,18 @@
             </div>
             <div class="modal-body">
                 <!--DEBUG-->
-                @*<div class="row">
+                <div class="row">
                     <div class="col-md-12">
+                        <label>CONTINENT REGION IDS</label>
+                        <input type="text" id="txtDEBUGContinentRegionIds" style="background-color:yellow; width:100%;" />
+                        <label>CONTINENTS</label>
+                        <input type="text" id="txtDEBUGContinents" style="background-color:yellow; width:100%;" />
+                        <label>SUBCONTINENTS</label>
                         <input type="text" id="txtDEBUGSubContinents" style="background-color:yellow; width:100%;" />
+                        <label>COUNTRIES</label>
                         <input type="text" id="txtDEBUGCountries" style="background-color:yellow; width:100%;" />
                     </div>
-                </div>*@
+                </div>
 
                 <div id="section-continents" class="row">
                     <div class="card-title">Continents</div>
@@ -98,7 +105,7 @@
                             </div>
                             <div class="card-body">
                                 <div id="section-geography-maps">
-                                    @{Html.RenderAction("_SelectList","GeographyMap", new {@speciesId = Model.SpeciesID }); }
+                                    @{Html.RenderAction("_SelectList", "GeographyMap", new { @speciesId = Model.SpeciesID }); }
                                 </div>
                             </div>
                         </div>
@@ -112,13 +119,28 @@
         </div>
     </div>
 </div>
+@if (Model.SpeciesID > 0)
+{
+    {Html.RenderAction("RenderLookupBySpeciesModal", "Citation", new { speciesId = Model.SpeciesID });}
+}
 <script type="text/javascript">
     $("#btnLookupGeography").click(function () {
         SearchGeography();
     });
 
-    $(document).on("click", "[id='btnGetSelectedSubContinents']", function () {
+    $('#section-select-continents :checkbox').change(function () {
+        // this will contain a reference to the checkbox
+        if (this.checked) {
+
+        } else {
+
+        }
+        GetSelectedContinents();
+    });
+
+    $(document).on("click", "[id='btnFilterCountries']", function () {
         var selectedSubContinents = GetSelectedEntityIDs("data-table-geography-subcontinents");
+        var selectedContinents = ""
         //DEBUG
         /*alert("GET SEL" + selectedSubContinents);*/
 
@@ -135,12 +157,33 @@
         LoadAdministrativeUnits(selectedCountries);
     });
 
+    $(document).on("click", "[id='btnGenerateMaps']", function () {
+        var speciesId = $("#SpeciesID").val();
+        var geographyIdList = GetSelectedEntityIDs("data-table-geography-lookup");
+        var status = $("#ddlStatus").val();
+
+        // DEBUG
+        alert("GEN MAPS " + speciesId + " " + geographyIdList + status);
+        AddGeographyMaps(speciesId, geographyIdList, status);
+        // TODO
+        // Get geo IDs from admins widget
+        // Call AddMaps() controller method
+        // Reload maps list
+    });
+
     function GetSelectedContinents() {
         var selected = [];
+        var selectedRegionIdList = [];
         $('#section-select-continents input:checked').each(function () {
-            selected.push("'" + $(this).attr('id') + "'");
+            selected.push("'" + $(this).attr('value') + "'");
+            selectedRegionIdList.push($(this).attr('id'));
         });
+
+        //DEBUG
+        $("#txtDEBUGContinents").val(selected);
+        $("#txtDEBUGContinentRegionIds").val(selectedRegionIdList);
         LoadSubContinents(selected);
+        LoadCountries(selected,"");
     }
 
     function LoadSubContinents(continents) {
@@ -164,9 +207,11 @@
         });
     }
 
-    function LoadCountries(subContinents) {
+    function LoadCountries(continents, subContinents) {
         var link = '@Url.Action("_ListCountries", "Geography")';
         var formData = new FormData();
+
+        formData.append("continents", continents);
         formData.append("subContinents", subContinents);
 
         $.ajax({
@@ -206,8 +251,53 @@
         });
     }
 
-    function AddGeographyMaps(administrativeUnits, status) {
+    function AddGeographyMaps(speciesId, administrativeUnits, status) {
+        var link = '@Url.Action("_Add", "GeographyMap")';
+        var formData = new FormData();
 
+        formData.append("Entity.SpeciesID", speciesId);
+        formData.append("ItemIDList", administrativeUnits);
+        formData.append("Entity.GeographyStatusCode", status);
+
+        $.ajax({
+            url: link,
+            type: 'POST',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (response) {
+                //DEBUG
+                alert("ADDED GEO MAPS");
+                LoadGeographyMaps(speciesId);
+            },
+            error: function () {
+                alert("Error");
+            }
+        });
+    }
+
+    function LoadGeographyMaps() {
+        var link = '@Url.Action("_SelectList", "GeographyMap")';
+        var speciesId = $("#SpeciesID").val();
+        var formData = new FormData();
+
+        formData.append("speciesId", speciesId);
+
+        $.ajax({
+            url: link,
+            type: 'POST',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (response) {
+                $("#section-geography-maps").html(response);
+            },
+            error: function () {
+                alert("Error searching geography");
+            }
+        });
     }
 
     // ======================================================================

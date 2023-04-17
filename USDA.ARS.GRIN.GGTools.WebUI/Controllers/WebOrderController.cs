@@ -115,6 +115,8 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             webOrderRequestAction.OwnedByWebUserID = AuthenticatedUser.WebUserID;
             viewModel.InsertAction(webOrderRequestAction);
 
+            // TODO Send internal notification
+
             return null;
         }
         public JsonResult Reject(WebOrderRequestViewModel viewModel)
@@ -130,6 +132,8 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             webOrderRequestAction.Note = viewModel.EventNote + "==========================================" + viewModel.ActionEmailBody;
             webOrderRequestAction.OwnedByWebUserID = AuthenticatedUser.WebUserID;
             viewModel.InsertAction(webOrderRequestAction);
+
+            // TODO Send internal notification
 
             return null;
         }
@@ -177,6 +181,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
         {
             try
             {
+                viewModel.Entity.OwnedByWebUserID = AuthenticatedUser.WebUserID;
                 viewModel.SendEmail();
                 
                 return Json(new { success = true }, JsonRequestBehavior.AllowGet);
@@ -209,12 +214,13 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             viewModel.GetNotes();
             return PartialView("~/Views/WebOrder/Modals/_Note.cshtml", viewModel);
         }
+        [HttpPost]
         public JsonResult AddNote(int webOrderRequestId, string noteText)
         {
             try 
             {
                 WebOrderRequestViewModel viewModel = new WebOrderRequestViewModel();
-                //viewModel.InsertNote(webOrderRequestId, noteText);
+                viewModel.InsertNote(webOrderRequestId, noteText, AuthenticatedUser.WebUserID);
                 return Json(new { success = true }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
@@ -389,20 +395,20 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             }
         }
 
-        [HttpPost]
-        public JsonResult AddNote(WebOrderRequestViewModel viewModel)
-        {
-            try
-            {
-                viewModel.InsertNote(viewModel.Entity.ID, viewModel.Entity.Note, AuthenticatedUser.WebUserID);
-                return Json(new { success = true }, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception ex)
-            {
-                Log.Error(ex);
-                return Json(new { success = false }, JsonRequestBehavior.AllowGet);
-            }
-        }
+        //[HttpPost]
+        //public JsonResult AddNote(WebOrderRequestViewModel viewModel)
+        //{
+        //    try
+        //    {
+        //        viewModel.InsertNote(viewModel.Entity.ID, viewModel.Entity.Note, AuthenticatedUser.WebUserID);
+        //        return Json(new { success = true }, JsonRequestBehavior.AllowGet);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Log.Error(ex);
+        //        return Json(new { success = false }, JsonRequestBehavior.AllowGet);
+        //    }
+        //}
 
         public PartialViewResult FolderItems(FormCollection formCollection)
         {

@@ -335,17 +335,14 @@
         LoadEmailModal("NRR_REQ");
     });
 
-    $(document).on("click", "[id='btnOpenNoteModal']", function () {
-        event.preventDefault();
-        LoadNoteModal();
-    });
+    //$(document).on("click", "[id='btnOpenNoteModal']", function () {
+    //    event.preventDefault();
+    //    LoadNoteModal();
+    //});
 
     $(document).on("click", "[id='btnSendEmail']", function () {
         var id = GetEntityID();
         var actionCode = $(this).data("ggtools-action");
-
-        //DEBUG
-        alert("ACTION " + actionCode);
 
         switch (actionCode) {
             case "NRR_APPROVE":
@@ -374,6 +371,13 @@
         LoadWebOrderRequestTimeLine(id);
     });
 
+    $(document).on("click", "[id='btnAddNote']", function () {
+        event.preventDefault();
+        var webOrderRequestId = GetEntityID();
+        var note = $("#txtNote").val();
+        AddNote(webOrderRequestId, note);
+    });
+
     // ********************************************************************************
     // FUNCTIONS
     // ********************************************************************************
@@ -383,10 +387,28 @@
     //    alert("DEBUG SEL TIME FRAME IS " + selectedTimeFrame);
     //}
 
-    function AddNote() {
-        var entityId = GetEntityID();
-        var note = $("#txtNote").val();
-        //TODO
+    function AddNote(webOrderRequestId, note) {
+        var link = '@Url.Action("AddNote", "WebOrder")';
+        var formData = new FormData();
+
+        formData.append("webOrderRequestId", webOrderRequestId);
+        formData.append("noteText", note);
+
+        //DEBUG
+        alert(link);
+
+        $.ajax({
+            url: link,
+            type: 'POST',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (response) {
+                $("#section-web-order-search-results").html(response);
+                InitDataTableWebOrderRequests("table_web_order_requests");
+            }
+        });
     }
 
     function SendEmail(actionCode) {
@@ -557,7 +579,7 @@
         formData.append("webOrderRequestId", webOrderRequestId);
 
         //DEBUG
-        alert("DEBUG NOTES " + link);
+        /*alert("DEBUG NOTES " + link);*/
 
         $.ajax({
             url: link,
@@ -574,7 +596,7 @@
 
     function LoadWebOrderRequestOrderRequestHistory(id) {
             //DEBUG
-        alert("ORDERS FOR WOR " + id);
+        /*alert("ORDERS FOR WOR " + id);*/
     }
 
     function Approve(id) {
@@ -592,7 +614,7 @@
             processData: false,
             data: formData,
             success: function (response) {
-                alert("DEBUG Approval");
+                /*alert("DEBUG Approval");*/
             },
             error: function () {
                 alert("Error");
@@ -616,7 +638,7 @@
             processData: false,
             data: formData,
             success: function (response) {
-                alert("DEBUG Reject Successful");
+                /*alert("DEBUG Reject Successful");*/
             },
             error: function () {
                 alert("Error");
@@ -667,14 +689,6 @@
                 $("#modal-web-order-request-reject").modal("show");
             }
         });
-    }
-
-    function LoadNoteModal() {
-
-    }
-
-    function AddNote() {
-
     }
 
     function InitDataTableWebOrderRequests(tableName) {

@@ -141,18 +141,15 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
                 sMTPMailMessage.Body = ActionEmailBody;
                 sMTPManager.SendMessage(sMTPMailMessage);
 
-                if ((EventAction == "NRR_REQ") || (EventAction == "NRR_CUR"))
-                {
-                    WebOrderRequestAction webOrderRequestAction = new WebOrderRequestAction();
-                    webOrderRequestAction.WebOrderRequestID = Entity.ID;
-                    webOrderRequestAction.ActionCode = EventAction;
-                    webOrderRequestAction.CreatedByWebUserID = Entity.OwnedByWebUserID;
-                    //webOrderRequestAction.Note = Ac;
+                WebOrderRequestAction webOrderRequestAction = new WebOrderRequestAction();
+                webOrderRequestAction.WebOrderRequestID = Entity.ID;
+                webOrderRequestAction.ActionCode = EventAction;
+                webOrderRequestAction.CreatedByWebUserID = Entity.OwnedByWebUserID;
+                webOrderRequestAction.Note = EventNote;
 
-                    using (WebOrderRequestManager mgr = new WebOrderRequestManager())
-                    {
-                        mgr.InsertWebOrderRequestAction(webOrderRequestAction);
-                    }
+                using (WebOrderRequestManager mgr = new WebOrderRequestManager())
+                {
+                    mgr.InsertWebOrderRequestAction(webOrderRequestAction);
                 }
             }
             catch (Exception ex)
