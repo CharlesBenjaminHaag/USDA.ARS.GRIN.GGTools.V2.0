@@ -28,22 +28,6 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
             }
         }
 
-        public void DeleteTag(int tagMapId)
-        {
-            using (SpeciesManager mgr = new SpeciesManager())
-            {
-                try
-                {
-                    RowsAffected = mgr.DeleteTag(tagMapId);
-                }
-                catch (Exception ex)
-                {
-                    PublishException(ex);
-                    throw ex;
-                }
-            }
-        }
-
         public Species Get(int entityId)
         {
             DataCollection = new Collection<Species>();
@@ -94,7 +78,15 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
                 }
             }
         }
-
+        public void GetInfraspecificAutonym(string genusName, string speciesName, string rank)
+        {
+            List<Species> speciesList = new List<Species>();
+            using (SpeciesManager mgr = new SpeciesManager())
+            {
+                DataCollection = new Collection<Species>(mgr.GetInfraspecificAutonym(genusName, speciesName, rank));
+            }
+        }
+       
         public int Insert()
         {
             using (SpeciesManager mgr = new SpeciesManager())
@@ -107,7 +99,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
                     Entity.IsSubVarietalHybrid = FromBool(Entity.IsSubvarietalHybridOption);
                     Entity.IsFormaHybrid = FromBool(Entity.IsFormaHybridOption);
                     Entity.IsWebVisible = FromBool(Entity.IsWebVisibleOption);
-
+                   
                     SetSpeciesName();
                     SetSpeciesNameAuthority();
                     RowsAffected = mgr.Insert(Entity);
@@ -248,101 +240,6 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
             Update();
             Get(Entity.ID);
         }
-
-        public int UpdateVerification()
-        {
-            using (SpeciesManager mgr = new SpeciesManager())
-            {
-                try
-                {
-                    if (Entity.IsVerified == "Y")
-                    {
-                        Entity.VerifiedByCooperatorID = Entity.ModifiedByCooperatorID;
-                        Entity.NameVerifiedDate = System.DateTime.Now;
-                    }
-                    else
-                    {
-                        Entity.VerifiedByCooperatorID = 0;
-                        Entity.NameVerifiedDate = DateTime.MinValue;
-                    }
-
-                    RowsAffected = mgr.Update(Entity);
-                }
-                catch (Exception ex)
-                {
-                    PublishException(ex);
-                    throw ex;
-                }
-            }
-
-            //if ((EventAction == "DEMT") && (DemoteCreateFolder == true))
-            //{
-            //    FolderViewModel folderVm = new FolderViewModel();
-            //    folderVm.Entity.TableName = TableName;
-            //    folderVm.Entity.Title = "TO DO: Species Subtaxa Pending Re-Assignment";
-            //    folderVm.Entity.Description = "** AUTO-GENERATED ** Contains taxa linked to " + Entity.SpeciesName + ".";
-            //    folderVm.Entity.Category = "Priority";
-            //    folderVm.Entity.IsFavorite = true;
-            //    folderVm.Entity.ItemIDList = DemoteInfo;
-            //    folderVm.Entity.CreatedByCooperatorID = Entity.ModifiedByCooperatorID;
-
-            //    //TODO Get comma-sep list of species ID's to add.
-
-            //    using (FolderManager folderMgr = new FolderManager())
-            //    {
-            //        folderMgr.Insert(folderVm.Entity);
-            //    }
-            //}
-            return RowsAffected;
-        }
-
-        public JsonResult AddCitation(int citationId, string idList)
-        {
-            string[] idCollection;
-            idCollection = idList.Split(',');
-
-            using (SpeciesManager mgr = new SpeciesManager())
-            {
-                if (!String.IsNullOrEmpty(idList))
-                {
-                    foreach (var id in idCollection)
-                    {
-                        int convertedId = Int32.Parse(id);
-                        mgr.AddCitation(citationId, convertedId);
-                    }
-                }
-                else
-                {
-                    mgr.AddCitation(citationId, Entity.ID);
-                }
-            }
-
-            //TODO
-            return null;
-        }
-
-        public JsonResult AddTag(string tag, string idList)
-        {
-            string[] idCollection;
-            idCollection = idList.Split(',');
-
-            using (SpeciesManager mgr = new SpeciesManager())
-            {
-                if (!String.IsNullOrEmpty(idList))
-                {
-                    foreach (var id in idCollection)
-                    {
-                        int convertedId = Int32.Parse(id);
-                        mgr.AddTag(tag, "taxonomy_species", convertedId);
-                    }
-                }
-                else
-                {
-                }
-            }
-            return null;
-        }
-
         public override bool Validate()
         {
             bool validated = true;
@@ -410,75 +307,6 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
             }
             return validated;
         }
-
-        public bool ValdiateAuthority(string authorityText)
-        {
-            bool result = true;
-            int errorCount = 0;
-            string[] authList;
-
-            authorityText = Regex.Replace(authorityText, @"\(|\)|,|\?| ex | non |sensu | et al\.", "&");
-            if (authorityText.Contains("&"))
-            {
-                authList = authorityText.Split('&');
-            }
-            else
-            {
-                authList = authorityText.Split(' ');
-            }
-
-            foreach (string auth in authList)
-            {
-                string authClean = auth.Trim();
-                if (!String.IsNullOrEmpty(authClean))
-                {
-                    using (SpeciesManager mgr = new SpeciesManager())
-                    {
-                        try
-                        {
-                            result = mgr.ValidateAuthority(authClean);
-                            if (!result)
-                            {
-                                errorCount++; 
-                            }
-                        }
-                        catch (Exception ex)
-                        {
-                            PublishException(ex);
-                        }
-                    }
-                }
-            }
-
-            if (errorCount > 0)
-            {
-                return false;
-            }
-            else
-            {
-                return true;
-            }
-        }
-
-        public string GetTagCSSClassName(string tag) 
-        {
-            switch (tag)
-            {
-                case "HOMOTYPIC":
-                    return "bg-green";
-                case "HETEROTYPIC":
-                    return "bg-yellow";
-                case "INVALID":
-                    return "bg-red";
-                case "BASIONYM":
-                    return "bg-light-blue";
-                case "AUTONYM":
-                    return "bg-aqua";
-                default:
-                    return "bg-gray";
-            }
-        }
-
         public void SetSpeciesName()
         {
             Entity.Name = Entity.GenusName + " " + Entity.SpeciesName;
@@ -504,7 +332,6 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
                 Entity.Name = "x " + Entity.FormaName;
             }
         }
-
         public void SetSpeciesNameAuthority()
         {
             switch (Entity.Rank.ToUpper())
@@ -523,7 +350,6 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
                     break;
             }
         }
-
         public int CompareNames(string s, string t)
         {
 

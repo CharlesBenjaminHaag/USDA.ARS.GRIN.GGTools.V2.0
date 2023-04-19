@@ -44,6 +44,18 @@
                 Launch <i class="fas fa-arrow-circle-right"></i>
             </a>
         </div>
+        <div class="small-box bg-info">
+            <div class="inner">
+                <h3>Curator Utility</h3>
+                <p>View Accession and inventory data</p>
+            </div>
+            <div class="icon">
+                <i class="fas fa-tree"></i>
+            </div>
+            <a href="@Url.Action("Navigate","Home", new { applicationCode = "GGT-CUR"})" class="small-box-footer">
+                Launch <i class="fas fa-arrow-circle-right"></i>
+            </a>
+        </div>
     </div>
     <div class="col-md-3">
         @{Html.RenderAction("RenderWidget", "Site", new { siteId = Model.SiteID }); }

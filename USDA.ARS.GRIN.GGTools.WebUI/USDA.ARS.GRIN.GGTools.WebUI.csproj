@@ -727,6 +727,7 @@
     <Content Include="Views\Taxonomy\Species\Index_BACKUP.cshtml" />
     <Content Include="Views\Taxonomy\Species\Modals\_LookupParent.cshtml" />
     <Content Include="Views\Taxonomy\Species\Modals\_SelectListParent.cshtml" />
+    <Content Include="Views\Taxonomy\Shared\_InfraspecificAutonymWidget.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

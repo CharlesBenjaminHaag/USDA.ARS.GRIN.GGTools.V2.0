@@ -12,6 +12,10 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
 {
     public class SpeciesViewModelBase: AppViewModelBase
     {
+        private bool _IsBasionymNeededOption;
+        private bool _IsAutonymNeededOption;
+        private string _IsBasionymNeeded = String.Empty;
+        private string _IsAutonymNeeded = String.Empty;
         private string _PageTitle = String.Empty;
         private string _IsMultiSelect;
         private int _SpeciesID;
@@ -34,11 +38,40 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
                 FormaRankTypes = new SelectList(mgr.GetCodeValues("TAXONOMY_FORMA_RANK_TYPE"), "Value", "Title");
             }
         }
+        public bool IsAutonymNeededOption 
+        {
+            get { return _IsAutonymNeededOption; } 
+            set { _IsAutonymNeededOption = value; } 
+        }
+        public bool IsBasionymNeededOption 
+        {
+            get
+            {
+                return _IsBasionymNeededOption;
+            }
+            set
+            {
+                _IsBasionymNeededOption = value;
+            }
+        }
+
+        public string IsAutonymNeeded
+        {
+            get { return _IsAutonymNeeded; }
+            set { _IsAutonymNeeded = value; }
+        }
+        public string IsBasionymNeeded
+        {
+            get { return _IsBasionymNeeded; }
+            set { _IsBasionymNeeded = value; }
+        }
+
         public int SpeciesID
         {
             get { return _SpeciesID; }
             set { _SpeciesID = value; }
         }
+        
         public string IsMultiSelect
         {
             get { return _IsMultiSelect; }

@@ -14,7 +14,7 @@
             </div>
             <div class="modal-body">
                 <!--DEBUG-->
-                <div class="row">
+                @*<div class="row">
                     <div class="col-md-12">
                         <label>CONTINENT REGION IDS</label>
                         <input type="text" id="txtDEBUGContinentRegionIds" style="background-color:yellow; width:100%;" />
@@ -25,7 +25,7 @@
                         <label>COUNTRIES</label>
                         <input type="text" id="txtDEBUGCountries" style="background-color:yellow; width:100%;" />
                     </div>
-                </div>
+                </div>*@
 
                 <div id="section-continents" class="row">
                     <div class="card-title">Continents</div>
@@ -161,9 +161,7 @@
         var speciesId = $("#SpeciesID").val();
         var geographyIdList = GetSelectedEntityIDs("data-table-geography-lookup");
         var status = $("#ddlStatus").val();
-
-        // DEBUG
-        alert("GEN MAPS " + speciesId + " " + geographyIdList + status);
+        
         AddGeographyMaps(speciesId, geographyIdList, status);
         // TODO
         // Get geo IDs from admins widget
@@ -267,8 +265,6 @@
             processData: false,
             data: formData,
             success: function (response) {
-                //DEBUG
-                alert("ADDED GEO MAPS");
                 LoadGeographyMaps(speciesId);
             },
             error: function () {

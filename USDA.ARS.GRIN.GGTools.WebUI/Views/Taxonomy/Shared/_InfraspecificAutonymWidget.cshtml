@@ -1,0 +1,8 @@
+﻿@model USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer.SpeciesViewModel
+@if (Model.DataCollection.Count() == 0)
+{
+    <div class="callout callout-warning">
+        <h5>Note: No Autonym Specified</h5>
+        <p>There is currently no autonym specified for this species and rank.</p>
+    </div>
+}

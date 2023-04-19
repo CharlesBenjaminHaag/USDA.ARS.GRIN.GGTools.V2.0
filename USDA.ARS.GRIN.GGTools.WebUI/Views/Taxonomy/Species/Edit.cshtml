@@ -160,6 +160,7 @@
                                 <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Add Synonym</a>
                                 <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow">
                                     <li><a href="@Url.Action("Add", "Species", new { @speciesId = Model.Entity.ID, @synonymTypeCode = "basionym" })" class="dropdown-item">Basionym </a></li>
+                                    <li><a href="@Url.Action("Add", "Species", new { @speciesId = Model.Entity.ID, @synonymTypeCode = "basionym" })" class="dropdown-item">Basionym </a></li>
                                     <li><a href="@Url.Action("Add", "Species", new { @speciesId = Model.Entity.ID, @synonymTypeCode = "heterotypic" })" class="dropdown-item">Heterotypic</a></li>
                                     <li><a href="@Url.Action("Add", "Species", new { @speciesId = Model.Entity.ID, @synonymTypeCode = "homotypic" })" class="dropdown-item">Homotypic</a></li>
                                     <li><a href="@Url.Action("Add", "Species", new { @speciesId = Model.Entity.ID, @synonymTypeCode = "invalid" })" class="dropdown-item">Invalid</a></li>
@@ -256,7 +257,13 @@
                         <div id="section-verification">
                             @Html.Partial("~/Views/Taxonomy/Species/_RevisionHistory.cshtml")
                         </div>
-                        <div class="card card-default">
+                        {
+                            if (Model.Entity.Rank != "SPECIES")
+                            {
+                                Html.RenderAction("RenderInfraspecificAutonymWidget", "Species", new { genusName = Model.Entity.GenusName, speciesName = Model.Entity.SpeciesName, rank = Model.Entity.Rank }); ;
+                            }
+                        }
+                            <div class="card card-default">
                             <div class="card-header">
                                 <h3 class="card-title">Summary</h3>
                                 <div class="card-tools">
@@ -269,7 +276,7 @@
                                 <div>
                                     @Html.Partial("~/Views/Shared/_ValidationMessages.cshtml")
 
-                                    @if (Model.Entity.ID == 0)
+                                    @*@if (Model.Entity.ID == 0)
                                     {
                                         <div id="section-create-options" class="row">
                                             <div class="col-md-6">
@@ -278,10 +285,7 @@
                                                     <input type="text" class="form-control" readonly="readonly" value="Create a basionym record" />
                                                     <span class="input-group-append">
                                                         <span class="input-group-text">
-                                                            <input 
-                                                                type="checkbox" 
-                                                                id="cbxAuthorLookupIsExactMatch" 
-                                                                checked="checked" />
+                                                            @Html.CheckBoxFor(x=>x.IsAutonymNeededOption, new { id= "cbxIsAutonymNeeded" })
                                                         </span>
                                                     </span>
                                                 </div>
@@ -293,17 +297,14 @@
                                                     <input type="text" class="form-control" readonly="readonly" value="Create an autonym record" />
                                                     <span class="input-group-append">
                                                         <span class="input-group-text">
-                                                            <input 
-                                                                type="checkbox" 
-                                                                id="cbxAuthorLookupIsExactMatch"
-                                                                checked="checked" />
+                                                            @Html.CheckBoxFor(x => x.IsBasionymNeededOption, new { id = "cbxIsBasionymNeeded" })
                                                         </span>
                                                     </span>
                                                 </div>
                                             </div>
                                             </div>
                                         </div>
-                                    }
+                                    }*@
                                     <div class="row accepted">
                                         <div id="section-accepted-name" class="col-md-4 accepted">
                                             <div class="form-group">
@@ -365,16 +366,18 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        @if (Model.Entity.Rank.ToUpper() != "SPECIES")
-                                        {
-                                            <div class="col-md-3">
-                                                <div class="form-group">
-                                                    <label>Species Name</label>
-                                                    <div class="input-group">
-                                                        @Html.TextBoxFor(x => x.Entity.SpeciesName, new { @class = "form-control" })
-                                                    </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label>Species Name</label>
+                                                <div class="input-group">
+                                                    @Html.TextBoxFor(x => x.Entity.SpeciesName, new { @class = "form-control" })
                                                 </div>
                                             </div>
+                                        </div>
+
+                                        @if (Model.Entity.Rank.ToUpper() != "SPECIES")
+                                        {
+
                                         }
 
                                         <!-- BEGIN NAME/SUBTAXON NAME SECTION -->

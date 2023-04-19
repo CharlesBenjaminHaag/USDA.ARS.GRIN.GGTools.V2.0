@@ -68,19 +68,6 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             return species;
         }
 
-        public Species Get2(int id)
-        {
-            SQL = "usp_GGTools_Taxon_SpeciesSummary_Select";
-            Species species = new Species();
-
-            var parameters = new List<IDbDataParameter> {
-                CreateParameter("taxonomy_species_id", (object)id, false)
-            };
-
-            species = GetRecord<Species>(SQL, CommandType.StoredProcedure, parameters.ToArray());
-            return species;
-        }
-
         public List<Species> GetConspecificTaxa(int? entityId)
         {
             SQL = "usp_GRINGlobal_Taxonomy_Species_Conspecific_Select";
@@ -93,7 +80,20 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             speciesList = GetRecords<Species>(SQL, CommandType.StoredProcedure, parameters.ToArray());
             return speciesList;
         }
+        public List<Species> GetInfraspecificAutonym(string genusName, string speciesName, string rank)
+        {
+            SQL = "usp_GRINGlobal_Taxonomy_Infraspecific_Autonym_Select";
+            List<Species> speciesList = new List<Species>();
 
+            var parameters = new List<IDbDataParameter> {
+                CreateParameter("genus_name", (object)genusName, false),
+                CreateParameter("species_name", (object)speciesName, false),           
+                CreateParameter("rank", (object)rank, false)
+             };
+
+            speciesList = GetRecords<Species>(SQL, CommandType.StoredProcedure, parameters.ToArray());
+            return speciesList;
+        }
         public List<Species> Search(SpeciesSearch searchEntity)
         {
             List<Species> results = new List<Species>();
@@ -169,128 +169,10 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             RowsAffected = results.Count;
             return results;
         }
-
-        public bool ValidateAuthority(string shortName)
-        {
-            int recordCount = 0;
-            SQL = "usp_TaxonomyAuthorCount_Select";
-
-            var parameters = new List<IDbDataParameter> {
-                CreateParameter("@short_name", (object)shortName, false)
-            };
-
-            recordCount = CountRecords(SQL, CommandType.StoredProcedure, parameters.ToArray());
-
-            if (recordCount > 0)
-                return true;
-            else
-                return false;
-        }
-
-        public int AddCitation(int citationId, int id)
-        {
-            int newCitationId = 0;
-            int errorNumber = 0;
-            Reset(CommandType.StoredProcedure);
-            SQL = "usp_TaxonomyCitationSpeciesClone_Insert";
-
-            AddParameter("@citation_id", (object)citationId, false);
-            AddParameter(("@taxonomy_species_id"), (object)id, false);
-            AddParameter("@out_error_number", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
-            AddParameter("@out_citation_id", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
-
-            RowsAffected = ExecuteNonQuery();
-
-            //Get the primary key generated from the SQL Server IDENTITY
-            newCitationId = GetParameterValue<int>("out_citation_id", -1);
-            errorNumber = GetParameterValue<int>("@out_error_number", -1);
-
-            return RowsAffected;
-        }
-
-        public int AddTag(string tag, string tableName, int id)
-        {
-            int newTagMapId = 0;
-            int errorNumber = 0;
-            Reset(CommandType.StoredProcedure);
-            SQL = "usp_TaxonomyTagMap_Insert";
-
-            AddParameter(("@taxon_id"), (object)id, false);
-            AddParameter(("@table_name"), (object)tableName, false);
-            AddParameter(("@tag"), (object)tag, false);
-
-            AddParameter("@out_error_number", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
-            AddParameter("@out_taxonomy_tag_map_id", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
-
-            RowsAffected = ExecuteNonQuery();
-
-            //Get the primary key generated from the SQL Server IDENTITY
-            newTagMapId = GetParameterValue<int>("out_taxonomy_tag_map_id", -1);
-            errorNumber = GetParameterValue<int>("@out_error_number", -1);
-            return newTagMapId;
-        }
-
-        public int DeleteTag(int tagMapId)
-        {
-            // Reset all properties for calling a stored procedure
-            Reset(CommandType.StoredProcedure);
-
-            // Create SQL to call a stored procedure
-            SQL = "usp_TaxonomyTagMap_Delete";
-
-            // Create parameters
-            AddParameter("@taxonomy_tag_map_id", (object)tagMapId, false);
-
-            // Execute Query
-            RowsAffected = ExecuteNonQuery();
-
-            return RowsAffected;
-        }
-       
-        public List<Folder> GetFolders(string tableName)
-        {
-            List<Folder> results = new List<Folder>();
-
-            SQL = "SELECT " +
-                "taxonomy_folder_id AS ID, " +
-                "title AS Title,	" +
-                "category AS Category, " +
-                "description AS Description," +
-                "note AS Note," +
-                "is_shared AS IsShared," +
-                "is_favorite AS IsFavorite," +
-                "data_source_name AS TableName," +
-                "created_date AS CreatedDate," +
-                "modified_date AS ModifiedDate " +
-                "FROM " +
-                "taxonomy_folder tf ";
-            //SQL += "WHERE(@ID   IS NULL         OR   taxonomy_folder_id = @ID)";
-            SQL += "WHERE(@TableName   IS NULL  OR   data_source_name = @TableName)";
-
-            var parameters = new List<IDbDataParameter> {
-                CreateParameter("TableName", (object)tableName ?? DBNull.Value, true),
-            };
-
-            results = GetRecords<Folder>(SQL, parameters.ToArray());
-            RowsAffected = results.Count;
-
-            return results;
-        }
-
         public void BuildInsertUpdateParameters()
         {
             throw new NotImplementedException();
         }
-
-        public List<Species> GetSynonyms(int speciesId)
-        {
-            SQL = "usp_GGTools_Taxon_SpeciesSynonyms_Select";
-            var parameters = new List<IDbDataParameter> {
-            CreateParameter("taxonomy_species_id", (object)speciesId, false)
-            };
-            return GetRecords<Species>(SQL, CommandType.StoredProcedure, parameters.ToArray());
-        }
-        
         public Dictionary<string, string> GetTableNames()
         {
             return new Dictionary<string, string>
@@ -300,7 +182,6 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
                 { "taxonomy_species", "Species" }
             };
         }
-        
         protected virtual void BuildInsertUpdateParameters(Species entity)
         {
             if (entity.ID > 0)

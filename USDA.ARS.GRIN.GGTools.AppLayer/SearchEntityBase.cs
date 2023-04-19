@@ -17,10 +17,13 @@ namespace USDA.ARS.GRIN.GGTools.AppLayer
         public int CreatedByCooperatorID { get; set; }
         public DateTime? ModifiedDate { get; set; }
         public int ModifiedByCooperatorID { get; set; }
+        public DateTime? OwnedDate { get; set; }
         public int OwnedByCooperatorID { get; set; }
         public int OwnedByCooperatorSiteID { get; set; }
         public string DateRangeFilter { get; set; }
         public string Note { get; set; }
+        public string SQLStatement { get; set; }
+        public string SQLWhere { get; set; }
         public string SaveSearchTitle
         { get; set; }
         

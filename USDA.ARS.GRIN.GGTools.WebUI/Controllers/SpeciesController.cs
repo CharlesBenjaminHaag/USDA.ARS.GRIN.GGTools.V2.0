@@ -113,6 +113,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             viewModel.PageTitle = "Species Search";
             viewModel.TableName = "taxonomy_species";
             viewModel.TableCode = "Species";
+            viewModel.SearchEntity.SQLStatement = "SELECT * FROM vw_gringlobal_" + viewModel.TableName;
             return View(BASE_PATH + "Index.cshtml", viewModel);
         }
 
@@ -141,7 +142,20 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             SpeciesViewModel viewModel = new SpeciesViewModel();
             return PartialView(BASE_PATH + "/Modals/_LookupParent.cshtml", viewModel);
         }
-
+        public PartialViewResult RenderInfraspecificAutonymWidget(string genusName, string speciesName, string rank)
+        {
+            try
+            {
+                SpeciesViewModel viewModel = new SpeciesViewModel();
+                viewModel.GetInfraspecificAutonym(genusName, speciesName, rank);
+                return PartialView("~/Views/Taxonomy/Shared/_InfraspecificAutonymWidget.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
+        }
         [HttpPost]
         public PartialViewResult Lookup(SpeciesViewModel viewModel)
         {
@@ -204,10 +218,12 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             {
                 SpeciesViewModel viewModel = new SpeciesViewModel();
                 viewModel.TableName = "taxonomy_species";
-
+                viewModel.EventAction = "ADD";
                 viewModel.Entity.IsAcceptedName = "Y";
                 viewModel.Entity.IsAccepted = true;
                 viewModel.Entity.IsWebVisibleOption = true;
+                viewModel.IsAutonymNeededOption = true;
+                viewModel.IsBasionymNeededOption = true;
                 viewModel.Entity.Rank = String.IsNullOrEmpty(rank) ? "species" : rank;
                 viewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
                 viewModel.Entity.CreatedByCooperatorName = AuthenticatedUser.FullName;
@@ -234,6 +250,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                     viewModel.Entity.ParentID = parentViewModel.ID;
                     viewModel.Entity.Name = parentViewModel.Entity.Name;
                     viewModel.Entity.SpeciesName = parentViewModel.Entity.SpeciesName;
+                    viewModel.Entity.AssembledName = parentViewModel.Entity.AssembledName;
                     viewModel.Entity.SubspeciesName = parentViewModel.Entity.SubspeciesName;
                     viewModel.Entity.VarietyName = parentViewModel.Entity.VarietyName;
                     viewModel.Entity.SubvarietyName = parentViewModel.Entity.SubvarietyName;
@@ -244,7 +261,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
 
                 if (!String.IsNullOrEmpty(synonymTypeCode))
                 {
-                    viewModel.PageTitle = String.Format("Add {0} Synonym of {1}", viewModel.ToTitleCase(synonymTypeCode), viewModel.ParentEntity.Name);
+                    viewModel.PageTitle = String.Format("Add {0} of {1}", viewModel.ToTitleCase(synonymTypeCode), viewModel.ParentEntity.AssembledName);
                     viewModel.EventAction = "ADD_SYNONYM";
                     viewModel.EventValue = synonymTypeCode;
                 }
@@ -404,6 +421,29 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 {
                     SynonymMapViewModel synonymMapViewModel = new SynonymMapViewModel();
                     // TODO
+                }
+
+                // If this save entails adding a new species, determine whether or not specified
+                // related taxon records must be added as well.
+                if (viewModel.EventAction == "ADD")
+                {
+                    //if (viewModel.IsAutonymNeededOption)
+                    //{
+                    //    SpeciesViewModel speciesViewModelAutonym = new SpeciesViewModel();
+                    //    speciesViewModelAutonym.Entity = viewModel.Entity;
+                    //    speciesViewModelAutonym.Entity.ID = 0;
+                    //    speciesViewModelAutonym.Entity.NameAuthority = null;
+                    //    speciesViewModelAutonym.Insert();
+                    //}
+
+                    //if (viewModel.IsBasionymNeededOption)
+                    //{
+                    //    SpeciesViewModel speciesViewModelBasionym = new SpeciesViewModel();
+                    //    speciesViewModelBasionym.Entity = viewModel.Entity;
+                    //    speciesViewModelBasionym.Entity.ID = 0;
+                    //    speciesViewModelBasionym.Entity.NameAuthority = null;
+                    //    speciesViewModelBasionym.Insert();
+                    //}
                 }
 
                 return RedirectToAction("Edit", "Species", new { entityId = viewModel.Entity.ID });
