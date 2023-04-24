@@ -728,6 +728,9 @@
     <Content Include="Views\Taxonomy\Species\Modals\_LookupParent.cshtml" />
     <Content Include="Views\Taxonomy\Species\Modals\_SelectListParent.cshtml" />
     <Content Include="Views\Taxonomy\Shared\_InfraspecificAutonymWidget.cshtml" />
+    <Content Include="Views\Taxonomy\Reports\_ListWidget.cshtml" />
+    <Content Include="Views\Taxonomy\Reports\Modals\_Detail.cshtml" />
+    <Content Include="Views\Taxonomy\Reports\Detail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

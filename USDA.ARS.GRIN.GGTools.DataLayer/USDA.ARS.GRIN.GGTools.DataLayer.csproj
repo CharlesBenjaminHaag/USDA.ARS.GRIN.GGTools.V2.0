@@ -123,6 +123,7 @@
     <Compile Include="EntityClasses\SysAppErrorSearch.cs" />
     <Compile Include="EntityClasses\SysApplication.cs" />
     <Compile Include="EntityClasses\SysApplicationSearch.cs" />
+    <Compile Include="EntityClasses\Report.cs" />
     <Compile Include="EntityClasses\SysDBErrorSearch.cs" />
     <Compile Include="EntityClasses\SysDBError.cs" />
     <Compile Include="EntityClasses\SysGroupSearch.cs" />

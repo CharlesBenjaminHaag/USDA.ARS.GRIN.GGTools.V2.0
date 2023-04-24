@@ -149,23 +149,22 @@
                             <li class="nav-item dropdown">
                                 <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Add Infraspecific Taxon</a>
                                 <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow">
-                                    <li><a href="@Url.Action("Add", "Species", new { @rank = "subspecies", @speciesId = Model.Entity.ID })" class="dropdown-item">Subspecies </a></li>
-                                    <li><a href="@Url.Action("Add", "Species", new { @rank = "variety", @speciesId = Model.Entity.ID })" class="dropdown-item">Variety</a></li>
-                                    <li><a href="@Url.Action("Add", "Species", new { @rank = "subvariety", @speciesId = Model.Entity.ID })" class="dropdown-item">Subvariety</a></li>
-                                    <li><a href="@Url.Action("Add", "Species", new { @rank = "form", @speciesId = Model.Entity.ID })" class="dropdown-item">Form</a></li>
+                                    <li><a href="@Url.Action("Add", "Species", new { @rank = "subspecies", @entityId = Model.Entity.ID })" class="dropdown-item">Subspecies </a></li>
+                                    <li><a href="@Url.Action("Add", "Species", new { @rank = "variety", @entityId = Model.Entity.ID })" class="dropdown-item">Variety</a></li>
+                                    <li><a href="@Url.Action("Add", "Species", new { @rank = "subvariety", @entityId = Model.Entity.ID })" class="dropdown-item">Subvariety</a></li>
+                                    <li><a href="@Url.Action("Add", "Species", new { @rank = "form", @entityId = Model.Entity.ID })" class="dropdown-item">Form</a></li>
                                 </ul>
                             </li>
                             <!-- SYN -->
                             <li class="nav-item dropdown">
                                 <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Add Synonym</a>
                                 <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow">
-                                    <li><a href="@Url.Action("Add", "Species", new { @speciesId = Model.Entity.ID, @synonymTypeCode = "basionym" })" class="dropdown-item">Basionym </a></li>
-                                    <li><a href="@Url.Action("Add", "Species", new { @speciesId = Model.Entity.ID, @synonymTypeCode = "basionym" })" class="dropdown-item">Basionym </a></li>
-                                    <li><a href="@Url.Action("Add", "Species", new { @speciesId = Model.Entity.ID, @synonymTypeCode = "heterotypic" })" class="dropdown-item">Heterotypic</a></li>
-                                    <li><a href="@Url.Action("Add", "Species", new { @speciesId = Model.Entity.ID, @synonymTypeCode = "homotypic" })" class="dropdown-item">Homotypic</a></li>
-                                    <li><a href="@Url.Action("Add", "Species", new { @speciesId = Model.Entity.ID, @synonymTypeCode = "invalid" })" class="dropdown-item">Invalid</a></li>
+                                    <li><a href="@Url.Action("Add", "Species", new { @entityId = Model.Entity.ID, @synonymTypeCode = "basionym", @rank="species" })" class="dropdown-item">Basionym </a></li>
+                                    <li><a href="@Url.Action("Add", "Species", new { @entityId = Model.Entity.ID, @synonymTypeCode = "heterotypic", @rank="species" })" class="dropdown-item">Heterotypic</a></li>
+                                    <li><a href="@Url.Action("Add", "Species", new { @entityId = Model.Entity.ID, @synonymTypeCode = "homotypic", @rank="species" })" class="dropdown-item">Homotypic</a></li>
+                                    <li><a href="@Url.Action("Add", "Species", new { @entityId = Model.Entity.ID, @synonymTypeCode = "invalid", @rank="species" })" class="dropdown-item">Invalid</a></li>
                                     <div class="dropdown-divider"></div>
-                                    <li><a href="@Url.Action("Add", "SpeciesSynonymMap", new { @speciesId = Model.Entity.ID, @synonymType = "invalid" })" class="dropdown-item">Map</a></li>
+                                    <li><a href="@Url.Action("Add", "SpeciesSynonymMap", new { @entityId = Model.Entity.ID, @synonymType = "invalid" })" class="dropdown-item">Map</a></li>
                                 </ul>
                             </li>
                             <!-- REL DATA -->
@@ -253,58 +252,65 @@
                         @Html.HiddenFor(x => x.Entity.VerifiedByCooperatorName)
                         @Html.HiddenFor(x => x.Entity.NameVerifiedDate)
                         <input type="hidden" id="hfModalEventValue" />
-                        
+
                         <div id="section-verification">
                             @Html.Partial("~/Views/Taxonomy/Species/_RevisionHistory.cshtml")
                         </div>
+
+                        if ((Model.Entity.Rank != "SPECIES") && (Model.Entity.ID > 0))
                         {
-                            if (Model.Entity.Rank != "SPECIES")
-                            {
-                                Html.RenderAction("RenderInfraspecificAutonymWidget", "Species", new { genusName = Model.Entity.GenusName, speciesName = Model.Entity.SpeciesName, rank = Model.Entity.Rank }); ;
-                            }
+                            Html.RenderAction("RenderInfraspecificAutonymWidget", "Species", new { genusName = Model.Entity.GenusName, speciesName = Model.Entity.SpeciesName, rank = Model.Entity.Rank }); ;
                         }
-                            <div class="card card-default">
-                            <div class="card-header">
-                                <h3 class="card-title">Summary</h3>
-                                <div class="card-tools">
-                                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                                        <i class="fas fa-minus"></i>
-                                    </button>
-                                </div>
+                        
+                        <div class="card card-primary card-tabs">
+                            <div id="section-web-order-request-tabs" class="card-header p-0 pt-1">
+                                <ul class="nav nav-tabs" id="custom-tabs-two-tab" role="tablist">
+                                    <li class="pt-2 px-3"><h3 id="section-title" class="card-title">Rank</h3></li>
+                                    <li id="section-species" class="nav-item">
+                                        <a id="tab-species"
+                                           class="nav-link"
+                                           href=""
+                                           role="tab"
+                                           aria-controls="custom-tabs-two-home"
+                                           aria-selected="true">Species</a>
+                                    </li>
+                                    <li id="section-subspecies" class="nav-item">
+                                        <a id="tab-subspecies"
+                                           class="nav-link"
+                                           href="@Model.SubspeciesUrl"
+                                           role="tab"
+                                           aria-controls="custom-tabs-two-profile"
+                                           aria-selected="false">Subspecies</a>
+                                    </li>
+                                    <li id="section-variety" class="nav-item">
+                                        <a id="tab-variety"
+                                           class="nav-link"
+                                           href="@Model.VarietyUrl"
+                                           role="tab"
+                                           aria-controls="custom-tabs-two-profile"
+                                           aria-selected="false">Variety</a>
+                                    </li>
+                                    <li id="section-subvariety" class="nav-item">
+                                        <a id="tab-subvariety"
+                                           class="nav-link"
+                                           href="@Model.SubvarietyUrl"
+                                           role="tab"
+                                           aria-controls="custom-tabs-two-messages"
+                                           aria-selected="false">Subvariety</a>
+                                    </li>
+                                    <li id="section-form" class="nav-item">
+                                        <a id="tab-form"
+                                           class="nav-link"
+                                           href="@Model.FormUrl"
+                                           role="tab"
+                                           aria-controls="custom-tabs-two-messages"
+                                           aria-selected="false">Form</a>
+                                    </li>
+                                </ul>
                             </div>
                             <div class="card-body">
-                                <div>
+                                <div class="tab-content">
                                     @Html.Partial("~/Views/Shared/_ValidationMessages.cshtml")
-
-                                    @*@if (Model.Entity.ID == 0)
-                                    {
-                                        <div id="section-create-options" class="row">
-                                            <div class="col-md-6">
-                                            <div class="form-group">
-                                                <div class="input-group">
-                                                    <input type="text" class="form-control" readonly="readonly" value="Create a basionym record" />
-                                                    <span class="input-group-append">
-                                                        <span class="input-group-text">
-                                                            @Html.CheckBoxFor(x=>x.IsAutonymNeededOption, new { id= "cbxIsAutonymNeeded" })
-                                                        </span>
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                            <div class="col-md-6">
-                                            <div class="form-group">
-                                                <div class="input-group">
-                                                    <input type="text" class="form-control" readonly="readonly" value="Create an autonym record" />
-                                                    <span class="input-group-append">
-                                                        <span class="input-group-text">
-                                                            @Html.CheckBoxFor(x => x.IsBasionymNeededOption, new { id = "cbxIsBasionymNeeded" })
-                                                        </span>
-                                                    </span>
-                                                </div>
-                                            </div>
-                                            </div>
-                                        </div>
-                                    }*@
                                     <div class="row accepted">
                                         <div id="section-accepted-name" class="col-md-4 accepted">
                                             <div class="form-group">
@@ -374,11 +380,6 @@
                                                 </div>
                                             </div>
                                         </div>
-
-                                        @if (Model.Entity.Rank.ToUpper() != "SPECIES")
-                                        {
-
-                                        }
 
                                         <!-- BEGIN NAME/SUBTAXON NAME SECTION -->
                                         @switch (Model.Entity.Rank.ToUpper())
@@ -581,7 +582,12 @@
                                                         <div class="input-group">
                                                             @Html.TextBoxFor(x => x.Entity.SpeciesAuthority, new { @class = "form-control" })
                                                             <span class="input-group-append">
-                                                                <button type="button" data-toggle="modal" data-target="#modal-author-lookup" class="btn btn-default btn-flat">
+                                                                <button id="btnOpenAuthorityLookupModal"
+                                                                        type="button"
+                                                                        data-toggle="modal"
+                                                                        data-target="#modal-author-lookup"
+                                                                        data-ggtools-value="Entity_SpeciesAuthority"
+                                                                        class="btn btn-default btn-flat">
                                                                     <i class="fa fa-search"></i>
                                                                 </button>
                                                             </span>
@@ -671,6 +677,22 @@
                                 <button type="submit" class="btn btn-info float-right">Save</button>
                             </div>
                         </div>
+                        <div class="card card-default">
+                            <div class="card-header">
+                                <h3 class="card-title">Summary</h3>
+                                <div class="card-tools">
+                                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                        <i class="fas fa-minus"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div>
+
+                                </div>
+                            </div>
+
+                        </div>
                     }
 
                     @if (Model.Entity.ID > 0)
@@ -738,6 +760,11 @@
 
         function Init() {
             SetControlVisibility();
+
+            // Set the tab of the current selector to "active".
+            SetRankSelectorTab();
+
+            // Load default-visible tab of dependent data.
             var defaultId = $('ul#list-dependent-data li:first').attr("id");
             var action = $('ul#list-dependent-data li:first').data("ggtools-action");
             var value = $('ul#list-dependent-data li:first').data("ggtools-value");
@@ -750,6 +777,20 @@
             SetVerifiedStatus(value);
         });
 
+        //btnAddAutonym
+        $(document).on("click", "[id*='btnAddAutonym']", function () {
+            var link = '@Url.Action("AddAutonym","Species")';
+            var entityId = $("#Entity_ID").val();
+            link = link + "?entityId=" + entityId;
+            window.location.href = link;
+        });
+
+        function SetRankSelectorTab() {
+            var rank = $("#Entity_Rank").val();
+            var tabId = "#tab-" + rank.toLowerCase();
+            $(tabId).addClass("active");
+        }
+
         function SetVerifiedStatus(statusCode) {
             var link = '@Url.Action("SetVerificationStatus","Species")';
             var entityId = $("#Entity_ID").val();
@@ -760,9 +801,6 @@
 
             $("#EventAction").val("VERIFY");
             $("#EventValue").val(statusCode);
-
-            //DEBUG
-            /*alert("DEBUG " + link + " ID " + entityId);*/
 
             $.ajax({
                 url: link,
@@ -778,6 +816,10 @@
                     alert("Error");
                 }
             });
+        }
+
+        function AddAutonym() {
+
         }
 
         $('#section-dependent-data ul.nav li').on('click', function () {

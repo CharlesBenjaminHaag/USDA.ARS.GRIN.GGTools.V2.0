@@ -386,6 +386,7 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
                     Entity.SysUserPlainTextPassword = Entity.Password;
                     // Generate the encoded password.
                     Entity.Password = GetSecurePassword(Entity.Password);
+                    Entity.SysUserPassword = Entity.Password;
                     mgr.UpdatePassword(Entity);
                 }
             }

@@ -10,7 +10,7 @@ using NLog;
 namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
 {
     [GrinGlobalAuthentication]
-    public class SpeciesController : BaseController, IController<SpeciesViewModel>
+    public class SpeciesController : BaseController
     {
         protected static string BASE_PATH = "~/Views/Taxonomy/Species/";
         private static readonly Logger Log = LogManager.GetCurrentClassLogger();
@@ -71,7 +71,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             SpeciesViewModel viewModel = new SpeciesViewModel();
             try
             {
-                viewModel.SearchEntity.ID  = speciesId;
+                viewModel.SearchEntity.ID = speciesId;
                 viewModel.GetConspecific();
                 return PartialView(BASE_PATH + "_List.cshtml", viewModel);
             }
@@ -212,7 +212,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             return PartialView(partialViewName, viewModel);
         }
 
-        public ActionResult Add(int genusId = 0, int speciesId = 0, string rank = "species", string synonymTypeCode = "")
+        public ActionResult Add(int genusId = 0, int entityId = 0, string rank = "species", string synonymTypeCode = "")
         {
             try
             {
@@ -239,10 +239,10 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                     viewModel.Entity.GenusName = topRankGenusViewModel.Entity.Name;
                 }
 
-                if (speciesId > 0)
+                if (entityId > 0)
                 {
                     SpeciesViewModel parentViewModel = new SpeciesViewModel();
-                    parentViewModel.SearchEntity.ID = speciesId;
+                    parentViewModel.SearchEntity.ID = entityId;
                     parentViewModel.Search();
 
                     // Add link to "parent" taxon.
@@ -256,7 +256,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                     viewModel.Entity.SubvarietyName = parentViewModel.Entity.SubvarietyName;
                     viewModel.Entity.GenusID = parentViewModel.Entity.GenusID;
                     viewModel.Entity.GenusName = parentViewModel.Entity.GenusName;
-                    viewModel.Entity.Protologue= parentViewModel.Entity.Protologue;
+                    viewModel.Entity.Protologue = parentViewModel.Entity.Protologue;
                 }
 
                 if (!String.IsNullOrEmpty(synonymTypeCode))
@@ -270,6 +270,19 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                     viewModel.PageTitle = String.Format("Add {0}", viewModel.ToTitleCase(rank));
                 }
 
+                viewModel.SubspeciesUrl = Url.Action("Add", "Species", new { entityId = entityId, rank = "subspecies" });
+                viewModel.VarietyUrl = Url.Action("Add", "Species", new { entityId = entityId, rank = "variety" });
+                viewModel.SubvarietyUrl = Url.Action("Add", "Species", new { entityId = entityId, rank = "subvariety" });
+                viewModel.FormUrl = Url.Action("Add", "Species", new { entityId = entityId, rank = "form" });
+
+                if (!String.IsNullOrEmpty(Request.QueryString["synonymCode"]))
+                {
+                    viewModel.SubspeciesUrl += "&synonymCode=" + Request.QueryString["synonymCode"];
+                    viewModel.VarietyUrl += "&synonymCode=" + Request.QueryString["synonymCode"];
+                    viewModel.SubvarietyUrl += "&synonymCode=" + Request.QueryString["synonymCode"];
+                    viewModel.FormUrl += "&synonymCode=" + Request.QueryString["synonymCode"];
+                }
+
                 return View(BASE_PATH + "Edit.cshtml", viewModel);
             }
             catch (Exception ex)
@@ -277,6 +290,42 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 Log.Error(ex);
                 return RedirectToAction("InternalServerError", "Error");
             }
+        }
+        public ActionResult AddAutonym(int entityId)
+        {
+            //TODO
+            //Get species whose ID is passed in
+            //Create copy and configure as autonym
+            //Add new autonym
+            //Re-load species passed in; new autonym will appear in conspecific list
+
+            SpeciesViewModel speciesViewModel = new SpeciesViewModel();
+            speciesViewModel.Get(entityId);
+
+            SpeciesViewModel autonymViewModel = new SpeciesViewModel();
+            autonymViewModel.Entity.GenusID = speciesViewModel.Entity.GenusID;
+            autonymViewModel.Entity.SpeciesName = speciesViewModel.Entity.SpeciesName;
+            autonymViewModel.Entity.Rank = speciesViewModel.Entity.Rank;
+            autonymViewModel.Entity.SynonymCode = "A";
+
+            switch (speciesViewModel.Entity.Rank.ToLower())
+            {
+                case "subspecies":
+                    autonymViewModel.Entity.SubspeciesName = speciesViewModel.Entity.SpeciesName;
+                    break;
+                case "variety":
+                    autonymViewModel.Entity.VarietyName = speciesViewModel.Entity.SpeciesName;
+                    break;
+                case "subvariety":
+                    autonymViewModel.Entity.SubvarietyName = speciesViewModel.Entity.SpeciesName;
+                    break;
+                case "form":
+                    autonymViewModel.Entity.FormaName = speciesViewModel.Entity.SpeciesName;
+                    break;
+            }
+            autonymViewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
+            autonymViewModel.Insert();
+            return RedirectToAction("Edit", "Species", new { @entityId = entityId });
         }
 
         public PartialViewResult _Add(int genusId)
@@ -356,21 +405,40 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
 
         }
 
-        public ActionResult Edit(int entityId)
+        public ActionResult Edit(int entityId, string rank = "")
         {
             try
             {
                 SpeciesViewModel viewModel = new SpeciesViewModel();
                 viewModel.TableName = "taxonomy_species";
                 viewModel.TableCode = "Species";
+                viewModel.EventAction = "EDIT";
                 viewModel.Get(entityId);
-
-                //TEST
                 viewModel.Entity.Protologue = System.Web.HttpUtility.HtmlDecode(viewModel.Entity.Protologue);
-
                 viewModel.PageTitle = String.Format("Edit {0} [{1}]: {2}", viewModel.Entity.ID, viewModel.ToTitleCase(viewModel.Entity.Rank), viewModel.Entity.AssembledName);
                 viewModel.EventValue = viewModel.Entity.Rank.ToUpper();
                 viewModel.ID = entityId;
+
+                // If there is a rank specified, this is a change-rank operation; reload
+                // page with newly-set rank to enable necessary fields.
+                if (!String.IsNullOrEmpty(rank))
+                {
+                    viewModel.Entity.Rank = rank;
+                }
+
+                viewModel.SubspeciesUrl = Url.Action("Edit", "Species", new { entityId = entityId, rank = "subspecies" });
+                viewModel.VarietyUrl = Url.Action("Edit", "Species", new { entityId = entityId, rank = "variety" });
+                viewModel.SubvarietyUrl = Url.Action("Edit", "Species", new { entityId = entityId, rank = "subvariety" });
+                viewModel.FormUrl = Url.Action("Edit", "Species", new { entityId = entityId, rank = "form" });
+
+                if (!String.IsNullOrEmpty(Request.QueryString["synonymCode"]))
+                {
+                    viewModel.SubspeciesUrl += "&synonymCode=" + Request.QueryString["synonymCode"];
+                    viewModel.VarietyUrl += "&synonymCode=" + Request.QueryString["synonymCode"];
+                    viewModel.SubvarietyUrl += "&synonymCode=" + Request.QueryString["synonymCode"];
+                    viewModel.FormUrl += "&synonymCode=" + Request.QueryString["synonymCode"];
+                }
+
                 return View(BASE_PATH + "Edit.cshtml", viewModel);
             }
             catch (Exception ex)
@@ -404,7 +472,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                             viewModel.Entity.VerifiedByCooperatorID = AuthenticatedUser.CooperatorID;
                             viewModel.Entity.NameVerifiedDate = DateTime.Now;
                         }
-                        else 
+                        else
                         {
                             viewModel.Entity.VerifiedByCooperatorID = 0;
                             viewModel.Entity.NameVerifiedDate = DateTime.MinValue;
@@ -509,5 +577,30 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 return PartialView("~/Views/Error/_InternalServerError.cshtml");
             }
         }
+        #region Reports
+        public PartialViewResult RenderReportsWidget()
+        {
+            try
+            {
+                SpeciesViewModel viewModel = new SpeciesViewModel();
+                viewModel.GetReportList();
+                return PartialView("~/Views/Taxonomy/Reports/_ListWidget.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
+        }
+        public ViewResult ReportDetail(string reportCode)
+        {
+            SpeciesViewModel viewModel = new SpeciesViewModel();
+            viewModel.PageTitle = reportCode.Replace("_", " ");
+            viewModel.GetReport(reportCode);
+            //TODO Get report
+            return View("~/Views/Taxonomy/Reports/Detail.cshtml", viewModel);
+        }
+
+        #endregion
     }
 }

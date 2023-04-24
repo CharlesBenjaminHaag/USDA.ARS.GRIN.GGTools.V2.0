@@ -106,9 +106,6 @@
         var idList = GetSelectedEntityIDs("data-table-species-lookup");
         var nameList = GetSelectedEntityLabels("data-table-species-lookup");
 
-        //DEBUG
-        /*alert("ID FLD " + idField + " NAME FLD " + nameField);*/
-
         $("#Entity_" + idField).val(idList);
         $("#Entity_" + nameField).val(nameList);
         $('#modal-species-lookup').modal('hide');

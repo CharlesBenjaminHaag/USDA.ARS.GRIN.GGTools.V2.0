@@ -386,8 +386,13 @@
                                             <label>Authority</label>
                                             <div class="input-group">
                                                 @Html.TextBoxFor(x => x.Entity.Authority, new { @class = "form-control" })
-                                                <span class="input-group-btn">
-                                                    <button type="button" data-toggle="modal" data-target="#modal-author-lookup" class="btn btn-default btn-flat">
+                                                <span class="input-group-append">
+                                                    <button id="btnOpenAuthorityLookupModal"
+                                                            type="button"
+                                                            data-toggle="modal"
+                                                            data-target="#modal-author-lookup"
+                                                            data-ggtools-value="Entity_Authority"
+                                                            class="btn btn-default btn-flat">
                                                         <i class="fa fa-search"></i>
                                                     </button>
                                                 </span>
@@ -480,6 +485,8 @@
                     }
 
                     @{Html.RenderAction("RenderLookupModal", "FamilyMap"); }
+                    @{Html.RenderAction("RenderLookupModal", "Author"); }
+                    @{Html.RenderAction("RenderLookupModal", "Genus"); }
                     @{Html.RenderAction("RenderLookupModal", "Citation", new { tableName = Model.TableName, entityId = Model.Entity.ID }); }
                     @Html.Partial("~/Views/Shared/Modals/_NoteLookup2.cshtml")
                     @Html.Partial("~/Views/Taxonomy/Shared/Modals/_Delete.cshtml")

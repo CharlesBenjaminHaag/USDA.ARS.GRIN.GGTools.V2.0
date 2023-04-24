@@ -11,7 +11,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
         private static readonly Logger Log = LogManager.GetCurrentClassLogger();
         public ActionResult Index()
         {
-            return View();
+            return RedirectToAction("Explorer","Folder");
         }
         public ActionResult Admin(int sysUserId = 0)
         {
@@ -27,5 +27,6 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 return RedirectToAction("InternalServerError", "Error");
             }
         }
+        
     }
 }

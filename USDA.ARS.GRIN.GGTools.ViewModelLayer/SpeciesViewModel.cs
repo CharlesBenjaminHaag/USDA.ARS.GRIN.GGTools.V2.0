@@ -11,7 +11,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
 {
     public class SpeciesViewModel : SpeciesViewModelBase, IViewModel<Species>
     {
-       
+      
         public void Delete()
         {
             try
@@ -63,7 +63,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
 
             return Entity;
         }
-
+       
         public void GetConspecific()
         {
             using (SpeciesManager mgr = new SpeciesManager())
@@ -404,5 +404,51 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
 
         }
 
+        #region Reports
+        public void GetReportList()
+        {
+            using (SpeciesManager mgr = new SpeciesManager())
+            {
+                DataCollectionReports = new Collection<CodeValue>(mgr.GetReportList());
+            }
+        }
+
+        public void GetReport(string reportCode)
+        {
+            Report.Title = reportCode.Replace("_", " ");
+
+            //DEMO ONLY
+            switch (reportCode.Replace("_",""))
+            {
+                case "MissingAutonymForm":
+                    Report.SQL = "SELECT distinct genus_name, species_name " +
+                                " FROM taxonomy_species ts " +
+                                " JOIN taxonomy_genus tg ON tg.taxonomy_genus_id = ts.taxonomy_genus_id " +
+                                " WHERE ts.taxonomy_species_id = ts.current_taxonomy_species_id " +
+                                " AND forma_name IS NOT NULL " +
+                                " AND NOT EXISTS(SELECT* FROM taxonomy_species ts2 " +
+                                " JOIN taxonomy_genus tg2 ON tg2.taxonomy_genus_id = ts2.taxonomy_genus_id " +
+                                " WHERE genus_name = tg.genus_name AND species_name = ts.species_name AND forma_name = ts.species_name AND taxonomy_species_id = current_taxonomy_species_id) " +
+                                " ORDER BY genus_name, species_name";
+
+                    break;
+                case "MissingBasionym":
+                    Report.SQL = "select taxonomy_species_id, name, name_authority from taxonomy_species ts where ts.name_authority like '%(%)%' AND ts.taxonomy_species_id = ts.current_taxonomy_species_id AND NOT EXISTS(SELECT * FROM taxonomy_species WHERE current_taxonomy_species_id = ts.taxonomy_species_id AND synonym_code = 'B') ORDER BY name";
+                    break;
+                case "NoSpeciesAuthor":
+                    Report.SQL = "@taxonomy_species.species_authority IS NULL AND ( @taxonomy_species.species_name NOT LIKE  'spp.') AND @taxonomy_species.species_authority IS NULL AND ( @taxonomy_species.species_name NOT LIKE  'hybr.' )";
+                    break;
+                case "UnverifiedNodulation":
+                    Report.SQL = "select distinct t.name from taxonomy_species t join citation c on t.taxonomy_species_id = c.taxonomy_species_id where t.verifier_cooperator_id is null and c.type_code = 'NODULATION'";
+                    break;
+            }
+
+            using (SpeciesManager mgr = new SpeciesManager())
+            {
+                Report.ResultSet = mgr.GetReport(reportCode);
+            }
+        }
+
+        #endregion
     }
 }

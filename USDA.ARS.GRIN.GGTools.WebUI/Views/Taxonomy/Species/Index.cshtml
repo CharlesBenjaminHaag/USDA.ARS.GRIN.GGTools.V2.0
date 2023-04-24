@@ -256,12 +256,10 @@
         $(document).on("click", "[id='btnSaveInfraspecificTaxon']", function () {
             var rank = $("#Entity_Rank").val();
             var parentSpeciesId = GetSelectedEntityIDs("data-table-species-lookup");
-            //DEBUG
-            alert("ADDING " + rank);
-
+           
             var link = '@Url.Action("Add","Species", new { @rank = "RANK" })';
             link = link.replace("RANK", rank);
-            link = link + "&speciesId=" + parentSpeciesId;
+            link = link + "&entityId=" + parentSpeciesId;
             window.location.href = link;
         });
     </script>

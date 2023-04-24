@@ -19,22 +19,28 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
         private string _PageTitle = String.Empty;
         private string _IsMultiSelect;
         private int _SpeciesID;
+        private string _SubspeciesUrl;
+        private string _VarietyUrl;
+        private string _SubvarietyUrl;
+        private string _FormUrl;
+        private Report _Report = new Report();
         private Species _Entity = new Species();
         private Species _ParentEntity = new Species();
         private SpeciesSearch _SearchEntity = new SpeciesSearch();
         private Collection<Species> _DataCollection = new Collection<Species>();
         private Collection<CodeValue> _DataCollectionProtologues = new Collection<CodeValue>();
+        private Collection<CodeValue> _DataCollectionReports = new Collection<CodeValue>();
         public SpeciesViewModelBase()
         {
             TableName = "taxonomy_species";
             using (SpeciesManager mgr = new SpeciesManager())
             {
                 Cooperators = new SelectList(mgr.GetCooperators(TableName), "ID", "FullName");
-                TableNames = new SelectList(mgr.GetTableNames(), "Key", "Value");
+                //TableNames = new SelectList(mgr.GetTableNames(), "Key", "Value");
                 YesNoOptions = new SelectList(mgr.GetYesNoOptions(), "Key", "Value");
                 TimeFrameOptions = new SelectList(mgr.GetCodeValues("TAXONOMY_SEARCH_TIME_FRAME"), "Value", "Title");
                 SynonymCodes = new SelectList(mgr.GetCodeValues("TAXONOMY_SPECIES_QUALIFIER"), "Value", "Title");
-                Ranks = new SelectList(mgr.GetRanks(),"Value","Title");
+                //Ranks = new SelectList(mgr.GetRanks(),"Value","Title");
                 FormaRankTypes = new SelectList(mgr.GetCodeValues("TAXONOMY_FORMA_RANK_TYPE"), "Value", "Title");
             }
         }
@@ -71,7 +77,41 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
             get { return _SpeciesID; }
             set { _SpeciesID = value; }
         }
-        
+        public string SubspeciesUrl
+        {
+            get
+            { return _SubspeciesUrl; }
+            set
+            { _SubspeciesUrl = value; } 
+        }
+        public string VarietyUrl
+        {
+            get
+            { return _VarietyUrl; }
+            set
+            { _VarietyUrl = value; }
+        }
+
+        public string SubvarietyUrl
+        {
+            get
+            { return _SubvarietyUrl; }
+            set
+            { _SubvarietyUrl = value; }
+        }
+        public string FormUrl
+        {
+            get
+            { return _FormUrl; }
+            set
+            { _FormUrl = value; }
+        }
+
+        public Report Report
+        {
+            get { return _Report; }
+            set { _Report = value; }
+        }
         public string IsMultiSelect
         {
             get { return _IsMultiSelect; }
@@ -105,6 +145,11 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
         {
             get { return _DataCollectionProtologues; }
             set { _DataCollectionProtologues = value; }
+        }
+        public Collection<CodeValue> DataCollectionReports
+        {
+            get { return _DataCollectionReports; }
+            set { _DataCollectionReports = value; }
         }
 
         #region Select Lists

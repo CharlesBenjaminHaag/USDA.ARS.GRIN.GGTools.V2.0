@@ -94,6 +94,22 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             speciesList = GetRecords<Species>(SQL, CommandType.StoredProcedure, parameters.ToArray());
             return speciesList;
         }
+
+        public List<CodeValue> GetReportList()
+        {
+            SQL = "SELECT * FROM vw_GRINGlobal_Taxonomy_Rpt_List";
+
+            List<CodeValue> reportList = new List<CodeValue>();
+
+            reportList = GetRecords<CodeValue>(SQL);
+            return reportList;
+        }
+
+        public List<Species> GetReport(string name)
+        {
+            SQL = "SELECT * FROM vw_GRINGlobal_Taxonomy_Rpt_" + name.Replace("_","").Replace(" ","");
+            return GetRecords<Species>(SQL);
+        }
         public List<Species> Search(SpeciesSearch searchEntity)
         {
             List<Species> results = new List<Species>();
