@@ -114,6 +114,13 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             viewModel.TableName = "taxonomy_species";
             viewModel.TableCode = "Species";
             viewModel.SearchEntity.SQLStatement = "SELECT * FROM vw_gringlobal_" + viewModel.TableName;
+
+            string targetKey = this.ControllerContext.RouteData.Values["controller"].ToString().ToUpper() + "_SEARCH";
+            if (Session[targetKey] != null)
+            {
+                viewModel = Session[targetKey] as SpeciesViewModel;
+            }
+
             return View(BASE_PATH + "Index.cshtml", viewModel);
         }
 
@@ -121,6 +128,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
         {
             try
             {
+                Session[SessionKeyName] = viewModel;
                 viewModel.Search();
                 ModelState.Clear();
                 return View(BASE_PATH + "Index.cshtml", viewModel);

@@ -11,6 +11,7 @@ namespace USDA.ARS.GRIN.GGTools.AppLayer
         public string Environment { get; set; }
         public int FolderID { get; set; }
         public int? ID { get; set; }
+        public int? ExcludeID { get; set; }
         public string IDList { get; set; }
         public string TableName { get; set; }
         public DateTime? CreatedDate { get; set; }

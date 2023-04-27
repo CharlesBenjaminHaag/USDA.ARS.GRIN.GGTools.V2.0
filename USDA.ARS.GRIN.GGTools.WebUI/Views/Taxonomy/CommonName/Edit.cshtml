@@ -5,102 +5,13 @@
 }
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>@Model.PageTitle</title>
-    <link rel="stylesheet" href="~/Content/dist/css/fonts.googleapis.com.css">
-    <link rel="stylesheet" href="~/plugins/fontawesome-free/css/all.min.css">
-    <link rel="stylesheet" href="~/dist/css/adminlte.css">
-    <link rel="stylesheet" href="~/Content/dist/css/icheck-bootstrap.min.css" />
-
-    <!-- Datatables -->
-    <link rel="stylesheet" href="~/Content/dist/css/DataTables/datatables.min.css" />
-    <link rel="stylesheet" type="text/css" href="~/Content/dist/css/DataTables/select.dataTables.min.css">
-    <link rel="stylesheet" type="text/css" href="~/Content/dist/css/DataTables/buttons.dataTables.min.css">
-    <link rel="stylesheet" type="text/css" href="~/Content/dist/css/bootstrap-switch.min.css" />
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.4.0/css/responsive.dataTables.min.css" />
-
-    <style type="text/css">
-        .table-col-align-right {
-            text-align: right;
-        }
-
-        .ggtools-selector input {
-            opacity: 1;
-            margin-right: 5px;
-            margin-left: 3px;
-        }
-
-        .ggtools-selector-label {
-            margin-left: 25px;
-        }
-
-        .ggtools-checkbox {
-            margin-top: 40px;
-        }
-
-        table.dataTable tbody tr.selected > * {
-            box-shadow: inset 0 0 0 9999px rgb(176, 190, 217);
-            color: white;
-        }
-
-        .margin {
-            margin-top: 15px;
-        }
-
-        .social-auth-links {
-            margin: 0px;
-            padding: 0px;
-        }
-
-        .button-label {
-            margin-left: .3em;
-        }
-
-        .checkbox {
-            margin-top: 0px;
-        }
-
-        .form-group {
-            margin-bottom: 5px;
-        }
-
-        .text-danger {
-            background-color: #dd4b39;
-            color: white;
-        }
-
-        .badge {
-            padding: 5px;
-            font-size: 9.5pt;
-        }
-
-        .infraspecific-hybrid {
-            margin-top: 25px;
-        }
-
-        #section-extended-search-fields {
-            margin-top: 15px;
-        }
-
-        .section-checkbox {
-            margin-top: 10px;
-            margin-bottom: 10px;
-        }
-    </style>
-
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
-    @Scripts.Render("~/adminlte/js")
-    @Scripts.Render("~/ggtools/js")
-</head>
+@Html.Partial("~/Views/Shared/_Head.cshtml")
 <body class="hold-transition layout-top-nav">
     <div class="wrapper">
         <nav class="main-header navbar navbar-expand-md navbar-light text-sm">
             <div class="container" style="max-width:1500px;">
                 <a href="@Url.Action("Index","Home")" class="navbar-brand">
-                    <img src="~/dist/img/gringlobal-logo.jfif" alt="GRIN-Global Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+                    <img src="~/dist/img/GGlogo_BW.gif" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
                     <span class="brand-text font-weight-light">GGTools</span>
                 </a>
                 <button class="navbar-toggler order-1" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
@@ -109,43 +20,30 @@
                 <div class="collapse navbar-collapse order-3" id="navbarCollapse">
                     <!-- BEGIN EDIT PAGE MENU -->
                     <ul class="navbar-nav">
-                        @if (Model.Entity.ID > 0)
-                        {
-                            <li class="nav-item d-none d-sm-inline-block">
-                                <a href="@Url.Action("Add", "CommonName", new { cropForCwrId = Model.Entity.ID })" class="nav-link">Add CWR Map</a>
-                            </li>
-                            Html.RenderAction("_RelatedFoldersMenu", "Folder", new { tableName = Model.TableName, entityId = Model.Entity.ID });
-                        }
+                            <!-- FOLDERS -->
+                        @{ Html.RenderAction("_RelatedFoldersMenu", "Folder", new { tableName = Model.TableName, entityId = Model.Entity.ID }); }
+                    
                     </ul>
                     <!-- END EDIT PAGE MENU-->
                 </div>
-
+                <!-- BEGIN RIGHT-ALIGNED NAV MENU -->
                 <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
-                    <li class="nav-item dropdown">
-                        <a class="nav-link" data-toggle="dropdown" href="#">
-                            <i class="far fa-user"></i>
-
-                        </a>
-
-                        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right" style="left: inherit; right: 0px;">
-                            <span class="dropdown-item dropdown-header">@AppInfo.GetAuthenticatedUser().FullName</span>
-                            <div class="dropdown-divider"></div>
-                            <a href="#" class="dropdown-item">
-                                <i class="fas fa-clock mr-2"></i> Logged In
-                                <span class="float-right text-muted text-sm"> </span>
+                    @if (Model.Entity.ID > 0)
+                    {
+                        <li id="nav-item-view-website" class="nav-item">
+                            <a class="nav-link" href="#" role="button">
+                                <i class="far fa-globe"></i>
+                                View on Website
                             </a>
-                            <div class="dropdown-divider"></div>
-                            <a href="@Url.Action("Logout","Login")" class="dropdown-item dropdown-footer bg-danger">Log Out</a>
-                        </div>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" data-widget="fullscreen" href="#" role="button">
-                            <i class="fas fa-expand-arrows-alt"></i>
-                        </a>
-                    </li>
+                        </li>
+                    }
+                    @Html.Partial("~/Views/Shared/_NavbarRight.cshtml")
                 </ul>
+                <!-- END RIGHT-ALIGNED NAV MENU -->
+
             </div>
         </nav>
+
         <div class="content-wrapper">
             <div class="content-header">
                 <div class="container" style="max-width:1500px;">
@@ -157,11 +55,7 @@
                             </h1>
                         </div>
                         <div class="col-sm-6">
-                            <ol class="breadcrumb float-sm-right">
-                                <li class="breadcrumb-item"><a href="@Url.Action("Index","Home")">Home</a></li>
-                                <li class="breadcrumb-item"><a href="@Url.Action("Navigate","Home", new { applicationCode = "GGT-TAX"})">Turbo Taxon Home</a></li>
-                                <li class="breadcrumb-item active">Add</li>
-                            </ol>
+                            @Html.Partial("~/Views/Shared/_Breadcrumbs.cshtml")
                         </div>
                     </div>
                 </div>
@@ -179,9 +73,16 @@
                         @Html.HiddenFor(x => x.Entity.ID)
                         @Html.HiddenFor(x => x.Entity.RelatedItemCount)
                         @Html.HiddenFor(x => x.Entity.CategoryCode)
+                        @Html.Partial("~/Views/Shared/_RevisionHistory.cshtml")
+
                         <div class="card card-default">
                             <div class="card-header">
-                                
+                                <h3 class="card-title">Summary</h3>
+                                <div class="card-tools">
+                                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                        <i class="fas fa-minus"></i>
+                                    </button>
+                                </div>
                             </div>
                             <div class="card-body">
                                 <div class="tab-content" id="custom-tabs-four-tabContent">
@@ -265,7 +166,7 @@
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <label>Language</label>
-                                                @Html.DropDownListFor(x => x.Entity.LanguageID, Model.CommonNameLanguages, "Select language", new { @id="ddlLanguage", @class = "form-control" })
+                                                @Html.DropDownListFor(x => x.Entity.LanguageID, Model.CommonNameLanguages, "Select language", new { @id = "ddlLanguage", @class = "form-control" })
                                             </div>
                                         </div>
                                     </div>
@@ -273,15 +174,14 @@
 
                                         <!-- BEGIN NOTE FIELD -->
                                         <div class="col-md-12">
-                                            <label>Note</label>
-                                            <div class="input-group">
-
-                                                @Html.TextAreaFor(x => x.Entity.Note, new { @id = "txtNote", @class = "form-control", })
-                                                <span class="input-group-append">
-                                                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#modal-note-lookup">
-                                                        <i class="fa fa-search margin-r-5"></i>
-                                                    </button>
-                                                </span>
+                                            <div class="form-group">
+                                                <label>
+                                                    Note
+                                                    &nbsp;<a href="" data-toggle="modal" data-target="#modal-note-lookup"><i class="fa fa-search"></i></a>
+                                                </label>
+                                                <div class="input-group">
+                                                    @Html.TextAreaFor(x => x.Entity.Note, new { @id = "txtNote", @class = "form-control", @style = "width:100%;" })
+                                                </div>
                                             </div>
                                         </div>
                                         <!-- END NOTE FIELD-->
@@ -294,19 +194,16 @@
                                         Html.RenderAction("RenderWidget", "Citation", new { @entityId = Model.Entity.CitationID });
                                     }
                                 </div>
-                                <div class="margin">
-                                    <a href="@Url.Action("Refresh")" class="btn btn-default">Reset</a>
-                                    @if (Model.Entity.ID > 0)
-                                    {
-                                        <button id="btnDelete" type="button" class="btn btn-danger">
-                                            Delete
-                                        </button>
-                                    }
-                                    <button type="submit" class="btn btn-primary float-right">Save</button>
-                                </div>
                             </div>
                             <div class="card-footer">
-
+                                <a href="@Url.Action("Refresh")" class="btn btn-default">Reset</a>
+                                @if (Model.Entity.ID > 0)
+                                {
+                                    <button id="btnDelete" type="button" class="btn btn-danger">
+                                        Delete
+                                    </button>
+                                }
+                                <button type="submit" class="btn btn-primary float-right">Save</button>
                             </div>
                         </div>
                     }
@@ -402,13 +299,6 @@
             $("#Entity_LanguageDescription").val(selectedText);
         });
     </script>
-    <script src="~/plugins/jquery/jquery.min.js"></script>
-    <script src="~/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="~/dist/js/adminlte.js"></script>
-    <script type="text/javascript" src="~/Content/dist/js/DataTables/jquery.dataTables.min.js"></script>
-    <script type="text/javascript" language="javascript" src="~/Content/dist/js/DataTables/dataTables.select.min.js"></script>
-    <script type="text/javascript" language="javascript" src="~/Content/dist/js/DataTables/dataTables.buttons.min.js"></script>
-    <script type="text/javascript" src="~/Content/dist/js/DataTables/buttons.html5.min.js"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/responsive/2.4.0/js/dataTables.responsive.min.js"></script>
 </body>
 </html>
+@Html.Partial("~/Views/Shared/_Scripts.cshtml")

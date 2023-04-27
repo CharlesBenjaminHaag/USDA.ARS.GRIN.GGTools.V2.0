@@ -205,10 +205,15 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
                 entity.AcceptedID = entity.ID;
             }
 
-            //TEMP
             if (String.IsNullOrEmpty(entity.IsAcceptedName))
             {
                 entity.IsAcceptedName = "N";
+            }
+
+            // HACK: Need alternative.
+            if (entity.CitationYear == null)
+            {
+                entity.CitationYear = 0;
             }
 
             AddParameter("literature_id", entity.LiteratureID == 0 ? DBNull.Value : (object)entity.LiteratureID, true);

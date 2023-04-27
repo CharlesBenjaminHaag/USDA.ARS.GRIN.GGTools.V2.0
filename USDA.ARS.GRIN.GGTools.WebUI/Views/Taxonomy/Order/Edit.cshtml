@@ -36,15 +36,16 @@
             <div class="row">
                 <!-- BEGIN NOTE FIELD -->
                 <div class="col-md-12">
-                    <label>Note</label>
+                    <label>Note 
+                        &nbsp;<a href="" data-toggle="modal" data-target="#modal-note-lookup"><i class="fa fa-search"></i></a>
+                    </label>
                     <div class="input-group">
-
-                        @Html.TextAreaFor(x => x.Entity.Note, new { @id = "txtNote", @class = "form-control", })
-                        <span class="input-group-append">
+                        @Html.TextAreaFor(x => x.Entity.Note, new { @id = "txtNote", @class = "form-control", @style="width:100%;" })
+                        @*<span class="input-group-append">
                             <button type="button" class="btn btn-default" data-toggle="modal" data-target="#modal-note-lookup">
                                 <i class="fa fa-search margin-r-5"></i>
                             </button>
-                        </span>
+                        </span>*@
                     </div>
                 </div>
                 <!-- END NOTE FIELD-->
@@ -72,8 +73,6 @@
 @Html.Partial("~/Views/Taxonomy/Shared/Modals/_Delete.cshtml")
 @{Html.RenderAction("_Edit", "Folder"); }
 
-<script type="text/javascript">
 
-</script>
 
 

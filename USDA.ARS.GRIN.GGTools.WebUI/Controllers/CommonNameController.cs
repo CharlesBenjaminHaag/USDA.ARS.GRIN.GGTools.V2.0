@@ -160,6 +160,13 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             try
             {
                 CommonNameViewModel viewModel = new CommonNameViewModel();
+
+                string targetKey = this.ControllerContext.RouteData.Values["controller"].ToString().ToUpper() + "_SEARCH";
+                if (Session[targetKey] != null)
+                {
+                    viewModel = Session[targetKey] as CommonNameViewModel;
+                }
+
                 viewModel.PageTitle = "Common Name Search";
                 viewModel.TableCode = "taxonomy_common_name";
                 return View(BASE_PATH + "Index.cshtml", viewModel);
@@ -180,6 +187,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
         {
             try
             {
+                Session[SessionKeyName] = viewModel;
                 viewModel.Search();
                 ModelState.Clear();
                 return View(BASE_PATH + "Index.cshtml", viewModel);

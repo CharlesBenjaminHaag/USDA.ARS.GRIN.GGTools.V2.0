@@ -125,7 +125,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             //SQL += " AND (@VarietyName                    IS NULL OR VarietyName LIKE '%' + @VarietyName + '%')";
             SQL += " AND        (@SynonymCode               IS NULL OR  SynonymCode = @SynonymCode)";
             SQL += " AND        (@IsAcceptedName            IS NULL OR  IsAcceptedName              =       @IsAcceptedName)";
-            SQL += " AND        (@SpeciesAuthority          IS NULL OR  SpeciesAuthority            =       @SpeciesAuthority)";
+            SQL += " AND        (@SpeciesAuthority          IS NULL OR  SpeciesAuthority            LIKE    '%' + @SpeciesAuthority + '%')";
 
             if (!String.IsNullOrEmpty(searchEntity.IDList))
             {

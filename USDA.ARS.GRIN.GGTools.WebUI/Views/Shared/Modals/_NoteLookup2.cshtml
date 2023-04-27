@@ -73,7 +73,10 @@
 
         //TODO Re-enable once CKEditor upgrade complete.
         //CKEDITOR.instances["txtNote"].setData(selectedNote);
-        $("#txtNote").val(selectedNote);
+        //$("#txtNote").val(selectedNote);
+
+        $('#txtNote').summernote('code', selectedNote);
+
     });
 </script>
 

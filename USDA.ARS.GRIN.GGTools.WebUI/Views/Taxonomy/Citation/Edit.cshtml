@@ -6,97 +6,7 @@
 
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>@Model.PageTitle</title>
-    <link rel="stylesheet" href="~/Content/dist/css/fonts.googleapis.com.css">
-    <link rel="stylesheet" href="~/plugins/fontawesome-free/css/all.min.css">
-    <link rel="stylesheet" href="~/dist/css/adminlte.css">
-    <link rel="stylesheet" href="~/Content/dist/css/icheck-bootstrap.min.css" />
-
-    <!-- Datatables -->
-    <link rel="stylesheet" href="~/Content/dist/css/DataTables/datatables.min.css" />
-    <link rel="stylesheet" type="text/css" href="~/Content/dist/css/DataTables/select.dataTables.min.css">
-    <link rel="stylesheet" type="text/css" href="~/Content/dist/css/DataTables/buttons.dataTables.min.css">
-    <link rel="stylesheet" type="text/css" href="~/Content/dist/css/bootstrap-switch.min.css" />
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.4.0/css/responsive.dataTables.min.css" />
-
-    <style type="text/css">
-        .table-col-align-right {
-            text-align: right;
-        }
-
-        .ggtools-selector input {
-            opacity: 1;
-            margin-right: 5px;
-            margin-left: 3px;
-        }
-
-        .ggtools-selector-label {
-            margin-left: 25px;
-        }
-
-        .ggtools-checkbox {
-            margin-top: 40px;
-        }
-
-        table.dataTable tbody tr.selected > * {
-            box-shadow: inset 0 0 0 9999px rgb(176, 190, 217);
-            color: white;
-        }
-
-        .margin {
-            margin-bottom: 15px;
-            margin-top: 15px;
-        }
-
-        .social-auth-links {
-            margin: 0px;
-            padding: 0px;
-        }
-
-        .button-label {
-            margin-left: .3em;
-        }
-
-        .checkbox {
-            margin-top: 0px;
-        }
-
-        .form-group {
-            margin-bottom: 5px;
-        }
-
-        .text-danger {
-            background-color: #dd4b39;
-            color: white;
-        }
-
-        .badge {
-            padding: 5px;
-            font-size: 9.5pt;
-        }
-
-        .infraspecific-hybrid {
-            margin-top: 25px;
-        }
-
-        #section-extended-search-fields {
-            margin-top: 15px;
-        }
-
-        .section-checkbox {
-            margin-top: 10px;
-            margin-bottom: 10px;
-        }
-    </style>
-
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
-    @Scripts.Render("~/adminlte/js")
-    @Scripts.Render("~/ggtools/js")
-</head>
+@Html.Partial("~/Views/Shared/_Head.cshtml")
 <body class="hold-transition layout-top-nav">
     <div class="wrapper">
         <nav class="main-header navbar navbar-expand-md navbar-light text-sm">
@@ -109,16 +19,17 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse order-3" id="navbarCollapse">
-                    @if (Model.Entity.ID > 0)
-                    {
-                        <!-- BEGIN EDIT PAGE MENU -->
-                        <ul class="navbar-nav">
+                    <!-- BEGIN EDIT PAGE MENU -->
+                    <ul class="navbar-nav">
+                        @if (Model.Entity.ID > 0)
+                        {
                             <li class="nav-item d-none d-sm-inline-block">
                                 <a href="@Url.Action("Clone", "Citation", new { entityId = Model.Entity.ID })" class="nav-link">Clone</a>
                             </li>
-                        </ul>
-                        <!-- END EDIT PAGE MENU-->
-                    }
+                            Html.RenderAction("_RelatedFoldersMenu", "Folder", new { tableName = Model.TableName, entityId = Model.Entity.ID });
+                        }
+                    </ul>
+                    <!-- END EDIT PAGE MENU-->
                 </div>
                 <!-- BEGIN RIGHT-ALIGNED NAV MENU -->
                 <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
@@ -239,6 +150,18 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="col-md-2">
+                                        <div class="margin" style="margin-top:40px;">
+                                            <div class="form-group clearfix">
+                                                <div class="icheck-primary d-inline">
+                                                    @Html.CheckBoxFor(x => x.Entity.IsAcceptedNameOption, new { @id = "cbxLookupIsAcceptedName", @class = "custom-control-input" })
+                                                    <label for="cbxLookupIsAcceptedName">
+                                                        Accepted Name
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-12">
@@ -309,37 +232,22 @@
                                             @Html.TextBoxFor(x => x.Entity.DOIReference, new { @class = "form-control" })
                                         </div>
                                     </div>
-                                    <div class="col-md-2">
-                                        <div class="margin" style="margin-top:40px;">
-                                            <div class="form-group clearfix">
-                                                <div class="icheck-primary d-inline">
-                                                    @Html.CheckBoxFor(x => x.Entity.IsAcceptedNameOption, new { @id = "cbxLookupIsAcceptedName", @class = "custom-control-input" })
-                                                    <label for="cbxLookupIsAcceptedName">
-                                                        Accepted Name
-                                                    </label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
                                 </div>
                                 <div class="row">
                                     <!-- BEGIN NOTE FIELD -->
                                     <div class="col-md-12">
                                         <div class="form-group">
-                                            <label class="margin-r-5">Note</label>&nbsp;&nbsp;
+                                            <label>
+                                                Note
+                                                &nbsp;<a href="" data-toggle="modal" data-target="#modal-note-lookup"><i class="fa fa-search"></i></a>
+                                            </label>
                                             <div class="input-group">
-                                                <br />
-                                                @Html.TextAreaFor(x => x.Entity.Note, new { @id = "txtNote", @class = "form-control", })
-                                                <span class="input-group-append">
-                                                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#modal-note-lookup">
-                                                        <i class="fa fa-search margin-r-5"></i>
-                                                    </button>
-                                                </span>
-                                            </div>
+                                                @Html.TextAreaFor(x => x.Entity.Note, new { @id = "txtNote", @class = "form-control", @style = "width:100%;" })
                                             </div>
                                         </div>
-                                        <!-- END NOTE FIELD-->
                                     </div>
+                                    <!-- END NOTE FIELD-->
+                                </div>
                                 <br />
                                 <div class="row">
                                     <div class="col-md-12">
@@ -359,6 +267,7 @@
                             </div>
                         </div>
                     }
+                    @{Html.RenderAction("_Edit", "Folder"); }
                     @{Html.RenderAction("RenderLookupModal", "Literature"); }
                     @{Html.RenderAction("RenderLookupModal", "Genus"); }
                     @{Html.RenderAction("RenderLookupModal", "Species"); }
@@ -383,7 +292,7 @@
 
         function Init() {
             $('[id*="section-fields"]').hide();
-            // If adding a new record, show Family by default; otherwise, show section that corresponds to the 
+            // If adding a new record, show Family by default; otherwise, show section that corresponds to the
             // citation taxon.
             var citationId = $("#Entity_ID").val();
 
@@ -419,13 +328,6 @@
             $("#section-fields-" + taxonType).show();
         }
     </script>
-    <script src="~/plugins/jquery/jquery.min.js"></script>
-    <script src="~/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="~/dist/js/adminlte.js"></script>
-    <script type="text/javascript" src="~/Content/dist/js/DataTables/jquery.dataTables.min.js"></script>
-    <script type="text/javascript" language="javascript" src="~/Content/dist/js/DataTables/dataTables.select.min.js"></script>
-    <script type="text/javascript" language="javascript" src="~/Content/dist/js/DataTables/dataTables.buttons.min.js"></script>
-    <script type="text/javascript" src="~/Content/dist/js/DataTables/buttons.html5.min.js"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/responsive/2.4.0/js/dataTables.responsive.min.js"></script>
 </body>
 </html>
+@Html.Partial("~/Views/Shared/_Scripts.cshtml")

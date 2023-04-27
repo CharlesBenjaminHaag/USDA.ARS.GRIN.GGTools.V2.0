@@ -5,103 +5,7 @@
 }
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>@Model.PageTitle</title>
-    <link rel="stylesheet" href="~/Content/dist/css/fonts.googleapis.com.css">
-    <link rel="stylesheet" href="~/plugins/fontawesome-free/css/all.min.css">
-    <link rel="stylesheet" href="~/dist/css/adminlte.css">
-    <link rel="stylesheet" href="~/Content/dist/css/icheck-bootstrap.min.css" />
-
-    <!-- Datatables -->
-    <link rel="stylesheet" href="~/Content/dist/css/DataTables/datatables.min.css" />
-    <link rel="stylesheet" type="text/css" href="~/Content/dist/css/DataTables/select.dataTables.min.css">
-    <link rel="stylesheet" type="text/css" href="~/Content/dist/css/DataTables/buttons.dataTables.min.css">
-    <link rel="stylesheet" type="text/css" href="~/Content/dist/css/bootstrap-switch.min.css" />
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.4.0/css/responsive.dataTables.min.css" />
-
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
-
-    <style type="text/css">
-        .table-col-align-right {
-            text-align: right;
-        }
-
-        .ggtools-selector input {
-            opacity: 1;
-            margin-right: 5px;
-            margin-left: 3px;
-        }
-
-        .ggtools-selector-label {
-            margin-left: 25px;
-        }
-
-        .ggtools-checkbox {
-            margin-top: 40px;
-        }
-
-        table.dataTable tbody tr.selected > * {
-            box-shadow: inset 0 0 0 9999px rgb(176, 190, 217);
-            color: white;
-        }
-
-        .margin {
-            margin-bottom: 15px;
-            margin-top: 15px;
-        }
-
-        .social-auth-links {
-            margin: 0px;
-            padding: 0px;
-        }
-
-        .button-label {
-            margin-left: .3em;
-        }
-
-        .checkbox {
-            margin-top: 0px;
-        }
-
-        .form-group {
-            margin-bottom: 5px;
-        }
-
-        .text-danger {
-            background-color: #dd4b39;
-            color: white;
-        }
-
-        .badge {
-            padding: 5px;
-            font-size: 9.5pt;
-        }
-
-        .infraspecific-hybrid {
-            margin-top: 25px;
-        }
-
-        #section-extended-search-fields {
-            margin-top: 15px;
-        }
-
-        .section-checkbox {
-            margin-top: 10px;
-            margin-bottom: 10px;
-        }
-    </style>
-
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
-    @Scripts.Render("~/adminlte/js")
-    @Scripts.Render("~/ggtools/js")
-    
-       
-    
-     
-</head>
+@Html.Partial("~/Views/Shared/_Head.cshtml")
 <body class="hold-transition layout-top-nav">
     <div class="wrapper">
         @Html.HiddenFor(x => x.EventAction)
@@ -223,7 +127,7 @@
     @{Html.RenderAction("_Edit", "Folder"); }
     @{Html.RenderAction("RenderParentLookupModal", "Species"); }
 
-    <script type="text/javascript">
+    @*<script type="text/javascript">
 
         $(document).ready(function () {
             Init();
@@ -256,7 +160,7 @@
         $(document).on("click", "[id='btnSaveInfraspecificTaxon']", function () {
             var rank = $("#Entity_Rank").val();
             var parentSpeciesId = GetSelectedEntityIDs("data-table-species-lookup");
-           
+
             var link = '@Url.Action("Add","Species", new { @rank = "RANK" })';
             link = link.replace("RANK", rank);
             link = link + "&entityId=" + parentSpeciesId;
@@ -272,6 +176,7 @@
     <script type="text/javascript" language="javascript" src="~/Content/dist/js/DataTables/dataTables.buttons.min.js"></script>
     <script type="text/javascript" src="~/Content/dist/js/DataTables/buttons.html5.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/responsive/2.4.0/js/dataTables.responsive.min.js"></script>
-    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>*@
 </body>
 </html>
+@Html.Partial("~/Views/Shared/_Scripts.cshtml")

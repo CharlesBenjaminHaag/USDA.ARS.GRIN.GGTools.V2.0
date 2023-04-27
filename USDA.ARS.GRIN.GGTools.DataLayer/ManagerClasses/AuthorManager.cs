@@ -55,6 +55,11 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
 
             SQL += " AND    (@FullName          IS NULL     OR FullName         LIKE    '%' + @FullName + '%')";
 
+            if (searchEntity.ExcludeID > 0)
+            {
+                SQL += " AND ID <> " + searchEntity.ExcludeID.ToString();
+            }
+
             if (searchEntity.IsShortNameExactMatch == "Y")
             {
                 SQL += " AND      (@ShortName   IS NULL     OR ShortName        =       '' + @ShortName + '')";
@@ -63,8 +68,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             {
                 SQL += " AND      (@ShortName   IS NULL     OR ShortName        LIKE    '%' + @ShortName + '%')";
             }
-            
-
+           
             var parameters = new List<IDbDataParameter> {
                 CreateParameter("ID", searchEntity.ID > 0 ? (object)searchEntity.ID : DBNull.Value, true),
                 CreateParameter("CreatedByCooperatorID", searchEntity.CreatedByCooperatorID > 0 ? (object)searchEntity.CreatedByCooperatorID : DBNull.Value, true),

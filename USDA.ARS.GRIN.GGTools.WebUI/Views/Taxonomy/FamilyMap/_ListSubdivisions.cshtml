@@ -58,24 +58,32 @@
                                 @switch (result.Rank)
                                 {
                                     case "SUBFAMILY":
-                                        <a href="@Url.Action("EditSubfamily", "Family", new { entityId = result.ID })" class="btn btn-primary btn-sm pull-right row-edit">
+                                        <a href="@Url.Action("Edit", "FamilyMap", new { entityId = result.ID })" class="btn btn-default btn-sm pull-right row-edit">
                                             <i class="fa fa-edit"></i>
                                         </a>
                                         break;
                                     case "TRIBE":
-                                        <a href="@Url.Action("EditTribe", "Family", new { entityId = result.ID })" class="btn btn-primary btn-sm pull-right row-edit">
+                                        <a href="@Url.Action("Edit", "FamilyMap", new { entityId = result.ID })" class="btn btn-default btn-sm pull-right row-edit">
                                             <i class="fa fa-edit"></i>
                                         </a>
                                         break;
                                     case "SUBTRIBE":
-                                        <a href="@Url.Action("EditSubtribe", "Family", new { entityId = result.ID })" class="btn btn-primary btn-sm pull-right row-edit">
+                                        <a href="@Url.Action("Edit", "FamilyMap", new { entityId = result.ID })" class="btn btn-default btn-sm pull-right row-edit">
                                             <i class="fa fa-edit"></i>
                                         </a>
                                         break;
                                     default:
-                                        <a href="@Url.Action("Edit", "FamilyMap", new { entityId = result.ID })" class="btn btn-primary btn-sm pull-right row-edit">
+                                        <a href="@Url.Action("Edit", "FamilyMap", new { entityId = result.ID })"
+                                           class="btn btn-default btn-sm btn-flat pull-right row-edit">
                                             <i class="fa fa-edit"></i>
                                         </a>
+                                        if (Model.EventAction == "FOLDER")
+                                        {
+                                            <a href="@Url.Action("DeleteItem", "Folder", new { @folderId = result.FolderID, @appUserItemListId = result.AppUserItemListID })"
+                                               class="btn btn-danger btn-sm float-right row-edit margin-r-5">
+                                                <i class="fa fa-trash"></i>
+                                            </a>
+                                        }
                                         break;
                                 }
                             </td>

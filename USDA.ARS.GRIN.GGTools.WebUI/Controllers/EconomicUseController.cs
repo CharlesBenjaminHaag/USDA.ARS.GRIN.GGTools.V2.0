@@ -91,7 +91,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
         }
 
         [HttpPost]
-        public ActionResult Edit(EconomicUseViewModel viewModel)
+        public ActionResult  Edit(EconomicUseViewModel viewModel)
         {
             try
             {

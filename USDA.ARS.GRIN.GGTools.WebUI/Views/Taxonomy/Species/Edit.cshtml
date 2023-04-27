@@ -5,132 +5,9 @@
 <!DOCTYPE html>
 
 <html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>@Model.PageTitle</title>
-    <link rel="stylesheet" href="~/Content/dist/css/fonts.googleapis.com.css">
-    <link rel="stylesheet" href="~/plugins/fontawesome-free/css/all.min.css">
-    <link rel="stylesheet" href="~/dist/css/adminlte.css">
-    <link rel="stylesheet" href="~/Content/dist/css/icheck-bootstrap.min.css" />
-
-    <!-- Datatables -->
-    <link rel="stylesheet" href="~/Content/dist/css/DataTables/datatables.min.css" />
-    <link rel="stylesheet" type="text/css" href="~/Content/dist/css/DataTables/select.dataTables.min.css">
-    <link rel="stylesheet" type="text/css" href="~/Content/dist/css/DataTables/buttons.dataTables.min.css">
-    <link rel="stylesheet" type="text/css" href="~/Content/dist/css/bootstrap-switch.min.css" />
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.4.0/css/responsive.dataTables.min.css" />
-
-    <style type="text/css">
-        .table-col-align-right {
-            text-align: right;
-        }
-
-        .ggtools-selector input {
-            opacity: 1;
-            margin-right: 5px;
-            margin-left: 3px;
-        }
-
-        .ggtools-selector-label {
-            margin-left: 25px;
-        }
-
-        .ggtools-checkbox {
-            margin-top: 40px;
-        }
-
-        table.dataTable tbody tr.selected > * {
-            box-shadow: inset 0 0 0 9999px rgb(176, 190, 217);
-            color: white;
-        }
-
-        .margin {
-            margin-bottom: 15px;
-            margin-top: 15px;
-        }
-
-        .social-auth-links {
-            margin: 0px;
-            padding: 0px;
-        }
-
-        .button-label {
-            margin-left: .3em;
-        }
-
-        .checkbox {
-            margin-top: 0px;
-        }
-
-        .form-group {
-            margin-bottom: 5px;
-        }
-
-        .text-danger {
-            background-color: #dd4b39;
-            color: white;
-        }
-
-        .badge {
-            padding: 5px;
-            font-size: 9.5pt;
-        }
-
-        .infraspecific-hybrid {
-            margin-top: 25px;
-        }
-
-        #section-extended-search-fields {
-            margin-top: 15px;
-        }
-
-        .section-checkbox {
-            margin-top: 10px;
-            margin-bottom: 10px;
-        }
-    </style>
-    <style>
-        /*.btn-group, .btn-group-vertical {
-                            position: relative;
-                            display: inline-block;
-                            vertical-align: middle;
-                        }*/
-
-        .ul.wysihtml5-toolbar {
-            margin: 0;
-            padding: 0;
-            display: block;
-        }
-
-            .ul.wysihtml5-toolbar > li {
-                float: left;
-                display: list-item;
-                list-style: none;
-                margin: 0 5px 10px 0;
-            }
-
-        ul.wysihtml5-toolbar > li {
-            float: left;
-            display: list-item;
-            list-style: none;
-            margin: 0 5px 10px 0;
-        }
-
-        .dropdown, .dropup {
-            position: relative;
-        }
-    </style>
-
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
-    @Scripts.Render("~/adminlte/js")
-    @Scripts.Render("~/ggtools/js")
-</head>
+@Html.Partial("~/Views/Shared/_Head.cshtml")
 <body class="hold-transition layout-top-nav text-sm">
     <div class="wrapper">
-
-        <!-- BEGIN MAIN NAVBAR -->
         <nav class="main-header navbar navbar-expand-md navbar-light text-sm">
             <div class="container" style="max-width:1500px;">
                 <a href="@Url.Action("Index","Home")" class="navbar-brand">
@@ -190,7 +67,7 @@
                             <!-- FOLDERS -->
                             { Html.RenderAction("_RelatedFoldersMenu", "Folder", new { tableName = Model.TableName, entityId = Model.Entity.ID }); }
                         }
-                        </ul>
+                    </ul>
                     <!-- END EDIT PAGE MENU-->
                 </div>
                 <!-- BEGIN RIGHT-ALIGNED NAV MENU -->
@@ -210,8 +87,6 @@
 
             </div>
         </nav>
-        <!-- END MAIN NAVBAR -->
-
         <div class="content-wrapper">
             <div class="content-header">
                 <div class="container" style="max-width:1500px;">
@@ -261,11 +136,24 @@
                         {
                             Html.RenderAction("RenderInfraspecificAutonymWidget", "Species", new { genusName = Model.Entity.GenusName, speciesName = Model.Entity.SpeciesName, rank = Model.Entity.Rank }); ;
                         }
-                        
+
                         <div class="card card-primary card-tabs">
                             <div id="section-web-order-request-tabs" class="card-header p-0 pt-1">
                                 <ul class="nav nav-tabs" id="custom-tabs-two-tab" role="tablist">
                                     <li class="pt-2 px-3"><h3 id="section-title" class="card-title">Rank</h3></li>
+                                  
+                                    <li class="nav-item dropdown">
+                                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">
+                                            Add Infraspecific <span class="caret"></span>
+                                        </a>
+                                        <div class="dropdown-menu" style="">
+                                            <a class="dropdown-item" tabindex="-1" href="#" style="color:black;">Subspecies</a>
+                                            <a class="dropdown-item" tabindex="-1" href="#" style="color:black;">Variety</a>
+                                            <a class="dropdown-item" tabindex="-1" href="#" style="color:black;">Subvariety</a>
+                                            <a class="dropdown-item" tabindex="-1" href="#" style="color:black;">Form</a>
+                                        </div>
+                                    </li>
+                                    
                                     <li id="section-species" class="nav-item">
                                         <a id="tab-species"
                                            class="nav-link"
@@ -566,18 +454,6 @@
                                             default:
                                                 <div class="col-md-3">
                                                     <div class="form-group">
-                                                        <label>Epithet</label>
-                                                        <div class="input-group">
-                                                            @Html.TextBoxFor(x => x.Entity.SpeciesName, new { @class = "form-control" })
-                                                            <span class="input-group-append">
-                                                                <a id="btnSetAcceptedOn" class="btn btn-default" href="#" role="button"><i class="fas fa-thumbs-down"></i> Not Accepted</a>
-                                                                <a id="btnSetAcceptedOff" class="btn btn-default" href="#" role="button"><i class="fas fa-thumbs-up"></i> Accepted</a>
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-3">
-                                                    <div class="form-group">
                                                         <label>Authority</label>
                                                         <div class="input-group">
                                                             @Html.TextBoxFor(x => x.Entity.SpeciesAuthority, new { @class = "form-control" })
@@ -651,15 +527,14 @@
                                     <div class="row">
                                         <!-- BEGIN NOTE FIELD -->
                                         <div class="col-md-12">
-                                            <label>Note</label>
-                                            <div class="input-group">
-
-                                                @Html.TextAreaFor(x => x.Entity.Note, new { @id = "txtNote", @class = "form-control", })
-                                                <span class="input-group-append">
-                                                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#modal-note-lookup">
-                                                        <i class="fa fa-search margin-r-5"></i>
-                                                    </button>
-                                                </span>
+                                            <div class="form-group">
+                                                <label>
+                                                    Note
+                                                    &nbsp;<a href="" data-toggle="modal" data-target="#modal-note-lookup"><i class="fa fa-search"></i></a>
+                                                </label>
+                                                <div class="input-group">
+                                                    @Html.TextAreaFor(x => x.Entity.Note, new { @id = "txtNote", @class = "form-control", @style = "width:100%;" })
+                                                </div>
                                             </div>
                                         </div>
                                         <!-- END NOTE FIELD-->
@@ -749,11 +624,11 @@
         </div>
         <aside class="control-sidebar control-sidebar-dark">
         </aside>
-        <!-- Main Footer -->
         @Html.Partial("~/Views/Shared/_Footer.cshtml")
     </div>
-
-    <script type="text/javascript">
+</body>
+</html>
+<script type="text/javascript">
         $(document).ready(function () {
             Init();
         });
@@ -860,14 +735,5 @@
             });
         }
 
-    </script>
-    <script src="~/plugins/jquery/jquery.min.js"></script>
-    <script src="~/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="~/dist/js/adminlte.js"></script>
-    <script type="text/javascript" src="~/Content/dist/js/DataTables/jquery.dataTables.min.js"></script>
-    <script type="text/javascript" language="javascript" src="~/Content/dist/js/DataTables/dataTables.select.min.js"></script>
-    <script type="text/javascript" language="javascript" src="~/Content/dist/js/DataTables/dataTables.buttons.min.js"></script>
-    <script type="text/javascript" src="~/Content/dist/js/DataTables/buttons.html5.min.js"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/responsive/2.4.0/js/dataTables.responsive.min.js"></script>
-</body>
-</html>
+</script>
+@Html.Partial("~/Views/Shared/_Scripts.cshtml")

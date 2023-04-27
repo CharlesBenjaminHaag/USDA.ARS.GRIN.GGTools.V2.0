@@ -173,6 +173,14 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
                 ValidationMessages.Add(new Common.Library.ValidationMessage { Message = "The name is required." });
             }
 
+            //TODO CHECK DUPES
+            SearchEntity.Name = Entity.Name;
+            SearchEntity.ExcludeID = Entity.ID;
+            Search();
+            if (DataCollection.Count > 0)
+            {
+                ValidationMessages.Add(new Common.Library.ValidationMessage { Message = "The name " + Entity.Name + " already exists." });            }
+
             if (ValidationMessages.Count > 0)
             {
                 validated = false;

@@ -105,7 +105,12 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             SQL += " AND    (@Name                          IS NULL OR  Name                        LIKE    '%' + @Name + '%') ";
             SQL += " AND    (@LanguageDescription           IS NULL OR  LanguageDescription         LIKE    '%' + @LanguageDescription + '%') ";
             SQL += " AND    (@SimplifiedName                IS NULL OR  SimplifiedName              LIKE    '%' + @SimplifiedName + '%') ";
-     
+
+            if (searchEntity.ExcludeID > 0)
+            {
+                SQL += " AND ID <> " + searchEntity.ExcludeID;
+            }
+
             var parameters = new List<IDbDataParameter> {
                 CreateParameter("ID", searchEntity.ID > 0 ? (object)searchEntity.ID : DBNull.Value, true),
                 CreateParameter("CreatedByCooperatorID", searchEntity.CreatedByCooperatorID > 0 ? (object)searchEntity.CreatedByCooperatorID : DBNull.Value, true),

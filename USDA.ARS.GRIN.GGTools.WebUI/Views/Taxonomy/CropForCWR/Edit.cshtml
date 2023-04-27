@@ -190,17 +190,14 @@
                                 <div class="row">
                                     <!-- BEGIN NOTE FIELD -->
                                     <div class="col-md-12">
-                                        <div class="form-group">
-                                            <label class="margin-r-5">Note</label>
-                                            <div class="input-group">
-                                                <br />
-                                                @Html.TextAreaFor(x => x.Entity.Note, new { @id = "txtNote", @class = "form-control", })
-                                                <span class="input-group-append">
-                                                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#modal-note-lookup">
-                                                        <i class="fa fa-search margin-r-5"></i>
-                                                    </button>
-                                                </span>
-                                            </div>
+                                        <label>Note</label>
+                                        <div class="input-group">
+                                            @Html.TextAreaFor(x => x.Entity.Note, new { @id = "txtNote", @class = "form-control", })
+                                            <span class="input-group-append">
+                                                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#modal-note-lookup">
+                                                    <i class="fa fa-search margin-r-5"></i>
+                                                </button>
+                                            </span>
                                         </div>
                                     </div>
                                     <!-- END NOTE FIELD-->

@@ -114,6 +114,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
                 catch (Exception ex)
                 {
                     PublishException(ex);
+                    throw ex;
                 }
                 return RowsAffected;
             }

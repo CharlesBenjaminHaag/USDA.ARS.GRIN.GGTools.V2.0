@@ -177,6 +177,8 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
                     // See if author exists.
                     AuthorViewModel validationViewModel = new AuthorViewModel();
                     validationViewModel.SearchEntity.ShortName = Entity.ShortName;
+                    validationViewModel.SearchEntity.IsShortNameExactMatch = "Y";
+                    validationViewModel.SearchEntity.ExcludeID = Entity.ID;
                     validationViewModel.Search();
                     if (validationViewModel.RowsAffected > 0)
                     {

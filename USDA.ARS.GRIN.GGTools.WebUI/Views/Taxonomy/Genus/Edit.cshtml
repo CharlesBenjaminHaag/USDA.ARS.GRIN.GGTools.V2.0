@@ -5,97 +5,7 @@
 }
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>@Model.PageTitle</title>
-    <link rel="stylesheet" href="~/Content/dist/css/fonts.googleapis.com.css">
-    <link rel="stylesheet" href="~/plugins/fontawesome-free/css/all.min.css">
-    <link rel="stylesheet" href="~/dist/css/adminlte.css">
-    <link rel="stylesheet" href="~/Content/dist/css/icheck-bootstrap.min.css" />
-
-    <!-- Datatables -->
-    <link rel="stylesheet" href="~/Content/dist/css/DataTables/datatables.min.css" />
-    <link rel="stylesheet" type="text/css" href="~/Content/dist/css/DataTables/select.dataTables.min.css">
-    <link rel="stylesheet" type="text/css" href="~/Content/dist/css/DataTables/buttons.dataTables.min.css">
-    <link rel="stylesheet" type="text/css" href="~/Content/dist/css/bootstrap-switch.min.css" />
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.4.0/css/responsive.dataTables.min.css" />
-
-    <style type="text/css">
-        .table-col-align-right {
-            text-align: right;
-        }
-
-        .ggtools-selector input {
-            opacity: 1;
-            margin-right: 5px;
-            margin-left: 3px;
-        }
-
-        .ggtools-selector-label {
-            margin-left: 25px;
-        }
-
-        .ggtools-checkbox {
-            margin-top: 40px;
-        }
-
-        table.dataTable tbody tr.selected > * {
-            box-shadow: inset 0 0 0 9999px rgb(176, 190, 217);
-            color: white;
-        }
-
-        .margin {
-            margin-bottom: 15px;
-            margin-top: 15px;
-        }
-
-        .social-auth-links {
-            margin: 0px;
-            padding: 0px;
-        }
-
-        .button-label {
-            margin-left: .3em;
-        }
-
-        .checkbox {
-            margin-top: 0px;
-        }
-
-        .form-group {
-            margin-bottom: 5px;
-        }
-
-        .text-danger {
-            background-color: #dd4b39;
-            color: white;
-        }
-
-        .badge {
-            padding: 5px;
-            font-size: 9.5pt;
-        }
-
-        .infraspecific-hybrid {
-            margin-top: 25px;
-        }
-
-        #section-extended-search-fields {
-            margin-top: 15px;
-        }
-
-        .section-checkbox {
-            margin-top: 10px;
-            margin-bottom: 10px;
-        }
-    </style>
-
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
-    @Scripts.Render("~/adminlte/js")
-    @Scripts.Render("~/ggtools/js")
-</head>
+@Html.Partial("~/Views/Shared/_Head.cshtml")
 <body class="hold-transition layout-top-nav">
     <div class="wrapper">
         <nav class="main-header navbar navbar-expand-md navbar-light text-sm">
@@ -136,7 +46,6 @@
                         }
                     </ul>
                     <!-- END EDIT PAGE MENU-->
-
                     <!-- BEGIN RIGHT-ALIGNED NAV MENU -->
                     <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
                         @if (Model.Entity.ID > 0)
@@ -191,7 +100,12 @@
                         <input id="hfCurrentValue" type="hidden" />
                         <div class="card card-default">
                             <div class="card-header">
-                                <!--TODO-->
+                                <h3 class="card-title">Summary</h3>
+                                <div class="card-tools">
+                                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                        <i class="fas fa-minus"></i>
+                                    </button>
+                                </div>
                             </div>
                             <div class="card-body">
                                 @Html.Partial("~/Views/Shared/_ValidationMessages.cshtml")
@@ -414,15 +328,12 @@
                                     <!-- BEGIN NOTE FIELD -->
                                     <div class="col-md-12">
                                         <div class="form-group">
-                                            <label class="margin-r-5">Note</label>
+                                            <label>
+                                                Note
+                                                &nbsp;<a href="" data-toggle="modal" data-target="#modal-note-lookup"><i class="fa fa-search"></i></a>
+                                            </label>
                                             <div class="input-group">
-                                                <br />
-                                                @Html.TextAreaFor(x => x.Entity.Note, new { @id = "txtNote", @class = "form-control", })
-                                                <span class="input-group-append">
-                                                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#modal-note-lookup">
-                                                        <i class="fa fa-search margin-r-5"></i>
-                                                    </button>
-                                                </span>
+                                                @Html.TextAreaFor(x => x.Entity.Note, new { @id = "txtNote", @class = "form-control", @style = "width:100%;" })
                                             </div>
                                         </div>
                                     </div>
@@ -499,77 +410,68 @@
         <!-- Main Footer -->
         @Html.Partial("~/Views/Shared/_Footer.cshtml")
     </div>
-
     <script type="text/javascript">
-    $(document).ready(function () {
-        Init();
-    });
+            $(document).ready(function () {
+                Init();
+            });
 
-    function Init() {
-        SetControlVisibility();
-    }
+            function Init() {
+                SetControlVisibility();
+            }
 
-    function Init() {
-        SetControlVisibility();
-        var defaultId = $('ul#list-dependent-data li:first').attr("id");
-        LoadDependentData(defaultId);
-    }
+            function Init() {
+                SetControlVisibility();
+                var defaultId = $('ul#list-dependent-data li:first').attr("id");
+                LoadDependentData(defaultId);
+            }
 
-    $('#section-dependent-data ul.nav li').on('click', function () {
-        var selectedId = $(this).attr('id');
-        LoadDependentData(selectedId);
-    });
+            $('#section-dependent-data ul.nav li').on('click', function () {
+                var selectedId = $(this).attr('id');
+                LoadDependentData(selectedId);
+            });
 
-    function LoadDependentData(sectionId) {
-        var link = "";
-        var entityId = $("#Entity_ID").val();
-        var genusId = $("#Entity_GenusID").val();
-        var genusName = $("#Entity_Name").val();
-        var formData = new FormData();
-        var sectionData = sectionId.replace("tab_selector", "tab_content");
+            function LoadDependentData(sectionId) {
+                var link = "";
+                var entityId = $("#Entity_ID").val();
+                var genusId = $("#Entity_GenusID").val();
+                var genusName = $("#Entity_Name").val();
+                var formData = new FormData();
+                var sectionData = sectionId.replace("tab_selector", "tab_content");
 
-        // Load data in selected section content area based on id.
-        switch (sectionId) {
-            case "tab_selector_citations":
-                link = '@Url.Action("_List","Citation")';
-                break;
-            case "tab_selector_species":
-                link = '@Url.Action("_List","Species")';
-                break;
-            case "tab_selector_synonyms":
-                link = '@Url.Action("_ListSynonyms", "Genus")';
-                break;
-            case "tab_selector_subdivisions":
-                link = '@Url.Action("_ListSubdivisions", "Genus", new { genusName = "GENUS_NAME" })';
-                link = link.replace("GENUS_NAME", genusName);
-                break;
-            default:
-                // code block
+                // Load data in selected section content area based on id.
+                switch (sectionId) {
+                    case "tab_selector_citations":
+                        link = '@Url.Action("_List","Citation")';
+                        break;
+                    case "tab_selector_species":
+                        link = '@Url.Action("_List","Species")';
+                        break;
+                    case "tab_selector_synonyms":
+                        link = '@Url.Action("_ListSynonyms", "Genus")';
+                        break;
+                    case "tab_selector_subdivisions":
+                        link = '@Url.Action("_ListSubdivisions", "Genus", new { genusName = "GENUS_NAME" })';
+                        link = link.replace("GENUS_NAME", genusName);
+                        break;
+                    default:
+                        // code block
+                }
+
+                formData.append("GenusID", entityId);
+
+                $.ajax({
+                url: link,
+                type: 'POST',
+                cache: false,
+                contentType: false,
+                processData: false,
+                data: formData,
+                success: function (response) {
+                    $("#" + sectionData).html(response);
+                }
+            });
         }
-
-        formData.append("GenusID", entityId);
-
-        $.ajax({
-        url: link,
-        type: 'POST',
-        cache: false,
-        contentType: false,
-        processData: false,
-        data: formData,
-        success: function (response) {
-            $("#" + sectionData).html(response);
-        }
-    });
-}
     </script>
-
-    <script src="~/plugins/jquery/jquery.min.js"></script>
-    <script src="~/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="~/dist/js/adminlte.js"></script>
-    <script type="text/javascript" src="~/Content/dist/js/DataTables/jquery.dataTables.min.js"></script>
-    <script type="text/javascript" language="javascript" src="~/Content/dist/js/DataTables/dataTables.select.min.js"></script>
-    <script type="text/javascript" language="javascript" src="~/Content/dist/js/DataTables/dataTables.buttons.min.js"></script>
-    <script type="text/javascript" src="~/Content/dist/js/DataTables/buttons.html5.min.js"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/responsive/2.4.0/js/dataTables.responsive.min.js"></script>
 </body>
 </html>
+@Html.Partial("~/Views/Shared/_Scripts.cshtml")
