@@ -140,35 +140,25 @@
                         <div class="card card-primary card-tabs">
                             <div id="section-web-order-request-tabs" class="card-header p-0 pt-1">
                                 <ul class="nav nav-tabs" id="custom-tabs-two-tab" role="tablist">
-                                    <li class="pt-2 px-3"><h3 id="section-title" class="card-title">Rank</h3></li>
-                                  
-                                    <li class="nav-item dropdown">
-                                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">
-                                            Add Infraspecific <span class="caret"></span>
-                                        </a>
-                                        <div class="dropdown-menu" style="">
-                                            <a class="dropdown-item" tabindex="-1" href="#" style="color:black;">Subspecies</a>
-                                            <a class="dropdown-item" tabindex="-1" href="#" style="color:black;">Variety</a>
-                                            <a class="dropdown-item" tabindex="-1" href="#" style="color:black;">Subvariety</a>
-                                            <a class="dropdown-item" tabindex="-1" href="#" style="color:black;">Form</a>
-                                        </div>
-                                    </li>
+                                    <li class="pt-2 px-3"><h3 id="section-title" class="card-title">Species</h3></li>
                                     
-                                    <li id="section-species" class="nav-item">
+                                    @*<li id="section-species" class="nav-item">
                                         <a id="tab-species"
                                            class="nav-link"
                                            href=""
                                            role="tab"
                                            aria-controls="custom-tabs-two-home"
                                            aria-selected="true">Species</a>
-                                    </li>
+                                    </li>*@
                                     <li id="section-subspecies" class="nav-item">
                                         <a id="tab-subspecies"
                                            class="nav-link"
                                            href="@Model.SubspeciesUrl"
                                            role="tab"
                                            aria-controls="custom-tabs-two-profile"
-                                           aria-selected="false">Subspecies</a>
+                                           aria-selected="false">
+                                            <i class="fas fa-plus"></i>&nbsp;Subspecies
+                                        </a>
                                     </li>
                                     <li id="section-variety" class="nav-item">
                                         <a id="tab-variety"
@@ -176,7 +166,10 @@
                                            href="@Model.VarietyUrl"
                                            role="tab"
                                            aria-controls="custom-tabs-two-profile"
-                                           aria-selected="false">Variety</a>
+                                           aria-selected="false">
+                                            <i class="fas fa-plus"></i>&nbsp;
+                                            Variety
+                                        </a>
                                     </li>
                                     <li id="section-subvariety" class="nav-item">
                                         <a id="tab-subvariety"
@@ -184,7 +177,10 @@
                                            href="@Model.SubvarietyUrl"
                                            role="tab"
                                            aria-controls="custom-tabs-two-messages"
-                                           aria-selected="false">Subvariety</a>
+                                           aria-selected="false">
+                                            <i class="fas fa-plus"></i>&nbsp;
+                                            Subvariety
+                                        </a>
                                     </li>
                                     <li id="section-form" class="nav-item">
                                         <a id="tab-form"
@@ -192,7 +188,10 @@
                                            href="@Model.FormUrl"
                                            role="tab"
                                            aria-controls="custom-tabs-two-messages"
-                                           aria-selected="false">Form</a>
+                                           aria-selected="false">
+                                            <i class="fas fa-plus"></i>&nbsp;
+                                            Form
+                                        </a>
                                     </li>
                                 </ul>
                             </div>
@@ -429,7 +428,7 @@
                                                 <div class="col-md-3">
                                                     <div class="form-group">
                                                         <label>Rank Type</label>
-                                                        @Html.DropDownListFor(x => x.Entity.FormaRankType, Model.FormaRankTypes, new { @class = "form-control" })
+                                                        @Html.DropDownListFor(x => x.Entity.FormaRankType, Model.FormaRankTypes, "Select value", new { @class = "form-control" })
                                                     </div>
                                                 </div>
                                                 <div class="col-md-12">

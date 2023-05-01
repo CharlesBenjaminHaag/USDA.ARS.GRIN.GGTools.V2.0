@@ -434,10 +434,10 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                     viewModel.Entity.Rank = rank;
                 }
 
-                viewModel.SubspeciesUrl = Url.Action("Edit", "Species", new { entityId = entityId, rank = "subspecies" });
-                viewModel.VarietyUrl = Url.Action("Edit", "Species", new { entityId = entityId, rank = "variety" });
-                viewModel.SubvarietyUrl = Url.Action("Edit", "Species", new { entityId = entityId, rank = "subvariety" });
-                viewModel.FormUrl = Url.Action("Edit", "Species", new { entityId = entityId, rank = "form" });
+                viewModel.SubspeciesUrl = Url.Action("Add", "Species", new { entityId = entityId, rank = "subspecies" });
+                viewModel.VarietyUrl = Url.Action("Add", "Species", new { entityId = entityId, rank = "variety" });
+                viewModel.SubvarietyUrl = Url.Action("Add", "Species", new { entityId = entityId, rank = "subvariety" });
+                viewModel.FormUrl = Url.Action("Add", "Species", new { entityId = entityId, rank = "form" });
 
                 if (!String.IsNullOrEmpty(Request.QueryString["synonymCode"]))
                 {

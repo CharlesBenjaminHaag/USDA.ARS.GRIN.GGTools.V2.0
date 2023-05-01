@@ -703,7 +703,7 @@
     <Content Include="Views\CodeValue\Modals\_Edit.cshtml" />
     <Content Include="Views\CodeValue\Modals\_Detail.cshtml" />
     <Content Include="Views\Taxonomy\CommonName\Edit - Copy.cshtml" />
-    <Content Include="Views\Site\_Edit.cshtml" />
+    <Content Include="Views\Site\_EditAddress.cshtml" />
     <Content Include="Views\Taxonomy\Genus\Edit - Copy.cshtml" />
     <Content Include="Views\SysGroupUserMap\_Widget.cshtml" />
     <Content Include="Views\Taxonomy\EconomicUse\Edit - Copy.cshtml" />
@@ -733,6 +733,7 @@
     <Content Include="Views\Taxonomy\Reports\Detail.cshtml" />
     <Content Include="Views\Shared\_Head.cshtml" />
     <Content Include="Views\Shared\_Scripts.cshtml" />
+    <Content Include="Views\Taxonomy\GeographyMap\Edit - Copy.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

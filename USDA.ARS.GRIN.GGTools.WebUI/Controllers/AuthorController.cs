@@ -228,10 +228,18 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
 
         public ActionResult Add()
         {
-            AuthorViewModel viewModel = new AuthorViewModel();
-            viewModel.TableName = "taxonomy_author";
-            viewModel.PageTitle = "Add Author";
-            return View(BASE_PATH + "Edit.cshtml", viewModel);
+            try
+            {
+                AuthorViewModel viewModel = new AuthorViewModel();
+                viewModel.TableName = "taxonomy_author";
+                viewModel.PageTitle = "Add Author";
+                return View(BASE_PATH + "Edit.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return RedirectToAction("InternalServerError", "Error");
+            }
         }
 
         //public PartialViewResult FolderItems(int folderId)

@@ -15,7 +15,7 @@
                     <td>
                         @result.ID
                     </td>
-                    <td>@Html.Raw(result.Value)</td>
+                    <td>@WebUtility.HtmlDecode(result.Value)</td>
                 </tr>
             }
         }

@@ -63,6 +63,56 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 {
                     viewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
                     viewModel.Insert();
+
+                    // SYS USER
+                    SysUserViewModel sysUserViewModel = new SysUserViewModel();
+                    sysUserViewModel.Entity.SysUserName = viewModel.Entity.FirstName.ToLower() + "." + viewModel.Entity.LastName.ToLower();
+                    sysUserViewModel.Entity.UserName = sysUserViewModel.Entity.SysUserName;
+                    sysUserViewModel.Entity.SysUserPassword = sysUserViewModel.GetSecurePassword("GRINGl@bal!2023Pa$$");
+                    sysUserViewModel.Entity.CooperatorID = viewModel.Entity.ID;
+                    sysUserViewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
+                    sysUserViewModel.Insert();
+
+                    SysGroupUserMapViewModel sysGroupUserMapViewModel = new SysGroupUserMapViewModel();
+
+                    // GROUP, ALLUSERS
+                    sysGroupUserMapViewModel.Entity.SysGroupID = 2;
+                    sysGroupUserMapViewModel.Entity.SysUserID = sysUserViewModel.Entity.ID;
+                    sysGroupUserMapViewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
+                    sysGroupUserMapViewModel.Insert();
+
+                    // GROUP, CT USERS
+                    sysGroupUserMapViewModel.Entity.SysGroupID = 3;
+                    sysGroupUserMapViewModel.Entity.SysUserID = sysUserViewModel.Entity.ID;
+                    sysGroupUserMapViewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
+                    sysGroupUserMapViewModel.Insert();
+
+                    // GROUP, WEB QUERY USERS
+                    sysGroupUserMapViewModel.Entity.SysGroupID = 6;
+                    sysGroupUserMapViewModel.Entity.SysUserID = sysUserViewModel.Entity.ID;
+                    sysGroupUserMapViewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
+                    sysGroupUserMapViewModel.Insert();
+                    
+                    // WEB COOPERATOR
+                    WebCooperatorViewModel webCooperatorViewModel = new WebCooperatorViewModel();
+                    webCooperatorViewModel.Entity.FirstName = viewModel.Entity.FirstName;
+                    webCooperatorViewModel.Entity.LastName = viewModel.Entity.LastName;
+                    webCooperatorViewModel.Entity.EmailAddress = viewModel.Entity.EmailAddress;
+
+                    webCooperatorViewModel.Entity.Address1 = viewModel.Entity.AddressLine1;
+                    webCooperatorViewModel.Entity.Address2 = viewModel.Entity.AddressLine2;
+                    webCooperatorViewModel.Entity.Address3 = viewModel.Entity.AddressLine3;
+                    webCooperatorViewModel.Entity.City = viewModel.Entity.City;
+                    webCooperatorViewModel.Entity.PostalCode = viewModel.Entity.PostalIndex;
+                    webCooperatorViewModel.Entity.GeographyID = viewModel.Entity.GeographyID;
+                    webCooperatorViewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
+                    webCooperatorViewModel.Insert();
+
+                    viewModel.SearchEntity.ID = viewModel.Entity.ID;
+                    viewModel.Search();
+                    viewModel.Entity.WebCooperatorID = webCooperatorViewModel.Entity.ID;
+                    viewModel.Update();
+                    
                 }
                 else
                 {

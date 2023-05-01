@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using USDA.ARS.GRIN.Common.Library.Exceptions;
 using USDA.ARS.GRIN.Common.Library.Security;
 using USDA.ARS.GRIN.GGTools.ViewModelLayer;
+using USDA.ARS.GRIN.GGTools.DataLayer;
 using USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer;
 using System.Collections.Generic;
 
@@ -165,6 +166,15 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
         public List<EconomicUse> SearchNotes(string searchText)
         {
             throw new NotImplementedException();
+        }
+        public List<EconomicUsageType> GetEconomicUsageTypes(string economicUsageCode)
+        {
+            List<EconomicUsageType> economicUsageTypes = new List<EconomicUsageType>();
+            using (EconomicUseManager mgr = new EconomicUseManager())
+            {
+                economicUsageTypes = mgr.GetEconomicUsageTypes(economicUsageCode);
+            }
+            return economicUsageTypes;
         }
     }
 }

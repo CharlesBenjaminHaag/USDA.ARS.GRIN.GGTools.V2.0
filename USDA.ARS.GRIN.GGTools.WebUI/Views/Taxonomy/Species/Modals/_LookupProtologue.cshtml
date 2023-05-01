@@ -75,6 +75,6 @@
     $("#btnSaveProtologue").click(function () {
         $('#modal-protologue-lookup').modal('hide');
         var selectedProtologue = GetSelectedEntityText("data-table-protologue-lookup");
-        $("#Entity_Protologue").val(selectedProtologue);
+        $("#Entity_Protologue").val( $(selectedProtologue).text());
     });
 </script>

@@ -84,34 +84,9 @@
                                 <label>Site</label>
                                 @Html.DropDownListFor(x => x.Entity.SiteID, Model.Sites, "Select site", new { @class = "form-control" })
                             </div>
-                            <div class="form-group">
-                                <label>Address</label>
-                                @Html.TextBoxFor(x => x.Entity.AddressLine1, new { @class = "form-control" })
-                            </div>
-                            <div class="form-group">
-                                @Html.TextBoxFor(x => x.Entity.AddressLine2, new { @class = "form-control" })
-                            </div>
-                            <div class="form-group">
-                                @Html.TextBoxFor(x => x.Entity.AddressLine3, new { @class = "form-control" })
-                            </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label>City</label>
-                                @Html.TextBoxFor(x => x.Entity.City, new { @class = "form-control" })
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <label>State/Geo</label>
-                            @Html.DropDownListFor(x => x.Entity.GeographyID, Model.States, "Select state", new { @class = "form-control" })
-                        </div>
-                        <div class="col-md-3">
-                            <label>Postal Code</label>
-                            @Html.TextBoxFor(x => x.Entity.PostalIndex, new { @class = "form-control" })
-                        </div>
-                    </div>
+                    <div id="section-site-address"><!--PLACEHOLDER--></div>
                 }
             </div>
             <div class="modal-footer justify-content-between">
@@ -130,24 +105,17 @@
         link = '@Url.Action("_Get","Site")';
         var formData = new FormData();
 
-        formData.append("siteId", siteId);
+        formData.append("entityId", siteId);
 
         $.ajax({
             url: link,
             type: 'POST',
             cache: false,
-            dataType: 'json',
             contentType: false,
             processData: false,
             data: formData,
-            success: function (data) {
-                $("#Entity_AddressLine1").val(data.site.PrimaryAddress1);
-                $("#Entity_AddressLine2").val(data.site.PrimaryAddress2);
-                $("#Entity_City").val(data.site.PrimaryCity);
-                $("#Entity_GeographyID").val(data.site.GeographyID);
-                $("#Entity_PostalIndex").val(data.site.PostalIndex);
-            },
-            error: function (ex) {
+            success: function (response) {
+                $("#section-site-address").html(response);
             }
         });
     }

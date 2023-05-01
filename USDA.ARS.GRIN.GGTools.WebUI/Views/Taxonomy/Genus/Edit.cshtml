@@ -146,7 +146,7 @@
                                         <div id="section-fields-taxonomy-family" class="form-group">
                                             <label>Family</label>
                                             <div class="input-group">
-                                                @Html.TextBoxFor(x => x.Entity.FamilyAssembledName, new { @class = "form-control", @readonly = "readonly", @style = "background-color:#ecf0f5;" })
+                                                @Html.TextBoxFor(x => x.Entity.FamilyName, new { @class = "form-control", @readonly = "readonly", @style = "background-color:#ecf0f5;" })
                                                 @Html.HiddenFor(x => x.Entity.FamilyID)
                                                 @if (Model.Entity.FamilyID > 0)
                                                 {

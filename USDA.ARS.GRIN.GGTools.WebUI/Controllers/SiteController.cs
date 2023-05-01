@@ -19,7 +19,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 viewModel.Get(entityId);
                 viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
                 viewModel.AuthenticatedUser = AuthenticatedUser;
-                return PartialView("~/Views/Site/_Edit.cshtml", viewModel);
+                return PartialView("~/Views/Site/_EditAddress.cshtml", viewModel);
             }
             catch (Exception ex)
             {

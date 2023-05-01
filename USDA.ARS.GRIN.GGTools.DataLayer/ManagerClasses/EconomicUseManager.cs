@@ -137,54 +137,14 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             return results;
         }
 
-        public virtual List<CodeValue> GetUsageTypes()
+        public virtual List<EconomicUsageType> GetEconomicUsageTypes(string economicUsageCode = "")
         {
-            SQL = "SELECT Value, Title FROM vw_GGTools_Taxon_EconomicUsageTypes ORDER BY Title";
-            List<CodeValue> usageTypes = GetRecords<CodeValue>(SQL);
+            SQL = "SELECT * FROM vw_GRINGlobal_Taxonomy_Economic_Usage_Type ";
+            SQL += " WHERE EconomicUsageCode = '" + economicUsageCode + "'";
+            SQL += " ORDER BY EconomicUsageTypeCode ASC "; 
+            List<EconomicUsageType> usageTypes = GetRecords<EconomicUsageType>(SQL);
             return usageTypes;
         }
-
-        #region Taxonomy Common
-
-        public virtual List<Cooperator> GetCooperators(string tableName)
-        {
-            SQL = "usp_GGTools_GRINGlobal_CreatedByCooperators_Select";
-            var parameters = new List<IDbDataParameter> {
-                CreateParameter("table_name", (object)tableName, false)
-            };
-            List<Cooperator> cooperators = GetRecords<Cooperator>(SQL, CommandType.StoredProcedure, parameters.ToArray());
-            RowsAffected = cooperators.Count;
-            return cooperators;
-        }
-        public virtual List<CodeValue> GetCodeValues(string groupName)
-        {
-            SQL = "usp_GGTools_GRINGlobal_CodeValuesByGroup_Select";
-            var parameters = new List<IDbDataParameter> {
-                CreateParameter("group_name", (object)groupName, false)
-            };
-            List<CodeValue> codeValues = GetRecords<CodeValue>(SQL, CommandType.StoredProcedure, parameters.ToArray());
-            return codeValues;
-        }
-        public Dictionary<string, string> GetTableNames()
-        {
-            return new Dictionary<string, string>
-            {
-                { "taxonomy_family", "Family" },
-                { "taxonomy_genus", "Genus" },
-                { "taxonomy_species", "Species" }
-            };
-        }
-        //public List<Citation> GetAvailableCitations(int speciesId)
-        //{
-        //    SQL = "usp_TaxonomySpeciesCitationsWithSynonyms_Select";
-        //    var parameters = new List<IDbDataParameter> {
-        //        CreateParameter("taxonomy_species_id", (object)speciesId, false)
-        //    };
-        //    List<Citation> citations = GetRecords<Citation>(SQL, CommandType.StoredProcedure, parameters.ToArray());
-        //    return citations;
-        //}
-
-        #endregion
 
         protected virtual void BuildInsertUpdateParameters(EconomicUse entity)
         {

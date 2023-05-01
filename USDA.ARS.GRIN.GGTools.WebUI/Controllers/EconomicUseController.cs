@@ -290,5 +290,20 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 return Json(new { errorMessage = ex.Message }, JsonRequestBehavior.AllowGet);
             }
         }
+        [HttpPost]
+        public JsonResult GetEconomicUsageTypes(string economicUsageCode)
+        {
+            List<EconomicUsageType> results = new List<EconomicUsageType>();
+            try
+            {
+                EconomicUseViewModel viewModel = new EconomicUseViewModel();
+                results = viewModel.GetEconomicUsageTypes(economicUsageCode);
+                return Json(new { economicUsageTypes = results }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { errorMessage = ex.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
     }
 }
