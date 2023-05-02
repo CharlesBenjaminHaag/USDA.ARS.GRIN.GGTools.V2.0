@@ -530,7 +530,7 @@
     <Content Include="Views\Taxonomy\EconomicUse\Index.cshtml" />
     <Content Include="Views\Taxonomy\EconomicUse\_Detail.cshtml" />
     <Content Include="Views\Taxonomy\EconomicUse\_List.cshtml" />
-    <Content Include="Views\Taxonomy\EconomicUse\Modals\_Edit.cshtml" />
+    <Content Include="Views\Taxonomy\EconomicUse\Modals\_ARCHIVE\_Edit.cshtml" />
     <Content Include="Views\Taxonomy\EconomicUse\Modals\_Lookup.cshtml" />
     <Content Include="Views\Taxonomy\EconomicUse\Modals\_SelectList.cshtml" />
     <Content Include="Views\WebOrder\Board.cshtml" />
@@ -734,6 +734,9 @@
     <Content Include="Views\Shared\_Head.cshtml" />
     <Content Include="Views\Shared\_Scripts.cshtml" />
     <Content Include="Views\Taxonomy\GeographyMap\Edit - Copy.cshtml" />
+    <Content Include="Views\WebOrder\Explorer\Index2.cshtml" />
+    <Content Include="Views\Taxonomy\EconomicUse\Modals\_EconomicUsageTypeLookup.cshtml" />
+    <Content Include="Views\Taxonomy\EconomicUse\Modals\_EconomicUsageTypeSelectList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

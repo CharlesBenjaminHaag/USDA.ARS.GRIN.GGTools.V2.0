@@ -138,63 +138,67 @@
                         }
 
                         <div class="card card-primary card-tabs">
-                            <div id="section-web-order-request-tabs" class="card-header p-0 pt-1">
-                                <ul class="nav nav-tabs" id="custom-tabs-two-tab" role="tablist">
-                                    <li class="pt-2 px-3"><h3 id="section-title" class="card-title">Species</h3></li>
+                            @if (Model.Entity.ID > 0)
+                            {
+                                <div id="section-web-order-request-tabs" class="card-header p-0 pt-1">
+                                    <ul class="nav nav-tabs" id="custom-tabs-two-tab" role="tablist">
+                                        <li class="pt-2 px-3"><h3 id="section-title" class="card-title">Species</h3></li>
                                     
-                                    @*<li id="section-species" class="nav-item">
-                                        <a id="tab-species"
-                                           class="nav-link"
-                                           href=""
-                                           role="tab"
-                                           aria-controls="custom-tabs-two-home"
-                                           aria-selected="true">Species</a>
-                                    </li>*@
-                                    <li id="section-subspecies" class="nav-item">
-                                        <a id="tab-subspecies"
-                                           class="nav-link"
-                                           href="@Model.SubspeciesUrl"
-                                           role="tab"
-                                           aria-controls="custom-tabs-two-profile"
-                                           aria-selected="false">
-                                            <i class="fas fa-plus"></i>&nbsp;Subspecies
-                                        </a>
-                                    </li>
-                                    <li id="section-variety" class="nav-item">
-                                        <a id="tab-variety"
-                                           class="nav-link"
-                                           href="@Model.VarietyUrl"
-                                           role="tab"
-                                           aria-controls="custom-tabs-two-profile"
-                                           aria-selected="false">
-                                            <i class="fas fa-plus"></i>&nbsp;
-                                            Variety
-                                        </a>
-                                    </li>
-                                    <li id="section-subvariety" class="nav-item">
-                                        <a id="tab-subvariety"
-                                           class="nav-link"
-                                           href="@Model.SubvarietyUrl"
-                                           role="tab"
-                                           aria-controls="custom-tabs-two-messages"
-                                           aria-selected="false">
-                                            <i class="fas fa-plus"></i>&nbsp;
-                                            Subvariety
-                                        </a>
-                                    </li>
-                                    <li id="section-form" class="nav-item">
-                                        <a id="tab-form"
-                                           class="nav-link"
-                                           href="@Model.FormUrl"
-                                           role="tab"
-                                           aria-controls="custom-tabs-two-messages"
-                                           aria-selected="false">
-                                            <i class="fas fa-plus"></i>&nbsp;
-                                            Form
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
+                                        @*<li id="section-species" class="nav-item">
+                                            <a id="tab-species"
+                                               class="nav-link"
+                                               href=""
+                                               role="tab"
+                                               aria-controls="custom-tabs-two-home"
+                                               aria-selected="true">Species</a>
+                                        </li>*@
+                                        <li id="section-subspecies" class="nav-item">
+                                            <a id="tab-subspecies"
+                                               class="nav-link"
+                                               href="@Model.SubspeciesUrl"
+                                               role="tab"
+                                               aria-controls="custom-tabs-two-profile"
+                                               aria-selected="false">
+                                                <i class="fas fa-plus"></i>&nbsp;Subspecies
+                                            </a>
+                                        </li>
+                                        <li id="section-variety" class="nav-item">
+                                            <a id="tab-variety"
+                                               class="nav-link"
+                                               href="@Model.VarietyUrl"
+                                               role="tab"
+                                               aria-controls="custom-tabs-two-profile"
+                                               aria-selected="false">
+                                                <i class="fas fa-plus"></i>&nbsp;
+                                                Variety
+                                            </a>
+                                        </li>
+                                        <li id="section-subvariety" class="nav-item">
+                                            <a id="tab-subvariety"
+                                               class="nav-link"
+                                               href="@Model.SubvarietyUrl"
+                                               role="tab"
+                                               aria-controls="custom-tabs-two-messages"
+                                               aria-selected="false">
+                                                <i class="fas fa-plus"></i>&nbsp;
+                                                Subvariety
+                                            </a>
+                                        </li>
+                                        <li id="section-form" class="nav-item">
+                                            <a id="tab-form"
+                                               class="nav-link"
+                                               href="@Model.FormUrl"
+                                               role="tab"
+                                               aria-controls="custom-tabs-two-messages"
+                                               aria-selected="false">
+                                                <i class="fas fa-plus"></i>&nbsp;
+                                                Form
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            }
+
                             <div class="card-body">
                                 <div class="tab-content">
                                     @Html.Partial("~/Views/Shared/_ValidationMessages.cshtml")

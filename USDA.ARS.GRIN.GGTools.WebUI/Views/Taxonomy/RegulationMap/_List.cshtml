@@ -14,10 +14,9 @@
                 <tr>
                     <th></th>
                     <th width="5%">ID</th>
+                    <th>Assembled Name</th>
                     <th>Genus</th>
                     <th>Species</th>
-                    <th>Level</th>
-                    <th>Desc</th>
                     <th>Exempt</th>
                     <th>Note</th>
                     <th>Last Modified</th>
@@ -38,6 +37,7 @@
                             <td>
                                 @result.ID
                             </td>
+                            <td>@result.AssembledName</td>
                             <td>
                                 <a href="@Url.Action("Edit", "Genus", new { entityId = result.GenusID })">
                                     @result.GenusName
@@ -48,8 +48,6 @@
                                     @result.SpeciesName
                                 </a>
                             </td>
-                            <td>@result.RegulationLevelDescription</td>
-                            <td>@result.RegulationTypeDescription</td>
                             <td>
                                 @Html.Raw(Model.FormatBoolean(result.IsExempt))
                             </td>

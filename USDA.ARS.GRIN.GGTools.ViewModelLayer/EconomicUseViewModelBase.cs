@@ -13,7 +13,9 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
     {
         private EconomicUse _Entity = new EconomicUse();
         private EconomicUseSearch _SearchEntity = new EconomicUseSearch();
+        private EconomicUsageTypeSearch _EconomicUsageTypeSearchEntity = new EconomicUsageTypeSearch();
         private Collection<EconomicUse> _DataCollection = new Collection<EconomicUse>();
+        private Collection<EconomicUsageType> _DataCollectionEconomicUsageTypes = new Collection<EconomicUsageType>();
         private Collection<Citation> _DataCollectionCitations = new Collection<Citation>();
 
         public EconomicUseViewModelBase()
@@ -52,11 +54,22 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
             get { return _SearchEntity; }
             set { _SearchEntity = value; }
         }
+        public EconomicUsageTypeSearch EconomicUsageTypeSearchEntity
+        {
+            get { return _EconomicUsageTypeSearchEntity; }
+            set { _EconomicUsageTypeSearchEntity = value; }
+        }
 
         public Collection<EconomicUse> DataCollection
         {
             get { return _DataCollection; }
             set { _DataCollection = value; }
+        }
+
+        public Collection<EconomicUsageType> DataCollectionEconomicUsageTypes
+        {
+            get { return _DataCollectionEconomicUsageTypes; }
+            set { _DataCollectionEconomicUsageTypes = value; }
         }
         public Collection<Citation> DataCollectionCitations 
         {

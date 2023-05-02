@@ -7,7 +7,7 @@ using USDA.ARS.GRIN.GGTools.AppLayer;
 
 namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
 {
-    public class EconomicUsageType: AppEntityBase
+    public class EconomicUsageTypeSearch: SearchEntityBase
     {
         public string EconomicUsageCode { get; set; }
         public string UsageType { get; set; }

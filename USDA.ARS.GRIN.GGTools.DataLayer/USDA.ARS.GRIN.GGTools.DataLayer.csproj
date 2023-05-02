@@ -62,6 +62,7 @@
     <Compile Include="EntityClasses\CitedAppEntityBase.cs" />
     <Compile Include="EntityClasses\Classification.cs" />
     <Compile Include="EntityClasses\ClassificationSearch.cs" />
+    <Compile Include="EntityClasses\EconomicUsageTypeSearch.cs" />
     <Compile Include="EntityClasses\EconomicUsageType.cs" />
     <Compile Include="EntityClasses\CodeValue.cs" />
     <Compile Include="EntityClasses\CodeValueSearch.cs" />

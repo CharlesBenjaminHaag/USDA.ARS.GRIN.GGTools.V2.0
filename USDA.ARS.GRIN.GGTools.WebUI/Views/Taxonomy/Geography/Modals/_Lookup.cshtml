@@ -128,62 +128,28 @@
         SearchGeography();
     });
 
+    // ===================================================================
+    // Continents
+    // ===================================================================
     $('#section-select-continents :checkbox').change(function () {
-        // this will contain a reference to the checkbox
-        if (this.checked) {
-
-        } else {
-
-        }
-        GetSelectedContinents();
+        HandleSelectedContinents();
     });
 
-    $(document).on("click", "[id='btnFilterCountries']", function () {
-        var selectedSubContinents = GetSelectedEntityIDs("data-table-geography-subcontinents");
-        var selectedContinents = ""
-        //DEBUG
-        /*alert("GET SEL" + selectedSubContinents);*/
-
-        //DEBUG
-        $("#txtDEBUGSubContinents").val(selectedSubContinents);
-        LoadCountries(selectedSubContinents);
-    });
-
-    $(document).on("click", "[id='btnGetSelectedCountries']", function () {
-        var selectedCountries = GetSelectedEntityStringIDs("data-table-geography-countries");
-        //DEBUG
-        $("#txtDEBUGCountries").val(selectedCountries);
-        //TODO Get admin units
-        LoadAdministrativeUnits(selectedCountries);
-    });
-
-    $(document).on("click", "[id='btnGenerateMaps']", function () {
-        var speciesId = $("#SpeciesID").val();
-        var geographyIdList = GetSelectedEntityIDs("data-table-geography-lookup");
-        var status = $("#ddlStatus").val();
-        
-        AddGeographyMaps(speciesId, geographyIdList, status);
-        // TODO
-        // Get geo IDs from admins widget
-        // Call AddMaps() controller method
-        // Reload maps list
-    });
-
-    function GetSelectedContinents() {
+    function HandleSelectedContinents() {
         var selected = [];
         var selectedRegionIdList = [];
         $('#section-select-continents input:checked').each(function () {
             selected.push("'" + $(this).attr('value') + "'");
             selectedRegionIdList.push($(this).attr('id'));
         });
-
-        //DEBUG
-        $("#txtDEBUGContinents").val(selected);
         $("#txtDEBUGContinentRegionIds").val(selectedRegionIdList);
         LoadSubContinents(selected);
-        LoadCountries(selected,"");
+        LoadCountries(selected, "");
     }
 
+    // ===================================================================
+    // Subcontinents
+    // ===================================================================
     function LoadSubContinents(continents) {
         var link = '@Url.Action("_ListSubContinents", "Geography")';
         var formData = new FormData();
@@ -205,9 +171,28 @@
         });
     }
 
+    // ===================================================================
+    // Countries
+    // ===================================================================
+    $(document).on("click", "[id='btnFilterCountries']", function () {
+        var selectedSubContinents = GetSelectedEntityIDs("data-table-geography-subcontinents");
+        
+        // Get selected continents. REFACTOR (CBH, 5/2/23)
+        var selectedContinents = [];
+        $('#section-select-continents input:checked').each(function () {
+            selectedContinents.push("'" + $(this).attr('value') + "'");
+        });
+
+        $("#txtDEBUGSubContinents").val(selectedSubContinents);
+        LoadCountries(selectedContinents, selectedSubContinents);
+    });
+
     function LoadCountries(continents, subContinents) {
         var link = '@Url.Action("_ListCountries", "Geography")';
         var formData = new FormData();
+
+        //DEBUG
+        /*alert("DEBUG CONTINENTS " + continents + " AND SUBCONTINENTS " + subContinents);*/
 
         formData.append("continents", continents);
         formData.append("subContinents", subContinents);
@@ -227,6 +212,17 @@
             }
         });
     }
+
+    // ===================================================================
+    // Administrative Units
+    // ===================================================================
+    $(document).on("click", "[id='btnLoadAdminstrativeUnits']", function () {
+        var selectedCountries = GetSelectedEntityStringIDs("data-table-geography-countries");
+        //DEBUG
+        //$("#txtDEBUGCountries").val(selectedCountries);
+        //TODO Get admin units
+        LoadAdministrativeUnits(selectedCountries);
+    });
 
     function LoadAdministrativeUnits(countries) {
         var link = '@Url.Action("_ListAdministrativeUnits", "Geography")';
@@ -248,6 +244,21 @@
             }
         });
     }
+
+    // ===================================================================
+    // Maps
+    // ===================================================================
+    $(document).on("click", "[id='btnGenerateMaps']", function () {
+        var speciesId = $("#SpeciesID").val();
+        var geographyIdList = GetSelectedEntityIDs("data-table-geography-lookup");
+        var status = $("#ddlStatus").val();
+
+        AddGeographyMaps(speciesId, geographyIdList, status);
+        // TODO
+        // Get geo IDs from admins widget
+        // Call AddMaps() controller method
+        // Reload maps list
+    });
 
     function AddGeographyMaps(speciesId, administrativeUnits, status) {
         var link = '@Url.Action("_Add", "GeographyMap")';
@@ -307,7 +318,7 @@
                 rowId: 'extn',
                 stateSave: true,
                 "bLengthChange": false,
-                scrollY: '300px',
+                scrollY: '250px',
                 scrollCollapse: true,
                 paging: false,
                 responsive: true,
@@ -321,7 +332,7 @@
                     { targets: [0], visible: false }
                 ]
             });
-            table.row(':contains("Basionym")').select()
+            /*table.row(':contains("Basionym")').select()*/
             //$("#" + tableName + ' tbody').on('click', 'tr', function () {
             //    var selectedSubContinents = GetSelectedEntityIDs(tableName);
             //    //DEBUG

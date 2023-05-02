@@ -16,7 +16,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
         // *********************************************************************************
         public ActionResult Explorer()
         {
-            return View("~/Views/WebOrder/Explorer/Index.cshtml");
+            return View("~/Views/WebOrder/Explorer/Index2.cshtml");
         }
 
         public PartialViewResult ExplorerSelectList(int entityId = 0)
