@@ -149,6 +149,7 @@
     <Compile Include="ManagerClasses\AppUserItemListManager.cs" />
     <Compile Include="ManagerClasses\AuthorManager.cs" />
     <Compile Include="ManagerClasses\CooperatorMapManager.cs" />
+    <Compile Include="ManagerClasses\EconomicUsageTypeManager.cs" />
     <Compile Include="ManagerClasses\GRINGlobalDataManagerBase.cs" />
     <Compile Include="ManagerClasses\CitationManager.cs" />
     <Compile Include="ManagerClasses\ClassificationManager.cs" />

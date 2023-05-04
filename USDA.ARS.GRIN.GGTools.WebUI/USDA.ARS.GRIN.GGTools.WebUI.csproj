@@ -153,6 +153,7 @@
     <Compile Include="Controllers\CWRMapController.cs" />
     <Compile Include="Controllers\CWRTraitController.cs" />
     <Compile Include="Controllers\DemoController.cs" />
+    <Compile Include="Controllers\EconomicUsageTypeController.cs" />
     <Compile Include="Controllers\EconomicUseController.cs" />
     <Compile Include="Controllers\EmailTemplateController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
@@ -737,6 +738,14 @@
     <Content Include="Views\WebOrder\Explorer\Index2.cshtml" />
     <Content Include="Views\Taxonomy\EconomicUse\Modals\_EconomicUsageTypeLookup.cshtml" />
     <Content Include="Views\Taxonomy\EconomicUse\Modals\_EconomicUsageTypeSelectList.cshtml" />
+    <Content Include="Views\Taxonomy\EconomicUsageType\_Detail.cshtml" />
+    <Content Include="Views\Taxonomy\EconomicUsageType\_DetailExtended.cshtml" />
+    <Content Include="Views\Taxonomy\EconomicUsageType\_List.cshtml" />
+    <Content Include="Views\Taxonomy\EconomicUsageType\Edit.cshtml" />
+    <Content Include="Views\Taxonomy\EconomicUsageType\Index.cshtml" />
+    <Content Include="Views\Taxonomy\EconomicUsageType\Modals\_ARCHIVE\_Edit.cshtml" />
+    <Content Include="Views\Taxonomy\EconomicUsageType\Modals\_Lookup.cshtml" />
+    <Content Include="Views\Taxonomy\EconomicUsageType\Modals\_SelectList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

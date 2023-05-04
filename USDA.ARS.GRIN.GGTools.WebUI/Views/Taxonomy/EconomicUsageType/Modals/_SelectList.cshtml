@@ -1,0 +1,27 @@
+﻿@model USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer.EconomicUsageTypeViewModel
+<table id="data-table-economic-usage-type-lookup" class="table table-striped" style="width:100%;">
+    <thead>
+        <tr>
+            <th></th>
+             
+            <th>Usage Type</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var result in Model.DataCollection)
+        {
+            <tr>
+                <td>
+                    @result.ID
+                </td>
+                 
+                <td>@result.AssembledName</td>
+            </tr>
+        }
+    </tbody>
+</table>
+<script type="text/javascript">
+    $(document).ready(function () {
+        InitDataTableLight("data-table-economic-usage-type-lookup");
+    });
+</script>

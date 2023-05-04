@@ -61,6 +61,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
             }
             return Entity;
         }
+        
 
         public void GetFolderItems()
         {

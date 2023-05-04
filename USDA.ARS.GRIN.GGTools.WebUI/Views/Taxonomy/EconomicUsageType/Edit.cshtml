@@ -35,7 +35,9 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link" data-toggle="dropdown" href="#">
                             <i class="far fa-user"></i>
+
                         </a>
+
                         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right" style="left: inherit; right: 0px;">
                             <span class="dropdown-item dropdown-header">@AppInfo.GetAuthenticatedUser().FullName</span>
                             <div class="dropdown-divider"></div>
@@ -88,6 +90,8 @@
                         {
                             <div class="card-body">
                                 @Html.Partial("~/Views/Shared/_ValidationMessages.cshtml")
+
+
                                 @Html.HiddenFor(x => x.PageTitle)
                                 @Html.HiddenFor(x => x.EventAction)
                                 @Html.HiddenFor(x => x.EventValue)
@@ -114,30 +118,17 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-3">
                                         <div class="form-group">
-                                            <label>Usage Type</label>
-                                            <div class="input-group">
-                                                @Html.TextBoxFor(x => x.Entity.AssembledName, new { @class = "form-control", @readonly = "readonly" })
-                                                @Html.HiddenFor(x => x.Entity.EconomicUsageTypeID)
-                                                <span class="input-group-btn">
-                                                    <a href="@Url.Action("Edit", "EconomicUsageType", new { @entityId = Model.Entity.EconomicUsageTypeID })" class="btn btn-default btn-flat">
-                                                        <i class="fa fa-link"></i>
-                                                    </a>
-                                                </span>
-                                                <span class="input-group-btn">
-                                                    <button 
-                                                        id="btnOpenEconomicUsageTypeLookupModal" 
-                                                        type="button" 
-                                                        class="btn btn-default btn-flat" 
-                                                        data-ggtools-action="EconomicUsageTypeID" 
-                                                        data-ggtools-value="AssembledName" 
-                                                        data-toggle="modal" 
-                                                        data-target="#modal-economic-usage-type-lookup">
-                                                        <i class="fa fa-search"></i>
-                                                    </button>
-                                                </span>
-                                            </div>
+                                            <label>Usage</label>
+                                            @Html.DropDownListFor(x => x.Entity.EconomicUsageCode, Model.EconomicUsageCodes, new { @id = "ddlEconomicUsageCodes", @class = "form-control" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Type</label>
+                                            <select id="ddlEconomicUsageTypes" class="form-control"></select>
+                                            @*@Html.DropDownListFor(x => x.Entity.EconomicUsageType, Model.EconomicUsageTypes, new { @id = "ddlEconomicUsageTypes", @class = "form-control" })*@
                                         </div>
                                     </div>
                                     <div class="col-md-3">
@@ -190,11 +181,10 @@
                         Html.RenderAction("RenderLookupModal", "Citation", new { @tableName = Model.TableName, @speciesId = Model.Entity.SpeciesID });
                     }
 
-                    @{Html.RenderAction("RenderLookupModal", "EconomicUsageType"); }
-                    @*@{Html.RenderAction("RenderLookupModal", "Species"); }
+                    @{Html.RenderAction("RenderLookupModal", "Species"); }
                     @Html.Partial("~/Views/Shared/Modals/_NoteLookup2.cshtml")
                     @Html.Partial("~/Views/Taxonomy/Shared/Modals/_Delete.cshtml")
-                    @{Html.RenderAction("_Edit", "Folder"); }*@
+                    @{Html.RenderAction("_Edit", "Folder"); }
                 </div>
             </div>
         </div>
@@ -207,7 +197,7 @@
 </html>
 @Html.Partial("~/Views/Shared/_Scripts.cshtml")
 <script type="text/javascript">
-    @*$(document).ready(function () {
+    $(document).ready(function () {
 
         $("#ddlEconomicUsageCodes").change(function () {
             var selectedVal = $(this).val();
@@ -253,5 +243,5 @@
                 });
             }
         });
-    }*@
+    }
 </script>

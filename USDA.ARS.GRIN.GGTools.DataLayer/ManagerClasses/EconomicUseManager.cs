@@ -154,8 +154,9 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             }
 
             AddParameter("taxonomy_species_id", entity.SpeciesID == 0 ? DBNull.Value : (object)entity.SpeciesID, true);
-            AddParameter("economic_usage_code", (object)entity.EconomicUsageCode ?? DBNull.Value, false);
-            AddParameter("usage_type", (object)entity.EconomicUsageType ?? DBNull.Value, true);
+          
+            //TODO
+            
             AddParameter("plant_part_code", (object)entity.PlantPartCode ?? DBNull.Value, false);
             AddParameter("citation_id", entity.CitationID == 0 ? DBNull.Value : (object)entity.CitationID, true); ;
             AddParameter("note", (object)entity.Note ?? DBNull.Value, false);

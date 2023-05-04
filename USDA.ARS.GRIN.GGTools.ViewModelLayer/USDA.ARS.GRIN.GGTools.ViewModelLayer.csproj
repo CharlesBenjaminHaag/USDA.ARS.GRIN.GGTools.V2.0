@@ -82,7 +82,9 @@
     <Compile Include="CWRMapViewModelBase.cs" />
     <Compile Include="CWRTraitViewModel.cs" />
     <Compile Include="CWRTraitViewModelBase.cs" />
+    <Compile Include="EconomicUsageTypeViewModel.cs" />
     <Compile Include="EconomicUseViewModel.cs" />
+    <Compile Include="EconomicUsageTypeViewModelBase.cs" />
     <Compile Include="EconomicUseViewModelBase.cs" />
     <Compile Include="EmailTemplateViewModel.cs" />
     <Compile Include="EmailTemplateViewModelBase.cs" />

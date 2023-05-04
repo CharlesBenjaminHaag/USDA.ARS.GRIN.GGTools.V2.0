@@ -655,7 +655,6 @@
             SetVerifiedStatus(value);
         });
 
-        //btnAddAutonym
         $(document).on("click", "[id*='btnAddAutonym']", function () {
             var link = '@Url.Action("AddAutonym","Species")';
             var entityId = $("#Entity_ID").val();
@@ -694,10 +693,6 @@
                     alert("Error");
                 }
             });
-        }
-
-        function AddAutonym() {
-
         }
 
         $('#section-dependent-data ul.nav li').on('click', function () {

@@ -74,7 +74,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 {
                     viewModel.Get(entityId);
                     viewModel.EventAction = "Edit";
-                    viewModel.PageTitle = String.Format("Edit Economic Use [{0}]: {1}", entityId, viewModel.ToTitleCase(viewModel.Entity.ExtendedName));
+                    viewModel.PageTitle = String.Format("Edit Economic Use [{0}]: {1}", entityId, viewModel.ToTitleCase(viewModel.Entity.AssembledName));
                 }
                 else
                 {
