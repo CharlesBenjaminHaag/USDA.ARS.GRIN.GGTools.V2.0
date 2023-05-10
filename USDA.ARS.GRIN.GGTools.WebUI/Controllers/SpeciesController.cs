@@ -227,6 +227,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 SpeciesViewModel viewModel = new SpeciesViewModel();
                 viewModel.TableName = "taxonomy_species";
                 viewModel.EventAction = "ADD";
+                viewModel.EventValue = rank;
                 viewModel.Entity.IsAcceptedName = "Y";
                 viewModel.Entity.IsAccepted = true;
                 viewModel.Entity.IsWebVisibleOption = true;
@@ -255,7 +256,8 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
 
                     // Add link to "parent" taxon.
                     viewModel.ParentEntity = parentViewModel.Entity;
-                    viewModel.Entity.ParentID = parentViewModel.ID;
+                    viewModel.Entity.ParentID = parentViewModel.Entity.ID;
+                    viewModel.Entity.ParentName = parentViewModel.Entity.AssembledName;
                     viewModel.Entity.Name = parentViewModel.Entity.Name;
                     viewModel.Entity.SpeciesName = parentViewModel.Entity.SpeciesName;
                     viewModel.Entity.AssembledName = parentViewModel.Entity.AssembledName;
@@ -269,9 +271,31 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
 
                 if (!String.IsNullOrEmpty(synonymTypeCode))
                 {
-                    viewModel.PageTitle = String.Format("Add {0} of {1}", viewModel.ToTitleCase(synonymTypeCode), viewModel.ParentEntity.AssembledName);
-                    viewModel.EventAction = "ADD_SYNONYM";
-                    viewModel.EventValue = synonymTypeCode;
+                    // TODO: Refactor; obtain actual syn code based on human-readable
+                    //       string passed in querystring.
+                    switch (synonymTypeCode)
+                    {
+                        case "homotypic":
+                            viewModel.Entity.SynonymCode = "=";
+                            viewModel.Entity.SynonymDescription = "Homotypic Synonym";
+                            break;
+                        case "autonym":
+                            viewModel.Entity.SynonymCode = "A";
+                            viewModel.Entity.SynonymDescription = "Autonym";
+                            break;
+                        case "basionym":
+                            viewModel.Entity.SynonymCode = "B";
+                            viewModel.Entity.SynonymDescription = "Basionym";
+                            break;
+                        case "heterotypic":
+                            viewModel.Entity.SynonymCode = "S";
+                            viewModel.Entity.SynonymDescription = "Heterotypic Synonym";
+                            break;
+                        case "invalid":
+                            viewModel.Entity.SynonymDescription = "Invalid Synonym";
+                            viewModel.Entity.SynonymCode = "I";
+                            break;
+                    }
                 }
                 else
                 {
@@ -289,6 +313,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                     viewModel.VarietyUrl += "&synonymCode=" + Request.QueryString["synonymCode"];
                     viewModel.SubvarietyUrl += "&synonymCode=" + Request.QueryString["synonymCode"];
                     viewModel.FormUrl += "&synonymCode=" + Request.QueryString["synonymCode"];
+                    viewModel.Entity.SynonymCode = Request.QueryString["synonymCode"];
                 }
 
                 return View(BASE_PATH + "Edit.cshtml", viewModel);
@@ -491,35 +516,19 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                     viewModel.Update();
                 }
 
-                // If action code indicates that the species being added is a synonym, add
-                // the necessary map record.
-                if (viewModel.EventAction == "ADD_SYNONYM")
+                // If the action indicates "ADD" and a synonym code has been supplied, add
+                // a map record to link the parent species, and the newly-created one.
+                if (viewModel.EventAction.ToUpper() == "ADD")
                 {
-                    SynonymMapViewModel synonymMapViewModel = new SynonymMapViewModel();
-                    // TODO
-                }
-
-                // If this save entails adding a new species, determine whether or not specified
-                // related taxon records must be added as well.
-                if (viewModel.EventAction == "ADD")
-                {
-                    //if (viewModel.IsAutonymNeededOption)
-                    //{
-                    //    SpeciesViewModel speciesViewModelAutonym = new SpeciesViewModel();
-                    //    speciesViewModelAutonym.Entity = viewModel.Entity;
-                    //    speciesViewModelAutonym.Entity.ID = 0;
-                    //    speciesViewModelAutonym.Entity.NameAuthority = null;
-                    //    speciesViewModelAutonym.Insert();
-                    //}
-
-                    //if (viewModel.IsBasionymNeededOption)
-                    //{
-                    //    SpeciesViewModel speciesViewModelBasionym = new SpeciesViewModel();
-                    //    speciesViewModelBasionym.Entity = viewModel.Entity;
-                    //    speciesViewModelBasionym.Entity.ID = 0;
-                    //    speciesViewModelBasionym.Entity.NameAuthority = null;
-                    //    speciesViewModelBasionym.Insert();
-                    //}
+                    if (!String.IsNullOrEmpty(viewModel.Entity.SynonymCode))
+                    {
+                        SynonymMapViewModel synonymMapViewModel = new SynonymMapViewModel();
+                        synonymMapViewModel.Entity.SpeciesAID = viewModel.Entity.ID;
+                        synonymMapViewModel.Entity.SynonymCode = viewModel.Entity.SynonymCode;
+                        synonymMapViewModel.Entity.SpeciesBID = viewModel.Entity.ParentID;
+                        synonymMapViewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
+                        synonymMapViewModel.Insert();
+                    }
                 }
 
                 return RedirectToAction("Edit", "Species", new { entityId = viewModel.Entity.ID });

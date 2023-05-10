@@ -41,8 +41,8 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
                 Admin1Types = new SelectList(mgr.GetCodeValues("GEOGRAPHY_ADMIN1_TYPE"), "Value", "Title");
                 Admin2Types = new SelectList(mgr.GetCodeValues("GEOGRAPHY_ADMIN2_TYPE"), "Value", "Title");
                 Continents = new SelectList(mgr.GetContinents(), "ID", "Continent");
-                SubContinents = new SelectList(mgr.GetSubContinents(), "ID", "SubContinent");
-                Countries = new SelectList(mgr.GetCountries(), "CountryCode", "CountryName");
+                //SubContinents = new SelectList(mgr.GetSubContinents(), "ID", "SubContinent");
+                //Countries = new SelectList(mgr.GetCountries(), "CountryCode", "CountryName");
             }
         }
         public int SpeciesID

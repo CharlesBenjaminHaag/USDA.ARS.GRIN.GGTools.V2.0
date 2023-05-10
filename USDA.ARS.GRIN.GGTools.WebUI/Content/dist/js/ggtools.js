@@ -296,6 +296,14 @@ function GetSelectedEntityLabels(tableName) {
     return ids;
 }
 
+function GetSelectedEntityQuotedStrings(tableName) {
+    var table = $('#' + tableName).DataTable();
+    var ids = $.map(table.rows('.selected').data(), function (item) {
+        return "'" + item[1] + "'";
+    });
+    console.log(ids)
+    return ids;
+}
 
 
 function GetSelectedEntityText(tableName) {

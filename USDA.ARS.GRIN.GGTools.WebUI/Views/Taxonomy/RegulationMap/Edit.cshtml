@@ -1,158 +1,213 @@
 ﻿@model USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer.RegulationMapViewModel
 @{
     ViewBag.Title = Model.PageTitle;
-    Layout = "~/Views/Shared/_LayoutAdminLTE3.cshtml";
+    Layout = null;
 }
 
-@using (Html.BeginForm("Edit", "RegulationMap", FormMethod.Post, new { id = "frmEdit" }))
-{
-    @Html.HiddenFor(x => x.EventAction)
-    @Html.HiddenFor(x => x.EventValue)
-    @Html.HiddenFor(x => x.TableName)
-    @Html.HiddenFor(x => x.TableCode)
-    @Html.HiddenFor(x => x.PageTitle)
-    @Html.HiddenFor(x => x.Entity.ID)
-    @Html.Partial("~/Views/Shared/_RevisionHistory.cshtml")
-    <div class="card card-default">
-        <div class="card-header">
-            <h3 class="card-title">Summary</h3>
-            <div class="card-tools">
-                <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                    <i class="fas fa-minus"></i>
+<!DOCTYPE html>
+<html lang="en">
+@Html.Partial("~/Views/Shared/_Head.cshtml")
+<body class="hold-transition layout-top-nav">
+    <div class="wrapper">
+        <nav class="main-header navbar navbar-expand-md navbar-light text-sm">
+            <div class="container" style="max-width:1500px;">
+                <a href="@Url.Action("Index","Home")" class="navbar-brand">
+                    <img src="~/dist/img/GGlogo_BW.gif" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+                    <span class="brand-text font-weight-light">GGTools</span>
+                </a>
+                <button class="navbar-toggler order-1" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
                 </button>
-            </div>
-        </div>
-        <div class="card-body">
-            @Html.Partial("~/Views/Shared/_ValidationMessages.cshtml")
-            <div class="row">
-                <div class="col-md-3">
-                    <div class="form-group">
-                        @if (Model.Entity.FamilyID > 0)
+                <div class="collapse navbar-collapse order-3" id="navbarCollapse">
+                    <!-- BEGIN EDIT PAGE MENU -->
+                    <ul class="navbar-nav">
+                        @if (Model.Entity.ID > 0)
                         {
-                            <label>Family</label>
-                            <div class="input-group">
-                                @Html.TextBoxFor(x => x.Entity.FamilyName, new { @class = "form-control" })
-                                @Html.HiddenFor(x => x.Entity.FamilyID)
-                                <span class="input-group-btn">
-                                    <button type="button" data-toggle="modal" data-target="#modal-family-lookup" class="btn btn-default btn-flat">
-                                        <i class="fa fa-search"></i>
+                            <li class="nav-item d-none d-sm-inline-block">
+                                <a href="@Url.Action("Add", "RegulationMap", new { cropForCwrId = Model.Entity.ID })" class="nav-link">New</a>
+                            </li>
+                            Html.RenderAction("_RelatedFoldersMenu", "Folder", new { tableName = Model.TableName, entityId = Model.Entity.ID });
+                        }
+
+                    </ul>
+                    <!-- END EDIT PAGE MENU-->
+                </div>
+                <!-- BEGIN RIGHT-ALIGNED NAV MENU -->
+                <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
+                    @Html.Partial("~/Views/Shared/_NavbarRight.cshtml")
+                </ul>
+                <!-- END RIGHT-ALIGNED NAV MENU -->
+            </div>
+        </nav>
+        <div class="content-wrapper">
+            <div class="content-header">
+                <div class="container" style="max-width:1500px;">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1 class="m-0">
+                                @{
+                                    string controllerName = ViewContext.RouteData.Values["controller"].ToString();
+                                    string actionName = ViewContext.RouteData.Values["action"].ToString();
+                                }
+                                @actionName @controllerName 
+                                @if (actionName == "Edit")
+                                {
+                                    <span>[@Model.Entity.ID]:</span>
+                                    <span>
+                                        @if (Model.Entity.FamilyID > 0)
+                                        {
+                                            <a href="@Url.Action("Edit","FamilyMap", new { entityId = Model.Entity.FamilyID })">@Model.Entity.FamilyName</a>
+                                        }
+                                        else
+                                        {
+                                            if (Model.Entity.GenusID > 0)
+                                            {
+                                                <a href="@Url.Action("Edit","Genus", new { entityId = Model.Entity.GenusID })">@Model.Entity.GenusName</a>
+                                            }
+                                            else
+                                            {
+                                                <a href="@Url.Action("Edit","Species", new { entityId = Model.Entity.SpeciesID })">@Model.Entity.SpeciesName</a>
+                                            }
+                                        }
+                                        - <a href="@Url.Action("Edit","Regulation", new { entityId = Model.Entity.RegulationID })">@Model.Entity.AssembledName</a>
+                                    </span>
+                                }
+                            </h1>
+                        </div>
+                        <div class="col-sm-6">
+                            @Html.Partial("~/Views/Shared/_Breadcrumbs.cshtml")
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="content">
+                <div class="container" style="max-width:1500px;">
+                    <div id="section-folder-confirmation"></div>
+                    @using (Html.BeginForm("Edit", "RegulationMap", FormMethod.Post, new { id = "frmEdit" }))
+                    {
+                        @Html.HiddenFor(x => x.EventAction)
+                        @Html.HiddenFor(x => x.EventValue)
+                        @Html.HiddenFor(x => x.TableName)
+                        @Html.HiddenFor(x => x.TableCode)
+                        @Html.HiddenFor(x => x.PageTitle)
+                        @Html.HiddenFor(x => x.Entity.ID)
+                        @Html.Partial("~/Views/Shared/_RevisionHistory.cshtml")
+                        <div class="card card-default">
+                            <div class="card-header">
+                                <h3 class="card-title">Summary</h3>
+                                <div class="card-tools">
+                                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                        <i class="fas fa-minus"></i>
                                     </button>
-                                </span>
+                                </div>
                             </div>
-                        }
-                        else
-                        {
-                            if (Model.Entity.GenusID > 0)
-                            {
-                                <label>Genus</label>
-                                <div class="input-group">
-                                    @Html.TextBoxFor(x => x.Entity.GenusName, new { @class = "form-control" })
-                                    @Html.HiddenFor(x => x.Entity.GenusID)
-                                    <span class="input-group-btn">
-                                        <button type="button" data-toggle="modal" data-target="#modal-genus-lookup" class="btn btn-default btn-flat">
-                                            <i class="fa fa-search"></i>
-                                        </button>
-                                    </span>
+                            <div class="card-body">
+                                @Html.Partial("~/Views/Shared/_ValidationMessages.cshtml")
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            @if (Model.Entity.FamilyID > 0)
+                                            {
+                                                <label>Family</label>
+                                                <div class="input-group">
+                                                    @Html.TextBoxFor(x => x.Entity.FamilyName, new { @class = "form-control" })
+                                                    @Html.HiddenFor(x => x.Entity.FamilyID)
+                                                    <span class="input-group-btn">
+                                                        <button type="button" data-toggle="modal" data-target="#modal-family-lookup" class="btn btn-default btn-flat">
+                                                            <i class="fa fa-search"></i>
+                                                        </button>
+                                                    </span>
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                if (Model.Entity.GenusID > 0)
+                                                {
+                                                    <label>Genus</label>
+                                                    <div class="input-group">
+                                                        @Html.TextBoxFor(x => x.Entity.GenusName, new { @class = "form-control" })
+                                                        @Html.HiddenFor(x => x.Entity.GenusID)
+                                                        <span class="input-group-btn">
+                                                            <button type="button" data-toggle="modal" data-target="#modal-genus-lookup" class="btn btn-default btn-flat">
+                                                                <i class="fa fa-search"></i>
+                                                            </button>
+                                                        </span>
+                                                    </div>
+                                                }
+                                                else
+                                                {
+                                                    <label>Species</label>
+                                                    <div class="input-group">
+                                                        @Html.TextBoxFor(x => x.Entity.SpeciesName, new { @class = "form-control" })
+                                                        @Html.HiddenFor(x => x.Entity.SpeciesID)
+                                                        <span class="input-group-append">
+                                                            <button type="button" data-toggle="modal" data-target="#modal-species-lookup" class="btn btn-default btn-flat">
+                                                                <i class="fa fa-search"></i>
+                                                            </button>
+                                                        </span>
+                                                    </div>
+                                                }
+                                            }
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Regulation</label>
+                                            @Html.DropDownListFor(x => x.Entity.RegulationID, Model.Regulations, "NULL", new { @class = "form-control" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group clearfix" style="margin-top:40px;">
+                                            <div class="icheck-primary d-inline">
+                                                @Html.CheckBoxFor(x => x.Entity.IsExemptOption, new { @id = "cbxIsExempt" })
+                                                <label for="cbxIsExempt">
+                                                    Exempt
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                            }
-                            else
-                            {
-                                <label>Species</label>
-                                <div class="input-group">
-                                    @Html.TextBoxFor(x => x.Entity.SpeciesName, new { @class = "form-control" })
-                                    @Html.HiddenFor(x => x.Entity.SpeciesID)
-                                    <span class="input-group-append">
-                                        <button type="button" data-toggle="modal" data-target="#modal-species-lookup" class="btn btn-default btn-flat">
-                                            <i class="fa fa-search"></i>
-                                        </button>
-                                    </span>
+                                <div class="row">
+                                    <!-- BEGIN NOTE FIELD -->
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label>
+                                                Note
+                                                &nbsp;<a href="" data-toggle="modal" data-target="#modal-note-lookup"><i class="fa fa-search"></i></a>
+                                            </label>
+                                            <div class="input-group">
+                                                @Html.TextAreaFor(x => x.Entity.Note, new { @id = "txtNote", @class = "form-control", @style = "width:100%;" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- END NOTE FIELD-->
                                 </div>
-                            }
-                        }
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="form-group">
-                        <label>Regulation</label>
-                        @Html.DropDownListFor(x => x.Entity.RegulationID, Model.Regulations, "NULL", new { @class = "form-control" })
-                    </div>
-                </div>
-                <div class="col-md-2">
-                    <div class="form-group clearfix" style="margin-top:40px;">
-                        <div class="icheck-primary d-inline">
-                            @Html.CheckBoxFor(x => x.Entity.IsExemptOption, new { @id = "cbxIsExempt" })
-                            <label for="cbxIsExempt">
-                                Exempt
-                            </label>
+                            </div>
+                            <div class="card-footer">
+                                <a href="@Url.Action("Refresh")" class="btn btn-default">Reset</a>
+                                @if (Model.Entity.ID > 0)
+                                {
+                                    <button id="btnDelete" type="button" class="btn btn-danger">
+                                        Delete
+                                    </button>
+                                }
+                                <button type="submit" class="btn btn-primary float-right">Save</button>
+                            </div>
                         </div>
-                    </div>
+                    }
+
+                    @Html.Partial("~/Views/Shared/Modals/_NoteLookup2.cshtml")
+                    @{Html.RenderAction("RenderLookupModal", "Genus");}
+                    @{Html.RenderAction("RenderLookupModal", "Species");}
+                    @Html.Partial("~/Views/Taxonomy/Shared/Modals/_Delete.cshtml")
                 </div>
             </div>
-            <div class="row">
-                <!-- BEGIN NOTE FIELD -->
-                <div class="col-md-12">
-                    <div class="form-group">
-                        <label class="margin-r-5">Note</label>
-                        <div class="input-group">
-                            <br />
-                            @Html.TextAreaFor(x => x.Entity.Note, new { @id = "txtNote", @class = "form-control", })
-                            <span class="input-group-append">
-                                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#modal-note-lookup">
-                                    <i class="fa fa-search margin-r-5"></i>
-                                </button>
-                            </span>
-                        </div>
-                    </div>
-                </div>
-                <!-- END NOTE FIELD-->
-            </div>
         </div>
-        <div class="card-footer">
-            <a href="@Url.Action("Refresh")" class="btn btn-default">Reset</a>
-            @if (Model.Entity.ID > 0)
-            {
-                <button id="btnDelete" type="button" class="btn btn-danger">
-                    Delete
-                </button>
-            }
-            <button type="submit" class="btn btn-primary float-right">Save</button>
-        </div>
+        <aside class="control-sidebar control-sidebar-dark">
+        </aside>
+        <!-- Main Footer -->
+        @Html.Partial("~/Views/Shared/_Footer.cshtml")
     </div>
-}
-
-@Html.Partial("~/Views/Shared/Modals/_NoteLookup2.cshtml")
-@{Html.RenderAction("RenderLookupModal", "Genus");}
-@{Html.RenderAction("RenderLookupModal", "Species");}
-@Html.Partial("~/Views/Taxonomy/Shared/Modals/_Delete.cshtml")
-
-<script>
-    $(document).ready(function () {
-        Init();
-        /*InitializeCKEditor();*/
-    });
-
-    function Init() {
-    }
-
-   /*
-    * ===================================================================================================
-    * SPECIES MODAL
-    * ===================================================================================================
-    */
-
-    $(document).on("click", "[id='btnLookupSpecies']", function () {
-        var link = '@Url.Action("Lookup","Species")';
-        SearchSpecies(link);
-    });
-
-    $(document).on("click", "[id='btnSaveSpecies']", function () {
-        SaveSpecies();
-    });
-
-    function SaveSpecies() {
-        var selectedItemIdList = GetSelectedEntityIDs("data-table-species-lookup");
-        var selectedSpeciesNameList = GetSelectedEntityLabels("data-table-species-lookup");
-        $("#Entity_SpeciesID").val(selectedItemIdList);
-        $("#Entity_SpeciesName").val(selectedSpeciesNameList);
-    }
-</script>
+</body>
+</html>
+@Html.Partial("~/Views/Shared/_Scripts.cshtml")

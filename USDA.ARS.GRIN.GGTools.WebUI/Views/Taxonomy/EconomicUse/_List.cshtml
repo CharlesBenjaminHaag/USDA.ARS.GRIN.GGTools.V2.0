@@ -39,7 +39,7 @@
                             <td>@result.PlantPartDescription</td>
                             <td>
                                 <a href="@Url.Action("Edit","Citation", new { @entityId = result.CitationID })">
-                                    @result.Abbreviation
+                                    @Html.Raw(result.CitationText)
                                 </a>
                             </td>
                             <td>

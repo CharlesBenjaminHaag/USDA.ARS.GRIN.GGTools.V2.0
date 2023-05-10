@@ -41,6 +41,13 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 viewModel.PageTitle = "Regulation Map Search";
                 viewModel.TableName = "taxonomy_regulation_map";
                 viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
+
+                string targetKey = this.ControllerContext.RouteData.Values["controller"].ToString().ToUpper() + "_SEARCH";
+                if (Session[targetKey] != null)
+                {
+                    viewModel = Session[targetKey] as RegulationMapViewModel;
+                }
+
                 return View(BASE_PATH + "Index.cshtml", viewModel);
             }
             catch (Exception ex)
@@ -176,6 +183,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
         {
             try
             {
+                Session[SessionKeyName] = viewModel;
                 viewModel.Search();
                 ModelState.Clear();
                 return View(BASE_PATH + "Index.cshtml", viewModel);

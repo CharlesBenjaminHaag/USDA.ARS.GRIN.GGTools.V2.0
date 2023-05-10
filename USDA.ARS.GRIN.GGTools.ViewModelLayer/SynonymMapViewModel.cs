@@ -74,9 +74,21 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
             throw new NotImplementedException();
         }
 
-        public int Insert()
+        public void Insert()
         {
-            throw new NotImplementedException();
+            SpeciesSynonymMap speciesSynonymMap = new SpeciesSynonymMap();
+
+            try
+            {
+                using (SpeciesSynonymMapManager mgr = new SpeciesSynonymMapManager())
+                {
+                    mgr.Insert(Entity);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public List<SpeciesSynonymMap> InsertMultiple()
@@ -142,6 +154,11 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
         }
 
         public int Update()
+        {
+            throw new NotImplementedException();
+        }
+
+        int IViewModel<SpeciesSynonymMap>.Insert()
         {
             throw new NotImplementedException();
         }

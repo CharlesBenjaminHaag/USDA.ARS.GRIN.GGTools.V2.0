@@ -42,9 +42,19 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
             throw new NotImplementedException();
         }
 
-        public int Insert()
+        public void Insert()
         {
-            throw new NotImplementedException();
+            try
+            {
+                using (SysGroupUserMapManager mgr = new SysGroupUserMapManager())
+                {
+                    mgr.Insert(Entity);
+                }
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public void Search()
@@ -70,6 +80,11 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
         }
 
         public int Update()
+        {
+            throw new NotImplementedException();
+        }
+
+        int IViewModel<SysGroupUserMap>.Insert()
         {
             throw new NotImplementedException();
         }

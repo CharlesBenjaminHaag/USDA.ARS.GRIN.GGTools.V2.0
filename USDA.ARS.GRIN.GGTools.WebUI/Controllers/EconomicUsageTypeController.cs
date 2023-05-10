@@ -59,6 +59,23 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             }
         }
 
+        public ActionResult Add()
+        {
+            try
+            {
+                EconomicUsageTypeViewModel viewModel = new EconomicUsageTypeViewModel();
+                viewModel.EventValue = "EconomicUsageType";
+                viewModel.TableName = "taxonomy_economic_usage_type";
+                viewModel.PageTitle = "Add Economic Usage Type";
+                viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
+                return View(BASE_PATH + "Edit.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return RedirectToAction("InternalServerError", "Error");
+            }
+        }
         public ActionResult Edit(int entityId)
         {
             try
@@ -70,7 +87,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 {
                     viewModel.Get(entityId);
                     viewModel.EventAction = "Edit";
-                    viewModel.PageTitle = String.Format("Edit Economic Usage Type [{0}]: {1}", entityId);
+                    viewModel.PageTitle = String.Format("Edit Economic Usage Type [{0}]", entityId);
                 }
                 else
                 {
@@ -85,7 +102,8 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 return RedirectToAction("InternalServerError", "Error");
             }
         }
-
+        
+        [HttpPost]
         public ActionResult Edit(EconomicUsageTypeViewModel viewModel)
         {
             try

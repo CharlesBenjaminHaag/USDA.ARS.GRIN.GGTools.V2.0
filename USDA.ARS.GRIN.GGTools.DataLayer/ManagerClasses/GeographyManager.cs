@@ -273,15 +273,13 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
 
             if (!String.IsNullOrEmpty(continentNameList))
             {
-                SQL +=  " WHERE RegionID IN " +
-                        " (SELECT region_id FROM region " +
-                        " WHERE continent IN (" + continentNameList + ")) ";
-                sqlOperator = "OR ";
+                SQL +=  " WHERE Continent IN (" + continentNameList + ") ";
+                sqlOperator = "AND ";
             }
 
             if (!String.IsNullOrEmpty(subContinents))
             {
-                SQL += sqlOperator + " RegionID IN (" + subContinents + ')';
+                SQL += sqlOperator + " SubContinent IN (" + subContinents + ')';
             }
 
             SQL += " ORDER BY CountryName ASC ";
@@ -313,8 +311,8 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         {
             List<Geography> results = new List<Geography>();
 
-            SQL = " SELECT ID, Admin1 FROM vw_GRINGlobal_Geography_State  ";
-            SQL += " ORDER BY Admin1 ASC ";
+            SQL = " SELECT ID, GeographyText FROM vw_GRINGlobal_Geography_State  ";
+            SQL += " ORDER BY GeographyText ASC ";
 
             results = GetRecords<Geography>(SQL);
             RowsAffected = results.Count;

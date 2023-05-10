@@ -10,7 +10,7 @@
     <div class="wrapper">
         <nav class="main-header navbar navbar-expand-md navbar-light text-sm">
             <div class="container" style="max-width:1500px;">
-                <a href="@Url.Action("Index","Home")" class="navbar-brand">
+                <a href="@Url.Action("Index", "Home")" class="navbar-brand">
                     <img src="~/dist/img/GGlogo_BW.gif" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
                     <span class="brand-text font-weight-light">GGTools</span>
                 </a>
@@ -23,7 +23,7 @@
                         @if (Model.Entity.ID > 0)
                         {
                             <!-- INFRASPECIFIC-->
-                            <li class="nav-item dropdown">
+                            <!--<li class="nav-item dropdown">
                                 <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Add Infraspecific Taxon</a>
                                 <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow">
                                     <li><a href="@Url.Action("Add", "Species", new { @rank = "subspecies", @entityId = Model.Entity.ID })" class="dropdown-item">Subspecies </a></li>
@@ -31,15 +31,15 @@
                                     <li><a href="@Url.Action("Add", "Species", new { @rank = "subvariety", @entityId = Model.Entity.ID })" class="dropdown-item">Subvariety</a></li>
                                     <li><a href="@Url.Action("Add", "Species", new { @rank = "form", @entityId = Model.Entity.ID })" class="dropdown-item">Form</a></li>
                                 </ul>
-                            </li>
+                            </li>-->
                             <!-- SYN -->
                             <li class="nav-item dropdown">
                                 <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Add Synonym</a>
                                 <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow">
-                                    <li><a href="@Url.Action("Add", "Species", new { @entityId = Model.Entity.ID, @synonymTypeCode = "basionym", @rank="species" })" class="dropdown-item">Basionym </a></li>
-                                    <li><a href="@Url.Action("Add", "Species", new { @entityId = Model.Entity.ID, @synonymTypeCode = "heterotypic", @rank="species" })" class="dropdown-item">Heterotypic</a></li>
-                                    <li><a href="@Url.Action("Add", "Species", new { @entityId = Model.Entity.ID, @synonymTypeCode = "homotypic", @rank="species" })" class="dropdown-item">Homotypic</a></li>
-                                    <li><a href="@Url.Action("Add", "Species", new { @entityId = Model.Entity.ID, @synonymTypeCode = "invalid", @rank="species" })" class="dropdown-item">Invalid</a></li>
+                                    <li><a href="@Url.Action("Add", "Species", new { @entityId = Model.Entity.ID, @synonymTypeCode = "basionym", @rank = "species" })" class="dropdown-item">Basionym </a></li>
+                                    <li><a href="@Url.Action("Add", "Species", new { @entityId = Model.Entity.ID, @synonymTypeCode = "heterotypic", @rank = "species" })" class="dropdown-item">Heterotypic</a></li>
+                                    <li><a href="@Url.Action("Add", "Species", new { @entityId = Model.Entity.ID, @synonymTypeCode = "homotypic", @rank = "species" })" class="dropdown-item">Homotypic</a></li>
+                                    <li><a href="@Url.Action("Add", "Species", new { @entityId = Model.Entity.ID, @synonymTypeCode = "invalid", @rank = "species" })" class="dropdown-item">Invalid</a></li>
                                     <div class="dropdown-divider"></div>
                                     <li><a href="@Url.Action("Add", "SpeciesSynonymMap", new { @entityId = Model.Entity.ID, @synonymType = "invalid" })" class="dropdown-item">Map</a></li>
                                 </ul>
@@ -93,7 +93,37 @@
                     <div class="row mb-2">
                         <div class="col-sm-6">
                             <h1 class="m-0">
-                                @Html.Raw(Model.PageTitle)
+
+                                <!-- TODO Refactor into _Title partial; create for each taxon type-->
+                                @{string actionName = ViewContext.RouteData.Values["action"].ToString(); }
+                                @actionName
+
+                                @if (actionName.ToLower() == "add")
+                                {
+                                    if (!String.IsNullOrEmpty(Model.Entity.SynonymCode))
+                                    {
+                                        <span>@Model.ToTitleCase(Model.Entity.SynonymDescription)</span>
+
+                                        if ((Model.Entity.SynonymCode == "heterotypic") || (Model.Entity.SynonymCode == "homotypic") || (Model.Entity.SynonymCode == "invalid"))
+                                        {
+                                            <span>Synonym </span>
+                                        }
+                                        <span>of <a href="@Url.Action("Edit","Species", new { @entityId = Model.Entity.ParentID })">@Html.Raw(Model.Entity.ParentName)</a></span>
+                                    }
+
+                                    if (Model.Entity.Rank.ToLower() != "species")
+                                    {
+                                        <span>@Model.ToTitleCase(Model.Entity.Rank) of <a href="@Url.Action("Edit", "Species", new { @entityId = Model.Entity.ParentID })">@Html.Raw(Model.Entity.ParentName)</a></span>
+                                    }
+                                    else
+                                    {
+                                        @*<span>Species</span>*@
+                                    }
+                                }
+                                else
+                                {
+                                    <span>Species [@Model.Entity.ID]: @Html.Raw(Model.Entity.AssembledName)</span>
+                                }
                             </h1>
                         </div>
                         <div class="col-sm-6">
@@ -112,7 +142,9 @@
                         @Html.HiddenFor(x => x.TableName)
                         @Html.HiddenFor(x => x.TableCode)
                         @Html.HiddenFor(x => x.Entity.ID)
+                        @Html.HiddenFor(x => x.Entity.ParentID)
                         @Html.HiddenFor(x => x.Entity.Rank)
+                        @Html.HiddenFor(x => x.Entity.SynonymCode)
                         @Html.HiddenFor(x => x.Entity.IsAcceptedName)
                         @Html.HiddenFor(x => x.Entity.CreatedByCooperatorID)
                         @Html.HiddenFor(x => x.Entity.CreatedByCooperatorName)
@@ -143,15 +175,15 @@
                                 <div id="section-web-order-request-tabs" class="card-header p-0 pt-1">
                                     <ul class="nav nav-tabs" id="custom-tabs-two-tab" role="tablist">
                                         <li class="pt-2 px-3"><h3 id="section-title" class="card-title">Species</h3></li>
-                                    
+
                                         @*<li id="section-species" class="nav-item">
-                                            <a id="tab-species"
-                                               class="nav-link"
-                                               href=""
-                                               role="tab"
-                                               aria-controls="custom-tabs-two-home"
-                                               aria-selected="true">Species</a>
-                                        </li>*@
+                                <a id="tab-species"
+                                   class="nav-link"
+                                   href=""
+                                   role="tab"
+                                   aria-controls="custom-tabs-two-home"
+                                   aria-selected="true">Species</a>
+                            </li>*@
                                         <li id="section-subspecies" class="nav-item">
                                             <a id="tab-subspecies"
                                                class="nav-link"
@@ -554,22 +586,6 @@
                                 }
                                 <button type="submit" class="btn btn-info float-right">Save</button>
                             </div>
-                        </div>
-                        <div class="card card-default">
-                            <div class="card-header">
-                                <h3 class="card-title">Summary</h3>
-                                <div class="card-tools">
-                                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                                        <i class="fas fa-minus"></i>
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="card-body">
-                                <div>
-
-                                </div>
-                            </div>
-
                         </div>
                     }
 

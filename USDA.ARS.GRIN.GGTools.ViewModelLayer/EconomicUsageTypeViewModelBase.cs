@@ -17,6 +17,10 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
 
         public EconomicUsageTypeViewModelBase()
         {
+            using (EconomicUseManager mgr = new EconomicUseManager())
+            {
+                EconomicUsageCodes = new SelectList(mgr.GetCodeValues("TAXONOMY_USAGE"), "Value", "Title");
+            }
         }
      
         public EconomicUsageType Entity
@@ -35,5 +39,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
             get { return _DataCollection; }
             set { _DataCollection = value; }
         }
+        public SelectList EconomicUsageCodes { get; set; }
+        public SelectList EconomicUsageTypes { get; set; }
     }
 }

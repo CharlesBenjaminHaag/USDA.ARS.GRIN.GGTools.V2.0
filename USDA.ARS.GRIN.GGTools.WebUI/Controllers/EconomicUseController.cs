@@ -290,19 +290,20 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 return Json(new { errorMessage = ex.Message }, JsonRequestBehavior.AllowGet);
             }
         }
+        
         [HttpPost]
-        public JsonResult GetEconomicUsageTypes(string economicUsageCode)
+        public PartialViewResult RenderWidget(string economicUsageCode)
         {
-            List<EconomicUsageType> results = new List<EconomicUsageType>();
             try
             {
-                EconomicUseViewModel viewModel = new EconomicUseViewModel();
-                results = viewModel.GetEconomicUsageTypes(economicUsageCode);
-                return Json(new { economicUsageTypes = results }, JsonRequestBehavior.AllowGet);
+                EconomicUsageTypeViewModel viewModel = new EconomicUsageTypeViewModel();
+                viewModel.GetEconomicUsageTypes(economicUsageCode);
+                return PartialView("~/Views/Taxonomy/EconomicUsageType/_Widget.cshtml", viewModel);
             }
             catch (Exception ex)
             {
-                return Json(new { errorMessage = ex.Message }, JsonRequestBehavior.AllowGet);
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
             }
         }
     }

@@ -707,7 +707,6 @@
     <Content Include="Views\Site\_EditAddress.cshtml" />
     <Content Include="Views\Taxonomy\Genus\Edit - Copy.cshtml" />
     <Content Include="Views\SysGroupUserMap\_Widget.cshtml" />
-    <Content Include="Views\Taxonomy\EconomicUse\Edit - Copy.cshtml" />
     <Content Include="Views\SysTable\_Widget.cshtml" />
     <Content Include="Views\Cooperator\_ListWidget.cshtml" />
     <Content Include="Views\Taxonomy\Citation\_Edit.cshtml" />
@@ -723,8 +722,6 @@
     <Content Include="Views\WebOrder\Explorer\_NoteWidget.cshtml" />
     <Content Include="Views\WebOrder\_ListItems.cshtml" />
     <Content Include="Views\Taxonomy\GeographyMap\_SelectList.cshtml" />
-    <Content Include="Views\Taxonomy\Citation\Modals\_LookupBySpecies.cshtml" />
-    <Content Include="Views\Taxonomy\Citation\Modals\_SelectListBySpecies.cshtml" />
     <Content Include="Views\Taxonomy\Species\Index_BACKUP.cshtml" />
     <Content Include="Views\Taxonomy\Species\Modals\_LookupParent.cshtml" />
     <Content Include="Views\Taxonomy\Species\Modals\_SelectListParent.cshtml" />
@@ -746,6 +743,10 @@
     <Content Include="Views\Taxonomy\EconomicUsageType\Modals\_ARCHIVE\_Edit.cshtml" />
     <Content Include="Views\Taxonomy\EconomicUsageType\Modals\_Lookup.cshtml" />
     <Content Include="Views\Taxonomy\EconomicUsageType\Modals\_SelectList.cshtml" />
+    <Content Include="Views\Taxonomy\EconomicUsageType\_Widget.cshtml" />
+    <Content Include="Views\Taxonomy\Citation\Modals\_SpeciesCitationLookup.cshtml" />
+    <Content Include="Views\Taxonomy\Citation\Modals\_SpeciesCitationSelectList.cshtml" />
+    <Content Include="Views\Taxonomy\RegulationMap\Edit - Copy.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

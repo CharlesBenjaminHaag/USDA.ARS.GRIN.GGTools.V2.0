@@ -27,7 +27,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
                 Cooperators = new SelectList(mgr.GetCooperators(TableName), "ID", "FullName");
                 EconomicUsageCodes = new SelectList(mgr.GetCodeValues("TAXONOMY_USAGE"), "Value", "Title");
                 PlantPartCodes = new SelectList(mgr.GetCodeValues("TAXONOMY_PLANT_PART"), "Value", "Title");
-                //EconomicUsageTypes = new SelectList(mgr.GetEconomicUsageTypes(), "Value", "Title");
+                EconomicUsageTypes = new SelectList(mgr.GetEconomicUsageTypes(), "UsageType", "AssembledName");
             }
         }
 

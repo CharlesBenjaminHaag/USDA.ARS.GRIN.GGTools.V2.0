@@ -148,24 +148,30 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
         public void GetCountries()
         {
             List<Country> countries = new List<Country>();
-            using (GeographyManager mgr = new GeographyManager())
+            try
             {
-                countries = mgr.GetCountries(SearchEntity.ContinentNameList, SearchEntity.SubContinentIDList);
+                using (GeographyManager mgr = new GeographyManager())
+                {
+                    countries = mgr.GetCountries(SearchEntity.ContinentNameList, SearchEntity.SubContinentNameList);
+                }
+                DataCollectionCountries = new Collection<Country>(countries);
+                //ObjectCache cache = MemoryCache.Default;
+                //countries = cache["DATA-LIST-GEOGRAPHY-COUNTRIES"] as List<Country>;
+
+                //if (countries == null)
+                //{
+                //    CacheItemPolicy policy = new CacheItemPolicy();
+                //    using (GeographyManager mgr = new GeographyManager())
+                //    {
+                //        countries = mgr.GetCountries();
+                //    }
+                //    cache.Set("DATA-LIST-GEOGRAPHY-COUNTRIES", countries, policy);
+                //}
             }
-            DataCollectionCountries = new Collection<Country>(countries);
-            //ObjectCache cache = MemoryCache.Default;
-            //countries = cache["DATA-LIST-GEOGRAPHY-COUNTRIES"] as List<Country>;
-
-            //if (countries == null)
-            //{
-            //    CacheItemPolicy policy = new CacheItemPolicy();
-            //    using (GeographyManager mgr = new GeographyManager())
-            //    {
-            //        countries = mgr.GetCountries();
-            //    }
-            //    cache.Set("DATA-LIST-GEOGRAPHY-COUNTRIES", countries, policy);
-            //}
-
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public List<Geography> GetAdministrativeUnits()

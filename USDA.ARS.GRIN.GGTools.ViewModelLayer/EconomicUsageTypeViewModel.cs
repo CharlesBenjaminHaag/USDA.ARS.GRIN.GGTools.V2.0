@@ -105,5 +105,13 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
                 return RowsAffected;
             }
         }
+
+        public void GetEconomicUsageTypes(string economicUsageCode)
+        {
+            using (EconomicUseManager mgr = new EconomicUseManager())
+            {
+                EconomicUsageTypes = new SelectList(mgr.GetEconomicUsageTypes(economicUsageCode), "UsageType", "AssembledName");
+            }
+        }
     }
 }

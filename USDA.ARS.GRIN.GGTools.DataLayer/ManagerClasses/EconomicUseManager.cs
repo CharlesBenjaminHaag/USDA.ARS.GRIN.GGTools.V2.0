@@ -86,13 +86,20 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             List<EconomicUse> results = new List<EconomicUse>();
 
             SQL = "SELECT * FROM vw_GRINGlobal_Taxonomy_Use ";
-            SQL += " WHERE  (@CreatedByCooperatorID     IS NULL     OR CreatedByCooperatorID    =       @CreatedByCooperatorID)";
-            SQL += " AND    (@ID                        IS NULL     OR ID                       =       @ID)";
-            SQL += " AND    (@SpeciesID                 IS NULL     OR SpeciesID                =       @SpeciesID)";
+            SQL += " WHERE  (@SpeciesID                 IS NULL     OR SpeciesID                =       @SpeciesID)";
             SQL += " AND    (@SpeciesName               IS NULL     OR SpeciesName              LIKE    '%' +  @SpeciesName + '%')";
             SQL += " AND    (@EconomicUsageCode         IS NULL     OR EconomicUsageCode        =       @EconomicUsageCode)";
             SQL += " AND    (@EconomicUsageType         IS NULL     OR EconomicUsageType        =       @EconomicUsageType)";
             SQL += " AND    (@PlantPartCode             IS NULL     OR PlantPartCode            =       @PlantPartCode)";
+
+            // Common extended fields
+            SQL += " AND    (@ID   IS NULL OR ID       =         @ID)";
+            SQL += " AND    (@CreatedByCooperatorID         IS NULL OR CreatedByCooperatorID    =       @CreatedByCooperatorID)";
+            SQL += " AND    (@CreatedDate                   IS NULL OR CreatedDate              =       @CreatedDate)";
+            SQL += " AND    (@ModifiedByCooperatorID        IS NULL OR ModifiedByCooperatorID   =       @ModifiedByCooperatorID)";
+            SQL += " AND    (@ModifiedDate                  IS NULL OR ModifiedDate             =       @ModifiedDate)";
+            SQL += " AND    (@Note                          IS NULL OR Note                     LIKE    '%' + @Note + '%')";
+            SQL += " AND    (@CitationText                  IS NULL OR CitationText             LIKE    '%' + @CitationText + '%')";
 
             if (!String.IsNullOrEmpty(searchEntity.IDList))
             {
@@ -100,8 +107,16 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             }
 
             var parameters = new List<IDbDataParameter> {
-            CreateParameter("CreatedByCooperatorID", searchEntity.CreatedByCooperatorID > 0 ? (object)searchEntity.CreatedByCooperatorID : DBNull.Value, true),
+            
+            // Common extended fields
             CreateParameter("ID", searchEntity.ID > 0 ? (object)searchEntity.ID : DBNull.Value, true),
+            CreateParameter("CreatedByCooperatorID", searchEntity.CreatedByCooperatorID > 0 ? (object)searchEntity.CreatedByCooperatorID : DBNull.Value, true),
+            CreateParameter("CreatedDate", searchEntity.CreatedDate > DateTime.MinValue ? (object)searchEntity.CreatedDate : DBNull.Value, true),
+            CreateParameter("ModifiedByCooperatorID", searchEntity.ModifiedByCooperatorID > 0 ? (object)searchEntity.ModifiedByCooperatorID : DBNull.Value, true),
+            CreateParameter("ModifiedDate", searchEntity.ModifiedDate > DateTime.MinValue ? (object)searchEntity.ModifiedDate : DBNull.Value, true),
+            CreateParameter("Note", (object)searchEntity.Note ?? DBNull.Value, true),
+            CreateParameter("CitationText", (object)searchEntity.CitationText ?? DBNull.Value, true),
+
             CreateParameter("SpeciesID", searchEntity.SpeciesID > 0 ? (object)searchEntity.SpeciesID : DBNull.Value, true),
             CreateParameter("SpeciesName", (object)searchEntity.SpeciesName ?? DBNull.Value, true),
             CreateParameter("EconomicUsageCode", (object)searchEntity.EconomicUsageCode ?? DBNull.Value, true),
@@ -140,8 +155,13 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         public virtual List<EconomicUsageType> GetEconomicUsageTypes(string economicUsageCode = "")
         {
             SQL = "SELECT * FROM vw_GRINGlobal_Taxonomy_Economic_Usage_Type ";
-            SQL += " WHERE EconomicUsageCode = '" + economicUsageCode + "'";
-            SQL += " ORDER BY EconomicUsageTypeCode ASC "; 
+
+            if (!String.IsNullOrWhiteSpace(economicUsageCode))
+            {
+                SQL += " WHERE EconomicUsageCode = '" + economicUsageCode + "'";
+            }
+
+            SQL += " ORDER BY UsageType ASC "; 
             List<EconomicUsageType> usageTypes = GetRecords<EconomicUsageType>(SQL);
             return usageTypes;
         }

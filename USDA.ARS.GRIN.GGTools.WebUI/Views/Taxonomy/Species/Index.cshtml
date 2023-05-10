@@ -127,27 +127,27 @@
     @{Html.RenderAction("_Edit", "Folder"); }
     @{Html.RenderAction("RenderParentLookupModal", "Species"); }
 
-    @*<script type="text/javascript">
+    <script type="text/javascript">
 
-        $(document).ready(function () {
-            Init();
-            SetExtendedFields();
-        });
+        //$(document).ready(function () {
+        //    Init();
+        //    SetExtendedFields();
+        //});
 
-        function Init() {
-            var eventAction = $("#EventAction").val();
-            if (eventAction == "SHOW-SEARCH") {
-                $("#section-search-criteria").show();
-                $("#btnShowAggregateChildData").prop("disabled", false);
-            }
-            else {
-                $("#btnShowAggregateChildData").prop("disabled", true);
-            }
+        //function Init() {
+        //    var eventAction = $("#EventAction").val();
+        //    if (eventAction == "SHOW-SEARCH") {
+        //        $("#section-search-criteria").show();
+        //        $("#btnShowAggregateChildData").prop("disabled", false);
+        //    }
+        //    else {
+        //        $("#btnShowAggregateChildData").prop("disabled", true);
+        //    }
 
-            $(function () {
-                $("#reservation").datepicker();
-            });
-        }
+        //    $(function () {
+        //        $("#reservation").datepicker();
+        //    });
+        //}
 
         $(document).on("click", "[id*='btnAddInfra']", function () {
             var id = $(this).attr("id");
@@ -167,16 +167,6 @@
             window.location.href = link;
         });
     </script>
-
-    <script src="~/plugins/jquery/jquery.min.js"></script>
-    <script src="~/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="~/dist/js/adminlte.js"></script>
-    <script type="text/javascript" src="~/Content/dist/js/DataTables/jquery.dataTables.min.js"></script>
-    <script type="text/javascript" language="javascript" src="~/Content/dist/js/DataTables/dataTables.select.min.js"></script>
-    <script type="text/javascript" language="javascript" src="~/Content/dist/js/DataTables/dataTables.buttons.min.js"></script>
-    <script type="text/javascript" src="~/Content/dist/js/DataTables/buttons.html5.min.js"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/responsive/2.4.0/js/dataTables.responsive.min.js"></script>
-    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>*@
 </body>
 </html>
 @Html.Partial("~/Views/Shared/_Scripts.cshtml")

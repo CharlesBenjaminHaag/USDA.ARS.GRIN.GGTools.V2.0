@@ -17,6 +17,7 @@
                         <th>ID</th>
                         <th>Name</th>
                         <th>Accepted</th>
+                        <th>Synonym</th>
                         <th>Protologue</th>
                         <th>Verified</th>
                         <th>By</th>
@@ -41,8 +42,16 @@
                         <td>
                             @Html.Raw(Model.FormatBoolean(result.SpeciesAIsAcceptedName))
                         </td>
+                        <td>
+                            @result.SynonymDescription
+                        </td>
                         <td>@result.SpeciesAProtologue</td>
-                        <td>@result.SpeciesANameVerifiedDate.ToShortDateString()</td>
+                        <td>
+                            @if (result.SpeciesANameVerifiedDate > DateTime.MinValue)
+                            {
+                                @result.SpeciesANameVerifiedDate.ToShortDateString()
+                            }
+                        </td>
                         <td>@result.SpeciesAVerifiedByCooperatorName</td>
                         <td class="table-col-align-right">
                             <a href="@Url.Action("Edit", "Species", new { entityId = result.SpeciesAID })" class="btn btn-default btn-sm pull-right row-edit">

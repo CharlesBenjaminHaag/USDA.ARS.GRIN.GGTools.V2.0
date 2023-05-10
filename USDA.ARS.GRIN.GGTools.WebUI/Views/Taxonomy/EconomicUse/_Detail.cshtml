@@ -11,12 +11,6 @@
         <div class="tab-content">
             <div class="tab-pane active" id="section-search-criteria">
                 <div class="row">
-                    <div class="col-md-2">
-                        <div class="form-group form-horizontal">
-                            <label>Created By</label>
-                            @Html.DropDownListFor(x => x.SearchEntity.CreatedByCooperatorID, Model.Cooperators, "All Cooperators", new { @class = "form-control" })
-                        </div>
-                    </div>
                     <div class="col-md-3">
                         <div class="form-group">
                             <label>Species Name</label>
@@ -32,7 +26,19 @@
                     <div class="col-md-3">
                         <div class="form-group">
                             <label>Usage Type</label>
-                            @*@Html.DropDownListFor(x => x.SearchEntity.EconomicUsageTypeCode, Model.EconomicUsageTypes, "All types", new { @class = "form-control" })*@
+                            @Html.DropDownListFor(x => x.SearchEntity.EconomicUsageTypeCode, Model.EconomicUsageTypes, "All types", new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Plant Part</label>
+                            @Html.DropDownListFor(x => x.SearchEntity.PlantPartCode, Model.PlantPartCodes, "All values", new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group form-horizontal">
+                            <label>Note</label>
+                            @Html.TextBoxFor(x => x.SearchEntity.Note, new { @class = "form-control" })
                         </div>
                     </div>
                 </div>

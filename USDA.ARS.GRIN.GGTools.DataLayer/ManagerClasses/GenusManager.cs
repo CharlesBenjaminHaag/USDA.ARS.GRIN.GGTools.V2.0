@@ -117,6 +117,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
 
             SQL = "SELECT * FROM vw_GRINGlobal_Taxonomy_Genus";
             
+            // Common extended fields
             SQL += " WHERE  (@ID   IS NULL OR ID       =         @ID)";
             SQL += " AND    (@CreatedByCooperatorID         IS NULL OR CreatedByCooperatorID    =       @CreatedByCooperatorID)";
             SQL += " AND    (@CreatedDate                   IS NULL OR CreatedDate              =       @CreatedDate)";
@@ -135,6 +136,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             SQL += " ORDER BY Name ";
 
             var parameters = new List<IDbDataParameter> {
+                // Common extended fields
                 CreateParameter("ID", searchEntity.ID > 0 ? (object)searchEntity.ID : DBNull.Value, true),
                 CreateParameter("CreatedByCooperatorID", searchEntity.CreatedByCooperatorID > 0 ? (object)searchEntity.CreatedByCooperatorID : DBNull.Value, true),
                 CreateParameter("CreatedDate", searchEntity.CreatedDate > DateTime.MinValue ? (object)searchEntity.CreatedDate : DBNull.Value, true),

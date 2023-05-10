@@ -14,7 +14,8 @@
                 <tr>
                     <th></th>
                     <th width="5%">ID</th>
-                    <th>Assembled Name</th>
+                    <th>Regulation</th>
+                    <th>Family</th>
                     <th>Genus</th>
                     <th>Species</th>
                     <th>Exempt</th>
@@ -37,7 +38,16 @@
                             <td>
                                 @result.ID
                             </td>
-                            <td>@result.AssembledName</td>
+                            <td>
+                                <a href="@Url.Action("Edit", "Regulation", new { entityId = result.RegulationID })">
+                                    @result.AssembledName
+                                </a>
+                            </td>
+                            <td>
+                                <a href="@Url.Action("Edit", "FamilyMap", new { entityId = result.FamilyID })">
+                                    @result.FamilyName
+                                </a>
+                            </td>
                             <td>
                                 <a href="@Url.Action("Edit", "Genus", new { entityId = result.GenusID })">
                                     @result.GenusName

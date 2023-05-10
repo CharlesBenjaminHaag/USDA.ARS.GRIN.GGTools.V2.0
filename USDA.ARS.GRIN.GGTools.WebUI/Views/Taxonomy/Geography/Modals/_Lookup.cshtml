@@ -119,10 +119,10 @@
         </div>
     </div>
 </div>
-@if (Model.SpeciesID > 0)
+@*@if (Model.SpeciesID > 0)
 {
     {Html.RenderAction("RenderLookupBySpeciesModal", "Citation", new { speciesId = Model.SpeciesID });}
-}
+}*@
 <script type="text/javascript">
     $("#btnLookupGeography").click(function () {
         SearchGeography();
@@ -175,8 +175,10 @@
     // Countries
     // ===================================================================
     $(document).on("click", "[id='btnFilterCountries']", function () {
-        var selectedSubContinents = GetSelectedEntityIDs("data-table-geography-subcontinents");
-        
+        var selectedSubContinents = GetSelectedEntityQuotedStrings("data-table-geography-subcontinents");
+        //DEBUG
+        alert("SEL SUBS " + selectedSubContinents);
+
         // Get selected continents. REFACTOR (CBH, 5/2/23)
         var selectedContinents = [];
         $('#section-select-continents input:checked').each(function () {

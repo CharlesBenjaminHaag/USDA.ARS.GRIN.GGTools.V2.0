@@ -255,6 +255,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             AddParameter("taxonomy_species_id", entity.SpeciesID == 0 ? DBNull.Value : (object)entity.SpeciesID, true);
             AddParameter("taxonomy_common_name_language_id", entity.LanguageID == 0 ? DBNull.Value : (object)entity.LanguageID, true);
             AddParameter("name", (object)entity.Name ?? DBNull.Value, false);
+            AddParameter("language_description", (object)entity.LanguageDescription ?? DBNull.Value, true);
             AddParameter("simplified_name", (object)entity.SimplifiedName ?? DBNull.Value, true);
             AddParameter("alternate_transcription", (object)entity.AlternateTranscription ?? DBNull.Value, false);
             AddParameter("citation_id", entity.CitationID == 0 ? DBNull.Value : (object)entity.CitationID, true); ;
