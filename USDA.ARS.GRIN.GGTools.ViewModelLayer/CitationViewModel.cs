@@ -69,7 +69,30 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
                 return Entity;
             }
         }
-      
+
+        public void GetSpeciesCitations(int speciesId)
+        {
+            try
+            {
+                using (CitationManager mgr = new CitationManager())
+                {
+                    DataCollection = new Collection<Citation>(mgr.GetSpeciesCitations(speciesId));
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public int UpdateSpeciesCitation(string tableName, int entityId, int citationId, int cooperatorId)
+        {
+            using (CitationManager mgr = new CitationManager())
+            {
+                return mgr.UpdateSpeciesCitation(tableName, entityId, citationId, cooperatorId);
+            }
+        }
+
         public int Insert()
         {
             using (CitationManager mgr = new CitationManager())

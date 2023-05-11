@@ -85,7 +85,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         {
             List<EconomicUse> results = new List<EconomicUse>();
 
-            SQL = "SELECT * FROM vw_GRINGlobal_Taxonomy_Use ";
+            SQL = "SELECT * FROM vw_GRINGlobal_Taxonomy_Economic_Use ";
             SQL += " WHERE  (@SpeciesID                 IS NULL     OR SpeciesID                =       @SpeciesID)";
             SQL += " AND    (@SpeciesName               IS NULL     OR SpeciesName              LIKE    '%' +  @SpeciesName + '%')";
             SQL += " AND    (@EconomicUsageCode         IS NULL     OR EconomicUsageCode        =       @EconomicUsageCode)";
@@ -174,9 +174,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             }
 
             AddParameter("taxonomy_species_id", entity.SpeciesID == 0 ? DBNull.Value : (object)entity.SpeciesID, true);
-          
-            //TODO
-            
+            AddParameter("taxonomy_economic_usage_type_id", entity.EconomicUsageTypeID == 0 ? DBNull.Value : (object)entity.EconomicUsageTypeID, true); ;
             AddParameter("plant_part_code", (object)entity.PlantPartCode ?? DBNull.Value, false);
             AddParameter("citation_id", entity.CitationID == 0 ? DBNull.Value : (object)entity.CitationID, true); ;
             AddParameter("note", (object)entity.Note ?? DBNull.Value, false);

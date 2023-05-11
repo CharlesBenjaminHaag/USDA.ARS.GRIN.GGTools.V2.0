@@ -395,6 +395,45 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 return RedirectToAction("InternalServerError", "Error");
             }
         }
+
+        /// <summary>
+        /// Creates a clone of a speficied citation, and links a specified record to that citation.
+        /// </summary>
+        /// <param name="tableName">The table to update</param>
+        /// <param name="entityId">The ID of the record to update</param>
+        /// <param name="citationId">The citation to clone</param>
+        /// <returns>Success: the ID of the cloned citation
+        /// Error: TBD</returns>
+        /// <remarks>
+        /// Relevant to tables that are child tables of taxonomy_species. These tables, unlike
+        /// taxon tables, are linked to 0 or 1 citations.
+        /// </remarks>
+        [HttpPost]
+        public JsonResult AddSpeciesCitation(string tableName, int entityId, int citationId)
+        {
+            try
+            {
+                // Retrieve existing citation 
+                CitationViewModel viewModel = new CitationViewModel();
+                viewModel.Get(citationId);
+
+                // Create clone of citation
+                CitationViewModel cloneViewModel = new CitationViewModel();
+                cloneViewModel.Entity = viewModel.Entity;
+                cloneViewModel.Entity.ID = 0;
+                cloneViewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
+                cloneViewModel.Insert();
+                
+                // Set reference of specified record to newly-cloned citation id.
+                viewModel.UpdateSpeciesCitation(tableName, entityId, cloneViewModel.Entity.ID, AuthenticatedUser.CooperatorID);
+                return Json(new { citationId = cloneViewModel.Entity.ID }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = "false" }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
         [HttpPost]
         public JsonResult Add(FormCollection formCollection)
         {
@@ -570,12 +609,11 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 }
             return PartialView(BASE_PATH + "/Modals/_Lookup.cshtml", viewModel);
         }
-        public PartialViewResult RenderLookupBySpeciesModal(int speciesId)
+        public PartialViewResult RenderSpeciesCitationLookupModal(int speciesId)
         {
             CitationViewModel viewModel = new CitationViewModel();
-            viewModel.SearchEntity.SpeciesID = speciesId;
-            viewModel.Search();
-            return PartialView(BASE_PATH + "/Modals/_LookupBySpecies.cshtml", viewModel);
+            viewModel.GetSpeciesCitations(speciesId);
+            return PartialView(BASE_PATH + "/Modals/_SpeciesCitationLookup.cshtml", viewModel);
         }
         public PartialViewResult RenderEditModal(int entityId)
         {

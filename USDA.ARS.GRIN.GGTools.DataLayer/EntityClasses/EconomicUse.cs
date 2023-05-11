@@ -16,7 +16,6 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         public string EconomicUsageType { get; set; }
         public string PlantPartCode { get; set; }
         public string PlantPartDescription { get; set; }
-        public int CitationID { get; set; }
         public string CitationText { get; set; }
         public string Abbreviation { get; set; }
     }

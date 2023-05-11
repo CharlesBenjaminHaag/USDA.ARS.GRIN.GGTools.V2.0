@@ -20,9 +20,9 @@
                 <div class="collapse navbar-collapse order-3" id="navbarCollapse">
                     <!-- BEGIN EDIT PAGE MENU -->
                     <ul class="navbar-nav">
-                            <!-- FOLDERS -->
+                        <!-- FOLDERS -->
                         @{ Html.RenderAction("_RelatedFoldersMenu", "Folder", new { tableName = Model.TableName, entityId = Model.Entity.ID }); }
-                    
+
                     </ul>
                     <!-- END EDIT PAGE MENU-->
                 </div>
@@ -189,8 +189,13 @@
 
                                     @if (Model.Entity.ID > 0)
                                     {
-                                        Html.RenderAction("RenderLookupModal", "Citation", new { @tableName = Model.TableName, @speciesId = Model.Entity.SpeciesID });
-                                        Html.RenderAction("RenderWidget", "Citation", new { @entityId = Model.Entity.CitationID });
+                                        if (Model.Entity.SpeciesID > 0)
+                                        {
+                                            Html.RenderAction("RenderSpeciesCitationLookupModal", "Citation", new { @tableName = Model.TableName, @speciesId = Model.Entity.SpeciesID });
+                                        }
+                                        <div id="section-species-citation-widget">
+                                            @{Html.RenderAction("RenderWidget", "Citation", new { @entityId = Model.Entity.CitationID });}
+                                        </div>
                                     }
                                 </div>
                             </div>
@@ -206,23 +211,6 @@
                             </div>
                         </div>
                     }
-                    @{Html.RenderAction("RenderLookupModal", "FamilyMap"); }
-                    @{Html.RenderAction("RenderLookupModal", "Genus"); }
-                    @{Html.RenderAction("RenderLookupModal", "Species"); }
-                    @Html.Partial("~/Views/Shared/Modals/_NoteLookup2.cshtml")
-                    @Html.Partial("~/Views/Taxonomy/Shared/Modals/_Delete.cshtml")
-                    @{Html.RenderAction("_Edit", "Folder"); }
-                    <script type="text/javascript">
-                        $(document).ready(function () {
-                            Init();
-                            /*InitializeCKEditor();*/
-                        });
-
-                        function Init() {
-
-                        }
-                    </script>
-                    <br />
                 </div>
             </div>
 
@@ -232,11 +220,12 @@
         <!-- Main Footer -->
         @Html.Partial("~/Views/Shared/_Footer.cshtml")
     </div>
-
+    @{Html.RenderAction("RenderLookupModal", "FamilyMap"); }
     @{Html.RenderAction("RenderLookupModal", "Genus"); }
     @{Html.RenderAction("RenderLookupModal", "Species"); }
     @Html.Partial("~/Views/Shared/Modals/_NoteLookup2.cshtml")
-
+    @Html.Partial("~/Views/Taxonomy/Shared/Modals/_Delete.cshtml")
+    @{Html.RenderAction("_Edit", "Folder"); }
     <script type="text/javascript">
         $(document).ready(function () {
             Init();
@@ -250,26 +239,23 @@
             var genusId = $("#Entity_GenusID").val();
             var speciesId = $("#Entity_SpeciesID").val();
 
-            //DEBUG
-            /*alert("GENUS " + genusId + " SPECIES " + speciesId);*/
-
-            if (entityId == 0) {
-                $('[id*="section-fields"]').hide();
-
-                if (genusId > 0) {
+            if (genusId > 0) {
+                $("#ddlTaxonType option[value=taxonomy-genus]").attr('selected', 'selected');
+                $("#section-fields-taxonomy-genus").show();
+            }
+            else {
+                if (speciesId > 0) {
+                    $("#ddlTaxonType option[value=taxonomy-species]").attr('selected', 'selected');
+                    $("#section-fields-taxonomy-species").show();
+                }
+                else {
                     $("#ddlTaxonType option[value=taxonomy-genus]").attr('selected', 'selected');
                     $("#section-fields-taxonomy-genus").show();
                 }
-                else {
-                    if (speciesId > 0) {
-                        $("#ddlTaxonType option[value=taxonomy-species]").attr('selected', 'selected');
-                        $("#section-fields-taxonomy-species").show();
-                    }
-                    else {
-                        $("#ddlTaxonType option[value=taxonomy-genus]").attr('selected', 'selected');
-                        $("#section-fields-taxonomy-genus").show();
-                    }
-                }
+            }
+
+            if (entityId == 0) {
+                $('[id*="section-fields"]').hide();
             }
             else {
                 var categoryTab = $("#Entity_CategoryCode").val() + "-tab";

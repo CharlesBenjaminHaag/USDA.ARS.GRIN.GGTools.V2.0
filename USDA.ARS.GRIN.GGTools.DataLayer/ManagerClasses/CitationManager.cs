@@ -51,7 +51,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
 
             return RowsAffected;
         }
-        public int UpdateReference(string tableName, int entityId, int citationId, int modifiedBy)
+        public int UpdateSpeciesCitation(string tableName, int entityId, int citationId, int modifiedBy)
         {
             Reset(CommandType.StoredProcedure);
             SQL = "usp_GGTools_Taxon_CitationReference_Update";
@@ -80,7 +80,26 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         {
             return null;
         }
-        
+
+        public List<Citation> GetSpeciesCitations(int speciesId)
+        {
+            List<Citation> results = new List<Citation>();
+
+            SQL = " SELECT * FROM vw_GRINGlobal_Citation " +
+                    " WHERE SpeciesID = @SpeciesID " +
+                    " OR " +
+                    " SpeciesID IN " +
+                    " (SELECT SpeciesAID " +
+                    " FROM vw_GRINGlobal_Taxonomy_Species_Synonym_Map " +
+                    " WHERE SpeciesBID = @SpeciesID) ";
+            var parameters = new List<IDbDataParameter> {
+                CreateParameter("SpeciesID", speciesId > 0 ? (object)speciesId : DBNull.Value, true)
+            };
+            results = GetRecords<Citation>(SQL, parameters.ToArray());
+            RowsAffected = results.Count;
+            return results;
+        }
+
         public List<Citation> Search(CitationSearch searchEntity)
         {
             List<Citation> results = new List<Citation>();

@@ -32,7 +32,7 @@
                             <td>@result.ID</td>
                             <td>
                                 <a href="@Url.Action("Edit","Species", new { @entityId = result.SpeciesID })">
-                                    @result.SpeciesName
+                                   @Html.Raw(result.SpeciesName)
                                 </a>
                             </td>
                             <td>@result.AssembledName</td>
