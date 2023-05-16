@@ -2,7 +2,7 @@
 
 <div class="card card-primary">
     <div class="card-header">
-        <h3 class="card-title">My Site @Model.Entity.ID</h3>
+        <h3 class="card-title">My Site</h3>
     </div>
     <div class="card-body">
         <strong><i class="fas fa-book mr-1"></i> Name</strong>
@@ -14,12 +14,14 @@
         <p class="text-muted">@Model.Entity.EmailAddress</p>
         <hr>
         <strong><i class="fas fa-users mr-1"></i> Site Cooperators</strong>
-
-        <button id="btnAddCooperator" class="btn btn-default btn-block" style="margin-top:15px;" data-target="#modal-cooperator-add" data-toggle="modal">
-            Add Cooperator
-        </button>
+        <p>
+            <a href="@Url.Action("ExplorerAdd","Cooperator")" class="btn btn-primary btn-block">
+                <i class="fas fa-plus"></i>
+                Add New Cooperator
+            </a>
+        </p>
         <div id="data-table-site-cooperators_wrapper" class="dataTables_wrapper no-footer">
-            @{Html.RenderAction("_List", "Cooperator", new { @siteId = Model.Entity.ID, formatCode = "LWGT" }); }
+            
         </div>
     </div>
     <!-- TODO -->

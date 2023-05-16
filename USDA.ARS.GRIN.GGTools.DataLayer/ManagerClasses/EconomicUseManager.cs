@@ -88,8 +88,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             SQL = "SELECT * FROM vw_GRINGlobal_Taxonomy_Economic_Use ";
             SQL += " WHERE  (@SpeciesID                 IS NULL     OR SpeciesID                =       @SpeciesID)";
             SQL += " AND    (@SpeciesName               IS NULL     OR SpeciesName              LIKE    '%' +  @SpeciesName + '%')";
-            SQL += " AND    (@EconomicUsageCode         IS NULL     OR EconomicUsageCode        =       @EconomicUsageCode)";
-            SQL += " AND    (@EconomicUsageType         IS NULL     OR EconomicUsageType        =       @EconomicUsageType)";
+            SQL += " AND    (@AssembledName             IS NULL     OR AssembledName            LIKE    '%' +  @AssembledName + '%')";
             SQL += " AND    (@PlantPartCode             IS NULL     OR PlantPartCode            =       @PlantPartCode)";
 
             // Common extended fields
@@ -119,8 +118,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
 
             CreateParameter("SpeciesID", searchEntity.SpeciesID > 0 ? (object)searchEntity.SpeciesID : DBNull.Value, true),
             CreateParameter("SpeciesName", (object)searchEntity.SpeciesName ?? DBNull.Value, true),
-            CreateParameter("EconomicUsageCode", (object)searchEntity.EconomicUsageCode ?? DBNull.Value, true),
-            CreateParameter("EconomicUsageType", (object)searchEntity.EconomicUsageTypeCode ?? DBNull.Value, true),
+            CreateParameter("AssembledName", (object)searchEntity.AssembledName ?? DBNull.Value, true),
             CreateParameter("PlantPartCode", (object)searchEntity.PlantPartCode ?? DBNull.Value, true),
         };
 

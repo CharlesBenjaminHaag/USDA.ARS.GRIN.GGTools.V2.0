@@ -190,6 +190,20 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
             Search();
             return Entity;
         }
+        public override bool Validate()
+        {
+            bool validated = true;
 
+            if (String.IsNullOrEmpty(Entity.FirstName))
+            {
+                ValidationMessages.Add(new Common.Library.ValidationMessage { Message = "First name required." });
+            }
+        
+            if (ValidationMessages.Count > 0)
+            {
+                validated = false;
+            }
+            return validated;
+        }
     }
 }

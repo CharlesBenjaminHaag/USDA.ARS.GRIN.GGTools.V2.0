@@ -92,7 +92,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
         {
             Reset(CommandType.StoredProcedure);
             Validate<WebUser>(entity);
-            SQL = "usp_GGTools_GRINGLobal_WebUser_Insert";
+            SQL = "usp_GRINGlobal_Web_User_Insert";
 
             AddParameter("user_name", String.IsNullOrEmpty(entity.WebUserName) ? DBNull.Value : (object)entity.WebUserName, true);
             AddParameter("password", String.IsNullOrEmpty(entity.WebUserPassword) ? DBNull.Value : (object)entity.WebUserPassword, true);

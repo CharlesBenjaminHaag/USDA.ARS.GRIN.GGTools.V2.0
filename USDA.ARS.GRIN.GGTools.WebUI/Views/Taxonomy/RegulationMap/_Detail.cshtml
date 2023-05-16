@@ -19,30 +19,20 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                         <div class="form-group form-horizontal">
-                            <label>Type</label>
-                            @Html.DropDownListFor(x => x.SearchEntity.RegulationTypeCode, Model.RegulationTypeCodes, "Any Type", new { @class = "form-control" })
+                            <label>Text</label>
+                            @Html.TextBoxFor(x=>x.SearchEntity.AssembledName, new { @class = "form-control" })
                         </div>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                         <div class="form-group form-horizontal">
-                            <label>Level</label>
-                            @Html.DropDownListFor(x => x.SearchEntity.RegulationLevelCode, Model.RegulationLevelCodes, "Any Level", new { @class = "form-control" })
+                            <label>Description</label>
+                            @Html.TextBoxFor(x => x.SearchEntity.Description, new { @class = "form-control" })
                         </div>
                     </div>
-                    <div class="col-md-1">
-                        <div class="form-group">
-                            <label>Taxon Type</label>
-                            @Html.DropDownListFor(x => x.SearchEntity.TableName, Model.TableNames, "All types", new { @class = "form-control" })
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="form-group form-horizontal">
-                            <label>Taxon Name</label>
-                            @Html.TextBoxFor(x => x.SearchEntity.TaxonName, new { @class = "form-control" })
-                        </div>
-                    </div>
+                    <!-- TODO taxon names -->
+
                     <div class="col-md-1">
                         <div class="form-group">
                             <label>Exempt</label>

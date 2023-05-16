@@ -14,10 +14,11 @@
                 <tr>
                     <th></th>
                     <th width="5%">ID</th>
-                    <th>Regulation</th>
                     <th>Family</th>
                     <th>Genus</th>
                     <th>Species</th>
+                    <th>Regulation</th>
+                    <th>Description</th>
                     <th>Exempt</th>
                     <th>Note</th>
                     <th>Last Modified</th>
@@ -31,55 +32,58 @@
                     {
                         foreach (var result in Model.DataCollection)
                         {
-                        <tr>
-                            <td>
-                                @result.ID
-                            </td>
-                            <td>
-                                @result.ID
-                            </td>
-                            <td>
-                                <a href="@Url.Action("Edit", "Regulation", new { entityId = result.RegulationID })">
-                                    @result.AssembledName
-                                </a>
-                            </td>
-                            <td>
-                                <a href="@Url.Action("Edit", "FamilyMap", new { entityId = result.FamilyID })">
-                                    @result.FamilyName
-                                </a>
-                            </td>
-                            <td>
-                                <a href="@Url.Action("Edit", "Genus", new { entityId = result.GenusID })">
-                                    @result.GenusName
-                                </a>
-                            </td>
-                            <td>
-                                <a href="@Url.Action("Edit", "Species", new { entityId = result.SpeciesID })">
-                                    @result.SpeciesName
-                                </a>
-                            </td>
-                            <td>
-                                @Html.Raw(Model.FormatBoolean(result.IsExempt))
-                            </td>
-                            <td>@Html.Raw(result.Note)</td>
-                            <td>
-                                @if (result.ModifiedDate != DateTime.MinValue)
-                                {
-                                    @result.ModifiedDate.ToShortDateString()
-                                }
-                            </td>
-                            <td>
-                                <a href="@Url.Action("Edit", "RegulationMap", new { entityId = result.ID })" class="btn btn-primary btn-sm pull-right row-edit">
-                                    <i class="fa fa-edit"></i>
-                                </a>
-                                @*@if (Model.Action == "Folder")
-                                {
-                                    <button id="btnDeleteFolderItem_@cropForCWR.ReferenceID" class="btn btn-danger btn-sm pull-right row-edit margin-r-5">
-                                        <i class="fa fa-trash"></i> Remove From Folder
-                                    </button>
-                                }*@
-                            </td>
-                        </tr>
+                <tr>
+                    <td>
+                        @result.ID
+                    </td>
+                    <td>
+                        @result.ID
+                    </td>
+                    <td>
+                        <a href="@Url.Action("Edit", "FamilyMap", new { entityId = result.FamilyID })">
+                            @result.FamilyName
+                        </a>
+                    </td>
+                    <td>
+                        <a href="@Url.Action("Edit", "Genus", new { entityId = result.GenusID })">
+                            @result.GenusName
+                        </a>
+                    </td>
+                    <td>
+                        <a href="@Url.Action("Edit", "Species", new { entityId = result.SpeciesID })">
+                            @result.SpeciesName
+                        </a>
+                    </td>
+                    <td>
+                        <a href="@Url.Action("Edit", "Regulation", new { entityId = result.RegulationID })">
+                            @result.AssembledName
+                        </a>
+                    </td>
+                    <td>
+                        @result.Description
+                    </td>
+                    <td>
+                        @Html.Raw(Model.FormatBoolean(result.IsExempt))
+                    </td>
+                    <td>@Html.Raw(result.Note)</td>
+                    <td>
+                        @if (result.ModifiedDate != DateTime.MinValue)
+                        {
+                            @result.ModifiedDate.ToShortDateString()
+                        }
+                    </td>
+                    <td>
+                        <a href="@Url.Action("Edit", "RegulationMap", new { entityId = result.ID })" class="btn btn-primary btn-sm pull-right row-edit">
+                            <i class="fa fa-edit"></i>
+                        </a>
+                        @*@if (Model.Action == "Folder")
+            {
+                <button id="btnDeleteFolderItem_@cropForCWR.ReferenceID" class="btn btn-danger btn-sm pull-right row-edit margin-r-5">
+                    <i class="fa fa-trash"></i> Remove From Folder
+                </button>
+            }*@
+                    </td>
+                </tr>
                         }
                     }
                 }

@@ -187,12 +187,13 @@
 
                                     </div>
 
+                                    @if (Model.Entity.SpeciesID > 0)
+                                    {
+                                    Html.RenderAction("RenderSpeciesCitationLookupModal", "Citation", new { @tableName = Model.TableName, @speciesId = Model.Entity.SpeciesID });
+                                    }
+
                                     @if (Model.Entity.ID > 0)
                                     {
-                                        if (Model.Entity.SpeciesID > 0)
-                                        {
-                                            Html.RenderAction("RenderSpeciesCitationLookupModal", "Citation", new { @tableName = Model.TableName, @speciesId = Model.Entity.SpeciesID });
-                                        }
                                         <div id="section-species-citation-widget">
                                             @{Html.RenderAction("RenderWidget", "Citation", new { @entityId = Model.Entity.CitationID });}
                                         </div>
@@ -254,21 +255,21 @@
                 }
             }
 
-            if (entityId == 0) {
-                $('[id*="section-fields"]').hide();
-            }
-            else {
-                var categoryTab = $("#Entity_CategoryCode").val() + "-tab";
-                var categoryCode = "#section-fields-" + $("#Entity_CategoryCode").val();
+            //if (entityId == 0) {
+            //    $('[id*="section-fields"]').hide();
+            //}
+            //else {
+            //    var categoryTab = $("#Entity_CategoryCode").val() + "-tab";
+            //    var categoryCode = "#section-fields-" + $("#Entity_CategoryCode").val();
 
-                //DEBUG
-                /*alert("CAT CODE " + categoryCode);*/
+            //    //DEBUG
+            //    /*alert("CAT CODE " + categoryCode);*/
 
-                $('[id*="section-fields"]').hide();
-                $('.nav-link').removeClass("active");
-                $(categoryCode).show();
-                $("#" + categoryTab).addClass("active");
-            }
+            //    $('[id*="section-fields"]').hide();
+            //    $('.nav-link').removeClass("active");
+            //    $(categoryCode).show();
+            //    $("#" + categoryTab).addClass("active");
+            //}
         }
 
         $('#ddlTaxonType').on('change', function () {

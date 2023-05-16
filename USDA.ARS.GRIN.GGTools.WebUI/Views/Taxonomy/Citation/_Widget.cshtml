@@ -1,106 +1,36 @@
 ﻿@model USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer.CitationViewModel
 <br />
-<div class="card">
-    <div class="card-header">
-        <h3 class="card-title">
-            <i class="fas fa-book"></i>
-            Citation
-            <a href="" class="margin-left-15" data-toggle="modal" data-target="#modal-species-citation-lookup">[Change]</a>
-            <a href="@Url.Action("Edit","Citation", new { @entityId = Model.Entity.ID })" class="margin-left-15">[Edit]</a>
-            @*<a href="" class="margin-left-2px">[Delete]</a>*@
-        </h3>
-    </div>
-    <div class="card-body">
-        <p>@Html.Raw(Model.Entity.AssembledName)</p>
-    </div>
-</div>
 
-
-@*<div class="row">
-    <div class="col-md-12">
-        <div class="form-group">
-            <label>Citation</label>
-            <div class="input-group">
-                @Html.HiddenFor(x => x.Entity.ID, new { @id = "hfCitationID" })
-                @Html.TextBoxFor(x => x.Entity.AssembledName, new { @class = "form-control", @readonly = "readonly" })
-                @if (Model.Entity.ID > 0)
-                {
-                    <span class="input-group-btn">
-                        <a href="@Url.Action("Edit","Citation", new { @entityId = Model.Entity.ID })"
-                           class="btn btn-default btn-flat">
-                            <i class="fa fa-edit"></i>
-                        </a>
-                    </span>
-                }
-                <span class="input-group-append">
-                    <button type="button" class="btn btn-default btn-flat" data-toggle="modal" data-target="#modal-species-citation-lookup">
-                        <i class="fa fa-search"></i>
-                    </button>
-                </span>
-            </div>
+@if (Model.Entity.ID > 0)
+{
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">
+                <i class="fas fa-book"></i>
+                Citation
+                <a href="" class="margin-left-15" data-toggle="modal" data-target="#modal-species-citation-lookup">[Change]</a>
+                <a href="@Url.Action("Edit", "Citation", new { @entityId = Model.Entity.ID })" class="margin-left-15">[Edit]</a>
+                @*<a href="" class="margin-left-2px">[Delete]</a>*@
+            </h3>
+        </div>
+        <div class="card-body">
+            <p>@Html.Raw(Model.Entity.AssembledName)</p>
         </div>
     </div>
-</div>*@
-
-
+}
+else
+{ 
+    <div class="alert alert-warning alert-dismissible">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+        <h5><i class="icon fas fa-exclamation-triangle"></i> No Citation</h5>
+        This record has not yet been cited. <button id="btnOpenSpeciesCitationLookupModal" type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#modal-species-citation-lookup">Fix it</button> 
+    </div>
+}
 
 <script type="text/javascript">
-    //$(document).on("click", "[id='btnEditCitation']", function () {
-    //    var citationId = $("#hfCitationID").val();
-    //    EditCitation(citationId);
-    //});
-
-    //$(document).on("click", "[id='btnCitationEditSave']", function () {
-    //    SaveCitation();
-    //});
-
-    @*function SaveCitation() {
-        link = '@Url.Action("_Save","Citation")';
-        var formData = new FormData();
-
-        formData.append("Entity.ID", $("#hfEditCitationID").val());
-        formData.append("Entity.CitationTitle", $("#Entity_CitationTitle").val());
-        formData.append("Entity.CitationAuthorName", $("#Entity_CitationAuthorName").val());
-        formData.append("Entity.CitationYear", $("#Entity_CitationYear").val());
-        formData.append("Entity.VolumeOrPage", $("#Entity_VolumeOrPage").val());
-        formData.append("Entity.DOIReference", $("#Entity_DOIReference").val());
-        formData.append("Entity.CitationTitle", $("#Entity_CitationTitle").val());
-        formData.append("Entity.Note", $("#txtCitationNote").val());
-
-        $.ajax({
-            url: link,
-            type: 'POST',
-            cache: false,
-            contentType: false,
-            processData: false,
-            data: formData,
-            success: function (response) {
-                $("#modal-citation-edit").modal("hide");
-            },
-            error: function (ex) {
-                alert("Error");
-            }
+    $(document).ready(function () {
+        $('#btnOpenSpeciesCitationLookupModal').on('click', function () {
+            $("#modal-species-citation-lookup").modal("show");
         });
-    }
-
-    function EditCitation(citationId) {
-        link = '@Url.Action("RenderEditModal","Citation")';
-        var formData = new FormData();
-
-        formData.append("entityId", citationId);
-
-        $.ajax({
-            url: link,
-            type: 'POST',
-            cache: false,
-            contentType: false,
-            processData: false,
-            data: formData,
-            success: function (response) {
-                $("#section-modal-citation-edit").html(response);
-                $("#modal-citation-edit").modal("show");
-            }
-        });
-    }*@
-
+    });
 </script>

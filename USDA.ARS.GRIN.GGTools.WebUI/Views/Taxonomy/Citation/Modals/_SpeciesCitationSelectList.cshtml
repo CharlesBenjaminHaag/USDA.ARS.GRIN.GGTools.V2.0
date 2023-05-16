@@ -4,6 +4,7 @@
         <tr>
             <th></th>
             <th>Species</th>
+            <th>Abbreviation</th>
             <th>Text</th>
         </tr>
     </thead>
@@ -17,6 +18,7 @@
                     <tr>
                         <td>@result.ID</td>
                         <td>@Html.Raw(result.SpeciesName)</td>
+                        <td>@result.Abbreviation</td>
                         <td>
                             @Html.Raw(result.AssembledName)
                         </td>

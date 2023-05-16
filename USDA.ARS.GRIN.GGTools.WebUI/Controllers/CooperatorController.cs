@@ -15,7 +15,15 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             CooperatorViewModel viewModel = new CooperatorViewModel();
             return View("~/Views/Cooperator/Explorer/Index.cshtml", viewModel);
         }
-        
+
+        public ActionResult ExplorerAdd()
+        {
+            CooperatorViewModel viewModel = new CooperatorViewModel();
+            viewModel.AuthenticatedUser = AuthenticatedUser;
+            viewModel.Entity.StatusCode = "PENDING";
+            return View("~/Views/Cooperator/Add.cshtml", viewModel);
+        }
+
         public ActionResult Get(int entityId)
         {
             try
@@ -50,14 +58,16 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 return PartialView("~/Views/Error/_InternalServerError.cshtml");
             }
         }
-        public PartialViewResult Save(CooperatorViewModel viewModel)
+        public ActionResult Save(CooperatorViewModel viewModel)
         {
+            const string DEFAULT_PASSWORD = "GRINGl@bal!2023Pa$$";
+
             try
             {
-                //if (!viewModel.Validate())
-                //{
-                //    if (viewModel.ValidationMessages.Count > 0) return View(viewModel);
-                //}
+                if (!viewModel.Validate())
+                {
+                    if (viewModel.ValidationMessages.Count > 0) return PartialView("~/Views/Cooperator/_Edit.cshtml", viewModel);
+                }
 
                 if (viewModel.Entity.ID == 0)
                 {
@@ -68,7 +78,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                     SysUserViewModel sysUserViewModel = new SysUserViewModel();
                     sysUserViewModel.Entity.SysUserName = viewModel.Entity.FirstName.ToLower() + "." + viewModel.Entity.LastName.ToLower();
                     sysUserViewModel.Entity.UserName = sysUserViewModel.Entity.SysUserName;
-                    sysUserViewModel.Entity.SysUserPassword = sysUserViewModel.GetSecurePassword("GRINGl@bal!2023Pa$$");
+                    sysUserViewModel.Entity.SysUserPassword = sysUserViewModel.GetSecurePassword(DEFAULT_PASSWORD);
                     sysUserViewModel.Entity.CooperatorID = viewModel.Entity.ID;
                     sysUserViewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
                     sysUserViewModel.Insert();
@@ -112,19 +122,25 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                     viewModel.Search();
                     viewModel.Entity.WebCooperatorID = webCooperatorViewModel.Entity.ID;
                     viewModel.Update();
-                    
+
+                    // WEB USER
+                    WebUserViewModel webUserViewModel = new WebUserViewModel();
+                    webUserViewModel.Entity.WebUserName = viewModel.Entity.EmailAddress;
+                    webUserViewModel.Entity.WebUserPassword = DEFAULT_PASSWORD;
+                    webUserViewModel.Entity.WebCooperatorID = webCooperatorViewModel.Entity.ID;
+                    webUserViewModel.Insert();
                 }
                 else
                 {
                     viewModel.Entity.ModifiedByCooperatorID = AuthenticatedUser.CooperatorID;
                     viewModel.Update();
                 }
-                return _Get(viewModel.Entity.ID, "");
+                return RedirectToAction("Index","Home");
             }
             catch (Exception ex)
             {
                 Log.Error(ex);
-                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+                return RedirectToAction("InternalServerError", "Error");
             }
         }
 
@@ -196,22 +212,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
         //    viewModel.AuthenticatedUser = AuthenticatedUser;
         //    return View(viewModel);
         //}
-        public ActionResult Add()
-        {
-            try
-            {
-                CooperatorViewModel viewModel = new CooperatorViewModel();
-                viewModel.PageTitle = String.Format("Add Cooperator");
-                viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
-                viewModel.Entity.StatusCode = "ACTIVE";
-                return View("~/Views/Cooperator/Edit.cshtml", viewModel);
-            }
-            catch (Exception ex)
-            {
-                Log.Error(ex);
-                return RedirectToAction("InternalServerError", "Error");
-            }
-        }
+      
         public PartialViewResult _Add(int siteId = 0)
         {
             try
@@ -444,8 +445,8 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                     case "LIST":
                         partialViewName = "_List.cshtml";
                         break;
-                    case "SLST":
-                        partialViewName = "_SelectList.cshtml";
+                    case "CLST":
+                        partialViewName = "_ContactListWidget.cshtml";
                         break;
                     case "LWGT":
                         partialViewName = "_ListWidget.cshtml";
@@ -461,7 +462,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
                 viewModel.AuthenticatedUser = AuthenticatedUser;
                 viewModel.SearchEntity.SiteID = siteId;
-                viewModel.SearchEntity.StatusCode = statusCode;
+                //viewModel.SearchEntity.StatusCode = statusCode;
                 viewModel.SearchEntity.SysUserIsEnabled = sysUserIsEnabled;
                 viewModel.Search();
                 return PartialView("~/Views/Cooperator/" + partialViewName, viewModel);

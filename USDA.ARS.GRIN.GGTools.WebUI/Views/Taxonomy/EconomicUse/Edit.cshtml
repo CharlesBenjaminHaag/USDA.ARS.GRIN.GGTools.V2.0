@@ -61,8 +61,11 @@
                     <div class="row mb-2">
                         <div class="col-sm-6">
                             <h1 class="m-0">
-                                @Html.Raw(ViewBag.Title)
-                                @*<small>Example 3.0</small>*@
+                                <!-- BEGIN PAGE TITLE -->
+                                @{string controllerName = ViewContext.RouteData.Values["controller"].ToString(); }
+                                @{string actionName = ViewContext.RouteData.Values["action"].ToString(); }
+                                @actionName @controllerName [@Model.Entity.ID]
+                                <!-- END PAGE TITLE -->
                             </h1>
                         </div>
                         <div class="col-sm-6">

@@ -93,7 +93,6 @@
                     <div class="row mb-2">
                         <div class="col-sm-6">
                             <h1 class="m-0">
-
                                 <!-- TODO Refactor into _Title partial; create for each taxon type-->
                                 @{string actionName = ViewContext.RouteData.Values["action"].ToString(); }
                                 @actionName
@@ -175,15 +174,6 @@
                                 <div id="section-web-order-request-tabs" class="card-header p-0 pt-1">
                                     <ul class="nav nav-tabs" id="custom-tabs-two-tab" role="tablist">
                                         <li class="pt-2 px-3"><h3 id="section-title" class="card-title">Species</h3></li>
-
-                                        @*<li id="section-species" class="nav-item">
-                                <a id="tab-species"
-                                   class="nav-link"
-                                   href=""
-                                   role="tab"
-                                   aria-controls="custom-tabs-two-home"
-                                   aria-selected="true">Species</a>
-                            </li>*@
                                         <li id="section-subspecies" class="nav-item">
                                             <a id="tab-subspecies"
                                                class="nav-link"
@@ -300,6 +290,13 @@
                                                 <label>Species Name</label>
                                                 <div class="input-group">
                                                     @Html.TextBoxFor(x => x.Entity.SpeciesName, new { @class = "form-control" })
+                                                    @if (Model.Entity.Rank.ToUpper() == "SPECIES")
+                                                    { 
+                                                        <span class="input-group-append">
+                                                            <a id="btnSetAcceptedOn" class="btn btn-default" href="#" role="button"><i class="fas fa-thumbs-down"></i> Not Accepted</a>
+                                                            <a id="btnSetAcceptedOff" class="btn btn-default" href="#" role="button"><i class="fas fa-thumbs-up"></i> Accepted</a>
+                                                        </span>
+                                                    }
                                                 </div>
                                             </div>
                                         </div>
@@ -648,106 +645,105 @@
 </body>
 </html>
 <script type="text/javascript">
-        $(document).ready(function () {
-            Init();
+    $(document).ready(function () {
+        Init();
+    });
+
+    function Init() {
+        SetControlVisibility();
+
+        // Set the tab of the current selector to "active".
+        SetRankSelectorTab();
+
+        // Load default-visible tab of dependent data.
+        var defaultId = $('ul#list-dependent-data li:first').attr("id");
+        var action = $('ul#list-dependent-data li:first').data("ggtools-action");
+        var value = $('ul#list-dependent-data li:first').data("ggtools-value");
+        LoadDependentData(defaultId, action, value);
+    }
+
+    $(document).on("click", "[id*='btnSetVerified']", function () {
+        var link = '@Url.Action("SetVerificationStatus","Species")';
+        var value = $(this).data("ggtools-value");
+        SetVerifiedStatus(value);
+    });
+
+    $(document).on("click", "[id*='btnAddAutonym']", function () {
+        var link = '@Url.Action("AddAutonym","Species")';
+        var entityId = $("#Entity_ID").val();
+        link = link + "?entityId=" + entityId;
+        window.location.href = link;
+    });
+
+    function SetRankSelectorTab() {
+        var rank = $("#Entity_Rank").val();
+        var tabId = "#tab-" + rank.toLowerCase();
+        $(tabId).addClass("active");
+    }
+
+    function SetVerifiedStatus(statusCode) {
+        var link = '@Url.Action("SetVerificationStatus","Species")';
+        var entityId = $("#Entity_ID").val();
+        var formData = new FormData();
+
+        formData.append("speciesId", entityId);
+        formData.append("statusCode", statusCode);
+
+        $("#EventAction").val("VERIFY");
+        $("#EventValue").val(statusCode);
+
+        $.ajax({
+            url: link,
+            type: 'POST',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (response) {
+                $("#section-verification").html(response);
+            },
+            error: function () {
+                alert("Error");
+            }
         });
+    }
 
-        function Init() {
-            SetControlVisibility();
+    $('#section-dependent-data ul.nav li').on('click', function () {
+        var selectedId = $(this).attr('id');
+        var action =  $(this).data("ggtools-action");
+        var value = $(this).data("ggtools-value");
 
-            // Set the tab of the current selector to "active".
-            SetRankSelectorTab();
+        LoadDependentData(selectedId, action, value);
+    });
 
-            // Load default-visible tab of dependent data.
-            var defaultId = $('ul#list-dependent-data li:first').attr("id");
-            var action = $('ul#list-dependent-data li:first').data("ggtools-action");
-            var value = $('ul#list-dependent-data li:first').data("ggtools-value");
-            LoadDependentData(defaultId, action, value);
-        }
+    function LoadDependentData(controlId, eventAction, eventValue) {
+        var link = '@Url.Action("EVENT_VALUE","EVENT_ACTION", new { speciesId = "SPECIES_ID" })';
+        var entityId = $("#Entity_ID").val();
+        var genusId = $("#Entity_GenusID").val();
+        var genusName = $("#Entity_Name").val();
+        var formData = new FormData();
+        var sectionData = controlId.replace("tab_selector", "tab_content");
 
-        $(document).on("click", "[id*='btnSetVerified']", function () {
-            var link = '@Url.Action("SetVerificationStatus","Species")';
-            var value = $(this).data("ggtools-value");
-            SetVerifiedStatus(value);
+        link = link.replace("EVENT_ACTION", eventAction);
+        link = link.replace("EVENT_VALUE", eventValue);
+        link = link.replace("SPECIES_ID", entityId);
+
+        formData.append("SpeciesID", entityId);
+
+        $("#progress_overlay").show();
+
+        $.ajax({
+            url: link,
+            type: 'POST',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (response) {
+                $("#" + sectionData).html(response);
+                $("#progress_overlay").hide();
+            }
         });
-
-        $(document).on("click", "[id*='btnAddAutonym']", function () {
-            var link = '@Url.Action("AddAutonym","Species")';
-            var entityId = $("#Entity_ID").val();
-            link = link + "?entityId=" + entityId;
-            window.location.href = link;
-        });
-
-        function SetRankSelectorTab() {
-            var rank = $("#Entity_Rank").val();
-            var tabId = "#tab-" + rank.toLowerCase();
-            $(tabId).addClass("active");
-        }
-
-        function SetVerifiedStatus(statusCode) {
-            var link = '@Url.Action("SetVerificationStatus","Species")';
-            var entityId = $("#Entity_ID").val();
-            var formData = new FormData();
-
-            formData.append("speciesId", entityId);
-            formData.append("statusCode", statusCode);
-
-            $("#EventAction").val("VERIFY");
-            $("#EventValue").val(statusCode);
-
-            $.ajax({
-                url: link,
-                type: 'POST',
-                cache: false,
-                contentType: false,
-                processData: false,
-                data: formData,
-                success: function (response) {
-                    $("#section-verification").html(response);
-                },
-                error: function () {
-                    alert("Error");
-                }
-            });
-        }
-
-        $('#section-dependent-data ul.nav li').on('click', function () {
-            var selectedId = $(this).attr('id');
-            var action =  $(this).data("ggtools-action");
-            var value = $(this).data("ggtools-value");
-
-            LoadDependentData(selectedId, action, value);
-        });
-
-        function LoadDependentData(controlId, eventAction, eventValue) {
-            var link = '@Url.Action("EVENT_VALUE","EVENT_ACTION", new { speciesId = "SPECIES_ID" })';
-            var entityId = $("#Entity_ID").val();
-            var genusId = $("#Entity_GenusID").val();
-            var genusName = $("#Entity_Name").val();
-            var formData = new FormData();
-            var sectionData = controlId.replace("tab_selector", "tab_content");
-
-            link = link.replace("EVENT_ACTION", eventAction);
-            link = link.replace("EVENT_VALUE", eventValue);
-            link = link.replace("SPECIES_ID", entityId);
-
-            formData.append("SpeciesID", entityId);
-
-            $("#progress_overlay").show();
-
-            $.ajax({
-                url: link,
-                type: 'POST',
-                cache: false,
-                contentType: false,
-                processData: false,
-                data: formData,
-                success: function (response) {
-                    $("#" + sectionData).html(response);
-                    $("#progress_overlay").hide();
-                }
-            });
-        }
-
+    }
 </script>
 @Html.Partial("~/Views/Shared/_Scripts.cshtml")

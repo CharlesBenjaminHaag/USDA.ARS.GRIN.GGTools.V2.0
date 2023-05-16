@@ -16,10 +16,6 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
     {
         public int SpeciesID { get; set; }
         public string SpeciesName { get; set; }
-        public string EconomicUsageCode { get; set; }
-        public string EconomicUsageDescription { get; set; }
-        public string EconomicUsageTypeCode { get; set; }
-        public string EconomicUsageTypeDescription { get; set; }
         public string PlantPartCode { get; set; }
         public string PlantPartDescription { get; set; }
     }

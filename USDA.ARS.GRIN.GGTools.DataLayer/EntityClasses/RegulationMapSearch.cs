@@ -23,8 +23,6 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         public string TaxonName { get; set; }
         public int RegulationID { get; set; }
         public int GeographyID { get; set; }
-        public string RegulationTypeCode { get; set; }
-        public string RegulationLevelCode { get; set; }
         public string Description { get; set; }
         public string IsExempt { get; set; }
         public string SpeciesIDList { get; set; }

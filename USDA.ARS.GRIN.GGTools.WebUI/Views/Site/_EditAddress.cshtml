@@ -1,6 +1,6 @@
 ﻿@model USDA.ARS.GRIN.GGTools.ViewModelLayer.SiteViewModel
 <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-12">
         <div class="form-group">
             <label>Primary Address</label>
             @Html.TextBoxFor(x => x.Entity.PrimaryAddress1, new { @class = "form-control", @readonly="readonly" })
@@ -12,50 +12,25 @@
             @Html.TextBoxFor(x => x.Entity.PrimaryAddress3, new { @class = "form-control", @readonly="readonly" })
         </div>
     </div>
-    <div class="col-md-6">
-        <div class="form-group">
-            <label>Secondary Address</label>
-            @Html.TextBoxFor(x => x.Entity.SecondaryAddress1, new { @class = "form-control", @readonly="readonly" })
-        </div>
-        <div class="form-group">
-            @Html.TextBoxFor(x => x.Entity.SecondaryAddress2, new { @class = "form-control", @readonly="readonly" })
-        </div>
-        <div class="form-group">
-            @Html.TextBoxFor(x => x.Entity.SecondaryAddress3, new { @class = "form-control", @readonly="readonly" })
-        </div>
-
-
-    </div>
 </div>
 <div class="row">
     <div class="col-md-4">
         <div class="form-group">
             <label>City</label>
-            @Html.TextBoxFor(x => x.Entity.PrimaryCity, new { @class = "form-control", @readonly="readonly" })
+            @Html.TextBoxFor(x => x.Entity.PrimaryCity, new { @class = "form-control", @readonly = "readonly" })
         </div>
     </div>
-    <div class="col-md-2">
+    <div class="col-md-3">
         <div class="form-group">
-            <label>Primary Phone</label>
-            @Html.TextBoxFor(x => x.Entity.PrimaryPhone, new { @class = "form-control", @readonly="readonly" })
+            <label>State</label>
+            @Html.TextBoxFor(x => x.Entity.StateName, new { @class = "form-control", @readonly = "readonly" })
         </div>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-5">
         <div class="form-group">
-            <label>City</label>
-            @Html.TextBoxFor(x => x.Entity.SecondaryCity, new { @class = "form-control", @readonly="readonly" })
+            <label>ZIP/Postal Code</label>
+            @Html.TextBoxFor(x => x.Entity.PostalIndex, new { @class = "form-control", @readonly = "readonly" })
         </div>
     </div>
-    <div class="col-md-2">
-        <div class="form-group">
-            <label>Secondary Phone</label>
-            @Html.TextBoxFor(x => x.Entity.SecondaryPhone, new { @class = "form-control", @readonly="readonly" })
-        </div>
-    </div>
-</div>
-<div class="row">
-    <div class="col-md-12">
-        <label>Note</label>
-        @Html.TextAreaFor(x => x.Entity.Note, new { @id = "txtNote", @class = "form-control", @readonly="readonly" })
-    </div>
+
 </div>

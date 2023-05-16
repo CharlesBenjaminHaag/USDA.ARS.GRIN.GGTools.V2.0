@@ -35,7 +35,11 @@
                                    @Html.Raw(result.SpeciesName)
                                 </a>
                             </td>
-                            <td>@result.AssembledName</td>
+                            <td>
+                                <a href="@Url.Action("Edit","EconomicUsageType", new { @entityId = result.EconomicUsageTypeID })">
+                                    @result.AssembledName
+                                </a>
+                            </td>
                             <td>@result.PlantPartDescription</td>
                             <td>
                                 <a href="@Url.Action("Edit","Citation", new { @entityId = result.CitationID })">

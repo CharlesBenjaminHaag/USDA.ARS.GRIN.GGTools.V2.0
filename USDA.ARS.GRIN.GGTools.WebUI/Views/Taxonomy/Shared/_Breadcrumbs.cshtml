@@ -10,8 +10,21 @@
 <ol class="breadcrumb float-sm-right">
     <li class="breadcrumb-item"><a href="@Url.Action("Index","Home")">Home</a></li>
     <li class="breadcrumb-item">
+        <a href="@Url.Action("Navigate","Home", new { applicationCode = "GGT-TAX"})">Turbo Taxon Home</a>
+    </li>
+    <li class="breadcrumb-item">
         @controllerName
     </li>
+
+    @if ((actionName == "Add") || (actionName == "Edit"))
+    {
+        if (Session[controllerName + "_SEARCH"] != null)
+        {
+            <li class="breadcrumb-item">
+                <a href="@Url.Action("Index",controllerName)">Return to Search</a>
+            </li>
+        }
+    }
     <li class="breadcrumb-item active">@actionName</li>
 </ol>
 <!-- END BREADCRUMBS -->

@@ -90,17 +90,9 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
 
             AddParameter("@out_error_number", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
             AddParameter("@out_cooperator_id", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
-            AddParameter("@out_sys_user_id", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
-            AddParameter("@out_sys_user_name", -1, true, System.Data.DbType.String, System.Data.ParameterDirection.Output);
-            AddParameter("@out_web_cooperator_id", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
-            AddParameter("@out_web_user_id", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
-            AddParameter("@out_web_user_name", -1, true, System.Data.DbType.String, System.Data.ParameterDirection.Output);
             RowsAffected = ExecuteNonQuery();
 
             entity.ID = GetParameterValue<int>("@out_cooperator_id", -1);
-            entity.SysUserID = GetParameterValue<int>("@out_sys_user_id", -1);
-            entity.SysUserName = GetParameterValue<string>("@out_sys_user_name", null);
-            entity.WebCooperatorID = GetParameterValue<int>("@out_web_cooperator_id", -1);
             var errorNumber = GetParameterValue<int>("@out_error_number", -1);
 
             if (errorNumber > 0)
@@ -289,6 +281,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             {
                 AddParameter("cooperator_id", entity.ID == 0 ? DBNull.Value : (object)entity.ID, true);
             }
+            AddParameter("web_cooperator_id", entity.WebCooperatorID == 0 ? DBNull.Value : (object)entity.WebCooperatorID, true);
             AddParameter("site_id", entity.SiteID == 0 ? DBNull.Value : (object)entity.SiteID, true);
             AddParameter("last_name", String.IsNullOrEmpty(entity.LastName) ? DBNull.Value : (object)entity.LastName, true);
             AddParameter("title", String.IsNullOrEmpty(entity.Salutation) ? DBNull.Value : (object)entity.Salutation, true);

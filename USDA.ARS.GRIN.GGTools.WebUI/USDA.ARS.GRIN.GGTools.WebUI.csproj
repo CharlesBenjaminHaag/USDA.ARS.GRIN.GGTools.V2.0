@@ -747,6 +747,10 @@
     <Content Include="Views\Taxonomy\Citation\Modals\_SpeciesCitationLookup.cshtml" />
     <Content Include="Views\Taxonomy\Citation\Modals\_SpeciesCitationSelectList.cshtml" />
     <Content Include="Views\Taxonomy\RegulationMap\Edit - Copy.cshtml" />
+    <Content Include="Views\Cooperator\Add.cshtml" />
+    <Content Include="Views\Taxonomy\Shared\_Breadcrumbs.cshtml" />
+    <Content Include="Views\Cooperator\_ContactListWidget.cshtml" />
+    <Content Include="Views\Site\_Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -757,6 +761,7 @@
     <Folder Include="Views\Demo\" />
     <Folder Include="Views\Main\" />
     <Folder Include="Views\Shared\Layout\" />
+    <Folder Include="Views\SysTable\Explorer\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

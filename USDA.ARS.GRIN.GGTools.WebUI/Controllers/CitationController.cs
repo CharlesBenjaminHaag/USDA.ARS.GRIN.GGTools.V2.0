@@ -414,22 +414,24 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             try
             {
                 // Retrieve existing citation 
-                CitationViewModel viewModel = new CitationViewModel();
-                viewModel.Get(citationId);
+
+                //viewModel.Get(citationId);
 
                 // Create clone of citation
-                CitationViewModel cloneViewModel = new CitationViewModel();
-                cloneViewModel.Entity = viewModel.Entity;
-                cloneViewModel.Entity.ID = 0;
-                cloneViewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
-                cloneViewModel.Insert();
-                
+                //CitationViewModel cloneViewModel = new CitationViewModel();
+                //cloneViewModel.Entity = viewModel.Entity;
+                //cloneViewModel.Entity.ID = 0;
+                //cloneViewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
+                //cloneViewModel.Insert();
+
                 // Set reference of specified record to newly-cloned citation id.
-                viewModel.UpdateSpeciesCitation(tableName, entityId, cloneViewModel.Entity.ID, AuthenticatedUser.CooperatorID);
-                return Json(new { citationId = cloneViewModel.Entity.ID }, JsonRequestBehavior.AllowGet);
+                CitationViewModel viewModel = new CitationViewModel();
+                viewModel.UpdateSpeciesCitation(tableName, entityId, citationId, AuthenticatedUser.CooperatorID);
+                return Json(new { citationId = citationId }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
+                Log.Error(ex);
                 return Json(new { success = "false" }, JsonRequestBehavior.AllowGet);
             }
         }

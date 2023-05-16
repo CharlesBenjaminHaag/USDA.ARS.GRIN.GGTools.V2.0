@@ -17,16 +17,10 @@
                             @Html.TextBoxFor(x => x.SearchEntity.SpeciesName, new { @class = "form-control" })
                         </div>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-6">
                         <div class="form-group">
-                            <label>Usage Code</label>
-                            @Html.DropDownListFor(x => x.SearchEntity.EconomicUsageCode, Model.EconomicUsageCodes, "All codes", new { @class = "form-control" })
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <label>Usage Type</label>
-                            @Html.DropDownListFor(x => x.SearchEntity.EconomicUsageTypeCode, Model.EconomicUsageTypes, "All types", new { @class = "form-control" })
+                            <label>Economic Use</label>
+                            @Html.TextBoxFor(x=>x.SearchEntity.AssembledName, new { @class = "form-control" })
                         </div>
                     </div>
                     <div class="col-md-3">

@@ -76,10 +76,10 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
 
             AddParameter("sys_user_id", (object)entity.SysUserID, false);
             AddParameter("sys_group_id", (object)entity.SysGroupID, false);
+            AddParameter("created_by", entity.CreatedByCooperatorID == 0 ? DBNull.Value : (object)entity.CreatedByCooperatorID, true);
 
             AddParameter("@out_error_number", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
             AddParameter("@out_sys_group_user_map_id", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
-            AddParameter("created_by", entity.CreatedByCooperatorID == 0 ? DBNull.Value : (object)entity.CreatedByCooperatorID, true);
             RowsAffected = ExecuteNonQuery();
 
             int errorNumber = GetParameterValue<int>("@out_error_number", -1);

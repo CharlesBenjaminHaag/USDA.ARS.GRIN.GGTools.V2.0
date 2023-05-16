@@ -13,6 +13,7 @@ namespace USDA.ARS.GRIN.GGTools.AppLayer
         public int? ID { get; set; }
         public int? ExcludeID { get; set; }
         public string IDList { get; set; }
+        public string AssembledName { get; set; }
         public string TableName { get; set; }
         public DateTime? CreatedDate { get; set; }
         public int CreatedByCooperatorID { get; set; }

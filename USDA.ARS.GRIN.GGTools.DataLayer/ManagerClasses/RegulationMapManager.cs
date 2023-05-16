@@ -77,11 +77,11 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             SQL += " AND    (@SpeciesID                 IS NULL OR  SpeciesID                   =       @SpeciesID) ";
             SQL += " AND    (@GeographyID               IS NULL OR  GeographyID                 =       @GeographyID) ";
             SQL += " AND    (@RegulationID              IS NULL OR  RegulationID                =       @RegulationID) ";
-            SQL += " AND    (@TableName                 IS NULL OR  TableName                   =      @TableName)";
-            SQL += " AND    (@TaxonName                 IS NULL OR  TaxonName                   LIKE   @TaxonName + '%')";
+            SQL += " AND    (@FamilyName                IS NULL OR  FamilyName                  LIKE   @FamilyName + '%')";
+            SQL += " AND    (@GenusName                 IS NULL OR  GenusName                   LIKE   @GenusName + '%')";
+            SQL += " AND    (@SpeciesName               IS NULL OR  SpeciesName                 LIKE   @SpeciesName + '%')";
             SQL += " AND    (@Description               IS NULL OR  Description                 LIKE   '%' + @Description + '%')";
-            SQL += " AND    (@RegulationTypeCode        IS NULL OR  RegulationTypeCode          =      @RegulationTypeCode)";
-            SQL += " AND    (@RegulationLevelCode       IS NULL OR  RegulationLevelCode         =      @RegulationLevelCode)";
+            SQL += " AND    (@AssembledName             IS NULL OR  AssembledName               LIKE   '%' + @AssembledName + '%')";
             SQL += " AND    (@IsExempt                  IS NULL OR  IsExempt                    =      @IsExempt)";
                 
             if (!String.IsNullOrEmpty(searchEntity.SpeciesIDList))
@@ -95,13 +95,13 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
                 CreateParameter("FamilyID", searchEntity.FamilyID > 0 ? (object)searchEntity.FamilyID : DBNull.Value, true),
                 CreateParameter("GenusID", searchEntity.GenusID > 0 ? (object)searchEntity.GenusID : DBNull.Value, true),
                 CreateParameter("SpeciesID", searchEntity.SpeciesID > 0 ? (object)searchEntity.SpeciesID : DBNull.Value, true),
-                CreateParameter("TableName", (object)searchEntity.TableName ?? DBNull.Value, true),
                 CreateParameter("GeographyID", searchEntity.GeographyID > 0 ? (object)searchEntity.GeographyID : DBNull.Value, true),
                 CreateParameter("RegulationID", searchEntity.RegulationID > 0 ? (object)searchEntity.RegulationID : DBNull.Value, true),
-                CreateParameter("TaxonName", (object)searchEntity.TaxonName ?? DBNull.Value, true),
+                CreateParameter("FamilyName", (object)searchEntity.FamilyName ?? DBNull.Value, true),
+                CreateParameter("GenusName", (object)searchEntity.GenusName ?? DBNull.Value, true),
+                CreateParameter("SpeciesName", (object)searchEntity.SpeciesName ?? DBNull.Value, true),
                 CreateParameter("Description", (object)searchEntity.Description ?? DBNull.Value, true),
-                CreateParameter("RegulationTypeCode", (object)searchEntity.RegulationTypeCode ?? DBNull.Value, true),
-                CreateParameter("RegulationLevelCode", (object)searchEntity.RegulationLevelCode ?? DBNull.Value, true),
+                CreateParameter("AssembledName", (object)searchEntity.AssembledName ?? DBNull.Value, true),
                 CreateParameter("IsExempt", (object)searchEntity.IsExempt ?? DBNull.Value, true),
             };
 

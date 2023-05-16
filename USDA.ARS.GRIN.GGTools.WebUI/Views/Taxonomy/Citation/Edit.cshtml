@@ -294,29 +294,40 @@
             $('[id*="section-fields"]').hide();
             // If adding a new record, show Family by default; otherwise, show section that corresponds to the
             // citation taxon.
-            var citationId = $("#Entity_ID").val();
+            var entityId = $("#Entity_ID").val();
+            var genusId = $("#Entity_GenusID").val();
+            var speciesId = $("#Entity_SpeciesID").val();
 
-            /*
-             * If adding a new citation: show the taxon selector; use to
-             * hide/show taxon controls based on selection.
-             * If editing an existing citation: hide the taxon selector;
-             * hide/show taxon controls based on record.
-             */
-
-            if (citationId == 0) {
-                $('#section-taxon-select').show();
-                $('[id*="section-fields"]').hide();
-                $("#section-fields-taxonomy-family").show();
+            if (genusId > 0) {
+                $("#ddlTaxonType option[value=taxonomy-genus]").attr('selected', 'selected');
+                $("#section-fields-taxonomy-genus").show();
             }
             else {
-                var categoryTab = $("#Entity_CategoryCode").val() + "-tab";
-                var categoryCode = "#section-fields-" + $("#Entity_CategoryCode").val();
-                $('#section-taxon-select').hide();
-                $('[id*="section-fields"]').hide();
-                $('.nav-link').removeClass("active");
-                $(categoryCode).show();
-                $("#" + categoryTab).addClass("active");
+                if (speciesId > 0) {
+                    $("#ddlTaxonType option[value=taxonomy-species]").attr('selected', 'selected');
+                    $("#section-fields-taxonomy-species").show();
+                }
+                else {
+                    $("#ddlTaxonType option[value=taxonomy-genus]").attr('selected', 'selected');
+                    $("#section-fields-taxonomy-genus").show();
+                }
             }
+
+            //if (entityId == 0) {
+            //    $('[id*="section-fields"]').hide();
+            //}
+            //else {
+            //    var categoryTab = $("#Entity_CategoryCode").val() + "-tab";
+            //    var categoryCode = "#section-fields-" + $("#Entity_CategoryCode").val();
+
+            //    //DEBUG
+            //    /*alert("CAT CODE " + categoryCode);*/
+
+            //    $('[id*="section-fields"]').hide();
+            //    $('.nav-link').removeClass("active");
+            //    $(categoryCode).show();
+            //    $("#" + categoryTab).addClass("active");
+            //}
         }
 
         $('#ddlTaxonType').on('change', function () {
