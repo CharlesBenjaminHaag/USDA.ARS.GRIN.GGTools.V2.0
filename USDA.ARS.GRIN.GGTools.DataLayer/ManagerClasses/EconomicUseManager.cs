@@ -40,7 +40,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         {
             Reset(CommandType.StoredProcedure);
             Validate<EconomicUse>(entity);
-            SQL = "usp_GRINGlobal_Taxonomy_Use_Insert";
+            SQL = "usp_GRINGlobal_Taxonomy_Economic_Use_Insert";
 
             BuildInsertUpdateParameters(entity);
 
@@ -66,7 +66,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             Reset(CommandType.StoredProcedure);
             Validate<EconomicUse>(entity);
 
-            SQL = "usp_GRINGlobal_Taxonomy_Use_Update";
+            SQL = "usp_GRINGlobal_Taxonomy_Economic_Use_Update";
 
             BuildInsertUpdateParameters(entity);
             AddParameter("@out_error_number", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);

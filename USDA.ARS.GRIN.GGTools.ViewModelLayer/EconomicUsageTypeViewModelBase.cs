@@ -19,6 +19,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
         {
             using (EconomicUseManager mgr = new EconomicUseManager())
             {
+                Cooperators = new SelectList(mgr.GetCooperators("taxonomy_economic_usage_type"), "ID", "FullName");
                 EconomicUsageCodes = new SelectList(mgr.GetCodeValues("TAXONOMY_USAGE"), "Value", "Title");
             }
         }

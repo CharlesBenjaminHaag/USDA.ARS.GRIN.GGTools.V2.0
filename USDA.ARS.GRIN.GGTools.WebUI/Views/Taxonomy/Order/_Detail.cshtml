@@ -14,14 +14,7 @@
                     @using (Html.BeginForm("Search", "Classification", FormMethod.Post, new { id = "frmMain" }))
                     {
                         <div class="row">
-                            <div class="col-md-2">
-                                <div class="form-group form-horizontal">
-                                    <label>Created By</label>
-                                    @Html.DropDownListFor(x => x.SearchEntity.CreatedByCooperatorID, Model.Cooperators, "All Cooperators", new { @class = "form-control" })
-                                </div>
-                            </div>
-
-                            <div class="col-md-10">
+                            <div class="col-md-12">
                                 <div class="form-group form-horizontal">
                                     <label>Name</label>
                                     @Html.TextBoxFor(x => x.SearchEntity.Name, new { @class = "form-control" })

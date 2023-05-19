@@ -10,22 +10,14 @@
     <div class="card-body">
         <div class="tab-content">
             <div class="tab-pane active" id="section-search-criteria">
-                <div class="margin" style="margin-bottom:10px;">
-                    <div class="btn-group">
-                        <a class="btn btn-default btn-sm" href="@Url.Action("Add","RegulationMap")"><i class="fa fa-plus"></i> New</a>
-                    </div>
-                    <div class="btn-group">
-                        <button id="btnOpenFolderModal" type="button" class="btn btn-default btn-sm"><i class="fa fa-folder"></i></button>
-                    </div>
-                </div>
                 <div class="row">
-                    <div class="col-md-4">
+                    <div class="col-md-5">
                         <div class="form-group form-horizontal">
                             <label>Text</label>
                             @Html.TextBoxFor(x=>x.SearchEntity.AssembledName, new { @class = "form-control" })
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-5">
                         <div class="form-group form-horizontal">
                             <label>Description</label>
                             @Html.TextBoxFor(x => x.SearchEntity.Description, new { @class = "form-control" })
@@ -33,7 +25,7 @@
                     </div>
                     <!-- TODO taxon names -->
 
-                    <div class="col-md-1">
+                    <div class="col-md-2">
                         <div class="form-group">
                             <label>Exempt</label>
                             @Html.DropDownListFor(x => x.SearchEntity.IsExempt, Model.YesNoOptions, "Either", new { @class = "form-control" })

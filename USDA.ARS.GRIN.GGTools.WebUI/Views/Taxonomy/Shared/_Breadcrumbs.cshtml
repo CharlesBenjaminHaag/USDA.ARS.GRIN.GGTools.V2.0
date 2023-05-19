@@ -13,7 +13,7 @@
         <a href="@Url.Action("Navigate","Home", new { applicationCode = "GGT-TAX"})">Turbo Taxon Home</a>
     </li>
     <li class="breadcrumb-item">
-        @controllerName
+        <a href="@Url.Action("Index", controllerName)">@controllerName</a>   
     </li>
 
     @if ((actionName == "Add") || (actionName == "Edit"))

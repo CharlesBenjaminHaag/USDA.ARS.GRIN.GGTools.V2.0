@@ -12,12 +12,6 @@
             <div class="tab-pane active" id="activity">
                 <div class="row">
                     <div class="col-md-3">
-                        <div class="form-group form-horizontal">
-                            <label>Created By</label>
-                            @Html.DropDownListFor(x => x.SearchEntity.CreatedByCooperatorID, Model.Cooperators, "All Cooperators", new { @class = "form-control" })
-                        </div>
-                    </div>
-                    <div class="col-md-3">
                         <label>Crop For CWR Name</label>
                         @Html.TextBoxFor(x => x.SearchEntity.CropForCWRName, new { @class = "form-control" })
                     </div>

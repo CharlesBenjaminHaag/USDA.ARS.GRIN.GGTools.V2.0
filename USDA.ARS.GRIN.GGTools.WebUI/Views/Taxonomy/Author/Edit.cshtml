@@ -66,7 +66,7 @@
                             </h1>
                         </div>
                         <div class="col-sm-6">
-                            @Html.Partial("~/Views/Shared/_Breadcrumbs.cshtml")
+                            @Html.Partial("~/Views/Taxonomy/Shared/_Breadcrumbs.cshtml")
                         </div>
                     </div>
                 </div>
@@ -128,7 +128,7 @@
                                 </div>
                             </div>
                             <div class="card-footer">
-                                <a href="@Url.Action("Refresh")" class="btn btn-default">Reset</a>
+                                @Html.Partial("~/Views/Shared/_Reset.cshtml")
                                 @if (Model.Entity.ID > 0)
                                 {
                                     <button id="btnDelete" type="button" class="btn btn-danger">

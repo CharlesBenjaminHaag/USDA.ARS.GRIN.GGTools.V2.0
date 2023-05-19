@@ -14,13 +14,7 @@
                     @using (Html.BeginForm("Search", "SpeciesSynonymMap", FormMethod.Post, new { id = "frmMain" }))
                     {
                         <div class="row">
-                            <div class="col-md-2">
-                                <div class="form-group form-horizontal">
-                                    <label>Created By</label>
-                                    @Html.DropDownListFor(x => x.SearchEntity.CreatedByCooperatorID, Model.Cooperators, "All Cooperators", new { @class = "form-control" })
-                                </div>
-                            </div>
-                            <div class="col-md-3">
+                            <div class="col-md-5">
                                 <div class="form-group">
                                     <label>Taxon A Name</label>
                                     @Html.TextBoxFor(x => x.SearchEntity.SpeciesAName, new { @class = "form-control" })
@@ -32,7 +26,7 @@
                                     @Html.DropDownListFor(x => x.SearchEntity.SynonymCode, Model.SynonymCodes, "All Codes", new { @class = "form-control" })
                                 </div>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-5">
                                 <div class="form-group">
                                     <label>Taxon B Name</label>
                                     @Html.TextBoxFor(x => x.SearchEntity.SpeciesBName, new { @class = "form-control" })

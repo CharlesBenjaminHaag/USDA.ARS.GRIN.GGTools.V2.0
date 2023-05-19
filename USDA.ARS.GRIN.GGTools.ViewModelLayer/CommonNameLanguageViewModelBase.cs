@@ -20,11 +20,9 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
             using (CommonNameManager mgr = new CommonNameManager())
             {
                 Cooperators = new SelectList(mgr.GetCooperators(TableName), "ID", "FullName");
+                Countries = new SelectList(mgr.GetCodeValues("GEOGRAPHY_COUNTRY_CODE"),"Value","Title");
             }
-            using (GeographyManager geographyManager = new GeographyManager())
-            {
-                Countries = new SelectList(geographyManager.GetCountries(),"CountryCode","CountryName");
-            }
+            
         }
 
         public CommonNameLanguage Entity

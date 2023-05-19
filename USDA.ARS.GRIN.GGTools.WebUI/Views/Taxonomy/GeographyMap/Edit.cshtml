@@ -107,6 +107,11 @@
                                                 @Html.TextBoxFor(x => x.Entity.SpeciesName, new { @class = "form-control", @readonly = "readonly" })
                                                 @Html.HiddenFor(x => x.Entity.SpeciesID)
                                                 <span class="input-group-btn">
+                                                    <a href="@Url.Action("Edit", "Species", new { @entityId = Model.Entity.SpeciesID })" class="btn btn-default btn-flat">
+                                                        <i class="fa fa-link"></i>
+                                                    </a>
+                                                </span>
+                                                <span class="input-group-btn">
                                                     <button id="btnOpenSpeciesLookupModal" type="button" class="btn btn-default btn-flat" data-ggtools-action="SpeciesID" data-ggtools-value="SpeciesName" data-toggle="modal" data-target="#modal-species-lookup">
                                                         <i class="fa fa-search"></i>
                                                     </button>
@@ -155,7 +160,9 @@
                                 </div>
                                 @if (Model.Entity.ID > 0)
                                 {
-                                    Html.RenderAction("RenderWidget", "Citation", new { @entityId = Model.Entity.CitationID });
+                                    <div id="section-species-citation-widget">
+                                        @{Html.RenderAction("RenderWidget", "Citation", new { @entityId = Model.Entity.CitationID });}
+                                    </div>
                                 }
                             </div>
                             <div class="card-footer">
@@ -170,15 +177,17 @@
                             </div>
                         </div>
                     }
-
+                    @if (Model.Entity.ID > 0)
+                    {
+                        Html.RenderAction("RenderSpeciesCitationLookupModal", "Citation", new { @tableName = Model.TableName, @speciesId = Model.Entity.SpeciesID });
+                    }
                     @{Html.RenderAction("RenderLookupModal", "Species"); }
-                    @*@{Html.RenderAction("RenderLookupModal", "Citation", new { @tableName = Model.TableName, @speciesId = Model.Entity.SpeciesID });}*@
                     @Html.Partial("~/Views/Shared/Modals/_NoteLookup2.cshtml")
                     @Html.Partial("~/Views/Taxonomy/Shared/Modals/_Delete.cshtml")
 
                     @if (Model.Entity.SpeciesID > 0)
                     {
-                        {Html.RenderAction("RenderLookupModal", "Geography", new { @speciesId = Model.Entity.SpeciesID }); }
+                        { Html.RenderAction("RenderLookupModal", "Geography", new { @speciesId = Model.Entity.SpeciesID }); }
                     }
                 </div>
             </div>

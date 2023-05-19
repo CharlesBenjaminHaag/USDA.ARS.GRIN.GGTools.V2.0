@@ -98,6 +98,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI
         [HttpGet]
         public ActionResult Refresh()
         {
+
             if (Session["type"] != null && Session["resulttype"] != null)
                 return View();
             else
