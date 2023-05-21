@@ -62,7 +62,10 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             SQL += " AND    (@ModifiedDate                  IS NULL OR  ModifiedDate            =       @ModifiedDate)";
             SQL += " AND    (@Note                          IS NULL OR  Note                    LIKE    '%' + @Note + '%')";
             SQL += " AND    (@CountryCode                   IS NULL OR  CountryCode             =       @CountryCode)";
+            SQL += " AND    (@CountryDescription            IS NULL OR  CountryDescription      LIKE    '%' + @CountryDescription + '%')";
+            SQL += " AND    (@ContinentName                 IS NULL OR  Continent               LIKE    '%' + @ContinentName + '%')";
             SQL += " AND    (@ContinentRegionID             IS NULL OR  ContinentRegionID       =       @ContinentRegionID)";
+            SQL += " AND    (@SubcontinentName              IS NULL OR  Subcontinent            LIKE    '%' + @SubcontinentName + '%')";
             SQL += " AND    (@SubContinentRegionID          IS NULL OR  SubContinentRegionID    =       @SubContinentRegionID)";
             SQL += " AND    (@IsValid                       IS NULL OR  IsValid                 =       @IsValid)";
 
@@ -112,7 +115,10 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
                 CreateParameter("ModifiedByCooperatorID", searchEntity.ModifiedByCooperatorID > 0 ? (object)searchEntity.ModifiedByCooperatorID : DBNull.Value, true),
                 CreateParameter("ModifiedDate", searchEntity.ModifiedDate > DateTime.MinValue ? (object)searchEntity.ModifiedDate : DBNull.Value, true),
                 CreateParameter("Note", (object)searchEntity.Note ?? DBNull.Value, true),
+                CreateParameter("CountryDescription", (object)searchEntity.CountryDescription ?? DBNull.Value, true),
+                CreateParameter("ContinentName", (object)searchEntity.ContinentName ?? DBNull.Value, true),
                 CreateParameter("ContinentRegionID", searchEntity.ContinentRegionID > 0 ? (object)searchEntity.ContinentRegionID : DBNull.Value, true),
+                CreateParameter("SubContinentName", (object)searchEntity.SubContinentName ?? DBNull.Value, true),
                 CreateParameter("SubContinentRegionID", searchEntity.SubContinentRegionID > 0 ? (object)searchEntity.SubContinentRegionID : DBNull.Value, true),
                 CreateParameter("CountryCode", (object)searchEntity.CountryCode ?? DBNull.Value, true),
                 CreateParameter("IsValid", (object)searchEntity.IsValid ?? DBNull.Value, true),
@@ -274,11 +280,19 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             if (!String.IsNullOrEmpty(continentNameList))
             {
                 SQL +=  " WHERE Continent IN (" + continentNameList + ") ";
-                sqlOperator = "AND ";
+                
             }
 
             if (!String.IsNullOrEmpty(subContinents))
             {
+                if (SQL.Contains("WHERE"))
+                {
+                    sqlOperator = " AND ";
+                }
+                else
+                {
+                    sqlOperator = " WHERE ";
+                }
                 SQL += sqlOperator + " SubContinent IN (" + subContinents + ')';
             }
 

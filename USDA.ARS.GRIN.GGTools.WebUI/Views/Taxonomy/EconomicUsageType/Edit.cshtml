@@ -68,7 +68,7 @@
                             </h1>
                         </div>
                         <div class="col-sm-6">
-                            @Html.Partial("~/Views/Shared/_Breadcrumbs.cshtml")
+                            @Html.Partial("~/Views/Taxonomy/Shared/_Breadcrumbs.cshtml")
                         </div>
                     </div>
                 </div>
@@ -194,7 +194,7 @@
         var usageType = $("#Entity_UsageType").val();
 
         //DEBUG
-        alert("CURR USAGE TYPE IS " + usageType);
+        //alert("CURR USAGE TYPE IS " + usageType);
 
         $("#SelectedUsageType").val(usageType);
         $("#SelectedUsageType option[value=" + usageType + "]").attr('selected', 'selected');

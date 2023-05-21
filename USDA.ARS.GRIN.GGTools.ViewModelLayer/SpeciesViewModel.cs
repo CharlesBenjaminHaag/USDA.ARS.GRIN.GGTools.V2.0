@@ -295,10 +295,10 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
                     ValidationMessages.Add(new Common.Library.ValidationMessage { Message = "You must select an accepted species." });
                 }
 
-                //if (String.IsNullOrEmpty(Entity.SynonymCode))
-                //{
-                //    ValidationMessages.Add(new Common.Library.ValidationMessage { Message = "You must select a synonym code." });
-                //}
+                if (String.IsNullOrEmpty(Entity.SynonymCode))
+                {
+                    ValidationMessages.Add(new Common.Library.ValidationMessage { Message = "You must select a synonym code." });
+                }
             }
 
             if (ValidationMessages.Count > 0)

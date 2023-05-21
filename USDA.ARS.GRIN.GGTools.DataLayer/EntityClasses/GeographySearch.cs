@@ -14,6 +14,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         public int ContinentRegionID { get; set; }
         public int SubContinentRegionID { get; set; }
         public string CountryCode { get; set; }
+        public string CountryDescription { get; set; }
         public string StateCode { get; set; }
         public string StateName { get; set; }
         public string Admin1 { get; set; }
@@ -27,8 +28,10 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         public string IsValid { get; set; }
         public string Title { get; set; }
         public string ContinentIDList { get; set; }
+        public string ContinentName { get; set; }
         public string ContinentNameList { get; set; }
         public string SubContinentIDList { get; set; }
+        public string SubContinentName { get; set; }
         public string SubContinentNameList { get; set; }
         public string CountryCodeList { get; set; }
     }

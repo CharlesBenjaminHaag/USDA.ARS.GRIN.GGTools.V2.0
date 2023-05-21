@@ -13,8 +13,8 @@
                 <div class="row">
                     <div class="col-md-5">
                         <div class="form-group form-horizontal">
-                            <label>Text</label>
-                            @Html.TextBoxFor(x=>x.SearchEntity.AssembledName, new { @class = "form-control" })
+                            <label>Regulation</label>
+                            @Html.TextBoxFor(x => x.SearchEntity.AssembledName, new { @class = "form-control" })
                         </div>
                     </div>
                     <div class="col-md-5">
@@ -23,12 +23,28 @@
                             @Html.TextBoxFor(x => x.SearchEntity.Description, new { @class = "form-control" })
                         </div>
                     </div>
-                    <!-- TODO taxon names -->
-
                     <div class="col-md-2">
                         <div class="form-group">
                             <label>Exempt</label>
                             @Html.DropDownListFor(x => x.SearchEntity.IsExempt, Model.YesNoOptions, "Either", new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group form-horizontal">
+                            <label>Family Name</label>
+                            @Html.TextBoxFor(x => x.SearchEntity.FamilyName, new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group form-horizontal">
+                            <label>Genus Name</label>
+                            @Html.TextBoxFor(x => x.SearchEntity.GenusName, new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group form-horizontal">
+                            <label>Species Name</label>
+                            @Html.TextBoxFor(x => x.SearchEntity.SpeciesName, new { @class = "form-control" })
                         </div>
                     </div>
                 </div>

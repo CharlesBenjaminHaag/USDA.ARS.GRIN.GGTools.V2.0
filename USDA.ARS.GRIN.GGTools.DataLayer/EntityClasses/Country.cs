@@ -11,6 +11,6 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
     public class Country: AppEntityBase
     {
         public string CountryCode { get; set; }
-        public string CountryName { get; set; }
+        public string CountryDescription { get; set; }
     }
 }

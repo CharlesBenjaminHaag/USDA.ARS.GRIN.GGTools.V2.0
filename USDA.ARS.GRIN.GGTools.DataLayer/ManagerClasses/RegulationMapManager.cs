@@ -77,9 +77,9 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             SQL += " AND    (@SpeciesID                 IS NULL OR  SpeciesID                   =       @SpeciesID) ";
             SQL += " AND    (@GeographyID               IS NULL OR  GeographyID                 =       @GeographyID) ";
             SQL += " AND    (@RegulationID              IS NULL OR  RegulationID                =       @RegulationID) ";
-            SQL += " AND    (@FamilyName                IS NULL OR  FamilyName                  LIKE   @FamilyName + '%')";
-            SQL += " AND    (@GenusName                 IS NULL OR  GenusName                   LIKE   @GenusName + '%')";
-            SQL += " AND    (@SpeciesName               IS NULL OR  SpeciesName                 LIKE   @SpeciesName + '%')";
+            SQL += " AND    (@FamilyName                IS NULL OR  FamilyName                  LIKE   '%' + @FamilyName + '%')";
+            SQL += " AND    (@GenusName                 IS NULL OR  GenusName                   LIKE   '%' + @GenusName + '%')";
+            SQL += " AND    (@SpeciesName               IS NULL OR  SpeciesName                 LIKE   '%' + @SpeciesName + '%')";
             SQL += " AND    (@Description               IS NULL OR  Description                 LIKE   '%' + @Description + '%')";
             SQL += " AND    (@AssembledName             IS NULL OR  AssembledName               LIKE   '%' + @AssembledName + '%')";
             SQL += " AND    (@IsExempt                  IS NULL OR  IsExempt                    =      @IsExempt)";

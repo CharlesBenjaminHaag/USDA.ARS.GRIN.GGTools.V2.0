@@ -126,7 +126,7 @@
                             </h1>
                         </div>
                         <div class="col-sm-6">
-                            @Html.Partial("~/Views/Shared/_Breadcrumbs.cshtml")
+                            @Html.Partial("~/Views/Taxonomy/Shared/_Breadcrumbs.cshtml")
                         </div>
                     </div>
                 </div>
@@ -143,7 +143,6 @@
                         @Html.HiddenFor(x => x.Entity.ID)
                         @Html.HiddenFor(x => x.Entity.ParentID)
                         @Html.HiddenFor(x => x.Entity.Rank)
-                        @Html.HiddenFor(x => x.Entity.SynonymCode)
                         @Html.HiddenFor(x => x.Entity.IsAcceptedName)
                         @Html.HiddenFor(x => x.Entity.CreatedByCooperatorID)
                         @Html.HiddenFor(x => x.Entity.CreatedByCooperatorName)

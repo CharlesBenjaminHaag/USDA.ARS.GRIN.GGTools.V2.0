@@ -19,28 +19,26 @@
                     <button id="btnOpenFolderModal" type="button" class="btn btn-default btn-sm"><i class="fa fa-folder"></i></button>
                 </div>
                 <div class="row">
-                    <div class="col-md-2">
-                        <div class="form-group form-horizontal">
-                            <label>Created By</label>
-                            @Html.DropDownListFor(x => x.SearchEntity.CreatedByCooperatorID, Model.Cooperators, "All cooperators", new { @class = "form-control" })
-                        </div>
-                    </div>
-                    <div class="col-md-2">
+                    
+                    <div class="col-md-4">
                         <div class="form-group form-horizontal">
                             <label>Continent</label>
-                            @Html.DropDownListFor(x => x.SearchEntity.ContinentRegionID, Model.Continents, "All continents", new { @class = "form-control" })
+                            @Html.TextBoxFor(x=>x.SearchEntity.ContinentName, new { @class = "form-control" })
+                            @*@Html.DropDownListFor(x => x.SearchEntity.ContinentRegionID, Model.Continents, "All continents", new { @class = "form-control" })*@
                         </div>
                     </div>
-                    <div class="col-md-2">
+                    <div class="col-md-4">
                         <div class="form-group form-horizontal">
-                            <label>Subcontinents</label>
-                            @Html.DropDownListFor(x => x.SearchEntity.SubContinentRegionID, Model.SubContinents, "All subcontinents", new { @class = "form-control" })
+                            <label>Subcontinent</label>
+                            @Html.TextBoxFor(x => x.SearchEntity.SubContinentName, new { @class = "form-control" })
+                            @*@Html.DropDownListFor(x => x.SearchEntity.SubContinentRegionID, Model.SubContinents, "All subcontinents", new { @class = "form-control" })*@
                         </div>
                     </div>
-                    <div class="col-md-2">
+                    <div class="col-md-3">
                         <div class="form-group form-horizontal">
                             <label>Country</label>
-                            @Html.DropDownListFor(x => x.SearchEntity.CountryCode, Model.Countries, "All countries", new { @class = "form-control" })
+                            @Html.TextBoxFor(x => x.SearchEntity.CountryDescription, new { @class = "form-control" })
+                            @*@Html.DropDownListFor(x => x.SearchEntity.CountryCode, Model.Countries, "All countries", new { @class = "form-control" })*@
                         </div>
                     </div>
                     <div class="col-md-1">

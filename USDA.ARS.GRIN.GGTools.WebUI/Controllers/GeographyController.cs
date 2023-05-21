@@ -233,10 +233,18 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
         public PartialViewResult _ListCountries(string continents = "NULL", string subContinents = "")
         {
             GeographyViewModel viewModel = new GeographyViewModel();
-            viewModel.SearchEntity.ContinentNameList = continents;
-            viewModel.SearchEntity.SubContinentNameList = subContinents;
-            viewModel.GetCountries();
-            return PartialView("~/Views/Taxonomy/Geography/Modals/_SelectListCountry.cshtml", viewModel);
+            try
+            {
+                viewModel.SearchEntity.ContinentNameList = continents;
+                viewModel.SearchEntity.SubContinentNameList = subContinents;
+                viewModel.GetCountries();
+                return PartialView("~/Views/Taxonomy/Geography/Modals/_SelectListCountry.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
         }
 
         public PartialViewResult _ListAdministrativeUnits(string countries = "")
@@ -276,7 +284,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
         public ActionResult RenderLookupModal(int speciesId = 0)
         {
             GeographyViewModel viewModel = new GeographyViewModel();
-
+            viewModel.GetContinents();
             // TODO If we have a species ID,
             // 1) Load its name/basic identifying data
             // 2) Load its existing geo maps
