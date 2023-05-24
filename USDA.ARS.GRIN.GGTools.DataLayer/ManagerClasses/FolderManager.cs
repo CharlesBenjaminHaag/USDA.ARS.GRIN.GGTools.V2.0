@@ -59,10 +59,10 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             List<AppUserItemFolder> results = new List<AppUserItemFolder>();
 
             SQL =   " SELECT DISTINCT FolderID, FolderName " +
-                    " FROM vw_GRINGlobal_Folder_" + searchEntity.TableName + " WHERE ID = @EntityID";
+                    " FROM vw_GRINGlobal_Folder_" + searchEntity.TableName + " WHERE CreatedByCooperatorID = @CreatedByCooperatorID";
 
             var parameters = new List<IDbDataParameter> {
-                CreateParameter("EntityID", searchEntity.EntityID, true)
+                CreateParameter("CreatedByCooperatorID", searchEntity.CreatedByCooperatorID, true)
             };
             results = GetRecords<AppUserItemFolder>(SQL, parameters.ToArray());
             RowsAffected = results.Count;

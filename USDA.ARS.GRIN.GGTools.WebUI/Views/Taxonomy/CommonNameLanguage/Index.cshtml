@@ -16,7 +16,7 @@
     @Html.Partial("~/Views/Taxonomy/CommonNameLanguage/_Detail.cshtml")
 }
 @Html.Partial("~/Views/Taxonomy/CommonNameLanguage/_List.cshtml")
-@{Html.RenderAction("_Edit", "Folder"); }
+@{Html.RenderAction("_Edit", "Folder", new { @tableName = "taxonomy_common_name_language" }); }
 
 <script type="text/javascript">
 

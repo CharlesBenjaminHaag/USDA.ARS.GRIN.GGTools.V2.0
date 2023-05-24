@@ -130,6 +130,10 @@ Modal that appears if no record is selected for folder addition.
         var dataTableName = "data_table_" + tableName;
         var selectedItemIdList = GetSelectedEntityIDs(dataTableName);
 
+        //DEBUG
+        alert("TABLE IS " + dataTableName + " AND ID LIST IS " + selectedItemIdList);
+
+
         // Do not display the folder modal unless the user has selected at least 
         // one record to add.
         if (selectedItemIdList.length < 1) {

@@ -275,7 +275,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             List<Country> results = new List<Country>();
             string sqlOperator = " WHERE ";
 
-            SQL = " SELECT * FROM vw_GRINGlobal_Geography_Country  ";
+            SQL = " SELECT CountryCode, CountryDescription FROM vw_GRINGlobal_Geography_Country  ";
 
             if (!String.IsNullOrEmpty(continentNameList))
             {
@@ -296,7 +296,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
                 SQL += sqlOperator + " SubContinent IN (" + subContinents + ')';
             }
 
-            SQL += " ORDER BY CountryName ASC ";
+            SQL += " ORDER BY CountryDescription ASC ";
 
             results = GetRecords<Country>(SQL);
             RowsAffected = results.Count;

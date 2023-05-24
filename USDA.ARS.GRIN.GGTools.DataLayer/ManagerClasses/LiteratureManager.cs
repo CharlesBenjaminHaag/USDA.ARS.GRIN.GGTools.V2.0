@@ -64,7 +64,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         {
             List<Literature> results = new List<Literature>();
 
-            SQL = "SELECT * FROM vw_GRINGlobal_Taxonomy_Literature ";
+            SQL = "SELECT * FROM vw_GRINGlobal_Literature ";
             SQL += " WHERE (@StandardAbbreviation       IS NULL OR StandardAbbreviation     LIKE    '%' +   @StandardAbbreviation + '%')";
 
             SQL += " AND    (@ID                        IS NULL OR ID                       =       @ID)";
@@ -90,7 +90,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
 
                 CreateParameter("Abbreviation", (object)searchEntity.Abbreviation ?? DBNull.Value, true),
                 CreateParameter("StandardAbbreviation", (object)searchEntity.StandardAbbreviation ?? DBNull.Value, true),
-                CreateParameter("LiteratureTypeCode", (object)searchEntity.TypeCode ?? DBNull.Value, true),
+                CreateParameter("LiteratureTypeCode", (object)searchEntity.LiteratureTypeCode ?? DBNull.Value, true),
                 CreateParameter("ReferenceTitle", (object)searchEntity.ReferenceTitle  ?? DBNull.Value, true),
                 CreateParameter("Author", (object)searchEntity.EditorAuthorName  ?? DBNull.Value, true),
                 CreateParameter("PublicationYear", (object)searchEntity.PublicationYear  ?? DBNull.Value, true),
@@ -148,9 +148,9 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             AddParameter("standard_abbreviation", String.IsNullOrEmpty(entity.StandardAbbreviation) ? DBNull.Value : (object)entity.StandardAbbreviation, true);
             AddParameter("reference_title", String.IsNullOrEmpty(entity.ReferenceTitle) ? DBNull.Value : (object)entity.ReferenceTitle, true);
             AddParameter("editor_author_name", String.IsNullOrEmpty(entity.EditorAuthorName) ? DBNull.Value : (object)entity.EditorAuthorName, true);
-            AddParameter("literature_type_code", String.IsNullOrEmpty(entity.TypeCode) ? DBNull.Value : (object)entity.EditorAuthorName, true);
+            AddParameter("literature_type_code", String.IsNullOrEmpty(entity.LiteratureTypeCode) ? DBNull.Value : (object)entity.LiteratureTypeCode, true);
             AddParameter("publication_year", String.IsNullOrEmpty(entity.PublicationYear) ? DBNull.Value : (object)entity.PublicationYear, true);
-            AddParameter("publisher_name", String.IsNullOrEmpty(entity.PublisherName) ? DBNull.Value : (object)entity.PublicationYear, true);
+            AddParameter("publisher_name", String.IsNullOrEmpty(entity.PublisherName) ? DBNull.Value : (object)entity.PublisherName, true);
             AddParameter("publisher_location", String.IsNullOrEmpty(entity.PublisherLocation) ? DBNull.Value : (object)entity.PublisherLocation, true);
             AddParameter("url", String.IsNullOrEmpty(entity.URL) ? DBNull.Value : (object)entity.URL, true);
             AddParameter("note", String.IsNullOrEmpty(entity.Note) ? DBNull.Value : (object)entity.Note, true);

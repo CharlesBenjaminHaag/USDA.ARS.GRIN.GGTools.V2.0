@@ -10,22 +10,11 @@
     <div class="card-body">
         <div class="tab-content">
             <div class="tab-pane active" id="activity">
-               
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            <a href="@Url.Action("Add","Literature")" class="btn btn-default btn-sm">
-                                <i class="fas fa-plus"></i> Add
-                            </a>
-                            <button id="btnOpenFolderModal" type="button" class="btn btn-default btn-sm"><i class="fa fa-folder"></i></button>
-                        </div>
-                    </div>
-                </div>
                 <div class="row">
                     <div class="col-md-2">
                         <div id="section-family-type" class="form-group form-horizontal">
                             <label>Type</label>
-                            @Html.DropDownListFor(x => x.SearchEntity.TypeCode, Model.LiteratureTypes, "All Types", new { @class = "form-control" })
+                            @Html.DropDownListFor(x => x.SearchEntity.LiteratureTypeCode, Model.LiteratureTypes, "All Types", new { @class = "form-control" })
                         </div>
                     </div>
                     <div class="col-md-3">
@@ -55,7 +44,7 @@
                 </div>
                 @Html.Partial("~/Views/Taxonomy/Literature/_DetailExtended.cshtml")
                 <div>
-                    <button id="btnReset" type="button" class="btn btn-danger">Reset</button>
+                    <button id="btnReset" type="button" class="btn btn-default">Reset</button>
                     <div class="btn-group float-right">
                         <button id="btnSearch" type="submit" class="btn btn-info">Search</button>
                         <button type="button" class="btn btn-info dropdown-toggle dropdown-icon" data-toggle="dropdown" aria-expanded="false">

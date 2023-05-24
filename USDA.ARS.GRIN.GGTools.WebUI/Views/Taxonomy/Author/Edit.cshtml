@@ -24,7 +24,7 @@
                         @if (Model.Entity.ID > 0)
                         {
                             <li class="nav-item d-none d-sm-inline-block">
-                                <a href="@Url.Action("Add", "Author", new { cropForCwrId = Model.Entity.ID })" class="nav-link">Add CWR Map</a>
+                                <a href="@Url.Action("Add", "Author", new { cropForCwrId = Model.Entity.ID })" class="nav-link">New</a>
                             </li>
                             Html.RenderAction("_RelatedFoldersMenu", "Folder", new { tableName = Model.TableName, entityId = Model.Entity.ID });
                         }

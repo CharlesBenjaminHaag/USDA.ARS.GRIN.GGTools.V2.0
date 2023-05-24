@@ -16,9 +16,13 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
 
         public PartialViewResult _ListFolderItems(int folderId)
         {
+            CommonNameLanguageViewModel viewModel = new CommonNameLanguageViewModel();
             try
             {
-                return PartialView("~/Views/Shared/_UnderConstruction.cshtml");
+                viewModel.EventAction = "FOLDER";
+                viewModel.SearchEntity.FolderID = folderId;
+                viewModel.GetFolderItems();
+                return PartialView(BASE_PATH + "_List.cshtml", viewModel);
             }
             catch (Exception ex)
             {
@@ -92,16 +96,6 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 Log.Error(ex);
                 return RedirectToAction("InternalServerError", "Error");
             }
-        }
-
-        public PartialViewResult FolderItems(int folderId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public PartialViewResult FolderItems(FormCollection formCollection)
-        {
-            throw new NotImplementedException();
         }
 
         public ActionResult Index()
