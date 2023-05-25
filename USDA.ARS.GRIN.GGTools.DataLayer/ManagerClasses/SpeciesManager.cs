@@ -171,11 +171,11 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         {
             List<CodeValue> results = new List<CodeValue>();
 
-            SQL = " SELECT DISTINCT protologue AS Value, protologue_virtual_path AS Title " +
+            SQL = " SELECT DISTINCT LTRIM(RTRIM(protologue)) AS Value, '' AS Title " +
                     " FROM taxonomy_species " +
                     " WHERE protologue IS NOT NULL ";
             SQL += " AND    (@Protologue       IS NULL OR  Protologue     LIKE     '%' + @Protologue + '%' )";
-            SQL += " ORDER BY protologue";
+            SQL += " ORDER BY Value";
             var parameters = new List<IDbDataParameter>
             {
                  CreateParameter("Protologue", (object)protologue ?? DBNull.Value, true)
@@ -211,7 +211,8 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             }
 
             AddParameter("current_taxonomy_species_id", entity.AcceptedID == 0 ? entity.ID : (object)entity.AcceptedID, true);
-            AddParameter("is_specific_hybrid", entity.IsSpecificHybridOption == true ? "Y" : (object)"N", false);
+            AddParameter("is_specific_hybrid", (object)entity.IsSpecificHybrid ?? DBNull.Value, true);
+            AddParameter("hybrid_parentage", (object)entity.HybridParentage ?? DBNull.Value, true);
             AddParameter("name_authority", (object)entity.NameAuthority ?? DBNull.Value, true);
             AddParameter("species_authority", (object)entity.SpeciesAuthority ?? DBNull.Value, true);
             AddParameter("is_subspecific_hybrid", entity.IsSubspecificHybrid == null ? "N" : (object)entity.IsSubspecificHybrid, false);

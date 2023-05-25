@@ -57,7 +57,7 @@
             <div class="content">
                 <div class="container" style="max-width:1500px;">
                     <div id="section-folder-confirmation"></div>
-
+                    @Html.Partial("~/Views/Taxonomy/Shared/_RevisionHistory.cshtml")
                     @using (Html.BeginForm("Edit", "Literature", FormMethod.Post, new { id = "frmEdit" }))
                     {
                         @Html.HiddenFor(x => x.EventAction)

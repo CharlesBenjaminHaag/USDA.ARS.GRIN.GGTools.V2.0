@@ -46,7 +46,7 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="margin">
-                                <button id="btnReset" class="btn btn-danger">Reset</button>
+                                <button id="btnReset" type="button" class="btn btn-danger">Reset</button>
                                 <button id="btnLookupAuthor" type="button" class="btn btn-default float-right">Search</button>
                             </div>
                         </div>
@@ -58,13 +58,22 @@
                 </div>
             </div>
             <div class="modal-footer justify-content-between">
-                justify-content-between
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
                 <button id="btnSaveAuthor" type="button" class="btn btn-info" data-dismiss="modal">Add Selected Author</button>
             </div>
         </div>
     </div>
 </div>
 <script type="text/javascript">
+    $('#modal-author-lookup').on('keypress', function (event) {
+        var keycode = (event.keyCode ? event.keyCode : event.which);
+        if (keycode == '13') {
+            /*alert("ENTER clicked");*/
+            SearchAuthor();
+            event.preventDefault();
+        }
+    });
+
     $("#btnLookupAuthor").click(function () {
         SearchAuthor();
     });

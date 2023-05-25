@@ -383,8 +383,7 @@
     <Content Include="Views\Shared\Modals\_NoteSelectList.cshtml" />
     <Content Include="Views\Taxonomy\CWRMap\Modals\_Lookup.cshtml" />
     <Content Include="Views\Taxonomy\CWRMap\Modals\_SelectList.cshtml" />
-    <Content Include="Views\Taxonomy\Species\Edit_OLD.cshtml" />
-    <Content Include="Views\Taxonomy\Species\Index.cshtml" />
+    <Content Include="Views\Taxonomy\Species\Index_OLD.cshtml" />
     <Content Include="Views\Taxonomy\Species\_List.cshtml" />
     <Content Include="Views\Taxonomy\Species\Modals\_Lookup.cshtml" />
     <Content Include="Views\Taxonomy\Species\Modals\_SelectList.cshtml" />
@@ -722,7 +721,7 @@
     <Content Include="Views\WebOrder\Explorer\_NoteWidget.cshtml" />
     <Content Include="Views\WebOrder\_ListItems.cshtml" />
     <Content Include="Views\Taxonomy\GeographyMap\_SelectList.cshtml" />
-    <Content Include="Views\Taxonomy\Species\Index_BACKUP.cshtml" />
+    <Content Include="Views\Taxonomy\Species\Index.cshtml" />
     <Content Include="Views\Taxonomy\Species\Modals\_LookupParent.cshtml" />
     <Content Include="Views\Taxonomy\Species\Modals\_SelectListParent.cshtml" />
     <Content Include="Views\Taxonomy\Shared\_InfraspecificAutonymWidget.cshtml" />

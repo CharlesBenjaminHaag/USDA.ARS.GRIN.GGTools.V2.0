@@ -38,13 +38,13 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
                     SearchEntity.ID = entityId;
                     Search();
 
-                    Entity.IsSpecificHybridOption = ToBool(Entity.IsSpecificHybrid);
-                    Entity.IsSubSpecificHybridOption = ToBool(Entity.IsSubspecificHybrid);
-                    Entity.IsVarietalHybridOption = ToBool(Entity.IsVarietalHybrid);
-                    Entity.IsSubvarietalHybridOption = ToBool(Entity.IsSubVarietalHybrid);
-                    Entity.IsFormaHybridOption = ToBool(Entity.IsFormaHybrid);
-                    Entity.IsAccepted = ToBool(Entity.IsAcceptedName);
-                    Entity.IsWebVisibleOption = ToBool(Entity.IsWebVisible);
+                    //Entity.IsSpecificHybridOption = ToBool(Entity.IsSpecificHybrid);
+                    //Entity.IsSubSpecificHybridOption = ToBool(Entity.IsSubspecificHybrid);
+                    //Entity.IsVarietalHybridOption = ToBool(Entity.IsVarietalHybrid);
+                    //Entity.IsSubvarietalHybridOption = ToBool(Entity.IsSubVarietalHybrid);
+                    //Entity.IsFormaHybridOption = ToBool(Entity.IsFormaHybrid);
+                    //Entity.IsAccepted = ToBool(Entity.IsAcceptedName);
+                    //Entity.IsWebVisibleOption = ToBool(Entity.IsWebVisible);
 
                     //DataCollectionConspecificTaxa = new Collection<Species>(mgr.GetConspecificTaxa(entityId));
                     //DataCollectionSynonyms = new Collection<Species>(mgr.GetSynonyms(entityId));
@@ -93,12 +93,12 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
             {
                 try
                 {
-                    Entity.IsSpecificHybrid = FromBool(Entity.IsSpecificHybridOption);
-                    Entity.IsSubspecificHybrid = FromBool(Entity.IsSubSpecificHybridOption);
-                    Entity.IsVarietalHybrid = FromBool(Entity.IsVarietalHybridOption);
-                    Entity.IsSubVarietalHybrid = FromBool(Entity.IsSubvarietalHybridOption);
-                    Entity.IsFormaHybrid = FromBool(Entity.IsFormaHybridOption);
-                    Entity.IsWebVisible = FromBool(Entity.IsWebVisibleOption);
+                    //Entity.IsSpecificHybrid = FromBool(Entity.IsSpecificHybridOption);
+                    //Entity.IsSubspecificHybrid = FromBool(Entity.IsSubSpecificHybridOption);
+                    //Entity.IsVarietalHybrid = FromBool(Entity.IsVarietalHybridOption);
+                    //Entity.IsSubVarietalHybrid = FromBool(Entity.IsSubvarietalHybridOption);
+                    //Entity.IsFormaHybrid = FromBool(Entity.IsFormaHybridOption);
+                    //Entity.IsWebVisible = FromBool(Entity.IsWebVisibleOption);
                    
                     SetSpeciesName();
                     SetSpeciesNameAuthority();
@@ -184,12 +184,12 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
             {
                 try
                 {
-                    Entity.IsSpecificHybrid = FromBool(Entity.IsSpecificHybridOption);
-                    Entity.IsSubspecificHybrid = FromBool(Entity.IsSubSpecificHybridOption);
-                    Entity.IsVarietalHybrid = FromBool(Entity.IsVarietalHybridOption);
-                    Entity.IsSubVarietalHybrid = FromBool(Entity.IsSubvarietalHybridOption);
-                    Entity.IsFormaHybrid = FromBool(Entity.IsFormaHybridOption);
-                    Entity.IsWebVisible = FromBool(Entity.IsWebVisibleOption);
+                    //Entity.IsSpecificHybrid = FromBool(Entity.IsSpecificHybridOption);
+                    //Entity.IsSubspecificHybrid = FromBool(Entity.IsSubSpecificHybridOption);
+                    //Entity.IsVarietalHybrid = FromBool(Entity.IsVarietalHybridOption);
+                    //Entity.IsSubVarietalHybrid = FromBool(Entity.IsSubvarietalHybridOption);
+                    //Entity.IsFormaHybrid = FromBool(Entity.IsFormaHybridOption);
+                    //Entity.IsWebVisible = FromBool(Entity.IsWebVisibleOption);
 
                     SetSpeciesName();
                     SetSpeciesNameAuthority();

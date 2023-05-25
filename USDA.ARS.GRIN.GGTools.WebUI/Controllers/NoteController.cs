@@ -28,6 +28,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             if (!String.IsNullOrEmpty(formCollection["Note"]))
             {
                 viewModel.SearchEntity.SearchText = formCollection["Note"];
+                viewModel.SearchEntity.SearchText = viewModel.SearchEntity.SearchText.Replace(" ", "%");
             }
 
             viewModel.SearchNotes();

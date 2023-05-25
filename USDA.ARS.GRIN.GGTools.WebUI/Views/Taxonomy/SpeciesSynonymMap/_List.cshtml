@@ -32,14 +32,14 @@
                         <td>@result.SpeciesAID</td>
                         <td>
                             <a href="@Url.Action("Edit", "Species", new { entityId = result.SpeciesAID })">
-                                @Html.Raw(result.SpeciesBAssembledName)
+                                @Html.Raw(result.SpeciesAAssembledName)
                             </a>
                         </td>
                         <td>@result.SynonymDescription</td>
                         <td>@result.SpeciesBID</td>
                         <td>
-                            <a href="@Url.Action("Edit", "Species", new { entityId = result.SpeciesBName })">
-                                @Html.Raw(result.SpeciesAAssembledName)
+                            <a href="@Url.Action("Edit", "Species", new { entityId = result.SpeciesBID })">
+                                @Html.Raw(result.SpeciesBAssembledName)
                             </a>
                         </td>
                         <td style="text-align:right;">

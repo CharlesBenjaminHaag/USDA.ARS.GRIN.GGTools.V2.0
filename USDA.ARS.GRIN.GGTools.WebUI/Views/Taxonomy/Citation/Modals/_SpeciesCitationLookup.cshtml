@@ -112,6 +112,7 @@
             data: formData,
             success: function (response) {
                 $("#section-species-citation-widget").html(response);
+                $("#Entity_CitationID").val(citationId);
             }
         });
     }

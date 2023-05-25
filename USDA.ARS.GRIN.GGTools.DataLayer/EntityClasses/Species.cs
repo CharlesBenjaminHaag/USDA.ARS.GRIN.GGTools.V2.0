@@ -33,6 +33,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         public bool IsVarietalHybridOption { get; set; }
         public string VarietyName { get; set; }
         public string VarietyAuthority { get; set; }
+        [AllowHtml]
         public string HybridParentage { get; set; }
         public string IsSubVarietalHybrid { get; set; }
         public bool IsSubvarietalHybridOption { get; set; }

@@ -39,7 +39,7 @@
                                         @result.ID
                                     </td>
                                     <td>@Html.Raw(result.AssembledName)</td>
-                                    <td><span class="badge badge-default">@result.SynonymDescription</span></td>
+                                    <td><span class="badge badge-info">@result.SynonymDescription</span></td>
                                     <td>@Html.Raw(Model.FormatBoolean(result.IsAcceptedName))</td>
                                     <td>
                                         @Html.Raw(result.Protologue)
@@ -47,7 +47,7 @@
                                     <td>
                                         @if (result.NameVerifiedDate > DateTime.MinValue)
                                         {
-                                            @result.NameVerifiedDate.ToShortDateString()
+                                            @result.NameVerifiedDate.ToString("yyyy-MM-dd")
                                         }
                                     </td>
                                     <td>

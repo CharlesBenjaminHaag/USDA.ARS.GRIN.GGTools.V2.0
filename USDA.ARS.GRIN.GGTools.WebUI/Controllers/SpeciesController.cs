@@ -531,6 +531,19 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                     }
                 }
 
+                // If the species is being saved with a non-accepted name, add a
+                // synonym map record. The stored proc. will ensure that the synonym
+                // does not already exist.
+                if ((viewModel.Entity.ID != viewModel.Entity.AcceptedID) && (viewModel.Entity.AcceptedID > 0))
+                {
+                    SynonymMapViewModel synonymMapViewModel = new SynonymMapViewModel();
+                    synonymMapViewModel.Entity.SpeciesAID = viewModel.Entity.ID;
+                    synonymMapViewModel.Entity.SynonymCode = viewModel.Entity.SynonymCode;
+                    synonymMapViewModel.Entity.SpeciesBID = viewModel.Entity.AcceptedID;
+                    synonymMapViewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
+                    synonymMapViewModel.Insert();
+                }
+
                 return RedirectToAction("Edit", "Species", new { entityId = viewModel.Entity.ID });
             }
             catch (Exception ex)

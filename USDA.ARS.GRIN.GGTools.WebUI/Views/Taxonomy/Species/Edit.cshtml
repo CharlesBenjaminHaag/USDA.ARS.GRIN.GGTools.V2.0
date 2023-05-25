@@ -535,23 +535,19 @@
                                             </div>
                                         </div>
                                         <div class="col-md-2">
-                                            <div class="form-group section-checkbox">
-                                                <div class="icheck-primary d-inline">
-                                                    @Html.CheckBoxFor(x => x.Entity.IsSpecificHybridOption)
-                                                    <label for="Entity_IsSpecificHybridOption">
-                                                        Hybrid
-                                                    </label>
-                                                </div>
+                                            <div class="form-group">
+                                                <label>
+                                                    Hybrid
+                                                </label>
+                                                @Html.DropDownListFor(x => x.Entity.IsSpecificHybrid, Model.YesNoOptions, new { @class="form-control" })
                                             </div>
                                         </div>
                                         <div class="col-md-2">
-                                            <div class="form-group section-checkbox">
-                                                <div class="icheck-primary d-inline">
-                                                    @Html.CheckBoxFor(x => x.Entity.IsWebVisibleOption)
-                                                    <label for="Entity_IsWebVisibleOption">
-                                                        Web Visible
-                                                    </label>
-                                                </div>
+                                            <div class="form-group">
+                                                <label>
+                                                    Web Visible
+                                                </label>
+                                                @Html.DropDownListFor(x => x.Entity.IsWebVisible, Model.YesNoOptions, new { @class = "form-control" })
                                             </div>
                                         </div>
                                     </div>
@@ -651,8 +647,8 @@
     function Init() {
         SetControlVisibility();
 
-        // Set the tab of the current selector to "active".
-        SetRankSelectorTab();
+        //// Set the tab of the current selector to "active".
+        //SetRankSelectorTab();
 
         // Load default-visible tab of dependent data.
         var defaultId = $('ul#list-dependent-data li:first').attr("id");

@@ -39,11 +39,15 @@
     </div>
 </div>
 <script type="text/javascript">
-        /*
-    * ===================================================================================================
-    * PROTOLOGUE LOOKUP MODAL
-    * ===================================================================================================
-    */
+    $('#modal-protologue-lookup').on('keypress', function (event) {
+        var keycode = (event.keyCode ? event.keyCode : event.which);
+        if (keycode == '13') {
+            /*alert("ENTER clicked");*/
+            SearchProtologues();
+            event.preventDefault();
+        }
+    });
+
     $("#btnLookupProtologue").click(function () {
         SearchProtologues();
     });
@@ -75,6 +79,6 @@
     $("#btnSaveProtologue").click(function () {
         $('#modal-protologue-lookup').modal('hide');
         var selectedProtologue = GetSelectedEntityText("data-table-protologue-lookup");
-        $("#Entity_Protologue").val( $(selectedProtologue).text());
+        $("#Entity_Protologue").val(selectedProtologue);
     });
 </script>
