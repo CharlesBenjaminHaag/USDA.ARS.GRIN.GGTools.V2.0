@@ -38,13 +38,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
                     SearchEntity.ID = entityId;
                     Search();
 
-                    //Entity.IsSpecificHybridOption = ToBool(Entity.IsSpecificHybrid);
-                    //Entity.IsSubSpecificHybridOption = ToBool(Entity.IsSubspecificHybrid);
-                    //Entity.IsVarietalHybridOption = ToBool(Entity.IsVarietalHybrid);
-                    //Entity.IsSubvarietalHybridOption = ToBool(Entity.IsSubVarietalHybrid);
-                    //Entity.IsFormaHybridOption = ToBool(Entity.IsFormaHybrid);
-                    //Entity.IsAccepted = ToBool(Entity.IsAcceptedName);
-                    //Entity.IsWebVisibleOption = ToBool(Entity.IsWebVisible);
+                    
 
                     //DataCollectionConspecificTaxa = new Collection<Species>(mgr.GetConspecificTaxa(entityId));
                     //DataCollectionSynonyms = new Collection<Species>(mgr.GetSynonyms(entityId));
@@ -128,9 +122,13 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
                         Entity = DataCollection[0];
                     }
 
-                    //String DEBUG = SerializeToXml<CitationSearch>(SearchEntity);
-                    //CitationSearch DEBUG2 = Deserialize<CitationSearch>(DEBUG);
-
+                    Entity.IsSpecificHybridOption = ToBool(Entity.IsSpecificHybrid);
+                    //Entity.IsSubSpecificHybridOption = ToBool(Entity.IsSubspecificHybrid);
+                    //Entity.IsVarietalHybridOption = ToBool(Entity.IsVarietalHybrid);
+                    //Entity.IsSubvarietalHybridOption = ToBool(Entity.IsSubVarietalHybrid);
+                    //Entity.IsFormaHybridOption = ToBool(Entity.IsFormaHybrid);
+                    //Entity.IsAccepted = ToBool(Entity.IsAcceptedName);
+                    Entity.IsWebVisibleOption = ToBool(Entity.IsWebVisible);
                 }
                 catch (Exception ex)
                 {
@@ -243,7 +241,10 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
         public override bool Validate()
         {
             bool validated = true;
-            
+
+            Entity.IsSpecificHybrid = FromBool(Entity.IsSpecificHybridOption);
+            Entity.IsWebVisible = FromBool(Entity.IsWebVisibleOption);
+
             switch (Entity.Rank.ToUpper())
                 {
                     case "SPECIES":

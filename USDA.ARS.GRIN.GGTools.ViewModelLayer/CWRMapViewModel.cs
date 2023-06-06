@@ -14,6 +14,8 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
         {
             bool validated = true;
 
+            Entity.IsCrop = FromBool(Entity.IsCropOption);
+
             if (Entity.CropForCWRID == 0)
             {
                 ValidationMessages.Add(new Common.Library.ValidationMessage { Message = "Please select a crop." });

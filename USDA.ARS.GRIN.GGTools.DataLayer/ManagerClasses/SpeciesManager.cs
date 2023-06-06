@@ -171,6 +171,9 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         {
             List<CodeValue> results = new List<CodeValue>();
 
+            // Replace whitespace with wildcard character(s).
+            protologue = protologue.Replace(" ", "%");
+
             SQL = " SELECT DISTINCT LTRIM(RTRIM(protologue)) AS Value, '' AS Title " +
                     " FROM taxonomy_species " +
                     " WHERE protologue IS NOT NULL ";

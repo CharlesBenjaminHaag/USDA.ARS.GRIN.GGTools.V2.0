@@ -113,7 +113,36 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
 
         public int Update(SpeciesSynonymMap entity)
         {
-            throw new NotImplementedException();
+            Reset(CommandType.StoredProcedure);
+            Validate<SpeciesSynonymMap>(entity);
+            SQL = "usp_GRINGlobal_Taxonomy_Species_Synonym_Map_Update";
+
+            BuildInsertUpdateParameters(entity);
+
+            AddParameter("@out_error_number", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
+            int errorNumber = GetParameterValue<int>("@out_error_number", -1);
+            RowsAffected = ExecuteNonQuery();
+            return RowsAffected;
+        }
+        protected virtual void BuildInsertUpdateParameters(SpeciesSynonymMap entity)
+        {
+            if (entity.ID > 0)
+            {
+                AddParameter("taxonomy_species_synonym_map_id", entity.ID == 0 ? DBNull.Value : (object)entity.ID, true);
+            }
+            AddParameter("taxona_taxonomy_species_id", entity.SpeciesAID == 0 ? entity.SpeciesAID : (object)entity.SpeciesAID, true);
+            AddParameter("synonym_code", (object)entity.SynonymCode ?? DBNull.Value, true);
+            AddParameter("taxonb_taxonomy_species_id", entity.SpeciesBID == 0 ? entity.SpeciesBID : (object)entity.SpeciesBID, true);
+            AddParameter("note", (object)entity.Note ?? DBNull.Value, true);
+
+            if (entity.ID > 0)
+            {
+                AddParameter("modified_by", entity.ModifiedByCooperatorID == 0 ? DBNull.Value : (object)entity.ModifiedByCooperatorID, true);
+            }
+            else
+            {
+                AddParameter("created_by", entity.CreatedByCooperatorID == 0 ? DBNull.Value : (object)entity.CreatedByCooperatorID, true);
+            }
         }
     }
 }

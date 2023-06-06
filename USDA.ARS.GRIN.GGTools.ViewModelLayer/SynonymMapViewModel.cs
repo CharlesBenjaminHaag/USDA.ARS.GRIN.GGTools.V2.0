@@ -155,7 +155,19 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
 
         public int Update()
         {
-            throw new NotImplementedException();
+            using (SpeciesSynonymMapManager mgr = new SpeciesSynonymMapManager())
+            {
+                try
+                {
+                    RowsAffected = mgr.Update(Entity);
+                }
+                catch (Exception ex)
+                {
+                    PublishException(ex);
+                    throw ex;
+                }
+            }
+            return RowsAffected;
         }
 
         int IViewModel<SpeciesSynonymMap>.Insert()

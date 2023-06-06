@@ -44,13 +44,13 @@ function InitDataTable(tableName) {
                 'selectNone',
                 'csv',
                 'excel',
-                'pdf'
-                //{
-                //    text: '+ Add',
-                //    action: function (e, dt, node, config) {
-                //        AddRecord();
-                //    }
-                //}
+                'pdf',
+                {
+                    text: '+ Add',
+                    action: function (e, dt, node, config) {
+                        AddRecord();
+                    }
+                }
             ],
             select: true,
             lengthMenu: [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],
@@ -143,6 +143,29 @@ function InitDataTableLookupFormat(tableName) {
     });
 }
 
+function InitDataTableLookupFormat(tableName) {
+    $(document).ready(function () {
+        tableName = "#" + tableName;
+        table = $(tableName).DataTable({
+            paging: false,
+            stateSave: true,
+            "bLengthChange": false,
+            scrollY: '300px',
+            scrollCollapse: true,
+            paging: false,
+            responsive: true,
+            select: {
+                style: 'single'
+            },
+            searching: true,
+            columnDefs: [
+                { targets: [0], visible: false }
+            ]
+        });
+        /*table.row(':eq(0)', { page: 'current' }).select();*/
+    });
+}
+
 function InitDataTableLight(tableName) {
     $(document).ready(function () {
         tableName = "#" + tableName;
@@ -168,6 +191,9 @@ function InitDataTableWithAssembledName(tableName) {
     $(document).ready(function () {
         tableName = "#" + tableName;
         table = $(tableName).DataTable({
+            "bLengthChange": false,
+            scrollY: '300px',
+            scrollCollapse: true,
             paging: true,
             responsive: true,
             select: {

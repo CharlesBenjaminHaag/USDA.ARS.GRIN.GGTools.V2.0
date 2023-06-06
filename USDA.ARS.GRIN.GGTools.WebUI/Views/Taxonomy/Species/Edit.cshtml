@@ -157,11 +157,9 @@
                         @Html.HiddenFor(x => x.Entity.VerifiedByCooperatorName)
                         @Html.HiddenFor(x => x.Entity.NameVerifiedDate)
                         <input type="hidden" id="hfModalEventValue" />
-
                         <div id="section-verification">
                             @Html.Partial("~/Views/Taxonomy/Species/_RevisionHistory.cshtml")
                         </div>
-
                         if ((Model.Entity.Rank != "SPECIES") && (Model.Entity.ID > 0))
                         {
                             Html.RenderAction("RenderInfraspecificAutonymWidget", "Species", new { genusName = Model.Entity.GenusName, speciesName = Model.Entity.SpeciesName, rank = Model.Entity.Rank }); ;
@@ -290,7 +288,7 @@
                                                 <div class="input-group">
                                                     @Html.TextBoxFor(x => x.Entity.SpeciesName, new { @class = "form-control" })
                                                     @if (Model.Entity.Rank.ToUpper() == "SPECIES")
-                                                    { 
+                                                    {
                                                         <span class="input-group-append">
                                                             <a id="btnSetAcceptedOn" class="btn btn-default" href="#" role="button"><i class="fas fa-thumbs-down"></i> Not Accepted</a>
                                                             <a id="btnSetAcceptedOff" class="btn btn-default" href="#" role="button"><i class="fas fa-thumbs-up"></i> Accepted</a>
@@ -535,19 +533,23 @@
                                             </div>
                                         </div>
                                         <div class="col-md-2">
-                                            <div class="form-group">
-                                                <label>
-                                                    Hybrid
-                                                </label>
-                                                @Html.DropDownListFor(x => x.Entity.IsSpecificHybrid, Model.YesNoOptions, new { @class="form-control" })
+                                            <div class="form-group clearfix section-checkbox">
+                                                <div class="icheck-primary d-inline">
+                                                    @Html.CheckBoxFor(x => x.Entity.IsSpecificHybridOption, new { id = "cbxIsSpecificHybrid" })
+                                                    <label for="cbxIsSpecificHybrid">
+                                                        Specific Hybrid
+                                                    </label>
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="col-md-2">
-                                            <div class="form-group">
-                                                <label>
-                                                    Web Visible
-                                                </label>
-                                                @Html.DropDownListFor(x => x.Entity.IsWebVisible, Model.YesNoOptions, new { @class = "form-control" })
+                                            <div class="form-group clearfix section-checkbox">
+                                                <div class="icheck-primary d-inline">
+                                                    @Html.CheckBoxFor(x => x.Entity.IsWebVisibleOption, new { id = "cbxIsWebVisible" })
+                                                    <label for="cbxIsWebVisible">
+                                                        Web Visible
+                                                    </label>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -592,6 +594,7 @@
                                     <li id="tab_selector_taxonomy_species_synonym_map" data-ggtools-action="SpeciesSynonymMap" data-ggtools-value="_ListSynonyms" class="nav-item"><a class="nav-link" href="#tab_content_taxonomy_species_synonym_map" data-toggle="tab">Synonyms</a></li>
                                     <li id="tab_selector_taxonomy_geography_map" data-ggtools-action="GeographyMap" data-ggtools-value="_List" class="nav-item"><a class="nav-link" href="#tab_content_taxonomy_geography_map" data-toggle="tab">Distributions</a></li>
                                     <li id="tab_selector_taxonomy_regulation_map" data-ggtools-action="RegulationMap" data-ggtools-value="_List" class="nav-item"><a class="nav-link" href="#tab_content_taxonomy_regulation_map" data-toggle="tab">Regulations</a></li>
+                                    <li id="tab_selector_taxonomy_use" data-ggtools-action="EconomicUse" data-ggtools-value="_List" class="nav-item"><a class="nav-link" href="#tab_content_taxonomy_use" data-toggle="tab">Economic Uses</a></li>
                                 </ul>
                             </div>
                             <div class="card-body">
@@ -608,6 +611,8 @@
                                     </div>
                                     <div class="tab-pane" id="tab_content_taxonomy_regulation_map">
                                     </div>
+                                    <div class="tab-pane" id="tab_content_taxonomy_use">
+                                    </div>
                                 </div>
                             </div>
                             <div id="progress_overlay" class="overlay">
@@ -615,21 +620,20 @@
                             </div>
                         </div>
                     }
-
                     @{Html.RenderAction("RenderLookupModal", "Genus"); }
                     @{Html.RenderAction("RenderLookupModal", "Species"); }
                     @{Html.RenderAction("RenderLookupModal", "Author"); }
-
+                    @{Html.RenderAction("_Edit", "Folder"); }
+                    @Html.Partial("~/Views/Taxonomy/Species/Modals/_LookupProtologue.cshtml")
+                    @Html.Partial("~/Views/Shared/Modals/_NoteLookup2.cshtml")
+                    @Html.Partial("~/Views/Taxonomy/Shared/Modals/_Delete.cshtml")
+                   
                     @if (Model.Entity.ID > 0)
                     {
                         { Html.RenderAction("RenderLookupModal", "Geography", new { @speciesId = Model.Entity.ID }); }
                         { Html.RenderAction("RenderLookupModal", "Citation", new { @tableName = Model.TableName, @isMultiSelect = "Y" }); }
                     }
-
-                    @Html.Partial("~/Views/Taxonomy/Species/Modals/_LookupProtologue.cshtml")
-                    @Html.Partial("~/Views/Shared/Modals/_NoteLookup2.cshtml")
-                    @Html.Partial("~/Views/Taxonomy/Shared/Modals/_Delete.cshtml")
-                    @{Html.RenderAction("_Edit", "Folder"); }
+                    
                 </div>
             </div>
         </div>

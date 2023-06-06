@@ -188,9 +188,17 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
         public PartialViewResult _List(int speciesId = 0)
         {
             EconomicUseViewModel viewModel = new EconomicUseViewModel();
-            viewModel.SearchEntity = new EconomicUseSearch { SpeciesID = speciesId };
-            viewModel.Search();
-            return PartialView("~/Views/EconomicUse/_List.cshtml", viewModel);
+            try 
+            { 
+                viewModel.SearchEntity.SpeciesID= speciesId;
+                viewModel.Search();
+                return PartialView("~/Views/Taxonomy/EconomicUse/_List.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
         }
 
         // ======================================================================================

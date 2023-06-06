@@ -146,13 +146,37 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
         [HttpPost]
         public ActionResult Edit(SynonymMapViewModel viewModel)
         {
-            throw new NotImplementedException();
+            try 
+            { 
+                if (!viewModel.Validate())
+                {
+                    if (viewModel.ValidationMessages.Count > 0) return View(BASE_PATH + "Edit.cshtml", viewModel);
+                }
+
+                if (viewModel.Entity.ID == 0)
+                {
+                    viewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
+                    viewModel.Insert();
+                }
+                else
+                {
+                    viewModel.Entity.ModifiedByCooperatorID = AuthenticatedUser.CooperatorID;
+                    viewModel.Update();
+                }
+                return RedirectToAction("Edit", "SpeciesSynonymMap", new { entityId = viewModel.Entity.ID });
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return RedirectToAction("InternalServerError", "Error");
+            }
         }
         public ActionResult Edit(int entityId)
         {
             try
             {
                 SynonymMapViewModel viewModel = new SynonymMapViewModel();
+                viewModel.EventAction = "SpeciesSynonymMap";
                 viewModel.TableName = "taxonomy_species_synonym_map";
                 viewModel.TableCode = "SpeciesSynonymMap";
                 viewModel.Get(entityId);
@@ -176,6 +200,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             SynonymMapViewModel viewModel = new SynonymMapViewModel();
             try 
             {
+                viewModel.EventAction = "SpeciesSynonymMap";
                 viewModel.TableName = "taxonomy_species_synonym_map";
                 viewModel.PageTitle = "Synonym Map Search";
                 return View(BASE_PATH + "Index.cshtml", viewModel);

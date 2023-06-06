@@ -10,6 +10,20 @@
     @Html.HiddenFor(x => x.PageTitle)
     @Html.HiddenFor(x => x.AuthenticatedUserCooperatorID)
     @Html.HiddenFor(x => x.ItemIDList)
+    
+    <div id="section-panel-help" class="alert alert-info alert-dismissible" style="display: none;">
+        <button type="button" class="close"  aria-hidden="true">×</button>
+        <h5><i class="icon fas fa-info"></i> Text Search</h5>
+        <ul>
+            <li>
+                By default, text search fields will use leading and trailing wildcard characters, and will match all records that contain the entered text.
+            </li>
+            <li>
+                To search more precisely, enter wildcard characters (<strong>%</strong>) within the search text.
+            </li>
+        </ul>
+    </div>
+    
     <div class="card">
         <div class="card-header p-2">
             <ul class="nav nav-pills">
@@ -35,7 +49,10 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label>Full Name</label>
+                                <label>
+                                    Full Name
+                                    &nbsp;<i class="fas fa-info-circle" style="color:#17a2b8;"></i>
+                                </label>
                                 @Html.TextBoxFor(x => x.SearchEntity.FullName, new { @class = "form-control" })
                             </div>
                         </div>
@@ -66,6 +83,21 @@
     </div>
 }
 
+<script type="text/javascript">
+    $(".fa-info-circle").on('click', function (event) {
+        event.stopPropagation();
+        event.stopImmediatePropagation();
+        /*alert("CLICK");*/
+        if ($("#section-panel-help").is(":visible")){
+            //
+        } else {
+            $("#section-panel-help").show();
+        }
+    });
 
+    $(".close").on('click', function (event) {
+        $("#section-panel-help").hide();
+    });
+</script>
 
 

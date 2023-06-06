@@ -43,7 +43,7 @@
                             @Html.Raw(Model.FormatBoolean(result.SpeciesAIsAcceptedName))
                         </td>
                         <td>
-                            @result.SynonymDescription
+                            @result.SynonymDescription.Replace("Synonym","")
                         </td>
                         <td>@result.SpeciesAProtologue</td>
                         <td>

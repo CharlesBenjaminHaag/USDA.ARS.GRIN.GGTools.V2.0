@@ -12,7 +12,7 @@
         <nav class="main-header navbar navbar-expand-md navbar-light text-sm">
             <div class="container" style="max-width:1500px;">
                 <a href="@Url.Action("Index","Home")" class="navbar-brand">
-                    <img src="~/dist/img/gringlobal-logo.jfif" alt="GRIN-Global Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+                    <img src="~/dist/img/GGlogo_BW.gif" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
                     <span class="brand-text font-weight-light">GGTools</span>
                 </a>
                 <button class="navbar-toggler order-1" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
@@ -24,35 +24,19 @@
                         @if (Model.Entity.ID > 0)
                         {
                             <li class="nav-item d-none d-sm-inline-block">
-                                <a href="@Url.Action("Add", "CommonNameLanguage")" class="nav-link">New</a>
+                                <a href="@Url.Action("Add", "Citation", new { literatureId = Model.Entity.ID })" class="nav-link">Add Citation</a>
                             </li>
                             Html.RenderAction("_RelatedFoldersMenu", "Folder", new { tableName = Model.TableName, entityId = Model.Entity.ID });
                         }
+
                     </ul>
                     <!-- END EDIT PAGE MENU-->
                 </div>
+                <!-- BEGIN RIGHT-ALIGNED NAV MENU -->
                 <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
-                    <li class="nav-item dropdown">
-                        <a class="nav-link" data-toggle="dropdown" href="#">
-                            <i class="far fa-user"></i>
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right" style="left: inherit; right: 0px;">
-                            <span class="dropdown-item dropdown-header">@AppInfo.GetAuthenticatedUser().FullName</span>
-                            <div class="dropdown-divider"></div>
-                            <a href="#" class="dropdown-item">
-                                <i class="fas fa-clock mr-2"></i> Logged In
-                                <span class="float-right text-muted text-sm"> </span>
-                            </a>
-                            <div class="dropdown-divider"></div>
-                            <a href="@Url.Action("Logout","Login")" class="dropdown-item dropdown-footer bg-danger">Log Out</a>
-                        </div>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" data-widget="fullscreen" href="#" role="button">
-                            <i class="fas fa-expand-arrows-alt"></i>
-                        </a>
-                    </li>
+                    @Html.Partial("~/Views/Shared/_NavbarRight.cshtml")
                 </ul>
+                <!-- END RIGHT-ALIGNED NAV MENU -->
             </div>
         </nav>
         <div class="content-wrapper">
@@ -62,7 +46,6 @@
                         <div class="col-sm-6">
                             <h1 class="m-0">
                                 @Html.Raw(ViewBag.Title)
-                                @*<small>Example 3.0</small>*@
                             </h1>
                         </div>
                         <div class="col-sm-6">
@@ -74,6 +57,7 @@
             <div class="content">
                 <div class="container" style="max-width:1500px;">
                     <div id="section-folder-confirmation"></div>
+                    @Html.Partial("~/Views/Taxonomy/Shared/_RevisionHistory.cshtml")
                     @using (Html.BeginForm("Edit", "Literature", FormMethod.Post, new { id = "frmEdit" }))
                     {
                         @Html.HiddenFor(x => x.EventAction)
@@ -156,15 +140,29 @@
                         </div>
                     }
 
+                    @if (Model.Entity.ID > 0)
+                    {
+                        { Html.RenderAction("_List", "Citation", new { @literatureId = Model.Entity.ID }); }
+                    }
+
                     @Html.Partial("~/Views/Shared/Modals/_NoteLookup2.cshtml")
                     @Html.Partial("~/Views/Taxonomy/Shared/Modals/_Delete.cshtml")
                     @{Html.RenderAction("_Edit", "Folder"); }
+
+                    <script type="text/javascript">
+                        $(document).ready(function () {
+                            Init();
+                            /*InitializeCKEditor();*/
+                        });
+
+                        function Init() {
+
+                        }
+                    </script>
+                    <br />
                 </div>
-                @if (Model.Entity.ID > 0)
-                {
-                    { Html.RenderAction("_List", "Citation", new { @literatureId = Model.Entity.ID }); }
-                }
             </div>
+
         </div>
         <aside class="control-sidebar control-sidebar-dark">
         </aside>
@@ -174,6 +172,3 @@
 </body>
 </html>
 @Html.Partial("~/Views/Shared/_Scripts.cshtml")
-
-
-

@@ -179,10 +179,6 @@
                                     </div>
                                     <!-- END NOTE FIELD-->
                                 </div>
-                                @if (Model.Entity.ID > 0)
-                                {
-                                    Html.RenderAction("RenderWidget", "Citation", new { @entityId = Model.Entity.CitationID });
-                                }
                             </div>
                             <div class="card-footer">
                                 <a href="@Url.Action("Refresh")" class="btn btn-default">Reset</a>
@@ -200,17 +196,14 @@
                     @if (Model.Entity.ID > 0)
                     {
                         Html.RenderAction("_List", "CWRTrait", new { @cwrMapId = Model.Entity.ID });
-                        Html.RenderAction("RenderLookupModal", "Citation", new { @tableName = Model.TableName, @speciesId = Model.Entity.SpeciesID });
                     }
 
                     @{Html.RenderAction("RenderLookupModal", "Species"); }
                     @Html.Partial("~/Views/Shared/Modals/_NoteLookup2.cshtml")
                     @Html.Partial("~/Views/Taxonomy/Shared/Modals/_Delete.cshtml")
                     @{Html.RenderAction("_Edit", "Folder"); }
-                    <div id="section-modal-citation-edit"></div>
                 </div>
             </div>
-
         </div>
         <aside class="control-sidebar control-sidebar-dark">
         </aside>
@@ -227,6 +220,13 @@
         function Init() {
             var isCrop = $("#Entity_IsCrop").val();
             var cropCommonName = $("#Entity_CropCommonName").val();
+
+            if (isCrop == "Y") {
+                $("#section-common-name").show();
+            }
+            else {
+                $("#section-common-name").hide();
+            }
         }
 
         $('#cbxIsCrop').click(function () {
