@@ -33,18 +33,19 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
         }
         public ActionResult Index()
         {
+            GeographyMapViewModel viewModel = new GeographyMapViewModel();
+            viewModel = LoadFromSession(viewModel);
+            
             try
             {
-                GeographyMapViewModel viewModel = new GeographyMapViewModel();
                 viewModel.PageTitle = "Distribution Search";
                 viewModel.TableName = "taxonomy_geography_map";
                 viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
 
-             
-                if (TempData.ContainsKey("GEO-MAP-SEARCH"))
+                string targetKey = this.ControllerContext.RouteData.Values["controller"].ToString().ToUpper() + "_SEARCH";
+                if (Session[targetKey] != null)
                 {
-                    viewModel.SearchEntity = TempData["GEO-MAP-SEARCH"] as GeographyMapSearch;
-                    viewModel.Search();
+                    viewModel = Session[targetKey] as GeographyMapViewModel;
                 }
 
                 return View(BASE_PATH + "Index.cshtml", viewModel);
@@ -61,22 +62,10 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
         {
             try 
             {
-                //if (viewModel.EventAction == "SAVE-SEARCH")
-                //{
-                //    viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
-                //    viewModel.SaveSearch();
-                //    Session["taxonomy_geography_map_SEARCH"] = viewModel.SearchEntity;
-                //    viewModel.SearchCountries(new GeographySearch());
-                //    viewModel.Countries = new SelectList(viewModel.DataCollectionCountries, "CountryCode", "CountryName");
-                //}
-                //else
-                //{
-                    viewModel.SearchEntity.IsValid = viewModel.SearchEntity.IsValidOption == true ? "Y" : null;
-                    viewModel.Search();
-                    //viewModel.SearchCountries(new GeographySearch());
-                    //viewModel.Countries = new SelectList(viewModel.DataCollectionCountries, "CountryCode", "CountryName");
-                    ModelState.Clear();
-                //}
+                Session[SessionKeyName] = viewModel;
+                viewModel.SearchEntity.IsValid = viewModel.SearchEntity.IsValidOption == true ? "Y" : null;
+                viewModel.Search();
+                ModelState.Clear();
                 return View(BASE_PATH + "Index.cshtml", viewModel);
             }
             catch (Exception ex)
@@ -375,6 +364,15 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 return Json(new { errorMessage = ex.Message }, JsonRequestBehavior.AllowGet);
             }
         }
-       
+
+        public GeographyMapViewModel LoadFromSession(GeographyMapViewModel viewModel)
+        {
+            string targetKey = this.ControllerContext.RouteData.Values["controller"].ToString().ToUpper() + "_SEARCH";
+            if (Session[targetKey] != null)
+            {
+                viewModel = Session[targetKey] as GeographyMapViewModel;
+            }
+            return viewModel;
+        }
     }
 }

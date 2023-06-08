@@ -1,18 +1,13 @@
-﻿@model USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer.AuthorViewModelBase
+﻿@model USDA.ARS.GRIN.GGTools.ViewModelLayer.SysDynamicQueryViewModel
 <div id="section-folder-confirmation"></div>
 
-@using (Html.BeginForm("Search", "Author", FormMethod.Post, new { id = "frmMain" }))
+@using (Html.BeginForm("Search", "SysDynamicQuery", FormMethod.Post, new { id = "frmMain" }))
 {
     @Html.HiddenFor(x => x.EventAction)
     @Html.HiddenFor(x => x.EventValue)
-    @Html.HiddenFor(x => x.TableName)
-    @Html.HiddenFor(x => x.TableCode)
-    @Html.HiddenFor(x => x.PageTitle)
-    @Html.HiddenFor(x => x.AuthenticatedUserCooperatorID)
-    @Html.HiddenFor(x => x.ItemIDList)
-    
-    <div id="section-panel-help" class="alert alert-info alert-dismissible" style="display: none;">
-        <button type="button" class="close"  aria-hidden="true">×</button>
+   
+    @*<div id="section-panel-help" class="alert alert-info alert-dismissible" style="display: none;">
+        <button type="button" class="close" aria-hidden="true">×</button>
         <h5><i class="icon fas fa-info"></i> Text Search</h5>
         <ul>
             <li>
@@ -22,8 +17,8 @@
                 To search more precisely, enter wildcard characters (<strong>%</strong>) within the search text.
             </li>
         </ul>
-    </div>
-    
+    </div>*@
+
     <div class="card">
         <div class="card-header p-2">
             <ul class="nav nav-pills">
@@ -33,31 +28,19 @@
         </div>
         <div class="card-body">
             <div class="tab-content">
+                @Html.Partial("~/Views/Shared/_ValidationMessages.cshtml")
                 <div class="tab-pane active" id="section-search-criteria">
                     <div class="row">
-                        <div class="col-md-4">
-                            <label>Short Name</label>
-                            <div class="input-group">
-                                <div class="input-group-append">
-                                    <span class="input-group-text">
-                                        @Html.CheckBoxFor(x => x.SearchEntity.IsShortNameExactMatchOption, new { id = "cbxAuthorLookupIsExactMatch" })
-                                        &nbsp;Exact Match
-                                    </span>
-                                </div>
-                                @Html.TextBoxFor(x => x.SearchEntity.ShortName, new { @class = "form-control" })
-                            </div>
-                        </div>
-                        <div class="col-md-6">
+                        <div class="col-md-12">
                             <div class="form-group">
                                 <label>
-                                    Full Name
+                                    SQL Statement
                                     &nbsp;<i class="fas fa-info-circle" style="color:#17a2b8;"></i>
                                 </label>
-                                @Html.TextBoxFor(x => x.SearchEntity.FullName, new { @class = "form-control" })
+                                @Html.TextAreaFor(x => x.SearchEntity.SQLStatement, new { @class = "form-control" })
                             </div>
                         </div>
                     </div>
-                    @Html.Partial("~/Views/Taxonomy/Author/_DetailExtended.cshtml")
                     <div>
                         <button id="btnReset" type="button" class="btn btn-default">Reset</button>
                         <div class="btn-group float-right">
@@ -74,7 +57,7 @@
                 <div class="tab-pane" id="timeline">
                     <div class="row">
                         <div class="col-md-12">
-                            @{Html.RenderAction("_List", "AppUserDynamicQuery"); }
+
                         </div>
                     </div>
                 </div>

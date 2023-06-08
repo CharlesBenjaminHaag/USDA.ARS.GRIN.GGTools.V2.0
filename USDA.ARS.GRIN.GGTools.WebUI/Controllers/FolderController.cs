@@ -329,6 +329,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 // TEST Return new folder as JSON
                 viewModel.SearchEntity.ID = viewModel.Entity.ID;
                 viewModel.Search();
+                viewModel.EventAction = "ADD";
                 return PartialView("~/Views/Folder/_Confirmation.cshtml", viewModel);
             }
             catch (Exception ex)
@@ -428,8 +429,8 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             //    }
             //}
 
-            [HttpPost]
-        public JsonResult Update(FormCollection coll)
+        [HttpPost]
+        public PartialViewResult Update(FormCollection coll)
         {
             FolderViewModel viewModel = new FolderViewModel();
             viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
@@ -459,12 +460,13 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 // TEST Return new folder as JSON
                 viewModel.SearchEntity.ID = viewModel.Entity.ID;
                 viewModel.Search();
-                return Json(new { folder = viewModel.Entity }, JsonRequestBehavior.AllowGet);
+                viewModel.EventAction = "UPDATE";
+                return PartialView("~/Views/Folder/_Confirmation.cshtml", viewModel);
             }
             catch (Exception ex)
             {
                 Log.Error(ex);
-                return Json(new { success = false }, JsonRequestBehavior.AllowGet);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
             }
         }
 

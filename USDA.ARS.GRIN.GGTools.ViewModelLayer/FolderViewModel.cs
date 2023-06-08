@@ -33,7 +33,12 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
                 { 
                     DataCollection = new Collection<AppUserItemFolder>(mgr.Search(SearchEntity));
                     RowsAffected = mgr.RowsAffected;
-                    
+
+                    if (DataCollection.Count == 1)
+                    {
+                        Entity = DataCollection[0];
+                    }
+
                     // Get types
                     List<string> DEBUG = DataCollection.Select(x => x.FolderTypeDescription).Distinct().ToList();
                     foreach (var type in DEBUG)

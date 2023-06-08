@@ -4,12 +4,6 @@
     Layout = "~/Views/Shared/_LayoutAdminLTE3.cshtml";
 }
 
-@*<div id="alert-folder-confirmation" class="alert alert-success alert-dismissible" style="display:none;">
-        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-        <h4><i class="icon fa fa-check"></i> Folder Created</h4>
-        The folder <a href="#"><span id="new-folder-name"></span></a> has been created.
-    </div>*@
-
 @using (Html.BeginForm("Search", "Classification", FormMethod.Post, new { id = "frmMain" }))
 {
     @Html.HiddenFor(x => x.EventAction)
@@ -22,7 +16,7 @@
     @Html.Partial("~/Views/Taxonomy/Order/_Detail.cshtml")
 }
 @Html.Partial("~/Views/Taxonomy/Order/_List.cshtml")
-@{Html.RenderAction("_Edit", "Folder"); }
+@{Html.RenderAction("_Edit", "Folder", new { @tableName = Model.TableName }); }
 
 <script type="text/javascript">
     $(document).ready(function () {

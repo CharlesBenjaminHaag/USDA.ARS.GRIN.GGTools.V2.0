@@ -5,21 +5,21 @@
 }
 @Html.Partial("~/Views/Taxonomy/Author/_Detail.cshtml")
 @Html.Partial("~/Views/Taxonomy/Author/_List.cshtml")
-@{Html.RenderAction("_Edit", "Folder", new { @tableName = "taxonomy_author" }); }
+@*@{Html.RenderAction("_Edit", "Folder", new { @tableName = "taxonomy_author" }); }*@
 
 <script type="text/javascript">
 
     $(document).ready(function () {
-        Init();
-        SetExtendedFields();
+        //Init();
+        //SetExtendedFields();
     });
 
-    function Init() {
-        var eventAction = $("#EventAction").val();
-        if (eventAction == "SHOW-SEARCH") {
-            $("#section-search-criteria").show();
-        }
-    }
+    //function Init() {
+    //    var eventAction = $("#EventAction").val();
+    //    if (eventAction == "SHOW-SEARCH") {
+    //        $("#section-search-criteria").show();
+    //    }
+    //}
 
     $(document).on("click", "[id='btnSubmitSearch']", function () {
         event.preventDefault();

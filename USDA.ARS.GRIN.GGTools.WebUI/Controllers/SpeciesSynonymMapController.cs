@@ -19,12 +19,36 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
         /// </summary>
         /// <param name="speciesId"></param>
         /// <returns></returns>
-        public PartialViewResult _List(int speciesId = 0)
+        public PartialViewResult _ListSynonymsA(int speciesId)
         {
-            SynonymMapViewModel viewModel = new SynonymMapViewModel();
-            viewModel.SearchEntity = new SpeciesSynonymMapSearch { SpeciesBID = speciesId };
-            viewModel.Search();
-            return PartialView(BASE_PATH + "_List.cshtml", viewModel);
+            try 
+            { 
+                SynonymMapViewModel viewModel = new SynonymMapViewModel();
+                viewModel.SearchEntity.SpeciesAID = speciesId;
+                viewModel.Search();
+                return PartialView(BASE_PATH + "_ListSynonymsA.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
+        }
+
+        public PartialViewResult _ListSynonymsB(int speciesId)
+        {
+            try 
+            { 
+                SynonymMapViewModel viewModel = new SynonymMapViewModel();
+                viewModel.SearchEntity.SpeciesBID = speciesId;
+                viewModel.Search();
+                return PartialView(BASE_PATH + "_ListSynonymsB.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
         }
 
         /// <summary>

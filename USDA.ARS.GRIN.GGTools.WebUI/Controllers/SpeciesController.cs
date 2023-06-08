@@ -15,6 +15,11 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
         protected static string BASE_PATH = "~/Views/Taxonomy/Species/";
         private static readonly Logger Log = LogManager.GetCurrentClassLogger();
 
+        public ActionResult Map()
+        {
+            SpeciesViewModel viewModel = new SpeciesViewModel();
+            return View("~/Views/Taxonomy/Species/Map/Index.cshtml", viewModel);
+        }
         //public ActionResult Explorer()
         //{
         //    TaxonomyExplorerViewModel viewModel = new TaxonomyExplorerViewModel();
@@ -370,7 +375,10 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 viewModel.Entity.IsAcceptedName = "Y";
                 viewModel.Entity.Rank = "SPECIES";
                 viewModel.Entity.IsWebVisible = "Y";
-
+                viewModel.Entity.IsWebVisibleOption = viewModel.ToBool(viewModel.Entity.IsWebVisible);
+                viewModel.Entity.IsSpecificHybrid = "N";
+                viewModel.Entity.IsSpecificHybridOption = viewModel.ToBool(viewModel.Entity.IsSpecificHybrid);
+                
                 if (genusId > 0)
                 {
                     GenusViewModel topRankGenusViewModel = new GenusViewModel();

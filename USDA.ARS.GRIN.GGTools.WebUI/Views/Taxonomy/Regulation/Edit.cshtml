@@ -82,22 +82,13 @@
                         @Html.HiddenFor(x => x.TableCode)
                         @Html.HiddenFor(x => x.PageTitle)
                         @Html.HiddenFor(x => x.Entity.ID)
-
+                        @Html.Partial("~/Views/Shared/_RevisionHistory.cshtml")
                         <div class="card card-default">
                             <div class="card-header">
-                                @if (Model.Entity.ID > 0)
-                                {
-                                    <div class="btn-group">
-                                        <a href="@Url.Action("Add", "RegulationMap", new { regulationId = Model.Entity.ID })" , class="btn btn-default btn-sm pull-right">
-                                            <i class="fa fa-plus margin-r-5"></i>
-                                            Map
-                                        </a>
-                                    </div>
-                                }
-                                <div class="btn-group">
-                                    <button type="button" class="btn btn-default btn-sm pull-right" data-toggle="modal" data-target="#modal-note-lookup">
-                                        <i class="fa fa-search margin-r-5"></i>
-                                        Notes
+                                <h3 class="card-title">Summary</h3>
+                                <div class="card-tools">
+                                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                        <i class="fas fa-minus"></i>
                                     </button>
                                 </div>
                             </div>
@@ -171,10 +162,6 @@
                     @Html.Partial("~/Views/Taxonomy/Shared/Modals/_Delete.cshtml")
                     @{Html.RenderAction("_Edit", "Folder"); }
                 </div>
-                @if (Model.Entity.ID > 0)
-                {
-                    { Html.RenderAction("_List", "Citation", new { @literatureId = Model.Entity.ID }); }
-                }
             </div>
         </div>
         <aside class="control-sidebar control-sidebar-dark">

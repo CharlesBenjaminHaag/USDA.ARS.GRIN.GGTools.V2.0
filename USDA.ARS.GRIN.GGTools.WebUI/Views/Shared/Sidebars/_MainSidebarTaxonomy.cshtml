@@ -13,8 +13,15 @@
             </a>
         </li>
         <li class="nav-header">MANAGE DATA</li>
-
         @{ Html.RenderAction("_List","SysTable"); }
+        
+        <li class="nav-header">TOOLS</li>
+        <li class="nav-item">
+            <a href="@Url.Action("Index","SysDynamicQuery")" class="nav-link">
+                <i class="nav-icon fas fa-tools"></i>
+                <p>SQL Query</p>
+            </a>
+        </li>
         <li class="nav-item">
             <a href="@Url.Action("Explorer","CodeValue")" class="nav-link">
                 <i class="nav-icon fas fa-table"></i>

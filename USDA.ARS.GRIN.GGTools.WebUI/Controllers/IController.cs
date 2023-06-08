@@ -15,6 +15,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI
         ActionResult Edit(int entityId);
         [HttpPost]
         ActionResult Edit(T viewModel);
+        //T LoadFromSession(T viewModel);
         [HttpPost]
         ActionResult Delete(FormCollection formCollection);
         //PartialViewResult _ListFolderItems(int folderId);

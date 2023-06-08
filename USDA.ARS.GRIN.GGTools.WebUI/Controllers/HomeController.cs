@@ -85,6 +85,17 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                     return RedirectToAction("Index", "Home");
             }
         }
-
+        public ActionResult Search()
+        {
+            try
+            {
+                return View("~/Views/Search/Index.cshtml");
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return RedirectToAction("InternalServerError", "Error");
+            }
+        }
     }
 }

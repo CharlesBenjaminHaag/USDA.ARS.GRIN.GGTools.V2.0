@@ -15,8 +15,8 @@
                 <div class="card">
                     <div class="card-header p-2">
                         <ul class="nav nav-pills">
-                            <li id="btnSelectCreateFolder" class="nav-item"><a class="nav-link active" href="#folder-create" data-toggle="tab">Create Folder</a></li>
-                            <li id="btnSelectUpdateFolder" class="nav-item"><a class="nav-link" href="#folder-select" data-toggle="tab">Select Folder</a></li>
+                            <li id="btnSelectCreateFolder" class="nav-item"><a class="nav-link active" href="#folder-create" data-toggle="tab">Create A New Folder</a></li>
+                            <li id="btnSelectUpdateFolder" class="nav-item"><a class="nav-link" href="#folder-select" data-toggle="tab">Update An Existing Folder</a></li>
                         </ul>
                     </div>
                     <div class="card-body">
@@ -73,11 +73,38 @@
                             <div class="tab-pane" id="folder-select">
                                 <div class="row">
                                     <div id="section-folder-list" class="col-md-12">
+                                        <table id="data-table-folder-list" class="table table-striped ggtools" style="width:100%">
+                                            <thead>
+                                                <tr>
+                                                    <th></th>
+                                                    <th>ID</th>
+                                                    <th>Title</th>
+                                                    <th>Category</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach (var folder in Model.DataCollectionAvailableFolders)
+                                                {
+                                                    <tr>
+                                                        <td>
+                                                            @folder.ID
+                                                        </td>
+                                                        <td>
+                                                            @folder.ID
+                                                        </td>
+                                                        <td>
+                                                            <b>@folder.FolderName</b> - @folder.Description
+                                                        </td>
+                                                        <td>@folder.Category</td>
+                                                    </tr>
+                                                }
+                                            </tbody>
+                                        </table>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <button id="btnUpdateFolder" class="btn btn-primary margin-top-10">Add Records to Selected Folder</button>
+                                        <button id="btnUpdateFolder" class="btn btn-primary float-right">Update Selected Folder</button>
                                     </div>
                                 </div>
                             </div>
@@ -94,7 +121,7 @@
 
 <!--
 *************************************************************************************************
-Modal that appears if no record is selected for folder addition.    
+Modal that appears if no record is selected for folder addition.
 *************************************************************************************************
 -->
 <div class="modal fade" id="modal-validation-warning" aria-hidden="true" style="display: none;">
@@ -118,11 +145,7 @@ Modal that appears if no record is selected for folder addition.
 
 <script type="text/javascript">
     $(document).ready(function () {
-        InitDataTableLight("data-table-user-folders");
-    });
-
-    $("#btnSelectUpdateFolder").click(function () {
-        GetUserFolders();
+        InitDataTableLookupFormat("data-table-folder-list");
     });
 
     $("#btnOpenFolderModal").click(function () {
@@ -131,10 +154,10 @@ Modal that appears if no record is selected for folder addition.
         var selectedItemIdList = GetSelectedEntityIDs(dataTableName);
 
         //DEBUG
-        alert("TABLE IS " + dataTableName + " AND ID LIST IS " + selectedItemIdList);
+        /*alert("TABLE IS " + dataTableName + " AND ID LIST IS " + selectedItemIdList);*/
 
 
-        // Do not display the folder modal unless the user has selected at least 
+        // Do not display the folder modal unless the user has selected at least
         // one record to add.
         if (selectedItemIdList.length < 1) {
             $("#modal-validation-warning").modal("show");
@@ -159,13 +182,28 @@ Modal that appears if no record is selected for folder addition.
         UpdateFolder();
     });
 
-    function GetUserFolders() {
-        var link = '@Url.Action("_List", "Folder")';
+    /*
+     * Adds a batch of selected items to an existing folder
+     */
+    function UpdateFolder() {
+        var link = '@Url.Action("Update", "Folder")';
+        var entityId = $("#Entity_ID").val();
         var tableName = $("#TableName").val();
+        var dataTableName = "data_table_" + tableName;
+        var selectedItemIdList = GetSelectedEntityIDs(dataTableName);
+        var folderId = GetSelectedEntityIDs("data-table-folder-list");
         var formData = new FormData();
 
-        formData.append("FolderType", tableName);
+        // If there are no values in the selected ID list, use single-record mode.
+        if (selectedItemIdList.length < 1) {
+            selectedItemIdList = entityId;
+        }
 
+        formData.append("IDList", selectedItemIdList);
+        formData.append("FolderID", folderId);
+        formData.append("TableName", tableName);
+
+        // TEST Show confirmation alert once folder done.
         $.ajax({
             url: link,
             type: 'POST',
@@ -174,43 +212,10 @@ Modal that appears if no record is selected for folder addition.
             processData: false,
             data: formData,
             success: function (response) {
-                $("#section-folder-list").html(response);
-                InitDataTable("data-table-folder-list");
+                $("#section-folder-confirmation").html(response);
             },
             error: function () {
                 alert("Error");
-            }
-        });
-    }
-
-    /*
-     * Adds a batch of selected items to an existing folder
-     */
-    function UpdateFolder() {
-        var link = '@Url.Action("Update", "Folder")';
-        var tableName = $("#TableName").val();
-        var dataTableName = "data_table_" + tableName;
-        var selectedItemIdList = GetSelectedEntityIDs(dataTableName);
-        var folderId = GetSelectedEntityIDs("data-table-folder-list");
-        var formData = new FormData();
-
-        formData.append("IDList", selectedItemIdList);
-        formData.append("FolderID", folderId);
-        formData.append("TableName", tableName);
-
-        $.ajax({
-            url: link,
-            type: 'POST',
-            cache: false,
-            dataType: 'json',
-            contentType: false,
-            processData: false,
-            data: formData,
-            success: function (data) {
-                /*console.log(data);*/
-                /*ConfirmFolderSave(data.folder.FolderName);*/
-            },
-            error: function (ex) {
             }
         });
         $("#modal-folder-edit").modal("hide");
@@ -221,9 +226,9 @@ Modal that appears if no record is selected for folder addition.
     */
     function AddFolder(folderId) {
         var link = '@Url.Action("Add", "Folder")';
+        var entityId = $("#Entity_ID").val();
         var eventAction = $("#EventAction").val();
         var eventValue = $("#EventValue").val();
-        var entityId = $("#Entity_ID").val();
         var tableName = $("#TableName").val();
         var dataTableName = "data_table_" + tableName;
         var folderName = $("#txtFolderTitle").val();
@@ -249,6 +254,9 @@ Modal that appears if no record is selected for folder addition.
         if (typeof selectedItemIdList != 'undefined') {
             formData.append("IDList", selectedItemIdList);
         }
+
+        //DEBUG
+        alert("ID LIST " + selectedItemIdList);
 
         if ($('#cbxIsFavorite').prop('checked') == true) {
             formData.append("IsFavorite", true);
@@ -281,22 +289,6 @@ Modal that appears if no record is selected for folder addition.
                 alert("Error");
             }
         });
-
-        //$.ajax({
-        //    url: link,
-        //    type: 'POST',
-        //    cache: false,
-        //    dataType: 'json',
-        //    contentType: false,
-        //    processData: false,
-        //    data: formData,
-        //    success: function (data) {
-        //        //DEBUG
-        //        alert("");
-        //    },
-        //    error: function (ex) {
-        //    }
-        //});
         $("#modal-folder-edit").modal("hide");
     }
 

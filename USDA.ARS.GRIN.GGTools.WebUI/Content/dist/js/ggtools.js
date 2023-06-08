@@ -22,6 +22,9 @@ function AddRecord() {
     window.location.href = addNewRecordUrl;
 }
 
+/*
+ * Datatable utilities
+ */
 function InitDataTable(tableName) {
     $(document).ready(function () {
         tableName = "#" + tableName;
@@ -29,10 +32,11 @@ function InitDataTable(tableName) {
         var table = $(tableName).DataTable({
             dom: 'Blfrtip',
             paging: true,
-            "pageLength": 10,
-            initComplete: function () {
-                SetControlVisibility(tableName);
-            },
+            scrollX: true,
+            //"pageLength": 10,
+            //initComplete: function () {
+            //    SetControlVisibility(tableName);
+            //},
             responsive: {
                 details: {
                     display: $.fn.dataTable.Responsive.display.childRowImmediate,
@@ -44,13 +48,13 @@ function InitDataTable(tableName) {
                 'selectNone',
                 'csv',
                 'excel',
-                'pdf',
-                {
-                    text: '+ Add',
-                    action: function (e, dt, node, config) {
-                        AddRecord();
-                    }
-                }
+                'pdf'
+                //{
+                //    text: '+ Add',
+                //    action: function (e, dt, node, config) {
+                //        AddRecord();
+                //    }
+                //}
             ],
             select: true,
             lengthMenu: [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],
@@ -253,23 +257,6 @@ function InitDataTableByClass() {
     });
 }
 
-//function InitDataTableMinimal(tableName) {
-//    $(document).ready(function () {
-//        var table = $("#" + tableName).DataTable({
-//            paging: true,
-//            responsive: true,
-//            select: {
-//                style: 'single'
-//            },
-//            searching: false,
-//            paging: false,
-//            columnDefs: [
-//                { targets: [0], visible: false }
-//            ]
-//        });
-//    });
-//}
-
 function InitDataTableLightMultiSelect(tableName) {
     $(document).ready(function () {
         var table = $("#" + tableName).DataTable({
@@ -345,7 +332,6 @@ function GetSelectedEntityQuotedStrings(tableName) {
     return ids;
 }
 
-
 function GetSelectedEntityText(tableName) {
     var table = $('#' + tableName).DataTable();
     var ids = $.map(table.rows('.selected').data(), function (item) {
@@ -388,6 +374,7 @@ function Reset() {
     $(this).closest('form').find("input[type=text], textarea").val("");
     $("#section-search-criteria select").val("");
     $("#section-search-criteria input[type=text]").val("");
+    $("textarea").val("");
     $("#ItemIDList").val("");
     $("#EventValue").val("");
     $('input:checkbox').removeAttr('checked');
@@ -619,3 +606,7 @@ function SetAcceptedNameControls(selectorControlId) {
         $(".accepted").show();
     }
 }
+
+/*
+ * Search utilities
+ */
