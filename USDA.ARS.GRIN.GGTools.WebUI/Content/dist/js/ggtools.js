@@ -147,28 +147,28 @@ function InitDataTableLookupFormat(tableName) {
     });
 }
 
-function InitDataTableLookupFormat(tableName) {
-    $(document).ready(function () {
-        tableName = "#" + tableName;
-        table = $(tableName).DataTable({
-            paging: false,
-            stateSave: true,
-            "bLengthChange": false,
-            scrollY: '300px',
-            scrollCollapse: true,
-            paging: false,
-            responsive: true,
-            select: {
-                style: 'single'
-            },
-            searching: true,
-            columnDefs: [
-                { targets: [0], visible: false }
-            ]
-        });
-        /*table.row(':eq(0)', { page: 'current' }).select();*/
-    });
-}
+//function InitDataTableLookupFormat(tableName) {
+//    $(document).ready(function () {
+//        tableName = "#" + tableName;
+//        table = $(tableName).DataTable({
+//            paging: false,
+//            stateSave: true,
+//            "bLengthChange": false,
+//            scrollY: '300px',
+//            scrollCollapse: true,
+//            paging: false,
+//            responsive: true,
+//            select: {
+//                style: 'single'
+//            },
+//            searching: true,
+//            columnDefs: [
+//                { targets: [0], visible: false }
+//            ]
+//        });
+//        /*table.row(':eq(0)', { page: 'current' }).select();*/
+//    });
+//}
 
 function InitDataTableLight(tableName) {
     $(document).ready(function () {
@@ -454,32 +454,32 @@ function GetSelectedNote(tableName) {
  Family Logic
  ======================================================================================== 
  */
-function SearchFamily(link) {
-    var lookupFamilyName = $("#txtLookupFamilyName").val();
-    var formData = new FormData();
+//function SearchFamily(link) {
+//    var lookupFamilyName = $("#txtLookupFamilyName").val();
+//    var formData = new FormData();
 
-    formData.append("LookupFamilyName", lookupFamilyName);
+//    formData.append("LookupFamilyName", lookupFamilyName);
 
-    $.ajax({
-        url: link,
-        type: 'POST',
-        cache: false,
-        contentType: false,
-        processData: false,
-        data: formData,
-        success: function (response) {
-            $("#section-family-lookup-search-results").html(response);
-        }
-    });
-}
+//    $.ajax({
+//        url: link,
+//        type: 'POST',
+//        cache: false,
+//        contentType: false,
+//        processData: false,
+//        data: formData,
+//        success: function (response) {
+//            $("#section-family-lookup-search-results").html(response);
+//        }
+//    });
+//}
 
-function SaveFamily() {
-    var selectedItemIdList = GetSelectedEntityIDs("data-table-family-lookup");
-    var selectedItemNameList = GetSelectedEntityLabels("data-table-family-lookup");
+//function SaveFamily() {
+//    var selectedItemIdList = GetSelectedEntityIDs("data-table-family-lookup");
+//    var selectedItemNameList = GetSelectedEntityLabels("data-table-family-lookup");
 
-    $("#Entity_FamilyID").val(selectedItemIdList);
-    $("#Entity_FamilyName").val(selectedItemNameList);
-}
+//    $("#Entity_FamilyID").val(selectedItemIdList);
+//    $("#Entity_FamilyName").val(selectedItemNameList);
+//}
 
 
 /* 
@@ -487,63 +487,63 @@ function SaveFamily() {
  Genus Logic
  ======================================================================================== 
  */
-function SearchGenus(link) {
-    var lookupGenusName = $("#txtLookupGenusName").val();
-    var formData = new FormData();
+//function SearchGenus(link) {
+//    var lookupGenusName = $("#txtLookupGenusName").val();
+//    var formData = new FormData();
 
-    formData.append("LookupGenusName", lookupGenusName);
+//    formData.append("LookupGenusName", lookupGenusName);
 
-    $.ajax({
-        url: link,
-        type: 'POST',
-        cache: false,
-        contentType: false,
-        processData: false,
-        data: formData,
-        success: function (response) {
-            $("#section-genus-lookup-search-results").html(response);
-        }
-    });
-}
+//    $.ajax({
+//        url: link,
+//        type: 'POST',
+//        cache: false,
+//        contentType: false,
+//        processData: false,
+//        data: formData,
+//        success: function (response) {
+//            $("#section-genus-lookup-search-results").html(response);
+//        }
+//    });
+//}
 
-function SaveGenus() {
-    var selectedItemIdList = GetSelectedEntityIDs("data-table-genus-lookup");
-    var selectedGenusNameList = GetSelectedEntityLabels("data-table-genus-lookup");
+//function SaveGenus() {
+//    var selectedItemIdList = GetSelectedEntityIDs("data-table-genus-lookup");
+//    var selectedGenusNameList = GetSelectedEntityLabels("data-table-genus-lookup");
 
-    $("#Entity_GenusID").val(selectedItemIdList);
-    $("#Entity_GenusName").val(selectedGenusNameList);
-}
+//    $("#Entity_GenusID").val(selectedItemIdList);
+//    $("#Entity_GenusName").val(selectedGenusNameList);
+//}
 
 /* 
 ========================================================================================
 Species Logic
 ======================================================================================== 
  */
-function SearchSpecies(link) {
-    var lookupSpeciesName = $("#txtLookupSpeciesName").val();
-    var formData = new FormData();
+//function SearchSpecies(link) {
+//    var lookupSpeciesName = $("#txtLookupSpeciesName").val();
+//    var formData = new FormData();
 
-    formData.append("SpeciesName", lookupSpeciesName);
+//    formData.append("SpeciesName", lookupSpeciesName);
 
-    $.ajax({
-        url: link,
-        type: 'POST',
-        cache: false,
-        contentType: false,
-        processData: false,
-        data: formData,
-        success: function (response) {
-            $("#section-species-lookup-search-results").html(response);
-        }
-    });
-}
+//    $.ajax({
+//        url: link,
+//        type: 'POST',
+//        cache: false,
+//        contentType: false,
+//        processData: false,
+//        data: formData,
+//        success: function (response) {
+//            $("#section-species-lookup-search-results").html(response);
+//        }
+//    });
+//}
 
-function SaveSpecies() {
-    var selectedItemIdList = GetSelectedEntityIDs("data-table-species-lookup");
-    var selectedSpeciesNameList = GetSelectedEntityLabels("data-table-species-lookup");
-    $("#Entity_SpeciesID").val(selectedItemIdList);
-    $("#Entity_SpeciesName").val(selectedSpeciesNameList);
-}
+//function SaveSpecies() {
+//    var selectedItemIdList = GetSelectedEntityIDs("data-table-species-lookup");
+//    var selectedSpeciesNameList = GetSelectedEntityLabels("data-table-species-lookup");
+//    $("#Entity_SpeciesID").val(selectedItemIdList);
+//    $("#Entity_SpeciesName").val(selectedSpeciesNameList);
+//}
 
 /* 
 ========================================================================================

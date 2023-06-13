@@ -190,6 +190,7 @@
     <Compile Include="Controllers\SysUserController.cs" />
     <Compile Include="Controllers\TaxonomyController.cs" />
     <Compile Include="Controllers\WebCooperatorController.cs" />
+    <Compile Include="Controllers\WebOrderRequestController.cs" />
     <Compile Include="Controllers\WebOrderController.cs" />
     <Compile Include="Controllers\WebUserController.cs" />
     <Compile Include="Global.asax.cs">
@@ -763,6 +764,10 @@
     <Content Include="Views\SysDynamicQuery\_List.cshtml" />
     <Content Include="Views\Taxonomy\Species\Map\Index.cshtml" />
     <Content Include="Views\Taxonomy\Citation\_DetailSearchCriteria.cshtml" />
+    <Content Include="Views\Shared\_LayoutAdminLTE3NRR.cshtml" />
+    <Content Include="Views\WebOrderRequest\Index.cshtml" />
+    <Content Include="Views\Shared\Sidebars\_MainSidebarNRR2.cshtml" />
+    <Content Include="Views\Taxonomy\GeographyMap\_EditBatch.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

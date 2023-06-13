@@ -1,0 +1,55 @@
+﻿@model USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer.GeographyMapViewModel
+
+@using (Html.BeginForm("_BatchEdit", "GeographyMap", FormMethod.Post, new { id = "frmGeographyMapBatchEdit" }))
+{
+    @Html.HiddenFor(x=> Model.EventAction)
+    @Html.HiddenFor(x=>Model.EventValue)
+    <button id="btnGeographyMapBatchEditAddRow" type="button" class="btn btn-default">Add Row</button>
+    <table>
+        <tbody>
+            @if (Model.DataCollection.Count() > 0)
+            {
+                for (var i = 0; i < Model.DataCollection.Count(); i++)
+                {
+                    <tr>
+                        <td>
+                            <div class="form-group">
+                                <label>Geography</label>
+                                <div class="input-group">
+                                    @Html.TextBoxFor(x => x.Entity.GeographyDescription, new { @class = "form-control", @readonly = "readonly" })
+                                    @Html.HiddenFor(x => x.Entity.GeographyID)
+                                    <span class="input-group-append">
+                                        @if (Model.Entity.SpeciesID > 0)
+                                        {
+                                            <button type="button" data-toggle="modal" data-target="#modal-geography-lookup" class="btn btn-default btn-flat">
+                                                <i class="fa fa-search"></i>
+                                            </button>
+                                        }
+                                    </span>
+                                </div>
+                            </div>
+                        </td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

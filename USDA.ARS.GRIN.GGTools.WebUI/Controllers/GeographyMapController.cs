@@ -114,21 +114,29 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             }
         }
 
-        public JsonResult _Add(GeographyMapViewModel viewModel)
+        public PartialViewResult _BatchEdit()
+        {
+            GeographyMapViewModel viewModel = new GeographyMapViewModel();
+            return PartialView("~/Views/Taxonomy/GeographyMap/_EditBatch.cshtml", viewModel);
+        }
+
+        [HttpPost]
+        public PartialViewResult BatchEdit(GeographyMapViewModel viewModel)
         {
             try
             {
                 viewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
-                viewModel.Insert();
-                // TODO
-                return Json(new { success = true }, JsonRequestBehavior.AllowGet);
+                viewModel.DataCollection.Add(viewModel.Entity);
+                return PartialView(BASE_PATH + "_EditBatch.cshtml", viewModel);
             }
             catch (Exception ex)
             {
                 Log.Error(ex);
-                return Json(new { success = false }, JsonRequestBehavior.AllowGet);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
             }
         }
+
+        
 
         //[HttpPost]
         //public PartialViewResult Add(FormCollection formCollection)

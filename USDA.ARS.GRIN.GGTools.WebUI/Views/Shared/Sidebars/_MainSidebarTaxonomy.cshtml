@@ -12,10 +12,30 @@
                 <p>Folder Search</p>
             </a>
         </li>
-        <li class="nav-header">MANAGE DATA</li>
-        @{ Html.RenderAction("_List","SysTable"); }
-        
         <li class="nav-header">TOOLS</li>
+        <li class="nav-item">
+            <a href="@Url.Action("Map","CropForCWR")" class="nav-link">
+                <i class="nav-icon fas fa-tools"></i>
+                <p>Crop Batch Edit</p>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="@Url.Action("Map","Species")" class="nav-link">
+                <i class="nav-icon fas fa-tools"></i>
+                <p>Species Batch Edit</p>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="@Url.Action("Add","SpeciesSynonymMap")" class="nav-link">
+                <i class="nav-icon fas fa-tools"></i>
+                <p>Synonym Mapper</p>
+            </a>
+        </li>
+
+        <li class="nav-header">MANAGE DATA</li>
+        @{ Html.RenderAction("_List", "SysTable"); }
+
+        <li class="nav-header">SYSADMIN</li>
         <li class="nav-item">
             <a href="@Url.Action("Index","SysDynamicQuery")" class="nav-link">
                 <i class="nav-icon fas fa-tools"></i>

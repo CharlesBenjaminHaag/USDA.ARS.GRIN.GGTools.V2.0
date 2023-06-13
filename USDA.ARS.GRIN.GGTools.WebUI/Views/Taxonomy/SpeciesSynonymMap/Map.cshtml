@@ -171,35 +171,7 @@
             <div class="card-body">
                 <div class="row">
                     <div id="section-synonym-maps" class="col-md-12">
-                        <table id="data-table-synonym-maps" class="table table-striped">
-                            <thead>
-                                <tr>
-                                    <th></th>
-                                    <th>ID</th>
-                                    <th>Name</th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach (var result in Model.DataCollection)
-                                {
-                                    <tr>
-                                        <td>
-                                            <input type="checkbox" class="form-check-input" style="position: absolute; opacity:1;" id="@result.ID">
-                                        </td>
-                                        <td>@result.SpeciesAName</td>
-                                        <td>@Html.Raw(result.SpeciesAName)</td>
-                                        <td>@result.SynonymDescription</td>
-                                        <td>@result.SpeciesBName</td>
-                                        <td>@Html.Raw(result.SpeciesBName)</td>
-                                        <td>
-                                            <button id="btnDelete" value="@result.ID" class="btn btn-danger btn-sm proto pull-right" onclick="SelectSpecies(@result.ID, this.value);return false;">Select</button>
-                                        </td>
-                                    </tr>
-                                }
-                            </tbody>
-                        </table>
-                    </div>
+                     </div>
                 </div>
             </div>
         </div>
@@ -313,7 +285,7 @@
             data: formData,
             success: function (response) {
                 $("#section-synonym-maps").html(response);
-                InitDataTable("#data-table-species-synonym-maps");
+                InitDataTableSingleSelect("data-table-synonym-maps");
             },
             error: function () {
                 alert("Error");
