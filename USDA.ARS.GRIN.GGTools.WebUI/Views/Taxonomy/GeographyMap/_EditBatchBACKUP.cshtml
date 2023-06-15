@@ -1,0 +1,112 @@
+﻿@model USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer.GeographyMapViewModel
+
+@using (Ajax.BeginForm("BatchEdit", "GeographyMap", new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "tab-content-taxonomy-geography-map", InsertionMode = InsertionMode.Replace }))
+{
+        @Html.HiddenFor(x => Model.EventAction)
+        @Html.HiddenFor(x => Model.EventValue)
+        <div class="row">
+            <div class="col-md-12">
+                <button id="btnGeographyMapBatchEditAddRow" class="btn btn-default float-right">Add Row</button>
+            </div>
+        </div>
+        <table class="table table-striped" style="width:100%;">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Geography</th>
+                    <th>Status</th>
+                    <th>Note</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.BatchEditDataCollection.Count() > 0)
+                {
+                    for (var i = 0; i < Model.BatchEditDataCollection.Count(); i++)
+                    {
+                <tr>
+                    <td>
+                        <input type="checkbox" />
+                    </td>
+                    <td>
+                        <div class="form-group">
+                            <div class="input-group">
+                                @Html.TextBoxFor(x => x.BatchEditDataCollection[i].GeographyDescription, new { @class = "form-control", @readonly = "readonly" })
+                                @Html.HiddenFor(x => x.BatchEditDataCollection[i].GeographyID)
+                                @Html.HiddenFor(x => x.BatchEditDataCollection[i].EntityGUID)
+                                <span class="input-group-append">
+                                    <button type="button" data-toggle="modal" data-target="#modal-geography-lookup" class="btn btn-default btn-flat">
+                                        <i class="fa fa-search"></i>
+                                    </button>
+                                </span>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="form-group">
+                            @Html.DropDownListFor(x => x.BatchEditDataCollection[i].GeographyStatusCode, new SelectList(Model.GeographyStatusCodesList,"Value","Title","Value"),  new { @class = "form-control" })
+                        </div>
+                    </td>
+                    <td>
+                        <div class="form-group">
+                            <div class="input-group">
+                                @Html.TextBoxFor(x => x.BatchEditDataCollection[i].Note, new { @class = "form-control" })
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <button id="Copy_@Model.BatchEditDataCollection[i].EntityGUID" class="btn btn-default copy">Copy</button>
+                    </td>
+                    <td>
+                        <button id="Delete_@Model.BatchEditDataCollection[i].EntityGUID" class="btn btn-default delete">Delete</button>
+                    </td>
+                </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    }
+<script type="text/javascript">
+    $("#btnGeographyMapBatchEditAddRow").on('click', function (event) {
+        //DEBUG
+        alert("CLICKED ADD ROW BUTTON");
+        $("#EventAction").val("ADDROW");
+    });
+
+    $(".copy").on('click', function (event) {
+        var id = $(this).attr('id').replace('Copy_', '');
+
+        //DEBUG
+        alert("CLICKED COPY BUTTON " + id);
+
+        $("#EventAction").val("COPY");
+        $("#EventValue").val(id);
+    });
+
+    $(".delete").on('click', function (event) {
+        var id = $(this).attr('id').replace('Delete_','');
+
+        //DEBUG
+        alert("CLICKED DELETE BUTTON " + id);
+
+        $("#EventAction").val("DELETE");
+        $("#EventValue").val(id);
+    });
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

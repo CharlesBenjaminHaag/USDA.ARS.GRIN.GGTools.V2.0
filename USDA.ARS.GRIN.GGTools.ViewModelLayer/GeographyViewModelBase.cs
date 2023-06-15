@@ -36,7 +36,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
         {
             using (GeographyManager mgr = new GeographyManager())
             {
-                Cooperators = new SelectList(mgr.GetCooperators("geography"), "ID", "FullName");
+                //Cooperators = new SelectList(mgr.GetCooperators("geography"), "ID", "FullName");
                 YesNoOptions = new SelectList(mgr.GetYesNoOptions(), "Key", "Value");
                 Admin1Types = new SelectList(mgr.GetCodeValues("GEOGRAPHY_ADMIN1_TYPE"), "Value", "Title");
                 Admin2Types = new SelectList(mgr.GetCodeValues("GEOGRAPHY_ADMIN2_TYPE"), "Value", "Title");

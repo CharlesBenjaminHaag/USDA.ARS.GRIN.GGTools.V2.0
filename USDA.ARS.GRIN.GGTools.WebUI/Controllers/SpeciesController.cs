@@ -17,7 +17,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
 
         public ActionResult Map()
         {
-            SpeciesViewModel viewModel = new SpeciesViewModel();
+            SpeciesBatchEditViewModel viewModel = new SpeciesBatchEditViewModel();
             return View("~/Views/Taxonomy/Species/Map/Index.cshtml", viewModel);
         }
         //public ActionResult Explorer()

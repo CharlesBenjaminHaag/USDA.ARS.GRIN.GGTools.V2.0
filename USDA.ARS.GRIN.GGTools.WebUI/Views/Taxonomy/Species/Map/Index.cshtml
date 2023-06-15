@@ -1,4 +1,4 @@
-﻿@model USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer.SpeciesViewModel
+﻿@model USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer.SpeciesBatchEditViewModel
 @{
     Layout = null;
 }
@@ -20,71 +20,15 @@
                 <div class="collapse navbar-collapse order-3" id="navbarCollapse">
                     <!-- BEGIN EDIT PAGE MENU -->
                     <ul class="navbar-nav">
-                        @if (Model.Entity.ID > 0)
-                        {
-                            <!-- INFRASPECIFIC-->
-                            <!--<li class="nav-item dropdown">
-                                <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Add Infraspecific Taxon</a>
-                                <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow">
-                                    <li><a href="@Url.Action("Add", "Species", new { @rank = "subspecies", @entityId = Model.Entity.ID })" class="dropdown-item">Subspecies </a></li>
-                                    <li><a href="@Url.Action("Add", "Species", new { @rank = "variety", @entityId = Model.Entity.ID })" class="dropdown-item">Variety</a></li>
-                                    <li><a href="@Url.Action("Add", "Species", new { @rank = "subvariety", @entityId = Model.Entity.ID })" class="dropdown-item">Subvariety</a></li>
-                                    <li><a href="@Url.Action("Add", "Species", new { @rank = "form", @entityId = Model.Entity.ID })" class="dropdown-item">Form</a></li>
-                                </ul>
-                            </li>-->
-                            <!-- SYN -->
-                            <li class="nav-item dropdown">
-                                <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Add Synonym</a>
-                                <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow">
-                                    <li><a href="@Url.Action("Add", "Species", new { @entityId = Model.Entity.ID, @synonymTypeCode = "basionym", @rank = "species" })" class="dropdown-item">Basionym </a></li>
-                                    <li><a href="@Url.Action("Add", "Species", new { @entityId = Model.Entity.ID, @synonymTypeCode = "heterotypic", @rank = "species" })" class="dropdown-item">Heterotypic</a></li>
-                                    <li><a href="@Url.Action("Add", "Species", new { @entityId = Model.Entity.ID, @synonymTypeCode = "homotypic", @rank = "species" })" class="dropdown-item">Homotypic</a></li>
-                                    <li><a href="@Url.Action("Add", "Species", new { @entityId = Model.Entity.ID, @synonymTypeCode = "invalid", @rank = "species" })" class="dropdown-item">Invalid</a></li>
-                                    <div class="dropdown-divider"></div>
-                                    <li><a href="@Url.Action("Add", "SpeciesSynonymMap", new { @entityId = Model.Entity.ID, @synonymType = "invalid" })" class="dropdown-item">Map</a></li>
-                                </ul>
-                            </li>
-                            <!-- REL DATA -->
-                            <li class="nav-item dropdown">
-                                <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Add Related Data</a>
-                                <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow">
-                                    <li><a href="@Url.Action("Add", "Citation", new { @eventAction = "Species", @eventValue = "AddDependentData", @speciesId = Model.Entity.ID })" class="dropdown-item">Citation </a></li>
-                                    <li><a href="@Url.Action("Add", "CommonName", new { @speciesId = Model.Entity.ID })" class="dropdown-item">Common Name</a></li>
-                                    <li>
-                                        <button id="btnOpenGeographyLookupModal"
-                                                type="button"
-                                                data-toggle="modal"
-                                                data-target="#modal-geography-lookup"
-                                                data-ggtools-species-id="@Model.ID"
-                                                class="dropdown-item">
-                                            Distribution
-                                        </button>
-                                    </li>
-                                    <li><a href="@Url.Action("Add", "EconomicUse", new { @speciesId = Model.Entity.ID })" class="dropdown-item">Economic Use</a></li>
-                                    <li><a href="@Url.Action("Add", "RegulationMap", new { @speciesId = Model.Entity.ID })" class="dropdown-item">Regulation</a></li>
-                                </ul>
-                            </li>
-                            <!-- FOLDERS -->
-                            { Html.RenderAction("_RelatedFoldersMenu", "Folder", new { tableName = Model.TableName, entityId = Model.Entity.ID }); }
-                        }
+                        <!-- TODO What do we need here? -->
                     </ul>
                     <!-- END EDIT PAGE MENU-->
                 </div>
                 <!-- BEGIN RIGHT-ALIGNED NAV MENU -->
                 <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
-                    @if (Model.Entity.ID > 0)
-                    {
-                        <li id="nav-item-view-website" class="nav-item">
-                            <a class="nav-link" href="#" role="button">
-                                <i class="far fa-globe"></i>
-                                View on Website
-                            </a>
-                        </li>
-                    }
                     @Html.Partial("~/Views/Shared/_NavbarRight.cshtml")
                 </ul>
                 <!-- END RIGHT-ALIGNED NAV MENU -->
-
             </div>
         </nav>
         <div class="content-wrapper">
@@ -93,36 +37,7 @@
                     <div class="row mb-2">
                         <div class="col-sm-6">
                             <h1 class="m-0">
-                                <!-- TODO Refactor into _Title partial; create for each taxon type-->
-                                @{string actionName = ViewContext.RouteData.Values["action"].ToString(); }
-                                @actionName
-
-                                @if (actionName.ToLower() == "add")
-                                {
-                                    if (!String.IsNullOrEmpty(Model.Entity.SynonymCode))
-                                    {
-                                        <span>@Model.ToTitleCase(Model.Entity.SynonymDescription)</span>
-
-                                        if ((Model.Entity.SynonymCode == "heterotypic") || (Model.Entity.SynonymCode == "homotypic") || (Model.Entity.SynonymCode == "invalid"))
-                                        {
-                                            <span>Synonym </span>
-                                        }
-                                        <span>of <a href="@Url.Action("Edit","Species", new { @entityId = Model.Entity.ParentID })">@Html.Raw(Model.Entity.ParentName)</a></span>
-                                    }
-
-                                    if (Model.Entity.Rank.ToLower() != "species")
-                                    {
-                                        <span>@Model.ToTitleCase(Model.Entity.Rank) of <a href="@Url.Action("Edit", "Species", new { @entityId = Model.Entity.ParentID })">@Html.Raw(Model.Entity.ParentName)</a></span>
-                                    }
-                                    else
-                                    {
-                                        @*<span>Species</span>*@
-                                    }
-                                }
-                                else
-                                {
-                                    <span>Species [@Model.Entity.ID]: @Html.Raw(Model.Entity.AssembledName)</span>
-                                }
+                                Species Batch Edit
                             </h1>
                         </div>
                         <div class="col-sm-6">
@@ -136,45 +51,73 @@
                     <div id="section-folder-confirmation"></div>
                     <div id="section-search-criteria" class="row">
                         <div class="col-md-4">
-                            <div class="card card-primary card-outline dual-select">
-                                <div class="card-header">
-                                    <h3 class="card-title">
-                                        <i class="fas fa-leaf"></i> Species A
-                                    </h3>
-                                    <div class="card-tools">
-                                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                                            <i class="fas fa-minus"></i>
-                                        </button>
-                                    </div>
+                            <div class="card card-primary card-outline card-outline-tabs">
+                                <div class="card-header p-0 border-bottom-0">
+                                    <ul class="nav nav-tabs" id="custom-tabs-four-tab" role="tablist">
+                                        <li class="nav-item">
+                                            <a class="nav-link active" id="custom-tabs-four-home-tab" data-toggle="pill" href="#custom-tabs-four-home" role="tab" aria-controls="custom-tabs-four-home" aria-selected="true">Search Species</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" id="custom-tabs-four-profile-tab" data-toggle="pill" href="#custom-tabs-four-profile" role="tab" aria-controls="custom-tabs-four-profile" aria-selected="false">Search Species</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" id="custom-tabs-four-messages-tab" data-toggle="pill" href="#custom-tabs-four-messages" role="tab" aria-controls="custom-tabs-four-messages" aria-selected="false">Load From Holder</a>
+                                        </li>
+                                    </ul>
                                 </div>
                                 <div class="card-body">
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <div class="input-group">
-                                                @Html.TextBoxFor(x => x.SearchEntity.SpeciesName, new { @class = "form-control" })
-                                                @Html.HiddenFor(x => x.SearchEntity.ID)
-                                                <span class="input-group-append">
-                                                    <button type="button" id="btnLookupSpeciesA" data-ggtools-action="species-a" data-ggtools-value="" class="btn btn-default btn-flat"><i class="fa fa-search"></i></button>
-                                                </span>
+                                    <div class="tab-content" id="custom-tabs-four-tabContent">
+                                        <div class="tab-pane fade show active" id="custom-tabs-four-home" role="tabpanel" aria-labelledby="custom-tabs-four-home-tab">
+                                            @using (Html.BeginForm(new { id = "frmSpeciesLookup", onsubmit = "return false;" }))
+                                            {
+                                                <input type="hidden" id="hfSpeciesLookupIDFieldName" />
+                                                <input type="hidden" id="hfSpeciesLookupNameFieldName" />
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        @Html.TextBoxFor(x => x.SearchEntity.SpeciesName, new { @id = "txtLookupSpeciesName", @class = "form-control" })
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="margin">
+                                                            <div class="form-group clearfix">
+                                                                <div class="icheck-primary d-inline">
+                                                                    <input class="custom-control-input" type="checkbox" id="cbxLookupIsAcceptedName" value="option1">
+                                                                    <label for="cbxLookupIsAcceptedName">
+                                                                        Search accepted names only.
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            }
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="margin">
+                                                        <button id="btnReset" type="button" class="btn btn-default">Reset</button>
+                                                        <button id="btnLookupSpecies" type="button" class="btn btn-primary float-right">Search</button>
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <div class="form-group clearfix float-right" style="margin-top:10px;">
-                                                <div class="icheck-primary d-inline">
-                                                    @Html.CheckBoxFor(x => x.SearchEntity.IsAccepted)
-                                                    <label for="SearchEntity_SpeciesAIsAcceptedOption">
-                                                        Search only accepted names
-                                                    </label>
+                                            <div class="row">
+                                                <div id="section-species-lookup-search-results" class="col-md-12">
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="row">
-                                        <div id="section-search-results-species-a" class="col-md-12">
-                                            <!-- DATA HERE -->
+                                        <div class="tab-pane fade" id="custom-tabs-four-profile" role="tabpanel" aria-labelledby="custom-tabs-four-profile-tab">
+
+                                        </div>
+                                        <div class="tab-pane fade" id="custom-tabs-four-messages" role="tabpanel" aria-labelledby="custom-tabs-four-messages-tab">
+                                            Morbi turpis dolor, vulputate vitae felis non, tincidunt congue mauris. Phasellus volutpat augue id mi placerat mollis. Vivamus faucibus eu massa eget condimentum. Fusce nec hendrerit sem, ac tristique nulla. Integer vestibulum orci odio. Cras nec augue ipsum. Suspendisse ut velit condimentum, mattis urna a, malesuada nunc. Curabitur eleifend facilisis velit finibus tristique. Nam vulputate, eros non luctus efficitur, ipsum odio volutpat massa, sit amet sollicitudin est libero sed ipsum. Nulla lacinia, ex vitae gravida fermentum, lectus ipsum gravida arcu, id fermentum metus arcu vel metus. Curabitur eget sem eu risus tincidunt eleifend ac ornare magna.
+                                        </div>
+                                        <div class="tab-pane fade" id="custom-tabs-four-settings" role="tabpanel" aria-labelledby="custom-tabs-four-settings-tab">
+                                            Pellentesque vestibulum commodo nibh nec blandit. Maecenas neque magna, iaculis tempus turpis ac, ornare sodales tellus. Mauris eget blandit dolor. Quisque tincidunt venenatis vulputate. Morbi euismod molestie tristique. Vestibulum consectetur dolor a vestibulum pharetra. Donec interdum placerat urna nec pharetra. Etiam eget dapibus orci, eget aliquet urna. Nunc at consequat diam. Nunc et felis ut nisl commodo dignissim. In hac habitasse platea dictumst. Praesent imperdiet accumsan ex sit amet facilisis.
                                         </div>
                                     </div>
                                 </div>
-                                <div class="card-footer">
-                                    <button id="btnClearAllSpeciesA" class="btn btn-default">Reset</button>
+                                <div id="progress_overlay" class="overlay">
+                                    <i class="fas fa-2x fa-sync-alt fa-spin"></i>
                                 </div>
                             </div>
                         </div>
@@ -183,7 +126,7 @@
                                 <div class="card-header p-0 pt-1">
                                     <ul class="nav nav-tabs" id="custom-tabs-one-tab" role="tablist">
                                         <li class="nav-item">
-                                            <a class="nav-link active" id="tab-batch-edit-citation" data-toggle="pill" href="#tab-content-edit-citation" role="tab" aria-controls="custom-tabs-one-home" aria-selected="true">Citation</a>
+                                            <a class="nav-link active" id="tab-batch-edit-citation" data-toggle="pill" href="#tab-content-citation" role="tab" aria-controls="custom-tabs-one-home" aria-selected="true">Citation</a>
                                         </li>
                                         <li class="nav-item">
                                             <a class="nav-link" id="tab-batch-edit-taxonomy-geography-map" data-toggle="pill" href="#tab-content-taxonomy-geography-map" role="tab" aria-controls="custom-tabs-one-profile" aria-selected="false">Distribution</a>
@@ -199,17 +142,24 @@
                                 <div class="card-body">
                                     <div class="tab-content" id="custom-tabs-one-tabContent">
                                         <div class="tab-pane fade show active" id="tab-content-citation" role="tabpanel" aria-labelledby="custom-tabs-one-home-tab">
+                                            @{Html.RenderAction("BatchEdit", "Citation");}
+                                            <div class="row">
+                                                <div id="section-citation-batch-edit" class="col-md-12">
+
+                                                </div>
+                                            </div>
                                         </div>
                                         <div class="tab-pane fade" id="tab-content-taxonomy-geography-map" role="tabpanel" aria-labelledby="custom-tabs-one-profile-tab">
-                                            @{Html.RenderAction("_BatchEdit", "GeographyMap");}
+                                            @{Html.RenderAction("BatchEdit", "GeographyMap");}
                                         </div>
                                         <div class="tab-pane fade" id="tab-content-taxonomy-use" role="tabpanel" aria-labelledby="custom-tabs-one-messages-tab">
+                                            @{Html.RenderAction("BatchEdit", "EconomicUse");}
                                         </div>
                                         <div class="tab-pane fade" id="tab-content-taxonomy-commmon-name" role="tabpanel" aria-labelledby="custom-tabs-one-settings-tab">
+                                            @{Html.RenderAction("BatchEdit", "CommonName");}
                                         </div>
                                     </div>
                                 </div>
-
                             </div>
                         </div>
                     </div>
@@ -220,24 +170,177 @@
         </aside>
         @Html.Partial("~/Views/Shared/_Footer.cshtml")
     </div>
+    @{Html.RenderAction("RenderLookupModal", "Literature"); }
+
+    <!-- BEGIN ERROR MODAL-->
+    <div class="modal fade" id="modal-validation-error" style="display: none;" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content bg-danger">
+                <div class="modal-header">
+                    <h4 class="modal-title">Validation Error</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p id="error-msg"></p>
+                </div>
+                <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-outline-light" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-outline-light">Save changes</button>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    <!-- END ERROR MODAL -->
+
 </body>
 </html>
 <script type="text/javascript">
     $(document).ready(function () {
-        Init();
+        $("#progress_overlay").hide();
     });
 
-    function Init() {
+    $("#btnGenerateCitations").click(function () {
+        var selectedSpeciesIdList = GetSelectedEntityIDs("data-table-species-lookup");
+        //var selectedLiteratureIdList = GetSelectedEntityIDs("data-table-literature-lookup");
+        var selectedLiteratureIdList = $("#Entity_LiteratureID").val();
 
+        if (selectedSpeciesIdList.length == 0)
+        {
+            $("#error-msg").html("Please select at least one species.");
+            $("#modal-validation-error").modal("show");
+            return;
+        }
+
+        if ((selectedLiteratureIdList.length == 0) || (selectedLiteratureIdList == 0)) {
+            $("#error-msg").html("Please identify the literature for which to generate citations.");
+            $("#modal-validation-error").modal("show");
+            return;
+        }
+
+        //DEBUG
+        alert("DEBUG SEL SPEC IDS " + selectedSpeciesIdList + " AND LIT IDS " + selectedLiteratureIdList);
+        GenerateCitations(selectedSpeciesIdList, selectedLiteratureIdList);
+    });
+
+    function GenerateCitations(selectedSpeciesIdList, selectedLiteratureIdList)
+    {
+        var link = '@Url.Action("AddBatch","Citation")';
+        var formData = new FormData();
+
+        formData.append("speciesIdList", selectedSpeciesIdList);
+        formData.append("literatureIdList", selectedLiteratureIdList);
+
+        $("#search-progress-overlay").show();
+
+        $.ajax({
+            url: link,
+            type: 'POST',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (response) {
+                $("#section-citation-batch-edit").html(response);
+                InitDataTable("data-table-citation-lookup");
+                $("#search-progress-overlay").hide();
+            },
+            error: function (ex) {
+                alert("Error");
+                $("#search-progress-overlay").hide();
+            }
+        });
     }
 
-    $(document).on("click", "[id*='btnGeographyMapBatchEditAddRow']", function () {
-        $("#EventAction").val("GEOGRAPHYMAP");
-        $("#EventValue").val("ADDROW");
-        $("#frmGeographyMapBatchEdit").submit();
+    //$('#modal-species-lookup').on('keypress', function (event) {
+    //    var keycode = (event.keyCode ? event.keyCode : event.which);
+    //    if (keycode == '13') {
+    //        /*alert("ENTER clicked");*/
+    //        SearchSpecies();
+    //        event.preventDefault();
+    //    }
+    //});
+
+    //$("#btnOpenSpeciesLookupModal").click(function () {
+    //    var eventAction = $(this).data("ggtools-action");
+    //    var eventValue = $(this).data("ggtools-value");
+    //    $("#hfSpeciesLookupIDFieldName").val(eventAction);
+    //    $("#hfSpeciesLookupNameFieldName").val(eventValue);
+    //    $("#search-progress-overlay").hide();
+    //});
+
+    $("#btnLookupSpecies").click(function () {
+        SearchSpecies();
     });
 
-    function GeographyMapBatchEditAddRow() {
+    function SearchSpecies() {
+        var link = '@Url.Action("Lookup","Species")';
+        var speciesName = $("#txtLookupSpeciesName").val();
+        var formData = new FormData();
+
+        formData.append("SearchEntity.SpeciesName", speciesName);
+        if ($("#cbxLookupIsAcceptedName").is(":checked")) {
+            formData.append("SearchEntity.IsAcceptedName", "Y");
+        }
+
+        $("#progress_overlay").show();
+
+        $.ajax({
+            url: link,
+            type: 'POST',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (response) {
+                $("#section-species-lookup-search-results").html(response);
+                InitSpeciesBatchEditDataTable("data-table-species-lookup");
+                $("#progress_overlay").hide();
+            },
+            error: function (ex) {
+                alert("Error");
+                $("#progress_overlay").hide();
+            }
+        });
+    }
+
+    //$("#btnSaveSpecies").click(function () {
+    //    var idField = $("#hfSpeciesLookupIDFieldName").val();
+    //    var nameField = $("#hfSpeciesLookupNameFieldName").val();
+    //    var isAcceptedName = "";
+    //    var idList = GetSelectedEntityIDs("data-table-species-lookup");
+    //    var nameList = GetSelectedEntityLabels("data-table-species-lookup");
+
+    //    //DEBUG
+    //    //alert("DEBUG SET SPECIES ID FLD " + idField + " NAME FLD " + nameField);
+
+    //    $("#Entity_" + idField).val(idList);
+    //    $("#Entity_" + nameField).val(nameList);
+    //    $('#modal-species-lookup').modal('hide');
+    //});
+
+
+    //function SelectSpecies(ID, speciesName) {
+    //    var eventAction = "";
+    //    var eventValue = "";
+
+    //    $('#modal-species-lookup').modal('hide');
+
+
+    //    eventValue = $("#hfModalEventValue").val();
+    //    if (eventValue == 'SPECIES') {
+    //        $("#Entity_SpeciesName").val(speciesName);
+    //    }
+    //    else {
+    //        $("#Entity_AcceptedID").val(ID);
+    //        $("#Entity_AcceptedName").val(speciesName);
+    //    }
+    //} 
+
+    @*function GeographyMapBatchEditAddRow() {
         var link = '@Url.Action("BatchEditAddRow","GeographyMap")';
         var formData = new FormData();
 
@@ -255,55 +358,49 @@
                 alert("Error");
             }
         });
-    }
+    }*@
 
-    $(document).on("click", "[id*='btnCommonNameBatchEditAddRow']", function () {
-        $("#EventAction").val("BATCHEDIT");
-        $("#EventValue").val("ADDROW");
-        //TODO
-        //Make AJAX call to method that will return view with newly-added record.
-    });
+    //$(document).on("click", "[id*='btnCommonNameBatchEditAddRow']", function () {
+    //    $("#EventAction").val("ADDROW");
+    //    //TODO
+    //    //Make AJAX call to method that will return view with newly-added record.
+    //});
 
-    $(document).on("click", "[id*='btnEconomicBatchEditAddRow']", function () {
-        $("#EventAction").val("BATCHEDIT");
-        $("#EventValue").val("ADDROW");
-        //TODO
-        //Make AJAX call to method that will return view with newly-added record.
-    });
+    //$(document).on("click", "[id*='btnEconomicBatchEditAddRow']", function () {
+    //    $("#EventAction").val("BATCHEDIT");
+    //    $("#EventValue").val("ADDROW");
+    //    //TODO
+    //    //Make AJAX call to method that will return view with newly-added record.
+    //});
 
-
-    $('#section-dependent-data ul.nav li').on('click', function () {
-
-    });
-
-    function LoadDependentData(controlId, eventAction, eventValue) {
-        var link = '@Url.Action("EVENT_VALUE","EVENT_ACTION", new { speciesId = "SPECIES_ID" })';
-        var entityId = $("#Entity_ID").val();
-        var genusId = $("#Entity_GenusID").val();
-        var genusName = $("#Entity_Name").val();
-        var formData = new FormData();
-        var sectionData = controlId.replace("tab_selector", "tab_content");
-
-        link = link.replace("EVENT_ACTION", eventAction);
-        link = link.replace("EVENT_VALUE", eventValue);
-        link = link.replace("SPECIES_ID", entityId);
-
-        formData.append("SpeciesID", entityId);
-
-        $("#progress_overlay").show();
-
-        $.ajax({
-            url: link,
-            type: 'POST',
-            cache: false,
-            contentType: false,
-            processData: false,
-            data: formData,
-            success: function (response) {
-                $("#" + sectionData).html(response);
-                $("#progress_overlay").hide();
-            }
+    function InitSpeciesBatchEditDataTable(tableName) {
+        $(document).ready(function () {
+            tableName = "#" + tableName;
+            table = $(tableName).DataTable({
+                "bLengthChange": false,
+                scrollY: '300px',
+                scrollCollapse: true,
+                paging: true,
+                responsive: true,
+                select: {
+                    style: 'multi'
+                },
+                searching: true,
+                columnDefs: [
+                    {
+                        target: 0,
+                        visible: false,
+                        searchable: false,
+                    },
+                    {
+                        target: 1,
+                        visible: false,
+                    },
+                ]
+            });
+            table.row(':eq(0)', { page: 'current' }).select();
         });
     }
+
 </script>
 @Html.Partial("~/Views/Shared/_Scripts.cshtml")

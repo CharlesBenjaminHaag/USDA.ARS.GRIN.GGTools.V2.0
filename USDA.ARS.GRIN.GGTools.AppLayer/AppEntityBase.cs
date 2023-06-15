@@ -10,6 +10,7 @@ namespace USDA.ARS.GRIN.GGTools.AppLayer
     /// </summary>
     public class AppEntityBase : SqlServerEntityBase
     {
+        public string EntityGUID { get; set; }
         public string TableName { get; set; }
         public int FolderID { get; set; }
         public int AppUserItemListID { get; set; }

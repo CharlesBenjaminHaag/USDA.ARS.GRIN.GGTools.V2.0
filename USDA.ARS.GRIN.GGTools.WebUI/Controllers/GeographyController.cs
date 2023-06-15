@@ -281,25 +281,25 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             return PartialView(partialViewName, viewModel);
         }
 
-        public ActionResult RenderLookupModal(int speciesId = 0)
+        public ActionResult RenderLookupModal()
         {
             GeographyViewModel viewModel = new GeographyViewModel();
             viewModel.GetContinents();
             // TODO If we have a species ID,
             // 1) Load its name/basic identifying data
             // 2) Load its existing geo maps
-            if (speciesId > 0)
-            {
-                SpeciesViewModel speciesViewModel = new SpeciesViewModel();
-                speciesViewModel.Get(speciesId);
+            //if (speciesId > 0)
+            //{
+            //    SpeciesViewModel speciesViewModel = new SpeciesViewModel();
+            //    speciesViewModel.Get(speciesId);
 
-                viewModel.SpeciesID = speciesViewModel.Entity.ID;
-                viewModel.SpeciesName = speciesViewModel.Entity.AssembledName;
+            //    viewModel.SpeciesID = speciesViewModel.Entity.ID;
+            //    viewModel.SpeciesName = speciesViewModel.Entity.AssembledName;
 
-                GeographyMapViewModel geographyMapViewModel = new GeographyMapViewModel();
-                geographyMapViewModel.SearchEntity.SpeciesID = speciesId;
-                geographyMapViewModel.Search();
-            }
+            //    GeographyMapViewModel geographyMapViewModel = new GeographyMapViewModel();
+            //    geographyMapViewModel.SearchEntity.SpeciesID = speciesId;
+            //    geographyMapViewModel.Search();
+            //}
 
             return PartialView(BASE_PATH + "Modals/_Lookup.cshtml", viewModel);
         }

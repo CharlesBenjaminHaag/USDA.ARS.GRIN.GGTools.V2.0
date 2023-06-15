@@ -1,12 +1,10 @@
-﻿using System.Web.Mvc;
+﻿using NLog;
 using System;
-using System.Collections.Generic;
-using USDA.ARS.GRIN.GGTools.ViewModelLayer;
-using USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer;
+using System.Web.Mvc;
 using USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer;
-using USDA.ARS.GRIN.GGTools.DataLayer;
+using USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer;
+using USDA.ARS.GRIN.GGTools.ViewModelLayer;
 using USDA.ARS.GRIN.GGTools.WebUI;
-using NLog;
 
 namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
 {
@@ -114,9 +112,11 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             }
         }
 
-        public PartialViewResult _BatchEdit()
+        public PartialViewResult BatchEdit()
         {
             GeographyMapViewModel viewModel = new GeographyMapViewModel();
+            viewModel.EventAction = "GeographyMap";
+            viewModel.EventValue = "BatchEdit";
             return PartialView("~/Views/Taxonomy/GeographyMap/_EditBatch.cshtml", viewModel);
         }
 
@@ -125,8 +125,35 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
         {
             try
             {
-                viewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
-                viewModel.DataCollection.Add(viewModel.Entity);
+                // TODO
+                // Handles the following:
+                // ADDROW  Add blank/initialized obj to collection
+                // DELETEROW    Delete the entity by GUID (?)
+                // SAVE         Iterate through collection and UPSERT as needed.
+                //              DUPES?
+
+                switch (viewModel.EventAction)
+                {
+                    case "ADDROW":
+                        viewModel.Entity.EntityGUID = System.Guid.NewGuid().ToString();
+                        viewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
+                        viewModel.Entity.GeographyStatusCode = "n";
+                        viewModel.BatchEditDataCollection.Add(viewModel.Entity);
+                        break;
+                    case "COPY":
+                        GeographyMap copyItem = viewModel.BatchEditDataCollection.Find(x => x.EntityGUID == viewModel.EventValue);
+                        GeographyMap newItem = new GeographyMap();
+                        newItem.EntityGUID = System.Guid.NewGuid().ToString();
+                        newItem.GeographyStatusCode = copyItem.GeographyStatusCode;
+                        newItem.Note = copyItem.Note;
+                        newItem.CreatedByCooperatorID = copyItem.CreatedByCooperatorID;
+                        viewModel.BatchEditDataCollection.Add(newItem);
+                        break;
+                    case "DELETE":
+                        var targetItem = viewModel.BatchEditDataCollection.Find(x => x.EntityGUID == viewModel.EventValue);
+                        viewModel.BatchEditDataCollection.Remove(targetItem);
+                        break;
+                }
                 return PartialView(BASE_PATH + "_EditBatch.cshtml", viewModel);
             }
             catch (Exception ex)
@@ -135,8 +162,6 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 return PartialView("~/Views/Error/_InternalServerError.cshtml");
             }
         }
-
-        
 
         //[HttpPost]
         //public PartialViewResult Add(FormCollection formCollection)

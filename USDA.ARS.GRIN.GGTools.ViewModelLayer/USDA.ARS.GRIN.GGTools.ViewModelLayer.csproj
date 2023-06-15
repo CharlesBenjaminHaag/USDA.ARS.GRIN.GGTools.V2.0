@@ -116,6 +116,7 @@
     <Compile Include="SiteAdminViewModelBase.cs" />
     <Compile Include="SiteViewModel.cs" />
     <Compile Include="SiteViewModelBase.cs" />
+    <Compile Include="SpeciesBatchEditViewModel.cs" />
     <Compile Include="SpeciesViewModel.cs" />
     <Compile Include="SpeciesViewModelBase.cs" />
     <Compile Include="SubfamilyViewModel.cs" />

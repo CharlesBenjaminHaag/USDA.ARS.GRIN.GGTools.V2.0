@@ -635,7 +635,7 @@
                    
                     @if (Model.Entity.ID > 0)
                     {
-                        { Html.RenderAction("RenderLookupModal", "Geography", new { @speciesId = Model.Entity.ID }); }
+                        //{ Html.RenderAction("RenderLookupModal", "Geography", new { @speciesId = Model.Entity.ID }); }
                         { Html.RenderAction("RenderLookupModal", "Citation", new { @tableName = Model.TableName, @isMultiSelect = "Y" }); }
                     }
                     

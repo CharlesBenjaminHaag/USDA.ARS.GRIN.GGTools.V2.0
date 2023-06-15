@@ -118,7 +118,21 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 return RedirectToAction("InternalServerError", "Error");
             }
         }
+        public PartialViewResult BatchEdit()
+        {
+            EconomicUseViewModel viewModel = new EconomicUseViewModel();
+            return PartialView("~/Views/Taxonomy/EconomicUse/_EditBatch.cshtml", viewModel);
+        }
 
+        [HttpPost]
+        public PartialViewResult BatchEdit(EconomicUseViewModel viewModel)
+        {
+            // TODO
+            // Iterate through species ID list
+            // For each species, create cit with lit ID specified in search
+            // entity obj
+            return PartialView("~/Views/Taxonomy/EconomicUse/_EditBatch.cshtml", viewModel);
+        }
         [HttpPost]
         public PartialViewResult FolderItems(FormCollection formCollection)
         {

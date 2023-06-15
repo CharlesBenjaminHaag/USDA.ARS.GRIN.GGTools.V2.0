@@ -1,43 +1,58 @@
 ﻿@model USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer.GeographyMapViewModel
 
-@using (Html.BeginForm("_BatchEdit", "GeographyMap", FormMethod.Post, new { id = "frmGeographyMapBatchEdit" }))
+@using (Ajax.BeginForm("BatchEdit", "GeographyMap", new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "tab-content-taxonomy-geography-map", InsertionMode = InsertionMode.Replace }))
 {
-    @Html.HiddenFor(x=> Model.EventAction)
-    @Html.HiddenFor(x=>Model.EventValue)
-    <button id="btnGeographyMapBatchEditAddRow" type="button" class="btn btn-default">Add Row</button>
-    <table>
-        <tbody>
-            @if (Model.DataCollection.Count() > 0)
-            {
-                for (var i = 0; i < Model.DataCollection.Count(); i++)
-                {
-                    <tr>
-                        <td>
-                            <div class="form-group">
-                                <label>Geography</label>
-                                <div class="input-group">
-                                    @Html.TextBoxFor(x => x.Entity.GeographyDescription, new { @class = "form-control", @readonly = "readonly" })
-                                    @Html.HiddenFor(x => x.Entity.GeographyID)
-                                    <span class="input-group-append">
-                                        @if (Model.Entity.SpeciesID > 0)
-                                        {
-                                            <button type="button" data-toggle="modal" data-target="#modal-geography-lookup" class="btn btn-default btn-flat">
-                                                <i class="fa fa-search"></i>
-                                            </button>
-                                        }
-                                    </span>
-                                </div>
-                            </div>
-                        </td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                }
-            }
-        </tbody>
-    </table>
-}
+    @Html.HiddenFor(x => Model.EventAction)
+    @Html.HiddenFor(x => Model.EventValue)
+    <div class="row">
+        <div class="col-md-3">
+            <div class="form-group">
+                <label>Geography</label>
+                <div class="input-group">
+                    @Html.TextBoxFor(x => x.Entity.GeographyDescription, new { @class = "form-control", @readonly = "readonly" })
+                    @Html.HiddenFor(x => x.Entity.GeographyID)
+                    <span class="input-group-append">
+                        <button type="button" data-toggle="modal" data-target="#modal-geography-lookup" class="btn btn-default btn-flat">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group form-horizontal">
+                <label>Geography Status</label>
+                @Html.DropDownListFor(x => x.Entity.GeographyStatusCode, Model.GeographyStatusCodes, "NULL", new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="col-md-7">
+            <div class="form-group">
+                <label>Note</label>
+                @Html.TextBoxFor(x=>x.Entity.Note, new { @class="form-control" })
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-8"></div>
+        <div class="col-md-4">
+            <button id="btnGenerateGeographyMaps" class="btn btn-default btn-flat btn-block float-right">Generate Maps For Selected Species</button>
+        </div>
+    </div>
+    }
+<script type="text/javascript">
+    $("#btnGenerateGeographyMaps").on('click', function (event) {
+        //DEBUG
+        alert("DEBUG GENERATE MAPS");
+        GenerateGeographyMaps();
+    });
 
+    function GenerateGeographyMaps() {
+        // TODO
+        // Get sel species IDs
+        // Get form fields
+        // Make Ajax call
+    }
+</script>
 
 
 

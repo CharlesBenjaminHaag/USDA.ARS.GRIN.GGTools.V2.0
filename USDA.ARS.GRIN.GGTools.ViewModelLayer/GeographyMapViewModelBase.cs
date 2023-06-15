@@ -17,6 +17,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
         private GeographyMap _Entity = new GeographyMap();
         private GeographyMapSearch _SearchEntity = new GeographyMapSearch();
         private Species _SpeciesEntity = new Species();
+        private List<GeographyMap> _BatchEditCollection = new List<GeographyMap>();
         private Collection<GeographyMap> _DataCollection = new Collection<GeographyMap>();
         private Collection<Cooperator> _DataCollectionCooperators = new Collection<Cooperator>();
         private Collection<CodeValue> _DataCollectionNotes = new Collection<CodeValue>();
@@ -39,11 +40,16 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
             //{
             //    DataCollectionContinents = new Collection<Region>(geographyManager.GetContinents());
             //}
+            List<CodeValue> geographyStatusCodes = new List<CodeValue>();
 
             using (GeographyMapManager mgr = new GeographyMapManager())
             {
                 Cooperators = new SelectList(mgr.GetCooperators("taxonomy_geography_map"), "ID", "FullName");
-                GeographyStatusCodes = new SelectList(mgr.GetCodeValues("TAXONOMY_GEOGRAPHY_STATUS"), "Value", "Title");
+
+                geographyStatusCodes = mgr.GetCodeValues("TAXONOMY_GEOGRAPHY_STATUS");
+                GeographyStatusCodes = new SelectList(geographyStatusCodes, "Value", "Title");
+                GeographyStatusCodesList = geographyStatusCodes;
+                
                 YesNoOptions = new SelectList(mgr.GetYesNoOptions(), "Key", "Value");
             }
         }
@@ -71,7 +77,11 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
             get { return _SpeciesEntity; }
             set { _SpeciesEntity = value; }
         }
-
+        public List<GeographyMap> BatchEditDataCollection
+        {
+            get { return _BatchEditCollection; }
+            set { _BatchEditCollection = value; }
+        }
         public Collection<GeographyMap> DataCollection
         {
             get { return _DataCollection; }
@@ -129,6 +139,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
         #region Select Lists
         public SelectList TableNames { get; set; }
         public SelectList GeographyStatusCodes { get; set; }
+        public IEnumerable<CodeValue> GeographyStatusCodesList { get; set; }
         public SelectList Continents { get; set; }
         public SelectList SubContinents { get; set; }
 

@@ -82,6 +82,21 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             }
         }
 
+        public PartialViewResult BatchEdit()
+        {
+            CommonNameViewModel viewModel = new CommonNameViewModel();
+            return PartialView("~/Views/Taxonomy/CommonName/_EditBatch.cshtml", viewModel);
+        }
+
+        [HttpPost]
+        public PartialViewResult BatchEdit(CommonNameViewModel viewModel)
+        {
+            // TODO
+            // Iterate through species ID list
+            // For each species, create cit with lit ID specified in search
+            // entity obj
+            return PartialView("~/Views/Taxonomy/CommonName/_EditBatch.cshtml", viewModel);
+        }
         [HttpPost]
         public ActionResult Edit(CommonNameViewModel viewModel)
         {

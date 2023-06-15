@@ -201,7 +201,7 @@ function InitDataTableWithAssembledName(tableName) {
             paging: true,
             responsive: true,
             select: {
-                style: 'single'
+                style: 'multi'
             },
             searching: true,
             columnDefs: [

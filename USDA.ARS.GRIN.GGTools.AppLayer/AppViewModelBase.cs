@@ -78,6 +78,7 @@ namespace USDA.ARS.GRIN.GGTools.AppLayer
         public int AuthenticatedUserCooperatorID { get; set; }
         public string ItemIDList { get; set; }
         public string EntityIDList { get; set; }
+         
         public string IsMultiSelectable 
         { 
             get { return _IsMultiSelectable; }

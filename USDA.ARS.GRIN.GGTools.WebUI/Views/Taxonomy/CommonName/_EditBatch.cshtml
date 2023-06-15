@@ -1,0 +1,72 @@
+﻿@model USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer.CommonNameViewModel
+
+@using (Ajax.BeginForm("BatchEdit", "CommonName", new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "tab-content-taxonomy-geography-map", InsertionMode = InsertionMode.Replace }))
+{
+    @Html.HiddenFor(x => Model.EventAction)
+    @Html.HiddenFor(x => Model.EventValue)
+    <div class="row">
+        <div class="col-md-3">
+            <div class="form-group">
+                <label>Name</label>
+                @Html.TextBoxFor(x => x.Entity.Name, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label>Simplified Name</label>
+                @Html.TextBoxFor(x => x.Entity.SimplifiedName, new { @class = "form-control", @readonly = "readonly", @style = "background-color:#ebebeb" })
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label>Transcription</label>
+                @Html.TextBoxFor(x => x.Entity.AlternateTranscription, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label>Language Description</label>
+                @Html.TextBoxFor(x => x.Entity.LanguageDescription, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label>Language</label>
+                @Html.DropDownListFor(x => x.Entity.LanguageID, Model.CommonNameLanguages, "NULL", new { @id = "ddlLanguage", @class = "form-control" })
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-8"></div>
+        <div class="col-md-4">
+            <button id="btnGenerateCommonNames" class="btn btn-default btn-block btn-flat float-right">Generate Uses For Selected Species</button>
+        </div>
+    </div>
+}
+<script type="text/javascript">
+    $("#btnGenerateCommonNames").on('click', function (event) {
+        var selectedSpeciesIdList = GetSelectedEntityIDs("data-table-species-lookup");
+        //DEBUG
+        alert("SEL SPECIES " + selectedSpeciesIdList);
+    });
+
+    function GenerateCommonNames() {
+        var selectedSpeciesIdList = GetSelectedEntityIDs("data-table-species-lookup");
+
+    }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -704,7 +704,6 @@
     <Content Include="Views\CodeValue\Explorer\Index.cshtml" />
     <Content Include="Views\CodeValue\Modals\_Edit.cshtml" />
     <Content Include="Views\CodeValue\Modals\_Detail.cshtml" />
-    <Content Include="Views\Taxonomy\CommonName\Edit - Copy.cshtml" />
     <Content Include="Views\Site\_EditAddress.cshtml" />
     <Content Include="Views\Taxonomy\Genus\Edit - Copy.cshtml" />
     <Content Include="Views\SysGroupUserMap\_Widget.cshtml" />
@@ -732,7 +731,6 @@
     <Content Include="Views\Taxonomy\Reports\Detail.cshtml" />
     <Content Include="Views\Shared\_Head.cshtml" />
     <Content Include="Views\Shared\_Scripts.cshtml" />
-    <Content Include="Views\Taxonomy\GeographyMap\Edit - Copy.cshtml" />
     <Content Include="Views\WebOrder\Explorer\Index2.cshtml" />
     <Content Include="Views\Taxonomy\EconomicUse\Modals\_EconomicUsageTypeLookup.cshtml" />
     <Content Include="Views\Taxonomy\EconomicUse\Modals\_EconomicUsageTypeSelectList.cshtml" />
@@ -768,6 +766,13 @@
     <Content Include="Views\WebOrderRequest\Index.cshtml" />
     <Content Include="Views\Shared\Sidebars\_MainSidebarNRR2.cshtml" />
     <Content Include="Views\Taxonomy\GeographyMap\_EditBatch.cshtml" />
+    <Content Include="Views\Taxonomy\EconomicUse\_BatchEdit.cshtml" />
+    <Content Include="Views\Taxonomy\Literature\_EditBatch.cshtml" />
+    <Content Include="Views\Taxonomy\Citation\_ListBatch.cshtml" />
+    <Content Include="Views\Taxonomy\Citation\_EditBatch.cshtml" />
+    <Content Include="Views\Taxonomy\CommonName\_EditBatch.cshtml" />
+    <Content Include="Views\Taxonomy\EconomicUse\_EditBatch.cshtml" />
+    <Content Include="Views\Taxonomy\GeographyMap\_EditBatchBACKUP.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

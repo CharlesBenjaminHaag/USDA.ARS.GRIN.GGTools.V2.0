@@ -145,6 +145,19 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             SQL += " AND        (@ModifiedDate                  IS NULL OR ModifiedDate             =       @ModifiedDate)";
             SQL += " AND        (@ModifiedByCooperatorID        IS NULL OR ModifiedByCooperatorID   =       @ModifiedByCooperatorID)";
 
+            if (!String.IsNullOrEmpty(searchEntity.SpeciesIDList))
+            {
+                if (SQL.Contains("WHERE"))
+                {
+                    SQL += " AND ";
+                }
+                else
+                {
+                    SQL += " WHERE ";
+                }
+                SQL += " SpeciesID IN (" + searchEntity.SpeciesIDList + ")";
+            }
+
             SQL += " ORDER BY CitationTitle ";
 
             var parameters = new List<IDbDataParameter> {

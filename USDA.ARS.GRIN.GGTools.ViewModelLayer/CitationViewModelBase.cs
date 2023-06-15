@@ -16,6 +16,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
     {
         public string _IsMultiSelect { get; set; }
         private int _ReferencedEntityID = 0;
+        private string _SpeciesIDList = String.Empty;
         private Citation _Entity = new Citation();
         private Citation _CloneEntity = new Citation();
         private CitationSearch _SearchEntity = new CitationSearch();
@@ -57,7 +58,17 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
             set
             { _IsMultiSelect = value; }
         }
-
+        public string SpeciesIDList
+        {
+            get
+            {
+                return _SpeciesIDList;
+            }
+            set 
+            {
+                _SpeciesIDList = value;
+            }
+        }
         public Citation Entity
         {
             get { return _Entity; }

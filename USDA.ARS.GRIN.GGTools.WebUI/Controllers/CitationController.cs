@@ -526,6 +526,56 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             return Json(new { citation = viewModel.Entity }, JsonRequestBehavior.AllowGet);
         }
 
+        public PartialViewResult AddBatch(string speciesIdList, string literatureIdList)
+        {
+            CitationViewModel viewModel = new CitationViewModel();
+            string[] speciesIdListArray = speciesIdList.Split(',');
+            string[] literatureIdListArray = literatureIdList.Split(',');
+            try
+            {
+                // TODO
+                // For each species in list: create a new citation linked to that 
+                // species, based on the selected literature ID.
+                foreach (var speciesId in speciesIdListArray)
+                {
+                    foreach (var literatureId in literatureIdListArray)
+                    {
+                        viewModel.Entity.ID = 0;
+                        viewModel.Entity.SpeciesID = Int32.Parse(speciesId);
+                        viewModel.Entity.LiteratureID = Int32.Parse(literatureId);
+                        viewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
+                        viewModel.Insert();
+                    }
+                }
+
+                viewModel.SearchEntity.SpeciesIDList = speciesIdList;
+                viewModel.Search();
+
+                return PartialView("~/Views/Taxonomy/Citation/_ListBatch.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
+        }
+
+        public PartialViewResult BatchEdit()
+        {
+            CitationViewModel viewModel = new CitationViewModel();
+            return PartialView("~/Views/Taxonomy/Citation/_EditBatch.cshtml", viewModel);
+        }
+
+        [HttpPost]
+        public PartialViewResult BatchEdit(CitationViewModel viewModel)
+        {
+            // TODO
+            // Iterate through species ID list
+            // For each species, create cit with lit ID specified in search
+            // entity obj
+            return PartialView("~/Views/Taxonomy/Literature/_EditBatch.cshtml", viewModel);
+        }
+
         /// <summary>
         /// Creates a copy of a specified citation, and renders a view allowing a side-by-side
         /// comparison and edit.
