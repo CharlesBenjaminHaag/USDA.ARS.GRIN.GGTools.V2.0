@@ -55,13 +55,10 @@
                                 <div class="card-header p-0 border-bottom-0">
                                     <ul class="nav nav-tabs" id="custom-tabs-four-tab" role="tablist">
                                         <li class="nav-item">
-                                            <a class="nav-link active" id="custom-tabs-four-home-tab" data-toggle="pill" href="#custom-tabs-four-home" role="tab" aria-controls="custom-tabs-four-home" aria-selected="true">Search Species</a>
+                                            <a class="nav-link active" id="custom-tabs-four-home-tab" data-toggle="pill" href="#custom-tabs-four-home" role="tab" aria-controls="custom-tabs-four-home" aria-selected="true"><i class="fas fa-search"></i> Search Species</a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link" id="custom-tabs-four-profile-tab" data-toggle="pill" href="#custom-tabs-four-profile" role="tab" aria-controls="custom-tabs-four-profile" aria-selected="false">Search Species</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" id="custom-tabs-four-messages-tab" data-toggle="pill" href="#custom-tabs-four-messages" role="tab" aria-controls="custom-tabs-four-messages" aria-selected="false">Load From Holder</a>
+                                            <a class="nav-link" id="custom-tabs-four-profile-tab" data-toggle="pill" href="#custom-tabs-four-profile" role="tab" aria-controls="custom-tabs-four-profile" aria-selected="false"><i class="fas fa-folder"></i> Load From Folder</a>
                                         </li>
                                     </ul>
                                 </div>
@@ -106,60 +103,47 @@
                                             </div>
                                         </div>
                                         <div class="tab-pane fade" id="custom-tabs-four-profile" role="tabpanel" aria-labelledby="custom-tabs-four-profile-tab">
-
-                                        </div>
-                                        <div class="tab-pane fade" id="custom-tabs-four-messages" role="tabpanel" aria-labelledby="custom-tabs-four-messages-tab">
-                                            Morbi turpis dolor, vulputate vitae felis non, tincidunt congue mauris. Phasellus volutpat augue id mi placerat mollis. Vivamus faucibus eu massa eget condimentum. Fusce nec hendrerit sem, ac tristique nulla. Integer vestibulum orci odio. Cras nec augue ipsum. Suspendisse ut velit condimentum, mattis urna a, malesuada nunc. Curabitur eleifend facilisis velit finibus tristique. Nam vulputate, eros non luctus efficitur, ipsum odio volutpat massa, sit amet sollicitudin est libero sed ipsum. Nulla lacinia, ex vitae gravida fermentum, lectus ipsum gravida arcu, id fermentum metus arcu vel metus. Curabitur eget sem eu risus tincidunt eleifend ac ornare magna.
-                                        </div>
-                                        <div class="tab-pane fade" id="custom-tabs-four-settings" role="tabpanel" aria-labelledby="custom-tabs-four-settings-tab">
-                                            Pellentesque vestibulum commodo nibh nec blandit. Maecenas neque magna, iaculis tempus turpis ac, ornare sodales tellus. Mauris eget blandit dolor. Quisque tincidunt venenatis vulputate. Morbi euismod molestie tristique. Vestibulum consectetur dolor a vestibulum pharetra. Donec interdum placerat urna nec pharetra. Etiam eget dapibus orci, eget aliquet urna. Nunc at consequat diam. Nunc et felis ut nisl commodo dignissim. In hac habitasse platea dictumst. Praesent imperdiet accumsan ex sit amet facilisis.
+                                            <h3>TODO FOLDERS</h3>
                                         </div>
                                     </div>
                                 </div>
-                                <div id="progress_overlay" class="overlay">
+                                <div id="section_overlay_species" class="overlay">
                                     <i class="fas fa-2x fa-sync-alt fa-spin"></i>
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-8">
-                            <div class="card card-primary card-tabs">
-                                <div class="card-header p-0 pt-1">
-                                    <ul class="nav nav-tabs" id="custom-tabs-one-tab" role="tablist">
-                                        <li class="nav-item">
-                                            <a class="nav-link active" id="tab-batch-edit-citation" data-toggle="pill" href="#tab-content-citation" role="tab" aria-controls="custom-tabs-one-home" aria-selected="true">Citation</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" id="tab-batch-edit-taxonomy-geography-map" data-toggle="pill" href="#tab-content-taxonomy-geography-map" role="tab" aria-controls="custom-tabs-one-profile" aria-selected="false">Distribution</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" id="tab-batch-edit-taxonomy-use" data-toggle="pill" href="#tab-content-taxonomy-use" role="tab" aria-controls="custom-tabs-one-messages" aria-selected="false">Economic Use</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" id="tab-batch-edit-taxonomy-commmon-name" data-toggle="pill" href="#tab-content-taxonomy-commmon-name" role="tab" aria-controls="custom-tabs-one-settings" aria-selected="false">Common Name</a>
-                                        </li>
-                                    </ul>
+                            <div class="card card-primary collapsed-card">
+                                <div class="card-header">
+                                    <h3 class="card-title"><i class="fas fa-book"></i> Citations</h3>
+                                    <div class="card-tools">
+                                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                            <i class="fas fa-plus"></i>
+                                        </button>
+                                    </div>
                                 </div>
                                 <div class="card-body">
-                                    <div class="tab-content" id="custom-tabs-one-tabContent">
-                                        <div class="tab-pane fade show active" id="tab-content-citation" role="tabpanel" aria-labelledby="custom-tabs-one-home-tab">
-                                            @{Html.RenderAction("BatchEdit", "Citation");}
-                                            <div class="row">
-                                                <div id="section-citation-batch-edit" class="col-md-12">
+                                    @{Html.RenderAction("BatchEdit", "Citation");}
+                                    <div class="row">
+                                        <div id="section-citation-batch-edit" class="col-md-12">
 
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="tab-pane fade" id="tab-content-taxonomy-geography-map" role="tabpanel" aria-labelledby="custom-tabs-one-profile-tab">
-                                            @{Html.RenderAction("BatchEdit", "GeographyMap");}
-                                        </div>
-                                        <div class="tab-pane fade" id="tab-content-taxonomy-use" role="tabpanel" aria-labelledby="custom-tabs-one-messages-tab">
-                                            @{Html.RenderAction("BatchEdit", "EconomicUse");}
-                                        </div>
-                                        <div class="tab-pane fade" id="tab-content-taxonomy-commmon-name" role="tabpanel" aria-labelledby="custom-tabs-one-settings-tab">
-                                            @{Html.RenderAction("BatchEdit", "CommonName");}
                                         </div>
                                     </div>
                                 </div>
+                                <div class="card-footer">
+                                    <span class="input-group-append">
+                                        <button id="btnGenerateCitations" type="button" class="btn btn-default btn-flat btn-block">Generate Citations From Selected Literature <i class="fas fa-fast-forward"></i></button>
+                                    </span>
+                                </div>
+                            </div>
+                            <div id="tab-content-taxonomy-geography-map">
+                                @{Html.RenderAction("BatchEdit", "GeographyMap");}
+                            </div>
+                            <div id="tab-content-taxonomy-economic-use">
+                                @{Html.RenderAction("BatchEdit", "EconomicUse");}
+                            </div>
+                            <div id="tab-content-taxonomy-common-name">
+                                @{Html.RenderAction("BatchEdit", "CommonName");}
                             </div>
                         </div>
                     </div>
@@ -171,7 +155,7 @@
         @Html.Partial("~/Views/Shared/_Footer.cshtml")
     </div>
     @{Html.RenderAction("RenderLookupModal", "Literature"); }
-
+    @{Html.RenderAction("RenderLookupModal", "EconomicUsageType"); }
     <!-- BEGIN ERROR MODAL-->
     <div class="modal fade" id="modal-validation-error" style="display: none;" aria-hidden="true">
         <div class="modal-dialog">
@@ -200,7 +184,8 @@
 </html>
 <script type="text/javascript">
     $(document).ready(function () {
-        $("#progress_overlay").hide();
+        $("#section-overlay-citation").hide();
+        $("#section_overlay_species").hide();
     });
 
     $("#btnGenerateCitations").click(function () {
@@ -226,6 +211,23 @@
         GenerateCitations(selectedSpeciesIdList, selectedLiteratureIdList);
     });
 
+    $("#btnGenerateGeographyMaps").on('click', function (event) {
+        event.preventDefault();
+        var selectedSpeciesIdList = GetSelectedEntityIDs("data-table-species-lookup");
+
+        if (selectedSpeciesIdList.length == 0) {
+
+            $("#error-msg").html("Please select at least one species.");
+            $("#modal-validation-error").modal("show");
+        }
+        else {
+            $("#frmTaxonomyGeographyMapBatchEdit").submit();
+        }
+
+
+        $("#SpeciesIDList").val(selectedSpeciesIdList);
+    });
+
     function GenerateCitations(selectedSpeciesIdList, selectedLiteratureIdList)
     {
         var link = '@Url.Action("AddBatch","Citation")';
@@ -234,7 +236,7 @@
         formData.append("speciesIdList", selectedSpeciesIdList);
         formData.append("literatureIdList", selectedLiteratureIdList);
 
-        $("#search-progress-overlay").show();
+        $("#section-overlay-citation").show();
 
         $.ajax({
             url: link,
@@ -246,11 +248,11 @@
             success: function (response) {
                 $("#section-citation-batch-edit").html(response);
                 InitDataTable("data-table-citation-lookup");
-                $("#search-progress-overlay").hide();
+                $("#section-overlay-citation").hide();
             },
             error: function (ex) {
                 alert("Error");
-                $("#search-progress-overlay").hide();
+                $("#section-overlay-citation").hide();
             }
         });
     }
@@ -286,7 +288,7 @@
             formData.append("SearchEntity.IsAcceptedName", "Y");
         }
 
-        $("#progress_overlay").show();
+        $("#section_overlay_species").show();
 
         $.ajax({
             url: link,
@@ -298,11 +300,11 @@
             success: function (response) {
                 $("#section-species-lookup-search-results").html(response);
                 InitSpeciesBatchEditDataTable("data-table-species-lookup");
-                $("#progress_overlay").hide();
+                $("#section_overlay_species").hide();
             },
             error: function (ex) {
                 alert("Error");
-                $("#progress_overlay").hide();
+                $("#section_overlay_species").hide();
             }
         });
     }
@@ -398,7 +400,15 @@
                     },
                 ]
             });
-            table.row(':eq(0)', { page: 'current' }).select();
+            /*table.row(':eq(0)', { page: 'current' }).select(); */
+
+            //table.on('select', function (e, dt, type, indexes) {
+            //    if (type === 'row') {
+            //        var data = table.rows(indexes).data().pluck(1);
+
+            //        alert('DEBUG You clicked on ' + data[1] + "'s row");
+            //    }
+            //});
         });
     }
 

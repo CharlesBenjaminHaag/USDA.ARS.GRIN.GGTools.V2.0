@@ -11,6 +11,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
 {
     public class CommonNameViewModelBase: AppViewModelBase
     {
+        private string _SpeciesIDList;
         private string _DetailPartialViewName;
         private string _EditPartialViewName;
         private string _ListPartialViewName;
@@ -33,6 +34,11 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
             {
                 CommonNameLanguages = new SelectList(commonNameLanguageMgr.Search(new CommonNameLanguageSearch()),"ID","LanguageName");
             }
+        }
+        public string SpeciesIDList
+        {
+            get { return _SpeciesIDList; }
+            set { _SpeciesIDList = value; }
         }
         public string EditPartialViewName
         {

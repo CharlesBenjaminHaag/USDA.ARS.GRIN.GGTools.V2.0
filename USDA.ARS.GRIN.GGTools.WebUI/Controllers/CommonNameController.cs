@@ -48,7 +48,6 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 return RedirectToAction("InternalServerError", "Error");
             }
         }
-
         public ActionResult Delete(int entityId)
         {
             throw new NotImplementedException();
@@ -91,11 +90,24 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
         [HttpPost]
         public PartialViewResult BatchEdit(CommonNameViewModel viewModel)
         {
-            // TODO
-            // Iterate through species ID list
-            // For each species, create cit with lit ID specified in search
-            // entity obj
-            return PartialView("~/Views/Taxonomy/CommonName/_EditBatch.cshtml", viewModel);
+            try 
+            { 
+                foreach (var speciesId in viewModel.SpeciesIDList.Split(','))
+                {
+                    viewModel.Entity.ID = 0;
+                    viewModel.Entity.SpeciesID = Int32.Parse(speciesId);
+                    viewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
+                    viewModel.Insert();
+                }
+                return PartialView("~/Views/Taxonomy/CommonName/_EditBatch.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                viewModel.ValidationMessages.Add(new Common.Library.ValidationMessage { Message = ex.Message });
+
+                return PartialView("~/Views/Taxonomy/CommonName/_EditBatch.cshtml", viewModel);
+            }
         }
         [HttpPost]
         public ActionResult Edit(CommonNameViewModel viewModel)

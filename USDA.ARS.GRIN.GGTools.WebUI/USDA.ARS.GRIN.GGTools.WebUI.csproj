@@ -773,6 +773,12 @@
     <Content Include="Views\Taxonomy\CommonName\_EditBatch.cshtml" />
     <Content Include="Views\Taxonomy\EconomicUse\_EditBatch.cshtml" />
     <Content Include="Views\Taxonomy\GeographyMap\_EditBatchBACKUP.cshtml" />
+    <Content Include="Views\WebOrderRequest\_Detail.cshtml" />
+    <Content Include="Views\WebOrderRequest\_Timeline.cshtml" />
+    <Content Include="Views\WebOrderRequest\_NoteWidget.cshtml" />
+    <Content Include="Views\WebOrderRequest\_List.cshtml" />
+    <Content Include="Views\Taxonomy\CommonName\_ListBatch.cshtml" />
+    <Content Include="Views\Taxonomy\Species\Map\_SelectList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

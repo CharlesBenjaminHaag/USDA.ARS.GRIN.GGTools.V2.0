@@ -7,7 +7,7 @@ using USDA.ARS.GRIN.GGTools.ViewModelLayer;
 namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
 {
     [GrinGlobalAuthentication]
-    public class WebOrderRequestController : BaseController, IController<WebOrderRequestViewModel>
+    public class WebOrderRequestController : BaseController
     {
         private static readonly Logger Log = LogManager.GetCurrentClassLogger();
        
@@ -152,12 +152,23 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 return Json(new { success = false }, JsonRequestBehavior.AllowGet);
             }
         }
-        public ActionResult Edit(int entityId)
+        public PartialViewResult _Edit(int entityId)
         {
-            throw new NotImplementedException();
+            try
+            {
+                WebOrderRequestViewModel viewModel = new WebOrderRequestViewModel();
+                viewModel.Get(entityId);
+                return PartialView("~/Views/WebOrderRequest/_Detail.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
         }
+
         [HttpPost]
-        public ActionResult Edit(WebOrderRequestViewModel viewModel)
+        public PartialViewResult _Edit(WebOrderRequestViewModel viewModel)
         {
             throw new NotImplementedException();
             //try
@@ -197,7 +208,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             try
             {
                 WebOrderRequestViewModel viewModel = new WebOrderRequestViewModel();
-                viewModel.PageTitle = "Dashboard";
+                viewModel.PageTitle = "NRR Tool Web Order Explorer";
                 return View("~/Views/WebOrderRequest/Index.cshtml", viewModel);
             }
             catch (Exception ex)

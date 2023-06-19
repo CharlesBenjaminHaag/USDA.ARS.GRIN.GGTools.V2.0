@@ -11,6 +11,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
 {
     public class EconomicUseViewModelBase : AppViewModelBase
     {
+        private string _SpeciesIDList;
         private EconomicUse _Entity = new EconomicUse();
         private EconomicUseSearch _SearchEntity = new EconomicUseSearch();
         private EconomicUsageTypeSearch _EconomicUsageTypeSearchEntity = new EconomicUsageTypeSearch();
@@ -30,7 +31,11 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
                 EconomicUsageTypes = new SelectList(mgr.GetEconomicUsageTypes(), "UsageType", "AssembledName");
             }
         }
-
+        public string SpeciesIDList
+        {
+            get { return _SpeciesIDList; }
+            set { _SpeciesIDList = value; }
+        }
         public EconomicUseViewModelBase(int speciesId)
         {
             TableName = "taxonomy_use";

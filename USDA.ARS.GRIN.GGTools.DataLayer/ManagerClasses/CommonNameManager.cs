@@ -21,7 +21,15 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
 
         public CommonName Get(int entityId)
         {
-            throw new NotImplementedException();
+            SQL = "usp_GRINGlobal_Taxonomy_Common_Name_Select";
+            CommonName commonName = new CommonName();
+
+            var parameters = new List<IDbDataParameter> {
+                CreateParameter("taxonomy_common_name_id", (object)entityId, false)
+            };
+
+            commonName = GetRecord<CommonName>(SQL, CommandType.StoredProcedure, parameters.ToArray());
+            return commonName;
         }
         public List<CommonName> GetFolderItems(CommonNameSearch searchEntity)
         {

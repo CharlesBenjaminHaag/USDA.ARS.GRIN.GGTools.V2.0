@@ -85,6 +85,8 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
                 {
                     SetSimplifiedName();
                     RowsAffected = mgr.Insert(Entity);
+                    Entity = mgr.Get(Entity.ID);
+                    DataCollection.Add(Entity);
                 }
                 catch (Exception ex)
                 {

@@ -117,6 +117,9 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             GeographyMapViewModel viewModel = new GeographyMapViewModel();
             viewModel.EventAction = "GeographyMap";
             viewModel.EventValue = "BatchEdit";
+            viewModel.Entity.GeographyID = 926;
+            viewModel.Entity.GeographyDescription = "United States";
+            viewModel.Entity.GeographyStatusCode = "n";
             return PartialView("~/Views/Taxonomy/GeographyMap/_EditBatch.cshtml", viewModel);
         }
 
