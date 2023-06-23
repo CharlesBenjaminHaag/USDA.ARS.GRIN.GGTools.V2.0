@@ -54,6 +54,59 @@
                     </div>
                 </div>
             </div>
+            <table id="data_table_taxonomy_use" class="table table-striped ggtools-table">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th width="5%">ID</th>
+                        <th>Species Name</th>
+                        <th>Economic Use</th>
+                        <th>Plant Part</th>
+                        <th>Citation</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var result in Model.DataCollection)
+                    {
+                        <tr>
+                            <td>
+                                @result.ID
+                            </td>
+                            <td>@result.ID</td>
+                            <td>
+                                <a href="@Url.Action("Edit","Species", new { @entityId = result.SpeciesID })">
+                                    @Html.Raw(result.SpeciesName)
+                                </a>
+                            </td>
+                            <td>
+                                <a href="@Url.Action("Edit","EconomicUsageType", new { @entityId = result.EconomicUsageTypeID })">
+                                    @result.AssembledName
+                                </a>
+                            </td>
+                            <td>@result.PlantPartDescription</td>
+                            <td>
+                                <a href="@Url.Action("Edit","Citation", new { @entityId = result.CitationID })">
+                                    @Html.Raw(result.CitationText)
+                                </a>
+                            </td>
+                            <td>
+                                <a href="@Url.Action("Edit", "EconomicUse", new { entityId = result.ID })" class="btn btn-default btn-sm float-right row-edit">
+                                    <i class="fa fa-edit"></i>
+                                </a>
+                                @if (Model.EventAction == "FOLDER")
+                                {
+                                    <a href="@Url.Action("DeleteItem", "Folder", new { @folderId = result.FolderID, @appUserItemListId = result.AppUserItemListID })"
+                                       class="btn btn-danger btn-sm float-right row-edit margin-r-5">
+                                        <i class="fa fa-trash"></i>
+                                    </a>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
         </div>
         <div class="card-footer">
             <button id="btnGenerateEconomicUses" class="btn btn-default btn-block btn-flat float-right">Generate For Selected Species <i class="fas fa-fast-forward"></i></button>
@@ -61,6 +114,10 @@
     </div>
 }
 <script type="text/javascript">
+    $(document).ready(function () {
+        InitDataTable("data_table_taxonomy_use");
+    });
+
     $("#btnGenerateEconomicUses").on('click', function (event) {
         var selectedSpeciesIdList = GetSelectedEntityIDs("data-table-species-lookup");
         $("#SpeciesIDList").val(selectedSpeciesIdList);

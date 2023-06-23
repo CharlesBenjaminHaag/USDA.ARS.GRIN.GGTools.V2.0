@@ -1,69 +1,8 @@
 ﻿@model USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer.CommonNameViewModel
-<table id="data_table_taxonomy_common_name" class="table table-striped ggtools-table" style="width:100%;">
-    <thead>
-        <tr>
-            <th></th>
-            <th width="5%">ID</th>
-            <th>Name</th>
-            <th>Genus</th>
-            <th>Species</th>
-            <th>Language</th>
-            <th>Citation</th>
-            <th></th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @if (Model.DataCollection != null)
-        {
-            if (Model.DataCollection.Count() > 0)
-            {
-                foreach (var result in Model.DataCollection)
-                {
-                    <tr>
-                        <td>
-                            @result.ID
-                        </td>
-                        <td>
-                            <span class="label label-default">
-                                @result.ID
-                            </span>
-                        </td>
-                        <td>@result.Name</td>
-                        <td>
-                            <a href="@Url.Action("Edit","Genus", new { entityId = result.GenusID })">@Html.Raw(result.GenusName)</a>
-                        </td>
-                        <td>
-                            <a href="@Url.Action("Edit","Species", new { entityId = result.SpeciesID })">@Html.Raw(result.SpeciesName)</a>
-                        </td>
-                        <td>@result.LanguageDescription</td>
-                        <td>@result.CitationID</td>
-                        <td style="text-align:right;">
-                        </td>
-                        <td style="text-align:right;">
-                            <a href="@Url.Action("Edit", "CommonName", new { entityId = result.ID })" class="btn btn-default btn-sm pull-right row-edit">
-                                <i class="fa fa-edit"></i>
-                            </a>
-                            @if (Model.EventAction == "FOLDER")
-                            {
-                                <a href="@Url.Action("DeleteItem", "Folder", new { @folderId = result.FolderID, @appUserItemListId = result.AppUserItemListID })"
-                                   class="btn btn-danger btn-sm float-right row-edit margin-r-5">
-                                    <i class="fa fa-trash"></i>
-                                </a>
-                            }
-                        </td>
-                    </tr>
-                }
-            }
-        }
-    </tbody>
-</table>
 
 
 <script type="text/javascript">
-    $(document).ready(function () {
-        InitDataTable("data_table_taxonomy_common_name");
-    });
+    
 </script>
 
 

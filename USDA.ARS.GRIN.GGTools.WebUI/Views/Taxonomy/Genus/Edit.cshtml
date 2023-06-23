@@ -39,6 +39,8 @@
                                 <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow">
                                     <li><a href="@Url.Action("Add", "Citation", new { @eventAction = "Genus", @eventValue = "AddDependentData", @genusId = Model.Entity.ID })" class="dropdown-item">Citation </a></li>
                                     <li><a href="@Url.Action("Add", "Species", new { @eventAction = "Genus", @eventValue = "AddDependentData", @genusId = Model.Entity.ID })" class="dropdown-item">Species</a></li>
+                                    <li><a href="@Url.Action("Add", "CommonName", new { @genusId = Model.Entity.ID })" class="dropdown-item">Common Name</a></li>
+                                    <li><a href="@Url.Action("Add", "RegulationMap", new { @genusId = Model.Entity.ID })" class="dropdown-item">Regulation</a></li>
                                 </ul>
                             </li>
 

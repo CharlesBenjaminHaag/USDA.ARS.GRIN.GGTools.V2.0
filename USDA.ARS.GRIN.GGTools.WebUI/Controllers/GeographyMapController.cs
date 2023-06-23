@@ -128,35 +128,46 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
         {
             try
             {
-                // TODO
-                // Handles the following:
-                // ADDROW  Add blank/initialized obj to collection
-                // DELETEROW    Delete the entity by GUID (?)
-                // SAVE         Iterate through collection and UPSERT as needed.
-                //              DUPES?
-
-                switch (viewModel.EventAction)
+                foreach (var speciesId in viewModel.SpeciesIDList.Split(','))
                 {
-                    case "ADDROW":
-                        viewModel.Entity.EntityGUID = System.Guid.NewGuid().ToString();
-                        viewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
-                        viewModel.Entity.GeographyStatusCode = "n";
-                        viewModel.BatchEditDataCollection.Add(viewModel.Entity);
-                        break;
-                    case "COPY":
-                        GeographyMap copyItem = viewModel.BatchEditDataCollection.Find(x => x.EntityGUID == viewModel.EventValue);
-                        GeographyMap newItem = new GeographyMap();
-                        newItem.EntityGUID = System.Guid.NewGuid().ToString();
-                        newItem.GeographyStatusCode = copyItem.GeographyStatusCode;
-                        newItem.Note = copyItem.Note;
-                        newItem.CreatedByCooperatorID = copyItem.CreatedByCooperatorID;
-                        viewModel.BatchEditDataCollection.Add(newItem);
-                        break;
-                    case "DELETE":
-                        var targetItem = viewModel.BatchEditDataCollection.Find(x => x.EntityGUID == viewModel.EventValue);
-                        viewModel.BatchEditDataCollection.Remove(targetItem);
-                        break;
+                    viewModel.Entity.ID = 0;
+                    viewModel.Entity.SpeciesID = Int32.Parse(speciesId);
+                    viewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
+
+                    // Get species citation.
+                    CitationViewModel citationViewModel = new CitationViewModel();
+                    citationViewModel.SearchEntity.SpeciesID = Int32.Parse(speciesId);
+                    citationViewModel.Search();
+
+                    if (citationViewModel.DataCollection.Count > 0)
+                    {
+                        viewModel.CitationID = citationViewModel.DataCollection[0].ID;
+                    }
+                    viewModel.Insert();
                 }
+
+                //switch (viewModel.EventAction)
+                //{
+                //    case "ADDROW":
+                //        viewModel.Entity.EntityGUID = System.Guid.NewGuid().ToString();
+                //        viewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
+                //        viewModel.Entity.GeographyStatusCode = "n";
+                //        viewModel.BatchEditDataCollection.Add(viewModel.Entity);
+                //        break;
+                //    case "COPY":
+                //        GeographyMap copyItem = viewModel.BatchEditDataCollection.Find(x => x.EntityGUID == viewModel.EventValue);
+                //        GeographyMap newItem = new GeographyMap();
+                //        newItem.EntityGUID = System.Guid.NewGuid().ToString();
+                //        newItem.GeographyStatusCode = copyItem.GeographyStatusCode;
+                //        newItem.Note = copyItem.Note;
+                //        newItem.CreatedByCooperatorID = copyItem.CreatedByCooperatorID;
+                //        viewModel.BatchEditDataCollection.Add(newItem);
+                //        break;
+                //    case "DELETE":
+                //        var targetItem = viewModel.BatchEditDataCollection.Find(x => x.EntityGUID == viewModel.EventValue);
+                //        viewModel.BatchEditDataCollection.Remove(targetItem);
+                //        break;
+                //}
                 return PartialView(BASE_PATH + "_EditBatch.cshtml", viewModel);
             }
             catch (Exception ex)

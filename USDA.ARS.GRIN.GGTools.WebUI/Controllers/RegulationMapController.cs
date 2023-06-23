@@ -88,7 +88,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             }
         }
 
-        public ActionResult Add(int regulationId = 0, int speciesId = 0)
+        public ActionResult Add(int regulationId = 0, int speciesId = 0, int genusId = 0)
         {
             try
             {
@@ -106,6 +106,14 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                     speciesViewModel.Search();
                     viewModel.Entity.SpeciesID = speciesViewModel.Entity.ID;
                     viewModel.Entity.SpeciesName = speciesViewModel.Entity.Name;
+                }
+                else
+                {
+                    GenusViewModel genusViewModel = new GenusViewModel();
+                    genusViewModel.SearchEntity = new GenusSearch { ID = genusId };
+                    genusViewModel.Search();
+                    viewModel.Entity.GenusID = genusViewModel.Entity.ID;
+                    viewModel.Entity.GenusName = genusViewModel.Entity.Name;
                 }
 
                 return View( BASE_PATH + "Edit.cshtml", viewModel);

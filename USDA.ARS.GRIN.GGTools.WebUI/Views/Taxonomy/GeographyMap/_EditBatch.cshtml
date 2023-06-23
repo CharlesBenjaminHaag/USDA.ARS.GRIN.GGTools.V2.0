@@ -14,7 +14,8 @@
         </div>
         <div class="card-body">
             @Html.HiddenFor(x => Model.EventAction)
-            @Html.HiddenFor(x => Model.EventValue)
+            @Html.HiddenFor(x => Model.EventValue)@Html.HiddenFor(x => Model.SpeciesIDList)
+            @Html.Partial("~/Views/Shared/_ValidationMessages.cshtml")
             <div class="row">
                 <div class="col-md-3">
                     <div class="form-group">
@@ -51,7 +52,6 @@
                         <th>Species Name</th>
                         <th>Status</th>
                         <th>Country</th>
-                        <th>Admin 1</th>
                         <th>Note</th>
                         <th>Citation</th>
                         <th></th>
@@ -78,7 +78,6 @@
                                     @result.GeographyStatusDescription
                                 </td>
                                 <td>@result.CountryName</td>
-                                <td>@result.Admin1</td>
                                 <td>@Html.Raw(result.Note)</td>
                                 <td>@Html.Raw(result.CitationText)</td>
                                 <td style="text-align:right;">
@@ -107,7 +106,11 @@
     </div>
 
 }
-
+<script type="text/javascript">
+    $(document).ready(function () {
+        InitDataTable("data_table_taxonomy_geography_map");
+    });
+</script>
 
 
 

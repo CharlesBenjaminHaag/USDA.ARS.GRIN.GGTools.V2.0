@@ -151,8 +151,12 @@ namespace USDA.ARS.GRIN.GGTools.AppLayer
 
         public string ToTitleCase(string value)
         {
-            System.Globalization.TextInfo textInfo = new System.Globalization.CultureInfo("en-US", false).TextInfo;
-            return textInfo.ToTitleCase(value.ToLower());
+            if (!String.IsNullOrEmpty(value))
+            {
+                System.Globalization.TextInfo textInfo = new System.Globalization.CultureInfo("en-US", false).TextInfo;
+                value = textInfo.ToTitleCase(value.ToLower());
+            }
+            return value;
         }
 
         #endregion

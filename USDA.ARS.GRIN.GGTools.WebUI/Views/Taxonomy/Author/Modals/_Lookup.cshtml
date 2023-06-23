@@ -2,6 +2,9 @@
 <div class="modal fade" id="modal-author-lookup" style="display: none;" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
+            <div id="search-progress-overlay-author-lookup" class="overlay">
+                <i class="fas fa-2x fa-sync fa-spin"></i>
+            </div>
             <div class="modal-header">
                 <h4 class="modal-title">
                     <i class="fas fa-search"></i>
@@ -115,6 +118,8 @@
         formData.append("SearchEntity.IsShortNameExactMatchOption", $("#SearchEntity_IsShortNameExactMatchOption").val());
         formData.append("SearchEntity.FullName", $("#SearchEntity_FullName").val());
 
+        $("#search-progress-overlay-author-lookup").show();
+
         $.ajax({
             url: link,
             type: 'POST',
@@ -124,6 +129,7 @@
             data: formData,
             success: function (response) {
                 $("#section-author-lookup-search-results").html(response);
+                $("#search-progress-overlay-author-lookup").hide();
             }
         });
     }

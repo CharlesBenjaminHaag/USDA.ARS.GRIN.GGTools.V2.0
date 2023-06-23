@@ -26,23 +26,16 @@ function AddRecord() {
  * Datatable utilities
  */
 function InitDataTable(tableName) {
+    tableName = "#" + tableName;
     $(document).ready(function () {
-        tableName = "#" + tableName;
-
-        var table = $(tableName).DataTable({
+        table = $(tableName).DataTable({
             dom: 'Blfrtip',
             paging: true,
-            scrollX: true,
-            //"pageLength": 10,
+            "pageLength": 10,
             //initComplete: function () {
             //    SetControlVisibility(tableName);
             //},
-            responsive: {
-                details: {
-                    display: $.fn.dataTable.Responsive.display.childRowImmediate,
-                    type: ''
-                }
-            },
+            responsive: true,
             buttons: [
                 'selectAll',
                 'selectNone',
@@ -63,47 +56,10 @@ function InitDataTable(tableName) {
             ]
         });
 
-        function AddRecord() {
-            var eventAction = $("#EventAction").val();
-            // DEBUG
-            alert("EVENT ACTION " + eventAction);
-        }
-
-        //var table = $(tableName).DataTable(); // Valid initialized DataTable
-        //if (table instanceof $.fn.dataTable.Api) {
-        //    //DEBUG
-        //    alert(tableName + " IS DTABLE");
-        //} else {
-            
-        //}
-
-
-        //if (!$.fn.DataTable.isDataTable(tableName)) {
-        //    var table = $(tableName).DataTable({
-        //        dom: 'Blfrtip',
-        //        paging: true,
-        //        "pageLength": 10,
-        //        initComplete: function () {
-        //            SetControlVisibility(tableName);
-        //        },
-        //        responsive: true,
-        //        buttons: [
-        //            'selectAll',
-        //            'selectNone',
-        //            'csv',
-        //            'excel',
-        //            'pdf'
-        //        ],
-        //        select: true,
-        //        lengthMenu: [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],
-        //        columnDefs: [
-        //            { targets: [0], visible: false }
-        //        ]
-        //    });
-        //}
-        //else {
-            
-        //}
+        $('table.ggtools').on('click', 'tr', function () {
+            var data = table.row(this).data();
+            /*alert('You clicked on ' + data[0] + "'s row");*/
+        });
     });
 }
 

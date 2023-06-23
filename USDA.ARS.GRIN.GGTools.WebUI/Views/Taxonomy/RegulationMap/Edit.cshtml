@@ -104,58 +104,55 @@
                             <div class="card-body">
                                 @Html.Partial("~/Views/Shared/_ValidationMessages.cshtml")
                                 <div class="row">
-                                    <div class="col-md-3">
+                                    <div id="section-taxon-select" class="col-md-3">
                                         <div class="form-group">
-                                            @if (Model.Entity.FamilyID > 0)
-                                            {
-                                                <label>Family</label>
-                                                <div class="input-group">
-                                                    @Html.TextBoxFor(x => x.Entity.FamilyName, new { @class = "form-control" })
-                                                    @Html.HiddenFor(x => x.Entity.FamilyID)
+                                            <label>Taxon Type</label>
+                                            <select id="ddlTaxonType" class="form-control">
+                                                <option value="taxonomy-genus">Genus</option>
+                                                <option value="taxonomy-species">Species</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div id="section-fields-taxonomy-genus" class="form-group">
+                                            <label>Genus</label>
+                                            <div class="input-group">
+                                                @Html.TextBoxFor(x => x.Entity.GenusName, new { @class = "form-control", @readonly = "readonly", @style = "background-color:#ecf0f5;" })
+                                                @Html.HiddenFor(x => x.Entity.GenusID)
+                                                @if (Model.Entity.GenusID > 0)
+                                                {
                                                     <span class="input-group-btn">
-                                                        <button type="button" data-toggle="modal" data-target="#modal-family-lookup" class="btn btn-default btn-flat">
-                                                            <i class="fa fa-search"></i>
-                                                        </button>
+                                                        <a href="@Url.Action("Edit", "Genus", new { @entityId = Model.Entity.GenusID })" class="btn btn-default btn-flat">
+                                                            <i class="fa fa-link"></i>
+                                                        </a>
                                                     </span>
-                                                </div>
-                                            }
-                                            else
-                                            {
-                                                if (Model.Entity.GenusID > 0)
-                                                {
-                                                    <label>Genus</label>
-                                                    <div class="input-group">
-                                                        @Html.TextBoxFor(x => x.Entity.GenusName, new { @class = "form-control" })
-                                                        @Html.HiddenFor(x => x.Entity.GenusID)
-                                                        <span class="input-group-btn">
-                                                            <button type="button" data-toggle="modal" data-target="#modal-genus-lookup" class="btn btn-default btn-flat">
-                                                                <i class="fa fa-search"></i>
-                                                            </button>
-                                                        </span>
-                                                    </div>
                                                 }
-                                                else
+                                                <span class="input-group-btn">
+                                                    <button id="btnOpenGenusLookupModal" type="button" data-ggtools-action="GenusID" data-ggtools-value="GenusName" data-toggle="modal" data-target="#modal-genus-lookup" class="btn btn-default btn-flat">
+                                                        <i class="fa fa-search"></i>
+                                                    </button>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div id="section-fields-taxonomy-species" class="form-group">
+                                            <label>Species</label>
+                                            <div class="input-group">
+                                                @Html.TextBoxFor(x => x.Entity.SpeciesName, new { @class = "form-control", @readonly = "readonly", @style = "background-color:#ecf0f5;" })
+                                                @Html.HiddenFor(x => x.Entity.SpeciesID)
+                                                @if (Model.Entity.SpeciesID > 0)
                                                 {
-                                                    <label>Species</label>
-                                                    <div class="input-group">
-                                                        @Html.TextBoxFor(x => x.Entity.SpeciesName, new { @class = "form-control", @readonly = "readonly", @style = "background-color:#ecf0f5;" })
-                                                        @Html.HiddenFor(x => x.Entity.SpeciesID)
-                                                        @if (Model.Entity.SpeciesID > 0)
-                                                        {
-                                                            <span class="input-group-btn">
-                                                                <a href="@Url.Action("Edit", "Species", new { @entityId = Model.Entity.SpeciesID })" class="btn btn-default btn-flat">
-                                                                    <i class="fa fa-link"></i>
-                                                                </a>
-                                                            </span>
-                                                        }
-                                                        <span class="input-group-btn">
-                                                            <button id="btnOpenSpeciesLookupModal" type="button" data-ggtools-action="SpeciesID" data-ggtools-value="SpeciesName" data-toggle="modal" data-target="#modal-species-lookup" class="btn btn-default btn-flat">
-                                                                <i class="fa fa-search"></i>
-                                                            </button>
-                                                        </span>
-                                                    </div>
+                                                    <span class="input-group-btn">
+                                                        <a href="@Url.Action("Edit", "Species", new { @entityId = Model.Entity.SpeciesID })" class="btn btn-default btn-flat">
+                                                            <i class="fa fa-link"></i>
+                                                        </a>
+                                                    </span>
                                                 }
-                                            }
+                                                <span class="input-group-btn">
+                                                    <button id="btnOpenSpeciesLookupModal" type="button" data-ggtools-action="SpeciesID" data-ggtools-value="SpeciesName" data-toggle="modal" data-target="#modal-species-lookup" class="btn btn-default btn-flat">
+                                                        <i class="fa fa-search"></i>
+                                                    </button>
+                                                </span>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="col-md-3">
@@ -219,3 +216,41 @@
 </body>
 </html>
 @Html.Partial("~/Views/Shared/_Scripts.cshtml")
+<script type="text/javascript">
+    $(document).ready(function () {
+        Init();
+    });
+
+    function Init() {
+        $('[id*="section-fields"]').hide();
+        // If adding a new record, show Family by default; otherwise, show section that corresponds to the
+        // citation taxon.
+        var entityId = $("#Entity_ID").val();
+        var genusId = $("#Entity_GenusID").val();
+        var speciesId = $("#Entity_SpeciesID").val();
+
+        if (genusId > 0) {
+            $("#ddlTaxonType option[value=taxonomy-genus]").attr('selected', 'selected');
+            $("#section-fields-taxonomy-genus").show();
+        }
+        else {
+            if (speciesId > 0) {
+                $("#ddlTaxonType option[value=taxonomy-species]").attr('selected', 'selected');
+                $("#section-fields-taxonomy-species").show();
+            }
+            else {
+                $("#ddlTaxonType option[value=taxonomy-genus]").attr('selected', 'selected');
+                $("#section-fields-taxonomy-genus").show();
+            }
+        }
+    }
+
+    $('#ddlTaxonType').on('change', function () {
+        ToggleTaxonFields(this.value);
+    });
+
+    function ToggleTaxonFields(taxonType) {
+        $('[id*="section-fields"]').hide();
+        $("#section-fields-" + taxonType).show();
+    }
+</script>

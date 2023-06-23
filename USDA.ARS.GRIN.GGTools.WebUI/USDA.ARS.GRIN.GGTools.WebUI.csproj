@@ -745,7 +745,6 @@
     <Content Include="Views\Taxonomy\EconomicUsageType\_Widget.cshtml" />
     <Content Include="Views\Taxonomy\Citation\Modals\_SpeciesCitationLookup.cshtml" />
     <Content Include="Views\Taxonomy\Citation\Modals\_SpeciesCitationSelectList.cshtml" />
-    <Content Include="Views\Taxonomy\RegulationMap\Edit - Copy.cshtml" />
     <Content Include="Views\Cooperator\Add.cshtml" />
     <Content Include="Views\Taxonomy\Shared\_Breadcrumbs.cshtml" />
     <Content Include="Views\Cooperator\_ContactListWidget.cshtml" />
@@ -779,6 +778,8 @@
     <Content Include="Views\WebOrderRequest\_List.cshtml" />
     <Content Include="Views\Taxonomy\CommonName\_ListBatch.cshtml" />
     <Content Include="Views\Taxonomy\Species\Map\_SelectList.cshtml" />
+    <Content Include="Views\Taxonomy\Species\Explorer\Index.cshtml" />
+    <Content Include="Views\Taxonomy\Species\Modals\_EditSynonymOptions.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

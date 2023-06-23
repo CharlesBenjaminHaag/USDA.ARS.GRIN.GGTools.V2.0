@@ -2,6 +2,9 @@
 <div class="modal fade" id="modal-genus-lookup" style="display: none;" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
+            <div id="search-progress-overlay-genus-lookup" class="overlay">
+                <i class="fas fa-2x fa-sync fa-spin"></i>
+            </div>
             <div class="modal-header">
                 <h4 class="modal-title">
                     <i class="fas fa-search"></i>
@@ -100,6 +103,8 @@
             formData.append("SearchEntity.IsAcceptedName", "Y");
         }
 
+        $("#search-progress-overlay-genus-lookup").show();
+
         $.ajax({
             url: link,
             type: 'POST',
@@ -109,9 +114,11 @@
             data: formData,
             success: function (response) {
                 $("#section-genus-lookup-search-results").html(response);
+                $("#search-progress-overlay-genus-lookup").hide();
             },
             error: function () {
                 alert("Error");
+                $("#search-progress-overlay-genus-lookup").hide();
             }
         });
     }

@@ -62,7 +62,15 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
 
         public GeographyMap Get(int entityId)
         {
-            throw new NotImplementedException();
+            SQL = "usp_GRINGlobal_Taxonomy_Geography_Map_Select";
+            GeographyMap geographyMap = new GeographyMap();
+
+            var parameters = new List<IDbDataParameter> {
+                CreateParameter("taxonomy_geography_map_id", (object)entityId, false)
+            };
+
+            geographyMap = GetRecord<GeographyMap>(SQL, CommandType.StoredProcedure, parameters.ToArray());
+            return geographyMap;
         }
         public List<GeographyMap> GetFolderItems(GeographyMapSearch searchEntity)
         {

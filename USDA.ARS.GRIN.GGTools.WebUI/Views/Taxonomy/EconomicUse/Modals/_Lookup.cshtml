@@ -23,17 +23,6 @@
                         </div>
                     </div>
                 </div>
-                @*@if (Model.Citations.Count() > 0)
-                {
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label>Select Citation</label>
-                                @Html.DropDownListFor(x => x.Entity.CitationID, Model.Citations, new { @class = "form-control" })
-                            </div>
-                        </div>
-                    </div>
-                }*@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger pull-left" data-dismiss="modal">Close</button>

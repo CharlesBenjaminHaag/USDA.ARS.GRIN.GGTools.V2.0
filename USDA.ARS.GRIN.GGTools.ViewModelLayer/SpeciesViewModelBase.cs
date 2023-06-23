@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Web;
 using System.Web.Mvc;
+using System.Linq;
+using System.Collections;
 using System.Collections.ObjectModel;
 using USDA.ARS.GRIN.GGTools.AppLayer;
 using USDA.ARS.GRIN.GGTools.DataLayer;
@@ -12,10 +14,11 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
 {
     public class SpeciesViewModelBase: AppViewModelBase
     {
-        private bool _IsBasionymNeededOption;
-        private bool _IsAutonymNeededOption;
-        private string _IsBasionymNeeded = String.Empty;
-        private string _IsAutonymNeeded = String.Empty;
+        //private bool _IsBasionymNeededOption;
+        //private bool _IsAutonymNeededOption;
+        //private string _IsBasionymNeeded = String.Empty;
+        //private string _IsAutonymNeeded = String.Empty;
+
         private string _PageTitle = String.Empty;
         private string _IsMultiSelect;
         private int _SpeciesID;
@@ -33,44 +36,24 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
         public SpeciesViewModelBase()
         {
             TableName = "taxonomy_species";
+            
             using (SpeciesManager mgr = new SpeciesManager())
             {
                 Cooperators = new SelectList(mgr.GetCooperators(TableName), "ID", "FullName");
-                //TableNames = new SelectList(mgr.GetTableNames(), "Key", "Value");
                 YesNoOptions = new SelectList(mgr.GetYesNoOptions(), "Key", "Value");
                 TimeFrameOptions = new SelectList(mgr.GetCodeValues("TAXONOMY_SEARCH_TIME_FRAME"), "Value", "Title");
                 SynonymCodes = new SelectList(mgr.GetCodeValues("TAXONOMY_SPECIES_QUALIFIER"), "Value", "Title");
-                //Ranks = new SelectList(mgr.GetRanks(),"Value","Title");
                 FormaRankTypes = new SelectList(mgr.GetCodeValues("TAXONOMY_FORMA_RANK_TYPE"), "Value", "Title");
             }
         }
-        public bool IsAutonymNeededOption 
-        {
-            get { return _IsAutonymNeededOption; } 
-            set { _IsAutonymNeededOption = value; } 
-        }
-        public bool IsBasionymNeededOption 
-        {
-            get
-            {
-                return _IsBasionymNeededOption;
-            }
-            set
-            {
-                _IsBasionymNeededOption = value;
-            }
-        }
 
-        public string IsAutonymNeeded
-        {
-            get { return _IsAutonymNeeded; }
-            set { _IsAutonymNeeded = value; }
-        }
-        public string IsBasionymNeeded
-        {
-            get { return _IsBasionymNeeded; }
-            set { _IsBasionymNeeded = value; }
-        }
+        #region Synonym-creation options
+
+        public bool IsCopyGenusRequired { get; set; }
+        public bool IsCopySpeciesRequired { get; set; }
+        public bool IsCopyProtologueRequired { get; set; }
+        public bool IsCopyNoteRequired { get; set; }
+        #endregion
 
         public int SpeciesID
         {
@@ -122,7 +105,6 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
             get { return _Entity; }
             set { _Entity = value; }
         }
-
         public Species ParentEntity
         {
             get { return _ParentEntity; }
@@ -158,7 +140,18 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
         public SelectList Folders { get; set; }
         public SelectList FilterOptions { get; set; }
         public SelectList Tags { get; set; }
-        public SelectList Ranks { get; set; }
+        public SelectList Ranks 
+        {
+            get
+            {
+                System.Collections.Generic.List<CodeValue> codeValues = new System.Collections.Generic.List<CodeValue>();
+                codeValues.Add(new CodeValue { Value = "SPECIES", Title = "Species" });
+                codeValues.Add(new CodeValue { Value = "SUBSPECIES", Title = "Subspecies" });
+                codeValues.Add(new CodeValue { Value = "VARIETY", Title = "Variety" });
+                codeValues.Add(new CodeValue { Value = "SUBVARIETY", Title = "Subvariety" });
+                return new SelectList(codeValues, "Value", "Title");
+            }
+        }
         public SelectList FormaRankTypes { get; set; }
                 
         #endregion
@@ -182,5 +175,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
             }
             return _PageTitle;
         }
+
+        
     }
 }

@@ -50,6 +50,7 @@
     <Compile Include="EntityClasses\AccessionInventoryAttachment.cs" />
     <Compile Include="EntityClasses\AccessionInventoryAttachmentSearch.cs" />
     <Compile Include="EntityClasses\Address.cs" />
+    <Compile Include="EntityClasses\AppSetting.cs" />
     <Compile Include="EntityClasses\AppUserDynamicQuerySearch.cs" />
     <Compile Include="EntityClasses\AppUserDynamicQuery.cs" />
     <Compile Include="EntityClasses\AppUserItemListSearch.cs" />

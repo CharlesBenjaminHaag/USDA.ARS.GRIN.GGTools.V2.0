@@ -225,6 +225,91 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             return PartialView(partialViewName, viewModel);
         }
 
+        /// <summary>
+        /// Called when adding a synonym. Assumes a UI element that allows the user to 
+        /// specify:
+        /// 1) Synonym type
+        /// 2) Rank (species or infraspecific)
+        /// 3) A set of Boolean variables indicating which fields to copy from
+        /// the "parent" species of which the synonym is being created.
+        /// </summary>
+        /// <param name="viewModel">An instance of the Species view model.</param>
+        /// <returns>Sends the user to the Species Edit page, configured according to
+        /// the synonym type and rank specified.</returns>
+        [HttpPost]
+        
+        public ActionResult Add(SpeciesViewModel viewModel)
+        {
+            viewModel.TableName = "taxonomy_species";
+            viewModel.EventAction = "ADD";
+            
+            viewModel.Entity.IsAcceptedName = "Y";
+            viewModel.Entity.IsAccepted = true;
+            viewModel.Entity.IsWebVisibleOption = true;
+
+            // Obtain reference to parent species.
+            if (viewModel.Entity.ParentID > 0)
+            {
+                SpeciesViewModel parentViewModel = new SpeciesViewModel();
+                parentViewModel.SearchEntity.ID = viewModel.Entity.ParentID;
+                parentViewModel.Search();
+
+                // Add link to "parent" taxon.
+                viewModel.ParentEntity = parentViewModel.Entity;
+                viewModel.Entity.ParentID = parentViewModel.Entity.ID;
+                viewModel.Entity.ParentName = parentViewModel.Entity.AssembledName;
+                viewModel.Entity.Name = parentViewModel.Entity.Name;
+
+                if (viewModel.IsCopyGenusRequired == true)
+                {
+                    viewModel.Entity.GenusID = parentViewModel.Entity.GenusID;
+                    viewModel.Entity.GenusName = parentViewModel.Entity.GenusName;
+                }
+
+                if (viewModel.IsCopySpeciesRequired == true)
+                {
+                    viewModel.Entity.SpeciesName = parentViewModel.Entity.SpeciesName;
+                }
+                
+                viewModel.Entity.AssembledName = parentViewModel.Entity.AssembledName;
+                viewModel.Entity.SubspeciesName = parentViewModel.Entity.SubspeciesName;
+                viewModel.Entity.VarietyName = parentViewModel.Entity.VarietyName;
+                viewModel.Entity.SubvarietyName = parentViewModel.Entity.SubvarietyName;
+                viewModel.Entity.Protologue = parentViewModel.Entity.Protologue;
+
+                if (!String.IsNullOrEmpty(viewModel.Entity.SynonymCode))
+                {
+                    // TODO: Refactor; obtain actual syn code based on human-readable
+                    //       string passed in querystring.
+                    switch (viewModel.Entity.SynonymCode.ToLower())
+                    {
+                        case "homotypic":
+                            viewModel.Entity.SynonymCode = "=";
+                            viewModel.Entity.SynonymDescription = "Homotypic Synonym";
+                            break;
+                        case "autonym":
+                            viewModel.Entity.SynonymCode = "A";
+                            viewModel.Entity.SynonymDescription = "Autonym";
+                            break;
+                        case "basionym":
+                            viewModel.Entity.SynonymCode = "B";
+                            viewModel.Entity.SynonymDescription = "Basionym";
+                            break;
+                        case "heterotypic":
+                            viewModel.Entity.SynonymCode = "S";
+                            viewModel.Entity.SynonymDescription = "Heterotypic Synonym";
+                            break;
+                        case "invalid":
+                            viewModel.Entity.SynonymDescription = "Invalid Synonym";
+                            viewModel.Entity.SynonymCode = "I";
+                            break;
+                    }
+                }
+            }
+
+            return View(BASE_PATH + "Edit.cshtml", viewModel);
+        }
+
         public ActionResult Add(int genusId = 0, int entityId = 0, string rank = "species", string synonymTypeCode = "")
         {
             try
@@ -236,8 +321,8 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 viewModel.Entity.IsAcceptedName = "Y";
                 viewModel.Entity.IsAccepted = true;
                 viewModel.Entity.IsWebVisibleOption = true;
-                viewModel.IsAutonymNeededOption = true;
-                viewModel.IsBasionymNeededOption = true;
+                //viewModel.IsAutonymNeededOption = true;
+                //viewModel.IsBasionymNeededOption = true;
                 viewModel.Entity.Rank = String.IsNullOrEmpty(rank) ? "species" : rank;
                 viewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
                 viewModel.Entity.CreatedByCooperatorName = AuthenticatedUser.FullName;

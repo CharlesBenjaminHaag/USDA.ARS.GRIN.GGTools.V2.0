@@ -22,24 +22,14 @@
                     <ul class="navbar-nav">
                         @if (Model.Entity.ID > 0)
                         {
-                            <!-- INFRASPECIFIC-->
-                            <!--<li class="nav-item dropdown">
-                                <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Add Infraspecific Taxon</a>
-                                <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow">
-                                    <li><a href="@Url.Action("Add", "Species", new { @rank = "subspecies", @entityId = Model.Entity.ID })" class="dropdown-item">Subspecies </a></li>
-                                    <li><a href="@Url.Action("Add", "Species", new { @rank = "variety", @entityId = Model.Entity.ID })" class="dropdown-item">Variety</a></li>
-                                    <li><a href="@Url.Action("Add", "Species", new { @rank = "subvariety", @entityId = Model.Entity.ID })" class="dropdown-item">Subvariety</a></li>
-                                    <li><a href="@Url.Action("Add", "Species", new { @rank = "form", @entityId = Model.Entity.ID })" class="dropdown-item">Form</a></li>
-                                </ul>
-                            </li>-->
                             <!-- SYN -->
                             <li class="nav-item dropdown">
                                 <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Add Synonym</a>
                                 <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow">
-                                    <li><a href="@Url.Action("Add", "Species", new { @entityId = Model.Entity.ID, @synonymTypeCode = "basionym", @rank = "species" })" class="dropdown-item">Basionym </a></li>
-                                    <li><a href="@Url.Action("Add", "Species", new { @entityId = Model.Entity.ID, @synonymTypeCode = "heterotypic", @rank = "species" })" class="dropdown-item">Heterotypic</a></li>
-                                    <li><a href="@Url.Action("Add", "Species", new { @entityId = Model.Entity.ID, @synonymTypeCode = "homotypic", @rank = "species" })" class="dropdown-item">Homotypic</a></li>
-                                    <li><a href="@Url.Action("Add", "Species", new { @entityId = Model.Entity.ID, @synonymTypeCode = "invalid", @rank = "species" })" class="dropdown-item">Invalid</a></li>
+                                    <li> <button id="btnAddSynBasionym" data-ggtools-synonym-code="B" class="dropdown-item synonym-link">Basionym</button> </li>
+                                    <li> <button id="btnAddSynHeterotypic" data-ggtools-synonym-code="S" class="dropdown-item synonym-link">Heterotypic</button> </li>
+                                    <li> <button id="btnAddSynHomotypic" data-ggtools-synonym-code="=" class="dropdown-item synonym-link">Homotypic</button> </li>
+                                    <li> <button id="btnAddSynInvalid" data-ggtools-synonym-code="I" class="dropdown-item synonym-link">Invalid</button> </li>
                                     <div class="dropdown-divider"></div>
                                     <li><a href="@Url.Action("Add", "SpeciesSynonymMap", new { @entityId = Model.Entity.ID, @synonymType = "invalid" })" class="dropdown-item">Map</a></li>
                                 </ul>
@@ -63,7 +53,7 @@
                                     <li><a href="@Url.Action("Add", "EconomicUse", new { @speciesId = Model.Entity.ID })" class="dropdown-item">Economic Use</a></li>
                                     <li><a href="@Url.Action("Add", "RegulationMap", new { @speciesId = Model.Entity.ID })" class="dropdown-item">Regulation</a></li>
                                     <div class="dropdown-divider"></div>
-                                    <li><a href="@Url.Action("Map", "Species", new { @entityId = Model.Entity.ID })" class="dropdown-item">Map</a></li>
+                                    <li><a href="@Url.Action("Map", "Species", new { @entityId = Model.Entity.ID })" class="dropdown-item">Batch Edit</a></li>
                                 </ul>
                             </li>
                             <!-- FOLDERS -->
@@ -105,21 +95,21 @@
                                     {
                                         <span>@Model.ToTitleCase(Model.Entity.SynonymDescription)</span>
 
-                                        if ((Model.Entity.SynonymCode == "heterotypic") || (Model.Entity.SynonymCode == "homotypic") || (Model.Entity.SynonymCode == "invalid"))
+                                        if ((Model.Entity.SynonymCode.ToLower() == "heterotypic") || (Model.Entity.SynonymCode.ToLower() == "homotypic") || (Model.Entity.SynonymCode.ToLower() == "invalid"))
                                         {
                                             <span>Synonym </span>
                                         }
                                         <span>of <a href="@Url.Action("Edit","Species", new { @entityId = Model.Entity.ParentID })">@Html.Raw(Model.Entity.ParentName)</a></span>
                                     }
 
-                                    if (Model.Entity.Rank.ToLower() != "species")
+                                    <!--if (Model.Entity.Rank.ToLower() != "species")
                                     {
                                         <span>@Model.ToTitleCase(Model.Entity.Rank) of <a href="@Url.Action("Edit", "Species", new { @entityId = Model.Entity.ParentID })">@Html.Raw(Model.Entity.ParentName)</a></span>
                                     }
                                     else
-                                    {
+                                    {-->
                                         @*<span>Species</span>*@
-                                    }
+                                    <!--}-->
                                 }
                                 else
                                 {
@@ -158,6 +148,7 @@
                         @Html.HiddenFor(x => x.Entity.VerifiedByCooperatorID)
                         @Html.HiddenFor(x => x.Entity.VerifiedByCooperatorName)
                         @Html.HiddenFor(x => x.Entity.NameVerifiedDate)
+                        @Html.HiddenFor(x=>x.Entity.SynonymCode)
                         <input type="hidden" id="hfModalEventValue" />
                         <div id="section-verification">
                             @Html.Partial("~/Views/Taxonomy/Species/_RevisionHistory.cshtml")
@@ -648,16 +639,17 @@
     </div>
 </body>
 </html>
+@Html.Partial("~/Views/Taxonomy/Species/Modals/_EditSynonymOptions.cshtml")
 <script type="text/javascript">
     $(document).ready(function () {
         Init();
     });
 
     function Init() {
-        SetControlVisibility();
+        // Ensure that the overlays in each modal are hidden by default
+        $(".overlay").hide();
 
-        //// Set the tab of the current selector to "active".
-        //SetRankSelectorTab();
+        SetControlVisibility();
 
         // Load default-visible tab of dependent data.
         var defaultId = $('ul#list-dependent-data li:first').attr("id");
@@ -665,6 +657,53 @@
         var value = $('ul#list-dependent-data li:first').data("ggtools-value");
         LoadDependentData(defaultId, action, value);
     }
+    
+    $(".synonym-link").on('click', function (event) {
+        //event.stopPropagation();
+        //event.stopImmediatePropagation();
+        var parentSpeciesId = $("#Entity_ID").val();
+        var synonymName = $(this).attr("id").replace("btnAddSyn", "");
+        var synonymTypeCode = $(this).data("ggtools-synonym-code");
+        
+        $("#frmEditSynonymOptions #Entity_SynonymCode").val(synonymTypeCode);
+        $("#frmEditSynonymOptions #Entity_SynonymName").val(synonymName);
+        $("#frmEditSynonymOptions #Entity_ParentID").val(parentSpeciesId);
+
+        //DEBUG
+        alert("DEBUG SYN TYPE " + synonymName.toLowerCase() + " CODE " + synonymTypeCode);
+
+        // Refactor onto server.
+        switch (synonymName.toLowerCase()) {
+            case "basionym":
+                $("#Entity_IsCopySpeciesRequired").val(true);
+                $("#cbxIsCopySpeciesRequired").attr("checked", true);
+                break;
+            case "heterotypic":
+                break;
+            case "homotypic":
+                $("#Entity_IsCopySpeciesRequired").val(true);
+                $("#cbxIsCopySpeciesRequired").attr("checked", true);
+                break;
+        }
+
+        $("#modal-edit-syononym-options").modal("show");
+    });
+
+    $("#btnGenerateSynonym").on('click', function (event) {
+        @*var url = '@Url.Action("Add", "Species", new { @entityId = Model.Entity.ID, @synonymTypeCode = "_SYNONYM_TYPE_", @rank = "_RANK_" })';
+        var synonymType = $("#txtSynonymType").val();
+        var rank = $("#Entity_Rank").val();
+        url = url.replace("_SYNONYM_TYPE_", synonymType).replace("_RANK_", rank);
+        url = url + "&copyGenus=";
+        //alert("DEBUG URL " + url);
+        url = decodeURIComponent(url);
+
+        window.location.href = url;*@
+        
+
+        
+        $("#frmEditSynonymOptions").submit();
+    });
 
     $(document).on("click", "[id*='btnSetVerified']", function () {
         var link = '@Url.Action("SetVerificationStatus","Species")';
