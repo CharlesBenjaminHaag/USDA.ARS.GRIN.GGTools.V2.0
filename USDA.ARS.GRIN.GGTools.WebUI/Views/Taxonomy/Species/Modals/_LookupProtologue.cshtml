@@ -91,7 +91,13 @@
 
     $("#btnSaveProtologue").click(function () {
         $('#modal-protologue-lookup').modal('hide');
+        var convertedProtologue = "";
         var selectedProtologue = GetSelectedEntityText("data-table-protologue-lookup");
-        $("#Entity_Protologue").val(selectedProtologue);
+        convertedProtologue = htmlUnescape(selectedProtologue.toString());
+        $("#Entity_Protologue").val(convertedProtologue);
     });
+
+    function htmlUnescape(str) {
+        return str.replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&');
+    }
 </script>

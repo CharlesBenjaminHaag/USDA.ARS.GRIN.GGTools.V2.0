@@ -11,6 +11,19 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
 {
     public class GeographyViewModel : GeographyViewModelBase, IViewModel<GeographyViewModel>
     {
+        public void InitializeCachedData()
+        {
+            ObjectCache cache = MemoryCache.Default;
+            List<Region> continents = new List<Region>();
+          
+            using (GeographyManager mgr = new GeographyManager())
+            {
+                continents = mgr.GetContinents();
+            }
+
+            CacheItemPolicy policy = new CacheItemPolicy();
+            cache.Set("DATA-LIST-GEOGRAPHY-CONTINENTS", continents, policy);
+        }
         public void GetFolderItems()
         {
             using (GeographyManager mgr = new GeographyManager())

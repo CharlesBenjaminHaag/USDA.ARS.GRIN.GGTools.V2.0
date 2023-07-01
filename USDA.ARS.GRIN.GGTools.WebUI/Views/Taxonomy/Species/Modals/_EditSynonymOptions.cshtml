@@ -15,7 +15,13 @@
                 @using (Html.BeginForm("Add", "Species", FormMethod.Post, new { id = "frmEditSynonymOptions" }))
                 {
                     @Html.HiddenFor(x => x.Entity.ParentID)
-                    @Html.HiddenFor(x=>x.Entity.SynonymCode)
+                    @Html.HiddenFor(x => x.Entity.IsAccepted)
+                    @Html.HiddenFor(x => x.Entity.IsAcceptedName)
+                    @Html.HiddenFor(x => x.Entity.SynonymCode)
+                    <h2 style="background-color:yellow;">
+                        @Model.Entity.IsAcceptedName @Model.Entity.IsAccepted
+                    </h2>
+                    
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">

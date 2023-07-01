@@ -1,24 +1,29 @@
-﻿@model USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer.SpeciesViewModel
-<table id="data-table-protologue-lookup" class="table table-striped ggtools" style="width:100%">
+﻿@model USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer.GeographyViewModel
+<table id="data-table-geography-lookup" class="table table-striped ggtools" style="width:100%">
     <thead>
         <tr>
             <th></th>
-            <th>Protologue</th>
+            <th>Extended Name</th>
+            <th>Country</th>
+            <th>Admin 1</th>
+            <th>Valid</th>
+            <th>Note</th>
         </tr>
     </thead>
     <tbody>
-        @if (Model.DataCollectionProtologues.Count() > 0)
+        @if (Model.DataCollection.Count() > 0)
         {
-            foreach (var result in Model.DataCollectionProtologues)
+            foreach (var result in Model.DataCollection)
             {
                 <tr>
                     <td>
                         @result.ID
                     </td>
-                    <td>
-                        @*@WebUtility.HtmlDecode(result.Value)*@
-                        @Html.Raw(result.Value)
-                    </td>
+                    <td>@result.GeographyText</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
                 </tr>
             }
         }
@@ -36,6 +41,6 @@
 </table>
 <script type="text/javascript">
     $(document).ready(function () {
-        InitDataTableLookupFormat("data-table-protologue-lookup");
+        InitDataTableLight("data-table-geography-lookup");
     });
 </script>

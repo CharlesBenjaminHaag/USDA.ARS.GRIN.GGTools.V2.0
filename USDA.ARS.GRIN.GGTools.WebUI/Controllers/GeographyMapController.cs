@@ -271,6 +271,23 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
         }
 
         [HttpPost]
+        public JsonResult EditBatch(GeographyMapViewModel viewModel)
+        {
+            try
+            {
+                viewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
+                viewModel.InsertBatch();
+                return Json(viewModel.Entity, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                viewModel.LastExceptionMessage = ex.Message;
+                return Json(viewModel.Entity, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        [HttpPost]
         public ActionResult Edit(GeographyMapViewModel viewModel)
         {
             try
@@ -280,15 +297,23 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                     if (viewModel.ValidationMessages.Count > 0) return View(viewModel);
                 }
 
-                if (viewModel.Entity.ID == 0)
+                // If there is a list of geo IDs, perform an INSERT for each.
+                if (!String.IsNullOrEmpty(viewModel.GeographyIDList))
                 {
-                    viewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
-                    viewModel.Insert();
+                    viewModel.InsertBatch();
                 }
                 else
                 {
-                    viewModel.Entity.ModifiedByCooperatorID = AuthenticatedUser.CooperatorID;
-                    viewModel.Update();
+                    if (viewModel.Entity.ID == 0)
+                    {
+                        viewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
+                        viewModel.Insert();
+                    }
+                    else
+                    {
+                        viewModel.Entity.ModifiedByCooperatorID = AuthenticatedUser.CooperatorID;
+                        viewModel.Update();
+                    }
                 }
                 return RedirectToAction("Edit", "GeographyMap", new { entityId = viewModel.Entity.ID });
             }

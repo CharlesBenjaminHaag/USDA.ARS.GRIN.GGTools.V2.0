@@ -22,6 +22,15 @@ function AddRecord() {
     window.location.href = addNewRecordUrl;
 }
 
+//function BatchEdit() {
+//    var link = $("#hfBatchEditLink").val();
+
+//    //DEBUG
+//    alert("BATCH EDIT URL " + link);
+
+//    //window.location.href = link;
+//}
+
 /*
  * Datatable utilities
  */
@@ -32,22 +41,19 @@ function InitDataTable(tableName) {
             dom: 'Blfrtip',
             paging: true,
             "pageLength": 10,
-            //initComplete: function () {
-            //    SetControlVisibility(tableName);
-            //},
             responsive: true,
             buttons: [
                 'selectAll',
                 'selectNone',
                 'csv',
                 'excel',
-                'pdf'
-                //{
-                //    text: '+ Add',
-                //    action: function (e, dt, node, config) {
-                //        AddRecord();
-                //    }
-                //}
+                'pdf',
+                {
+                    text: 'Edit Batch',
+                    action: function (e, dt, node, config) {
+                        EditBatch();
+                    }
+                }
             ],
             select: true,
             lengthMenu: [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],
@@ -133,7 +139,7 @@ function InitDataTableLight(tableName) {
             paging: false,
             stateSave: true,
             "bLengthChange": false,
-            scrollY: '300px',
+            scrollY: '350px',
             scrollCollapse: true,
             paging: false,
             responsive: true,
@@ -191,13 +197,13 @@ function InitDataTableByClass() {
                 'selectNone',
                 'csv',
                 'excel',
-                'pdf'
-                //{
-                //    text: '+ Add',
-                //    action: function (e, dt, node, config) {
-                //        AddRecord();
-                //    }
-                //}
+                'pdf',
+                {
+                    text: 'Batch Edit',
+                    action: function (e, dt, node, config) {
+                        BatchEdit();
+                    }
+                }
             ],
             select: true,
             lengthMenu: [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],
@@ -237,20 +243,20 @@ function InitDataTableLightMultiSelect(tableName) {
     });
 }
 
-function SetControlVisibility(tableName) {
-    //TODO Logic to disable any controls "linked" to this table that depend on its data.
-    //alert("TABLE " + tableName + "LOADED");
-    var table = $('#' + tableName).DataTable();
-    var rowCount = table.data().count();
+//function SetControlVisibility(tableName) {
+//    //TODO Logic to disable any controls "linked" to this table that depend on its data.
+//    //alert("TABLE " + tableName + "LOADED");
+//    var table = $('#' + tableName).DataTable();
+//    var rowCount = table.data().count();
 
-    if (rowCount == 0) {
-        $("#btnOpenFolderModal").addClass("disabled");
-    }
-    else {
-        $("#btnOpenFolderModal").removeClass("disabled");
-    }
+//    if (rowCount == 0) {
+//        $("#btnOpenFolderModal").addClass("disabled");
+//    }
+//    else {
+//        $("#btnOpenFolderModal").removeClass("disabled");
+//    }
         
-}
+//}
 
 function GetSelectedEntityIDs(tableName) {
     var table = $('#' + tableName).DataTable();
@@ -514,6 +520,7 @@ $(document).on("click", "[id*='btnSetAccepted']", function () {
 
 function SetControlVisibility() {
     var recordIsAccepted = $("#Entity_IsAcceptedName").val();
+
     if (recordIsAccepted == "Y") {
         $("#btnSetAcceptedOn").hide();
         $("#btnSetAcceptedOff").show();

@@ -126,7 +126,7 @@
                                                 @Html.TextBoxFor(x => x.Entity.GeographyDescription, new { @class = "form-control", @readonly = "readonly" })
                                                 @Html.HiddenFor(x => x.Entity.GeographyID)
                                                 <span class="input-group-append">
-                                                    <button type="button" data-toggle="modal" data-target="#modal-geography-lookup" class="btn btn-default btn-flat">
+                                                    <button id="btnShowGeographyModal" type="button" data-toggle="modal" data-target="#modal-geography-lookup" class="btn btn-default btn-flat">
                                                         <i class="fa fa-search"></i>
                                                     </button>
                                                 </span>
@@ -193,4 +193,17 @@
     </div>
 </body>
 </html>
+
+<script>
+    // *******************************************************************
+    // IMPORTANT: Any DataTable that is not visible when rendered must
+    // be adjusted once it does become visible (modal shown, tab clicked),
+    // to enable column headings to render correctly. -- CBH, 6/26/23
+    // *******************************************************************
+    $("#modal-geography-lookup").on('shown.bs.modal', function () {
+        $($.fn.dataTable.tables(true)).DataTable()
+            .columns.adjust();
+    });
+</script>
+
 @Html.Partial("~/Views/Shared/_Scripts.cshtml")

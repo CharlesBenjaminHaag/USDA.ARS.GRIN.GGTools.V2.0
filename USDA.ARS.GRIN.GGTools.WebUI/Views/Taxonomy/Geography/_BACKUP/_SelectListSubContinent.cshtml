@@ -1,24 +1,25 @@
-﻿@model USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer.SpeciesViewModel
-<table id="data-table-protologue-lookup" class="table table-striped ggtools" style="width:100%">
+﻿@model USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer.GeographyViewModel
+<button id="btnFilterCountries" type="button" class="btn btn-default btn-sm btn-block">
+    <i class="fas fa-filter"></i> Filter Countries
+</button>
+<br />
+<table id="data-table-geography-subcontinents" class="table table-striped ggtools" style="width:100%">
     <thead>
         <tr>
             <th></th>
-            <th>Protologue</th>
+            <th>Name</th>
         </tr>
     </thead>
     <tbody>
-        @if (Model.DataCollectionProtologues.Count() > 0)
+        @if (Model.DataCollectionSubContinents.Count() > 0)
         {
-            foreach (var result in Model.DataCollectionProtologues)
+            foreach (var result in Model.DataCollectionSubContinents)
             {
                 <tr>
                     <td>
                         @result.ID
                     </td>
-                    <td>
-                        @*@WebUtility.HtmlDecode(result.Value)*@
-                        @Html.Raw(result.Value)
-                    </td>
+                    <td>@result.SubContinent</td>
                 </tr>
             }
         }
@@ -34,8 +35,10 @@
         }
     </tbody>
 </table>
+
+
 <script type="text/javascript">
     $(document).ready(function () {
-        InitDataTableLookupFormat("data-table-protologue-lookup");
+        InitDataTableGeo("data-table-geography-subcontinents");
     });
 </script>

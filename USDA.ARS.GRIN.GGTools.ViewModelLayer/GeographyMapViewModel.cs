@@ -140,6 +140,21 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
             }
         }
 
+        public void InsertBatch()
+        {
+            if (!String.IsNullOrEmpty(GeographyIDList))
+            {
+                string[] geographyIdList = GeographyIDList.Split(',');
+
+                foreach (var geographyId in geographyIdList)
+                {
+                    Entity.ID = 0;
+                    Entity.GeographyID = Int32.Parse(geographyId.ToString());
+                    Insert();
+                }
+            }
+        }
+
         public void Map()
         {
             var itemIdList = ItemIDList.Split(',');

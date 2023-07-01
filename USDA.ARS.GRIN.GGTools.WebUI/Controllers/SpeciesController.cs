@@ -281,27 +281,22 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 {
                     // TODO: Refactor; obtain actual syn code based on human-readable
                     //       string passed in querystring.
-                    switch (viewModel.Entity.SynonymCode.ToLower())
+                    switch (viewModel.Entity.SynonymCode)
                     {
-                        case "homotypic":
-                            viewModel.Entity.SynonymCode = "=";
+                        case "=":
                             viewModel.Entity.SynonymDescription = "Homotypic Synonym";
                             break;
-                        case "autonym":
-                            viewModel.Entity.SynonymCode = "A";
+                        case "A":
                             viewModel.Entity.SynonymDescription = "Autonym";
                             break;
-                        case "basionym":
-                            viewModel.Entity.SynonymCode = "B";
+                        case "B":
                             viewModel.Entity.SynonymDescription = "Basionym";
                             break;
-                        case "heterotypic":
-                            viewModel.Entity.SynonymCode = "S";
+                        case "S":
                             viewModel.Entity.SynonymDescription = "Heterotypic Synonym";
                             break;
-                        case "invalid":
+                        case "I":
                             viewModel.Entity.SynonymDescription = "Invalid Synonym";
-                            viewModel.Entity.SynonymCode = "I";
                             break;
                     }
                 }

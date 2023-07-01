@@ -1,42 +1,47 @@
-﻿@model USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer.CitationViewModel
-
-<div id="modal-species-citation-lookup" class="modal fade" style="display: none;" aria-hidden="true">
-    <div class="modal-dialog modal-xl">
+﻿@model USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer.CommonNameLanguageViewModel
+<div id="modal-taxonomy-common-name-language-edit-batch" class="modal fade" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title">Select Species Citation</h4>
+                <h4 class="modal-title">Batch Edit</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">×</span>
                 </button>
             </div>
             <div class="modal-body">
-                <!--DEBUG-->
-                @Html.TextBoxFor(x=>x.EntityIDList, new { @class= "form-control" })
-                <div class="card card-primary card-tabs">
-                    <div class="card-header p-0 pt-1">
-                        <ul class="nav nav-tabs" id="tabs-species-citation" role="tablist">
-                            <li class="nav-item">
-                                <a class="nav-link active" id="ect" data-toggle="pill" href="#tab-content-species-citation-select" role="tab" aria-controls="custom-tabs-one-home" aria-selected="true">Select Citation</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" id="tab-species-citation-add" data-toggle="pill" href="#tab-content-species-citation-add" role="tab" aria-controls="custom-tabs-one-profile" aria-selected="false">Add New Citation</a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="card-body">
-                        <div class="tab-content" id="custom-tabs-one-tabContent">
-                            <div class="tab-pane fade show active" id="tab-content-species-citation-select" role="tabpanel" aria-labelledby="custom-tabs-one-home-tab">
-                                @Html.Partial("~/Views/Taxonomy/Citation/Modals/_SpeciesCitationSelectList.cshtml")
-                            </div>
-                            <div class="tab-pane fade" id="tab-content-species-citation-add" role="tabpanel" aria-labelledby="custom-tabs-one-profile-tab">
-                                @{Html.RenderAction("_Edit", "Citation", new { @entityId = 0, @familyId = 0, @genusId = 0, @speciesId = Model.Entity.SpeciesID });}
-                            </div>
-                        </div>
-                    </div>
+                @using (Html.BeginForm("EditBatch", "CommonNameLanguage", FormMethod.Post, new { id = "frmCommonNameLanguageEditBatch" }))
+                {
+                    <table style="width:100%;">
+                        <tr>
+                            <td>
+                                <div class="icheck-primary">
+                                    @Html.CheckBoxFor(x => x.BatchEditIsSimplifiedNameOptionRequested, new { @id= "check_option_simplified_name" })
+                                    <label for="check_option_simplified_name">Set Simplified Name</label>
+                                </div>
+                            </td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="form-group">
+                                    <div class="icheck-primary">
+                                        @Html.CheckBoxFor(x => x.BatchEditIsSetCountryOptionRequested, new { @id = "check_option_country" })
+                                        <label for="check_option_country">Set Country</label>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="form-group">
+                                    @Html.DropDownListFor(x => x.BatchEditCountryCode, Model.Countries, new { @class = "form-control" })
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                }
                 </div>
-            </div>
             <div class="modal-footer justify-content-between">
                 <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                <button id="btnSaveCommonNameLanguageBatchEdit" class="btn btn-primary float-right" data-dismiss="modal">Continue</button>
             </div>
         </div>
     </div>
@@ -44,18 +49,20 @@
 @{Html.RenderAction("RenderLookupModal", "Literature"); }
 
 <script type="text/javascript">
-    $(document).on("click", "[id='btnSaveCitation']", function () {
-        SaveCitation();
+    $(document).on("click", "[id='btnSaveCommonNameLanguageBatchEdit']", function () {
+        SaveCommonNameLanguageBatchEdit();
     });
 
-    function SaveCitation() {
+    function SaveCommonNameLanguageBatchEdit() {
 
-        var link = $("#frmEditCitation").attr("action");
+        var link = $("#frmCommonNameLanguageEditBatch").attr("action");
+        var idList = GetSelectedEntityIDs("data_table_taxonomy_common_name_language");
         var formData = new FormData();
 
-        formData.append("Entity.SpeciesID", $("#frmEdit #Entity_SpeciesID").val());
-        formData.append("Entity.ID", $("#frmEditCitation #hfCitationLookup_CitationID").val());
-        formData.append("Entity.LiteratureID", $("#frmEditCitation #Entity_LiteratureID").val());
+        formData.append("EntityIDList", idList);
+        formData.append("BatchEditIsSimplifiedNameOptionRequested", $("#frmCommonNameLanguageEditBatch #BatchEditIsSimplifiedNameOptionRequested").val());
+        formData.append("BatchEditIsSetCountryOptionRequested", $("#frmCommonNameLanguageEditBatch #BatchEditIsSetCountryOptionRequested").val());
+        formData.append("BatchEditCountryCode", $("#frmCommonNameLanguageEditBatch #BatchEditCountryCode").val());
         // TODO Additional fields
 
               $.ajax({
@@ -135,13 +142,6 @@
 
         //DEBUG
         //alert("DEBUG TABLE IS " + tableName + " ID IS " + entityId + " CIT ID IS " + citationId);
-
-        //TODO
-        //Get event action and value
-        //If value indicates "Search," get a list of selected values based on action:
-        //EX.
-        //Action is CommonName   Get sel values from data_table_taxonomy_common_name
-        // ETC.
 
         formData.append("tableName", tableName);
         formData.append("entityId", entityId);

@@ -93,7 +93,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
                     //Entity.IsSubVarietalHybrid = FromBool(Entity.IsSubvarietalHybridOption);
                     //Entity.IsFormaHybrid = FromBool(Entity.IsFormaHybridOption);
                     //Entity.IsWebVisible = FromBool(Entity.IsWebVisibleOption);
-                   
+                    
                     SetSpeciesName();
                     SetSpeciesNameAuthority();
                     RowsAffected = mgr.Insert(Entity);
@@ -127,7 +127,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
                     //Entity.IsVarietalHybridOption = ToBool(Entity.IsVarietalHybrid);
                     //Entity.IsSubvarietalHybridOption = ToBool(Entity.IsSubVarietalHybrid);
                     //Entity.IsFormaHybridOption = ToBool(Entity.IsFormaHybrid);
-                    //Entity.IsAccepted = ToBool(Entity.IsAcceptedName);
+                    Entity.IsAccepted = ToBool(Entity.IsAcceptedName);
                     Entity.IsWebVisibleOption = ToBool(Entity.IsWebVisible);
                 }
                 catch (Exception ex)

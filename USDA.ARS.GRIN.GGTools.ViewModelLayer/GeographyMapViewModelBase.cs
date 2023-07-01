@@ -14,6 +14,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
 {
     public class GeographyMapViewModelBase: AppViewModelBase
     {
+        private string _GeographyIDList;
         private string _SpeciesIDList;
         private GeographyMap _Entity = new GeographyMap();
         private GeographyMapSearch _SearchEntity = new GeographyMapSearch();
@@ -53,6 +54,11 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
                 
                 YesNoOptions = new SelectList(mgr.GetYesNoOptions(), "Key", "Value");
             }
+        }
+        public string GeographyIDList
+        {
+            get { return _GeographyIDList; }
+            set { _GeographyIDList = value; }
         }
         public string SpeciesIDList
         {

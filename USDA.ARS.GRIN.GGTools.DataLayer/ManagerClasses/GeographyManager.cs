@@ -275,11 +275,11 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             List<Country> results = new List<Country>();
             string sqlOperator = " WHERE ";
 
-            SQL = " SELECT CountryCode, CountryDescription FROM vw_GRINGlobal_Geography_Country  ";
+            SQL = " SELECT DISTINCT CountryCode, CountryDescription FROM vw_GRINGlobal_Geography WHERE IsValid = 'Y' ";
 
             if (!String.IsNullOrEmpty(continentNameList))
             {
-                SQL +=  " WHERE Continent IN (" + continentNameList + ") ";
+                SQL +=  " AND Continent IN (" + continentNameList + ") ";
                 
             }
 

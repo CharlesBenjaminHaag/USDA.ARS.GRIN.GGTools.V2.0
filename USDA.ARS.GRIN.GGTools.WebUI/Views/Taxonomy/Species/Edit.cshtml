@@ -135,6 +135,7 @@
                         @Html.HiddenFor(x => x.Entity.ID)
                         @Html.HiddenFor(x => x.Entity.ParentID)
                         @Html.HiddenFor(x => x.Entity.Rank)
+                        @Html.HiddenFor(x => x.Entity.IsAccepted)
                         @Html.HiddenFor(x => x.Entity.IsAcceptedName)
                         @Html.HiddenFor(x => x.Entity.CreatedByCooperatorID)
                         @Html.HiddenFor(x => x.Entity.CreatedByCooperatorName)
@@ -148,7 +149,7 @@
                         @Html.HiddenFor(x => x.Entity.VerifiedByCooperatorID)
                         @Html.HiddenFor(x => x.Entity.VerifiedByCooperatorName)
                         @Html.HiddenFor(x => x.Entity.NameVerifiedDate)
-                        @Html.HiddenFor(x=>x.Entity.SynonymCode)
+                        @Html.HiddenFor(x => x.Entity.SynonymCode)
                         <input type="hidden" id="hfModalEventValue" />
                         <div id="section-verification">
                             @Html.Partial("~/Views/Taxonomy/Species/_RevisionHistory.cshtml")
@@ -623,13 +624,13 @@
                     @Html.Partial("~/Views/Taxonomy/Species/Modals/_LookupProtologue.cshtml")
                     @Html.Partial("~/Views/Shared/Modals/_NoteLookup2.cshtml")
                     @Html.Partial("~/Views/Taxonomy/Shared/Modals/_Delete.cshtml")
-                   
+
                     @if (Model.Entity.ID > 0)
                     {
-                        //{ Html.RenderAction("RenderLookupModal", "Geography", new { @speciesId = Model.Entity.ID }); }
-                        { Html.RenderAction("RenderLookupModal", "Citation", new { @tableName = Model.TableName, @isMultiSelect = "Y" }); }
+                        {Html.RenderAction("RenderLookupModal", "Geography"); }
+                        {Html.RenderAction("RenderLookupModal", "Citation", new { @tableName = Model.TableName, @isMultiSelect = "Y" }); }
                     }
-                    
+
                 </div>
             </div>
         </div>
@@ -669,8 +670,8 @@
         $("#frmEditSynonymOptions #Entity_SynonymName").val(synonymName);
         $("#frmEditSynonymOptions #Entity_ParentID").val(parentSpeciesId);
 
-        //DEBUG
-        alert("DEBUG SYN TYPE " + synonymName.toLowerCase() + " CODE " + synonymTypeCode);
+        ////DEBUG
+       //alert("DEBUG SYN TYPE " + synonymName.toLowerCase() + " CODE " + synonymTypeCode);
 
         // Refactor onto server.
         switch (synonymName.toLowerCase()) {
@@ -767,10 +768,13 @@
         var formData = new FormData();
         var sectionData = controlId.replace("tab_selector", "tab_content");
 
+        //DEBUG
+        //alert("PARAMS CTRL ID " + controlId + " EVENT_ACTION " + eventAction + " EVENT VALUE " + eventValue);
+
+        link = link.replace("SPECIES_ID", entityId);
         link = link.replace("EVENT_ACTION", eventAction);
         link = link.replace("EVENT_VALUE", eventValue);
-        link = link.replace("SPECIES_ID", entityId);
-
+        
         formData.append("SpeciesID", entityId);
 
         $("#progress_overlay").show();
@@ -788,5 +792,7 @@
             }
         });
     }
+
+    
 </script>
 @Html.Partial("~/Views/Shared/_Scripts.cshtml")

@@ -59,6 +59,7 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.IO.Compression" />
+    <Reference Include="System.Runtime.Caching" />
     <Reference Include="System.Transactions" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
@@ -628,7 +629,6 @@
     <Content Include="Views\SysUser\Group\_ListAssigned.cshtml" />
     <Content Include="Views\SysUser\Group\_ListAvailable.cshtml" />
     <Content Include="Views\Taxonomy\Species\_Verification.cshtml" />
-    <Content Include="Views\Taxonomy\Citation\Modals\_Edit.cshtml" />
     <Content Include="Views\SysTable\Modals\_Lookup.cshtml" />
     <Content Include="Views\SysPermission\Modals\_Lookup.cshtml" />
     <Content Include="Views\Taxonomy\Explorer\Index.cshtml" />
@@ -709,7 +709,6 @@
     <Content Include="Views\SysGroupUserMap\_Widget.cshtml" />
     <Content Include="Views\SysTable\_Widget.cshtml" />
     <Content Include="Views\Cooperator\_ListWidget.cshtml" />
-    <Content Include="Views\Taxonomy\Citation\_Edit.cshtml" />
     <Content Include="Views\Taxonomy\Citation\_Clone.cshtml" />
     <Content Include="Views\Taxonomy\Citation\_View.cshtml" />
     <Content Include="Views\Shared\_RevisionHistorySimple.cshtml" />
@@ -780,6 +779,16 @@
     <Content Include="Views\Taxonomy\Species\Map\_SelectList.cshtml" />
     <Content Include="Views\Taxonomy\Species\Explorer\Index.cshtml" />
     <Content Include="Views\Taxonomy\Species\Modals\_EditSynonymOptions.cshtml" />
+    <Content Include="Views\Taxonomy\Citation\_Edit.cshtml" />
+    <Content Include="Views\Taxonomy\Geography\Modals\_Lookup_BACKUP.cshtml" />
+    <Content Include="Views\Taxonomy\Geography\_BACKUP\_SelectList.cshtml" />
+    <Content Include="Views\Taxonomy\Geography\_BACKUP\_SelectListAdministrativeUnits.cshtml" />
+    <Content Include="Views\Taxonomy\Geography\_BACKUP\_SelectListContinent.cshtml" />
+    <Content Include="Views\Taxonomy\Geography\_BACKUP\_SelectListCountry.cshtml" />
+    <Content Include="Views\Taxonomy\Geography\_BACKUP\_SelectListSubContinent.cshtml" />
+    <Content Include="Views\Taxonomy\Geography\_BACKUP\_Lookup_BACKUP.cshtml" />
+    <Content Include="Views\Taxonomy\CommonNameLanguage\Modals\_EditBatch.cshtml" />
+    <Content Include="Views\Shared\_LayoutAdminLTE3Folder.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

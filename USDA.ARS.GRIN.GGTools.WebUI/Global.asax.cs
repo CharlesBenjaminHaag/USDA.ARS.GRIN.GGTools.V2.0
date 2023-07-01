@@ -56,5 +56,17 @@ namespace USDA.ARS.GRIN.GGTools.WebUI
         {
            
         }
+
+        protected void InitializeCachedData()
+        {
+            //USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer.GeographyViewModel geographyViewModel = new Taxonomy.ViewModelLayer.GeographyViewModel();
+            //System.Runtime.Caching.ObjectCache cache = System.Runtime.Caching.MemoryCache.Default;
+            //using (geographyViewModel)
+            //{
+            //    List<Ge>
+            //    codeValues = mgr.GetStandardAbbreviations();
+            //}
+            //cache.Set("DATA-LIST-STANDARD-ABBREVIATIONS", codeValues, policy);
+        }
     }
 }

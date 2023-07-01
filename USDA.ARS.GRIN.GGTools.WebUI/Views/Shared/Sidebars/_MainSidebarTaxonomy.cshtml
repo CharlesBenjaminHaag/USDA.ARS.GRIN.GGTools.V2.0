@@ -1,60 +1,62 @@
-﻿<nav class="mt-2">
-    <ul class="nav nav-pills nav-sidebar nav-child-indent flex-column" data-widget="treeview" role="menu" data-accordion="false">
-        <li class="nav-item">
-            <a href="@Url.Action("Navigate", "Home", new { applicationCode = "GGT-TAX" })" class="nav-link">
-                <i class="nav-icon fas fa-home"></i>
-                <p>Home</p>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a href="@Url.Action("Explorer", "Folder")" class="nav-link">
-                <i class="nav-icon fas fa-folder"></i>
-                <p>Folder Search</p>
-            </a>
-        </li>
-        <li class="nav-header">TOOLS</li>
-        @*<li class="nav-item">
-            <a href="@Url.Action("Map","CropForCWR")" class="nav-link">
-                <i class="nav-icon fas fa-tools"></i>
-                <p>Crop Batch Edit</p>
-            </a>
-        </li>*@
-        <li class="nav-item">
-            <a href="@Url.Action("Map","Species")" class="nav-link">
-                <i class="nav-icon fas fa-tools"></i>
-                <p>Species Batch Edit</p>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a href="@Url.Action("Add","SpeciesSynonymMap")" class="nav-link">
-                <i class="nav-icon fas fa-tools"></i>
-                <p>Synonym Mapper</p>
-            </a>
-        </li>
+﻿    <ul class="nav nav-pills nav-sidebar nav-child-indent flex-column" data-widget="treeview" role="menu" data-accordion="false">
+    <li class="nav-item">
+        <a href="@Url.Action("Navigate", "Home", new { applicationCode = "GGT-TAX" })" class="nav-link">
+            <i class="nav-icon fas fa-home"></i>
+            <p>Home</p>
+        </a>
+    </li>
 
-        <li class="nav-header">MANAGE DATA</li>
-        @{ Html.RenderAction("_List", "SysTable"); }
+    <li class="nav-header">FOLDERS</li>
+    <li class="nav-item">
+        <a href="@Url.Action("Explorer", "Folder")" class="nav-link">
+            <i class="nav-icon fas fa-folder"></i>
+            <p>Explorer</p>
+        </a>
+    </li>
+    <li class="nav-item">
+        <a href="@Url.Action("Index", "Folder")" class="nav-link">
+            <i class="nav-icon fas fa-folder"></i>
+            <p>Search</p>
+        </a>
+    </li>
 
-        <li class="nav-header">SYSADMIN</li>
-        <li class="nav-item">
-            <a href="@Url.Action("Index","SysDynamicQuery")" class="nav-link">
-                <i class="nav-icon fas fa-tools"></i>
-                <p>SQL Query</p>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a href="@Url.Action("Explorer","CodeValue")" class="nav-link">
-                <i class="nav-icon fas fa-table"></i>
-                <p>Code Values</p>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a href="@Url.Action("Index","Error")" class="nav-link">
-                <i class="nav-icon fas fa-bug"></i>
-                <p>Error Logs</p>
-            </a>
-        </li>
-    </ul>
+    <li class="nav-header">TOOLS</li>
+    <li class="nav-item">
+        <a href="@Url.Action("Index","SysDynamicQuery")" class="nav-link">
+            <i class="nav-icon fas fa-tools"></i>
+            <p>SQL Query</p>
+        </a>
+    </li>
+    <li class="nav-item">
+        <a href="@Url.Action("Map","Species")" class="nav-link">
+            <i class="nav-icon fas fa-tools"></i>
+            <p>Species Batch Edit</p>
+        </a>
+    </li>
+    <li class="nav-item">
+        <a href="@Url.Action("Add","SpeciesSynonymMap")" class="nav-link">
+            <i class="nav-icon fas fa-tools"></i>
+            <p>Synonym Mapper</p>
+        </a>
+    </li>
+
+    <li class="nav-header">MANAGE DATA</li>
+    @{ Html.RenderAction("_List", "SysTable"); }
+
+    <li class="nav-header">SYSADMIN</li>
+    <li class="nav-item">
+        <a href="@Url.Action("Explorer","CodeValue")" class="nav-link">
+            <i class="nav-icon fas fa-table"></i>
+            <p>Code Values</p>
+        </a>
+    </li>
+    <li class="nav-item">
+        <a href="@Url.Action("Index","Error")" class="nav-link">
+            <i class="nav-icon fas fa-bug"></i>
+            <p>Error Logs</p>
+        </a>
+    </li>
+</ul>
 </nav>
 <script type="text/javascript">
     //$(".nav-item").on('click', function (event) {

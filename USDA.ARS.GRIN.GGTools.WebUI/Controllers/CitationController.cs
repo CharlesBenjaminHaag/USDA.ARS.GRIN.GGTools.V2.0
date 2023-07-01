@@ -1,10 +1,8 @@
-﻿using System.Web.Mvc;
+﻿using NLog;
 using System;
-using System.Collections.Generic;
-using USDA.ARS.GRIN.GGTools.WebUI;
+using System.Web.Mvc;
 using USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer;
-using USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer;
-using NLog;
+using USDA.ARS.GRIN.GGTools.WebUI;
 
 namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
 {
@@ -14,33 +12,33 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
         protected static string BASE_PATH = "~/Views/Taxonomy/Citation/";
         private static readonly Logger Log = LogManager.GetCurrentClassLogger();
 
-        public PartialViewResult Save(CitationViewModel viewModel)
-        {
-            try
-            {
-                //if (!viewModel.Validate())
-                //{
-                //    if (viewModel.ValidationMessages.Count > 0) return View(viewModel);
-                //}
+        //public PartialViewResult Save(CitationViewModel viewModel)
+        //{
+        //    try
+        //    {
+        //        //if (!viewModel.Validate())
+        //        //{
+        //        //    if (viewModel.ValidationMessages.Count > 0) return View(viewModel);
+        //        //}
 
-                if (viewModel.Entity.ID == 0)
-                {
-                    viewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
-                    viewModel.Insert();
-                }
-                else
-                {
-                    viewModel.Entity.ModifiedByCooperatorID = AuthenticatedUser.CooperatorID;
-                    viewModel.Update();
-                }
-                return _Edit(viewModel.Entity.ID, "");
-            }
-            catch (Exception ex)
-            {
-                Log.Error(ex);
-                return PartialView("~/Views/Error/_InternalServerError.cshtml");
-            }
-        }
+        //        if (viewModel.Entity.ID == 0)
+        //        {
+        //            viewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
+        //            viewModel.Insert();
+        //        }
+        //        else
+        //        {
+        //            viewModel.Entity.ModifiedByCooperatorID = AuthenticatedUser.CooperatorID;
+        //            viewModel.Update();
+        //        }
+        //        return _Edit(viewModel.Entity.ID, "");
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Log.Error(ex);
+        //        return PartialView("~/Views/Error/_InternalServerError.cshtml");
+        //    }
+        //}
 
 
         public PartialViewResult _ListFolderItems(int folderId)
@@ -213,31 +211,57 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             }
         }
 
-        public PartialViewResult _Edit(int entityId, string isClone = "N", string eventAction = "", string eventValue = "")
+        public PartialViewResult _Edit(int entityId = 0, int familyId = 0, int genusId = 0, int speciesId = 0, string isClone = "N")
         {
             CitationViewModel viewModel = new CitationViewModel();
             try
             {
-                viewModel.Get(entityId);
-                viewModel.PageTitle = String.Format("Edit Citation [{0}]: {1}", viewModel.Entity.ID, viewModel.Entity.AssembledName);
+                viewModel.TableName = "citation";
+                viewModel.TableCode = "Citation";
+                viewModel.EventAction = "Edit";
 
-                if (isClone == "Y")
+                if (entityId > 0)
                 {
-                    CitationViewModel cloneViewModel = new CitationViewModel();
-                    cloneViewModel.Entity = viewModel.Entity;
-                    cloneViewModel.EventAction = eventAction;
-                    cloneViewModel.EventValue = eventValue;
-                    cloneViewModel.Entity.SpeciesID = 0;
-                    cloneViewModel.Entity.FamilyID = 0;
-                    cloneViewModel.Entity.GenusID = 0;
-                    return PartialView("~/Views/Taxonomy/Citation/_Edit.cshtml", cloneViewModel);
+                    viewModel.Get(entityId);
                 }
                 else
                 {
-                    if (viewModel.Entity.FamilyID > 0) viewModel.EventValue = "taxonomy_family_map";
-                    if (viewModel.Entity.GenusID > 0) viewModel.EventValue = "taxonomy_genus";
-                    if (viewModel.Entity.SpeciesID > 0) viewModel.EventValue = "taxonomy_species";
+                    viewModel.Entity.FamilyID = familyId;
+                    viewModel.Entity.GenusID = genusId;
+                    viewModel.Entity.SpeciesID = speciesId;
                 }
+
+                if (viewModel.Entity.FamilyID > 0) viewModel.EventValue = "taxonomy_family_map";
+                if (viewModel.Entity.GenusID > 0) viewModel.EventValue = "taxonomy_genus";
+                if (viewModel.Entity.SpeciesID > 0) viewModel.EventValue = "taxonomy_species";
+                return PartialView("~/Views/Taxonomy/Citation/_Edit.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
+        }
+        
+        [HttpPost]
+        public PartialViewResult _Edit(CitationViewModel viewModel)
+        {
+            try
+            {
+                if (viewModel.Entity.ID == 0)
+                {
+                    viewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
+                    viewModel.Insert();
+                }
+                else
+                {
+                    viewModel.Entity.ModifiedByCooperatorID = AuthenticatedUser.CooperatorID;
+                    viewModel.Update();
+                }
+
+                // Re-retrieve new/changed cit.
+                viewModel.Get(viewModel.Entity.ID);
+
                 return PartialView("~/Views/Taxonomy/Citation/_Edit.cshtml", viewModel);
             }
             catch (Exception ex)
@@ -656,14 +680,33 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 (tableName != "taxonomy_genus") && 
                 tableName != "taxonomy_family_map")
                 {
+                if (speciesId > 0)
+                {
                     viewModel.SearchEntity.SpeciesID = speciesId;
                     viewModel.Search();
                 }
+            }
             return PartialView(BASE_PATH + "/Modals/_Lookup.cshtml", viewModel);
         }
-        public PartialViewResult RenderSpeciesCitationLookupModal(int speciesId)
+        public PartialViewResult RenderSpeciesCitationLookupModal(int speciesId, string tableName = "", string eventAction = "", string eventValue = "")
         {
             CitationViewModel viewModel = new CitationViewModel();
+
+            // TODO
+            // Configure modal based on context.
+            // eventAction = controller
+            // eventValue = action
+
+            // eventAction  eventValue  Note
+            // ===========  ==========  ====
+            // CommonName   Edit        Create cit for single species and common name
+            // CommonName   Search      Create cit for each selected common name
+            // EconomicUse  Edit
+            // GeographyMap Edit
+
+            viewModel.TableName = tableName;
+            viewModel.EventAction = eventAction;
+            viewModel.EventValue = eventValue;
             viewModel.GetSpeciesCitations(speciesId);
             return PartialView(BASE_PATH + "/Modals/_SpeciesCitationLookup.cshtml", viewModel);
         }

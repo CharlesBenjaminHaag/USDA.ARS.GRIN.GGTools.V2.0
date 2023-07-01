@@ -97,7 +97,13 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 return RedirectToAction("InternalServerError", "Error");
             }
         }
+        [HttpPost]
+        public JsonResult EditBatch(CommonNameLanguageViewModel viewModel)
+        {
+            // TODO
 
+            return null;
+        }
         public ActionResult Index()
         {
             try

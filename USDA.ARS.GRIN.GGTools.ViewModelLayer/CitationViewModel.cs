@@ -60,6 +60,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
                     {
                         Entity = DataCollection[0];
                         Entity.IsAcceptedNameOption = ToBool(Entity.IsAcceptedName);
+                        Entity.CitationID = Entity.ID;
                     }
                 }
                 catch (Exception ex)

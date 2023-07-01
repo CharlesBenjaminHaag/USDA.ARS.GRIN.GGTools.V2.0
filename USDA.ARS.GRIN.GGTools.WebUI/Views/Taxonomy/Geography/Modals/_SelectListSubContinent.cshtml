@@ -1,36 +1,23 @@
 ﻿@model USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer.GeographyViewModel
-<button id="btnFilterCountries" type="button" class="btn btn-default btn-sm btn-block">
-    <i class="fas fa-filter"></i> Filter Countries
-</button>
-<br />
-<table id="data-table-geography-subcontinents" class="table table-striped ggtools" style="width:100%">
+<table id="table-geography-subcontinent" class="table table-hover" style="width:100%;">
     <thead>
         <tr>
             <th></th>
-            <th>Name</th>
+            <th>Sub-Continents</th>
         </tr>
     </thead>
     <tbody>
-        @if (Model.DataCollectionSubContinents.Count() > 0)
-        {
-            foreach (var result in Model.DataCollectionSubContinents)
-            {
-                <tr>
-                    <td>
-                        @result.ID
-                    </td>
-                    <td>@result.SubContinent</td>
-                </tr>
-            }
-        }
-        else
+        @foreach (var result in Model.DataCollectionSubContinents)
         {
             <tr>
-                <td colspan="3">
-                    <div class="callout callout-info" style="vertical-align:middle; margin-top:5px;">
-                        Your search returned no matches.
+                <td></td>
+                <td>
+                    <div class="icheck-primary">
+                        <input type="checkbox" value="" id="check_@result.SubContinent" class="ggtools-check-subcontinent">
+                        <label for="check_@result.SubContinent">@result.SubContinent</label>
                     </div>
                 </td>
+
             </tr>
         }
     </tbody>
@@ -39,6 +26,12 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
-        InitDataTableGeo("data-table-geography-subcontinents");
+        InitDataTableGeo("table-geography-subcontinent");
+    });
+
+    $(".ggtools-check-subcontinent").on('change', function () {
+        var selectedContinents = GetSelectedContinents();
+        var selectedSubContinents = GetSelectedSubContinents();
+        LoadCountries(selectedContinents, selectedSubContinents);
     });
 </script>

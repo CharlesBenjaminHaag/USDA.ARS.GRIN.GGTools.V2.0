@@ -1,0 +1,39 @@
+﻿@model USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer.GeographyViewModel
+<div class="input-group">
+    <select id="ddlStatus" class="form-control-sm">
+        <option value="a">Adventive</option>
+        <option value="c">Cultivated</option>
+        <option value="n" selected>Native</option>
+        <option value="i">Naturalized</option>
+        <option value="o">Other</option>
+        <option value="u">Uncertain</option>
+    </select>
+    <button id="btnGenerateMaps" type="button" class="btn btn-primary btn-sm">Map >></button>
+</div>
+<br />
+<table id="data-table-geography-lookup" class="table table-striped ggtools" style="width:100%">
+    <thead>
+        <tr>
+            <th></th>
+            <th>Name</th>
+            @*<th>Valid</th>*@
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var result in Model.DataCollection)
+        {
+        <tr>
+            <td>
+                @result.ID
+            </td>
+            <td>@result.AssembledName</td>
+            @*<td>@Html.Raw(Model.FormatBoolean(result.IsValid))</td>*@
+        </tr>
+        }
+    </tbody>
+</table>
+<script type="text/javascript">
+    $(document).ready(function () {
+        InitDataTableGeo("data-table-geography-lookup");
+    });
+</script>

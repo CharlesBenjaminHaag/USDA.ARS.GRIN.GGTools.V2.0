@@ -20,6 +20,7 @@
                     <tr>
                         <th></th>
                         <th width="5%">ID</th>
+                        <th>SPEC ID</th>
                         <th>Species Name</th>
                         <th>Status</th>
                         <th>Country</th>
@@ -34,38 +35,39 @@
                     {
                         foreach (var result in Model.DataCollection)
                         {
-                    <tr>
-                        <td>
-                            @result.ID
-                        </td>
-                        <td>
-                            @result.ID
-                        </td>
-                        <td>
-                            <a href="@Url.Action("Edit","Species", new { @entityId = result.SpeciesID })">
-                                @result.SpeciesName
-                            </a>
-                        </td>
-                        <td>
-                            @result.GeographyStatusDescription
-                        </td>
-                        <td>@result.CountryName</td>
-                        <td>@result.Admin1</td>
-                        <td>@Html.Raw(result.Note)</td>
-                        <td>@Html.Raw(result.CitationText)</td>
-                        <td style="text-align:right;">
-                            <a href="@Url.Action("Edit", "GeographyMap", new { entityId = result.ID })" class="btn btn-default btn-sm pull-right row-edit">
-                                <i class="fa fa-edit"></i>
-                            </a>
-                            @if (Model.EventAction == "FOLDER")
-                            {
-                                <a href="@Url.Action("DeleteItem", "Folder", new { @folderId = result.FolderID, @appUserItemListId = result.AppUserItemListID })"
-                                   class="btn btn-danger btn-sm float-right row-edit margin-r-5">
-                                    <i class="fa fa-trash"></i>
-                                </a>
-                            }
-                        </td>
-                    </tr>
+                            <tr>
+                                <td>
+                                    @result.ID
+                                </td>
+                                <td>
+                                    @result.ID
+                                </td>
+                                <td>@result.SpeciesID</td>
+                                <td>
+                                    <a href="@Url.Action("Edit","Species", new { @entityId = result.SpeciesID })">
+                                        @result.SpeciesName
+                                    </a>
+                                </td>
+                                <td>
+                                    @result.GeographyStatusDescription
+                                </td>
+                                <td>@result.CountryName</td>
+                                <td>@result.Admin1</td>
+                                <td>@Html.Raw(result.Note)</td>
+                                <td>@Html.Raw(result.CitationText)</td>
+                                <td style="text-align:right;">
+                                    <a href="@Url.Action("Edit", "GeographyMap", new { entityId = result.ID })" class="btn btn-default btn-sm pull-right row-edit">
+                                        <i class="fa fa-edit"></i>
+                                    </a>
+                                    @if (Model.EventAction == "FOLDER")
+                                    {
+                                        <a href="@Url.Action("DeleteItem", "Folder", new { @folderId = result.FolderID, @appUserItemListId = result.AppUserItemListID })"
+                                           class="btn btn-danger btn-sm float-right row-edit margin-r-5">
+                                            <i class="fa fa-trash"></i>
+                                        </a>
+                                    }
+                                </td>
+                            </tr>
                         }
                     }
 
@@ -73,10 +75,19 @@
             </table>
         </div>
     </div>
+    @{Html.RenderAction("RenderSpeciesCitationLookupModal", "Citation", new { @tableName = Model.TableName, @eventAction = "GeographyMap", @eventValue = "Search", @speciesId = Model.Entity.SpeciesID });}
 </div>
 <script type="text/javascript">
     $(document).ready(function () {
         InitDataTable("data_table_taxonomy_geography_map");
     });
+
+    function EditBatch() {
+        //DEBUG
+        // Get sel recs
+        // Open batch edit dialog (prim cit)
+        $("#EntityIDList").val(GetSelectedEntityIDs("data_table_taxonomy_geography_map"));
+        $("#modal-species-citation-lookup").modal("show");
+    }
 </script>
 
