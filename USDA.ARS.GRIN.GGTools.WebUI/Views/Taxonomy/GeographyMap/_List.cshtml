@@ -20,7 +20,7 @@
                     <tr>
                         <th></th>
                         <th width="5%">ID</th>
-                        <th>SPEC ID</th>
+                        <th>Species ID</th>
                         <th>Species Name</th>
                         <th>Status</th>
                         <th>Country</th>
@@ -75,7 +75,7 @@
             </table>
         </div>
     </div>
-    @{Html.RenderAction("RenderSpeciesCitationLookupModal", "Citation", new { @tableName = Model.TableName, @eventAction = "GeographyMap", @eventValue = "Search", @speciesId = Model.Entity.SpeciesID });}
+    @{Html.RenderAction("RenderBatchEditModal", "Citation", new { @tableName = Model.TableName, @eventAction = "GeographyMap", @eventValue = "Search", @speciesId = Model.Entity.SpeciesID });}
 </div>
 <script type="text/javascript">
     $(document).ready(function () {
@@ -83,11 +83,8 @@
     });
 
     function EditBatch() {
-        //DEBUG
-        // Get sel recs
-        // Open batch edit dialog (prim cit)
-        $("#EntityIDList").val(GetSelectedEntityIDs("data_table_taxonomy_geography_map"));
-        $("#modal-species-citation-lookup").modal("show");
+        var selectedIdList = GetSelectedEntityIDs("data_table_taxonomy_geography_map");
+        $("#modal-citation-batch-edit").modal("show");
     }
 </script>
 

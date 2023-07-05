@@ -1,66 +1,10 @@
-﻿@model USDA.ARS.GRIN.GGTools.ViewModelLayer.FolderViewModel
+﻿@model USDA.ARS.GRIN.GGTools.ViewModelLayer.HomeViewModel
 @{
-    ViewBag.Title = Model.PageTitle;
+    ViewBag.Title = "Taxonomy Editor";
     Layout = "~/Views/Shared/_LayoutAdminLTE3.cshtml";
 }
-
-@if (Model.DataCollection.Count > 0)
-{
-<div class="row">
-    <div class="col-md-12">
-        <div class="card">
-            <div class="card-header p-2">
-                <ul class="nav nav-pills">
-                    @{ int i = 0; }
-                    @foreach (var result in Model.DataCollectionFolderTypes)
-                    {
-                        if (i == 0)
-                        {
-                            <li class="nav-item"><a class="nav-link active" href="#@result.Value" data-toggle="tab">@result.Title</a></li>
-                        }
-                        else
-                        {
-                            <li class="nav-item"><a class="nav-link" href="#@result.Value" data-toggle="tab">@result.Title</a></li>
-                        }
-                        i++;
-                    }
-                </ul>
-            </div>
-            <div class="card-body">
-                <div class="tab-content">
-                    @{ int j = 0; }
-                    @foreach (var result in Model.DataCollectionFolderTypes)
-                    {
-                        if (j == 0)
-                        {
-                            <div class="tab-pane active" id="@result.Value">
-                                @{Html.RenderAction("_List", "Folder", new { @folderType = result.Value });}
-                            </div>
-                                    }
-                                    else
-                                    {
-                            <div class="tab-pane" id="@result.Value">
-                                @{Html.RenderAction("_List", "Folder", new { @folderType = result.Value });}
-                            </div>
-                                        }
-                                        j++;
-                                    }
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-}
-else
-{ 
-<div class="alert alert-info alert-dismissible">
-    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-    <h5><i class="icon fas fa-info"></i> No Folders Found</h5>
-    You have not yet created any folders, nor are there currently any folders assigned to you.
-</div>                                    
-}
-
-@Html.RenderAction("_ListBySysGroup", "Cooperator", new { sysGroupTag = "MANAGE_TAXONOMY"})
+@{Html.RenderAction("_ListMyRecentFolders", "Folder", new { @cooperatorId = Model.AuthenticatedUser.CooperatorID }); }
+@{Html.RenderAction("_ListBySysGroup", "Cooperator", new { groupTag = "MANAGE_TAXONOMY" });}
 
 <script type="text/javascript">
     $(document).ready(function () {

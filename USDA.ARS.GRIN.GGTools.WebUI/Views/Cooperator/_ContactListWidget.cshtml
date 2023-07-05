@@ -1,8 +1,9 @@
 ﻿@model USDA.ARS.GRIN.GGTools.ViewModelLayer.CooperatorViewModel
+<h5>My Team</h5>
 <div class="row">
     @foreach (var result in Model.DataCollection)
     {
-    <div class="col-md-6">
+    <div class="col-md-4">
         <div class="card bg-light d-flex flex-fill">
             <div class="card-header text-muted border-bottom-0">
                 @if (String.IsNullOrEmpty(result.JobTitle))

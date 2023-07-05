@@ -151,17 +151,31 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             viewModel.Search();
             return PartialView("~/Views/Folder/_List.cshtml", viewModel);
         }
-        public PartialViewResult _List(string folderType = "")
+        public PartialViewResult _List(string folderType = "", int cooperatorId = 0, string timeFrame = "")
         {
             FolderViewModel viewModel = new FolderViewModel();
             viewModel.SearchEntity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
             viewModel.SearchEntity.FolderTypeDescription = folderType;
+            viewModel.SearchEntity.OwnedByCooperatorID = cooperatorId;
             viewModel.Search();
 
             //TODO
             //Get separate list of folders shared with logged-in user.
 
             return PartialView("~/Views/Folder/_List.cshtml", viewModel);
+        }
+        public PartialViewResult _ListMyRecentFolders(string folderType = "", int cooperatorId = 0, string timeFrame = "")
+        {
+            FolderViewModel viewModel = new FolderViewModel();
+            viewModel.SearchEntity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
+            viewModel.SearchEntity.FolderTypeDescription = folderType;
+            viewModel.SearchEntity.OwnedByCooperatorID = cooperatorId;
+            viewModel.Search();
+
+            //TODO
+            //Get separate list of folders shared with logged-in user.
+
+            return PartialView("~/Views/Folder/_ListMyFolders.cshtml", viewModel);
         }
 
         public ActionResult _ItemList(int entityId, string eventAction)

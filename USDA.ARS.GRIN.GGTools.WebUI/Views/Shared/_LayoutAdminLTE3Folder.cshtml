@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@model USDA.ARS.GRIN.GGTools.ViewModelLayer.FolderViewModel
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -96,7 +97,7 @@
     @Scripts.Render("~/adminlte/js")
     @Scripts.Render("~/ggtools/js")
 
-    
+
 
 </head>
 <body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed text-sm">
@@ -108,7 +109,7 @@
         </div>
 
         <nav class="main-header navbar navbar-expand navbar-white navbar-light text-sm">
-             
+
             <ul class="navbar-nav ml-auto">
                 <!-- Notifications Dropdown Menu -->
                 <li class="nav-item dropdown">
@@ -165,7 +166,7 @@
                         </div>
                     </div>
                 </div>
-                @Html.Partial("~/Views/Shared/Sidebars/_MainSidebarNRR2.cshtml") 
+                @Html.Partial("~/Views/Shared/Sidebars/_MainSidebarFolder.cshtml")
             </div>
         </aside>
 
@@ -176,11 +177,12 @@
                 <div class="container-fluid">
                     <!--<div class="row mb-2">
                         <div class="col-sm-9">-->
-                            @*<h1 class="m-0">@Html.Raw(ViewBag.Title)</h1>*@
-                        <!--</div>--><!-- /.col -->
-                        <!--<div class="col-sm-3">
+                    @*<h1 class="m-0">@Html.Raw(ViewBag.Title)</h1>*@
+                    <!--</div>--><!-- /.col -->
+                    <!--<div class="col-sm-3">
 
-                        </div>--><!-- /.col -->
+                    </div>-->
+                    <!-- /.col -->
                     <!--</div>--><!-- /.row -->
                 </div><!-- /.container-fluid -->
             </div>
@@ -215,7 +217,7 @@
     <script type="text/javascript" src="~/Content/dist/js/DataTables/buttons.html5.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/responsive/2.4.0/js/dataTables.responsive.min.js"></script>
 
-   
+
 </body>
 </html>
 
@@ -229,7 +231,7 @@
         }
     });
 
-     
+
     $(document).ready(function () {
         $('#txtNote').summernote({
             height: 100,                 // set editor height
@@ -244,7 +246,7 @@
             $("#SearchEntity_ModifiedDate").datepicker();
         });
     });
- 
+
 </script>
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
 <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>

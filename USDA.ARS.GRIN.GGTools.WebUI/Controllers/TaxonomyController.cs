@@ -6,12 +6,14 @@ using USDA.ARS.GRIN.GGTools.ViewModelLayer;
 namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
 {
     [GrinGlobalAuthentication]
-    public class TaxonomyController : Controller
+    public class TaxonomyController : BaseController
     {
         private static readonly Logger Log = LogManager.GetCurrentClassLogger();
         public ActionResult Index()
         {
-            return RedirectToAction("Explorer","Folder");
+            HomeViewModel viewModel = new HomeViewModel();
+            viewModel.AuthenticatedUser = AuthenticatedUser;
+            return View("~/Views/Taxonomy/Home/Index.cshtml", viewModel);
         }
         public ActionResult Admin(int sysUserId = 0)
         {

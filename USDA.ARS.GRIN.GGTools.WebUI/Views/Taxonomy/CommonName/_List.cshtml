@@ -71,7 +71,7 @@
             </table>
         </div>
     </div>
-    @{Html.RenderAction("RenderSpeciesCitationLookupModal", "Citation", new { @tableName = Model.TableName, @eventAction = "CommonName", @eventValue = "Search", @speciesId = Model.Entity.SpeciesID });}
+    @{Html.RenderAction("RenderBatchEditModal", "Citation", new { @tableName = Model.TableName, @eventAction = "CommonName", @eventValue = "Search", @speciesId = Model.Entity.SpeciesID });}
 </div>
 <script type="text/javascript">
     $(document).ready(function () {
@@ -79,13 +79,12 @@
     });
 
     function EditBatch() {
-        //DEBUG
-        // Get sel recs
-        // Open batch edit dialog (prim cit)
-        $("#EntityIDList").val(GetSelectedEntityIDs("data_table_taxonomy_common_name"));
+        var selectedCommonNameIdList = GetSelectedEntityIDs("data_table_taxonomy_common_name");
+        var selectedSpeciesIdList 
+        $("#EntityIDList").val();
         //$("#SpeciesIDList").val(GetS("data_table_taxonomy_common_name"));
 
-        $("#modal-species-citation-lookup").modal("show");
+        $("#modal-citation-batch-edit").modal("show");
     }
 </script>
 

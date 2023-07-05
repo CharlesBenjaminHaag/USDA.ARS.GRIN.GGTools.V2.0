@@ -267,6 +267,16 @@ function GetSelectedEntityIDs(tableName) {
     return ids;
 }
 
+function GetSelectedSpeciesIDs(tableName) {
+    var table = $('#' + tableName).DataTable();
+    var ids = $.map(table.rows('.selected').data(), function (item) {
+        return item[2]
+    });
+    console.log(ids)
+    return ids;
+}
+
+
 function GetSelectedEntityStringIDs(tableName) {
     var table = $('#' + tableName).DataTable();
     var ids = $.map(table.rows('.selected').data(), function (item) {

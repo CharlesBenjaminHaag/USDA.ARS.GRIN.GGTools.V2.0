@@ -218,8 +218,10 @@
     <Content Include="Content\dist\css\DataTables\select.dataTables.min.css" />
     <Content Include="Content\dist\css\icheck-bootstrap.min.css" />
     <Content Include="Content\dist\css\skins\_all-skins.min.css" />
-    <Content Include="Content\dist\img\cbh_bc_headshot.jpg" />
+    <Content Include="Content\dist\img\Users\Haag_Benjamin.jpg" />
     <Content Include="Content\dist\img\default-50x50.gif" />
+    <Content Include="Content\dist\img\Users\Dube_Shruti.jpg" />
+    <Content Include="Content\dist\img\Users\Wiersema_John.png" />
     <Content Include="Content\dist\js\bootstrap-switch.min.js" />
     <Content Include="Content\dist\js\DataTables\buttons.html5.min.js" />
     <Content Include="Content\dist\js\DataTables\dataTables.buttons.min.js" />
@@ -230,10 +232,10 @@
     <Content Include="dist\css\portal.css" />
     <Content Include="dist\img\GGlogo-color-sm.gif" />
     <Content Include="Content\dist\img\icons.png" />
-    <Content Include="Content\dist\img\Kinard.Gary_TO_CROP.jpg" />
-    <Content Include="Content\dist\img\Melanie-Schori.jpg" />
-    <Content Include="Content\dist\img\NOM-MelanieSchori.jpg" />
-    <Content Include="Content\dist\img\Reisinger.Marty.jpg" />
+    <Content Include="Content\dist\img\Users\Kinard_Gary.jpg" />
+    <Content Include="Content\dist\img\Users\Schori_Melanie.jpg" />
+    <Content Include="Content\dist\img\Users\Schori_Melanie2.jpg" />
+    <Content Include="Content\dist\img\Users\Reisinger_Marty.jpg" />
     <Content Include="Content\dist\img\search-icon.png" />
     <Content Include="dist\img\GGlogo.gif" />
     <Content Include="dist\img\GGlogo_BW.gif" />
@@ -789,6 +791,9 @@
     <Content Include="Views\Taxonomy\Geography\_BACKUP\_Lookup_BACKUP.cshtml" />
     <Content Include="Views\Taxonomy\CommonNameLanguage\Modals\_EditBatch.cshtml" />
     <Content Include="Views\Shared\_LayoutAdminLTE3Folder.cshtml" />
+    <Content Include="Views\Taxonomy\Citation\_EditBatch2.cshtml" />
+    <Content Include="Views\Shared\Sidebars\_MainSidebarFolder.cshtml" />
+    <Content Include="Views\Folder\_ListMyFolders.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

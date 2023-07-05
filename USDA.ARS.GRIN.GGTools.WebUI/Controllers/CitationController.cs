@@ -40,7 +40,6 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
         //    }
         //}
 
-
         public PartialViewResult _ListFolderItems(int folderId)
         {
             CitationViewModel viewModel = new CitationViewModel();
@@ -598,6 +597,22 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             // For each species, create cit with lit ID specified in search
             // entity obj
             return PartialView("~/Views/Taxonomy/Literature/_EditBatch.cshtml", viewModel);
+        }
+
+        public PartialViewResult RenderBatchEditModal(string entityIdList)
+        {
+            CitationViewModel viewModel = new CitationViewModel();
+
+            try
+            {
+                // TODO
+                return PartialView("~/Views/Taxonomy/Citation/_EditBatch2.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
         }
 
         /// <summary>

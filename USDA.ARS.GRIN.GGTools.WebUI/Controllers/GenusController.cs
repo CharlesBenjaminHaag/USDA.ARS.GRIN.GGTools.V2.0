@@ -49,7 +49,16 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             viewModel.Entity.IsAcceptedName = "Y";
             viewModel.Entity.IsWebVisible = "Y";
             viewModel.Entity.IsWebVisibleOption = true;
+            viewModel.Entity.FamilyID = familyMapId;
             viewModel.IsTypeGenus = isType;
+
+            if (familyMapId > 0)
+            {
+                FamilyMapViewModel familyMapViewModel = new FamilyMapViewModel();
+                familyMapViewModel.Get(familyMapId);
+                viewModel.Entity.FamilyID = familyMapViewModel.Entity.ID;
+                viewModel.Entity.FamilyName = familyMapViewModel.Entity.FamilyName;
+            }
 
             if (genusId > 0)
             {
