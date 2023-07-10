@@ -16,7 +16,7 @@
     @Html.Partial("~/Views/Taxonomy/CWRTrait/_Detail.cshtml")
 }
 @Html.Partial("~/Views/Taxonomy/CWRTrait/_List.cshtml")
-@{Html.RenderAction("_Edit", "Folder"); }
+@{Html.RenderAction("_Edit", "Folder", new { @tableName = Model.TableName }); }
 
 <script type="text/javascript">
     $(document).keypress(function (event) {

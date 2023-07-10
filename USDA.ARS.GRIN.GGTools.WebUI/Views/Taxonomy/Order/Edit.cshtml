@@ -68,6 +68,7 @@
                         @Html.HiddenFor(x => x.TableName)
                         @Html.HiddenFor(x => x.TableCode)
                         @Html.HiddenFor(x => x.Entity.ID)
+                        @Html.Partial("~/Views/Shared/_RevisionHistory.cshtml")
                         @Html.Partial("~/Views/Shared/_ValidationMessages.cshtml")
                         <div class="card card-default">
                             <div class="card-header">

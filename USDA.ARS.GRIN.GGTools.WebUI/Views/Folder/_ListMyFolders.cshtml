@@ -23,7 +23,7 @@
                         Folder Name
                     </th>
                     <th style="width: 30%">
-                        Shared With
+                        Description
                     </th>
                     <th style="width: 8%">
                         Type
@@ -52,7 +52,8 @@
                         </small>
                     </td>
                     <td>
-                        <ul class="list-inline">
+                        @result.Description
+                        @*<ul class="list-inline">
                             <li class="list-inline-item">
                                 <img alt="Avatar" class="table-avatar" src="~/Content/dist/img/Users/Schori_Melanie.jpg">
                             </li>
@@ -62,7 +63,7 @@
                             <li class="list-inline-item">
                                 <img alt="Avatar" class="table-avatar" src="~/Content/dist/img/Users/Wiersema_John.png">
                             </li>
-                        </ul>
+                        </ul>*@
                     </td>
                     <td class="project-state text-left">
                         <span class="badge bg-gray">@result.FolderTypeDescription</span>

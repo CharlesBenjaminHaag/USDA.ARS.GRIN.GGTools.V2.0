@@ -177,6 +177,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
 
             //TODO CHECK DUPES
             SearchEntity.Name = Entity.Name;
+            SearchEntity.IsNameExactMatch = "Y";
             SearchEntity.ExcludeID = Entity.ID;
             Search();
             if (DataCollection.Count > 0)

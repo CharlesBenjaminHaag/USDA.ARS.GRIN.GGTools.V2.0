@@ -208,11 +208,6 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
                 AddParameter("taxonomy_species_id", entity.ID == 0 ? DBNull.Value : (object)entity.ID, true);
             }
 
-            if (entity.IsAccepted)
-            {
-                entity.AcceptedID = entity.ID;
-            }
-
             AddParameter("current_taxonomy_species_id", entity.AcceptedID == 0 ? entity.ID : (object)entity.AcceptedID, true);
             AddParameter("is_specific_hybrid", (object)entity.IsSpecificHybrid ?? DBNull.Value, true);
             AddParameter("hybrid_parentage", (object)entity.HybridParentage ?? DBNull.Value, true);

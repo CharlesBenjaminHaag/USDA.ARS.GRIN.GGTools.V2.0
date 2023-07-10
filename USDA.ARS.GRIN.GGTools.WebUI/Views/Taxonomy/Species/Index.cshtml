@@ -21,8 +21,7 @@
 <div id="section-search-results" class="data-list">
     @Html.Partial("~/Views/Taxonomy/Species/_List.cshtml")
 </div>
-
-@{Html.RenderAction("_Edit", "Folder"); }
+@{Html.RenderAction("_Edit", "Folder", new { @tableName = Model.TableName });}
 
 <script type="text/javascript">
 
@@ -42,7 +41,7 @@
         }
     }
 
-    
+
 
     /*
     * ===================================================================================================

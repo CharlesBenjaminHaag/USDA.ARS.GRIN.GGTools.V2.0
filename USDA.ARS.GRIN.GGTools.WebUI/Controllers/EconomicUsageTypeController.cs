@@ -50,6 +50,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             try
             {
                 EconomicUsageTypeViewModel viewModel = new EconomicUsageTypeViewModel();
+                viewModel.TableName = "taxonomy_economic_usage_type";
                 return View(BASE_PATH + "Index.cshtml", viewModel);
             }
             catch (Exception ex)

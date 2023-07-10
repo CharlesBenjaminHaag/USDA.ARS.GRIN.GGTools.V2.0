@@ -16,8 +16,7 @@
     @Html.Partial("~/Views/Taxonomy/SpeciesSynonymMap/_Detail.cshtml")
 }
 @Html.Partial("~/Views/Taxonomy/SpeciesSynonymMap/_List.cshtml")
-
-@{Html.RenderAction("_Edit", "Folder"); }
+@{Html.RenderAction("_Edit", "Folder", new { @tableName = Model.TableName }); }
 
 <script type="text/javascript">
     $(document).ready(function () {

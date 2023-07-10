@@ -411,12 +411,6 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
         }
         public ActionResult AddAutonym(int entityId)
         {
-            //TODO
-            //Get species whose ID is passed in
-            //Create copy and configure as autonym
-            //Add new autonym
-            //Re-load species passed in; new autonym will appear in conspecific list
-
             SpeciesViewModel speciesViewModel = new SpeciesViewModel();
             speciesViewModel.Get(entityId);
 

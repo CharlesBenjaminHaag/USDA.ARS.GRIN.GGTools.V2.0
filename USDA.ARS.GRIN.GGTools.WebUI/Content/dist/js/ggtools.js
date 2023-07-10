@@ -109,29 +109,6 @@ function InitDataTableLookupFormat(tableName) {
     });
 }
 
-//function InitDataTableLookupFormat(tableName) {
-//    $(document).ready(function () {
-//        tableName = "#" + tableName;
-//        table = $(tableName).DataTable({
-//            paging: false,
-//            stateSave: true,
-//            "bLengthChange": false,
-//            scrollY: '300px',
-//            scrollCollapse: true,
-//            paging: false,
-//            responsive: true,
-//            select: {
-//                style: 'single'
-//            },
-//            searching: true,
-//            columnDefs: [
-//                { targets: [0], visible: false }
-//            ]
-//        });
-//        /*table.row(':eq(0)', { page: 'current' }).select();*/
-//    });
-//}
-
 function InitDataTableLight(tableName) {
     $(document).ready(function () {
         tableName = "#" + tableName;
@@ -163,7 +140,7 @@ function InitDataTableWithAssembledName(tableName) {
             paging: true,
             responsive: true,
             select: {
-                style: 'multi'
+                style: 'single'
             },
             searching: true,
             columnDefs: [

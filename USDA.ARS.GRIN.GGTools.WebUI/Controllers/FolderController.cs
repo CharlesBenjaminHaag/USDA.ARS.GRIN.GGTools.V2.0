@@ -670,10 +670,24 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
 
         public ActionResult _Edit(string tableName)
         {
-            FolderViewModel viewModel = new FolderViewModel(AuthenticatedUser.CooperatorID, tableName);
-            viewModel.GetFolderCategories(AuthenticatedUser.CooperatorID);
-            viewModel.GetAvailableFolders(AuthenticatedUser.CooperatorID, tableName);
-            return PartialView("~/Views/Folder/Modals/_Edit.cshtml", viewModel);
+            try
+            {
+                FolderViewModel viewModel = new FolderViewModel(AuthenticatedUser.CooperatorID, tableName);
+
+                if (String.IsNullOrEmpty(tableName))
+                {
+                    throw new IndexOutOfRangeException("Table name not specified.");
+                }
+                
+                viewModel.GetFolderCategories(AuthenticatedUser.CooperatorID);
+                viewModel.GetAvailableFolders(AuthenticatedUser.CooperatorID, tableName);
+                return PartialView("~/Views/Folder/Modals/_Edit.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
         }
 
         public ActionResult Edit(int entityId)

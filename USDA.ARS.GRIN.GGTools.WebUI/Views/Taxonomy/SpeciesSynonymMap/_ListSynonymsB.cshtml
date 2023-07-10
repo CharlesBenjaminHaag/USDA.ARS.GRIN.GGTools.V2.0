@@ -32,29 +32,29 @@
                             @result.ID
                         </td>
                         <td>
-                            @result.SpeciesAID
+                            @result.SpeciesBID
                         </td>
                         <td>
                             <a href="@Url.Action("Edit", "Species", new { entityId = result.SpeciesAID })">
-                                @Html.Raw(result.SpeciesAAssembledName)
+                                @Html.Raw(result.SpeciesBAssembledName)
                             </a>
                         </td>
                         <td>
-                            @Html.Raw(Model.FormatBoolean(result.SpeciesAIsAcceptedName))
+                            @Html.Raw(Model.FormatBoolean(result.SpeciesBIsAcceptedName))
                         </td>
                         <td>
                             @result.SynonymDescription.Replace("Synonym","")
                         </td>
-                        <td>@result.SpeciesAProtologue</td>
+                        <td>@result.SpeciesBProtologue</td>
                         <td>
-                            @if (result.SpeciesANameVerifiedDate > DateTime.MinValue)
+                            @if (result.SpeciesBNameVerifiedDate > DateTime.MinValue)
                             {
-                                @result.SpeciesANameVerifiedDate.ToShortDateString()
+                                @result.SpeciesBNameVerifiedDate.ToShortDateString()
                             }
                         </td>
-                        <td>@result.SpeciesAVerifiedByCooperatorName</td>
+                        <td>@result.SpeciesBVerifiedByCooperatorName</td>
                         <td class="table-col-align-right">
-                            <a href="@Url.Action("Edit", "Species", new { entityId = result.SpeciesAID })" class="btn btn-default btn-sm pull-right row-edit">
+                            <a href="@Url.Action("Edit", "Species", new { entityId = result.SpeciesBID })" class="btn btn-default btn-sm pull-right row-edit">
                                 <i class="fa fa-edit"></i>
                             </a>
                         </td>

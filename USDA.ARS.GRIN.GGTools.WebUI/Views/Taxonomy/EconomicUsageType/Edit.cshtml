@@ -88,44 +88,44 @@
                         </div>
                         @using (Html.BeginForm("Edit", "EconomicUsageType", FormMethod.Post, new { id = "frmEditEconomicUsageType" }))
                         {
-                    <div class="card-body">
-                        @Html.Partial("~/Views/Shared/_ValidationMessages.cshtml")
-                        @Html.HiddenFor(x => x.PageTitle)
-                        @Html.HiddenFor(x => x.EventAction)
-                        @Html.HiddenFor(x => x.EventValue)
-                        @Html.HiddenFor(x => x.TableName)
-                        @Html.HiddenFor(x => x.TableCode)
-                        @Html.HiddenFor(x => x.Entity.ID)
-                        <div class="row">
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label>Usage</label>
-                                    @Html.DropDownListFor(x => x.Entity.EconomicUsageCode, Model.EconomicUsageCodes, "NULL", new { @id = "ddlEconomicUsageCodes", @class = "form-control" })
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label>Type</label>
-                                    @Html.TextBoxFor(x=>x.Entity.UsageType, new { @class = "form-control" })
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <!-- BEGIN NOTE FIELD -->
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <label>
-                                        Note
-                                        &nbsp;<a href="" data-toggle="modal" data-target="#modal-note-lookup"><i class="fa fa-search"></i></a>
-                                    </label>
-                                    <div class="input-group">
-                                        @Html.TextAreaFor(x => x.Entity.Note, new { @id = "txtNote", @class = "form-control", @style = "width:100%;" })
+                            <div class="card-body">
+                                @Html.Partial("~/Views/Shared/_ValidationMessages.cshtml")
+                                @Html.HiddenFor(x => x.PageTitle)
+                                @Html.HiddenFor(x => x.EventAction)
+                                @Html.HiddenFor(x => x.EventValue)
+                                @Html.HiddenFor(x => x.TableName)
+                                @Html.HiddenFor(x => x.TableCode)
+                                @Html.HiddenFor(x => x.Entity.ID)
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Usage</label>
+                                            @Html.DropDownListFor(x => x.Entity.EconomicUsageCode, Model.EconomicUsageCodes, "NULL", new { @id = "ddlEconomicUsageCodes", @class = "form-control" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Type</label>
+                                            @Html.TextBoxFor(x => x.Entity.UsageType, new { @class = "form-control" })
+                                        </div>
                                     </div>
                                 </div>
+                                <div class="row">
+                                    <!-- BEGIN NOTE FIELD -->
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label>
+                                                Note
+                                                &nbsp;<a href="" data-toggle="modal" data-target="#modal-note-lookup"><i class="fa fa-search"></i></a>
+                                            </label>
+                                            <div class="input-group">
+                                                @Html.TextAreaFor(x => x.Entity.Note, new { @id = "txtNote", @class = "form-control", @style = "width:100%;" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- END NOTE FIELD-->
+                                </div>
                             </div>
-                            <!-- END NOTE FIELD-->
-                        </div>
-                    </div>
                             <div class="card-footer">
 
                                 <a href="@Url.Action("Refresh")" class="btn btn-default">Reset</a>
@@ -143,7 +143,12 @@
                     @{Html.RenderAction("RenderLookupModal", "Species"); }
                     @Html.Partial("~/Views/Shared/Modals/_NoteLookup2.cshtml")
                     @Html.Partial("~/Views/Taxonomy/Shared/Modals/_Delete.cshtml")
-                    @{Html.RenderAction("_Edit", "Folder"); }
+                    @{
+                        if (Model.Entity.ID > 0)
+                        {
+                            { Html.RenderAction("_Edit", "Folder", new { @tableName = "taxonomy_economic_usage_type" }); }
+                        }
+                    }
                 </div>
             </div>
         </div>

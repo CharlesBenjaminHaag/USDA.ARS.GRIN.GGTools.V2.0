@@ -20,7 +20,7 @@
 
 @Html.Partial("~/Views/Taxonomy/CommonName/_List.cshtml")
 @Html.Partial("~/Views/Taxonomy/Citation/Modals/_Detail.cshtml")
-@{Html.RenderAction("_Edit", "Folder"); }
+@{Html.RenderAction("_Edit", "Folder", new { @tableName = Model.TableName });}
 
 <script type="text/javascript">
 

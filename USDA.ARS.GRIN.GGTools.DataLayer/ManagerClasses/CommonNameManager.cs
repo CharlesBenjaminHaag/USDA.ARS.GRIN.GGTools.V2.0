@@ -106,11 +106,14 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             SQL += " AND    (@GenusName                     IS NULL OR  GenusName                   LIKE    '%' + @GenusName + '%') ";
             SQL += " AND    (@SpeciesName                   IS NULL OR  SpeciesName                 LIKE    '%' + @SpeciesName + '%') ";
 
-            //SQL += " AND    ((@SpeciesName                IS NULL OR  REPLACE(Name, ' x ', '')    LIKE    'X ' + @SpeciesName + '%') ";
-            //SQL += " OR     (@SpeciesName                 IS NULL OR  REPLACE(Name, ' x ', '')    LIKE    '+' + @SpeciesName + '%') ";
-            //SQL += " OR     (@SpeciesName                 IS NULL OR  REPLACE(Name, ' x ', '')    LIKE    @SpeciesName + '%')) ";
-
-            SQL += " AND    (@Name                          IS NULL OR  Name                        LIKE    '%' + @Name + '%') ";
+            if (searchEntity.IsNameExactMatch == "Y")
+            {
+                SQL += " AND    (@Name                          IS NULL OR  Name                    =       @Name) ";
+            }
+            else
+            {
+                SQL += " AND    (@Name                          IS NULL OR  Name                    LIKE    '%' + @Name + '%') ";
+            }
             SQL += " AND    (@LanguageDescription           IS NULL OR  LanguageDescription         LIKE    '%' + @LanguageDescription + '%') ";
             SQL += " AND    (@SimplifiedName                IS NULL OR  SimplifiedName              LIKE    '%' + @SimplifiedName + '%') ";
 

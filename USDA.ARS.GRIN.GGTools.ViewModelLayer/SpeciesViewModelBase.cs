@@ -36,7 +36,13 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
         public SpeciesViewModelBase()
         {
             TableName = "taxonomy_species";
-            
+
+            Entity.IsSpecificHybrid = "N";
+            Entity.IsSubspecificHybrid = "N";
+            Entity.IsVarietalHybrid = "N";
+            Entity.IsSubVarietalHybrid = "N";
+            Entity.IsFormaHybrid = "N";
+
             using (SpeciesManager mgr = new SpeciesManager())
             {
                 Cooperators = new SelectList(mgr.GetCooperators(TableName), "ID", "FullName");
