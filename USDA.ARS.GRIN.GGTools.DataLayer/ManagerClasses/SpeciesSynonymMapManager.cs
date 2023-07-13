@@ -23,7 +23,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         public SpeciesSynonymMap Get(int entityId)
         {
             SpeciesSynonymMap result = new SpeciesSynonymMap();
-            SQL = " SELECT * FROM vw_GGTools_Taxon_SpeciesSynonymMaps ";
+            SQL = " SELECT * FROM vw_GRINGlobal_Taxonomy_Species_Synonym_Map ";
             SQL += " WHERE      (@ID                        IS NULL OR  ID = @ID) ";
 
             var parameters = new List<IDbDataParameter> {

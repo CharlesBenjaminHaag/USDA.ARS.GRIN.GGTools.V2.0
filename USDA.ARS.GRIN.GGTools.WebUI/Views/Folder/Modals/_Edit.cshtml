@@ -80,6 +80,7 @@
                                                     <th>ID</th>
                                                     <th>Title</th>
                                                     <th>Category</th>
+                                                    <th>Items</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -96,6 +97,11 @@
                                                             <b>@folder.FolderName</b> - @folder.Description
                                                         </td>
                                                         <td>@folder.Category</td>
+                                                        <td>
+                                                            <span class='badge badge-info'>
+                                                                @folder.TotalItems
+                                                            </span>
+                                                        </td>
                                                     </tr>
                                                 }
                                             </tbody>

@@ -267,7 +267,7 @@
                             </div>
                         </div>
                     }
-                    @{Html.RenderAction("_Edit", "Folder"); }
+                    @{Html.RenderAction("_Edit", "Folder", new { tableName = Model.TableName }); }
                     @{Html.RenderAction("RenderLookupModal", "Literature"); }
                     @{Html.RenderAction("RenderLookupModal", "Genus"); }
                     @{Html.RenderAction("RenderLookupModal", "Species"); }

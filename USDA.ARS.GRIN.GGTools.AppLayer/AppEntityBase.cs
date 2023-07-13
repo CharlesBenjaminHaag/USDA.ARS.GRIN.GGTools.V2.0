@@ -15,7 +15,9 @@ namespace USDA.ARS.GRIN.GGTools.AppLayer
         public int FolderID { get; set; }
         public int AppUserItemListID { get; set; }
         public int ParentID { get; set; }
+        [AllowHtml]
         public string ParentName { get; set; }
+        [AllowHtml]
         public string AssembledName { get; set; }
         public int ID { get; set; }
         public string ItemIDList { get; set; }

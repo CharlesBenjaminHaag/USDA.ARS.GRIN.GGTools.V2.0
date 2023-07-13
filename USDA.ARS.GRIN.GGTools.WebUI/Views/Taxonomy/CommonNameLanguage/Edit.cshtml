@@ -106,7 +106,7 @@
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label>Simplified Name</label>
-                                            @Html.TextBoxFor(x => x.Entity.LanguageSimplifiedName, new { @class = "form-control", @readonly="readonly" })
+                                            @Html.TextBoxFor(x => x.Entity.LanguageSimplifiedName, new { @class = "form-control", @readonly = "readonly" })
                                         </div>
                                     </div>
                                     <div class="col-md-3">
@@ -150,13 +150,9 @@
                             </div>
                         </div>
                     }
-
-
-                    <!--TODO common names here-->
-
                     @Html.Partial("~/Views/Shared/Modals/_NoteLookup2.cshtml")
                     @Html.Partial("~/Views/Taxonomy/Shared/Modals/_Delete.cshtml")
-                    @{Html.RenderAction("_Edit", "Folder"); }
+                    @{Html.RenderAction("_Edit", "Folder", new { tableName = Model.TableName }); }
                 </div>
             </div>
         </div>

@@ -73,6 +73,7 @@
         var eventValue = $(this).data("ggtools-value");
         $("#hfGenusLookupIDFieldName").val(eventAction);
         $("#hfGenusLookupNameFieldName").val(eventValue);
+        $("#search-progress-overlay-genus-lookup").hide();
     });
 
     $("#btnLookupGenus").click(function () {

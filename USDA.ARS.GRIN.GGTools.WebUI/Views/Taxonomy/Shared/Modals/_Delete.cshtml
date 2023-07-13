@@ -98,6 +98,9 @@
         link = link.replace("[ACTION]", tableCode);
         refreshLink = refreshLink.replace("[ACTION]", tableCode);
 
+        //DEBUG
+        alert("DEBUG REFRESH LINK IS " + refreshLink);
+
         formData.append("TableName", tableName);
         formData.append("EntityID", entityId);
 

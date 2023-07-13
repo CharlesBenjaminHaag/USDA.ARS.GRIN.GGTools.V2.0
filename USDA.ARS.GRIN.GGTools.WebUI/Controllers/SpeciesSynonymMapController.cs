@@ -24,7 +24,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             try 
             { 
                 SynonymMapViewModel viewModel = new SynonymMapViewModel();
-                viewModel.SearchEntity.SpeciesAID = speciesId;
+                viewModel.SearchEntity.SpeciesBID = speciesId;
                 viewModel.Search();
                 return PartialView(BASE_PATH + "_ListSynonymsA.cshtml", viewModel);
             }
@@ -40,7 +40,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             try 
             { 
                 SynonymMapViewModel viewModel = new SynonymMapViewModel();
-                viewModel.SearchEntity.SpeciesBID = speciesId;
+                viewModel.SearchEntity.SpeciesAID = speciesId;
                 viewModel.Search();
                 return PartialView(BASE_PATH + "_ListSynonymsB.cshtml", viewModel);
             }

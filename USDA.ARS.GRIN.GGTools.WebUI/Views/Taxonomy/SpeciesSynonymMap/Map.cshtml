@@ -69,9 +69,12 @@
                 </div>
                 <div class="row">
                     <div id="section-search-results-species-a" class="col-md-12">
-                           <!-- DATA HERE -->
+                        <!-- DATA HERE -->
                     </div>
                 </div>
+            </div>
+            <div id="search-progress-overlay-species-a" class="overlay">
+                <i class="fas fa-2x fa-sync fa-spin"></i>
             </div>
             <div class="card-footer">
                 <button id="btnClearAllSpeciesA" class="btn btn-default">Reset</button>
@@ -117,7 +120,8 @@
             <div class="card-header">
                 <h3 class="card-title">
                     <i class="fas fa-leaf"></i>
-                     Species B</h3>
+                    Species B
+                </h3>
                 <div class="card-tools">
                     <button type="button" class="btn btn-tool" data-card-widget="collapse">
                         <i class="fas fa-minus"></i>
@@ -150,6 +154,9 @@
                     </div>
                 </div>
             </div>
+            <div id="search-progress-overlay-species-b" class="overlay">
+                <i class="fas fa-2x fa-sync fa-spin"></i>
+            </div>
             <div class="card-footer">
                 <button id="btnClearAllSpeciesB" class="btn btn-default">Reset</button>
                 <button id="btnGenerateMaps" class="btn btn-info float-right">Generate Maps</button>
@@ -178,7 +185,7 @@
     </div>
 </div>
 
-@{Html.RenderAction("_Edit", "Folder"); }
+@{Html.RenderAction("_Edit", "Folder", new { tableName = Model.TableName }); }
 
 <script type="text/javascript">
     $(document).ready(function () {
@@ -196,6 +203,9 @@
         }
         InitDataTableMinimal("table-synonym-codes");
         $("#section-validation-errors").hide();
+
+        $("#search-progress-overlay-species-a").hide();
+        $("#search-progress-overlay-species-b").hide();
     }
 
     $("#btnLookupSpeciesA").click(function () {
@@ -206,10 +216,6 @@
         if ($("#SearchEntity_SpeciesAIsAcceptedOption").is(":checked")) {
             isAcceptedName = "Y";
         }
-
-        //DEBUG
-        /*alert("DEBUG " + eventAction + " " + searchText);*/
-
         SearchSpecies(eventAction, 0, searchText, isAcceptedName, "section-search-results-" + eventAction, "table-search-results-" + eventAction);
     });
 
@@ -234,6 +240,8 @@
         formData.append("SearchEntity.IsAcceptedName", isAcceptedName);
         formData.append("SearchEntity.IsMultiSelect", "Y");
 
+        $("#search-progress-overlay-" + searchResultSectionName).show();
+
         $.ajax({
             url: link,
             type: 'POST',
@@ -243,6 +251,7 @@
             data: formData,
             success: function (response) {
                 $("#" + searchResultSectionName).html(response);
+                $("#search-progress-overlay-" + searchResultSectionName).hide();
             },
             error: function () {
                 alert("Error");

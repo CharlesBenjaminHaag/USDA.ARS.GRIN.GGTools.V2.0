@@ -160,7 +160,7 @@
                     }
                     @Html.Partial("~/Views/Shared/Modals/_NoteLookup2.cshtml")
                     @Html.Partial("~/Views/Taxonomy/Shared/Modals/_Delete.cshtml")
-                    @{Html.RenderAction("_Edit", "Folder"); }
+                    @{Html.RenderAction("_Edit", "Folder", new { tableName = Model.TableName }); }
                 </div>
             </div>
         </div>

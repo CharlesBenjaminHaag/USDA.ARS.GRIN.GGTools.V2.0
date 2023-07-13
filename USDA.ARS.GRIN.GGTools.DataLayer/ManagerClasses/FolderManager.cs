@@ -91,11 +91,11 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             List<CodeValue> codeValues = new List<CodeValue>();
             FolderSearch searchEntity = new FolderSearch { CreatedByCooperatorID = cooperatorId };
 
-            SQL = " SELECT DISTINCT FolderTypeDescription AS Value, " +
-                "   FolderTypeTitle AS Title " +
+            SQL = " SELECT DISTINCT FolderType AS Value, " +
+                "   FolderTypeDescription AS Title " +
                 "   FROM vw_GRINGlobal_App_User_Item_Folder ";
             SQL += " WHERE (@CreatedByCooperatorID IS NULL OR CreatedByCooperatorID =  @CreatedByCooperatorID)";
-            SQL += " GROUP BY FolderTypeDescription, FolderTypeTitle  ";
+            SQL += " GROUP BY FolderType, FolderTypeDescription  ";
 
             var parameters = new List<IDbDataParameter> {
                 CreateParameter("CreatedByCooperatorID", searchEntity.CreatedByCooperatorID > 0 ? (object)searchEntity.CreatedByCooperatorID : DBNull.Value, true)

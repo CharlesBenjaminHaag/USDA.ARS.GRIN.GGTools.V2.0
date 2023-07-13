@@ -792,6 +792,7 @@
     <Content Include="Views\Taxonomy\Citation\_EditBatch2.cshtml" />
     <Content Include="Views\Shared\Sidebars\_MainSidebarFolder.cshtml" />
     <Content Include="Views\Folder\_ListMyFolders.cshtml" />
+    <Content Include="Views\Taxonomy\Species\Partial\_Treeview.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

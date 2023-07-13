@@ -140,7 +140,7 @@
             <div class="content">
                 <div class="container" style="max-width:1500px;">
                     <div id="section-folder-confirmation"></div>
-                    @{Html.RenderAction("_Edit", "Folder"); }
+                    @{Html.RenderAction("_Edit", "Folder", new { tableName = Model.TableName }); }
 
                 <div class="card card-default">
                     <div class="card-header">

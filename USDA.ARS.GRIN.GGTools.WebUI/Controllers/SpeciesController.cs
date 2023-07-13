@@ -275,7 +275,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 viewModel.Entity.SubspeciesName = parentViewModel.Entity.SubspeciesName;
                 viewModel.Entity.VarietyName = parentViewModel.Entity.VarietyName;
                 viewModel.Entity.SubvarietyName = parentViewModel.Entity.SubvarietyName;
-                viewModel.Entity.Protologue = parentViewModel.Entity.Protologue;
+                //viewModel.Entity.Protologue = parentViewModel.Entity.Protologue;
 
                 if (!String.IsNullOrEmpty(viewModel.Entity.SynonymCode))
                 {
@@ -333,6 +333,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                     viewModel.Entity.GenusName = topRankGenusViewModel.Entity.Name;
                 }
 
+                // If an entity ID is passed in, this represents a parent species.
                 if (entityId > 0)
                 {
                     SpeciesViewModel parentViewModel = new SpeciesViewModel();
@@ -352,6 +353,9 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                     viewModel.Entity.GenusID = parentViewModel.Entity.GenusID;
                     viewModel.Entity.GenusName = parentViewModel.Entity.GenusName;
                     viewModel.Entity.Protologue = parentViewModel.Entity.Protologue;
+
+                    // Store parent entity in session.
+                    Session["PARENT-SPECIES"] = viewModel.ParentEntity;
                 }
 
                 if (!String.IsNullOrEmpty(synonymTypeCode))
@@ -520,7 +524,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
 
         }
 
-        public ActionResult Edit(int entityId, string rank = "")
+        public ActionResult Edit(int entityId, int parentId = 0, string rank = "")
         {
             try
             {
@@ -539,6 +543,15 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 if (!String.IsNullOrEmpty(rank))
                 {
                     viewModel.Entity.Rank = rank;
+                }
+
+                // If there is a parent ID specified, retrieve its pertinent data.
+                if(parentId > 0)
+                {
+                    SpeciesViewModel parentViewModel = new SpeciesViewModel();
+                    parentViewModel.Get(parentId);
+                    viewModel.Entity.ParentID = parentViewModel.Entity.ID;
+                    viewModel.Entity.ParentName = parentViewModel.Entity.Name;
                 }
 
                 viewModel.SubspeciesUrl = Url.Action("Add", "Species", new { entityId = entityId, rank = "subspecies" });
@@ -613,6 +626,12 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                     }
                 }
 
+                // If parent ID is present, display its data in a navigable URL.
+                if (viewModel.Entity.ParentID > 0)
+                { 
+                
+                }
+
                 // If the species is being saved with a non-accepted name, add a
                 // synonym map record. The stored proc. will ensure that the synonym
                 // does not already exist.
@@ -626,7 +645,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                     synonymMapViewModel.Insert();
                 }
 
-                return RedirectToAction("Edit", "Species", new { entityId = viewModel.Entity.ID });
+                return RedirectToAction("Edit", "Species", new { entityId = viewModel.Entity.ID, parentId = viewModel.Entity.ParentID });
             }
             catch (Exception ex)
             {
