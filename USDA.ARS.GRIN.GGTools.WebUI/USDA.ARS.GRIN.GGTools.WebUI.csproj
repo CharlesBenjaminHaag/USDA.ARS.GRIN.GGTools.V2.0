@@ -793,6 +793,9 @@
     <Content Include="Views\Shared\Sidebars\_MainSidebarFolder.cshtml" />
     <Content Include="Views\Folder\_ListMyFolders.cshtml" />
     <Content Include="Views\Taxonomy\Species\Partial\_Treeview.cshtml" />
+    <Content Include="Views\Folder\Modals\_EditCooperators.cshtml" />
+    <Content Include="Views\SysUser\_Widget_BACKUP.cshtml" />
+    <Content Include="Views\Cooperator\_Widget_BACKUP.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

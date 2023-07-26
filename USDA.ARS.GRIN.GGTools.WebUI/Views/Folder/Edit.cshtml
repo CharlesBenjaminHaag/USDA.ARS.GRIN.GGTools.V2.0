@@ -159,6 +159,7 @@
     </div>
 </div>
 @Html.Partial("~/Views/Taxonomy/Shared/Modals/_Delete.cshtml")
+@{Html.RenderAction("_EditCooperators","Folder", new { @entityId = Model.Entity.ID });}
 @{ Html.RenderAction("_ListFolderItems", Model.Entity.FolderTypeDescription, new { @folderId = Model.Entity.ID, displayFormat = "" });}
 <script type="text/javascript">
     $(document).ready(function () {

@@ -125,6 +125,7 @@
 
 <div class="row">
     <div class="col-md-3">
+        @{Html.RenderAction("RenderWidget", "SysUser", new { sysUserId = Model.SysUserID }); }
         @{Html.RenderAction("RenderWidget", "Cooperator", new { cooperatorId = Model.CooperatorID }); }
     </div>
     <div class="col-md-9">

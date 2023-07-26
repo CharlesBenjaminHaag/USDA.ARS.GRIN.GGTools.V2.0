@@ -690,6 +690,23 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             }
         }
 
+        public PartialViewResult _EditCooperators(int entityId)
+        { 
+            try
+            {
+                FolderViewModel viewModel = new FolderViewModel();
+                viewModel.Entity.ID = entityId;
+                viewModel.GetAvailableCollaborators();
+                viewModel.GetCurrentCollaborators();
+                return PartialView("~/Views/Folder/Modals/_EditCooperators.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+    }
+}
+
         public ActionResult Edit(int entityId)
         {
             try
