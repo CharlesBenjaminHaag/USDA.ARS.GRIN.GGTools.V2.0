@@ -345,16 +345,12 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
         {
             throw new NotImplementedException();
         }
-        public List<Cooperator> GetAvailableCollaborators(int folderId)
+        public List<Cooperator> GetAvailableCooperators(int folderId)
         {
-            //string appCode = ConfigurationManager.AppSettings["AppCode"];
-            string appCode = "MANAGE_TAXONOMY";
-
             List<Cooperator> cooperators = new List<Cooperator>();
-            SQL = "usp_GGTools_GRINGlobal_AppUserItemFolderAvailableCollaborators_Select";
+            SQL = "usp_GRINGlobal_AppUserItemFolderAvailableCooperators_Select";
 
             var parameters = new List<IDbDataParameter> {
-                CreateParameter("group_tag", (object)appCode, false),
                 CreateParameter("app_user_item_folder_id", (object)folderId ?? DBNull.Value, true)
             };
             cooperators = GetRecords<Cooperator>(SQL, CommandType.StoredProcedure, parameters.ToArray());
@@ -363,13 +359,10 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
 
         public List<Cooperator> GetCurrentCollaborators(int folderId)
         {
-            string appCode = "MANAGE_TAXONOMY";
-
             List<Cooperator> cooperators = new List<Cooperator>();
-            SQL = "usp_GGTools_GRINGlobal_AppUserItemFolderCurrentCollaborators_Select";
+            SQL = "usp_GRINGlobal_AppUserItemFolderCurrentCooperators_Select";
 
             var parameters = new List<IDbDataParameter> {
-                CreateParameter("group_tag", (object)appCode, false),
                 CreateParameter("app_user_item_folder_id", (object)folderId ?? DBNull.Value, true)
             };
             cooperators = GetRecords<Cooperator>(SQL, CommandType.StoredProcedure, parameters.ToArray());

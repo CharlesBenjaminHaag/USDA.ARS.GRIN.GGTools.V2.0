@@ -118,15 +118,15 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
             return Entity;
         }
 
-        public void GetAvailableCollaborators()
+        public void GetAvailableCooperators()
         {
             using (FolderManager mgr = new FolderManager())
             {
-                DataCollectionAvailableCooperators = new Collection<Cooperator>(mgr.GetAvailableCollaborators(Entity.ID));
+                DataCollectionAvailableCooperators = new Collection<Cooperator>(mgr.GetAvailableCooperators(Entity.ID));
             }
         }
 
-        public void GetCurrentCollaborators()
+        public void GetCurrentCooperators()
         {
             using (FolderManager mgr = new FolderManager())
             {

@@ -583,8 +583,8 @@
     <Content Include="Views\AppUserItemList\_List.cshtml" />
     <Content Include="Views\Cooperator\_SelectList.cshtml" />
     <Content Include="Views\Folder\_BACKUP\_ListShared.cshtml" />
-    <Content Include="Views\Folder\_ListCurrentCollaborators.cshtml" />
-    <Content Include="Views\Folder\_ListAvailableCollaborators.cshtml" />
+    <Content Include="Views\Folder\Cooperator\_ListCurrent.cshtml" />
+    <Content Include="Views\Folder\Cooperator\_ListAvailable.cshtml" />
     <Content Include="Views\Folder\_BACKUP\_WidgetCurrentCollaborators.cshtml" />
     <Content Include="Views\SiteAdmin\_Detail.cshtml" />
     <Content Include="Views\SiteAdmin\Edit.cshtml" />
@@ -793,9 +793,10 @@
     <Content Include="Views\Shared\Sidebars\_MainSidebarFolder.cshtml" />
     <Content Include="Views\Folder\_ListMyFolders.cshtml" />
     <Content Include="Views\Taxonomy\Species\Partial\_Treeview.cshtml" />
-    <Content Include="Views\Folder\Modals\_EditCooperators.cshtml" />
+    <Content Include="Views\Folder\Cooperator\_Edit.cshtml" />
     <Content Include="Views\SysUser\_Widget_BACKUP.cshtml" />
     <Content Include="Views\Cooperator\_Widget_BACKUP.cshtml" />
+    <Content Include="Views\Folder\Cooperator\_Widget.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

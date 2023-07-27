@@ -210,11 +210,7 @@ function InitDataTableLightMultiSelect(tableName) {
                     target: 0,
                     visible: false,
                     searchable: false,
-                },
-                {
-                    target: 1,
-                    visible: false,
-                },
+                }
             ]
         });
     });

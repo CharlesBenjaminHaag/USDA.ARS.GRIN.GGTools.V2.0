@@ -1,13 +1,13 @@
 ﻿@model USDA.ARS.GRIN.GGTools.ViewModelLayer.FolderViewModel
-<table id="data-table-available-cooperators" class="table table-striped" style="width:100%;">
+<table id="data-table-current-cooperators" class="table table-striped" style="width:100%;">
     <thead>
         <tr>
             <th></th>
-            <th>Name</th>
+            <th>Shared WIth</th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var result in Model.DataCollectionAvailableCooperators)
+        @foreach (var result in Model.DataCollectionCurrentCooperators)
         {
             <tr>
                 <td>
@@ -22,6 +22,8 @@
 </table>
 <script type="text/javascript">
     $(document).ready(function () {
-        InitDataTableLightMultiSelect("data-table-available-cooperators");
+        InitDataTableLightMultiSelect("data-table-current-cooperators");
     });
 </script>
+
+

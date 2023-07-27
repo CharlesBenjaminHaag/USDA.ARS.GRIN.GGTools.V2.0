@@ -237,44 +237,6 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             }
         }
         [HttpPost]
-        public ActionResult _ListAvailableCollaborators(FormCollection formCollection)
-        {
-            FolderViewModel viewModel = new FolderViewModel();
-
-            if (!String.IsNullOrEmpty(formCollection["FolderID"]))
-            {
-                viewModel.Entity.ID = Int32.Parse(formCollection["FolderID"]);
-            }
-            viewModel.GetAvailableCollaborators();
-            return PartialView("~/Views/Folder/_ListAvailableCollaborators.cshtml", viewModel);
-        }
-
-        [HttpPost]
-        public ActionResult _ListCurrentCollaborators(FormCollection formCollection)
-        {
-            FolderViewModel viewModel = new FolderViewModel();
-
-            if (!String.IsNullOrEmpty(formCollection["FolderID"]))
-            {
-                viewModel.Entity.ID = Int32.Parse(formCollection["FolderID"]);
-            }
-            viewModel.GetCurrentCollaborators();
-            return PartialView("~/Views/Folder/_ListCurrentCollaborators.cshtml", viewModel);
-        }
-
-        public PartialViewResult _RenderCurrentCollaboratorWidget(int folderId)
-        {
-            FolderViewModel viewModel = new FolderViewModel();
-            viewModel.Entity.ID = folderId;
-            viewModel.GetCurrentCollaborators();
-            return PartialView("~/Views/Folder/_WidgetCurrentCollaborators.cshtml", viewModel);
-        }
-        //public ActionResult Add()
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        [HttpPost]
         public PartialViewResult Add(FormCollection coll)
         {
             FolderViewModel viewModel = new FolderViewModel();
@@ -365,84 +327,6 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 return Json(new { success = false }, JsonRequestBehavior.AllowGet);
             }
         }
-        //[HttpPost]
-        //public JsonResult Add(FormCollection coll)
-        //{
-        //    FolderViewModel viewModel = new FolderViewModel();
-        //    viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
-
-            //    try
-            //    {
-            //        viewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
-
-            //        if (!String.IsNullOrEmpty(coll["FolderID"]))
-            //        {
-            //            viewModel.Entity.ID = Int32.Parse(coll["FolderID"]);
-            //        }
-
-            //        if (!String.IsNullOrEmpty(coll["IDList"]))
-            //        {
-            //            viewModel.Entity.ItemIDList = coll["IDList"];
-            //        }
-
-            //        if (!String.IsNullOrEmpty(coll["TableName"]))
-            //        {
-            //            viewModel.Entity.TableName = coll["TableName"];
-            //        }
-
-            //        if (!String.IsNullOrEmpty(coll["FolderName"]))
-            //        {
-            //            viewModel.Entity.FolderName = coll["FolderName"];
-            //        }
-
-            //        if (!String.IsNullOrEmpty(coll["FolderType"]))
-            //        {
-            //            viewModel.Entity.FolderType = coll["FolderType"];
-            //        }
-
-            //        if (!String.IsNullOrEmpty(coll["NewCategory"]))
-            //        {
-            //            viewModel.Entity.Category = coll["NewCategory"];
-            //        }
-            //        else
-            //        {
-            //            if (!String.IsNullOrEmpty(coll["Category"]))
-            //            {
-            //                viewModel.Entity.Category = coll["Category"];
-            //            }
-            //        }
-
-            //        if (!String.IsNullOrEmpty(coll["Description"]))
-            //        {
-            //            viewModel.Entity.Description = coll["Description"];
-            //        }
-
-            //        if (!String.IsNullOrEmpty(coll["IsFavorite"]))
-            //        {
-            //            viewModel.Entity.IsFavorite = Boolean.Parse(coll["IsFavorite"]);
-            //        }
-
-            //        if (viewModel.Entity.ID == 0)
-            //        {
-            //            viewModel.Insert();
-            //        }
-            //        else
-            //        {
-            //            viewModel.Update();
-            //        }
-
-            //        // TEST Return new folder as JSON
-            //        viewModel.SearchEntity.ID = viewModel.Entity.ID;
-            //        viewModel.Search();
-            //        return Json( new { folder = viewModel.Entity }, JsonRequestBehavior.AllowGet);
-            //    }
-            //    catch (Exception ex)
-            //    {
-            //        Log.Error(ex);
-            //        return Json(new { success = false }, JsonRequestBehavior.AllowGet);
-            //    }
-            //}
-
         [HttpPost]
         public PartialViewResult Update(FormCollection coll)
         {
@@ -484,8 +368,34 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             }
         }
 
+        #region Cooperator
+        public PartialViewResult RenderFolderCooperatorWidget(int folderId)
+        {
+            FolderViewModel viewModel = new FolderViewModel();
+            viewModel.Entity.ID = folderId;
+            viewModel.GetCurrentCooperators();
+            return PartialView("~/Views/Folder/Cooperator/_Widget.cshtml", viewModel);
+        }
+
+        public PartialViewResult RenderFolderCooperatorEditModal(int entityId)
+        {
+            try
+            {
+                FolderViewModel viewModel = new FolderViewModel();
+                viewModel.Entity.ID = entityId;
+                viewModel.GetAvailableCooperators();
+                viewModel.GetCurrentCooperators();
+                return PartialView("~/Views/Folder/Cooperator/_Edit.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
+        }
+
         [HttpPost]
-        public JsonResult AddCollaborators(FormCollection coll)
+        public JsonResult AddCooperators(FormCollection coll)
         {
             FolderViewModel viewModel = new FolderViewModel();
 
@@ -512,7 +422,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
         }
 
         [HttpPost]
-        public JsonResult DeleteCollaborators(FormCollection coll)
+        public JsonResult DeleteCooperators(FormCollection coll)
         {
             FolderViewModel viewModel = new FolderViewModel();
 
@@ -536,91 +446,32 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 return Json(new { success = false }, JsonRequestBehavior.AllowGet);
             }
         }
+        [HttpPost]
+        public ActionResult _ListAvailableCooperators(FormCollection formCollection)
+        {
+            FolderViewModel viewModel = new FolderViewModel();
 
-        //[HttpPost]
-        //public PartialViewResult AddWidget(FormCollection coll)
-        //{
-        //    FolderViewModel viewModel = new FolderViewModel();
-        //    viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
+            if (!String.IsNullOrEmpty(formCollection["FolderID"]))
+            {
+                viewModel.Entity.ID = Int32.Parse(formCollection["FolderID"]);
+            }
+            viewModel.GetAvailableCooperators();
+            return PartialView("~/Views/Folder/Cooperator/_ListAvailable.cshtml", viewModel);
+        }
 
-        //    try
-        //    {
-        //        viewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
+        [HttpPost]
+        public ActionResult _ListCurrentCooperators(FormCollection formCollection)
+        {
+            FolderViewModel viewModel = new FolderViewModel();
 
-        //        if (!String.IsNullOrEmpty(coll["FolderID"]))
-        //        {
-        //            viewModel.Entity.ID = Int32.Parse(coll["FolderID"]);
-        //        }
-
-        //        if (!String.IsNullOrEmpty(coll["IDList"]))
-        //        {
-        //            viewModel.Entity.ItemIDList = coll["IDList"];
-        //        }
-
-        //        if (!String.IsNullOrEmpty(coll["TableName"]))
-        //        {
-        //            viewModel.Entity.TableName = coll["TableName"];
-        //        }
-
-        //        if (!String.IsNullOrEmpty(coll["FolderName"]))
-        //        {
-        //            viewModel.Entity.FolderName = coll["FolderName"];
-        //        }
-
-        //        if (!String.IsNullOrEmpty(coll["FolderType"]))
-        //        {
-        //            viewModel.Entity.FolderType = coll["FolderType"];
-        //        }
-
-        //        if (!String.IsNullOrEmpty(coll["NewCategory"]))
-        //        {
-        //            viewModel.Entity.Category = coll["NewCategory"];
-        //        }
-        //        else
-        //        {
-        //            if (!String.IsNullOrEmpty(coll["Category"]))
-        //            {
-        //                viewModel.Entity.Category = coll["Category"];
-        //            }
-        //        }
-
-        //        if (!String.IsNullOrEmpty(coll["Description"]))
-        //        {
-        //            viewModel.Entity.Description = coll["Description"];
-        //        }
-
-        //        if (!String.IsNullOrEmpty(coll["IsFavorite"]))
-        //        {
-        //            viewModel.Entity.IsFavorite = Boolean.Parse(coll["IsFavorite"]);
-        //        }
-
-        //        if (viewModel.Entity.ID == 0)
-        //        {
-        //            viewModel.Insert();
-        //        }
-        //        else
-        //        {
-        //            viewModel.Update();
-        //        }
-
-        //        //TODO Retrieve new/updated folder
-        //        viewModel.SearchEntity.ID = viewModel.Entity.ID;
-        //        viewModel.Search();
-        //        return PartialView("~/Views/Folder/_Widget.cshtml", viewModel);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Log.Error(ex);
-        //        return PartialView("~/Views/Error/_InternalServerError.cshtml", viewModel);
-        //    }
-        //}
-
-        //public PartialViewResult GetWidget(int entityId)
-        //{
-        //    FolderViewModel viewModel = new FolderViewModel();
-        //    //TODO
-        //    return PartialView("~/Views/Folder/_Widget.cshtml", viewModel);
-        //}
+            if (!String.IsNullOrEmpty(formCollection["FolderID"]))
+            {
+                viewModel.Entity.ID = Int32.Parse(formCollection["FolderID"]);
+            }
+            viewModel.GetCurrentCooperators();
+            return PartialView("~/Views/Folder/Cooperator/_ListCurrent.cshtml", viewModel);
+        }
+        #endregion
 
         [HttpPost]
         public JsonResult AddItems(FormCollection coll)
@@ -656,18 +507,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             }
 
         }
-      
-        //[HttpPost]
-        //public ActionResult RenderMyFoldersWidget()
-        //{
-        //    FolderViewModel viewModel = new FolderViewModel();
-
-        //    FolderSearch folderSearch = new FolderSearch();
-        //    folderSearch.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
-        //    viewModel.Search();
-        //    return PartialView("~/Views/Folder/_MyFoldersWidget.cshtml", viewModel);
-        //}
-
+     
         public ActionResult _Edit(string tableName)
         {
             try
@@ -689,23 +529,6 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 return PartialView("~/Views/Error/_InternalServerError.cshtml");
             }
         }
-
-        public PartialViewResult _EditCooperators(int entityId)
-        { 
-            try
-            {
-                FolderViewModel viewModel = new FolderViewModel();
-                viewModel.Entity.ID = entityId;
-                viewModel.GetAvailableCollaborators();
-                viewModel.GetCurrentCollaborators();
-                return PartialView("~/Views/Folder/Modals/_EditCooperators.cshtml", viewModel);
-            }
-            catch (Exception ex)
-            {
-                Log.Error(ex);
-                return PartialView("~/Views/Error/_InternalServerError.cshtml");
-    }
-}
 
         public ActionResult Edit(int entityId)
         {
@@ -827,41 +650,6 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 return RedirectToAction("InternalServerError", "Error");
             }
         }
-
-        //public PartialViewResult SearchNotes(string searchText)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        //public PartialViewResult FolderItems(int entityId, string tableCode)
-        //{
-        //    //try
-        //    //{
-        //    //    CropForCWRViewModel viewModel = new CropForCWRViewModel();
-        //    //    viewModel.EventAction = "SEARCH";
-        //    //    viewModel.EventValue = "FOLDER";
-        //    //    viewModel.SearchEntity.FolderID = folderId;
-        //    //    viewModel.SearchFolderItems();
-        //    //    ModelState.Clear();
-        //    //    return PartialView("~/Views/CropForCWR/_List.cshtml", viewModel);
-        //    //}
-        //    //catch (Exception ex)
-        //    //{
-        //    //    Log.Error(ex);
-        //    //    return null;
-        //    //}
-        //    //TODO
-        //    //Get folder details (incl. table name)
-        //    //re-route based on data
-            
-        //    return PartialView("~/Views/Shared/_UnderConstruction.cshtml");
-        //}
-      
-        //[HttpPost]
-        //public PartialViewResult FolderItems(FormCollection formCollection)
-        //{
-        //    throw new NotImplementedException();
-        //}
 
         public ActionResult Delete(FormCollection formCollection)
         {
