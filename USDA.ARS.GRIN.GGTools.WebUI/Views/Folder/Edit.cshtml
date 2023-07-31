@@ -62,7 +62,7 @@
                         <div class="col-md-12">
                             <div class="form-group clearfix">
                                 <div class="icheck-primary d-inline">
-                                    @Html.CheckBoxFor(x => x.Entity.IsFavorite, new { id = "cbxIsFavorite", @type = "checkbox", @class = "custom-control-input" })
+                                    @Html.CheckBoxFor(x => x.Entity.IsFavoriteOption, new { id = "cbxIsFavorite", @type = "checkbox", @class = "custom-control-input" })
                                     <label for="cbxIsFavorite">
                                         Add this folder to my Favorites list.
                                     </label>
@@ -87,11 +87,18 @@
                 }
             </div>
             <div class="tab-pane" id="sharing">
-                <button id="btnAddCooperator" class="btn btn-default float-right" data-toggle="modal" data-target="#modal-folder-edit-cooperators">
-                    <i class="fas fa-users"></i>
-                     Edit Folder Sharing Options
-                </button>
-                @{Html.RenderAction("RenderFolderCooperatorWidget", "Folder", new { @folderId = Model.Entity.ID });}
+                <div class="row">
+                    <div class="col-md-12">
+                        <button id="btnAddCooperator" class="btn btn-default float-right" data-toggle="modal" data-target="#modal-folder-edit-cooperators">
+                            <i class="fas fa-users"></i>
+                            Edit Sharing Options
+                        </button>
+                    </div>
+                </div>
+                <br />
+                <div id="section_folder_cooperator_widget">
+                    @{Html.RenderAction("RenderFolderCooperatorWidget", "Folder", new { @folderId = Model.Entity.ID });}
+                </div>
             </div>
         </div>
     </div>
@@ -175,7 +182,26 @@
     });
 
     function RenderFolderCooperatorWidget() {
-        
+        var link = '@Url.Action("RenderFolderCooperatorWidget", "Folder")';
+        var folderId = $("#Entity_ID").val();
+        var formData = new FormData();
+
+        formData.append("folderId", folderId);
+
+        $.ajax({
+            url: link,
+            type: 'POST',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (response) {
+                $("#section_folder_cooperator_widget").html(response);
+            },
+            error: function () {
+                alert("Error loading current cooperators");
+            }
+        });
     }
 </script>
 

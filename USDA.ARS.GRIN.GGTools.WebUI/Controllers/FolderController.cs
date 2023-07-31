@@ -123,8 +123,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 
                 if (folderCategory.ToLower() == "favorites")
                 {
-                    viewModel.SearchEntity.IsFavoriteOption = "Y";
-                    viewModel.SearchEntity.IsFavorite = true;
+                    viewModel.SearchEntity.IsFavorite = "Y";
                 }
                 else
                 {
@@ -138,8 +137,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             {
                 if (viewModel.SearchEntity.Category.ToLower() == "favorites")
                 {
-                    viewModel.SearchEntity.IsFavoriteOption = "Y";
-                    viewModel.SearchEntity.IsFavorite = true;
+                    viewModel.SearchEntity.IsFavorite = "Y";
                 }
                 else
                 {
@@ -164,12 +162,12 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
 
             return PartialView("~/Views/Folder/_List.cshtml", viewModel);
         }
-        public PartialViewResult _ListMyRecentFolders(string folderType = "", int cooperatorId = 0, string timeFrame = "")
+        public PartialViewResult _ListMyFavoriteFolders(string folderType = "", string timeFrame = "")
         {
             FolderViewModel viewModel = new FolderViewModel();
             viewModel.SearchEntity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
             viewModel.SearchEntity.FolderTypeDescription = folderType;
-            viewModel.SearchEntity.OwnedByCooperatorID = cooperatorId;
+            viewModel.SearchEntity.IsFavorite = "Y";
             viewModel.Search();
 
             //TODO
@@ -177,7 +175,27 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
 
             return PartialView("~/Views/Folder/_ListMyFolders.cshtml", viewModel);
         }
+        public PartialViewResult _ListMyRecentFolders(string folderType = "", string timeFrame = "")
+        {
+            FolderViewModel viewModel = new FolderViewModel();
+            viewModel.SearchEntity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
+            viewModel.SearchEntity.FolderTypeDescription = folderType;
+            viewModel.Search();
 
+            //TODO
+            //Get separate list of folders shared with logged-in user.
+
+            return PartialView("~/Views/Folder/_ListMyFolders.cshtml", viewModel);
+        }
+        public PartialViewResult _ListMySharedFolders(string folderType = "", string timeFrame = "")
+        {
+            FolderViewModel viewModel = new FolderViewModel();
+            viewModel.SearchEntity.SharedWithCooperatorID = AuthenticatedUser.CooperatorID;
+            viewModel.SearchEntity.FolderTypeDescription = folderType;
+            viewModel.SearchEntity.IsShared = true;
+            viewModel.Search();
+            return PartialView("~/Views/Folder/_ListMyFolders.cshtml", viewModel);
+        }
         public ActionResult _ItemList(int entityId, string eventAction)
         {
             try 
@@ -236,6 +254,11 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 return PartialView("~/Views/Error/_InternalServerError.cshtml");
             }
         }
+        public PartialViewResult RenderSidebar()
+        {
+            FolderViewModel viewModel = new FolderViewModel();
+            return PartialView("~/Views/Shared/Sidebars/_MainSidebarFolder.cshtml", viewModel);
+        }
         [HttpPost]
         public PartialViewResult Add(FormCollection coll)
         {
@@ -290,7 +313,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
 
                 if (!String.IsNullOrEmpty(coll["IsFavorite"]))
                 {
-                    viewModel.Entity.IsFavorite = Boolean.Parse(coll["IsFavorite"]);
+                    viewModel.Entity.IsFavorite = coll["IsFavorite"];
                 }
 
                 if (viewModel.Entity.ID == 0)
@@ -574,7 +597,6 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 }
                 else
                 {
-
                     if (!viewModel.Validate())
                     {
                         if (viewModel.ValidationMessages.Count > 0) return View(viewModel);
@@ -674,6 +696,12 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 Log.Error(ex);
                 return RedirectToAction("InternalServerError", "Error");
             }
+        }
+
+        public ActionResult Import()
+        {
+            FolderViewModel viewModel = new FolderViewModel();
+            return View("~/Views/Folder/Import/Index.cshtml", viewModel);
         }
     }
 }

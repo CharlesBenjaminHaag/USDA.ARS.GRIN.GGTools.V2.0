@@ -393,7 +393,7 @@
     <Content Include="Views\Taxonomy\Species\Modals\_Lookup.cshtml" />
     <Content Include="Views\Taxonomy\Species\Modals\_SelectList.cshtml" />
     <Content Include="Views\Folder\Edit.cshtml" />
-    <Content Include="Views\Folder\Explorer\Index.cshtml" />
+    <Content Include="Views\Folder\Explorer\Index_BACKUP.cshtml" />
     <Content Include="Views\Folder\_List.cshtml" />
     <Content Include="Views\Folder\_BACKUP\_SelectList.cshtml" />
     <Content Include="Views\Folder\_BACKUP\_Widget.cshtml" />
@@ -797,6 +797,9 @@
     <Content Include="Views\SysUser\_Widget_BACKUP.cshtml" />
     <Content Include="Views\Cooperator\_Widget_BACKUP.cshtml" />
     <Content Include="Views\Folder\Cooperator\_Widget.cshtml" />
+    <Content Include="Views\Shared\_LayoutAdminLTE3Taxonomy.cshtml" />
+    <Content Include="Views\Folder\Explorer\Index.cshtml" />
+    <Content Include="Views\Folder\Import\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

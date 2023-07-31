@@ -1,195 +1,146 @@
 ﻿@model USDA.ARS.GRIN.GGTools.ViewModelLayer.FolderViewModel
 @{
     ViewBag.Title = Model.PageTitle;
-    Layout = "~/Views/Shared/_LayoutAdminLTE3Folder.cshtml";
+    Layout = "~/Views/Shared/_LayoutAdminLTE3.cshtml";
 }
-<div id="overlay"></div>
-<h5 class="mt-4 mb-2"><i class="fas fa-folder"></i> My Folders</h5>
+
 <div class="row">
-    <div class="col-md-3">
-
-        <!-- BEGIN CATEGORY LIST -->
-        <div class="card card-primary card-outline">
-            <div class="card-header">
-                <h3 class="card-title"><i class="fas fa-filter"></i> Category</h3>
-                <div class="card-tools">
-                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                        <i class="fas fa-minus"></i>
-                    </button>
-                </div>
-            </div>
-            <div id="section-folder-category" class="card-body p-0">
-                <ul class="nav nav-pills flex-column">
-                    <li id="favorites" class="nav-item">
-                        <a href="#" class="nav-link">
-                            <i class="fas fa-star text-warning"></i> Favorites
-                        </a>
-                    </li>
-                    <li id="default-all" class="nav-item">
-                        <a href="#" class="nav-link">
-                            All
-                        </a>
-                    </li>
-
-                    @foreach (var result in Model.DataCollectionFolderCategories)
-                    {
-                        <li id="@result.Value" class="nav-item">
-                            <a href="#" class="nav-link">
-                                @result.Title
-                            </a>
-                        </li>
-                    }
-                </ul>
+    <div class="col-md-4">
+        <!-- BEGIN WOR LIST-->
+        <div class="info-box shadow-none">
+            <span class="info-box-icon bg-info"><i class="far fa-envelope"></i></span>
+            <div class="info-box-content">
+                <span class="info-box-text">Shadows</span>
+                <span class="info-box-number">None</span>
             </div>
 
         </div>
-        <!-- END CATEGORY LIST -->
-        <!-- BEGIN FOLDER TYPE LIST -->
-        <div class="card  card-primary card-outline">
-            <div class="card-header">
-                <h3 class="card-title"><i class="fas fa-filter"></i> Type</h3>
-                <div class="card-tools">
-                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                        <i class="fas fa-minus"></i>
-                    </button>
-                </div>
-            </div>
-            <div id="section-folder-type" class="card-body p-0">
-                <ul class="nav nav-pills flex-column">
-                    <li id="default-all" class="nav-item active">
-                        <a href="#" class="nav-link">
-                            All
-                        </a>
-                    </li>
-
-                    @foreach (var result in Model.DataCollectionFolderTypes)
-                    {
-                        <li id="@result.Value" class="nav-item">
-                            <a href="#" class="nav-link">
-                                @result.Title
-                            </a>
-                        </li>
-                    }
-                </ul>
+        <div class="info-box shadow-none">
+            <span class="info-box-icon bg-info"><i class="far fa-envelope"></i></span>
+            <div class="info-box-content">
+                <span class="info-box-text">Shadows</span>
+                <span class="info-box-number">None</span>
             </div>
 
         </div>
-        <!-- END FOLDER TYPE LIST -->
+        <div class="info-box shadow-none">
+            <span class="info-box-icon bg-info"><i class="far fa-envelope"></i></span>
+            <div class="info-box-content">
+                <span class="info-box-text">Shadows</span>
+                <span class="info-box-number">None</span>
+            </div>
 
+        </div>
+        <div class="info-box shadow-none">
+            <span class="info-box-icon bg-info"><i class="far fa-envelope"></i></span>
+            <div class="info-box-content">
+                <span class="info-box-text">Shadows</span>
+                <span class="info-box-number">None</span>
+            </div>
+
+        </div>
+        <div class="info-box shadow-none">
+            <span class="info-box-icon bg-info"><i class="far fa-envelope"></i></span>
+            <div class="info-box-content">
+                <span class="info-box-text">Shadows</span>
+                <span class="info-box-number">None</span>
+            </div>
+
+        </div>
+        <div class="info-box shadow-none">
+            <span class="info-box-icon bg-info"><i class="far fa-envelope"></i></span>
+            <div class="info-box-content">
+                <span class="info-box-text">Shadows</span>
+                <span class="info-box-number">None</span>
+            </div>
+
+        </div>
+        <div class="info-box shadow-none">
+            <span class="info-box-icon bg-info"><i class="far fa-envelope"></i></span>
+            <div class="info-box-content">
+                <span class="info-box-text">Shadows</span>
+                <span class="info-box-number">None</span>
+            </div>
+
+        </div>
+        <div class="info-box shadow-none">
+            <span class="info-box-icon bg-info"><i class="far fa-envelope"></i></span>
+            <div class="info-box-content">
+                <span class="info-box-text">Shadows</span>
+                <span class="info-box-number">None</span>
+            </div>
+
+        </div>
+        <!-- END WOR LIST-->
     </div>
-    <div id="section-folder-list" class="col-md-9">
-        @{Html.RenderAction("_ListExplorer", "Folder");}
+    <div class="col-md-8">
+        <!-- BEGIN WOR TABS-->
+        <div class="card card-primary card-tabs">
+            <div id="section-web-order-request" class="card-header p-0 pt-1">
+                <ul class="nav nav-tabs" id="tab-web-order-request" role="tablist">
+                    <li class="pt-2 px-3"><h3 id="section-web-order-request-title" class="card-title"></h3></li>
+                    <li class="nav-item">
+                        <a class="nav-link active" id="tab-web-order-request-detail" data-ggtools-action="WebOrderRequest" data-ggtools-value="_Edit" data-toggle="pill" href="#tab-panel-web-order-request-detail" role="tab" aria-controls="custom-tabs-two-home" aria-selected="true">Detail</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="tab-web-order-request-timeline" data-toggle="pill" href="#custom-tabs-two-profile" role="tab" aria-controls="custom-tabs-two-profile" aria-selected="false">Timeline</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="tab-web-order-request-notes" data-toggle="pill" href="#custom-tabs-two-messages" role="tab" aria-controls="custom-tabs-two-messages" aria-selected="false">Notes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="tab-web-order-request-related-order" data-toggle="pill" href="#custom-tabs-two-settings" role="tab" aria-controls="custom-tabs-two-settings" aria-selected="false">Settings</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="card-body">
+                <div class="tab-content" id="custom-tabs-two-tabContent">
+                    <div class="tab-pane fade show active" id="tab-panel-web-order-request-detail" role="tabpanel" aria-labelledby="custom-tabs-two-home-tab">
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin malesuada lacus ullamcorper dui molestie, sit amet congue quam finibus. Etiam ultricies nunc non magna feugiat commodo. Etiam odio magna, mollis auctor felis vitae, ullamcorper ornare ligula. Proin pellentesque tincidunt nisi, vitae ullamcorper felis aliquam id. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Proin id orci eu lectus blandit suscipit. Phasellus porta, ante et varius ornare, sem enim sollicitudin eros, at commodo leo est vitae lacus. Etiam ut porta sem. Proin porttitor porta nisl, id tempor risus rhoncus quis. In in quam a nibh cursus pulvinar non consequat neque. Mauris lacus elit, condimentum ac condimentum at, semper vitae lectus. Cras lacinia erat eget sapien porta consectetur.
+                    </div>
+                    <div class="tab-pane fade" id="custom-tabs-two-profile" role="tabpanel" aria-labelledby="custom-tabs-two-profile-tab">
+                        Mauris tincidunt mi at erat gravida, eget tristique urna bibendum. Mauris pharetra purus ut ligula tempor, et vulputate metus facilisis. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Maecenas sollicitudin, nisi a luctus interdum, nisl ligula placerat mi, quis posuere purus ligula eu lectus. Donec nunc tellus, elementum sit amet ultricies at, posuere nec nunc. Nunc euismod pellentesque diam.
+                    </div>
+                    <div class="tab-pane fade" id="custom-tabs-two-messages" role="tabpanel" aria-labelledby="custom-tabs-two-messages-tab">
+                        Morbi turpis dolor, vulputate vitae felis non, tincidunt congue mauris. Phasellus volutpat augue id mi placerat mollis. Vivamus faucibus eu massa eget condimentum. Fusce nec hendrerit sem, ac tristique nulla. Integer vestibulum orci odio. Cras nec augue ipsum. Suspendisse ut velit condimentum, mattis urna a, malesuada nunc. Curabitur eleifend facilisis velit finibus tristique. Nam vulputate, eros non luctus efficitur, ipsum odio volutpat massa, sit amet sollicitudin est libero sed ipsum. Nulla lacinia, ex vitae gravida fermentum, lectus ipsum gravida arcu, id fermentum metus arcu vel metus. Curabitur eget sem eu risus tincidunt eleifend ac ornare magna.
+                    </div>
+                    <div class="tab-pane fade" id="custom-tabs-two-settings" role="tabpanel" aria-labelledby="custom-tabs-two-settings-tab">
+                        Pellentesque vestibulum commodo nibh nec blandit. Maecenas neque magna, iaculis tempus turpis ac, ornare sodales tellus. Mauris eget blandit dolor. Quisque tincidunt venenatis vulputate. Morbi euismod molestie tristique. Vestibulum consectetur dolor a vestibulum pharetra. Donec interdum placerat urna nec pharetra. Etiam eget dapibus orci, eget aliquet urna. Nunc at consequat diam. Nunc et felis ut nisl commodo dignissim. In hac habitasse platea dictumst. Praesent imperdiet accumsan ex sit amet facilisis.
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!-- END WOR LIST-->
     </div>
 </div>
 
-@{Html.RenderAction("RenderReportsWidget","Species"); }
-
 <script type="text/javascript">
-
-    $(document).ready(function () {
-        Init();
-    });
-
-    function Init() {
-        // Note that we must load the *second* sequential <li> in the tabbed folder list: first
-        // is a static display item.
-        var tabName = $("#DEBUG-TABS ul.nav li:nth-child(2)").attr('id');
-        var title = $("#DEBUG-TABS ul.nav li:nth-child(2)").attr('title');
-        var folderId = tabName.replace("custom-tabs-two-home-tab-selector-", "");
-        LoadFolderItems(title, folderId);
-    }
-
-    function InitDataTablesByClass(className) {
-        $(document).ready(function () {
-            var table = $(className).DataTable({
-                dom: 'Blfrtip',
-                paging: true,
-                "pageLength": 10,
-                initComplete: function () {
-                    SetControlVisibility(tableName);
-                },
-                responsive: true,
-                buttons: [
-                    'selectAll',
-                    'selectNone',
-                    'csv',
-                    'excel',
-                    'pdf',
-                    {
-                        text: '+ Add',
-                        action: function (e, dt, node, config) {
-                            AddRecord();
-                        }
-                    }
-                ],
-                select: true,
-                lengthMenu: [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],
-                columnDefs: [
-                    { targets: [0], visible: false }
-                ]
-            });
-
-            //var table = $(tableName).DataTable(); // Valid initialized DataTable
-            //if (table instanceof $.fn.dataTable.Api) {
-            //    //DEBUG
-            //    alert(tableName + " IS DTABLE");
-            //} else {
-
-            //}
-
-
-            //if (!$.fn.DataTable.isDataTable(tableName)) {
-            //    var table = $(tableName).DataTable({
-            //        dom: 'Blfrtip',
-            //        paging: true,
-            //        "pageLength": 10,
-            //        initComplete: function () {
-            //            SetControlVisibility(tableName);
-            //        },
-            //        responsive: true,
-            //        buttons: [
-            //            'selectAll',
-            //            'selectNone',
-            //            'csv',
-            //            'excel',
-            //            'pdf'
-            //        ],
-            //        select: true,
-            //        lengthMenu: [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],
-            //        columnDefs: [
-            //            { targets: [0], visible: false }
-            //        ]
-            //    });
-            //}
-            //else {
-
-            //}
-        });
-    }
-
-    //$('#DEBUG-TABS ul.nav li').on('click', function () {
-    //    var tabName = $(this).attr('id');
-    //    var title = $(this).attr('title');
-    //    var folderId = tabName.replace("custom-tabs-two-home-tab-selector-", "");
-    //    LoadFolderItems(title, folderId);
+    //$(document).ready(function () {
+    //    InitDataTable("data-table-web-order-requests");
     //});
 
-    $('#section-folder-category ul.nav li').on('click', function () {
-        var category = $(this).attr('id');
-        LoadFolders("", category);
+    $('#section-web-order-request ul.nav li').on('click', function () {
+        var selectedId = $(this).attr('id');
+        var action =  $(this).data("ggtools-action");
+        var value = $(this).data("ggtools-value");
+
+        LoadDependentData(selectedId, action, value);
     });
 
-    $('#section-folder-type ul.nav li').on('click', function () {
-        var type = $(this).attr('id');
-        LoadFolders(type, "");
-    });
-
-    function LoadFolders(folderType, category) {
-        var link = '@Url.Action("_ListExplorer", "Folder")';
+    function LoadDependentData(controlId, eventAction, eventValue) {
+        var link = '@Url.Action("EVENT_VALUE","EVENT_ACTION", new { speciesId = "SPECIES_ID" })';
+        var entityId = $("#Entity_ID").val();
+        var genusId = $("#Entity_GenusID").val();
+        var genusName = $("#Entity_Name").val();
         var formData = new FormData();
+        var sectionData = controlId.replace("tab_selector", "tab_content");
 
-        formData.append("folderType", folderType);
-        formData.append("folderCategory", category);
+        link = link.replace("EVENT_ACTION", eventAction);
+        link = link.replace("EVENT_VALUE", eventValue);
+        link = link.replace("SPECIES_ID", entityId);
+
+        formData.append("SpeciesID", entityId);
 
         $("#progress_overlay").show();
 
@@ -201,25 +152,38 @@
             processData: false,
             data: formData,
             success: function (response) {
-                $("#section-folder-list").html(response);
-                $("#progress_overlay").hide();
-            },
-            error: function (jqXHR) {
-                alert("Error loading folder: " + jqXHR.responseText);
+                $("#" + sectionData).html(response);
                 $("#progress_overlay").hide();
             }
         });
     }
 
-    function LoadFolderItems(folderTypeDescription, folderId)  {
-        var link = '@Url.Action("_ListFolderItems", "CONTROLLER_NAME")';
-        link = link.replace("CONTROLLER_NAME", folderTypeDescription);
+    $("#btnOpenBatchCancelModal").click(function () {
+        var selectedItemIdList = GetSelectedEntityIDs("data-table-web-order-requests");
+        $("#lblBatchEditModalTitle").html("Cancel Orders (" + selectedItemIdList.length + ")");
+        $("#modal-web-order-batch-edit").modal("show");
+        //DEBUG
+        //alert("SELECTED " + selectedItemIdList);
+        //    $("#lblFolderEditModalTitle").html("Add " + selectedItemIdList.length + " Selected Record(s) To Folder");
+        //    $("#modal-folder-edit").modal("show");
+    });
+
+    function GetSelectedEntityIDs(tableName) {
+        var table = $('#' + tableName).DataTable();
+        var ids = $.map(table.rows('.selected').data(), function (item) {
+            return item[0]
+        });
+        console.log(ids)
+        return ids;
+    }
+
+    $("#btnSaveBatchEdits").click(function () {
+        var selectedItemIdList = GetSelectedEntityIDs("data-table-web-order-requests");
+        var link = "@Url.Action("BatchEdit","WebOrder")";
 
         var formData = new FormData();
-
-        formData.append("folderID", folderId);
-
-        $("#progress_overlay").show();
+        formData.append("IDList", selectedItemIdList);
+        formData.append("StatusCode", "CANCELLED");
 
         $.ajax({
             url: link,
@@ -228,15 +192,14 @@
             contentType: false,
             processData: false,
             data: formData,
-            success: function (response) {
-                $("#custom-tabs-two-tabContent").html(response);
-                $("#progress_overlay").hide();
+            success: function (result) {
+                $("#modal-family-edit").modal("hide");
+                window.location.href = refreshLink;
             },
-            error: function (jqXHR) {
-                alert("Error loading folder contents: " + jqXHR.responseText);
-                $("#progress_overlay").hide();
+            error: function () {
+                alert("Error in AddToFolder()");
             }
         });
-    }
+    });
 
 </script>

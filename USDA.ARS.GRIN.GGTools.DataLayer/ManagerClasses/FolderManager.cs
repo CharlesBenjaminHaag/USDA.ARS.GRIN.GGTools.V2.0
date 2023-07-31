@@ -19,33 +19,21 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             SQL += " AND    (@Category                  IS NULL OR   Category                   =   @Category)";
             SQL += " AND    (@CreatedByCooperatorID     IS NULL OR   CreatedByCooperatorID      =   @CreatedByCooperatorID)";
             SQL += " AND    (@AppUserItemFolderID       IS NULL OR   ID                         =   @AppUserItemFolderID)";
-            SQL += " AND    (@IsFavoriteOption          IS NULL OR   IsFavoriteOption           =   @IsFavoriteOption)";
+            SQL += " AND    (@IsFavorite                IS NULL OR   IsFavorite                 =   @IsFavorite)";
 
-            //SQL += " AND    (FolderType LIKE '%taxon%') OR (FolderType LIKE '%citation%') OR (FolderType LIKE '%literature%') OR (FolderType LIKE '%geography%')";
-            //SQL += " UNION ";
-            //SQL += " SELECT *, 'Y' AS IsShared FROM vw_GRINGlobal_App_User_Item_Folder";
-            //SQL += " WHERE  (@FolderType                IS NULL OR   FolderTypeDescription      =   @FolderType)";
-
-            //SQL += " AND ID IN (SELECT app_user_item_folder_id FROM app_user_item_folder_cooperator_map " +
-            //        " WHERE cooperator_id = @CreatedByCooperatorID )";
-
-            //if (!String.IsNullOrEmpty(searchEntity.CategoryList))
-            //{
-            //    searchEntity.CategoryList = String.Join(",", Array.ConvertAll(searchEntity.CategoryList.Split(','), z => "'" + z + "'"));
-            //    SQL += " AND Category IN (" + searchEntity.CategoryList + ")";
-            //}
-
-            //if (!String.IsNullOrEmpty(searchEntity.TypeList))
-            //{
-            //    searchEntity.TypeList = String.Join(",", Array.ConvertAll(searchEntity.TypeList.Split(','), z => "'" + z + "'"));
-            //    SQL += " AND Foldertype IN (" + searchEntity.TypeList + ")";
-            //}
+            if (searchEntity.IsShared == true)
+            {
+                SQL += " AND ID IN (SELECT FolderID " +
+                        " FROM vw_GRINGlobal_App_User_Item_Folder_Cooperator_Map " +
+                        " WHERE CooperatorID = @SharedWithCooperatorID) ";
+            }
 
             var parameters = new List<IDbDataParameter> {
                 CreateParameter("FolderType", !String.IsNullOrEmpty(searchEntity.FolderTypeDescription) ? (object)searchEntity.FolderTypeDescription : DBNull.Value, true),
                 CreateParameter("Category", !String.IsNullOrEmpty(searchEntity.Category) ? (object)searchEntity.Category : DBNull.Value, true),
                 CreateParameter("CreatedByCooperatorID", searchEntity.CreatedByCooperatorID > 0 ? (object)searchEntity.CreatedByCooperatorID : DBNull.Value, true),
-                CreateParameter("IsFavoriteOption", searchEntity.IsFavoriteOption == "Y" ? (object)searchEntity.IsFavoriteOption : DBNull.Value, true),
+                CreateParameter("SharedWithCooperatorID", searchEntity.SharedWithCooperatorID > 0 ? (object)searchEntity.SharedWithCooperatorID : DBNull.Value, true),
+                CreateParameter("IsFavorite", !String.IsNullOrEmpty(searchEntity.IsFavorite) ? (object)searchEntity.IsFavorite : DBNull.Value, true),
                 CreateParameter("AppUserItemFolderID", searchEntity.ID > 0 ? (object)searchEntity.ID : DBNull.Value, true),
             };
 
@@ -53,6 +41,31 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             RowsAffected = results.Count;
             return results;
         }
+
+        public virtual List<AppUserItemFolder> GetMySharedFolders(FolderSearch searchEntity)
+        {
+            List<AppUserItemFolder> results = new List<AppUserItemFolder>();
+
+            SQL = " SELECT * FROM vw_GRINGlobal_App_User_Item_Folder";
+            SQL += " WHERE  (@FolderType                IS NULL OR   FolderTypeDescription      =   @FolderType)";
+            SQL += " AND    (@Category                  IS NULL OR   Category                   =   @Category)";
+            SQL += " AND    (@CreatedByCooperatorID     IS NULL OR   CreatedByCooperatorID      =   @CreatedByCooperatorID)";
+            SQL += " AND    (@AppUserItemFolderID       IS NULL OR   ID                         =   @AppUserItemFolderID)";
+            SQL += " AND    (@IsFavoriteOption          IS NULL OR   IsFavoriteOption           =   @IsFavoriteOption)";
+
+            var parameters = new List<IDbDataParameter> {
+                CreateParameter("FolderType", !String.IsNullOrEmpty(searchEntity.FolderTypeDescription) ? (object)searchEntity.FolderTypeDescription : DBNull.Value, true),
+                CreateParameter("Category", !String.IsNullOrEmpty(searchEntity.Category) ? (object)searchEntity.Category : DBNull.Value, true),
+                CreateParameter("CreatedByCooperatorID", searchEntity.CreatedByCooperatorID > 0 ? (object)searchEntity.CreatedByCooperatorID : DBNull.Value, true),
+                CreateParameter("IsFavorite", searchEntity.IsFavorite == "Y" ? (object)searchEntity.IsFavorite : DBNull.Value, true),
+                CreateParameter("AppUserItemFolderID", searchEntity.ID > 0 ? (object)searchEntity.ID : DBNull.Value, true),
+            };
+
+            results = GetRecords<AppUserItemFolder>(SQL, parameters.ToArray());
+            RowsAffected = results.Count;
+            return results;
+        }
+
 
         public virtual List<AppUserItemFolder> GetRelatedFolders(FolderSearch searchEntity)
         {
@@ -165,7 +178,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
 
             Reset(CommandType.StoredProcedure);
             Validate<AppUserItemFolder>(entity);
-            SQL = "usp_GGTools_GRINGlobal_AppUserItemFolder_Insert";
+            SQL = "usp_GRINGlobal_AppUserItemFolder_Insert";
             
             BuildInsertUpdateParameters(entity);
 
@@ -265,7 +278,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             Reset(CommandType.StoredProcedure);
             Validate<AppUserItemFolder>(entity);
 
-            SQL = "usp_GGTools_GRINGlobal_AppUserItemFolder_Update";
+            SQL = "usp_GRINGlobal_AppUserItemFolder_Update";
 
             BuildInsertUpdateParameters(entity);
             AddParameter("@out_error_number", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);

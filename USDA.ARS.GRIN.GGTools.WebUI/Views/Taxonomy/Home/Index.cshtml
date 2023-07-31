@@ -3,7 +3,41 @@
     ViewBag.Title = "Taxonomy Editor";
     Layout = "~/Views/Shared/_LayoutAdminLTE3.cshtml";
 }
-@{Html.RenderAction("_ListMyRecentFolders", "Folder", new { @cooperatorId = Model.AuthenticatedUser.CooperatorID }); }
+
+<div class="card card-primary card-tabs">
+    <div id="section-cooperator-tabs" class="card-header p-0 pt-1">
+        <ul class="nav nav-tabs" id="custom-tabs-two-tab" role="tablist">
+            <li class="pt-2 px-3">
+                <h3 id="placeholder-cooperator-name" class="card-title">
+                    <i class="fas fa-folder"></i>  My Folders</h3>
+            </li>
+            <li id="tab-cooperator" class="nav-item">
+                <a class="nav-link active" id="custom-tabs-two-home-tab" data-toggle="pill" href="#tab-content-favorites" role="tab" aria-controls="custom-tabs-two-home" aria-selected="true">Favorites</a>
+            </li>
+            <li id="tab-sys-user" class="nav-item">
+                <a class="nav-link" id="custom-tabs-two-profile-tab" data-toggle="pill" href="#tab-content-recent" role="tab" aria-controls="custom-tabs-two-profile" aria-selected="false">Recently Added</a>
+            </li>
+            <li id="tab-sys-user" class="nav-item">
+                <a class="nav-link" id="custom-tabs-two-profile-tab" data-toggle="pill" href="#tab-content-shared" role="tab" aria-controls="custom-tabs-two-profile" aria-selected="false">Shared With Me</a>
+            </li>
+        </ul>
+    </div>
+    <div class="card-body web-order-request">
+        <div class="tab-content">
+            
+            <div class="tab-pane fade show active" id="tab-content-favorites" role="tabpanel" aria-labelledby="custom-tabs-two-home-tab">
+                @{Html.RenderAction("_ListMyFavoriteFolders", "Folder", new { @cooperatorId = Model.AuthenticatedUser.CooperatorID }); }
+            </div>
+            <div class="tab-pane fade" id="tab-content-recent" role="tabpanel" aria-labelledby="custom-tabs-two-home-tab">
+                @{Html.RenderAction("_ListMyRecentFolders", "Folder", new { @cooperatorId = Model.AuthenticatedUser.CooperatorID }); }
+            </div>
+            <div class="tab-pane fade" id="tab-content-shared" role="tabpanel" aria-labelledby="custom-tabs-two-home-tab">
+                @{Html.RenderAction("_ListMySharedFolders", "Folder", new { @cooperatorId = Model.AuthenticatedUser.CooperatorID }); }
+            </div>
+        </div>
+    </div>
+</div>
+
 @{Html.RenderAction("_ListBySysGroup", "Cooperator", new { groupTag = "MANAGE_TAXONOMY" });}
 
 <script type="text/javascript">

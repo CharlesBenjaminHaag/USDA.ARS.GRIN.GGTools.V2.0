@@ -40,11 +40,11 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
                     }
 
                     // Get types
-                    List<string> DEBUG = DataCollection.Select(x => x.FolderTypeDescription).Distinct().ToList();
-                    foreach (var type in DEBUG)
-                    {
-                        DataCollectionFolderTypes.Add(new CodeValue { Value = type, Title = type });
-                    }
+                    //List<string> DEBUG = DataCollection.Select(x => x.FolderTypeDescription).Distinct().ToList();
+                    //foreach (var type in DEBUG)
+                    //{
+                    //    DataCollectionFolderTypes.Add(new CodeValue { Value = type, Title = type });
+                    //}
                 }
                 catch (Exception ex)
                 {
@@ -54,6 +54,36 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
                 return mgr.RowsAffected;
             }
         }
+
+        //public void GetMySharedFolders(int cooperatorId)
+        //{
+        //    using (FolderManager mgr = new FolderManager())
+        //    {
+        //        try
+        //        {
+        //            DataCollection = new Collection<AppUserItemFolder>(mgr.Search(SearchEntity));
+        //            RowsAffected = mgr.RowsAffected;
+
+        //            if (DataCollection.Count == 1)
+        //            {
+        //                Entity = DataCollection[0];
+        //            }
+
+        //            // Get types
+        //            List<string> DEBUG = DataCollection.Select(x => x.FolderTypeDescription).Distinct().ToList();
+        //            foreach (var type in DEBUG)
+        //            {
+        //                DataCollectionFolderTypes.Add(new CodeValue { Value = type, Title = type });
+        //            }
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            PublishException(ex);
+        //            throw ex;
+        //        }
+        //        return mgr.RowsAffected;
+        //    }
+        //}
 
         public void GetRelatedFolders()
         {
@@ -111,6 +141,7 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
                 if (RowsAffected == 1)
                 {
                     Entity = DataCollection[0];
+                    Entity.IsFavoriteOption = ToBool(Entity.IsFavorite);
                 //    DataCollectionAvailableCooperators = new Collection<Cooperator>(mgr.GetAvailableCollaborators(Entity.ID));
                 //    DataCollectionCurrentCooperators = new Collection<Cooperator>(mgr.GetCurrentCollaborators(Entity.ID));
                 }
@@ -149,6 +180,7 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
             {
                 try
                 {
+                    Entity.IsFavorite = FromBool(Entity.IsFavoriteOption);
                     RowsAffected = mgr.Insert(Entity);
                 }
                 catch (Exception ex)
@@ -215,11 +247,8 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
             {
                 try
                 {
+                    Entity.IsFavorite = FromBool(Entity.IsFavoriteOption);
                     RowsAffected = mgr.Update(Entity);
-
-                    //If there is an item list, add
-                    //TODO
-
                 }
                 catch (Exception ex)
                 {
