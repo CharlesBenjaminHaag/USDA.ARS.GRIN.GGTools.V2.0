@@ -9,7 +9,7 @@
         <ul class="nav nav-tabs" id="custom-tabs-two-tab" role="tablist">
             <li class="pt-2 px-3">
                 <h3 id="placeholder-cooperator-name" class="card-title">
-                    <i class="fas fa-folder"></i>  My Folders</h3>
+                My Folders</h3>
             </li>
             <li id="tab-cooperator" class="nav-item">
                 <a class="nav-link active" id="custom-tabs-two-home-tab" data-toggle="pill" href="#tab-content-favorites" role="tab" aria-controls="custom-tabs-two-home" aria-selected="true">Favorites</a>
@@ -38,7 +38,7 @@
     </div>
 </div>
 
-@{Html.RenderAction("_ListBySysGroup", "Cooperator", new { groupTag = "MANAGE_TAXONOMY" });}
+@{Html.RenderAction("RenderListWidget", "Cooperator", new { sysGroupTag = "MANAGE_TAXONOMY" });}
 
 <script type="text/javascript">
     $(document).ready(function () {

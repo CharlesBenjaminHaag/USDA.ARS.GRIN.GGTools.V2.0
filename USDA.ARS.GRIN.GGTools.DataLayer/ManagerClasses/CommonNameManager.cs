@@ -122,6 +122,19 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
                 SQL += " AND ID <> " + searchEntity.ExcludeID;
             }
 
+            if (!String.IsNullOrEmpty(searchEntity.IDList))
+            {
+                if (SQL.Contains("WHERE"))
+                {
+                    SQL += " AND ";
+                }
+                else
+                {
+                    SQL += " WHERE ";
+                }
+                SQL += " ID IN (" + searchEntity.IDList + ")";
+            }
+
             var parameters = new List<IDbDataParameter> {
                 CreateParameter("ID", searchEntity.ID > 0 ? (object)searchEntity.ID : DBNull.Value, true),
                 CreateParameter("CreatedByCooperatorID", searchEntity.CreatedByCooperatorID > 0 ? (object)searchEntity.CreatedByCooperatorID : DBNull.Value, true),

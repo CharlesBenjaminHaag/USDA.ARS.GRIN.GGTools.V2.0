@@ -21,5 +21,6 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         public string SimplifiedName { get; set; }
         public string AlternateTranscription { get; set; }
         public string CategoryCode { get; set; }
+        public Collection<Citation> Citations { get; set; }
     }
 }

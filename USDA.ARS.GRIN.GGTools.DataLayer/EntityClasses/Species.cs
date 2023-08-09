@@ -88,5 +88,6 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
                 return sbVerificationText.ToString();
             }
         }
+        public List<Citation> Citations { get; set; }
     }
 }

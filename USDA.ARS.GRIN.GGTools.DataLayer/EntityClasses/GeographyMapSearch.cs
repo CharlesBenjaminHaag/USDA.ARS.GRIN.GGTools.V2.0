@@ -13,6 +13,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         public int ID { get; set; }
         public int SpeciesID { get; set; }
         public string SpeciesName { get; set; }
+        public bool SpeciesIsAcceptedNameOption { get; set; }
         public int GeographyID { get; set; }
         public string GeographyDescription { get; set; }
         public string GeographyStatusCode { get; set; }

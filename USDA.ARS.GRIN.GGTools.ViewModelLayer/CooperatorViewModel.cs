@@ -34,13 +34,13 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
             }
         }
 
-        public void GetCooperatorsBySysGroup(string sysGroupName)
+        public void GetSiteCurators(string sysGroupName)
         {
             using (CooperatorManager mgr = new CooperatorManager())
             {
                 try
                 {
-                    DataCollection = new Collection<Cooperator>(mgr.GetCooperatorsBySysGroup(sysGroupName));
+                    DataCollection = new Collection<Cooperator>(mgr.GetSiteCurators(sysGroupName));
                     if (DataCollection.Count() == 1)
                     {
                         Entity = DataCollection[0];
@@ -55,7 +55,27 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
                 }
             }
         }
+        public void GetBySysGroup(string sysGroupTag)
+        {
+            using (CooperatorManager mgr = new CooperatorManager())
+            {
+                try
+                {
+                    DataCollection = new Collection<Cooperator>(mgr.GetBySysGroup(sysGroupTag));
+                    if (DataCollection.Count() == 1)
+                    {
+                        Entity = DataCollection[0];
+                    }
 
+                    RowsAffected = mgr.RowsAffected;
+                }
+                catch (Exception ex)
+                {
+                    PublishException(ex);
+                    throw ex;
+                }
+            }
+        }
         public void GetRecordsOwned(int cooperatorId)
         {
             using (CooperatorManager mgr = new CooperatorManager())

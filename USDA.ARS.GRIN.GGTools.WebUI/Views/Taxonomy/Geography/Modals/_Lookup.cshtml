@@ -70,18 +70,12 @@
                                     }
                                 </tbody>
                             </table>
-                            @*<label class="list-group-item ggtools-selector bg-gray-light">
-                                <input type="checkbox" class="form-check-input-continents" style="opacity:1; margin-right:5px;" id="NRR_FLAG">
-                                <span class="ggtools-selector-label" style="margin-left:25px;">Select All</span>
-                            </label>*@
-
-                            <div style="padding: 10px;">
+                            <div id="section-check-all-continent" style="padding: 10px;">
                                 <div class="icheck-primary">
                                     <input type="checkbox" value="" id="check-all-continent" class="form-check-input-continents">
                                     <label for="check-all-continent">Select All</label>
                                 </div>
                             </div>
-
                         </div>
                     </div>
                     <!-- SUBCONTINENT -->
@@ -89,11 +83,23 @@
                         <div id="section-subcontinents">
                             @Html.Partial("~/Views/Taxonomy/Geography/Modals/_SelectListSubcontinent.cshtml")
                         </div>
+                        <div id="section-check-all-subcontinent" style="padding: 10px;">
+                            <div class="icheck-primary">
+                                <input type="checkbox" value="" id="check-all-subcontinent" class="form-check-input-subcontinents">
+                                <label for="check-all-subcontinent">Select All</label>
+                            </div>
+                        </div>
                     </div>
                     <!-- COUNTRY -->
                     <div class="col-md-3">
                         <div id="section-countries">
                             @Html.Partial("~/Views/Taxonomy/Geography/Modals/_SelectListCountry.cshtml")
+                        </div>
+                        <div id="section-check-all-countries" style="padding: 10px;">
+                            <div class="icheck-primary">
+                                <input type="checkbox" value="" id="check-all-countries" class="form-check-input-countries">
+                                <label for="check-all-countries">Select All</label>
+                            </div>
                         </div>
                     </div>
                     <!-- ADMIN -->
@@ -101,21 +107,29 @@
                         <div id="section-administrative-units">
                             @Html.Partial("~/Views/Taxonomy/Geography/Modals/_SelectListAdministrativeUnits.cshtml")
                         </div>
-                    
-                        <div id="section-generate-map-options">
-                            <div class="form-group">
-                                <label>Status</label>
-                                <select id="ddlGeographyStatusCode" class="form-control">
-                                    <option value="a">Adventive</option>
-                                    <option value="c">Cultivated</option>
-                                    <option value="n" selected>Native</option>
-                                    <option value="i">Naturalized</option>
-                                    <option value="o">Other</option>
-                                    <option value="u">Uncertain</option>
-                                </select>
+                        <div id="section-check-all-administrative-units" style="padding: 10px;">
+                            <div class="icheck-primary">
+                                <input type="checkbox" value="" id="check-all-administrative-units" class="form-check-input-administrative-units">
+                                <label for="check-all-administrative-units">Select All</label>
                             </div>
-                            <button id="btnGenerateGeographyMaps" class="btn btn-primary btn-block" data-dismiss="modal">Generate Maps</button>
                         </div>
+                        <!--<div id="section-generate-map-options">
+    <div class="form-group">
+        <label>Status</label>
+        <select id="ddlGeographyStatusCode" class="form-control">
+            <option value="a">Adventive</option>
+            <option value="c">Cultivated</option>
+            <option value="n" selected>Native</option>
+            <option value="i">Naturalized</option>
+            <option value="o">Other</option>
+            <option value="u">Uncertain</option>
+        </select>
+    </div>-->
+                        @*<button id="btnGenerateGeographyMaps" class="btn btn-primary btn-block" data-dismiss="modal">Generate Maps</button>*@
+                        <!--<button id="btnGetSelectedAdministrativeUnits" class="btn btn-primary btn-block" data-dismiss="modal">Use Selected Geographies</button>
+    </div>-->
+                        @*<button id="btnGenerateGeographyMaps" class="btn btn-primary btn-block" data-dismiss="modal">Generate Maps</button>*@
+                        <button id="btnGetSelectedAdministrativeUnits" class="btn btn-primary btn-block" data-dismiss="modal">Use Selected Geographies</button>
                     </div>
                 </div>
             </div>
@@ -174,6 +188,20 @@
         }
         else {
             GenerateGeographyMaps(selectedAdministrativeUnits);
+        }
+    });
+
+    $("#btnGetSelectedAdministrativeUnits").on('click', function () {
+        // TODO
+        // Get selected admins
+        // Re-retrieve in map page
+        // Close modal
+        var selectedAdministrativeUnits = GetSelectedAdministrativeUnits();
+        if (selectedAdministrativeUnits.length == 0) {
+            alert("Please select at least one administrative unit to map to this species.");
+        }
+        else {
+            LoadGeographies(selectedAdministrativeUnits);
         }
     });
 
@@ -299,9 +327,10 @@
         });
     }
 
-    function LoadAdministrativeUnits(countries) {
+    function LoadAdministrativeUnits(subContinents, countries) {
         var link = '@Url.Action("_ListAdministrativeUnits", "Geography")';
         var formData = new FormData();
+
         formData.append("countries", countries);
 
         $.ajax({
@@ -327,6 +356,7 @@
             .clear()
             .draw();
     }
+
     function ClearAllCountries()
     {
         table = $('#data-table-geography-countries').DataTable();
@@ -334,6 +364,7 @@
             .clear()
             .draw();
     }
+
     function ClearAllAdminstrativeUnits()
     {
         var table = $('#data-table-geography-administrative-unit').DataTable();
@@ -380,6 +411,20 @@
             ClearAllSubContinents();
             ClearAllCountries();
             ClearAllAdminstrativeUnits();
+        }
+    });
+
+    $(".form-check-input-subcontinents").click(function () {
+        var checkAll = $(".form-check-input-subcontinents").prop('checked');
+        if (checkAll) {
+            $(".ggtools-check-subcontinent").prop("checked", true);
+            var selectedContinents = GetSelectedContinents();
+            var selectedSubContinents = GetSelectedSubContinents();
+            LoadCountries(selectedContinents, selectedSubContinents);
+        } else {
+            $(".ggtools-check-subcontinent").prop("checked", false);
+            //var selectedContinents = GetSelectedContinents();
+            //LoadCountries(selectedContinents, "");
         }
     });
 </script>

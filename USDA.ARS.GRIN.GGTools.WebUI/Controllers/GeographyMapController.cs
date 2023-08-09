@@ -1,6 +1,7 @@
 ﻿using NLog;
 using System;
 using System.Web.Mvc;
+using System.Collections.Generic;
 using USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer;
 using USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer;
 using USDA.ARS.GRIN.GGTools.ViewModelLayer;
@@ -72,7 +73,6 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 return RedirectToAction("InternalServerError", "Error");
             }
         }
-
         public ActionResult RunSavedSearch(int id)
         {
             AppUserDynamicQueryViewModel viewModel = new AppUserDynamicQueryViewModel();
@@ -177,34 +177,6 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             }
         }
 
-        //[HttpPost]
-        //public PartialViewResult Add(FormCollection formCollection)
-        //{
-        //    GeographyMapViewModel viewModel = new GeographyMapViewModel();
-        //    viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
-
-        //    try
-        //    {
-        //        viewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
-
-        //        if (!String.IsNullOrEmpty(formCollection["SpeciesID"]))
-        //        {
-        //            viewModel.Entity.SpeciesID = Int32.Parse(formCollection["SpeciesID"]);
-        //        }
-        //        if (!String.IsNullOrEmpty(formCollection["IDList"]))
-        //        {
-        //            viewModel.Entity.ItemIDList = formCollection["IDList"];
-        //        }
-        //        viewModel.Insert();
-        //        return PartialView(BASE_PATH + "_EditList.cshtml", viewModel);
-
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Log.Error(ex);
-        //        return PartialView("~/Views/Error/_InternalServerError.cshtml");
-        //    }
-        //}
         public ActionResult Add(int speciesId = 0)
         {
             try
@@ -232,26 +204,55 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             }
         }
 
-        //public PartialViewResult _Add()
-        //{
-        //    try
-        //    {
-        //        GeographyMapViewModel viewModel = new GeographyMapViewModel();
-        //        viewModel.TableName = "taxonomy_geography_map";
-        //        viewModel.PageTitle = "Add Distribution";
-        //        viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
+        public ActionResult AddBatch()
+        {
+            try
+            {
+                GeographyMapViewModel viewModel = new GeographyMapViewModel();
+                viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
+                return View(BASE_PATH + "EditBatch.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return RedirectToAction("InternalServerError", "Error");
+            }
+        }
 
-        //        GeographyViewModel geographyViewModel = new GeographyViewModel();
-        //        //viewModel.Countries = new SelectList(geographyViewModel.GetCountries(""), "CountryCode", "CountryName");
+        public PartialViewResult Add(FormCollection formCollection)
+        {
+            GeographyMapViewModel viewModel = new GeographyMapViewModel();
+            List<GeographyMap> batchedMaps = new List<GeographyMap>();
+            viewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
 
-        //        return PartialView(BASE_PATH + "_Edit.cshtml", viewModel);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Log.Error(ex);
-        //        return PartialView("~/Views/Error/_InternalServerError.cshtml");
-        //    }
-        //}
+            if (!String.IsNullOrEmpty(formCollection["StatusCode"]))
+            {
+                viewModel.Entity.GeographyStatusCode = formCollection["StatusCode"];
+            }
+
+            if (!String.IsNullOrEmpty(formCollection["SpeciesIDList"]))
+            {
+                viewModel.SpeciesIDList = formCollection["SpeciesIDList"];
+            }
+
+            if (!String.IsNullOrEmpty(formCollection["GeographyIDList"]))
+            {
+                viewModel.GeographyIDList = formCollection["GeographyIDList"];
+            }
+
+            viewModel.InsertMultiple();
+
+            // Add each generated batch to the session-stored list.
+            if (Session["GEOGRAPHY-MAPS"] != null)
+            {
+                batchedMaps = Session["GEOGRAPHY-MAPS"] as List<GeographyMap>;
+            }
+            batchedMaps.AddRange(viewModel.DataCollection);
+            Session["GEOGRAPHY-MAPS"] = batchedMaps;
+            viewModel.DataCollectionBatch = batchedMaps;
+
+            return PartialView("~/Views/Taxonomy/SpeciesSynonymMap/_BatchList.cshtml", viewModel);
+        }
 
         public ActionResult Edit(int entityId)
         {
@@ -367,13 +368,11 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 return RedirectToAction("InternalServerError", "Error");
             }
         }
-    
-
+   
         public ActionResult Delete(int entityId)
         {
             throw new NotImplementedException();
         }
-
  
         public PartialViewResult FolderItems(int folderId)
         {
@@ -394,13 +393,26 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             }
         }
 
-        // ======================================================================================
-        // MODALS 
-        // ======================================================================================
         public ActionResult RenderLookupModal()
         {
             GeographyMapViewModel viewModel = new GeographyMapViewModel();
             return PartialView("~/Views/GeographyMap/Modals/_Lookup.cshtml", viewModel);
+        }
+
+        public PartialViewResult _ListGeography(string idList)
+        {
+            try
+            {
+                GeographyViewModel viewModel = new GeographyViewModel();
+                viewModel.SearchEntity = new GeographySearch { IDList = idList };
+                viewModel.Search();
+                return PartialView("~/Views/Taxonomy/Geography/Modals/_SelectList.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
         }
 
         public PartialViewResult RenderEditModal(int speciesId)

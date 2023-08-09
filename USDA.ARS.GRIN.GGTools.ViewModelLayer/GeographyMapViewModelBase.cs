@@ -30,6 +30,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
         private Collection<State> _DataCollectionStates = new Collection<State>();
         private Collection<CodeValue> _DataCollectionMapStatuses = new Collection<CodeValue>();
         private List<GeographyMap> _EditCollection = new List<GeographyMap>();
+        private List<GeographyMap> _DataCollectionBatch = new List<GeographyMap>();
 
         private int _CitationID;
 
@@ -98,7 +99,11 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
             get { return _DataCollection; }
             set { _DataCollection = value; }
         }
-
+        public List<GeographyMap> DataCollectionBatch
+        {
+            get { return _DataCollectionBatch; }
+            set { _DataCollectionBatch = value; }
+        }
         public List<GeographyMap> EditCollection 
         {
             get { return _EditCollection; }

@@ -26,43 +26,43 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             }
         }
 
-        public PartialViewResult Save(SysUserViewModel viewModel)
-        {
-            try
-            {
-                //if (!viewModel.Validate())
-                //{
-                //    if (viewModel.ValidationMessages.Count > 0) return PartialView(viewModel);
-                //}
+        //public PartialViewResult Save(SysUserViewModel viewModel)
+        //{
+        //    try
+        //    {
+        //        //if (!viewModel.Validate())
+        //        //{
+        //        //    if (viewModel.ValidationMessages.Count > 0) return PartialView(viewModel);
+        //        //}
 
-                viewModel.Entity.Password = viewModel.Entity.SysUserPassword;
-                viewModel.Entity.PasswordConfirm = viewModel.Entity.SysUserPasswordConfirm;
+        //        viewModel.Entity.Password = viewModel.Entity.SysUserPassword;
+        //        viewModel.Entity.PasswordConfirm = viewModel.Entity.SysUserPasswordConfirm;
 
-                if (viewModel.Entity.SysUserPassword != viewModel.Entity.SysUserPasswordConfirm)
-                {
-                    viewModel.UserMessage = "The passwords that you have entered do not match.";
-                    viewModel.ValidationMessages.Add(new Common.Library.ValidationMessage { Message = viewModel.UserMessage });
-                    if (viewModel.ValidationMessages.Count > 0) return PartialView("~/Views/SysUser/_Edit.cshtml", viewModel);
-                }
+        //        if (viewModel.Entity.SysUserPassword != viewModel.Entity.SysUserPasswordConfirm)
+        //        {
+        //            viewModel.UserMessage = "The passwords that you have entered do not match.";
+        //            viewModel.ValidationMessages.Add(new Common.Library.ValidationMessage { Message = viewModel.UserMessage });
+        //            if (viewModel.ValidationMessages.Count > 0) return PartialView("~/Views/SysUser/_Edit.cshtml", viewModel);
+        //        }
 
-                if (viewModel.Entity.SysUserID == 0)
-                {
-                    viewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
-                    viewModel.Insert();
-                }
-                else
-                {
-                    viewModel.Entity.ModifiedByCooperatorID = AuthenticatedUser.CooperatorID;
-                    viewModel.Update();
-                }
-                return _Get(viewModel.Entity.SysUserID, viewModel.Entity.CooperatorID);
-            }
-            catch (Exception ex)
-            {
-                Log.Error(ex);
-                return PartialView("~/Views/Error/_InternalServerError.cshtml");
-            }
-        }
+        //        if (viewModel.Entity.SysUserID == 0)
+        //        {
+        //            viewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
+        //            viewModel.Insert();
+        //        }
+        //        else
+        //        {
+        //            viewModel.Entity.ModifiedByCooperatorID = AuthenticatedUser.CooperatorID;
+        //            viewModel.Update();
+        //        }
+        //        return _Get(viewModel.Entity.SysUserID, viewModel.Entity.CooperatorID);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Log.Error(ex);
+        //        return PartialView("~/Views/Error/_InternalServerError.cshtml");
+        //    }
+        //}
 
         // ******************************************************************************
         // BEGIN OLD CODE
@@ -126,12 +126,34 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             }
         }
 
-        public PartialViewResult _Edit(int entityId, string environment = "")
+        public PartialViewResult _Edit(int sysUserId)
         {
             try 
             { 
                 SysUserViewModel viewModel = new SysUserViewModel();
-                viewModel.Get(entityId);
+                viewModel.Get(sysUserId);
+                return PartialView("~/Views/SysUser/_Edit.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
+        }
+
+        [HttpPost]
+        public PartialViewResult _Save(SysUserViewModel viewModel)
+        {
+            try
+            {
+                if (viewModel.Entity.ID > 0)
+                {
+                    viewModel.Update();
+                }
+                else
+                {
+                    viewModel.Insert();
+                }
                 return PartialView("~/Views/SysUser/_Edit.cshtml", viewModel);
             }
             catch (Exception ex)
@@ -197,28 +219,28 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             }
         }
 
-        public JsonResult _Save(SysUserViewModel viewModel)
-        {
-            try
-            {
-                if (viewModel.Entity.ID > 0)
-                {
-                    viewModel.Update();
-                    viewModel.SendNotification("P");
-                }
-                else
-                {
-                    viewModel.Insert();
-                    viewModel.SendNotification("N");
-                }
-                viewModel.Get(viewModel.Entity.ID);
-                return Json(new { sysUser = viewModel.Entity }, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception ex)
-            {
-                return Json(new { success = false }, JsonRequestBehavior.AllowGet);
-            }
-        }
+        //public JsonResult _Save(SysUserViewModel viewModel)
+        //{
+        //    try
+        //    {
+        //        if (viewModel.Entity.ID > 0)
+        //        {
+        //            viewModel.Update();
+        //            viewModel.SendNotification("P");
+        //        }
+        //        else
+        //        {
+        //            viewModel.Insert();
+        //            viewModel.SendNotification("N");
+        //        }
+        //        viewModel.Get(viewModel.Entity.ID);
+        //        return Json(new { sysUser = viewModel.Entity }, JsonRequestBehavior.AllowGet);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return Json(new { success = false }, JsonRequestBehavior.AllowGet);
+        //    }
+        //}
 
         // GET: SysUser
         public ActionResult Index()

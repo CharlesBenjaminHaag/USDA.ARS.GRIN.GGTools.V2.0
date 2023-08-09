@@ -20,6 +20,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             viewModel.CooperatorID = AuthenticatedUser.CooperatorID;
             viewModel.SysUserID = AuthenticatedUser.SysUserID;
             viewModel.SiteID = AuthenticatedUser.SiteID;
+            viewModel.SiteShortName = AuthenticatedUser.SiteShortName;
             return View(viewModel);
         }
 

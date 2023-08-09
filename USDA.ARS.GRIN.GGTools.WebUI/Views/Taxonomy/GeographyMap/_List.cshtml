@@ -24,6 +24,7 @@
                         <th>Species Name</th>
                         <th>Status</th>
                         <th>Country</th>
+                        <th>Assembled Name</th>
                         <th>Admin 1</th>
                         <th>Note</th>
                         <th>Citation</th>
@@ -52,6 +53,7 @@
                                     @result.GeographyStatusDescription
                                 </td>
                                 <td>@result.CountryName</td>
+                                <td>@result.AssembledName</td>
                                 <td>@result.Admin1</td>
                                 <td>@Html.Raw(result.Note)</td>
                                 <td>@Html.Raw(result.CitationText)</td>
@@ -75,7 +77,8 @@
             </table>
         </div>
     </div>
-    @{Html.RenderAction("RenderBatchEditModal", "Citation", new { @tableName = Model.TableName, @eventAction = "GeographyMap", @eventValue = "Search", @speciesId = Model.Entity.SpeciesID });}
+    <div id="section-citation-batch-edit-modal">
+    </div>
 </div>
 <script type="text/javascript">
     $(document).ready(function () {
@@ -83,8 +86,25 @@
     });
 
     function EditBatch() {
-        var selectedIdList = GetSelectedEntityIDs("data_table_taxonomy_geography_map");
-        $("#modal-citation-batch-edit").modal("show");
+        var selectedIdList = GetS GetSelectedSpeciesIDs("data_table_taxonomy_geography_map");
+        var link = '@Url.Action("RenderBatchEditModal","Citation", new { entityIdList = "SELECTED_ID_LIST" })';
+        link = link.replace("SELECTED_ID_LIST", selectedIdList);
+        var formData = new FormData();
+
+        formData.append("entityIdList", selectedIdList);
+
+        $.ajax({
+            url: link,
+            type: 'POST',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (response) {
+                $("#section-citation-batch-edit-modal").html(response);
+                $("#modal-citation-batch-edit").modal("show");
+            }
+        });
     }
 </script>
 

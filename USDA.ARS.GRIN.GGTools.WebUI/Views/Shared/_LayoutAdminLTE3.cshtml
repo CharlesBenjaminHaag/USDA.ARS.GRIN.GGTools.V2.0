@@ -167,9 +167,7 @@
                 </div>
 
                 @{ string controllerName = ViewContext.RouteData.Values["controller"].ToString();
-                    string actionName = ViewContext.RouteData.Values["action"].ToString(); }
-
-                <h3>@controllerName @actionName</h3>
+                                string actionName = ViewContext.RouteData.Values["action"].ToString(); }
 
                 @if (controllerName == "Folder" && actionName == "Explorer")
                 {
@@ -177,14 +175,23 @@
                 }
                 else
                 {
-                    if (controllerName == "Taxonomy")
-                    {
-                        @Html.Partial("~/Views/Shared/Sidebars/_MainSidebarTaxonomy.cshtml") 
-                    }
-                    else
+                    if (controllerName == "Home")
                     {
                         @Html.Partial("~/Views/Shared/Sidebars/_MainSidebar.cshtml")}
                     }
+                    else
+                    {
+                        @Html.Partial("~/Views/Shared/Sidebars/_MainSidebarTaxonomy.cshtml")
+                    }
+                }
+                @*if (controllerName == "Taxonomy")
+        {
+
+        }
+        else
+        {
+            @Html.Partial("~/Views/Shared/Sidebars/_MainSidebar.cshtml")}
+        }*@
                 }
 
                 @*@switch (Session["APP_CONTEXT"])
@@ -215,7 +222,7 @@
                             <h1 class="m-0">@Html.Raw(ViewBag.Title)</h1>
                         </div><!-- /.col -->
                         <div class="col-sm-3">
-
+                            @Html.Partial("~/Views/Taxonomy/Shared/_Breadcrumbs.cshtml")
                         </div><!-- /.col -->
                     </div><!-- /.row -->
                 </div><!-- /.container-fluid -->

@@ -7,14 +7,22 @@
     <div class="card-body">
         <strong><i class="fas fa-book mr-1"></i> Status</strong>
         <p class="text-muted">
-            @Model.Entity.StatusCode
+            @if (Model.Entity.StatusCode == "ACTIVE")
+            {
+                <span class="badge bg-green">
+                    @Model.Entity.StatusCode
+                </span>
+            }
+            else
+            {
+                <span class="badge bg-red">
+                    @Model.Entity.StatusCode
+                </span>
+            }
         </p>
         <hr>
-        <strong><i class="fas fa-map-marker-alt mr-1"></i> Location</strong>
+        <strong><i class="fas fa-map-marker-alt mr-1"></i> Site</strong>
         <p class="text-muted">@Model.Entity.SiteName @Model.Entity.SiteShortName</p>
-        <p>@Model.Entity.AddressLine1</p>
-        <p>@Model.Entity.AddressLine2</p>
-        <p>@Model.Entity.City, @Model.Entity.StateName @Model.Entity.PostalIndex</p>
         <hr>
         <strong><i class="fas fa-pencil-alt mr-1"></i> Organization</strong>
         <p class="text-muted">

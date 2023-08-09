@@ -165,36 +165,55 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
         public PartialViewResult _ListMyFavoriteFolders(string folderType = "", string timeFrame = "")
         {
             FolderViewModel viewModel = new FolderViewModel();
-            viewModel.SearchEntity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
-            viewModel.SearchEntity.FolderTypeDescription = folderType;
-            viewModel.SearchEntity.IsFavorite = "Y";
-            viewModel.Search();
 
-            //TODO
-            //Get separate list of folders shared with logged-in user.
-
-            return PartialView("~/Views/Folder/_ListMyFolders.cshtml", viewModel);
+            try 
+            { 
+                viewModel.SearchEntity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
+                viewModel.SearchEntity.FolderTypeDescription = folderType;
+                viewModel.SearchEntity.IsFavorite = "Y";
+                viewModel.Search();
+                return PartialView("~/Views/Folder/_ListMyFolders.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
         }
         public PartialViewResult _ListMyRecentFolders(string folderType = "", string timeFrame = "")
         {
             FolderViewModel viewModel = new FolderViewModel();
-            viewModel.SearchEntity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
-            viewModel.SearchEntity.FolderTypeDescription = folderType;
-            viewModel.Search();
 
-            //TODO
-            //Get separate list of folders shared with logged-in user.
-
-            return PartialView("~/Views/Folder/_ListMyFolders.cshtml", viewModel);
+            try 
+            { 
+                viewModel.SearchEntity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
+                viewModel.SearchEntity.FolderTypeDescription = folderType;
+                viewModel.Search();
+                return PartialView("~/Views/Folder/_ListMyFolders.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
         }
         public PartialViewResult _ListMySharedFolders(string folderType = "", string timeFrame = "")
         {
             FolderViewModel viewModel = new FolderViewModel();
-            viewModel.SearchEntity.SharedWithCooperatorID = AuthenticatedUser.CooperatorID;
-            viewModel.SearchEntity.FolderTypeDescription = folderType;
-            viewModel.SearchEntity.IsShared = true;
-            viewModel.Search();
-            return PartialView("~/Views/Folder/_ListMyFolders.cshtml", viewModel);
+
+            try 
+            { 
+                viewModel.SearchEntity.SharedWithCooperatorID = AuthenticatedUser.CooperatorID;
+                viewModel.SearchEntity.FolderTypeDescription = folderType;
+                viewModel.SearchEntity.IsShared = true;
+                viewModel.Search();
+                return PartialView("~/Views/Folder/_ListMyFolders.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
         }
         public ActionResult _ItemList(int entityId, string eventAction)
         {
@@ -257,7 +276,16 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
         public PartialViewResult RenderSidebar()
         {
             FolderViewModel viewModel = new FolderViewModel();
-            return PartialView("~/Views/Shared/Sidebars/_MainSidebarFolder.cshtml", viewModel);
+
+            try
+            {
+                return PartialView("~/Views/Shared/Sidebars/_MainSidebarFolder.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
         }
         [HttpPost]
         public PartialViewResult Add(FormCollection coll)

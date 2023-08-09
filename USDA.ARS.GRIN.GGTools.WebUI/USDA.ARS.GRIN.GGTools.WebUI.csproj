@@ -277,6 +277,13 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="images\Dube_Shruti.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="images\Haag_Benjamin.jpg" />
+    <Content Include="images\Leon_Blanca.jpg" />
+    <Content Include="images\Schori_Melanie.jpg" />
+    <Content Include="images\Wiersema_John.jpg" />
     <Content Include="plugins\bootstrap\js\bootstrap.bundle.min.js" />
     <Content Include="plugins\bootstrap\js\bootstrap.min.js" />
     <Content Include="plugins\fontawesome-free\css\all.css" />
@@ -315,6 +322,7 @@
     <Content Include="plugins\fontawesome-free\webfonts\fa-solid-900.woff2" />
     <Content Include="Edit.cshtml" />
     <Content Include="Content\dist\css\fonts.googleapis.com.css" />
+    <Content Include="libman.json" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -392,7 +400,6 @@
     <Content Include="Views\Taxonomy\Species\_List.cshtml" />
     <Content Include="Views\Taxonomy\Species\Modals\_Lookup.cshtml" />
     <Content Include="Views\Taxonomy\Species\Modals\_SelectList.cshtml" />
-    <Content Include="Views\Folder\Edit.cshtml" />
     <Content Include="Views\Folder\Explorer\Index_BACKUP.cshtml" />
     <Content Include="Views\Folder\_List.cshtml" />
     <Content Include="Views\Folder\_BACKUP\_SelectList.cshtml" />
@@ -800,6 +807,11 @@
     <Content Include="Views\Shared\_LayoutAdminLTE3Taxonomy.cshtml" />
     <Content Include="Views\Folder\Explorer\Index.cshtml" />
     <Content Include="Views\Folder\Import\Index.cshtml" />
+    <Content Include="Views\Cooperator\_SiteCuratorListWidget.cshtml" />
+    <Content Include="Views\Taxonomy\GeographyMap\EditBatch.cshtml" />
+    <Content Include="Views\Folder\Edit.cshtml" />
+    <Content Include="Views\Shared\_BootstrapTreeview.cshtml" />
+    <Content Include="Views\Taxonomy\CommonName\Modals\_EditBatch.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

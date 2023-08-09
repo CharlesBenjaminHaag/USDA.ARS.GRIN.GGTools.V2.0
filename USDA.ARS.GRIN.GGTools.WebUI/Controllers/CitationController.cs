@@ -602,10 +602,26 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
         public PartialViewResult RenderBatchEditModal(string entityIdList)
         {
             CitationViewModel viewModel = new CitationViewModel();
+            int convertedSpeciesId = 0;
 
             try
             {
                 // TODO
+                SpeciesViewModel speciesViewModel = new SpeciesViewModel();
+                
+                string[] speciesIdList = entityIdList.Split(',');
+                foreach (var speciesId in speciesIdList)
+                {
+                    convertedSpeciesId = Int32.Parse(speciesId);
+                    if (convertedSpeciesId > 0)
+                    {
+                        speciesViewModel.Get(Int32.Parse(speciesId));
+                        viewModel.DataCollectionSpecies.Add(speciesViewModel.Entity);
+                        viewModel.SearchEntity.SpeciesID = Int32.Parse(speciesId);
+                        viewModel.Get(convertedSpeciesId);
+                    }
+                }
+
                 return PartialView("~/Views/Taxonomy/Citation/_EditBatch2.cshtml", viewModel);
             }
             catch (Exception ex)

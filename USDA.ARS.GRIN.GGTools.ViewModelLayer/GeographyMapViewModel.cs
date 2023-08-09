@@ -154,7 +154,41 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
                 }
             }
         }
+        public List<GeographyMap> InsertMultiple()
+        {
+            int geographyMapId = 0;
+            string[] speciesIdList = SpeciesIDList.Split(',');
+            string[] geographyIdList = GeographyIDList.Split(',');
+            List<GeographyMap> geographyMaps = new List<GeographyMap>();
 
+            using (GeographyMapManager mgr = new GeographyMapManager())
+            {
+                foreach (var speciesId in speciesIdList)
+                {
+                    foreach (var geographyId in geographyIdList)
+                    {
+                        GeographyMap geographyMap = new GeographyMap();
+                        geographyMap.SpeciesID = Int32.Parse(speciesId);
+                        geographyMap.GeographyStatusCode = Entity.GeographyStatusCode;
+                        geographyMap.GeographyID = Int32.Parse(geographyId);
+                        geographyMap.CreatedByCooperatorID = Entity.CreatedByCooperatorID;
+                        geographyMapId = mgr.Insert(geographyMap);
+
+                        // Add new syn map record to a list of recs created in the current session.
+                        // Note that, given that the sproc only inserts records if the taxon A/syn code/taxon B
+                        // combination does not already exist, the result of the insert in those instances will
+                        // be -1, vs. the new synonym map ID.
+                        if (geographyMapId > 0)
+                        {
+                            GeographyMap geographyMapBatch = mgr.Get(geographyMapId);
+                            geographyMaps.Add(geographyMapBatch);
+                        }
+                    }
+                }
+            }
+            DataCollection = new Collection<GeographyMap>(geographyMaps);
+            return geographyMaps;
+        }
         public void Map()
         {
             var itemIdList = ItemIDList.Split(',');

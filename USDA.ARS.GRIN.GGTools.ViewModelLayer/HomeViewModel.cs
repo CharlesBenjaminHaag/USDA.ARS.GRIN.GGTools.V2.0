@@ -15,6 +15,6 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
         public int CooperatorID { get; set; }
         public int SysUserID { get; set; }
         public int SiteID { get; set; }
-       
+        public string SiteShortName { get; set; }
     }
 }

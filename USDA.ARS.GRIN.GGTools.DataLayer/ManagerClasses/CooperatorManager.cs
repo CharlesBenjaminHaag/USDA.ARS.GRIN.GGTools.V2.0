@@ -51,13 +51,13 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             cooperatorStatus = GetRecord<CooperatorStatus>(SQL, CommandType.StoredProcedure, parameters.ToArray());
             return cooperatorStatus;
         }
-        public List<Cooperator> GetCooperatorsBySysGroup(string sysGroupName)
+        public List<Cooperator> GetSiteCurators(string siteShortName)
         {
             List<Cooperator> cooperators = new List<Cooperator>();
-            SQL = "usp_GRINGlobal_Cooperators_By_Sys_Group_Select";
+            SQL = "usp_GRINGlobal_SiteCurators_Select";
 
             var parameters = new List<IDbDataParameter> {
-                    CreateParameter("group_tag", (object)sysGroupName, false)
+                    CreateParameter("site_short_name", (object)siteShortName, false)
                 };
 
             cooperators = GetRecords<Cooperator>(SQL, CommandType.StoredProcedure, parameters.ToArray());
@@ -113,9 +113,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             SQL += " AND (@StatusCode               IS NULL     OR StatusCode               =       @StatusCode)";
             SQL += " AND (@SiteID                   IS NULL     OR SiteID                   =       @SiteID)";
             SQL += " AND (@SysUserIsEnabled         IS NULL     OR SysUserIsEnabled         =       @SysUserIsEnabled)";
-
-            //SQL += " OR SysUserID = 48 ";
-
+        
             switch (searchEntity.CreatedTimeFrame)
             {
                 case "TDY":
@@ -163,12 +161,6 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             }
             SQL += " ORDER BY FullName";
 
-            //if (!String.IsNullOrEmpty(searchEntity.StatusList))
-            //{
-            //    searchEntity.StatusList = String.Join(",", Array.ConvertAll(searchEntity.StatusList.Split(','), z => "'" + z + "'"));
-            //    SQL += " AND StatusCode IN (" + searchEntity.StatusList + ")";
-            //}
-
             var parameters = new List<IDbDataParameter> {
                 CreateParameter("ID", searchEntity.ID > 0 ? (object)searchEntity.ID : DBNull.Value, true),
                 CreateParameter("FirstName", (object)searchEntity.FirstName ?? DBNull.Value, true),
@@ -183,7 +175,20 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             RowsAffected = results.Count;
             return results;
         }
-       
+
+        public List<Cooperator> GetBySysGroup(string sysGroupTag)
+        {
+            List<Cooperator> cooperators = new List<Cooperator>();
+            SQL = "usp_GRINGlobal_Cooperators_By_Sys_Group_Select";
+
+            var parameters = new List<IDbDataParameter> {
+                    CreateParameter("group_tag", (object)sysGroupTag, false)
+                };
+
+            cooperators = GetRecords<Cooperator>(SQL, CommandType.StoredProcedure, parameters.ToArray());
+            return cooperators;
+        }
+
         public int Update(Cooperator entity)
         {
             Reset(CommandType.StoredProcedure);

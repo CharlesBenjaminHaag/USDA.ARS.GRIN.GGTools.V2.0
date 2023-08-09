@@ -80,11 +80,30 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 return RedirectToAction("InternalServerError", "Error");
             }
         }
-
-        public PartialViewResult BatchEdit()
+        [HttpPost]
+        public PartialViewResult RenderBatchEditModal(string idList)
         {
             CommonNameViewModel viewModel = new CommonNameViewModel();
-            return PartialView("~/Views/Taxonomy/CommonName/_EditBatch.cshtml", viewModel);
+            viewModel.SearchEntity.IDList = idList;
+            viewModel.Search();
+
+            foreach (var commonName in viewModel.DataCollection)
+            {
+                CitationViewModel citationViewModel = new CitationViewModel();
+                citationViewModel.SearchEntity.SpeciesID = commonName.SpeciesID;
+                citationViewModel.Search();
+                commonName.Citations = citationViewModel.DataCollection;
+                // TODO Get species citations
+            }
+
+            // TODO
+            // Get list of common names based on parameter
+            // Retrieve each common name and its parent species
+            //    For each species, retrieve each of its citations
+
+
+
+            return PartialView("~/Views/Taxonomy/CommonName/Modals/_EditBatch.cshtml", viewModel);
         }
 
         [HttpPost]

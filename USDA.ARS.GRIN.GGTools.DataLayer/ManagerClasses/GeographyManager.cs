@@ -77,6 +77,19 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             SQL += " AND    (@Admin2Abbrev IS NULL OR Admin2Abbrev LIKE '%' + @Admin2Abbrev + '%')";
             SQL += " AND    (@Admin2TypeCode IS NULL OR Admin2TypeCode = @Admin2TypeCode)";
 
+            if (!String.IsNullOrEmpty(searchEntity.IDList))
+            {
+                if (SQL.Contains("WHERE"))
+                {
+                    SQL += " AND ";
+                }
+                else
+                {
+                    SQL += " WHERE ";
+                }
+                SQL += " ID IN (" + searchEntity.IDList + ")";
+            }
+
             if (!String.IsNullOrEmpty(searchEntity.ContinentIDList))
             {
                 whereClause += " AND (RegionID IN (" + searchEntity.ContinentIDList + ")";

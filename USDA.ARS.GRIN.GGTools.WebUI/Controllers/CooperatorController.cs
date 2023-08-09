@@ -143,76 +143,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 return RedirectToAction("InternalServerError", "Error");
             }
         }
-
-        // ******************************************************************************
-        // BEGIN OLD CODE
-        // ******************************************************************************
-
-        //public ViewResult Explorer()
-        //{
-        //    return View();
-        //}
-        //public PartialViewResult _RenderLookupModal()
-        //{
-        //    try
-        //    {
-        //        CooperatorViewModel viewModel = new CooperatorViewModel();
-        //        return PartialView("~/Views/Cooperator/Modals/_Lookup.cshtml",viewModel);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Log.Error(ex);
-        //        return PartialView("~/Views/Error/_InternalServerError.cshtml");
-        //    }
-        //}
         [HttpPost]
-        //public PartialViewResult _Lookup(CooperatorViewModel viewModel)
-        //{
-        //    try
-        //    {
-        //        viewModel.Search();
-        //        return PartialView("~/Views/Cooperator/Modals/_SelectList.cshtml", viewModel);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Log.Error(ex);
-        //        return PartialView("~/Views/Error/_InternalServerError.cshtml");
-        //    }
-        //}
-        //public PartialViewResult _ListFolderItems(int folderId)
-        //{
-        //    try
-        //    {
-        //        return PartialView("~/Views/Shared/_UnderConstruction.cshtml");
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Log.Error(ex);
-        //        return PartialView("~/Views/Error/_InternalServerError.cshtml");
-        //    }
-        //}
-        //[HttpPost]
-        //public JsonResult Add(FormCollection formCollection)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        //public ActionResult Delete(int entityId)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        //public ActionResult View(int entityId)
-        //{
-        //    Retrieve main cooperator record(to be copied). Assumption is use case 
-        //     where user is updating a training record.
-        //    CooperatorViewModel viewModel = new CooperatorViewModel();
-        //    viewModel.SearchEntity.ID = entityId;
-        //    viewModel.Get(entityId, "PROD");
-        //    viewModel.AuthenticatedUser = AuthenticatedUser;
-        //    return View(viewModel);
-        //}
-      
         public PartialViewResult _Add(int siteId = 0)
         {
             try
@@ -276,7 +207,6 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 return RedirectToAction("InternalServerError", "Error");
             }
         }
-
         [HttpPost]
         public ActionResult Edit(CooperatorViewModel viewModel)
         {
@@ -305,6 +235,44 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 return RedirectToAction("InternalServerError", "Error");
             }
         }
+        public ActionResult Edit(int entityId)
+        {
+            try
+            {
+                CooperatorViewModel viewModel = new CooperatorViewModel();
+                viewModel.Get(entityId, "");
+                viewModel.PageTitle = String.Format("Edit Cooperator [{0}]: {1}, {2}", entityId, viewModel.Entity.LastName, viewModel.Entity.FirstName);
+                viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
+                viewModel.AuthenticatedUser = AuthenticatedUser;
+                viewModel.MainSectionCSSClass = "col-md-9";
+                return View("~/Views/Cooperator/Edit.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return RedirectToAction("InternalServerError", "Error");
+            }
+        }
+        [HttpPost]
+        public ActionResult EditSysUser(SysUserViewModel viewModel)
+        {
+            try
+            {
+                viewModel.Validate();
+                viewModel.Insert();
+
+                CooperatorViewModel cooperatorViewModel = new CooperatorViewModel();
+                cooperatorViewModel.Get(viewModel.Entity.CooperatorID);
+
+                return View("~/Views/Cooperator/Edit.cshtml", cooperatorViewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return RedirectToAction("InternalServerError", "Error");
+            }
+        }
+        
         [HttpPost]
         public JsonResult _Edit(CooperatorViewModel viewModel)
         {
@@ -338,7 +306,6 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 return Json(new { cooperator = viewModel.Entity }, JsonRequestBehavior.AllowGet);
             }
         }
-
         public JsonResult AddSysUser(FormCollection formCollection)
         {
             SysUserViewModel viewModel = new SysUserViewModel();
@@ -372,7 +339,6 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             }
 
         }
-
         public JsonResult UpdateSysUser(FormCollection formCollection)
         {
             SysUserViewModel viewModel = new SysUserViewModel();
@@ -406,8 +372,6 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             }
 
         }
-
-
         [GrinGlobalAuthentication]
         public ActionResult Index()
         {
@@ -418,7 +382,6 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
             return View(viewModel);
         }
-
         [HttpPost]
         public ActionResult Search(CooperatorViewModel viewModel)
         {
@@ -473,15 +436,15 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 return PartialView("~/Views/Error/_InternalServerError.cshtml");
             }
         }
-        public PartialViewResult _ListBySysGroup(string groupTag = "")
+        public PartialViewResult RenderSiteCuratorListWidget(string siteShortName)
         {
             try
             {
                 CooperatorViewModel viewModel = new CooperatorViewModel();
                 viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
                 viewModel.AuthenticatedUser = AuthenticatedUser;
-                viewModel.GetCooperatorsBySysGroup(groupTag);
-                return PartialView("~/Views/Cooperator/_ContactListWidget.cshtml", viewModel);
+                viewModel.GetSiteCurators(siteShortName);
+                return PartialView("~/Views/Cooperator/_ListWidget.cshtml", viewModel);
             }
             catch (Exception ex)
             {
@@ -502,6 +465,22 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 viewModel.SearchEntity.ID = cooperatorId;
                 viewModel.Search();
                 return PartialView("~/Views/Cooperator/_Widget.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
+        }
+        public PartialViewResult RenderListWidget(int siteId = 0, string sysGroupTag = "")
+        {
+            CooperatorViewModel viewModel = new CooperatorViewModel();
+            try
+            {
+                viewModel.SearchEntity.SiteID = siteId;
+                viewModel.SearchEntity.SysGroupTag = sysGroupTag;
+                viewModel.GetBySysGroup(sysGroupTag);
+                return PartialView("~/Views/Cooperator/_SiteCuratorListWidget.cshtml", viewModel);
             }
             catch (Exception ex)
             {
@@ -552,7 +531,6 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 return RedirectToAction("InternalServerError", "Error");
             }
         }
-
         public JsonResult Transfer(FormCollection formCollection)
         {
             try
@@ -582,18 +560,15 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 return Json(new { success = false }, JsonRequestBehavior.AllowGet);
             }
         }
-
         public ActionResult Delete(FormCollection formCollection)
         {
             throw new NotImplementedException();
         }
-
         public JsonResult Sync(int cooperatorId)
         {
             //TODO
             return null;
         }
-
         public JsonResult SyncSysUser(int sysUserId)
         {
             //TODO
@@ -609,20 +584,19 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             //TODO
             return null;
         }
-
-        public ActionResult Edit(int entityId)
+        
+        public ActionResult Add()
         {
-            try
+            try 
             {
                 CooperatorViewModel viewModel = new CooperatorViewModel();
-                viewModel.Get(entityId, "");
-                viewModel.PageTitle = String.Format("Edit Cooperator [{0}]: {1}, {2}", entityId, viewModel.Entity.LastName, viewModel.Entity.FirstName);
+                viewModel.PageTitle = "Add Cooperator";
                 viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
                 viewModel.AuthenticatedUser = AuthenticatedUser;
-                viewModel.MainSectionCSSClass = "col-md-9";
+                viewModel.Entity.StatusCode = "ACTIVE";
                 return View("~/Views/Cooperator/Edit.cshtml", viewModel);
             }
-            catch (Exception ex)
+            catch(Exception ex)
             {
                 Log.Error(ex);
                 return RedirectToAction("InternalServerError", "Error");

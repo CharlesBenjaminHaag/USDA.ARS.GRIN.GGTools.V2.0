@@ -23,7 +23,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
         private Collection<Citation> _DataCollection = new Collection<Citation>();
         private Collection<Citation> _DataCollectionTaxon = new Collection<Citation>();
         private Collection<Cooperator> _DataCollectionCooperators = new Collection<Cooperator>();
-
+        private Collection<Species> _DataCollectionSpecies = new Collection<Species>();
         public CitationViewModelBase()
         {
             this.TableCode = "Citation";
@@ -96,7 +96,11 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
             get { return _DataCollectionTaxon; }
             set { _DataCollectionTaxon = value; }
         }
-
+        public Collection<Species> DataCollectionSpecies 
+        {
+            get { return _DataCollectionSpecies; }
+            set { _DataCollectionSpecies = value; }
+        }
         private List<CodeValue> GetStandardAbbreviations()
         {
             List<CodeValue> codeValues = new List<CodeValue>();
