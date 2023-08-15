@@ -9,7 +9,7 @@ using USDA.ARS.GRIN.GGTools.AppLayer;
 
 namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
 {
-    public class CommonNameLanguageSearch : AppEntityBase
+    public class CommonNameLanguageSearch : SearchEntityBase
     {
         public string LanguageName { get; set; }
         public string LanguageSimplifiedName { get; set; }

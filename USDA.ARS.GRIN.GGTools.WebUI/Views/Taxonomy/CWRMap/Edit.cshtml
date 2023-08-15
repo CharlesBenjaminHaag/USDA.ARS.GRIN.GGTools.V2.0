@@ -191,13 +191,19 @@
                                 <button type="submit" class="btn btn-primary float-right">Save</button>
                             </div>
                         </div>
+                        if (Model.Entity.ID > 0)
+                        {
+                            <div id="section-species-citation-widget">
+                                @{Html.RenderAction("RenderWidget", "Citation", new { @entityId = Model.Entity.CitationID });}
+                            </div>
+                        }
                     }
 
                     @if (Model.Entity.ID > 0)
                     {
                         Html.RenderAction("_List", "CWRTrait", new { @cwrMapId = Model.Entity.ID });
+                        Html.RenderAction("RenderSpeciesCitationLookupModal", "Citation", new { @tableName = Model.TableName, @speciesId = Model.Entity.SpeciesID });
                     }
-
                     @{Html.RenderAction("RenderLookupModal", "Species"); }
                     @Html.Partial("~/Views/Shared/Modals/_NoteLookup2.cshtml")
                     @Html.Partial("~/Views/Taxonomy/Shared/Modals/_Delete.cshtml")

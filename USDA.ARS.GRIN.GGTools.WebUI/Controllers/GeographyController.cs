@@ -281,9 +281,10 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             return PartialView(partialViewName, viewModel);
         }
 
-        public ActionResult RenderLookupModal()
+        public ActionResult RenderLookupModal(string isLookupFormat = "Y")
         {
             GeographyViewModel viewModel = new GeographyViewModel();
+            viewModel.IsLookupFormat = isLookupFormat;
             viewModel.GetContinents();
             // TODO If we have a species ID,
             // 1) Load its name/basic identifying data

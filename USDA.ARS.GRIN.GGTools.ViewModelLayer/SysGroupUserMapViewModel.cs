@@ -88,5 +88,21 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
         {
             throw new NotImplementedException();
         }
+
+        public void GetAvailableSysGroups()
+        {
+            using (SysGroupUserMapManager mgr = new SysGroupUserMapManager())
+            {
+                DataCollectionAvailable = new Collection<SysGroupUserMap>(mgr.GetAvailable(Entity.SysUserID));
+            }
+        }
+
+        public void GetCurrentSysGroups()
+        {
+            using (SysGroupUserMapManager mgr = new SysGroupUserMapManager())
+            {
+                DataCollectionUnavailable = new Collection<SysGroupUserMap>(mgr.GetUnavailable(Entity.SysUserID));
+            }
+        }
     }
 }

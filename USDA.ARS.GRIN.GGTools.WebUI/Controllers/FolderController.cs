@@ -92,16 +92,6 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             viewModel.Search();
             return PartialView("~/Views/Folder/Modals/_ItemList.cshtml", viewModel);
         }
-
-        /// <summary>
-        /// Returns a list of all folders created by a specified cooperator, and, optionally, that
-        /// are of a specified table type.
-        /// </summary>
-        /// <param name="cooperatorId"></param>
-        /// <param name="tableName">The type of data contained in the folder.</param>
-        /// <returns></returns>
-        /// <remarks>The data type is the name of the underlying DB table.</remarks>
-
         public PartialViewResult _ListExplorer(string folderCategory = "", string folderType = "")
         {
             FolderViewModel viewModel = new FolderViewModel();

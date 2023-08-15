@@ -113,17 +113,91 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 return PartialView("~/Views/Error/_InternalServerError.cshtml");
             }
         }
-        //public PartialViewResult _RenderLookupModal(string tableName = "")
-        //{
-        //    SysGroupUserMapViewModel viewModel = new SysGroupUserMapViewModel();
-        //    viewModel.GetSysGroupUserMapsByTable(tableName);
-        //    return PartialView("~/Views/SysGroupUserMap/Modals/_Lookup.cshtml", viewModel);
-        //}
+       
+        public PartialViewResult RenderEditModal(int sysUserId)
+        {
+            SysGroupUserMapViewModel viewModel = new SysGroupUserMapViewModel();
+            viewModel.Entity.SysUserID = sysUserId;
+            viewModel.GetAvailableSysGroups();
+            viewModel.GetCurrentSysGroups();
+            return PartialView("~/Views/SysGroupUserMap/Modals/_Edit.cshtml", viewModel);
+        }
+        [HttpPost]
+        public JsonResult AddSysGroups(FormCollection coll)
+        {
+            SysGroupUserMapViewModel viewModel = new SysGroupUserMapViewModel();
 
-        //public PartialViewResult _RenderEditModal()
-        //{
-        //    SysGroupUserMapViewModel viewModel = new SysGroupUserMapViewModel();
-        //    return PartialView("~/Views/SysGroupUserMap/Modals/_Edit.cshtml", viewModel);
-        //}
+            try
+            {
+                if (!String.IsNullOrEmpty(coll["SysUserID"]))
+                {
+                    viewModel.Entity.SysUserID = Int32.Parse(coll["SysUserID"]);
+                }
+
+                if (!String.IsNullOrEmpty(coll["IDList"]))
+                {
+                    viewModel.ItemIDList = coll["IDList"];
+                }
+                
+                
+                return Json(new { success = true }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return Json(new { success = false }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        [HttpPost]
+        public JsonResult DeleteSysGroups(FormCollection coll)
+        {
+            SysGroupUserMapViewModel viewModel = new SysGroupUserMapViewModel();
+
+            try
+            {
+                if (!String.IsNullOrEmpty(coll["SysUserID"]))
+                {
+                    viewModel.Entity.SysUserID = Int32.Parse(coll["SysUserID"]);
+                }
+
+                if (!String.IsNullOrEmpty(coll["IDList"]))
+                {
+                    viewModel.ItemIDList = coll["IDList"];
+                }
+                // TODO
+                return Json(new { success = true }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return Json(new { success = false }, JsonRequestBehavior.AllowGet);
+            }
+        }
+        [HttpPost]
+        public ActionResult _ListAvailableSysGroups(FormCollection formCollection)
+        {
+            SysGroupUserMapViewModel viewModel = new SysGroupUserMapViewModel();
+
+            if (!String.IsNullOrEmpty(formCollection["SysUserID"]))
+            {
+                viewModel.Entity.SysUserID = Int32.Parse(formCollection["SysUserID"]);
+            }
+            viewModel.GetAvailableSysGroups();
+            return PartialView("~/Views/SysGroupUserMap/Modals/_ListAvailable.cshtml", viewModel);
+        }
+
+        [HttpPost]
+        public ActionResult _ListCurrentSysGroups(FormCollection formCollection)
+        {
+            SysGroupUserMapViewModel viewModel = new SysGroupUserMapViewModel();
+
+            if (!String.IsNullOrEmpty(formCollection["FolderID"]))
+            {
+                viewModel.Entity.ID = Int32.Parse(formCollection["FolderID"]);
+            }
+            viewModel.GetCurrentSysGroups();
+            return PartialView("~/Views/SysGroupUserMap/Modals/_ListCurrent.cshtml", viewModel);
+        }
     }
 }

@@ -107,25 +107,28 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
         }
 
         [HttpPost]
-        public PartialViewResult BatchEdit(CommonNameViewModel viewModel)
+        public JsonResult BatchEdit(string keyList)
         {
             try 
             { 
-                foreach (var speciesId in viewModel.SpeciesIDList.Split(','))
+                foreach (var key in keyList.Split(','))
                 {
-                    viewModel.Entity.ID = 0;
-                    viewModel.Entity.SpeciesID = Int32.Parse(speciesId);
-                    viewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
-                    viewModel.Insert();
+                    var keyTokens = key.Split('_');
+                    var commonNameId = keyTokens[0];
+                    var citationId = keyTokens[1];
+
+                    CommonNameViewModel viewModel = new CommonNameViewModel();
+                    viewModel.Get(Int32.Parse(commonNameId));
+                    viewModel.Entity.CitationID = Int32.Parse(citationId);
+                    viewModel.Entity.ModifiedByCooperatorID = AuthenticatedUser.CooperatorID;
+                    viewModel.Update();
                 }
-                return PartialView("~/Views/Taxonomy/CommonName/_EditBatch.cshtml", viewModel);
+                return Json("TRUE", JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
                 Log.Error(ex);
-                viewModel.ValidationMessages.Add(new Common.Library.ValidationMessage { Message = ex.Message });
-
-                return PartialView("~/Views/Taxonomy/CommonName/_EditBatch.cshtml", viewModel);
+                return Json("FALSE", JsonRequestBehavior.AllowGet);
             }
         }
         [HttpPost]

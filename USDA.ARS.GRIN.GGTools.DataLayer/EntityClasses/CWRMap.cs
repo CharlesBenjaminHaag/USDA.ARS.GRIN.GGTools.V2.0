@@ -10,7 +10,6 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
 {
     public class CWRMap: AppEntityBase
     {
-        public string AssembledName { get; set; }
         public int SpeciesID { get; set; }
         public string SpeciesName { get; set; }
         public int CropForCWRID { get; set; }
@@ -26,5 +25,6 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         [AllowHtml]
         public string CitationText { get; set; }
         public List<CWRTrait> CWRTraits { get; set; }
+        public Collection<Citation> Citations { get; set; }
     }
 }

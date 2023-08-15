@@ -393,5 +393,47 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 return Json(new { errorMessage = ex.Message }, JsonRequestBehavior.AllowGet);
             }
         }
+        
+        [HttpPost]
+        public PartialViewResult RenderBatchEditModal(string idList)
+        {
+            CWRMapViewModel viewModel = new CWRMapViewModel();
+            viewModel.SearchEntity.IDList = idList;
+            viewModel.Search();
+
+            foreach (var cwrMap in viewModel.DataCollection)
+            {
+                CitationViewModel citationViewModel = new CitationViewModel();
+                citationViewModel.SearchEntity.SpeciesID = cwrMap.SpeciesID;
+                citationViewModel.Search();
+                cwrMap.Citations = citationViewModel.DataCollection;
+            }
+            return PartialView("~/Views/Taxonomy/CWRMap/Modals/_EditBatch.cshtml", viewModel);
+        }
+        [HttpPost]
+        public JsonResult BatchEdit(string keyList)
+        {
+            try
+            {
+                foreach (var key in keyList.Split(','))
+                {
+                    var keyTokens = key.Split('_');
+                    var cwrMapId = keyTokens[0];
+                    var citationId = keyTokens[1];
+
+                    CWRMapViewModel viewModel = new CWRMapViewModel();
+                    viewModel.Get(Int32.Parse(cwrMapId));
+                    viewModel.Entity.CitationID = Int32.Parse(citationId);
+                    viewModel.Entity.ModifiedByCooperatorID = AuthenticatedUser.CooperatorID;
+                    viewModel.Update();
+                }
+                return Json("TRUE", JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return Json("FALSE", JsonRequestBehavior.AllowGet);
+            }
+        }
     }
 }

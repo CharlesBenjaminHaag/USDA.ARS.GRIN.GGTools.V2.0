@@ -29,6 +29,8 @@
             </div>
             <div class="modal-body">
 
+                <h3 style="background-color:yellow">DEBUG @Model.IsLookupFormat</h3>
+
                 <!-- BEGIN DEBUG -->
                 @*<div class="row">
                     <div class="col-md-12"><input type="text" style="background-color:yellow;" id="txtDEBUGContinents" class="form-control" /></div>
@@ -113,25 +115,26 @@
                                 <label for="check-all-administrative-units">Select All</label>
                             </div>
                         </div>
-                        <!--<div id="section-generate-map-options">
-    <div class="form-group">
-        <label>Status</label>
-        <select id="ddlGeographyStatusCode" class="form-control">
-            <option value="a">Adventive</option>
-            <option value="c">Cultivated</option>
-            <option value="n" selected>Native</option>
-            <option value="i">Naturalized</option>
-            <option value="o">Other</option>
-            <option value="u">Uncertain</option>
-        </select>
-    </div>-->
+                        <div id="section-generate-map-options">
+                            <div class="form-group">
+                                <label>Status</label>
+                                <select id="ddlGeographyStatusCode" class="form-control">
+                                    <option value="a">Adventive</option>
+                                    <option value="c">Cultivated</option>
+                                    <option value="n" selected>Native</option>
+                                    <option value="i">Naturalized</option>
+                                    <option value="o">Other</option>
+                                    <option value="u">Uncertain</option>
+                                </select>
+                            </div>
                         @*<button id="btnGenerateGeographyMaps" class="btn btn-primary btn-block" data-dismiss="modal">Generate Maps</button>*@
                         <!--<button id="btnGetSelectedAdministrativeUnits" class="btn btn-primary btn-block" data-dismiss="modal">Use Selected Geographies</button>
-    </div>-->
+                        </div>-->
                         @*<button id="btnGenerateGeographyMaps" class="btn btn-primary btn-block" data-dismiss="modal">Generate Maps</button>*@
-                        <button id="btnGetSelectedAdministrativeUnits" class="btn btn-primary btn-block" data-dismiss="modal">Use Selected Geographies</button>
+                        </div>
+                            <button id="btnGetSelectedAdministrativeUnits" class="btn btn-primary btn-block" data-dismiss="modal">Use Selected Geographies</button>
                     </div>
-                </div>
+                    </div>
             </div>
             <div class="modal-footer justify-content-between">
                 <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>

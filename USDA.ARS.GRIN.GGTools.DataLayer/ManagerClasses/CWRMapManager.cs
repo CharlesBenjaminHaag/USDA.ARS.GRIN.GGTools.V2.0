@@ -11,7 +11,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
 {
     public partial class CWRMapManager : GRINGlobalDataManagerBase, IManager<CWRMap, CWRMapSearch>
     {
-        public virtual List<CWRMap> Search(CWRMapSearch search)
+        public virtual List<CWRMap> Search(CWRMapSearch searchEntity)
         {
 
             SQL = "SELECT * FROM  vw_GRINGlobal_Taxonomy_CWR_Map ";
@@ -28,22 +28,36 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             SQL += " AND    (@IsPotential               IS NULL OR IsPotential              =      @IsPotential) ";
             SQL += " AND    (@Note                      IS NULL OR Note                     LIKE  '%' + @Note + '%') ";
             SQL += " AND    (@CitationText              IS NULL OR CitationText             LIKE  '%' + @CitationText + '%') ";
+            
+            if (!String.IsNullOrEmpty(searchEntity.IDList))
+            {
+                if (SQL.Contains("WHERE"))
+                {
+                    SQL += " AND ";
+                }
+                else
+                {
+                    SQL += " WHERE ";
+                }
+                SQL += " ID IN (" + searchEntity.IDList + ")";
+            }
+
             SQL += " ORDER BY AssembledName";
 
-           var parameters = new List<IDbDataParameter> {
-                CreateParameter("CreatedByCooperatorID", search.CreatedByCooperatorID > 0 ? (object)search.CreatedByCooperatorID : DBNull.Value, true),
-                CreateParameter("ID", search.ID > 0 ? (object)search.ID : DBNull.Value, true),
-                CreateParameter("SpeciesID", search.SpeciesID > 0 ? (object)search.SpeciesID : DBNull.Value, true),
-                CreateParameter("SpeciesName", (object)search.SpeciesName ?? DBNull.Value, true),
-                CreateParameter("CropForCWRID", search.CropForCWRID > 0 ? (object)search.CropForCWRID : DBNull.Value, true),
-                CreateParameter("CropForCWRName", (object)search.CropForCWRName ?? DBNull.Value, true),
-                CreateParameter("CropCommonName", (object)search.CropCommonName ?? DBNull.Value, true),
-                CreateParameter("GenepoolCode", (object)search.GenepoolCode ?? DBNull.Value, true),
-                CreateParameter("IsCrop", (object)search.IsCrop ?? DBNull.Value, true),
-                CreateParameter("IsGraftstock", (object)search.IsGraftStock ?? DBNull.Value, true),
-                CreateParameter("IsPotential", (object)search.IsPotential ?? DBNull.Value, true),
-                CreateParameter("Note", (object)search.Note ?? DBNull.Value, true),
-                CreateParameter("CitationText", (object)search.CitationText ?? DBNull.Value, true),
+            var parameters = new List<IDbDataParameter> {
+                CreateParameter("CreatedByCooperatorID", searchEntity.CreatedByCooperatorID > 0 ? (object)searchEntity.CreatedByCooperatorID : DBNull.Value, true),
+                CreateParameter("ID", searchEntity.ID > 0 ? (object)searchEntity.ID : DBNull.Value, true),
+                CreateParameter("SpeciesID", searchEntity.SpeciesID > 0 ? (object)searchEntity.SpeciesID : DBNull.Value, true),
+                CreateParameter("SpeciesName", (object)searchEntity.SpeciesName ?? DBNull.Value, true),
+                CreateParameter("CropForCWRID", searchEntity.CropForCWRID > 0 ? (object)searchEntity.CropForCWRID : DBNull.Value, true),
+                CreateParameter("CropForCWRName", (object)searchEntity.CropForCWRName ?? DBNull.Value, true),
+                CreateParameter("CropCommonName", (object)searchEntity.CropCommonName ?? DBNull.Value, true),
+                CreateParameter("GenepoolCode", (object)searchEntity.GenepoolCode ?? DBNull.Value, true),
+                CreateParameter("IsCrop", (object)searchEntity.IsCrop ?? DBNull.Value, true),
+                CreateParameter("IsGraftstock", (object)searchEntity.IsGraftStock ?? DBNull.Value, true),
+                CreateParameter("IsPotential", (object)searchEntity.IsPotential ?? DBNull.Value, true),
+                CreateParameter("Note", (object)searchEntity.Note ?? DBNull.Value, true),
+                CreateParameter("CitationText", (object)searchEntity.CitationText ?? DBNull.Value, true),
             };
             List<CWRMap> cropForCWRs = GetRecords<CWRMap>(SQL, parameters.ToArray());
             RowsAffected = cropForCWRs.Count;

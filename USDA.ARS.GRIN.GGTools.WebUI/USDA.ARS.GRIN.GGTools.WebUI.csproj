@@ -273,6 +273,7 @@
     <Content Include="dist\img\user8-128x128.jpg" />
     <Content Include="dist\js\adminlte.js" />
     <Content Include="dist\js\demo.js" />
+    <Content Include="dist\js\jquery.dirty.js" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -702,7 +703,6 @@
     <Content Include="Views\Taxonomy\Citation\Clone.cshtml" />
     <Content Include="Views\Shared\_Footer.cshtml" />
     <Content Include="Views\Taxonomy\CWRMap\Edit.cshtml" />
-    <Content Include="Views\Taxonomy\CWRTrait\Edit_BACKUP.cshtml" />
     <Content Include="Views\Taxonomy\FamilyMap\Edit_BACKUP.cshtml" />
     <Content Include="Views\Folder\_ListExplorer.cshtml" />
     <Content Include="Views\Shared\_NavbarRight.cshtml" />
@@ -775,7 +775,6 @@
     <Content Include="Views\Taxonomy\Literature\_EditBatch.cshtml" />
     <Content Include="Views\Taxonomy\Citation\_ListBatch.cshtml" />
     <Content Include="Views\Taxonomy\Citation\_EditBatch.cshtml" />
-    <Content Include="Views\Taxonomy\CommonName\_EditBatch.cshtml" />
     <Content Include="Views\Taxonomy\EconomicUse\_EditBatch.cshtml" />
     <Content Include="Views\Taxonomy\GeographyMap\_EditBatchBACKUP.cshtml" />
     <Content Include="Views\WebOrderRequest\_Detail.cshtml" />
@@ -812,6 +811,12 @@
     <Content Include="Views\Folder\Edit.cshtml" />
     <Content Include="Views\Shared\_BootstrapTreeview.cshtml" />
     <Content Include="Views\Taxonomy\CommonName\Modals\_EditBatch.cshtml" />
+    <Content Include="Views\Taxonomy\CWRMap\Modals\_EditBatch.cshtml" />
+    <Content Include="Views\Taxonomy\CWRTrait\Modals\_EditBatch.cshtml" />
+    <Content Include="Views\Taxonomy\CWRTrait\Modals\_Clone.cshtml" />
+    <Content Include="Views\SysGroupUserMap\Modals\_Edit - Copy.cshtml" />
+    <Content Include="Views\SysGroupUserMap\Modals\_ListCurrent.cshtml" />
+    <Content Include="Views\SysGroupUserMap\Modals\_ListAvailable.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

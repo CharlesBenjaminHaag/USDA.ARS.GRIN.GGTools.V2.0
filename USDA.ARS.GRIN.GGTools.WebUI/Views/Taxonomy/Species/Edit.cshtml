@@ -645,7 +645,7 @@
 
                     @if (Model.Entity.ID > 0)
                     {
-                        { Html.RenderAction("RenderLookupModal", "Geography"); }
+                        { Html.RenderAction("RenderLookupModal", "Geography", new { @isLookupFormat = "N" }); }
                         { Html.RenderAction("RenderLookupModal", "Citation", new { @tableName = Model.TableName, @isMultiSelect = "Y" }); }
                     }
 

@@ -20,7 +20,8 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
         // geo is to map species. -- CBH, 3/6/23
         private int _SpeciesID;
         private string _SpeciesName;
-       
+        private string _IsLookupFormat;
+
         private Geography _Entity = new Geography();
         private Geography _ParentEntity = new Geography();
         private GeographySearch _SearchEntity = new GeographySearch();
@@ -54,6 +55,11 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
         { 
             get { return _SpeciesName; }
             set { _SpeciesName = value; } 
+        }
+        public string IsLookupFormat
+        {
+            get { return _IsLookupFormat; }
+            set { _IsLookupFormat = value; }
         }
         public Geography Entity
         {

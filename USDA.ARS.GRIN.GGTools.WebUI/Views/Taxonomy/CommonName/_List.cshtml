@@ -14,14 +14,13 @@
                 <thead>
                     <tr>
                         <th></th>
-                        <th></th>
                         <th width="5%">ID</th>
                         <th>Name</th>
                         <th>Genus</th>
                         <th>Species</th>
                         <th>Language</th>
                         <th>Simplified Name</th>
-                        <th></th>
+                        <th>Citation</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -41,9 +40,6 @@
                                             @result.ID
                                         </span>
                                     </td>
-                                    <td>
-                                        @result.SpeciesID
-                                    </td>
                                     <td>@result.Name</td>
                                     <td>
                                         <a href="@Url.Action("Edit", "Genus", new { entityId = result.GenusID })">@Html.Raw(result.GenusName)</a>
@@ -53,7 +49,8 @@
                                     </td>
                                     <td>@result.LanguageDescription</td>
                                     <td>@result.SimplifiedName</td>
-                                    <td style="text-align:right;">
+                                    <td>
+                                        @Html.Raw(result.CitationText)
                                     </td>
                                     <td style="text-align:right;">
                                         <a href="@Url.Action("Edit", "CommonName", new { entityId = result.ID })" class="btn btn-default btn-sm pull-right row-edit">
@@ -90,7 +87,7 @@
         var formData = new FormData();
 
         //DEBUG
-        alert("ID LIST " + selectedIdList);
+        /*alert("ID LIST " + selectedIdList); */
 
         formData.append("idList", selectedIdList);
 

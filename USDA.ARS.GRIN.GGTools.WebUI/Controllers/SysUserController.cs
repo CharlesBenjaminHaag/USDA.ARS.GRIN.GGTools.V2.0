@@ -82,13 +82,21 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             if (!String.IsNullOrEmpty(formCollection["SysUserName"]))
             {
                 viewModel.Entity.UserName = formCollection["SysUserName"];
+                viewModel.Entity.SysUserName = viewModel.Entity.UserName;
             }
 
             if (!String.IsNullOrEmpty(formCollection["SysUserPassword"]))
             {
                 viewModel.Entity.Password = formCollection["SysUserPassword"];
+                viewModel.Entity.SysUserPassword = viewModel.Entity.Password;
                 viewModel.Entity.SysUserPlainTextPassword = viewModel.Entity.Password;
             }
+
+            if (!String.IsNullOrEmpty(formCollection["SysUserPasswordConfirm"]))
+            {
+                viewModel.Entity.SysUserPasswordConfirm = formCollection["SysUserPasswordConfirm"];
+            }
+
             viewModel.Insert();
 
             // Retrieve new account

@@ -5,8 +5,8 @@
 }
 <!DOCTYPE html>
 <html lang="en">
-@Html.Partial("~/Views/Shared/_Head.cshtml")
-<body class="hold-transition layout-top-nav">
+    @Html.Partial("~/Views/Shared/_Head.cshtml")
+    <body class="hold-transition layout-top-nav">
     <div class="wrapper">
         <nav class="main-header navbar navbar-expand-md navbar-light text-sm">
             <div class="container" style="max-width:1500px;">
@@ -23,6 +23,16 @@
                         @if (Model.Entity.ID > 0)
                         {
                             Html.RenderAction("_RelatedFoldersMenu", "Folder", new { tableName = Model.TableName, entityId = Model.Entity.ID });
+                            <li class="nav-item">
+                                <button id="btnOpenTaxonomyCWRTraitCloneModal"
+                                        type="button"
+                                        data-toggle="modal"
+                                        data-target="#modal-taxonomy-cwr-trait-clone"
+                                        data-ggtools-entity-id="@Model.ID"
+                                        class="dropdown-item">
+                                    Clone
+                                </button>
+                            </li>
                         }
                     </ul>
                     <!-- END EDIT PAGE MENU-->
@@ -153,18 +163,6 @@
                                         </div>
                                     </div>
                                 </div>
-                                @if (Model.Entity.ID > 0)
-                                {
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <div class="row">
-                                                <div id="section-citation" class="col-md-12">
-                                                    @{ Html.RenderAction("RenderWidget", "Citation", new { @entityId = Model.Entity.CitationID });}
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                }
                             </div>
                             <div class="card-footer">
                                 <a href="@Url.Action("Refresh")" class="btn btn-default">Reset</a>
@@ -177,15 +175,22 @@
                                 <button type="submit" class="btn btn-primary float-right">Save</button>
                             </div>
                         </div>
+                        if (Model.Entity.ID > 0)
+                        {
+                            <div id="section-species-citation-widget">
+                                @{Html.RenderAction("RenderWidget", "Citation", new { @entityId = Model.Entity.CitationID });}
+                            </div>
+                        }
                     }
 
                     @if (Model.Entity.ID > 0)
                     {
-                        Html.RenderAction("RenderLookupModal", "Citation", new { @tableName = Model.TableName, @speciesId = Model.Entity.SpeciesID });
+                        Html.RenderAction("RenderSpeciesCitationLookupModal", "Citation", new { @tableName = Model.TableName, @speciesId = Model.Entity.SpeciesID });
                     }
 
                     @Html.Partial("~/Views/Shared/Modals/_NoteLookup2.cshtml")
                     @Html.Partial("~/Views/Taxonomy/Shared/Modals/_Delete.cshtml")
+                    @Html.Partial("~/Views/Taxonomy/CWRTrait/Modals/_Clone.cshtml")
                     @{Html.RenderAction("_Edit", "Folder", new { tableName = Model.TableName }); }
 
                     <script type="text/javascript">

@@ -113,7 +113,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
         {
             throw new NotImplementedException();
         }
-        public PartialViewResult _RenderWidget(int sysGroupId)
+        public PartialViewResult RenderWidget(int sysGroupId)
         {
             SysGroupViewModel viewModel = new SysGroupViewModel();
             try

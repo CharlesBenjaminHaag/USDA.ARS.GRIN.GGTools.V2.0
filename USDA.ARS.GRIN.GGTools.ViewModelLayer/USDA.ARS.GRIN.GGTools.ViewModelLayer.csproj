@@ -80,6 +80,7 @@
     <Compile Include="CropGermplasmCommitteeDocumentViewModel.cs" />
     <Compile Include="CWRMapViewModel.cs" />
     <Compile Include="CWRMapViewModelBase.cs" />
+    <Compile Include="CWRTraitCloneViewModel.cs" />
     <Compile Include="CWRTraitViewModel.cs" />
     <Compile Include="CWRTraitViewModelBase.cs" />
     <Compile Include="EconomicUsageTypeViewModel.cs" />
