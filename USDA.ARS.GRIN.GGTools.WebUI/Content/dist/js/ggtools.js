@@ -201,10 +201,17 @@ function InitDataTableLightMultiSelect(tableName) {
         var table = $("#" + tableName).DataTable({
             paging: false,
             responsive: true,
+            buttons: [
+                'selectAll',
+                'selectNone',
+            ],
+            stateSave: true,
+            "bLengthChange": false,
+            scrollY: '300px',
             select: {
                 style: 'multi'
             },
-            searching: false,
+            searching: true,
             columnDefs: [
                 {
                     target: 0,

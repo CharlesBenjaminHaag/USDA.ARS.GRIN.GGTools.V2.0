@@ -1,6 +1,6 @@
 ﻿@model USDA.ARS.GRIN.GGTools.ViewModelLayer.SysGroupUserMapViewModel
 <div class="modal fade text-sm" id="modal-sys-group-user-map-edit" style="display: none;" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title">
@@ -37,8 +37,6 @@
     $("#btnAddSysGroups").click(function () {
         var sysUserId = $("#Entity_SysUserID").val();
         AddSysGroups();
-        LoadAvailableSysGroups(sysUserId);
-        LoadCurrentSysGroups(sysUserId);
     });
 
     $("#btnRemoveSysGroups").click(function () {
@@ -71,8 +69,8 @@
             processData: false,
             data: formData,
             success: function (data) {
-                /*console.log(data);*/
-                /*ConfirmFolderSave(data.folder.FolderName);*/
+                LoadAvailableSysGroups(sysUserId);
+                LoadCurrentSysGroups(sysUserId);
             },
             error: function (ex) {
             }
@@ -125,7 +123,7 @@
         });
     }
 
-    function LoadCurrentCooperators(folderId) {
+    function LoadCurrentSysGroups(sysUserId) {
         var link = '@Url.Action("_ListCurrentSysGroups","SysGroupUserMap")';
         var formData = new FormData();
 

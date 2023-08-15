@@ -56,7 +56,7 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
                 throw ex;
             }
         }
-
+    
         public void Search()
         {
             using (SysGroupUserMapManager mgr = new SysGroupUserMapManager())

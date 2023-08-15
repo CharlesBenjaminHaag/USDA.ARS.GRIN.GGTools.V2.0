@@ -126,7 +126,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
         public JsonResult AddSysGroups(FormCollection coll)
         {
             SysGroupUserMapViewModel viewModel = new SysGroupUserMapViewModel();
-
+              
             try
             {
                 if (!String.IsNullOrEmpty(coll["SysUserID"]))
@@ -138,8 +138,14 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 {
                     viewModel.ItemIDList = coll["IDList"];
                 }
-                
-                
+
+                string[] sysGroupIdListArray = viewModel.ItemIDList.Split(',');
+                foreach (var sysGroupId in sysGroupIdListArray)
+                {
+                    viewModel.Entity.SysGroupID = Int32.Parse(sysGroupId.ToString());
+                    viewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
+                    viewModel.Insert();
+                }
                 return Json(new { success = true }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
@@ -192,9 +198,9 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
         {
             SysGroupUserMapViewModel viewModel = new SysGroupUserMapViewModel();
 
-            if (!String.IsNullOrEmpty(formCollection["FolderID"]))
+            if (!String.IsNullOrEmpty(formCollection["SysUserID"]))
             {
-                viewModel.Entity.ID = Int32.Parse(formCollection["FolderID"]);
+                viewModel.Entity.SysUserID = Int32.Parse(formCollection["SysUserID"]);
             }
             viewModel.GetCurrentSysGroups();
             return PartialView("~/Views/SysGroupUserMap/Modals/_ListCurrent.cshtml", viewModel);
