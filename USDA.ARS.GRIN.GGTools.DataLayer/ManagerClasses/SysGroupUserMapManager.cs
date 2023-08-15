@@ -31,8 +31,8 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             List<SysGroupUserMap> sysGroupUserMaps = new List<SysGroupUserMap>();
 
             SQL = " SELECT * FROM vw_GRINGlobal_Sys_Group " +
-                " WHERE ID IN " +
-                " (SELECT SysGroupID FROM vw_GRINGlobal_Sys_Group_User_Map WHERE SysUserID <> @SysUserID)";
+                " WHERE ID NOT IN " +
+                " (SELECT SysGroupID FROM vw_GRINGlobal_Sys_Group_User_Map WHERE SysUserID = @SysUserID)";
 
             var parameters = new List<IDbDataParameter> {
                 CreateParameter("SysUserID", sysUserId, true)
