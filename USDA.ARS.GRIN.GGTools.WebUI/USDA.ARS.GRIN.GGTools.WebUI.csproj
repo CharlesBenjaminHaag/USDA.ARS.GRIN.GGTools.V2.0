@@ -543,7 +543,7 @@
     <Content Include="Views\Taxonomy\EconomicUse\Index.cshtml" />
     <Content Include="Views\Taxonomy\EconomicUse\_Detail.cshtml" />
     <Content Include="Views\Taxonomy\EconomicUse\_List.cshtml" />
-    <Content Include="Views\Taxonomy\EconomicUse\Modals\_ARCHIVE\_Edit.cshtml" />
+    <Content Include="Views\Taxonomy\EconomicUse\_ARCHIVE\_Edit.cshtml" />
     <Content Include="Views\Taxonomy\EconomicUse\Modals\_Lookup.cshtml" />
     <Content Include="Views\Taxonomy\EconomicUse\Modals\_SelectList.cshtml" />
     <Content Include="Views\WebOrder\Board.cshtml" />
@@ -771,11 +771,11 @@
     <Content Include="Views\WebOrderRequest\Index.cshtml" />
     <Content Include="Views\Shared\Sidebars\_MainSidebarNRR2.cshtml" />
     <Content Include="Views\Taxonomy\GeographyMap\_EditBatch.cshtml" />
-    <Content Include="Views\Taxonomy\EconomicUse\_BatchEdit.cshtml" />
+    <Content Include="Views\Taxonomy\EconomicUse\_ARCHIVE\_BatchEdit.cshtml" />
     <Content Include="Views\Taxonomy\Literature\_EditBatch.cshtml" />
     <Content Include="Views\Taxonomy\Citation\_ListBatch.cshtml" />
     <Content Include="Views\Taxonomy\Citation\_EditBatch.cshtml" />
-    <Content Include="Views\Taxonomy\EconomicUse\_EditBatch.cshtml" />
+    <Content Include="Views\Taxonomy\EconomicUse\_ARCHIVE\_EditBatch.cshtml" />
     <Content Include="Views\Taxonomy\GeographyMap\_EditBatchBACKUP.cshtml" />
     <Content Include="Views\WebOrderRequest\_Detail.cshtml" />
     <Content Include="Views\WebOrderRequest\_Timeline.cshtml" />
@@ -817,6 +817,8 @@
     <Content Include="Views\SysGroupUserMap\Modals\_Edit - Copy.cshtml" />
     <Content Include="Views\SysGroupUserMap\Modals\_ListCurrent.cshtml" />
     <Content Include="Views\SysGroupUserMap\Modals\_ListAvailable.cshtml" />
+    <Content Include="Views\Taxonomy\EconomicUse\Modals\_EditBatch.cshtml" />
+    <Content Include="Views\Shared\Modals\_ValidationSelectRecords.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

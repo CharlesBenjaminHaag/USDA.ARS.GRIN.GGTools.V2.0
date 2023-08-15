@@ -100,14 +100,26 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             SQL += " AND    (@Note                          IS NULL OR Note                     LIKE    '%' + @Note + '%')";
             SQL += " AND    (@CitationText                  IS NULL OR CitationText             LIKE    '%' + @CitationText + '%')";
 
+            //if (!String.IsNullOrEmpty(searchEntity.IDList))
+            //{
+            //    SQL += " AND    SpeciesID IN (" + searchEntity.IDList + ")";
+            //}
+
             if (!String.IsNullOrEmpty(searchEntity.IDList))
             {
-                SQL += " AND    SpeciesID IN (" + searchEntity.IDList + ")";
+                if (SQL.Contains("WHERE"))
+                {
+                    SQL += " AND ";
+                }
+                else
+                {
+                    SQL += " WHERE ";
+                }
+                SQL += " ID IN (" + searchEntity.IDList + ")";
             }
 
             var parameters = new List<IDbDataParameter> {
             
-            // Common extended fields
             CreateParameter("ID", searchEntity.ID > 0 ? (object)searchEntity.ID : DBNull.Value, true),
             CreateParameter("CreatedByCooperatorID", searchEntity.CreatedByCooperatorID > 0 ? (object)searchEntity.CreatedByCooperatorID : DBNull.Value, true),
             CreateParameter("CreatedDate", searchEntity.CreatedDate > DateTime.MinValue ? (object)searchEntity.CreatedDate : DBNull.Value, true),
@@ -115,7 +127,6 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             CreateParameter("ModifiedDate", searchEntity.ModifiedDate > DateTime.MinValue ? (object)searchEntity.ModifiedDate : DBNull.Value, true),
             CreateParameter("Note", (object)searchEntity.Note ?? DBNull.Value, true),
             CreateParameter("CitationText", (object)searchEntity.CitationText ?? DBNull.Value, true),
-
             CreateParameter("SpeciesID", searchEntity.SpeciesID > 0 ? (object)searchEntity.SpeciesID : DBNull.Value, true),
             CreateParameter("SpeciesName", (object)searchEntity.SpeciesName ?? DBNull.Value, true),
             CreateParameter("AssembledName", (object)searchEntity.AssembledName ?? DBNull.Value, true),

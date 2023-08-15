@@ -118,33 +118,78 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 return RedirectToAction("InternalServerError", "Error");
             }
         }
-        public PartialViewResult BatchEdit()
+
+        [HttpPost]
+        public PartialViewResult RenderBatchEditModal(string idList)
         {
             EconomicUseViewModel viewModel = new EconomicUseViewModel();
-            return PartialView("~/Views/Taxonomy/EconomicUse/_EditBatch.cshtml", viewModel);
+            viewModel.SearchEntity.IDList = idList;
+            viewModel.Search();
+
+            foreach (var economicUse in viewModel.DataCollection)
+            {
+                CitationViewModel citationViewModel = new CitationViewModel();
+                citationViewModel.SearchEntity.SpeciesID = economicUse.SpeciesID;
+                citationViewModel.Search();
+                economicUse.Citations = citationViewModel.DataCollection;
+                // TODO Get species citations
+            }
+            return PartialView("~/Views/Taxonomy/EconomicUse/Modals/_EditBatch.cshtml", viewModel);
         }
 
         [HttpPost]
-        public PartialViewResult BatchEdit(EconomicUseViewModel viewModel)
+        public JsonResult BatchEdit(string keyList)
         {
             try
             {
-                foreach (var speciesId in viewModel.SpeciesIDList.Split(','))
+                foreach (var key in keyList.Split(','))
                 {
-                    viewModel.Entity.ID = 0;
-                    viewModel.Entity.SpeciesID = Int32.Parse(speciesId);
-                    viewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
-                    viewModel.Insert();
+                    var keyTokens = key.Split('_');
+                    var economicUseId = keyTokens[0];
+                    var citationId = keyTokens[1];
+
+                    EconomicUseViewModel viewModel = new EconomicUseViewModel();
+                    viewModel.Get(Int32.Parse(economicUseId));
+                    viewModel.Entity.CitationID = Int32.Parse(citationId);
+                    viewModel.Entity.ModifiedByCooperatorID = AuthenticatedUser.CooperatorID;
+                    viewModel.Update();
                 }
-                return PartialView("~/Views/Taxonomy/EconomicUse/_EditBatch.cshtml", viewModel);
+                return Json("TRUE", JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
                 Log.Error(ex);
-                viewModel.ValidationMessages.Add(new Common.Library.ValidationMessage { Message = ex.Message });
-                return PartialView("~/Views/Taxonomy/EconomicUse/_EditBatch.cshtml", viewModel);
+                return Json("FALSE", JsonRequestBehavior.AllowGet);
             }
         }
+
+        //public PartialViewResult BatchEdit()
+        //{
+        //    EconomicUseViewModel viewModel = new EconomicUseViewModel();
+        //    return PartialView("~/Views/Taxonomy/EconomicUse/_EditBatch.cshtml", viewModel);
+        //}
+
+        //[HttpPost]
+        //public PartialViewResult BatchEdit(EconomicUseViewModel viewModel)
+        //{
+        //    try
+        //    {
+        //        foreach (var speciesId in viewModel.SpeciesIDList.Split(','))
+        //        {
+        //            viewModel.Entity.ID = 0;
+        //            viewModel.Entity.SpeciesID = Int32.Parse(speciesId);
+        //            viewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
+        //            viewModel.Insert();
+        //        }
+        //        return PartialView("~/Views/Taxonomy/EconomicUse/_EditBatch.cshtml", viewModel);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Log.Error(ex);
+        //        viewModel.ValidationMessages.Add(new Common.Library.ValidationMessage { Message = ex.Message });
+        //        return PartialView("~/Views/Taxonomy/EconomicUse/_EditBatch.cshtml", viewModel);
+        //    }
+        //}
         [HttpPost]
         public PartialViewResult FolderItems(FormCollection formCollection)
         {

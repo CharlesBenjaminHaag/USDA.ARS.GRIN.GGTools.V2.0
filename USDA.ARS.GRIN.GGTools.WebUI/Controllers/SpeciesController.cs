@@ -352,7 +352,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                     viewModel.Entity.SubvarietyName = parentViewModel.Entity.SubvarietyName;
                     viewModel.Entity.GenusID = parentViewModel.Entity.GenusID;
                     viewModel.Entity.GenusName = parentViewModel.Entity.GenusName;
-                    viewModel.Entity.Protologue = parentViewModel.Entity.Protologue;
+                    //viewModel.Entity.Protologue = parentViewModel.Entity.Protologue;
 
                     // Store parent entity in session.
                     Session["PARENT-SPECIES"] = viewModel.ParentEntity;

@@ -21,5 +21,6 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         public string IsCited { get; set; }
         public int CitationID { get; set; }
         public string CitationText { get; set; }
+        public Collection<Citation> Citations { get; set; }
     }
 }

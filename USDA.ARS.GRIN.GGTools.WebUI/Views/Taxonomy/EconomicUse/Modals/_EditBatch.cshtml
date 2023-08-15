@@ -1,26 +1,24 @@
-﻿@model USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer.CommonNameViewModel
-<div class="modal fade" id="modal-cwr-trait-batch-edit" style="display: none;" aria-hidden="true">
+﻿@model USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer.EconomicUseViewModel
+<div class="modal fade" id="modal-economic-use-batch-edit" style="display: none;" aria-hidden="true">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title">
                     <i class="fas fa-search"></i>
-                    Common Name Batch Edit
+                    Economic Use Batch Edit
                 </h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">×</span>
                 </button>
             </div>
             <div class="modal-body">
-            
-                <!-- TODO -->
                 @foreach (var result in Model.DataCollection)
                 { 
                     <div class="row">
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label>Name</label>
-                                @Html.TextBox("txtName", result.Name, new { @class = "form-control", @readonly = "readonly" })
+                                @Html.TextBox("txtName", result.AssembledName, new { @class = "form-control", @readonly = "readonly" })
                             </div>
                         </div>
                         <div class="col-md-3">
@@ -32,7 +30,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Citation</label>
-                                <select id="sel-common-name-@result.ID" class="form-control">
+                                <select id="sel-economic-use-@result.ID" class="form-control">
                                     @foreach (var citation in result.Citations)
                                     {
                                         <option value="@citation.ID">[@citation.ID] @citation.AssembledName</option>
@@ -42,22 +40,21 @@
                         </div>
                     </div>
                 }
-
             </div>
             <div class="modal-footer justify-content-between">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                <button id="btnSaveCommonNameBatch" type="button" class="btn btn-info" data-dismiss="modal">Continue</button>
+                <button id="btnSaveEconomicUseBatch" type="button" class="btn btn-info" data-dismiss="modal">Continue</button>
             </div>
         </div>
     </div>
 </div>
 <script type="text/javascript">
-    $("#btnSaveCommonNameBatch").click(function () {
+    $("#btnSaveEconomicUseBatch").click(function () {
         var keyList = [];
 
-        $("select[id^='sel-common-name-']").each(function () {
+        $("select[id^='sel-economic-use-']").each(function () {
             var val = $(this).val();
-            var id = $(this).attr("id").replace("sel-common-name-", "");
+            var id = $(this).attr("id").replace("sel-economic-use-", "");
             var key = id + "_" + val;
             keyList.push(key);
         });
@@ -65,7 +62,7 @@
     });
 
     function SaveBatch(keyList) {
-        var link = '@Url.Action("BatchEdit","CommonName")';
+        var link = '@Url.Action("BatchEdit","EconomicUse")';
         var formData = new FormData();
         formData.append("keyList", keyList);
 
