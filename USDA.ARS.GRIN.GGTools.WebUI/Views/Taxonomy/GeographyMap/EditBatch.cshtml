@@ -241,7 +241,7 @@
                             </div>
                         </div>
                     </div>
-                    @{Html.RenderAction("RenderLookupModal", "Geography", new { isLookupFormat = "N" }); }
+                    @{Html.RenderAction("RenderLookupModal", "Geography", new { isLookupFormat = "Y" }); }
                 </div>
             </div>
 
@@ -395,10 +395,15 @@
 
     function GenerateMaps() {
         var link = '@Url.Action("Add", "GeographyMap")';
-        var selectedSpeciesIDList = GetSelectedEntityIDs("data-table-search-results-species");
+        var selectedSpeciesIDList = GetSelectedEntityIDs("data-table-species-lookup");
         var selectedStatusCode = GetSelectedEntityIDs("table-status-codes");
         var selectedGeographyIDList = GetSelectedEntityIDs("data-table-geography-lookup");
         var formData = new FormData();
+
+        //DEBUG
+        //alert("DEBUG SPECIES ARE " + selectedSpeciesIDList);
+        //alert("DEBUG GEO ARE " + selectedGeographyIDList);
+        //alert("DEBUG STATUS IS " + selectedStatusCode);
 
         // Ensure that all params are present.
         if ((selectedSpeciesIDList.length == 0) ||

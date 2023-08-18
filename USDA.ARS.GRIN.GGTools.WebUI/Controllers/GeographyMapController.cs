@@ -122,61 +122,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             viewModel.Entity.GeographyStatusCode = "n";
             return PartialView("~/Views/Taxonomy/GeographyMap/_EditBatch.cshtml", viewModel);
         }
-
-        [HttpPost]
-        public PartialViewResult BatchEdit(GeographyMapViewModel viewModel)
-        {
-            try
-            {
-                foreach (var speciesId in viewModel.SpeciesIDList.Split(','))
-                {
-                    viewModel.Entity.ID = 0;
-                    viewModel.Entity.SpeciesID = Int32.Parse(speciesId);
-                    viewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
-
-                    // Get species citation.
-                    CitationViewModel citationViewModel = new CitationViewModel();
-                    citationViewModel.SearchEntity.SpeciesID = Int32.Parse(speciesId);
-                    citationViewModel.Search();
-
-                    if (citationViewModel.DataCollection.Count > 0)
-                    {
-                        viewModel.CitationID = citationViewModel.DataCollection[0].ID;
-                    }
-                    viewModel.Insert();
-                }
-
-                //switch (viewModel.EventAction)
-                //{
-                //    case "ADDROW":
-                //        viewModel.Entity.EntityGUID = System.Guid.NewGuid().ToString();
-                //        viewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
-                //        viewModel.Entity.GeographyStatusCode = "n";
-                //        viewModel.BatchEditDataCollection.Add(viewModel.Entity);
-                //        break;
-                //    case "COPY":
-                //        GeographyMap copyItem = viewModel.BatchEditDataCollection.Find(x => x.EntityGUID == viewModel.EventValue);
-                //        GeographyMap newItem = new GeographyMap();
-                //        newItem.EntityGUID = System.Guid.NewGuid().ToString();
-                //        newItem.GeographyStatusCode = copyItem.GeographyStatusCode;
-                //        newItem.Note = copyItem.Note;
-                //        newItem.CreatedByCooperatorID = copyItem.CreatedByCooperatorID;
-                //        viewModel.BatchEditDataCollection.Add(newItem);
-                //        break;
-                //    case "DELETE":
-                //        var targetItem = viewModel.BatchEditDataCollection.Find(x => x.EntityGUID == viewModel.EventValue);
-                //        viewModel.BatchEditDataCollection.Remove(targetItem);
-                //        break;
-                //}
-                return PartialView(BASE_PATH + "_EditBatch.cshtml", viewModel);
-            }
-            catch (Exception ex)
-            {
-                Log.Error(ex);
-                return PartialView("~/Views/Error/_InternalServerError.cshtml");
-            }
-        }
-
+       
         public ActionResult Add(int speciesId = 0)
         {
             try
@@ -218,7 +164,8 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 return RedirectToAction("InternalServerError", "Error");
             }
         }
-
+        
+        [HttpPost]
         public PartialViewResult Add(FormCollection formCollection)
         {
             GeographyMapViewModel viewModel = new GeographyMapViewModel();
@@ -251,7 +198,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             Session["GEOGRAPHY-MAPS"] = batchedMaps;
             viewModel.DataCollectionBatch = batchedMaps;
 
-            return PartialView("~/Views/Taxonomy/SpeciesSynonymMap/_BatchList.cshtml", viewModel);
+            return PartialView("~/Views/Taxonomy/GeographyMap/_ListBatch.cshtml", viewModel);
         }
 
         public ActionResult Edit(int entityId)
@@ -415,12 +362,12 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             }
         }
 
-        public PartialViewResult RenderEditModal(int speciesId)
-        {
-            GeographyMapViewModel viewModel = new GeographyMapViewModel();
-            viewModel.TableName = "taxonomy_geography_map";
-            return PartialView(BASE_PATH + "_Edit.cshtml", viewModel);
-        }
+        //public PartialViewResult RenderEditModal(int speciesId)
+        //{
+        //    GeographyMapViewModel viewModel = new GeographyMapViewModel();
+        //    viewModel.TableName = "taxonomy_geography_map";
+        //    return PartialView(BASE_PATH + "_Edit.cshtml", viewModel);
+        //}
 
         [HttpPost]
         public PartialViewResult FolderItems(FormCollection formCollection)
@@ -457,6 +404,48 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 viewModel = Session[targetKey] as GeographyMapViewModel;
             }
             return viewModel;
+        }
+
+        [HttpPost]
+        public PartialViewResult RenderBatchEditModal(string idList)
+        {
+            GeographyMapViewModel viewModel = new GeographyMapViewModel();
+            viewModel.SearchEntity.IDList = idList;
+            viewModel.Search();
+
+            foreach (var cwrMap in viewModel.DataCollection)
+            {
+                CitationViewModel citationViewModel = new CitationViewModel();
+                citationViewModel.SearchEntity.SpeciesID = cwrMap.SpeciesID;
+                citationViewModel.Search();
+                cwrMap.Citations = citationViewModel.DataCollection;
+            }
+            return PartialView("~/Views/Taxonomy/GeographyMap/Modals/_EditBatch.cshtml", viewModel);
+        }
+        [HttpPost]
+        public JsonResult BatchEdit(string keyList)
+        {
+            try
+            {
+                foreach (var key in keyList.Split(','))
+                {
+                    var keyTokens = key.Split('_');
+                    var cwrMapId = keyTokens[0];
+                    var citationId = keyTokens[1];
+
+                    GeographyMapViewModel viewModel = new GeographyMapViewModel();
+                    viewModel.Get(Int32.Parse(cwrMapId));
+                    viewModel.Entity.CitationID = Int32.Parse(citationId);
+                    viewModel.Entity.ModifiedByCooperatorID = AuthenticatedUser.CooperatorID;
+                    viewModel.Update();
+                }
+                return Json("TRUE", JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return Json("FALSE", JsonRequestBehavior.AllowGet);
+            }
         }
     }
 }

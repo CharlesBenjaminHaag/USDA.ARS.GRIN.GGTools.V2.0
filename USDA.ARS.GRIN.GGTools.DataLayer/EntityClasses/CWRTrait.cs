@@ -28,5 +28,6 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         public string OntologyTraitIdentifier { get; set; }
         [AllowHtml]
         public string CitationText { get; set; }
+        public Collection<Citation> Citations { get; set; }
     }
 }

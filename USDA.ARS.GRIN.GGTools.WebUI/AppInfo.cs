@@ -30,7 +30,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI
             versionNumber.Append(version.Build.ToString());
 
             // TODO Store additional label in config
-            versionNumber.Append(" Alpha");
+            versionNumber.Append(" (Beta)");
 
             return versionNumber.ToString();
         }

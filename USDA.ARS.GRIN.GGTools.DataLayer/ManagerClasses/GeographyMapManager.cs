@@ -112,10 +112,18 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             SQL += " AND    (@Admin1                    IS NULL OR      Admin1                      LIKE  '%' + @Admin1 + '%')";
             SQL += " AND    (@IsCited                   IS NULL OR      IsCited                      =           @IsCited)";
             SQL += " AND    (@IsValid                   IS NULL OR      IsValid                      =           @IsValid)";
-        
+
             if (!String.IsNullOrEmpty(searchEntity.IDList))
             {
-                SQL += " AND    SpeciesID IN (" + searchEntity.IDList + ")";
+                if (SQL.Contains("WHERE"))
+                {
+                    SQL += " AND ";
+                }
+                else
+                {
+                    SQL += " WHERE ";
+                }
+                SQL += " ID IN (" + searchEntity.IDList + ")";
             }
 
             if (!String.IsNullOrEmpty(searchEntity.GeographyMapIDList))

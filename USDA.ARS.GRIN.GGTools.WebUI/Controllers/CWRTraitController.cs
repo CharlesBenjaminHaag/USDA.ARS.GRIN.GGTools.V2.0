@@ -264,19 +264,41 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI
         [HttpPost]
         public PartialViewResult RenderBatchEditModal(string idList)
         {
-            CWRMapViewModel viewModel = new CWRMapViewModel();
+            CWRTraitViewModel viewModel = new CWRTraitViewModel();
             viewModel.SearchEntity.IDList = idList;
             viewModel.Search();
 
-            foreach (var cwrMap in viewModel.DataCollection)
+            foreach (var cwrTrait in viewModel.DataCollection)
             {
                 CitationViewModel citationViewModel = new CitationViewModel();
-                citationViewModel.SearchEntity.SpeciesID = cwrMap.SpeciesID;
+                citationViewModel.SearchEntity.SpeciesID = cwrTrait.SpeciesID;
                 citationViewModel.Search();
-                cwrMap.Citations = citationViewModel.DataCollection;
+                cwrTrait.Citations = citationViewModel.DataCollection;
             }
-            return PartialView("~/Views/Taxonomy/CWRMap/Modals/_EditBatch.cshtml", viewModel);
+            return PartialView("~/Views/Taxonomy/CWRTrait/Modals/_EditBatch.cshtml", viewModel);
         }
+
+        public PartialViewResult RenderCloneModal(int cwrTraitId)
+        {
+            try
+            {
+                CWRTraitViewModel viewModel = new CWRTraitViewModel();
+                viewModel.Get(cwrTraitId);
+
+                CitationViewModel citationViewModel = new CitationViewModel();
+                citationViewModel.SearchEntity.SpeciesID = viewModel.Entity.SpeciesID;
+                citationViewModel.Search();
+                viewModel.Entity.Citations = citationViewModel.DataCollection;
+
+                return PartialView("~/Views/Taxonomy/CWRTrait/Modals/_Clone.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml", "Error");
+            }
+        }
+
         [HttpPost]
         public JsonResult BatchEdit(string keyList)
         {
@@ -288,7 +310,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI
                     var cwrMapId = keyTokens[0];
                     var citationId = keyTokens[1];
 
-                    CWRMapViewModel viewModel = new CWRMapViewModel();
+                    CWRTraitViewModel viewModel = new CWRTraitViewModel();
                     viewModel.Get(Int32.Parse(cwrMapId));
                     viewModel.Entity.CitationID = Int32.Parse(citationId);
                     viewModel.Entity.ModifiedByCooperatorID = AuthenticatedUser.CooperatorID;
@@ -300,6 +322,38 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI
             {
                 Log.Error(ex);
                 return Json("FALSE", JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        [HttpPost]
+        public PartialViewResult Clone(int cwrTraitId, int cwrMapId, int quantity, int citationId)
+        {
+            CWRTraitViewModel viewModel = new CWRTraitViewModel();
+            CWRTraitViewModel cloneViewModel = new CWRTraitViewModel();
+
+            viewModel.Get(cwrTraitId);
+
+            try
+            {
+                for (int i = 0; i < quantity; i++)
+                {
+                    cloneViewModel.Entity.ID = 0;
+                    cloneViewModel.Entity.GenepoolCode = viewModel.Entity.GenepoolCode;
+                    cloneViewModel.Entity.CWRMapID = cwrMapId;
+                    cloneViewModel.Entity.TraitClassCode = viewModel.Entity.TraitClassCode;
+                    cloneViewModel.Entity.SpeciesID = viewModel.Entity.SpeciesID;
+                    cloneViewModel.Entity.BreedingTypeCode = viewModel.Entity.BreedingTypeCode;
+                    cloneViewModel.Entity.CitationID = citationId;
+                    cloneViewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
+                    cloneViewModel.Get(cloneViewModel.Insert());
+                    cloneViewModel.DataCollectionBatch.Add(cloneViewModel.Entity);
+                }
+                return PartialView("~/Views/Taxonomy/CWRTrait/Modals/_CloneSelectList.cshtml", cloneViewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml", "Error");
             }
         }
     }

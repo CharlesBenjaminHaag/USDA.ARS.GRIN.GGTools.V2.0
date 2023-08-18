@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Reflection;
 using System.Data;
-using USDA.ARS.GRIN.Common.DataLayer;
 using USDA.ARS.GRIN.GGTools.AppLayer;
 using USDA.ARS.GRIN.GGTools.DataLayer;
 
@@ -45,7 +43,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
                 AddParameter("created_by", entity.CreatedByCooperatorID == 0 ? DBNull.Value : (object)entity.CreatedByCooperatorID, true);
             }
         }
-        public virtual List<CWRTrait> Search(CWRTraitSearch search)
+        public virtual List<CWRTrait> Search(CWRTraitSearch searchEntity)
         {
             List<CWRTrait> results = new List<CWRTrait>();
 
@@ -65,21 +63,34 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             SQL += " AND    (@Note                      IS NULL OR Note                     LIKE  '%' + @Note + '%') ";
             SQL += " AND    (@CitationText              IS NULL OR CitationText             LIKE  '%' + @CitationText + '%') ";
 
+            if (!String.IsNullOrEmpty(searchEntity.IDList))
+            {
+                if (SQL.Contains("WHERE"))
+                {
+                    SQL += " AND ";
+                }
+                else
+                {
+                    SQL += " WHERE ";
+                }
+                SQL += " ID IN (" + searchEntity.IDList + ")";
+            }
+
             var parameters = new List<IDbDataParameter> {
-                CreateParameter("ID", search.ID > 0 ? (object)search.ID : DBNull.Value, true),
-                CreateParameter("CropForCWRID", search.CropForCWRID > 0 ? (object)search.CropForCWRID : DBNull.Value, true),
-                CreateParameter("CWRMapID", search.CWRMapID > 0 ? (object)search.CWRMapID : DBNull.Value, true),
-                CreateParameter("CropForCWRName", (object)search.CropForCWRName ?? DBNull.Value, true),
-                CreateParameter("SpeciesID", search.SpeciesID > 0 ? (object)search.SpeciesID : DBNull.Value, true),
-                CreateParameter("SpeciesName", (object)search.SpeciesName ?? DBNull.Value, true),
-                CreateParameter("TraitClassCode", (object)search.TraitClassCode ?? DBNull.Value, true),
-                CreateParameter("IsPotential", (object)search.IsPotential ?? DBNull.Value, true),
-                CreateParameter("BreedingTypeCode", (object)search.BreedingTypeCode ?? DBNull.Value, true),
-                CreateParameter("BreedingUsageNote", (object)search.BreedingUsageNote ?? DBNull.Value, true),
-                CreateParameter("OntologyTraitIdentifier", (object)search.OntologyTraitIdentifier ?? DBNull.Value, true),
-                CreateParameter("CreatedByCooperatorID", search.CreatedByCooperatorID > 0 ? (object)search.CreatedByCooperatorID : DBNull.Value, true),
-                CreateParameter("Note", (object)search.Note ?? DBNull.Value, true),
-                CreateParameter("CitationText", (object)search.CitationText ?? DBNull.Value, true),
+                CreateParameter("ID", searchEntity.ID > 0 ? (object)searchEntity.ID : DBNull.Value, true),
+                CreateParameter("CropForCWRID", searchEntity.CropForCWRID > 0 ? (object)searchEntity.CropForCWRID : DBNull.Value, true),
+                CreateParameter("CWRMapID", searchEntity.CWRMapID > 0 ? (object)searchEntity.CWRMapID : DBNull.Value, true),
+                CreateParameter("CropForCWRName", (object)searchEntity.CropForCWRName ?? DBNull.Value, true),
+                CreateParameter("SpeciesID", searchEntity.SpeciesID > 0 ? (object)searchEntity.SpeciesID : DBNull.Value, true),
+                CreateParameter("SpeciesName", (object)searchEntity.SpeciesName ?? DBNull.Value, true),
+                CreateParameter("TraitClassCode", (object)searchEntity.TraitClassCode ?? DBNull.Value, true),
+                CreateParameter("IsPotential", (object)searchEntity.IsPotential ?? DBNull.Value, true),
+                CreateParameter("BreedingTypeCode", (object)searchEntity.BreedingTypeCode ?? DBNull.Value, true),
+                CreateParameter("BreedingUsageNote", (object)searchEntity.BreedingUsageNote ?? DBNull.Value, true),
+                CreateParameter("OntologyTraitIdentifier", (object)searchEntity.OntologyTraitIdentifier ?? DBNull.Value, true),
+                CreateParameter("CreatedByCooperatorID", searchEntity.CreatedByCooperatorID > 0 ? (object)searchEntity.CreatedByCooperatorID : DBNull.Value, true),
+                CreateParameter("Note", (object)searchEntity.Note ?? DBNull.Value, true),
+                CreateParameter("CitationText", (object)searchEntity.CitationText ?? DBNull.Value, true),
             };
 
             results = GetRecords<CWRTrait>(SQL, parameters.ToArray());
@@ -145,7 +156,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             {
                 throw new Exception(errorNumber.ToString());
             }
-            return RowsAffected;
+            return entity.ID;
         }
 
         public int Update(CWRTrait entity)

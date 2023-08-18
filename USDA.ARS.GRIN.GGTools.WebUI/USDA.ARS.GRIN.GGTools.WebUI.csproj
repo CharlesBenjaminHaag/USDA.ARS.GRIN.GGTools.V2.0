@@ -819,6 +819,9 @@
     <Content Include="Views\SysGroupUserMap\Modals\_ListAvailable.cshtml" />
     <Content Include="Views\Taxonomy\EconomicUse\Modals\_EditBatch.cshtml" />
     <Content Include="Views\Shared\Modals\_ValidationSelectRecords.cshtml" />
+    <Content Include="Views\Taxonomy\GeographyMap\Modals\_EditBatch.cshtml" />
+    <Content Include="Views\Taxonomy\CWRTrait\Modals\_CloneSelectList.cshtml" />
+    <Content Include="Views\Taxonomy\GeographyMap\_ListBatch.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

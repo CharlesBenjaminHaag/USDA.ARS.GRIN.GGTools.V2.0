@@ -17,6 +17,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
         private CWRTrait _Entity = new CWRTrait();
         private CWRTraitSearch _SearchEntity = new CWRTraitSearch();
         private Collection<CWRTrait> _DataCollection = new Collection<CWRTrait>();
+        private Collection<CWRTrait> _DataCollectionBatch = new Collection<CWRTrait>();
         private Collection<Cooperator> _DataCollectionCooperators = new Collection<Cooperator>();
         private Collection<CodeValue> _DataCollectionNotes = new Collection<CodeValue>();
         public CWRTraitViewModelBase()
@@ -47,6 +48,12 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
         {
             get { return _DataCollection; }
             set { _DataCollection = value; }
+        }
+
+        public Collection<CWRTrait> DataCollectionBatch
+        {
+            get { return _DataCollectionBatch; }
+            set { _DataCollectionBatch = value; }
         }
         public Collection<CodeValue> DataCollectionNotes
         {

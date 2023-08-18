@@ -2,7 +2,7 @@
 <div class="card card-default">
     <div class="card-header">
         <h3 class="card-title">
-            Distribution (@Model.DataCollection.Count)
+            Distribution (@Model.DataCollectionBatch.Count)
         </h3>
         <div class="card-tools">
             <button id="btnAddCitation" type="button" class="btn btn-tool">
@@ -32,9 +32,9 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @if (Model.DataCollection.Count() > 0)
+                    @if (Model.DataCollectionBatch.Count > 0)
                     {
-                        foreach (var result in Model.DataCollection)
+                        foreach (var result in Model.DataCollectionBatch)
                         {
                             <tr>
                                 <td>
