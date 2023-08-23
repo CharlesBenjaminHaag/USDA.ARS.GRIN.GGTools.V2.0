@@ -120,6 +120,12 @@
                                             @Html.DropDownListFor(x => x.Entity.BreedingTypeCode, Model.BreedingTypeCodes, "NULL", new { @class = "form-control" })
                                         </div>
                                     </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group form-horizontal">
+                                            <label>Ontology Trait Identifier</label>
+                                            @Html.TextBoxFor(x => x.Entity.OntologyTraitIdentifier, new { @class = "form-control" })
+                                        </div>
+                                    </div>
                                     <div class="col-md-1">
                                         <div class="form-group clearfix" style="margin-top:40px;">
                                             <div class="icheck-primary d-inline">

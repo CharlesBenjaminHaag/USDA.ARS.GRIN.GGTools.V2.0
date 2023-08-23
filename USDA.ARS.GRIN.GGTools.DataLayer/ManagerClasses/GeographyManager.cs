@@ -333,7 +333,18 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             RowsAffected = results.Count;
             return results;
         }
-     
+
+        public List<Geography> GetGeographyCountryAdmins()
+        {
+            List<Geography> results = new List<Geography>();
+
+            SQL = "usp_GRINGlobal_Geography_CountryAdmins_Select";
+
+            results = GetRecords<Geography>(SQL);
+            RowsAffected = results.Count;
+            return results;
+        }
+
         public List<Geography> GetStates()
         {
             List<Geography> results = new List<Geography>();

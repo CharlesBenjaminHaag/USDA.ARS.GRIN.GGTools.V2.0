@@ -96,7 +96,7 @@
     @Scripts.Render("~/adminlte/js")
     @Scripts.Render("~/ggtools/js")
 
-    
+
 
 </head>
 <body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed text-sm">
@@ -137,7 +137,21 @@
         </nav>
 
         <!-- Main Sidebar Container -->
-        <aside class="main-sidebar sidebar-dark-primary elevation-4">
+        @{  string controllerName = ViewContext.RouteData.Values["controller"].ToString();
+            string actionName = ViewContext.RouteData.Values["action"].ToString();
+            string sidebarCssClass;
+
+            if (controllerName == "WebOrderRequest")
+            {
+                sidebarCssClass = "sidebar-light-primary";
+            }
+            else
+            {
+                sidebarCssClass = "sidebar-dark-primary";
+            }
+        }
+
+        <aside class="main-sidebar @sidebarCssClass elevation-4">
             <a href="@Url.Action("Index", "Home")" class="brand-link bg-s ">
                 <img src="~/dist/img/GGlogo_BW.gif" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
                 <span class="brand-text font-weight-light">
@@ -165,54 +179,29 @@
                         </div>
                     </div>
                 </div>
-
-                @{ string controllerName = ViewContext.RouteData.Values["controller"].ToString();
-                                string actionName = ViewContext.RouteData.Values["action"].ToString(); }
-
-                @if (controllerName == "Folder" && actionName == "Explorer")
+                @switch (controllerName)
                 {
-                    { Html.RenderAction("RenderSidebar", "Folder"); }
-                }
-                else
-                {
-                    if (controllerName == "Home")
-                    {
-                        @Html.Partial("~/Views/Shared/Sidebars/_MainSidebar.cshtml")}
-                    }
-                    else
-                    {
-                        @Html.Partial("~/Views/Shared/Sidebars/_MainSidebarTaxonomy.cshtml")
-                    }
-                }
-                @*if (controllerName == "Taxonomy")
-        {
-
-        }
-        else
-        {
-            @Html.Partial("~/Views/Shared/Sidebars/_MainSidebar.cshtml")}
-        }*@
-                }
-
-                @*@switch (Session["APP_CONTEXT"])
-                {
-            case "GGT-TAX":
-            @Html.Partial("~/Views/Shared/Sidebars/_MainSidebarTaxonomy.cshtml") break;
-            case "GGT-ORD":
-            @Html.Partial("~/Views/Shared/Sidebars/_MainSidebar.cshtml") break;
-            case "GGT-NRR":
-            @Html.Partial("~/Views/Shared/Sidebars/_MainSidebarNRR.cshtml") break;
-            case "GGT-CUR":
-            @Html.Partial("~/Views/Shared/Sidebars/_MainSidebar.cshtml") break;
-            case "GGT-ARM":
-            @Html.Partial("~/Views/Shared/Sidebars/_MainSidebarARM.cshtml") break;
-            default:
-            @Html.Partial("~/Views/Shared/Sidebars/_MainSidebar.cshtml")break;
-        }*@
+                    case "Home":
+                        Html.RenderAction("RenderSidebar", "Home");
+                        break;
+                    case "WebOrderRequest":
+                        Html.RenderAction("RenderSidebar", "WebOrderRequest");
+                        break;
+                    case "Folder":
+                        if (actionName == "Explorer")
+                        {
+                            Html.RenderAction("RenderSidebar", "Folder");
+                        }
+                        break;
+                    case "Taxonomy":
+                        Html.RenderAction("RenderSidebar", "Taxonomy");
+                        break;
+                    default:
+                        Html.RenderAction("RenderSidebar", "Taxonomy");
+                        break;
+                } 
             </div>
-        </aside>
-
-        <!-- Content Wrapper. Contains page content -->
+        </aside> <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper text-sm">
             <!-- Content Header (Page header) -->
             <div class="content-header">
@@ -237,31 +226,20 @@
         </div>
         <aside class="control-sidebar control-sidebar-dark">
             <!-- Control sidebar content goes here -->
-        </aside>
-        <!-- /.control-sidebar -->
+        </aside> <!-- /.control-sidebar -->
         <!-- Main Footer -->
         @Html.Partial("~/Views/Shared/_Footer.cshtml")
     </div>
-    <script src="~/plugins/jquery/jquery.min.js"></script>
-    <script src="~/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="~/dist/js/adminlte.js"></script>
-
-    <!-- Datatables -->
-    @*<script type="text/javascript" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
-        <script type="text/javascript" language="javascript" src="https://cdn.datatables.net/select/1.3.3/js/dataTables.select.min.js"></script>
-        <script type="text/javascript" language="javascript" src="https://cdn.datatables.net/buttons/2.0.1/js/dataTables.buttons.min.js"></script>
-        <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.3.1/js/buttons.html5.min.js"></script>*@
-
-    <script type="text/javascript" src="~/Content/dist/js/DataTables/jquery.dataTables.min.js"></script>
-    <script type="text/javascript" language="javascript" src="~/Content/dist/js/DataTables/dataTables.select.min.js"></script>
-    <script type="text/javascript" language="javascript" src="~/Content/dist/js/DataTables/dataTables.buttons.min.js"></script>
-    <script type="text/javascript" src="~/Content/dist/js/DataTables/buttons.html5.min.js"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/responsive/2.4.0/js/dataTables.responsive.min.js"></script>
-
-   
 </body>
 </html>
-
+<script src="~/plugins/jquery/jquery.min.js"></script>
+<script src="~/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="~/dist/js/adminlte.js"></script>
+<script type="text/javascript" src="~/Content/dist/js/DataTables/jquery.dataTables.min.js"></script>
+<script type="text/javascript" language="javascript" src="~/Content/dist/js/DataTables/dataTables.select.min.js"></script>
+<script type="text/javascript" language="javascript" src="~/Content/dist/js/DataTables/dataTables.buttons.min.js"></script>
+<script type="text/javascript" src="~/Content/dist/js/DataTables/buttons.html5.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/responsive/2.4.0/js/dataTables.responsive.min.js"></script>
 <script>
     $(document).on({
         ajaxStart: function () {
@@ -272,7 +250,7 @@
         }
     });
 
-     
+
     $(document).ready(function () {
         $('#txtNote').summernote({
             height: 100,                 // set editor height
@@ -287,7 +265,7 @@
             $("#SearchEntity_ModifiedDate").datepicker();
         });
     });
- 
+
 </script>
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
 <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>

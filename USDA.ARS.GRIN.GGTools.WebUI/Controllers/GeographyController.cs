@@ -305,6 +305,13 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             return PartialView(BASE_PATH + "Modals/_Lookup.cshtml", viewModel);
         }
 
+        public PartialViewResult RenderLookupSimpleModal()
+        {
+            GeographyViewModel viewModel = new GeographyViewModel();
+            viewModel.GetGeographyCountryAdmins();
+            return PartialView(BASE_PATH + "Modals/_LookupSimple.cshtml", viewModel);
+        }
+
         [HttpPost]
         public PartialViewResult Lookup(FormCollection coll)
         {

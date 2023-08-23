@@ -1,4 +1,5 @@
-﻿<nav class="mt-2">
+﻿@model USDA.ARS.GRIN.GGTools.ViewModelLayer.WebOrderRequestViewModel
+<nav class="mt-2">
     <ul class="nav nav-pills nav-sidebar nav-child-indent flex-column" data-widget="treeview" role="menu" data-accordion="false">
         <!-- TODO: Refactor this element into a partial shared across sidebars-->
         <li class="nav-item">
@@ -7,37 +8,82 @@
                 <p>Home</p>
             </a>
         </li>
+        <!-- TIME FRAME -->
         <li class="nav-item menu-open">
             <a href="#" class="nav-link ">
-                <i class="nav-icon fas fa-compass"></i>
+                <i class="nav-icon fas fa-calendar"></i>
                 <p>
-                    Navigation
+                    Time Frame
                     <i class="right fas fa-angle-left"></i>
                 </p>
             </a>
             <ul class="nav nav-treeview">
                 <li class="nav-item">
-                    <a href="@Url.Action("Navigate","Home", new { applicationCode = "GGT-NRR"})" class="nav-link">
-                        <i class="fas fa-cogs nav-icon"></i>
-                        <p>NRR Tool</p>
+                    <a id="TIMEFRAME-TODAY" href="" class="nav-link">
+                        <i class="fas fa-calendar nav-icon"></i>
+                        <p>Today</p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="@Url.Action("Navigate","Home", new { applicationCode = "GGT-TAX"})" class="nav-link">
-                        <i class="fas fa-cogs nav-icon"></i>
-                        <p>Taxonomy</p>
+                    <a id="TIMEFRAME-THIS_WEEK" href="" class="nav-link">
+                        <i class="fas fa-calendar nav-icon"></i>
+                        <p>This Week</p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="@Url.Action("Navigate","Home", new { applicationCode = "GGT-ARM"})" class="nav-link">
-                        <i class="fas fa-cogs nav-icon"></i>
-                        <p>Users</p>
+                    <a id="TIMEFRAME-THIS_WEEK" href="" class="nav-link">
+                        <i class="fas fa-calendar nav-icon"></i>
+                        <p>This Month</p>
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+        <!-- STATUS -->
+        <li class="nav-item menu-open">
+            <a href="#" class="nav-link ">
+                <i class="nav-icon fas fa-circle"></i>
+                <p>
+                    Status
+                    <i class="right fas fa-angle-left"></i>
+                </p>
+            </a>
+            <ul class="nav nav-treeview">
+                <li class="nav-item">
+                    <a id="STATUS-NRR_FLAGGED" href="" class="nav-link">
+                        <i class="fas fa-circle text-red nav-icon"></i>
+                        <p>NRR Flagged</p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="@Url.Action("Navigate","Home", new { applicationCode = "GGT-CUR"})" class="nav-link">
-                        <i class="fas fa-cogs nav-icon"></i>
-                        <p>Curators</p>
+                    <a id="STATUS-SUBMITTED" href="" class="nav-link">
+                        <i class="fas fa-circle text-green nav-icon"></i>
+                        <p>Submitted</p>
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+        <!-- ASSIGNED -->
+        <li class="nav-item menu-open">
+            <a href="#" class="nav-link ">
+                <i class="nav-icon fas fa-user"></i>
+                <p>
+                    Assigned To
+                    <i class="right fas fa-angle-left"></i>
+                </p>
+            </a>
+            <ul class="nav nav-treeview">
+                <li class="nav-item">
+                    <a id="ASSIGNEDTO-123" href="" class="nav-link">
+                        <i class="fas fas fa-user nav-icon"></i>
+                        <p>Bockelman, Harold</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a id="ASSIGNEDTO-456" href="" class="nav-link">
+                        <i class="fas fas fa-user nav-icon"></i>
+                        <p>Reisinger, Marty</p>
                     </a>
                 </li>
             </ul>
@@ -65,3 +111,17 @@
         </li>
     </ul>
 </nav>
+<script type="text/javascript">
+    $('.nav-link').on('click', function () {
+        event.preventDefault();
+        var id = $(this).attr('id');
+
+        if (typeof id === "undefined") {
+
+        }
+        else {
+            //DEBUG
+            alert("CLICKED " + id);
+        }
+    });
+</script>

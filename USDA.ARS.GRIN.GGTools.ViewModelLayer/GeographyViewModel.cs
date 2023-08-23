@@ -211,6 +211,17 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
             //}
         }
 
+        public List<Geography> GetGeographyCountryAdmins()
+        {
+            List<Geography> geographies = new List<Geography>();
+            using (GeographyManager mgr = new GeographyManager())
+            {
+                geographies = mgr.GetGeographyCountryAdmins();
+            }
+            DataCollection = new Collection<Geography>(geographies);
+            return geographies;
+        }
+
         public void HandleRequest()
         {
             throw new NotImplementedException();

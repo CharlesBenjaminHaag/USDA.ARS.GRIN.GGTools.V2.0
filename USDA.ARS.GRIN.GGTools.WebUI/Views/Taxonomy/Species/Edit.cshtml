@@ -515,7 +515,7 @@
 
                                             </div>
                                             <div class="row">
-                                                <div class="col-md-12">
+                                                <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label>Protologue</label>
                                                         <div class="input-group">
@@ -528,15 +528,13 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div class="row">
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label>Protologue Virtual Path</label>
                                                         @Html.TextBoxFor(x => x.Entity.ProtologueVirtualPath, new { @class = "form-control" })
                                                     </div>
                                                 </div>
-                                                <div class="col-md-6">
+                                                <div class="col-md-12">
                                                     <div class="form-group">
                                                         <label>Hybrid Parentage</label>
                                                         @Html.TextBoxFor(x => x.Entity.HybridParentage, new { @class = "form-control" })
@@ -675,6 +673,15 @@
         var action = $('ul#list-dependent-data li:first').data("ggtools-action");
         var value = $('ul#list-dependent-data li:first').data("ggtools-value");
         LoadDependentData(defaultId, action, value);
+
+        // Set Hybrid Parentage field to RTF format.
+        $('#Entity_HybridParentage').summernote({
+            height: 50,                 // set editor height
+            minHeight: null,             // set minimum height of editor
+            maxHeight: null,             // set maximum height of editor
+            'width': '100%',
+            focus: true                  // set focus to editable area after initializing summernote
+        });
     }
     
     $(".synonym-link").on('click', function (event) {

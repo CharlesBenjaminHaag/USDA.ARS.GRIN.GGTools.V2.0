@@ -768,7 +768,7 @@
     <Content Include="Views\Taxonomy\Species\Map\Index.cshtml" />
     <Content Include="Views\Taxonomy\Citation\_DetailSearchCriteria.cshtml" />
     <Content Include="Views\Shared\_LayoutAdminLTE3NRR.cshtml" />
-    <Content Include="Views\WebOrderRequest\Index.cshtml" />
+    <Content Include="Views\WebOrderRequest\Explorer\Index.cshtml" />
     <Content Include="Views\Shared\Sidebars\_MainSidebarNRR2.cshtml" />
     <Content Include="Views\Taxonomy\GeographyMap\_EditBatch.cshtml" />
     <Content Include="Views\Taxonomy\EconomicUse\_ARCHIVE\_BatchEdit.cshtml" />
@@ -777,8 +777,8 @@
     <Content Include="Views\Taxonomy\Citation\_EditBatch.cshtml" />
     <Content Include="Views\Taxonomy\EconomicUse\_ARCHIVE\_EditBatch.cshtml" />
     <Content Include="Views\Taxonomy\GeographyMap\_EditBatchBACKUP.cshtml" />
-    <Content Include="Views\WebOrderRequest\_Detail.cshtml" />
-    <Content Include="Views\WebOrderRequest\_Timeline.cshtml" />
+    <Content Include="Views\WebOrderRequest\Explorer\_Detail.cshtml" />
+    <Content Include="Views\WebOrderRequest\Explorer\_Timeline.cshtml" />
     <Content Include="Views\WebOrderRequest\_NoteWidget.cshtml" />
     <Content Include="Views\WebOrderRequest\_List.cshtml" />
     <Content Include="Views\Taxonomy\CommonName\_ListBatch.cshtml" />
@@ -786,7 +786,6 @@
     <Content Include="Views\Taxonomy\Species\Explorer\Index.cshtml" />
     <Content Include="Views\Taxonomy\Species\Modals\_EditSynonymOptions.cshtml" />
     <Content Include="Views\Taxonomy\Citation\_Edit.cshtml" />
-    <Content Include="Views\Taxonomy\Geography\Modals\_Lookup_BACKUP.cshtml" />
     <Content Include="Views\Taxonomy\Geography\_BACKUP\_SelectList.cshtml" />
     <Content Include="Views\Taxonomy\Geography\_BACKUP\_SelectListAdministrativeUnits.cshtml" />
     <Content Include="Views\Taxonomy\Geography\_BACKUP\_SelectListContinent.cshtml" />
@@ -822,6 +821,10 @@
     <Content Include="Views\Taxonomy\GeographyMap\Modals\_EditBatch.cshtml" />
     <Content Include="Views\Taxonomy\CWRTrait\Modals\_CloneSelectList.cshtml" />
     <Content Include="Views\Taxonomy\GeographyMap\_ListBatch.cshtml" />
+    <Content Include="Views\WebOrderRequest\Explorer\_Notes.cshtml" />
+    <Content Include="Views\WebOrderRequest\Explorer\_List.cshtml" />
+    <Content Include="Views\Taxonomy\Geography\Modals\_LookupSimple.cshtml" />
+    <Content Include="Views\Taxonomy\Geography\Modals\_SelectListSimple.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

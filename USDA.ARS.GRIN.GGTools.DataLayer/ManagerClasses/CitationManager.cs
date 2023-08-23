@@ -81,17 +81,32 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             return null;
         }
 
-        public List<Citation> GetSpeciesCitations(int speciesId)
+        public List<Citation> GetSpeciesCitations(int speciesId, string tableName)
         {
             List<Citation> results = new List<Citation>();
 
-            SQL = " SELECT * FROM vw_GRINGlobal_Citation " +
+            if (tableName.Contains("cwr"))
+            {
+                SQL = "SELECT * FROM vw_GRINGlobal_Citation " +
                     " WHERE SpeciesID = @SpeciesID " +
-                    " OR " +
-                    " SpeciesID IN " +
+                    " AND TypeCode = 'RELATIVE' " +
+                    " OR SpeciesID IN " +
                     " (SELECT SpeciesAID " +
                     " FROM vw_GRINGlobal_Taxonomy_Species_Synonym_Map " +
-                    " WHERE SpeciesBID = @SpeciesID) ";
+                    " WHERE SpeciesBID = @SpeciesID " +
+                    " AND TypeCode = 'RELATIVE') ";
+            }
+            else
+            {
+                SQL = " SELECT * FROM vw_GRINGlobal_Citation " +
+                        " WHERE SpeciesID = @SpeciesID " +
+                        " OR " +
+                        " SpeciesID IN " +
+                        " (SELECT SpeciesAID " +
+                        " FROM vw_GRINGlobal_Taxonomy_Species_Synonym_Map " +
+                        " WHERE SpeciesBID = @SpeciesID) ";
+            }
+
             var parameters = new List<IDbDataParameter> {
                 CreateParameter("SpeciesID", speciesId > 0 ? (object)speciesId : DBNull.Value, true)
             };

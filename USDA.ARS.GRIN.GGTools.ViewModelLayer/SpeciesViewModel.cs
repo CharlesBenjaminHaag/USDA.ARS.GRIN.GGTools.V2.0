@@ -271,7 +271,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
                             ValidationMessages.Add(new Common.Library.ValidationMessage { Message = "The subvariety epithet is required." });
                         }
                         break;
-                    case "FORMA":
+                    case "FORM":
                         if (String.IsNullOrEmpty(Entity.FormaName))
                         {
                             ValidationMessages.Add(new Common.Library.ValidationMessage { Message = "The forma epithet is required." });

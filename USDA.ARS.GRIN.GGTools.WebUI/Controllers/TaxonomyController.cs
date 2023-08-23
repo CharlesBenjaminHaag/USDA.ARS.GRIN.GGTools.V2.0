@@ -29,6 +29,9 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 return RedirectToAction("InternalServerError", "Error");
             }
         }
-        
+        public PartialViewResult RenderSidebar()
+        {
+            return PartialView("~/Views/Shared/Sidebars/_MainSidebarTaxonomy.cshtml");
+        }
     }
 }

@@ -152,21 +152,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 return Json(new { success = false }, JsonRequestBehavior.AllowGet);
             }
         }
-        public PartialViewResult _Edit(int entityId)
-        {
-            try
-            {
-                WebOrderRequestViewModel viewModel = new WebOrderRequestViewModel();
-                viewModel.Get(entityId);
-                return PartialView("~/Views/WebOrderRequest/_Detail.cshtml", viewModel);
-            }
-            catch (Exception ex)
-            {
-                Log.Error(ex);
-                return PartialView("~/Views/Error/_InternalServerError.cshtml");
-            }
-        }
-
+        
         [HttpPost]
         public PartialViewResult _Edit(WebOrderRequestViewModel viewModel)
         {
@@ -209,7 +195,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             {
                 WebOrderRequestViewModel viewModel = new WebOrderRequestViewModel();
                 viewModel.PageTitle = "NRR Tool Web Order Explorer";
-                return View("~/Views/WebOrderRequest/Index.cshtml", viewModel);
+                return View("~/Views/WebOrderRequest/Explorer/Index.cshtml", viewModel);
             }
             catch (Exception ex)
             {
@@ -354,5 +340,58 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
         {
             throw new NotImplementedException();
         }
+        public PartialViewResult RenderSidebar()
+        {
+            return PartialView("~/Views/Shared/Sidebars/_MainSidebarNRR.cshtml");
+        }
+
+        #region Explorer
+
+        public PartialViewResult ExplorerDetail(int webOrderRequestId)
+        {
+            try
+            {
+                WebOrderRequestViewModel viewModel = new WebOrderRequestViewModel();
+                viewModel.Get(webOrderRequestId);
+                return PartialView("~/Views/WebOrderRequest/Explorer/_Detail.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
+        }
+
+        public PartialViewResult ExplorerTimeline(int webOrderRequestId)
+        {
+            try
+            {
+                WebOrderRequestViewModel viewModel = new WebOrderRequestViewModel();
+                viewModel.Get(webOrderRequestId);
+                return PartialView("~/Views/WebOrderRequest/Explorer/_Timeline.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
+        }
+
+        public PartialViewResult ExplorerNotes(int webOrderRequestId)
+        {
+            try
+            {
+                WebOrderRequestViewModel viewModel = new WebOrderRequestViewModel();
+                viewModel.Get(webOrderRequestId);
+                return PartialView("~/Views/WebOrderRequest/Explorer/_Notes.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
+        }
+
+        #endregion Explorer
     }
 }

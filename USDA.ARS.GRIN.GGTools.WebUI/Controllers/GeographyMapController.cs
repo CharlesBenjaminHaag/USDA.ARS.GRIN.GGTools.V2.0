@@ -208,7 +208,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 GeographyMapViewModel viewModel = new GeographyMapViewModel();
                 viewModel.TableName = "taxonomy_geography_map";
                 viewModel.Get(entityId);
-                viewModel.PageTitle = String.Format("Edit Distribution [{0}]: {1}", entityId, viewModel.Entity.GeographyDescription + " to " + viewModel.Entity.SpeciesName);
+                viewModel.PageTitle = String.Format("Edit Distribution [{0}]: {1}, {2}", entityId, viewModel.Entity.SpeciesName, viewModel.Entity.GeographyDescription);
                 return View(BASE_PATH + "Edit.cshtml", viewModel);
             }
             catch (Exception ex)

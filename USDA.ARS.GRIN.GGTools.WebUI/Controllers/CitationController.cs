@@ -738,7 +738,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             viewModel.TableName = tableName;
             viewModel.EventAction = eventAction;
             viewModel.EventValue = eventValue;
-            viewModel.GetSpeciesCitations(speciesId);
+            viewModel.GetSpeciesCitations(speciesId, tableName);
             return PartialView(BASE_PATH + "/Modals/_SpeciesCitationLookup.cshtml", viewModel);
         }
         public PartialViewResult RenderEditModal(int entityId)

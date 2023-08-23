@@ -61,6 +61,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
                         Entity = DataCollection[0];
                         Entity.IsAcceptedNameOption = ToBool(Entity.IsAcceptedName);
                         Entity.CitationID = Entity.ID;
+                        Entity.AssembledName = Entity.AssembledName.TrimStart('.');
                     }
                 }
                 catch (Exception ex)
@@ -71,13 +72,13 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
             }
         }
 
-        public void GetSpeciesCitations(int speciesId)
+        public void GetSpeciesCitations(int speciesId, string tableName)
         {
             try
             {
                 using (CitationManager mgr = new CitationManager())
                 {
-                    DataCollection = new Collection<Citation>(mgr.GetSpeciesCitations(speciesId));
+                    DataCollection = new Collection<Citation>(mgr.GetSpeciesCitations(speciesId, tableName));
                 }
             }
             catch (Exception ex)
