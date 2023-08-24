@@ -247,12 +247,12 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             }
         }
 
-        public PartialViewResult _ListAdministrativeUnits(string countries = "")
+        public PartialViewResult _ListAdministrativeUnits(string subContinents = "", string countries = "")
         {
             GeographyViewModel viewModel = new GeographyViewModel();
+            viewModel.SearchEntity.SubContinentIDList = subContinents;
             viewModel.SearchEntity.CountryCodeList = countries;
             viewModel.GetAdministrativeUnits();
-            // TODO
             return PartialView("~/Views/Taxonomy/Geography/Modals/_SelectListAdministrativeUnits.cshtml", viewModel);
         }
 

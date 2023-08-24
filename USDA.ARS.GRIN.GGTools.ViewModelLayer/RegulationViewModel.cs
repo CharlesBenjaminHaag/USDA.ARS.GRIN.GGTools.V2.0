@@ -123,5 +123,26 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
         {
             throw new NotImplementedException();
         }
+        public void GetFolderItems()
+        {
+            using (RegulationManager mgr = new RegulationManager())
+            {
+                try
+                {
+                    DataCollection = new Collection<Regulation>(mgr.GetFolderItems(SearchEntity));
+                    RowsAffected = mgr.RowsAffected;
+                    if (RowsAffected == 1)
+                    {
+                        Entity = DataCollection[0];
+                    }
+                }
+                catch (Exception ex)
+                {
+                    PublishException(ex);
+                    throw ex;
+                }
+            }
+        }
+
     }
 }

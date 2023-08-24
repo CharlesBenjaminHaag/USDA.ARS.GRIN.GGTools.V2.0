@@ -97,27 +97,6 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             RowsAffected = results.Count;
             return results;
         }
-        public List<CWRTrait> SearchFolderItems(CWRTraitSearch searchEntity)
-        {
-            List<CWRTrait> results = new List<CWRTrait>();
-
-            SQL = " SELECT auil.app_user_item_list_id AS ListID, " +
-                " auil.list_name AS ListName, " +
-                " auil.app_user_item_folder_id AS FolderID, " +
-                " vgtf.* " +
-                " FROM vw_GGTools_Taxon_CWRTraits vgtf " +
-                " JOIN app_user_item_list auil " +
-                " ON vgtf.ID = auil.id_number " +
-                " WHERE auil.id_type = 'taxonomy_cwr_trait' ";
-            SQL += "AND  (@FolderID                          IS NULL OR  auil.app_user_item_folder_id       =           @FolderID)";
-
-            var parameters = new List<IDbDataParameter> {
-                CreateParameter("FolderID", searchEntity.FolderID > 0 ? (object)searchEntity.FolderID : DBNull.Value, true)
-            };
-            results = GetRecords<CWRTrait>(SQL, parameters.ToArray());
-            RowsAffected = results.Count;
-            return results;
-        }
         public virtual List<Cooperator> GetCooperators(string tableName)
         {
             SQL = "usp_GGTools_GRINGlobal_CreatedByCooperators_Select";

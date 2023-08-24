@@ -35,12 +35,10 @@
                                         @result.ID
                                     </td>
                                     <td>
-                                        @result.ID
+                                        <a href="@Url.Action("Edit", "Genus", new { @entityId = result.ID })">[@result.ID]</a>
                                     </td>
                                     <td>
-                                        <a href="@Url.Action("Edit","Genus", new { @entityId = result.ID })">
-                                            @Html.Raw(result.AssembledName)
-                                        </a>
+                                        @Html.Raw(result.AssembledName)
                                     </td>
                                     <td>
                                         <a href="@Url.Action("Edit","Family", new { @entityId = result.FamilyID })">
@@ -54,15 +52,18 @@
                                         @result.HybridCodeTitle
                                     </td>
                                     <td style="text-align:center;">@Html.Raw(Model.FormatBoolean(result.IsAcceptedName))</td>
-                                    <td style="text-align:right;">
-                                        <a href="@Url.Action("Edit", "Genus", new { entityId = result.ID })" class="btn btn-default btn-sm pull-right row-edit">
-                                            <i class="fa fa-edit"></i>
-                                        </a>
+                                    <td>
                                         @if (Model.EventAction == "FOLDER")
                                         {
                                             <a href="@Url.Action("DeleteItem", "Folder", new { @folderId = result.FolderID, @appUserItemListId = result.AppUserItemListID })"
                                                class="btn btn-danger btn-sm float-right row-edit margin-r-5">
                                                 <i class="fa fa-trash"></i>
+                                            </a>
+                                        }
+                                        else
+                                        {
+                                            <a href="@Url.Action("Edit", "Genus", new { entityId = result.ID })" class="btn btn-default btn-sm float-right row-edit">
+                                                <i class="fa fa-edit"></i>
                                             </a>
                                         }
                                     </td>

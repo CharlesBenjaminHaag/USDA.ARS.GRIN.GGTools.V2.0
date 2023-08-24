@@ -5,9 +5,6 @@
             Distribution (@Model.DataCollection.Count)
         </h3>
         <div class="card-tools">
-            <button id="btnAddCitation" type="button" class="btn btn-tool">
-                <i class="fas fa-book"></i>
-            </button>
             <button type="button" class="btn btn-tool" data-card-widget="collapse">
                 <i class="fas fa-minus"></i>
             </button>
@@ -41,7 +38,7 @@
                                     @result.ID
                                 </td>
                                 <td>
-                                    @result.ID
+                                    <a href="@Url.Action("Edit", "GeographyMap", new { @entityId = result.ID })">[@result.ID]</a>
                                 </td>
                                 <td>@result.SpeciesID</td>
                                 <td>
@@ -57,15 +54,18 @@
                                 <td>@result.Admin1</td>
                                 <td>@Html.Raw(result.Note)</td>
                                 <td>@Html.Raw(result.CitationText)</td>
-                                <td style="text-align:right;">
-                                    <a href="@Url.Action("Edit", "GeographyMap", new { entityId = result.ID })" class="btn btn-default btn-sm pull-right row-edit">
-                                        <i class="fa fa-edit"></i>
-                                    </a>
+                                <td>
                                     @if (Model.EventAction == "FOLDER")
                                     {
                                         <a href="@Url.Action("DeleteItem", "Folder", new { @folderId = result.FolderID, @appUserItemListId = result.AppUserItemListID })"
                                            class="btn btn-danger btn-sm float-right row-edit margin-r-5">
                                             <i class="fa fa-trash"></i>
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        <a href="@Url.Action("Edit", "GeographyMap", new { entityId = result.ID })" class="btn btn-default btn-sm float-right row-edit">
+                                            <i class="fa fa-edit"></i>
                                         </a>
                                     }
                                 </td>

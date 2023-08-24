@@ -316,7 +316,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             return results;
         }
 
-        public List<Geography> GetGeographies(string countryList = "")
+        public List<Geography> GetGeographies(string subContinentRegionIdList = "", string countryList = "")
         {
             List<Geography> results = new List<Geography>();
 
@@ -325,6 +325,20 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             if (!String.IsNullOrEmpty(countryList))
             {
                 SQL += " WHERE CountryCode IN (" + countryList + ')';
+            }
+
+            if (!String.IsNullOrEmpty(subContinentRegionIdList))
+            {
+                if (SQL.Contains("WHERE"))
+                {
+                    SQL += " AND ";
+                }
+                else
+                {
+                    SQL += " WHERE ";
+                }
+
+                SQL += " RegionID IN (" + subContinentRegionIdList + ')';
             }
 
             SQL += " ORDER BY AssembledName ASC ";

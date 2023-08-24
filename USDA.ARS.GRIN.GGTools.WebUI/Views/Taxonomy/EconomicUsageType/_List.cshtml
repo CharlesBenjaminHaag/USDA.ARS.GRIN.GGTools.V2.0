@@ -28,7 +28,9 @@
                             <td>
                                 @result.ID
                             </td>
-                            <td>@result.ID</td>
+                            <td>
+                                <a href="@Url.Action("Edit", "EconomicUsageType", new { @entityId = result.ID })">[@result.ID]</a>
+                            </td>
                             <td>
                                 @result.EconomicUsageCode
                             </td>
@@ -37,14 +39,17 @@
                                 @result.Note
                             </td>
                             <td>
-                                <a href="@Url.Action("Edit", "EconomicUsageType", new { entityId = result.ID })" class="btn btn-default btn-sm float-right row-edit">
-                                    <i class="fa fa-edit"></i>
-                                </a>
                                 @if (Model.EventAction == "FOLDER")
                                 {
                                     <a href="@Url.Action("DeleteItem", "Folder", new { @folderId = result.FolderID, @appUserItemListId = result.AppUserItemListID })"
                                        class="btn btn-danger btn-sm float-right row-edit margin-r-5">
                                         <i class="fa fa-trash"></i>
+                                    </a>
+                                }
+                                else
+                                {
+                                    <a href="@Url.Action("Edit", "EconomicUsageType", new { entityId = result.ID })" class="btn btn-default btn-sm float-right row-edit">
+                                        <i class="fa fa-edit"></i>
                                     </a>
                                 }
                             </td>

@@ -14,6 +14,7 @@
                 <thead>
                     <tr>
                         <th></th>
+                        <th>ID</th>
                         <th>Taxon A ID</th>
                         <th>Taxon A Name</th>
                         <th>Synonym Type</th>
@@ -29,6 +30,9 @@
                         <td>
                             @result.ID
                         </td>
+                        <td>
+                            <a href="@Url.Action("Edit", "SpeciesSynonymMap", new { @entityId = result.ID })">[@result.ID]</a>
+                        </td>
                         <td>@result.SpeciesAID</td>
                         <td>
                             <a href="@Url.Action("Edit", "Species", new { entityId = result.SpeciesAID })">
@@ -42,15 +46,18 @@
                                 @Html.Raw(result.SpeciesBAssembledName)
                             </a>
                         </td>
-                        <td style="text-align:right;">
-                            <a href="@Url.Action("Edit", "SpeciesSynonymMap", new { entityId = result.ID })" class="btn btn-default btn-sm float-right margin-r-5 row-edit">
-                                <i class="fa fa-edit"></i>
-                            </a>
+                        <td>
                             @if (Model.EventAction == "FOLDER")
                             {
                                 <a href="@Url.Action("DeleteItem", "Folder", new { @folderId = result.FolderID, @appUserItemListId = result.AppUserItemListID })"
                                    class="btn btn-danger btn-sm float-right row-edit margin-r-5">
                                     <i class="fa fa-trash"></i>
+                                </a>
+                            }
+                            else
+                            {
+                                <a href="@Url.Action("Edit", "SpeciesSynonymMap", new { entityId = result.ID })" class="btn btn-default btn-sm float-right row-edit">
+                                    <i class="fa fa-edit"></i>
                                 </a>
                             }
                         </td>

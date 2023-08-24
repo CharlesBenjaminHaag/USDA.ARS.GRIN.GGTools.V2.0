@@ -132,27 +132,6 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
 
         #region Taxonomy Common
 
-        public virtual List<Cooperator> GetCooperators(string tableName)
-        {
-            SQL = "usp_GGTools_GRINGlobal_CreatedByCooperators_Select";
-            var parameters = new List<IDbDataParameter> {
-                CreateParameter("table_name", (object)tableName, false)
-            };
-            List<Cooperator> cooperators = GetRecords<Cooperator>(SQL, CommandType.StoredProcedure, parameters.ToArray());
-            RowsAffected = cooperators.Count;
-            return cooperators;
-        }
-        public virtual List<CodeValue> GetCodeValues(string groupName)
-        {
-            SQL = "usp_GGTools_GRINGlobal_CodeValuesByGroup_Select";
-            var parameters = new List<IDbDataParameter> {
-                CreateParameter("group_name", (object)groupName, false)
-            };
-            List<CodeValue> codeValues = GetRecords<CodeValue>(SQL, CommandType.StoredProcedure, parameters.ToArray());
-            RowsAffected = codeValues.Count;
-            return codeValues;
-        }
-
         public Dictionary<string, string> GetTableNames()
         {
             return new Dictionary<string, string>
@@ -194,6 +173,18 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             {
                 AddParameter("created_by", entity.CreatedByCooperatorID == 0 ? DBNull.Value : (object)entity.CreatedByCooperatorID, true);
             }
+        }
+        public List<RegulationMap> GetFolderItems(RegulationMapSearch searchEntity)
+        {
+            List<RegulationMap> results = new List<RegulationMap>();
+
+            SQL = " SELECT * FROM vw_GRINGlobal_Folder_Taxonomy_Regulation_Map WHERE FolderID = @FolderID";
+            var parameters = new List<IDbDataParameter> {
+                CreateParameter("FolderID", searchEntity.FolderID > 0 ? (object)searchEntity.FolderID : DBNull.Value, true)
+            };
+            results = GetRecords<RegulationMap>(SQL, parameters.ToArray());
+            RowsAffected = results.Count;
+            return results;
         }
     }
 }

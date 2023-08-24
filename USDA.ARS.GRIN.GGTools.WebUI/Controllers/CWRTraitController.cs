@@ -101,25 +101,6 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI
             }
         }
 
-        public PartialViewResult FolderItems(int folderId)
-        {
-            try
-            {
-                CWRTraitViewModel viewModel = new CWRTraitViewModel();
-                viewModel.EventAction = "SEARCH";
-                viewModel.EventValue = "FOLDER";
-                viewModel.SearchEntity.FolderID = folderId;
-                viewModel.SearchFolderItems();
-                ModelState.Clear();
-                return PartialView(BASE_PATH + "_List.cshtml", viewModel);
-            }
-            catch (Exception ex)
-            {
-                Log.Error(ex);
-                return PartialView("~/Views/Error/_InternalServerError.cshtml");
-            }
-        }
-
         public ActionResult Index(int cwrMapId = 0)
         {
             CWRTraitViewModel viewModel = new CWRTraitViewModel();
@@ -327,7 +308,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI
         }
 
         [HttpPost]
-        public PartialViewResult Clone(int cwrTraitId, int cwrMapId, int quantity, int citationId)
+        public PartialViewResult Clone(int cwrTraitId, int cwrMapId, int quantity)
         {
             CWRTraitViewModel viewModel = new CWRTraitViewModel();
             CWRTraitViewModel cloneViewModel = new CWRTraitViewModel();
@@ -344,7 +325,6 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI
                     cloneViewModel.Entity.TraitClassCode = viewModel.Entity.TraitClassCode;
                     cloneViewModel.Entity.SpeciesID = viewModel.Entity.SpeciesID;
                     cloneViewModel.Entity.BreedingTypeCode = viewModel.Entity.BreedingTypeCode;
-                    cloneViewModel.Entity.CitationID = citationId;
                     cloneViewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
                     cloneViewModel.Get(cloneViewModel.Insert());
                     cloneViewModel.DataCollectionBatch.Add(cloneViewModel.Entity);

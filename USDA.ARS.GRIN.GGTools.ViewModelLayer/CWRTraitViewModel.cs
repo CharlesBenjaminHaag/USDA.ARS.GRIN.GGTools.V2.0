@@ -114,27 +114,6 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
             }
         }
 
-        public void SearchFolderItems()
-        {
-            using (CWRTraitManager mgr = new CWRTraitManager())
-            {
-                try
-                {
-                    DataCollection = new Collection<CWRTrait>(mgr.SearchFolderItems(SearchEntity));
-                    RowsAffected = mgr.RowsAffected;
-                    if (RowsAffected == 1)
-                    {
-                        Entity = DataCollection[0];
-                    }
-                }
-                catch (Exception ex)
-                {
-                    PublishException(ex);
-                    throw ex;
-                }
-            }
-        }
-
         public List<CodeValue> SearchNotes()
         {
             List<CodeValue> codeValues = new List<CodeValue>();

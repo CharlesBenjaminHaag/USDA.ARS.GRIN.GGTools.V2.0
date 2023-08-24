@@ -260,6 +260,15 @@
         return valueArray;
     }
 
+    function GetSelectedSubContinentRegionIDs() {
+        var valueArray = [];
+        $("#table-geography-subcontinent input:checked").each(function () {
+            var value = $(this).attr("value");
+            valueArray.push(value);
+        });
+        return valueArray;
+    }
+
     function GetSelectedCountries() {
         var valueArray = [];
         $("#data-table-geography-countries input:checked").each(function () {
@@ -335,6 +344,7 @@
         var link = '@Url.Action("_ListAdministrativeUnits", "Geography")';
         var formData = new FormData();
 
+        formData.append("subContinents", subContinents);
         formData.append("countries", countries);
 
         $.ajax({
@@ -427,6 +437,34 @@
             LoadCountries(selectedContinents, selectedSubContinents);
         } else {
             $(".ggtools-check-subcontinent").prop("checked", false);
+            //var selectedContinents = GetSelectedContinents();
+            //LoadCountries(selectedContinents, "");
+        }
+    });
+
+    $(".form-check-input-countries").click(function () {
+        var checkAll = $(".form-check-input-countries").prop('checked');
+        if (checkAll) {
+            $(".ggtools-check-country").prop("checked", true);
+            //var selectedContinents = GetSelectedContinents();
+            //var selectedSubContinents = GetSelectedSubContinents();
+            //LoadCountries(selectedContinents, selectedSubContinents);
+        } else {
+            $(".ggtools-check-country").prop("checked", false);
+            //var selectedContinents = GetSelectedContinents();
+            //LoadCountries(selectedContinents, "");
+        }
+    });
+
+    $(".form-check-input-administrative-units").click(function () {
+        var checkAll = $(".form-check-input-administrative-units").prop('checked');
+        if (checkAll) {
+            $(".ggtools-check-administrative-unit").prop("checked", true);
+            //var selectedContinents = GetSelectedContinents();
+            //var selectedSubContinents = GetSelectedSubContinents();
+            //LoadCountries(selectedContinents, selectedSubContinents);
+        } else {
+            $(".ggtools-check-administrative-unit").prop("checked", false);
             //var selectedContinents = GetSelectedContinents();
             //LoadCountries(selectedContinents, "");
         }

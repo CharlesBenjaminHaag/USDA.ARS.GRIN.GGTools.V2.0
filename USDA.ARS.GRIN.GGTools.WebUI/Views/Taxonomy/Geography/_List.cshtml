@@ -34,30 +34,33 @@
                             @result.ID
                         </td>
                         <td>
-                            @result.ID
+                            <a href="@Url.Action("Edit", "Geography", new { @entityId = result.ID })">[@result.ID]</a>
                         </td>
                         <td>@result.Continent</td>
                         <td>@result.SubContinent</td>
                         <td>@result.CountryDescription</td>
                         <td>@result.Admin1</td>
-                        <td>@result.Admin1TypeCode</td>
+                        <td>@result.Admin1TypeDescription</td>
                         <td>@result.Admin2</td>
-                        <td>@result.Admin2TypeCode</td>
+                        <td>@result.Admin2TypeDescription</td>
                         <td>
                             @Html.Raw(Model.FormatBoolean(@result.IsValid))
                         </td>
                         <td>
                             @Html.Raw(result.Note)
                         </td>
-                        <td style="text-align:right;">
-                            <a href="@Url.Action("Edit", "Geography", new { entityId = result.ID })" class="btn btn-default btn-sm pull-right row-edit">
-                                <i class="fa fa-edit"></i>
-                            </a>
+                        <td>
                             @if (Model.EventAction == "FOLDER")
                             {
                                 <a href="@Url.Action("DeleteItem", "Folder", new { @folderId = result.FolderID, @appUserItemListId = result.AppUserItemListID })"
                                    class="btn btn-danger btn-sm float-right row-edit margin-r-5">
                                     <i class="fa fa-trash"></i>
+                                </a>
+                            }
+                            else
+                            {
+                                <a href="@Url.Action("Edit", "Geography", new { entityId = result.ID })" class="btn btn-default btn-sm float-right row-edit">
+                                    <i class="fa fa-edit"></i>
                                 </a>
                             }
                         </td>

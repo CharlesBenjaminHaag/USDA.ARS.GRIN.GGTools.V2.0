@@ -192,7 +192,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
             List<Geography> geographies = new List<Geography>();
             using (GeographyManager mgr = new GeographyManager())
             {
-                geographies = mgr.GetGeographies(SearchEntity.CountryCodeList);
+                geographies = mgr.GetGeographies(SearchEntity.SubContinentIDList, SearchEntity.CountryCodeList);
             }
             DataCollection = new Collection<Geography>(geographies);
             return geographies;

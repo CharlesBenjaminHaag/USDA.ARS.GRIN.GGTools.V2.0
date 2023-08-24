@@ -42,22 +42,21 @@
 </div>
 <script type="text/javascript">
     $("#btnSaveCWRTraitCloneBatch").click(function () {
-        var citationId = $("#sel-cwr-trait-citation").val();
+        /*var citationId = $("#sel-cwr-trait-citation").val();*/
         var cwrMapId = $("#Entity_CWRMapID").val();
         var cwrTraitId = $("#Entity_ID").val();
         var quantity = $("#txtQuantity").val();
         
-        SaveCWRTraitCloneBatch(cwrTraitId, cwrMapId, quantity, citationId);
+        SaveCWRTraitCloneBatch(cwrTraitId, cwrMapId, quantity);
     });
 
-    function SaveCWRTraitCloneBatch(cwrTraitId, cwrMapId, quantity, citationId) {
+    function SaveCWRTraitCloneBatch(cwrTraitId, cwrMapId, quantity) {
         var link = '@Url.Action("Clone","CWRTrait")';
         var formData = new FormData();
 
         formData.append("cwrTraitId", cwrTraitId);
         formData.append("cwrMapId", cwrMapId);
         formData.append("quantity", quantity);
-        formData.append("citationId", citationId);
 
         $.ajax({
             url: link,

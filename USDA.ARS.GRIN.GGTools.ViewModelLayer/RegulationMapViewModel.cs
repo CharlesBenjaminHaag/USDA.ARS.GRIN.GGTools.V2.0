@@ -137,13 +137,13 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
                 }
             }
         }
-        public void SearchFolderItems()
+        public void GetFolderItems()
         {
             using (RegulationMapManager mgr = new RegulationMapManager())
             {
                 try
                 {
-                    DataCollection = new Collection<RegulationMap>(mgr.SearchFolderItems(SearchEntity));
+                    DataCollection = new Collection<RegulationMap>(mgr.GetFolderItems(SearchEntity));
                     RowsAffected = mgr.RowsAffected;
                     if (RowsAffected == 1)
                     {
