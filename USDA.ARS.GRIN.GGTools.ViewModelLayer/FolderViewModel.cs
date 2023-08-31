@@ -25,6 +25,21 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
         {
         }
 
+        public void Get()
+        {
+            using (FolderManager mgr = new FolderManager())
+            {
+                try
+                {
+                    Entity = mgr.Get(SearchEntity);
+                }
+                catch (Exception ex)
+                {
+                    PublishException(ex);
+                }
+            }
+        }
+
         public int Search()
         {
             using (FolderManager mgr = new FolderManager())
@@ -180,7 +195,6 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
             {
                 try
                 {
-                    Entity.IsFavorite = FromBool(Entity.IsFavoriteOption);
                     RowsAffected = mgr.Insert(Entity);
                 }
                 catch (Exception ex)

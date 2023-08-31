@@ -24,6 +24,7 @@ namespace USDA.ARS.GRIN.GGTools.AppLayer
         public int OwnedByCooperatorSiteID { get; set; }
         public string DateRangeFilter { get; set; }
         public string Note { get; set; }
+        public int CitationID { get; set; }
         public string CitationText { get; set; }
         public string SQLStatement { get; set; }
         public string SQLWhere { get; set; }

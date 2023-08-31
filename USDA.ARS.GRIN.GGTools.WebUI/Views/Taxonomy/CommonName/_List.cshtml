@@ -14,6 +14,10 @@
                 <thead>
                     <tr>
                         <th></th>
+                        @if (Model.EventAction == "FOLDER")
+                        { 
+                            <th></th>
+                        }
                         <th width="5%">ID</th>
                         <th>Name</th>
                         <th>Genus</th>
@@ -31,40 +35,44 @@
                         {
                             foreach (var result in Model.DataCollection)
                             {
-                                <tr>
-                                    <td>
+                            <tr>
+                                <td>
+                                    @result.ID
+                                </td>
+                                @if (Model.EventAction == "FOLDER")
+                                {
+                                    <td>@result.AppUserItemListID</td>
+                                }
+                                <td>
+                                    <span class="label label-default">
                                         @result.ID
-                                    </td>
-                                    <td>
-                                        <span class="label label-default">
-                                            @result.ID
-                                        </span>
-                                    </td>
-                                    <td>@result.Name</td>
-                                    <td>
-                                        <a href="@Url.Action("Edit", "Genus", new { entityId = result.GenusID })">@Html.Raw(result.GenusName)</a>
-                                    </td>
-                                    <td>
-                                        <a href="@Url.Action("Edit", "Species", new { entityId = result.SpeciesID })">@Html.Raw(result.SpeciesName)</a>
-                                    </td>
-                                    <td>@result.LanguageDescription</td>
-                                    <td>@result.SimplifiedName</td>
-                                    <td>
-                                        @Html.Raw(result.CitationText)
-                                    </td>
-                                    <td style="text-align:right;">
-                                        <a href="@Url.Action("Edit", "CommonName", new { entityId = result.ID })" class="btn btn-default btn-sm pull-right row-edit">
-                                            <i class="fa fa-edit"></i>
+                                    </span>
+                                </td>
+                                <td>@result.Name</td>
+                                <td>
+                                    <a href="@Url.Action("Edit", "Genus", new { entityId = result.GenusID })">@Html.Raw(result.GenusName)</a>
+                                </td>
+                                <td>
+                                    <a href="@Url.Action("Edit", "Species", new { entityId = result.SpeciesID })">@Html.Raw(result.SpeciesName)</a>
+                                </td>
+                                <td>@result.LanguageDescription</td>
+                                <td>@result.SimplifiedName</td>
+                                <td>
+                                    @Html.Raw(result.CitationText)
+                                </td>
+                                <td style="text-align:right;">
+                                    <a href="@Url.Action("Edit", "CommonName", new { entityId = result.ID })" class="btn btn-default btn-sm pull-right row-edit">
+                                        <i class="fa fa-edit"></i>
+                                    </a>
+                                    @if (Model.EventAction == "FOLDER")
+                                    {
+                                        <a href="@Url.Action("DeleteItem", "Folder", new { @folderId = result.FolderID, @appUserItemListId = result.AppUserItemListID })"
+                                           class="btn btn-danger btn-sm float-right row-edit margin-r-5">
+                                            <i class="fa fa-trash"></i>
                                         </a>
-                                        @if (Model.EventAction == "FOLDER")
-                                        {
-                                            <a href="@Url.Action("DeleteItem", "Folder", new { @folderId = result.FolderID, @appUserItemListId = result.AppUserItemListID })"
-                                               class="btn btn-danger btn-sm float-right row-edit margin-r-5">
-                                                <i class="fa fa-trash"></i>
-                                            </a>
-                                        }
-                                    </td>
-                                </tr>
+                                    }
+                                </td>
+                            </tr>
                             }
                         }
                     }

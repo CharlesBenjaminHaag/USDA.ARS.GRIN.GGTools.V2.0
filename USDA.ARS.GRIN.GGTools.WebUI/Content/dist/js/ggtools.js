@@ -69,6 +69,50 @@ function InitDataTable(tableName) {
     });
 }
 
+function InitDataTableFolderFormat(tableName) {
+    tableName = "#" + tableName;
+    $(document).ready(function () {
+        table = $(tableName).DataTable({
+            dom: 'Blfrtip',
+            paging: true,
+            "pageLength": 10,
+            responsive: true,
+            buttons: [
+                'selectAll',
+                'selectNone',
+                'csv',
+                'excel',
+                'pdf',
+                {
+                    text: 'Delete From Folder',
+                    action: function (e, dt, node, config) {
+                        DeleteBatch();
+                    }
+                }
+            ],
+            select: true,
+            lengthMenu: [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],
+            columnDefs: [
+                {
+                    target: 0,
+                    visible: false,
+                    searchable: false,
+                },
+                {
+                    target: 1,
+                    visible: false,
+                    searchable: false,
+                },
+            ]
+        });
+
+        $('table.ggtools').on('click', 'tr', function () {
+            var data = table.row(this).data();
+            /*alert('You clicked on ' + data[0] + "'s row");*/
+        });
+    });
+}
+
 function InitDataTableSingleSelect(tableName) {
     $(document).ready(function () {
         var table = $("#" + tableName).DataTable({
@@ -256,6 +300,14 @@ function GetSelectedSpeciesIDs(tableName) {
     return ids;
 }
 
+function GetSelectedAppUserItemListIDs(tableName) {
+    var table = $('#' + tableName).DataTable();
+    var ids = $.map(table.rows('.selected').data(), function (item) {
+        return item[1]
+    });
+    console.log(ids)
+    return ids;
+}
 
 function GetSelectedEntityStringIDs(tableName) {
     var table = $('#' + tableName).DataTable();

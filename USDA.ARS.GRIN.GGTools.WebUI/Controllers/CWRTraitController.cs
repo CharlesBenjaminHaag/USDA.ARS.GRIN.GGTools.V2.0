@@ -101,7 +101,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI
             }
         }
 
-        public ActionResult Index(int cwrMapId = 0)
+        public ActionResult Index(int cwrMapId = 0, int citationId = 0)
         {
             CWRTraitViewModel viewModel = new CWRTraitViewModel();
             
@@ -115,6 +115,12 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI
                 if (cwrMapId > 0)
                 {
                     viewModel.SearchEntity.CWRMapID = cwrMapId;
+                    viewModel.Search();
+                }
+
+                if (citationId > 0)
+                {
+                    viewModel.SearchEntity.CitationID = citationId;
                     viewModel.Search();
                 }
 
@@ -267,11 +273,6 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI
                 CWRTraitViewModel viewModel = new CWRTraitViewModel();
                 viewModel.Get(cwrTraitId);
 
-                CitationViewModel citationViewModel = new CitationViewModel();
-                citationViewModel.SearchEntity.SpeciesID = viewModel.Entity.SpeciesID;
-                citationViewModel.Search();
-                viewModel.Entity.Citations = citationViewModel.DataCollection;
-
                 return PartialView("~/Views/Taxonomy/CWRTrait/Modals/_Clone.cshtml", viewModel);
             }
             catch (Exception ex)
@@ -327,6 +328,13 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI
                     cloneViewModel.Entity.BreedingTypeCode = viewModel.Entity.BreedingTypeCode;
                     cloneViewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
                     cloneViewModel.Get(cloneViewModel.Insert());
+
+                    //TODO GET CIT LIST HERE
+                    CitationViewModel citationViewModel = new CitationViewModel();
+                    citationViewModel.SearchEntity.SpeciesID = cloneViewModel.Entity.SpeciesID;
+                    citationViewModel.Search();
+                    cloneViewModel.Entity.Citations = citationViewModel.DataCollection;
+
                     cloneViewModel.DataCollectionBatch.Add(cloneViewModel.Entity);
                 }
                 return PartialView("~/Views/Taxonomy/CWRTrait/Modals/_CloneSelectList.cshtml", cloneViewModel);

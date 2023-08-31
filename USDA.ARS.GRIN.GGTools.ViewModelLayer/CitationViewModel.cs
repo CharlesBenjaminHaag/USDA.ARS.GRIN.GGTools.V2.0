@@ -47,7 +47,6 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
                 throw ex;
             }
         }
-
         public Citation Get(int entityId)
         {
             using (CitationManager mgr = new CitationManager())
@@ -71,7 +70,6 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
                 return Entity;
             }
         }
-
         public void GetSpeciesCitations(int speciesId, string tableName)
         {
             try
@@ -86,7 +84,22 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
                 throw ex;
             }
         }
-
+        public ReportItem GetCitationReferenceCounts(int citationId)
+        {
+            ReportItem reportItem = new ReportItem();
+            try
+            {
+                using (CitationManager mgr = new CitationManager())
+                {
+                   DataCollectionReportItems = new Collection<ReportItem>(mgr.GetCitationReferenceCounts(citationId));
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return reportItem;
+        }
         public int UpdateSpeciesCitation(string tableName, int entityId, int citationId, int cooperatorId)
         {
             using (CitationManager mgr = new CitationManager())
@@ -94,7 +107,6 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
                 return mgr.UpdateSpeciesCitation(tableName, entityId, citationId, cooperatorId);
             }
         }
-
         public int Insert()
         {
             using (CitationManager mgr = new CitationManager())
@@ -112,7 +124,6 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
             }
             return RowsAffected;
         }
-      
         public void Search()
         {
             using (CitationManager mgr = new CitationManager())
@@ -133,7 +144,6 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
                 }
             }
         }
-
         public int Update()
         {
             using (CitationManager mgr = new CitationManager())
@@ -150,7 +160,6 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
             }
             return RowsAffected;
         }
-       
         public override bool Validate()
         {
             bool validated = true;
@@ -171,6 +180,5 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
             }
             return validated;
         }
-
     }
 }

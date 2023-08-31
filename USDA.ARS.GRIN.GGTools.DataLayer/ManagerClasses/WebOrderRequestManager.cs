@@ -43,7 +43,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             AddParameter("web_order_request_id", entity.WebOrderRequestID == 0 ? DBNull.Value : (object)entity.WebOrderRequestID, true);
             AddParameter("action_code", String.IsNullOrEmpty(entity.ActionCode) ? DBNull.Value : (object)entity.ActionCode, true);
             AddParameter("note", (object)entity.Note ?? DBNull.Value, true);
-            AddParameter("created_by", (object)entity.OwnedByWebUserID ?? DBNull.Value, true);
+            AddParameter("created_by", (object)entity.CreatedByWebUserID ?? DBNull.Value, true);
 
             AddParameter("@out_web_order_request_action_id", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
             AddParameter("@out_error_number", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
@@ -73,45 +73,55 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             SQL += " AND (@StatusCode               IS NULL     OR      StatusCode                      =           @StatusCode)";
             SQL += " AND (@Year                     IS NULL     OR      YEAR(CreatedDate)               =           @Year)";
 
+            if (SQL.Contains("WHERE"))
+            {
+                SQL += " AND ";
+            }
+            else
+            {
+                SQL += " WHERE ";
+            }
+
+
             if (searchEntity.IsLocked == "Y")
             {
-                SQL += " AND (@IsLocked IS NULL OR IsLocked = 1)";
+                SQL += "  (@IsLocked IS NULL OR IsLocked = 1)";
             }
 
             if (searchEntity.HasOrders == "Y")
             {
-                SQL += " AND (RelatedOrders > 0)";
+                SQL += "  (RelatedOrders > 0)";
             }
             
             switch (searchEntity.TimeFrame)
             {
                 case "1D":
-                    SQL += " AND (CONVERT(date, OrderDate) = CONVERT(date, GETDATE()))";
+                    SQL += "  (CONVERT(date, OrderDate) = CONVERT(date, GETDATE()))";
                     break;
                 case "3D":
-                    SQL += " AND OrderDate >= DATEADD(day,-3, GETDATE())";
+                    SQL += "  OrderDate >= DATEADD(day,-3, GETDATE())";
                     break;
                 case "7D":
-                    SQL += " AND OrderDate >= DATEADD(day,-7, GETDATE())";
+                    SQL += "  OrderDate >= DATEADD(day,-7, GETDATE())";
                     break;
                 case "30D":
-                    SQL += " AND OrderDate >= DATEADD(day,-30, GETDATE())";
+                    SQL += "  OrderDate >= DATEADD(day,-30, GETDATE())";
                     break;
                 case "60D":
-                    SQL += " AND OrderDate >= DATEADD(day,-60, GETDATE())";
+                    SQL += "  OrderDate >= DATEADD(day,-60, GETDATE())";
                     break;
                 case "90D":
-                    SQL += " AND OrderDate >= DATEADD(day,-90, GETDATE())";
+                    SQL += "  OrderDate >= DATEADD(day,-90, GETDATE())";
                     break;
                 case "YEAR":
-                    SQL += " DATEPART(year, OrderDate) = DATEPART(year, GETDATE())";
+                    SQL += "  DATEPART(year, OrderDate) = DATEPART(year, GETDATE())";
                     break;
             }
 
             if (!String.IsNullOrEmpty(searchEntity.StatusList))
             {
                 searchEntity.StatusList = String.Join(",", Array.ConvertAll(searchEntity.StatusList.Split(','), z => "'" + z + "'"));
-                SQL += " AND StatusCode IN (" + searchEntity.StatusList + ")";
+                SQL += "  StatusCode IN (" + searchEntity.StatusList + ")";
             }
 
             //if (!String.IsNullOrEmpty(searchEntity.WebUserList))

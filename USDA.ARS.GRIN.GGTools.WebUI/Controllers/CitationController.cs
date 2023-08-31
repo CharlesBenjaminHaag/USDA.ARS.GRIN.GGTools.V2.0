@@ -172,7 +172,13 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 return PartialView("~/Views/Error/_InternalServerError.cshtml");
             }
         }
-
+        public PartialViewResult RenderReferenceCountsWidget(int citationId)
+        {
+            CitationViewModel viewModel = new CitationViewModel();
+            viewModel.Entity.ID = citationId;
+            viewModel.GetCitationReferenceCounts(citationId);
+            return PartialView("~/Views/Taxonomy/Citation/_WidgetCitationReferences.cshtml", viewModel);
+        }
         public PartialViewResult _AddClone(int entityId = 0, string eventAction = "add", string eventValue = "")
         {
             CitationViewModel viewModel = new CitationViewModel();

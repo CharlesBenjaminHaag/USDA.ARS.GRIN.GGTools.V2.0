@@ -346,13 +346,29 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
         }
 
         #region Explorer
-
+        [HttpPost]
+        public PartialViewResult ExplorerList(WebOrderRequestViewModel viewModel)
+        {
+            try
+            {
+                viewModel.SearchEntity.TimeFrame = "7D";
+                viewModel.Search();
+                return PartialView("~/Views/WebOrderRequest/Explorer/_List.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
+        }
+        [HttpPost]
         public PartialViewResult ExplorerDetail(int webOrderRequestId)
         {
             try
             {
                 WebOrderRequestViewModel viewModel = new WebOrderRequestViewModel();
                 viewModel.Get(webOrderRequestId);
+                viewModel.GetWebOrderRequestItems(webOrderRequestId);
                 return PartialView("~/Views/WebOrderRequest/Explorer/_Detail.cshtml", viewModel);
             }
             catch (Exception ex)
@@ -364,10 +380,12 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
 
         public PartialViewResult ExplorerTimeline(int webOrderRequestId)
         {
+            WebOrderRequestViewModel viewModel = new WebOrderRequestViewModel();
+
             try
             {
-                WebOrderRequestViewModel viewModel = new WebOrderRequestViewModel();
-                viewModel.Get(webOrderRequestId);
+                viewModel.SearchEntity.ID = webOrderRequestId;
+                viewModel.GetWebOrderRequestActions();
                 return PartialView("~/Views/WebOrderRequest/Explorer/_Timeline.cshtml", viewModel);
             }
             catch (Exception ex)
@@ -382,7 +400,8 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             try
             {
                 WebOrderRequestViewModel viewModel = new WebOrderRequestViewModel();
-                viewModel.Get(webOrderRequestId);
+                viewModel.SearchEntity.ID = webOrderRequestId;
+                viewModel.GetNotes();
                 return PartialView("~/Views/WebOrderRequest/Explorer/_Notes.cshtml", viewModel);
             }
             catch (Exception ex)
@@ -391,7 +410,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 return PartialView("~/Views/Error/_InternalServerError.cshtml");
             }
         }
-
+        
         #endregion Explorer
     }
 }

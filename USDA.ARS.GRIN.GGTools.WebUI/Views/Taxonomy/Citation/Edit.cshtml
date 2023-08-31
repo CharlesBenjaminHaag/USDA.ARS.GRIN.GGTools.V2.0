@@ -267,6 +267,9 @@
                             </div>
                         </div>
                     }
+                    
+                    @{Html.RenderAction("RenderReferenceCountsWidget", "Citation", new { @citationId = Model.Entity.ID });}
+
                     @{Html.RenderAction("_Edit", "Folder", new { tableName = Model.TableName }); }
                     @{Html.RenderAction("RenderLookupModal", "Literature"); }
                     @{Html.RenderAction("RenderLookupModal", "Genus"); }

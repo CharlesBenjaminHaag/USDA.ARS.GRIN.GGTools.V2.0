@@ -75,7 +75,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
 
             reportItems = GetRecords<ReportItem>(SQL, CommandType.StoredProcedure, parameters.ToArray());
 
-            double totalOwned = reportItems.Sum(x => x.ItemCount);
+            double totalOwned = reportItems.Sum(x => x.Total);
 
             return reportItems;
         }
@@ -286,7 +286,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             {
                 AddParameter("cooperator_id", entity.ID == 0 ? DBNull.Value : (object)entity.ID, true);
             }
-            AddParameter("web_cooperator_id", entity.WebCooperatorID == 0 ? DBNull.Value : (object)entity.WebCooperatorID, true);
+            //AddParameter("web_cooperator_id", entity.WebCooperatorID == 0 ? DBNull.Value : (object)entity.WebCooperatorID, true);
             AddParameter("site_id", entity.SiteID == 0 ? DBNull.Value : (object)entity.SiteID, true);
             AddParameter("last_name", String.IsNullOrEmpty(entity.LastName) ? DBNull.Value : (object)entity.LastName, true);
             AddParameter("title", String.IsNullOrEmpty(entity.Salutation) ? DBNull.Value : (object)entity.Salutation, true);
@@ -326,7 +326,6 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             else
             {
                 AddParameter("created_by", entity.CreatedByCooperatorID == 0 ? DBNull.Value : (object)entity.CreatedByCooperatorID, true);
-                AddParameter("password", String.IsNullOrEmpty(entity.SysUserPassword) ? DBNull.Value : (object)entity.SysUserPassword, true);
             }
         }
 

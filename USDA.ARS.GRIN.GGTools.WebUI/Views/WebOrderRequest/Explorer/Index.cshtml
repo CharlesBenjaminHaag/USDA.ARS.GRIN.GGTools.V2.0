@@ -3,31 +3,39 @@
     ViewBag.Title = Model.PageTitle;
     Layout = "~/Views/Shared/_LayoutAdminLTE3.cshtml";
 }
+@*@Html.HiddenFor(x => x.Entity.ID)*@
+
+<!--DEBUG-->
+<div class="row" style="background-color:yellow;">
+    <div class="col-md-1">
+        @Html.TextBoxFor(x => x.Entity.ID, new {@class= "form-control" })
+    </div>
+    <div class="col-md-3">
+        <input type="text" id="txtSelectedTab" class="form-control" />
+    </div>
+    <div class="col-md-3"></div>
+</div>
+<br />
+<!--END DEBUG-->
 
 <div class="row">
-    <div id="section-web-order-request-list" class="col-md-4">
-        @Html.HiddenFor(x=>x.Entity.ID)
-        
-
-
-     
-        @*<div class="card">
+    <div class="col-md-4">
+        <div class="card card-outline card-primary">
             <div class="card-header">
-                <h3 class="card-title">Web Order Requests</h3>
+                <h3 class="card-title">Primary Outline</h3>
                 <div class="card-tools">
-                    <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
                         <i class="fas fa-minus"></i>
-                    </button>
-                    <button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
-                        <i class="fas fa-times"></i>
                     </button>
                 </div>
             </div>
-            <div class="card-body p-0">
-
+            <div id="section-web-order-request-list" class="card-body">
+                
             </div>
-
-        </div>*@
+            <div id="section-overlay-web-order-request-list" class="overlay">
+                <i class="fas fa-2x fa-sync-alt"></i>
+            </div>
+        </div>
     </div>
     <div class="col-md-8">
         <!-- BEGIN WOR TABS-->
@@ -39,63 +47,63 @@
                         class="nav-item"
                         data-ggtools-action="WebOrderRequest"
                         data-ggtools-value="ExplorerDetail">
-                        <a class="nav-link active"  
-                           data-toggle="pill" 
+                        <a class="nav-link active"
+                           data-toggle="pill"
                            href="#tab-content-web-order-request-detail" role="tab" aria-controls="custom-tabs-two-home" aria-selected="true">Detail</a>
                     </li>
-                    <li id="tab-web-order-request-timeline" 
+                    <li id="tab-web-order-request-timeline"
                         class="nav-item"
                         data-ggtools-action="WebOrderRequest"
                         data-ggtools-value="ExplorerTimeline">
-                        <a class="nav-link" 
-                           data-toggle="pill" 
-                           href="#tab-content-web-order-request-timeline" 
-                           role="tab" 
-                           aria-controls="custom-tabs-two-profile" 
+                        <a class="nav-link"
+                           data-toggle="pill"
+                           href="#tab-content-web-order-request-timeline"
+                           role="tab"
+                           aria-controls="custom-tabs-two-profile"
                            aria-selected="false">Timeline</a>
                     </li>
-                    <li id="tab-web-order-request-notes" 
+                    <li id="tab-web-order-request-notes"
                         class="nav-item"
                         data-ggtools-action="WebOrderRequest"
                         data-ggtools-value="ExplorerNotes">
-                        <a class="nav-link" 
-                           data-toggle="pill" 
-                           href="#tab-content-web-order-request-notes" 
-                           role="tab" 
-                           aria-controls="custom-tabs-two-messages" 
+                        <a class="nav-link"
+                           data-toggle="pill"
+                           href="#tab-content-web-order-request-notes"
+                           role="tab"
+                           aria-controls="custom-tabs-two-messages"
                            aria-selected="false">Notes</a>
                     </li>
-                    @*<li id="tab-web-order-request-related-order" 
-                        class="nav-item"
-                        data-ggtools-action="WebOrderRequest"
-                        data-ggtools-value="ExplorerRelatedOrder">
-                        <a class="nav-link" 
-                           data-toggle="pill" 
-                           href="#tab-content-web-order-request-related-order" 
-                           role="tab" 
-                           aria-controls="custom-tabs-two-settings" 
-                           aria-selected="false">Settings</a>
-                    </li>*@
+                    @*<li id="tab-web-order-request-related-order"
+                            class="nav-item"
+                            data-ggtools-action="WebOrderRequest"
+                            data-ggtools-value="ExplorerRelatedOrder">
+                            <a class="nav-link"
+                               data-toggle="pill"
+                               href="#tab-content-web-order-request-related-order"
+                               role="tab"
+                               aria-controls="custom-tabs-two-settings"
+                               aria-selected="false">Settings</a>
+                        </li>*@
                 </ul>
             </div>
             <div class="card-body">
-                <div class="tab-content" id="tab-content-web-order-request-detail">
-                    @*<div class="tab-pane fade show active" 
-                         id="tab-content-web-order-request-detail" role="tabpanel" aria-labelledby="custom-tabs-two-home-tab">
-                        <h3>DETAIL</h3>
-                    </div>
-                    <div class="tab-pane fade" 
-                         id="tab-content-web-order-request-timeline" role="tabpanel" aria-labelledby="custom-tabs-two-profile-tab">
-                        <h3>TIMELINE</h3>    
-                    </div>
-                    <div class="tab-pane fade" 
-                         id="tab-content-web-order-request-notes" role="tabpanel" aria-labelledby="custom-tabs-two-messages-tab">
-                        <h3>NOTES</h3>
-                    </div>
-                    <div class="tab-pane fade" 
-                         id="tab-content-web-order-request-related-order" role="tabpanel" aria-labelledby="custom-tabs-two-settings-tab">
-                        <h3>RELATED ORDER</h3>
-                    </div>*@
+                <div class="tab-content" id="tab-content-web-order-request">
+                    @*<div class="tab-pane fade show active"
+                             id="tab-content-web-order-request-detail" role="tabpanel" aria-labelledby="custom-tabs-two-home-tab">
+                            <h3>DETAIL</h3>
+                        </div>
+                        <div class="tab-pane fade"
+                             id="tab-content-web-order-request-timeline" role="tabpanel" aria-labelledby="custom-tabs-two-profile-tab">
+                            <h3>TIMELINE</h3>
+                        </div>
+                        <div class="tab-pane fade"
+                             id="tab-content-web-order-request-notes" role="tabpanel" aria-labelledby="custom-tabs-two-messages-tab">
+                            <h3>NOTES</h3>
+                        </div>
+                        <div class="tab-pane fade"
+                             id="tab-content-web-order-request-related-order" role="tabpanel" aria-labelledby="custom-tabs-two-settings-tab">
+                            <h3>RELATED ORDER</h3>
+                        </div>*@
                 </div>
             </div>
 
@@ -106,22 +114,73 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
-        InitWebOrderRequestDataTable("data-table-web-order-requests");
+        LoadWebOrderRequestList("1D", "", "");
+        $("#txtSelectedTab").val("tab-web-order-request-detail");
+        $("#section-overlay-web-order-request-list").hide();
     });
 
     $('#section-web-order-request ul.nav li').on('click', function () {
         var webOrderRequestId = $("#Entity_ID").val();
         var selectedId = $(this).attr('id');
-        var eventAction =  $(this).data("ggtools-action");
-        var eventValue = $(this).data("ggtools-value");
-        LoadDependentData(eventAction, eventValue);
+        $("#txtSelectedTab").val(selectedId);
+        LoadWebOrderRequest(webOrderRequestId);
+        //var eventAction =  $(this).data("ggtools-action");
+        //var eventValue = $(this).data("ggtools-value");
+        //LoadDependentData(eventAction, eventValue);
     });
 
-    function LoadWebOrderRequestList() {
-
+    function GetSelectedTab() {
+        return $("#txtSelectedTab").val();
     }
 
-    function LoadDependentData(eventAction, eventValue) {
+    function LoadWebOrderRequestList(timeFrame, status, owner) {
+        var link = '@Url.Action("ExplorerList","WebOrderRequest")';
+        var formData = new FormData();
+
+        $("#section-overlay-web-order-request-list").show();
+
+        $.ajax({
+            url: link,
+            type: 'POST',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (response) {
+                $("#section-web-order-request-list").html(response);
+                $("#section-overlay-web-order-request-list").hide();
+            }
+        });
+    }
+
+    $(document).on("click", "[id='btnAddNote']", function () {
+        event.preventDefault();
+        var webOrderRequestId = $("#Entity_ID").val();
+        var note = $("#txtNote").val();
+        AddNote(webOrderRequestId, note);
+    });
+
+    function AddNote(webOrderRequestId, note) {
+        var link = '@Url.Action("AddNote", "WebOrderRequest")';
+        var formData = new FormData();
+
+        formData.append("webOrderRequestId", webOrderRequestId);
+        formData.append("noteText", note);
+
+        $.ajax({
+            url: link,
+            type: 'POST',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (response) {
+                LoadWebOrderRequestNotes(webOrderRequestId);
+            }
+        });
+    }
+
+    @*function LoadDependentData(eventAction, eventValue) {
         var link = '@Url.Action("EVENT_VALUE","EVENT_ACTION", new { webOrderRequestId = "WEB_ORDER_REQUEST_ID" })';
         var entityId = $("#Entity_ID").val();
         var formData = new FormData();
@@ -147,7 +206,7 @@
                 $("#progress_overlay").hide();
             }
         });
-    }
+    }*@
 
     //$("#btnOpenBatchCancelModal").click(function () {
     //    var selectedItemIdList = GetSelectedEntityIDs("data-table-web-order-requests");
@@ -231,8 +290,79 @@
     }
 
     function LoadWebOrderRequest(id) {
-        //DEBUG
-        alert("ID IS " + id);
+        var selectedTab = GetSelectedTab();
+
+        switch (selectedTab) {
+            case "tab-web-order-request-detail":
+                LoadWebOrderRequestDetail(id);
+                break;
+            case "tab-web-order-request-timeline":
+                LoadWebOrderRequestTimeline(id);
+                break;
+            case "tab-web-order-request-notes":
+                LoadWebOrderRequestNotes(id);
+                break;
+        }
     }
 
+    function LoadWebOrderRequestDetail(webOrderRequestId) {
+        var link = '@Url.Action("ExplorerDetail","WebOrderRequest", new { webOrderRequestId = "WEB_ORDER_REQUEST_ID" })';
+        link = link.replace("WEB_ORDER_REQUEST_ID", webOrderRequestId);
+
+        var formData = new FormData();
+        formData.append("webOrderRequestId", webOrderRequestId);
+
+        $.ajax({
+            url: link,
+            type: 'POST',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (response) {
+                $("#tab-content-web-order-request").html(response);
+            }
+        });
+        //tab-web-order-request-detail
+    }
+
+    function LoadWebOrderRequestTimeline(webOrderRequestId) {
+        var link = '@Url.Action("ExplorerTimeline","WebOrderRequest", new { webOrderRequestId = "WEB_ORDER_REQUEST_ID" })';
+        link = link.replace("WEB_ORDER_REQUEST_ID", webOrderRequestId);
+
+        var formData = new FormData();
+        formData.append("webOrderRequestId", webOrderRequestId);
+
+        $.ajax({
+            url: link,
+            type: 'POST',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (response) {
+                $("#tab-content-web-order-request").html(response);
+            }
+        });
+    }
+
+    function LoadWebOrderRequestNotes(webOrderRequestId) {
+        var link = '@Url.Action("ExplorerNotes","WebOrderRequest", new { webOrderRequestId = "WEB_ORDER_REQUEST_ID" })';
+        link = link.replace("WEB_ORDER_REQUEST_ID", webOrderRequestId);
+
+        var formData = new FormData();
+        formData.append("webOrderRequestId", webOrderRequestId);
+
+        $.ajax({
+            url: link,
+            type: 'POST',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (response) {
+                $("#tab-content-web-order-request").html(response);
+            }
+        });
+    }
 </script>

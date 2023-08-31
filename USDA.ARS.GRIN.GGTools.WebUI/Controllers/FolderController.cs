@@ -434,6 +434,22 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 return PartialView("~/Views/Error/_InternalServerError.cshtml");
             }
         }
+        public PartialViewResult RenderFolderItemDeleteModal(int entityId)
+        {
+            try
+            {
+                FolderViewModel viewModel = new FolderViewModel();
+                viewModel.SearchEntity.ID = entityId;
+                viewModel.Get();
+                return PartialView("~/Views/Folder/Modals/_BatchDelete.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
+        }
+
 
         [HttpPost]
         public JsonResult AddCooperators(FormCollection coll)
@@ -583,7 +599,8 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
 
                 if (entityId > 0)
                 {
-                    viewModel.Get(entityId);
+                    viewModel.SearchEntity.ID = entityId;
+                    viewModel.Get();
                     viewModel.PageTitle = String.Format("Edit Folder: {0}", viewModel.Entity.FolderName);
                     viewModel.TableName = viewModel.Entity.FolderType;
                     

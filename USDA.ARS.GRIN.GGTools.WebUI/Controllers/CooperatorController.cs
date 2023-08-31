@@ -185,28 +185,28 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 return PartialView("~/Views/Error/_InternalServerError.cshtml");
             }
         }
-        public ActionResult Activate(int entityId)
-        {
-            try
-            {
-                CooperatorViewModel viewModel = new CooperatorViewModel();
-                viewModel.Get(entityId, "");
-                viewModel.Entity.StatusCode = "ACTIVE";
-                viewModel.Update();
-                viewModel.Get(entityId, "");
+        //public ActionResult Activate(int entityId)
+        //{
+        //    try
+        //    {
+        //        CooperatorViewModel viewModel = new CooperatorViewModel();
+        //        viewModel.Get(entityId, "");
+        //        viewModel.Entity.StatusCode = "ACTIVE";
+        //        viewModel.Update();
+        //        viewModel.Get(entityId, "");
 
-                viewModel.PageTitle = String.Format("Edit Cooperator [{0}]: {1}, {2}", entityId, viewModel.Entity.LastName, viewModel.Entity.FirstName);
-                viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
-                viewModel.AuthenticatedUser = AuthenticatedUser;
-                viewModel.MainSectionCSSClass = "col-md-9";
-                return View("~/Views/Cooperator/Edit.cshtml", viewModel);
-            }
-            catch (Exception ex)
-            {
-                Log.Error(ex);
-                return RedirectToAction("InternalServerError", "Error");
-            }
-        }
+        //        viewModel.PageTitle = String.Format("Edit Cooperator [{0}]: {1}, {2}", entityId, viewModel.Entity.LastName, viewModel.Entity.FirstName);
+        //        viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
+        //        viewModel.AuthenticatedUser = AuthenticatedUser;
+        //        viewModel.MainSectionCSSClass = "col-md-9";
+        //        return View("~/Views/Cooperator/Edit.cshtml", viewModel);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Log.Error(ex);
+        //        return RedirectToAction("InternalServerError", "Error");
+        //    }
+        //}
         [HttpPost]
         public ActionResult Edit(CooperatorViewModel viewModel)
         {
@@ -253,6 +253,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 return RedirectToAction("InternalServerError", "Error");
             }
         }
+        
         [HttpPost]
         public ActionResult EditSysUser(SysUserViewModel viewModel)
         {
@@ -488,102 +489,102 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 return PartialView("~/Views/Error/_InternalServerError.cshtml");
             }
         }
-        public PartialViewResult RenderStatusWidget(int cooperatorId)
-        {
-            CooperatorViewModel viewModel = new CooperatorViewModel();
-            try
-            {
-                viewModel.GetStatus(cooperatorId);
-                return PartialView("~/Views/Cooperator/_ChecklistWidget.cshtml", viewModel);
-            }
-            catch (Exception ex)
-            {
-                Log.Error(ex);
-                return PartialView("~/Views/Error/_InternalServerError.cshtml");
-            }
-        }
-        public PartialViewResult _RenderRecordsOwnedList(int cooperatorId)
-        {
-            CooperatorViewModel viewModel = new CooperatorViewModel();
-            try
-            {
-                viewModel.GetRecordsOwned(cooperatorId);
-                return PartialView("~/Views/Cooperator/_RecordsOwnedDetailList.cshtml", viewModel);
-            }
-            catch (Exception ex)
-            {
-                Log.Error(ex);
-                return PartialView("~/Views/Error/_InternalServerError.cshtml");
-            }
-        }
-        public ActionResult RecordOwnershipEdit(int entityId = 0)
-        {
-            try
-            {
-                CooperatorRecordTransferViewModel viewModel = new CooperatorRecordTransferViewModel();
-                viewModel.GetSiteCooperators(AuthenticatedUser.SiteID);
-                viewModel.SourceCooperatorID = entityId;
-                return View("~/Views/Cooperator/Transfer.cshtml", viewModel);
-            }
-            catch (Exception ex)
-            {
-                Log.Error(ex);
-                return RedirectToAction("InternalServerError", "Error");
-            }
-        }
-        public JsonResult Transfer(FormCollection formCollection)
-        {
-            try
-            {
-                CooperatorRecordTransferViewModel viewModel = new CooperatorRecordTransferViewModel();
+        //public PartialViewResult RenderStatusWidget(int cooperatorId)
+        //{
+        //    CooperatorViewModel viewModel = new CooperatorViewModel();
+        //    try
+        //    {
+        //        viewModel.GetStatus(cooperatorId);
+        //        return PartialView("~/Views/Cooperator/_ChecklistWidget.cshtml", viewModel);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Log.Error(ex);
+        //        return PartialView("~/Views/Error/_InternalServerError.cshtml");
+        //    }
+        //}
+        //public PartialViewResult _RenderRecordsOwnedList(int cooperatorId)
+        //{
+        //    CooperatorViewModel viewModel = new CooperatorViewModel();
+        //    try
+        //    {
+        //        viewModel.GetRecordsOwned(cooperatorId);
+        //        return PartialView("~/Views/Cooperator/_RecordsOwnedDetailList.cshtml", viewModel);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Log.Error(ex);
+        //        return PartialView("~/Views/Error/_InternalServerError.cshtml");
+        //    }
+        //}
+        //public ActionResult RecordOwnershipEdit(int entityId = 0)
+        //{
+        //    try
+        //    {
+        //        CooperatorRecordTransferViewModel viewModel = new CooperatorRecordTransferViewModel();
+        //        viewModel.GetSiteCooperators(AuthenticatedUser.SiteID);
+        //        viewModel.SourceCooperatorID = entityId;
+        //        return View("~/Views/Cooperator/Transfer.cshtml", viewModel);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Log.Error(ex);
+        //        return RedirectToAction("InternalServerError", "Error");
+        //    }
+        //}
+        //public JsonResult Transfer(FormCollection formCollection)
+        //{
+        //    try
+        //    {
+        //        CooperatorRecordTransferViewModel viewModel = new CooperatorRecordTransferViewModel();
 
-                if (!String.IsNullOrEmpty(formCollection["SourceCooperatorID"]))
-                {
-                    viewModel.SourceCooperatorID = Int32.Parse(formCollection["SourceCooperatorID"]);
-                }
+        //        if (!String.IsNullOrEmpty(formCollection["SourceCooperatorID"]))
+        //        {
+        //            viewModel.SourceCooperatorID = Int32.Parse(formCollection["SourceCooperatorID"]);
+        //        }
 
-                if (!String.IsNullOrEmpty(formCollection["TargetCooperatorID"]))
-                {
-                    viewModel.TargetCooperatorID = Int32.Parse(formCollection["TargetCooperatorID"]);
-                }
+        //        if (!String.IsNullOrEmpty(formCollection["TargetCooperatorID"]))
+        //        {
+        //            viewModel.TargetCooperatorID = Int32.Parse(formCollection["TargetCooperatorID"]);
+        //        }
 
-                if (!String.IsNullOrEmpty(formCollection["SourceTableList"]))
-                {
-                    viewModel.SourceTableList = formCollection["SourceTableList"];
-                }
-                viewModel.Transfer();
-                return Json(new { success = true }, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception ex)
-            {
-                Log.Error(ex);
-                return Json(new { success = false }, JsonRequestBehavior.AllowGet);
-            }
-        }
+        //        if (!String.IsNullOrEmpty(formCollection["SourceTableList"]))
+        //        {
+        //            viewModel.SourceTableList = formCollection["SourceTableList"];
+        //        }
+        //        viewModel.Transfer();
+        //        return Json(new { success = true }, JsonRequestBehavior.AllowGet);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Log.Error(ex);
+        //        return Json(new { success = false }, JsonRequestBehavior.AllowGet);
+        //    }
+        //}
         public ActionResult Delete(FormCollection formCollection)
         {
             throw new NotImplementedException();
         }
-        public JsonResult Sync(int cooperatorId)
-        {
-            //TODO
-            return null;
-        }
-        public JsonResult SyncSysUser(int sysUserId)
-        {
-            //TODO
-            return null;
-        }
-        public JsonResult SyncWebCooperator(int webCooperatorId)
-        {
-            //TODO
-            return null;
-        }
-        public JsonResult SyncWebUser(int webUserId)
-        {
-            //TODO
-            return null;
-        }
+        //public JsonResult Sync(int cooperatorId)
+        //{
+        //    //TODO
+        //    return null;
+        //}
+        //public JsonResult SyncSysUser(int sysUserId)
+        //{
+        //    //TODO
+        //    return null;
+        //}
+        //public JsonResult SyncWebCooperator(int webCooperatorId)
+        //{
+        //    //TODO
+        //    return null;
+        //}
+        //public JsonResult SyncWebUser(int webUserId)
+        //{
+        //    //TODO
+        //    return null;
+        //}
         
         public ActionResult Add()
         {

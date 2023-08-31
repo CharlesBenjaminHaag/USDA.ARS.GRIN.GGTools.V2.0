@@ -1,4 +1,4 @@
-﻿@model USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer.SysUserViewModel
+﻿@model USDA.ARS.GRIN.GGTools.ViewModelLayer.CooperatorViewModel
 @{
     Layout = null;
 }
@@ -48,7 +48,7 @@
         </div>
         <!-- /.login-logo -->
         <div class="register-box-body">
-            <h3 style="margin:0px; padding-bottom:10px;">Request a New CT Account</h3>
+            <h3 style="margin:0px; padding-bottom:10px;"><img src="~/dist/img/GGlogo-color-sm.gif" />Request a New CT Account</h3>
             @using (Html.BeginForm())
             {
                 @Html.HiddenFor(x => x.EventAction)

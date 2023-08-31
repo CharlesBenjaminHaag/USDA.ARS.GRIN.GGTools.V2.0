@@ -108,6 +108,21 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             return PartialView("~/Views/SysUser/_Widget.cshtml", confirmationViewModel);
         }
 
+        public PartialViewResult _Add(int cooperatorId)
+        {
+            try
+            {
+                SysUserViewModel viewModel = new SysUserViewModel();
+                viewModel.Entity.CooperatorID = cooperatorId;
+                return PartialView("~/Views/SysUser/_Edit.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
+        }
+
         public ActionResult Delete(int entityId)
         {
             throw new NotImplementedException();
@@ -219,6 +234,30 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                     viewModel.SendNotification("P");
                 }
                 return RedirectToAction("Edit", "SysUser", new {entityId = viewModel.Entity.ID});
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return RedirectToAction("InternalServerError", "Error");
+            }
+        }
+
+        [HttpPost]
+        public ActionResult _Edit(SysUserViewModel viewModel)
+        {
+            try
+            {
+                viewModel.AuthenticatedUser = AuthenticatedUser;
+                if (!viewModel.Validate())
+                {
+                    return View("~/Views/SysUser/Edit.cshtml", viewModel);
+                }
+                viewModel.Update();
+                if (viewModel.SendNotificationOption == true)
+                {
+                    viewModel.SendNotification("P");
+                }
+                return RedirectToAction("Edit", "SysUser", new { entityId = viewModel.Entity.ID });
             }
             catch (Exception ex)
             {

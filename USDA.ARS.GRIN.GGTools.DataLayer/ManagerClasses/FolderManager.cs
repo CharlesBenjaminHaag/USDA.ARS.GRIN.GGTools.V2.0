@@ -10,6 +10,20 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
 {
     public partial class FolderManager : AppDataManagerBase, IManager<AppUserItemFolder, FolderSearch>
     {
+        public AppUserItemFolder Get(FolderSearch searchEntity)
+        {
+            AppUserItemFolder appUserItemFolder = new AppUserItemFolder();
+
+            SQL = "usp_GRINGlobal_AppUserItemFolder_Select";
+
+            var parameters = new List<IDbDataParameter> {
+                CreateParameter("app_user_item_folder_id", (object)searchEntity.ID, false)
+            };
+
+            appUserItemFolder = GetRecord<AppUserItemFolder>(SQL, CommandType.StoredProcedure, parameters.ToArray());
+            return appUserItemFolder;
+        }
+
         public virtual List<AppUserItemFolder> Search(FolderSearch searchEntity)
         {
             List<AppUserItemFolder> results = new List<AppUserItemFolder>();
@@ -41,7 +55,6 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             RowsAffected = results.Count;
             return results;
         }
-
         public virtual List<AppUserItemFolder> GetMySharedFolders(FolderSearch searchEntity)
         {
             List<AppUserItemFolder> results = new List<AppUserItemFolder>();
@@ -65,8 +78,6 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             RowsAffected = results.Count;
             return results;
         }
-
-
         public virtual List<AppUserItemFolder> GetRelatedFolders(FolderSearch searchEntity)
         {
             List<AppUserItemFolder> results = new List<AppUserItemFolder>();
@@ -81,7 +92,6 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             RowsAffected = results.Count;
             return results;
         }
-
         public virtual List<AppUserItemFolder> GetAvailableFolders(int cooperatorId, string tableName)
         {
             List<AppUserItemFolder> results = new List<AppUserItemFolder>();
@@ -98,7 +108,6 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             RowsAffected = results.Count;
             return results;
         }
-
         public virtual List<CodeValue> GetFolderTypes(int cooperatorId = 0)
         {
             List<CodeValue> codeValues = new List<CodeValue>();

@@ -2,9 +2,11 @@
 <div class="card card-solid">
     <div class="card-body pb-0">
         <div class="row">
-            @foreach (var result in Model.DataCollection)
+            @if (Model.DataCollection.Count > 0)
             {
-                <div class="col-12 col-sm-6 col-md-4 d-flex align-items-stretch flex-column">
+                foreach (var result in Model.DataCollection)
+                {
+                    <div class="col-12 col-sm-6 col-md-4 d-flex align-items-stretch flex-column">
                     <div class="card bg-light d-flex flex-fill">
                         <div class="card-header text-muted border-bottom-0">
                             @result.EmailAddress
@@ -29,19 +31,29 @@
                                 <a href="#" class="btn btn-sm bg-teal">
                                     <i class="fas fa-table"></i>
                                 </a>
-                                <a href="@Url.Action("Edit","Cooperator", new { @entityId = result.ID })" class="btn btn-sm btn-primary">
+                                <a href="@Url.Action("Edit", "Cooperator", new { @entityId = result.ID })" class="btn btn-sm btn-primary">
                                     <i class="fas fa-user"></i> View Profile
                                 </a>
                             </div>
                         </div>
                     </div>
                 </div>
-
+                }
+            }
+            else
+            { 
+                <div class="col-md-12">
+                    <div class="alert alert-warning alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                        <h5><i class="icon fas fa-exclamation-triangle"></i> No Site Curators Assigned</h5>
+                        This site does not have any designated curators.
+                    </div>
+                </div>
             }
         </div>
     </div>
     <div class="card-footer">
-        <a href="@Url.Action("ExplorerAdd","Cooperator")" class="btn btn-default float-right">
+        <a href="@Url.Action("Home","CooperatorWizard")" class="btn btn-default float-right">
             <i class="fas fa-plus"></i>
             Add New Cooperator
         </a>

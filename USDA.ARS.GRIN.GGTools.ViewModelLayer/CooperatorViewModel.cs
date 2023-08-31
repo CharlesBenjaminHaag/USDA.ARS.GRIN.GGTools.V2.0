@@ -81,7 +81,7 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
             using (CooperatorManager mgr = new CooperatorManager())
             {
                 DataCollectionReportItems = new Collection<ReportItem>(mgr.GetRecordsOwned(cooperatorId));
-                TotalRecordsOwned = DataCollectionReportItems.ToList().Sum(x => x.ItemCount);
+                TotalRecordsOwned = DataCollectionReportItems.ToList().Sum(x => x.Total);
             }
         }
       

@@ -137,6 +137,7 @@
     <Compile Include="Controllers\AccessionController.cs" />
     <Compile Include="Controllers\AccessionInventoryAttachmentController.cs" />
     <Compile Include="Controllers\AccessionIPRController.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AppUserDynamicQueryController.cs" />
     <Compile Include="Controllers\AppUserItemListController.cs" />
     <Compile Include="Controllers\AuthorController.cs" />
@@ -146,6 +147,7 @@
     <Compile Include="Controllers\CodeValueController.cs" />
     <Compile Include="Controllers\CommonNameController.cs" />
     <Compile Include="Controllers\CommonNameLanguageController.cs" />
+    <Compile Include="Controllers\CooperatorWizardController.cs" />
     <Compile Include="Controllers\CooperatorController.cs" />
     <Compile Include="Controllers\CooperatorGroupController.cs" />
     <Compile Include="Controllers\CooperatorMapController.cs" />
@@ -350,7 +352,7 @@
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\_BACKUP\_LayoutAdminLTE.cshtml" />
-    <Content Include="Views\Login\AccountRequest.cshtml" />
+    <Content Include="Views\Account\Request\Information.cshtml" />
     <Content Include="Views\Login\Attestation.cshtml" />
     <Content Include="Views\Login\Confirmation.cshtml" />
     <Content Include="Views\Login\Index.cshtml" />
@@ -825,6 +827,18 @@
     <Content Include="Views\WebOrderRequest\Explorer\_List.cshtml" />
     <Content Include="Views\Taxonomy\Geography\Modals\_LookupSimple.cshtml" />
     <Content Include="Views\Taxonomy\Geography\Modals\_SelectListSimple.cshtml" />
+    <Content Include="Views\Cooperator\Wizard\Index.cshtml" />
+    <Content Include="Views\Cooperator\Wizard\_Step1.cshtml" />
+    <Content Include="Views\Cooperator\Wizard\_Step3.cshtml" />
+    <Content Include="Views\Cooperator\Wizard\_Step4.cshtml" />
+    <Content Include="Views\Cooperator\Wizard\_Step2.cshtml" />
+    <Content Include="Views\Taxonomy\Citation\_WIdgetCitationReferences.cshtml" />
+    <Content Include="Views\Folder\Modals\_BatchDelete.cshtml" />
+    <Content Include="Views\Account\Request\Introduction.cshtml" />
+    <Content Include="Views\Account\Request\Details - Copy.cshtml" />
+    <Content Include="Views\Account\Request\Details.cshtml" />
+    <Content Include="Views\Account\Request\Confirm.cshtml" />
+    <Content Include="Views\Account\Request\Final.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

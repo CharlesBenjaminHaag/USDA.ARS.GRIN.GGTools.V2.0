@@ -8,12 +8,9 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
 {
     public class ReportItem
     {
-        public string Text1 { get; set; }
-        public string Text2 { get; set; }
-        public string Text3 { get; set; }
-
         public string Title { get; set; }
-        public int ItemCount { get; set; }
+        public string Description { get; set; }
+        public int Total { get; set; }
         public decimal ItemPercentage { get; set; }
         public string CSSClass { 
             get

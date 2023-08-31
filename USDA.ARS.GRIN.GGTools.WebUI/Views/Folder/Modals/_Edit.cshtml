@@ -240,10 +240,6 @@ Modal that appears if no record is selected for folder addition.
         var selectedItemIdList = GetSelectedEntityIDs(dataTableName);
         var formData = new FormData();
 
-        if ($('#cbxIsFavorite').prop('checked') == true) {
-            isFavorite = true;
-        }
-
         if ((eventAction == "FOLDER" && eventValue == "SINGLE")) {
             formData.append("EntityID", entityId);
         }
@@ -258,7 +254,7 @@ Modal that appears if no record is selected for folder addition.
         }
 
         if ($('#cbxIsFavorite').prop('checked') == true) {
-            formData.append("IsFavorite", true);
+            formData.append("IsFavorite", "Y");
         }
 
         if ($('#cbxIsShared').prop('checked') == true) {

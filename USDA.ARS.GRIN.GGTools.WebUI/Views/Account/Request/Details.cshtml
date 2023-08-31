@@ -1,0 +1,112 @@
+﻿@model USDA.ARS.GRIN.GGTools.ViewModelLayer.CooperatorViewModel
+@{
+    Layout = "~/Views/Shared/_LayoutAdminLTE3Login.cshtml";
+}
+<div class="login-box" style="width:600px;">
+    <div class="card card-outline ">
+        <div class="card-header text-center" style="font-size: 2.0rem;">
+            Curator Tool Account Request
+        </div>
+        <div class="card-body">
+            @using (Html.BeginForm("Details", "Account", FormMethod.Post, new { id = "frmAccountDetails" }))
+            {
+                @Html.HiddenFor(x => x.EventAction)
+                @Html.HiddenFor(x => x.EventValue)
+                <div>
+                      
+
+                        <label>Contact Information</label>
+                        <div id="section-employee-email" class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.TextBoxFor(x => x.Entity.FirstName, new { @class = "form-control", @placeholder = "First name" })
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.TextBoxFor(x => x.Entity.LastName, new { @class = "form-control", @placeholder = "Last name" })
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+
+                                <div class="form-group">
+                                    @Html.TextBoxFor(x => x.Entity.EmailAddress, new { @class = "form-control", @placeholder = "Employee email address" })
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    @Html.TextBoxFor(x => x.Entity.Organization, new { @class = "form-control", @placeholder = "Organization" })
+                                </div>
+                            </div>
+                        </div>
+                        <label>Location</label>
+                        <div id="section-employee-address" class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    @Html.DropDownListFor(x => x.Entity.SiteID, Model.Sites, "Select site", new { @class = "form-control" })
+                                </div>
+                            </div>
+                            <div id="section-site-address" class="col-md-12">
+                            </div>
+                        </div>
+
+                        <!-- ENVIRONMENTS -->
+                        @*<label>Environment(s)</label>
+                        <div id="section-employee-environments" class="row">
+                            <div class="col-md-6">
+                                <div class="input-group">
+                                    <input type="text" disabled="" readonly class="form-control" value="Production">
+                                    <span class="input-group-addon">
+                                        <input id="cbxCopyNote" type="checkbox" checked="checked">
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="input-group">
+                                    <input type="text" disabled="" readonly class="form-control" value="Training">
+                                    <span class="input-group-addon">
+                                        <input id="cbxCopyNote" type="checkbox" checked="checked">
+                                    </span>
+                                </div>
+                            </div>
+                        </div>*@
+                        <div class="row">
+                            <div class="col-md-12">
+                                <button class="btn btn-warning btn-flat" type="button"><< Back</button>
+                                <button class="btn btn-success btn-flat float-right" type="submit">Continue >></button>
+                            </div>
+                        </div>
+                    
+                </div>
+            }
+        </div>
+        <div class="card-footer">Version @AppInfo.GetVersion()</div>
+    </div>
+</div>
+<script type="text/javascript">
+    $('#Entity_SiteID').on('change', function () {
+        LoadSite(this.value);
+    });
+
+    function LoadSite(siteId) {
+        link = '@Url.Action("_Get", "Site")';
+        var formData = new FormData();
+
+        formData.append("entityId", siteId);
+
+        $.ajax({
+        url: link,
+        type: 'POST',
+        cache: false,
+        contentType: false,
+        processData: false,
+        data: formData,
+        success: function (response) {
+            //DEBUG
+            alert("DEBUG: " + response);
+
+            $("#section-site-address").html(response);
+        }
+        });
+    }
+</script>

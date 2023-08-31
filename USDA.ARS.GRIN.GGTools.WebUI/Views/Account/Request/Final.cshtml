@@ -1,0 +1,47 @@
+﻿@model USDA.ARS.GRIN.GGTools.ViewModelLayer.CooperatorViewModel
+@{
+    Layout = "~/Views/Shared/_LayoutAdminLTE3Login.cshtml";
+}
+<div class="login-box" style="width:600px;">
+    <div class="card card-outline ">
+        <div class="card-header text-center" style="font-size: 2.0rem;">
+            Curator Tool Account Request
+        </div>
+        <div class="card-body">
+
+            <h4>Thank you!</h4>
+            <p>Your request has been submitted.</p>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <button class="btn btn-success btn-flat float-right">Continue >></button>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer">Version @AppInfo.GetVersion()</div>
+    </div>
+</div>
+<script type="text/javascript">
+    $('#Entity_SiteID').on('change', function () {
+        LoadSite(this.value);
+    });
+
+    function LoadSite(siteId) {
+        link = '@Url.Action("_Get", "Site")';
+        var formData = new FormData();
+
+        formData.append("entityId", siteId);
+
+        $.ajax({
+        url: link,
+        type: 'POST',
+        cache: false,
+        contentType: false,
+        processData: false,
+        data: formData,
+        success: function (response) {
+        $("#section-site-address").html(response);
+        }
+        });
+    }
+</script>

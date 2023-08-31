@@ -46,6 +46,7 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
 
             return Entity;
         }
+        
         public void GetWebOrderRequestItems(int entityId)
         {
             using (WebOrderRequestManager mgr = new WebOrderRequestManager())
@@ -102,7 +103,9 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
                 }
             }
             catch (Exception ex)
-            { }
+            {
+                throw ex;
+            }
         }
 
         public EmailTemplate GetEmailTemplate(string typeCode)

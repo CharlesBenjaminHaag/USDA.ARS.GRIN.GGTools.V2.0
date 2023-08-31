@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Data;
@@ -114,7 +115,18 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             RowsAffected = results.Count;
             return results;
         }
+        public List<ReportItem> GetCitationReferenceCounts(int citationId)
+        {
+            SQL = "usp_GRINGlobal_Citation_Reference_Counts_Select";
+            List<ReportItem> reportItems = new List<ReportItem>();
 
+            var parameters = new List<IDbDataParameter> {
+                CreateParameter("citation_id", (object)citationId, false)
+            };
+
+            reportItems = GetRecords<ReportItem>(SQL, CommandType.StoredProcedure, parameters.ToArray());
+            return reportItems.Where(x=>x.Total > 0).ToList();
+        }
         public List<Citation> Search(CitationSearch searchEntity)
         {
             List<Citation> results = new List<Citation>();
