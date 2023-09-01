@@ -14,6 +14,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
     {
         public int SpeciesID { get; set; }
         public string SpeciesName { get; set; }
+        public bool SpeciesIsAcceptedNameOption { get; set; }
         public int CropForCWRID { get; set; }
         public string CropForCWRName { get; set; }
         public string CropCommonName { get; set; }
@@ -21,6 +22,5 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         public string GenepoolCode { get; set; }
         public string IsGraftStock { get; set; }
         public string IsPotential { get; set; }
-        public string CitationText { get; set; }
     }
 }

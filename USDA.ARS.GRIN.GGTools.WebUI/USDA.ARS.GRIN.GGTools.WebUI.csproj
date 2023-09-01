@@ -651,7 +651,7 @@
     <Content Include="Views\SysUser\_Edit.cshtml" />
     <Content Include="Views\WebUser\_Edit.cshtml" />
     <Content Include="Views\WebCooperator\_Edit.cshtml" />
-    <Content Include="Views\Taxonomy\GeographyMap\_Edit.cshtml" />
+    <Content Include="Views\Taxonomy\GeographyMap\_OBSOLETE\_Edit.cshtml" />
     <Content Include="Views\Taxonomy\Explorer\_ListFamily.cshtml" />
     <Content Include="Views\Taxonomy\Explorer\_ListSpecies.cshtml" />
     <Content Include="Views\Taxonomy\Explorer\_ListGenus.cshtml" />
@@ -772,13 +772,13 @@
     <Content Include="Views\Shared\_LayoutAdminLTE3NRR.cshtml" />
     <Content Include="Views\WebOrderRequest\Explorer\Index.cshtml" />
     <Content Include="Views\Shared\Sidebars\_MainSidebarNRR2.cshtml" />
-    <Content Include="Views\Taxonomy\GeographyMap\_EditBatch.cshtml" />
+    <Content Include="Views\Taxonomy\GeographyMap\_OBSOLETE\_EditBatch.cshtml" />
     <Content Include="Views\Taxonomy\EconomicUse\_ARCHIVE\_BatchEdit.cshtml" />
     <Content Include="Views\Taxonomy\Literature\_EditBatch.cshtml" />
     <Content Include="Views\Taxonomy\Citation\_ListBatch.cshtml" />
     <Content Include="Views\Taxonomy\Citation\_EditBatch.cshtml" />
     <Content Include="Views\Taxonomy\EconomicUse\_ARCHIVE\_EditBatch.cshtml" />
-    <Content Include="Views\Taxonomy\GeographyMap\_EditBatchBACKUP.cshtml" />
+    <Content Include="Views\Taxonomy\GeographyMap\_OBSOLETE\_EditBatchBACKUP.cshtml" />
     <Content Include="Views\WebOrderRequest\Explorer\_Detail.cshtml" />
     <Content Include="Views\WebOrderRequest\Explorer\_Timeline.cshtml" />
     <Content Include="Views\WebOrderRequest\_NoteWidget.cshtml" />
@@ -839,6 +839,10 @@
     <Content Include="Views\Account\Request\Details.cshtml" />
     <Content Include="Views\Account\Request\Confirm.cshtml" />
     <Content Include="Views\Account\Request\Final.cshtml" />
+    <Content Include="Views\Taxonomy\CWRMap\EditBatch.cshtml" />
+    <Content Include="Views\Taxonomy\CWRMap\_ListBatch.cshtml" />
+    <Content Include="Views\Taxonomy\CropForCWR\Modals\_Lookup.cshtml" />
+    <Content Include="Views\Taxonomy\CropForCWR\Modals\_SelectList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

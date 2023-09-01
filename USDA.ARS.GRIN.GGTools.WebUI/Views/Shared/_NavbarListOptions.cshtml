@@ -19,16 +19,32 @@
                     </li>
                     <li><a href="@Url.Action("AddBatch", eventAction)" class="dropdown-item">Batch</a></li>
                 </ul>
-            </li> 
-        }
-        else 
-        { 
-            <li class="nav-item d-none d-sm-inline-block">
-                <a href="@Url.Action("Add", eventAction)" class="nav-link">New</a>
             </li>
         }
-        <li class="nav-item d-none d-sm-inline-block">
-            <a href="#" id="btnOpenFolderModal" class="nav-link">Add to Folder</a>
-        </li>
-}
+        else
+        {
+            if ((eventAction == "CWRMap") && (eventValue == "Index"))
+            {
+                <li class="nav-item dropdown">
+                    <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">New</a>
+                    <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow">
+                        <li class="nav-item d-none d-sm-inline-block">
+                            <a href="@Url.Action("Add", eventAction)" class="dropdown-item">Single</a>
+                        </li>
+                        <li><a href="@Url.Action("AddBatch", eventAction)" class="dropdown-item">Batch</a></li>
+                    </ul>
+                </li>
+            }
+            else
+            {
+                <li class="nav-item d-none d-sm-inline-block">
+                    <a href="@Url.Action("Add", eventAction)" class="nav-link">New</a>
+                </li> 
+            }
+        }
+
+    @*<li class="nav-item d-none d-sm-inline-block">
+        <a href="#" id="btnOpenFolderModal" class="nav-link">Add to Folder</a>
+    </li>*@
+    }
 </ul>

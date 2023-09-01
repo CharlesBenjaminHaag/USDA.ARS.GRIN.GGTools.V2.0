@@ -91,7 +91,22 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 return RedirectToAction("InternalServerError", "Error");
             }
         }
+        [HttpPost]
+        public PartialViewResult Lookup(CropForCWRViewModel viewModel)
+        {
+            string partialViewName = "~/Views/Taxonomy/CropForCWR/Modals/_SelectList.cshtml";
 
+            try
+            {
+                viewModel.Search();
+                return PartialView(partialViewName, viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
+        }
         public ActionResult Add()
         {
             try
@@ -197,6 +212,12 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             {
                 return Json(new { errorMessage = ex.Message }, JsonRequestBehavior.AllowGet);
             }
+        }
+
+        public PartialViewResult RenderLookupModal()
+        {
+            CropForCWRViewModel viewModel = new CropForCWRViewModel();
+            return PartialView(BASE_PATH + "/Modals/_Lookup.cshtml", viewModel);
         }
     }
 }

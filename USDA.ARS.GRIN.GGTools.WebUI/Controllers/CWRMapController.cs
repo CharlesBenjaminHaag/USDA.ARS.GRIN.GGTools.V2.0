@@ -214,6 +214,52 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             return PartialView("~/Views/CWRMap/_SelectList.cshtml", viewModel);
         }
 
+        [HttpPost]
+        public PartialViewResult AddBatch(FormCollection formCollection)
+        {
+            CWRMapViewModel viewModel = new CWRMapViewModel();
+            List<CWRMap> batchedMaps = new List<CWRMap>();
+            viewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
+
+            if (!String.IsNullOrEmpty(formCollection["Entity.IsCrop"]))
+            {
+                viewModel.Entity.IsCrop = formCollection["Entity.IsCrop"];
+            }
+
+            if (!String.IsNullOrEmpty(formCollection["Entity.IsGraftstock"]))
+            {
+                viewModel.Entity.IsGraftstock = formCollection["Entity.IsGraftstock"];
+            }
+
+            if (!String.IsNullOrEmpty(formCollection["Entity.IsPotential"]))
+            {
+                viewModel.Entity.IsPotential = formCollection["Entity.IsPotential"];
+            }
+
+            if (!String.IsNullOrEmpty(formCollection["SpeciesIDList"]))
+            {
+                viewModel.SpeciesIDList = formCollection["SpeciesIDList"];
+            }
+
+            if (!String.IsNullOrEmpty(formCollection["CropForCWRIDList"]))
+            {
+                viewModel.CropForCWRIDList = formCollection["CropForCWRIDList"];
+            }
+
+            viewModel.InsertMultiple();
+
+            // Add each generated batch to the session-stored list.
+            if (Session["CWR-MAPS"] != null)
+            {
+                batchedMaps = Session["CWR-MAPS"] as List<CWRMap>;
+            }
+            batchedMaps.AddRange(viewModel.DataCollection);
+            Session["CWR-MAPS"] = batchedMaps;
+            viewModel.DataCollectionBatch = batchedMaps;
+
+            return PartialView("~/Views/Taxonomy/GeographyMap/_ListBatch.cshtml", viewModel);
+        }
+
         public ActionResult Add(int cropForCwrId = 0)
         {
             try
@@ -433,6 +479,21 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             {
                 Log.Error(ex);
                 return Json("FALSE", JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public ActionResult AddBatch()
+        {
+            try
+            {
+                CWRMapViewModel viewModel = new CWRMapViewModel();
+                viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
+                return View(BASE_PATH + "EditBatch.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return RedirectToAction("InternalServerError", "Error");
             }
         }
     }

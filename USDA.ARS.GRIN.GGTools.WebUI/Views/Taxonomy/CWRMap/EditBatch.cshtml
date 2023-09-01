@@ -1,4 +1,4 @@
-﻿@model USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer.GeographyMapViewModel
+﻿@model USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer.CWRMapViewModel
 @{
     ViewBag.Title = Model.PageTitle;
     Layout = null;
@@ -68,7 +68,7 @@
                     <div class="row mb-2">
                         <div class="col-sm-6">
                             <h1 class="m-0">
-                                Geography Map Batch Edit
+                                CWR Map Batch Edit
                                 @*<small>Example 3.0</small>*@
                             </h1>
                         </div>
@@ -83,25 +83,25 @@
                     <div id="section-validation-errors" class="alert alert-danger alert-dismissible">
                         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
                         <h5><i class="icon fas fa-ban"></i> Error!</h5>
-                        To generate a map, please select:
+                        To generate a map, please:
                         <ul>
-                            <li>One or more species</li>
-                            <li>The geography mapping status</li>
-                            <li>One or more geography records</li>
+                            <li>Search for and select one or more species</li>
+                            <li>Specify the map attributes</li>
+                            <li>Search for and select one or more Crop For CWR records</li>
                         </ul>
                     </div>
                     <div id="section-search-criteria" class="row">
-                        <div class="col-md-5">
+                        <div class="col-md-4">
                             <div class="card card-primary card-outline dual-select">
                                 <div class="card-header">
                                     <h3 class="card-title">
                                         <i class="fas fa-leaf"></i> Species
                                     </h3>
-                                    <div class="card-tools">
+                                    @*<div class="card-tools">
                                         <button type="button" class="btn btn-tool" data-card-widget="collapse">
                                             <i class="fas fa-minus"></i>
                                         </button>
-                                    </div>
+                                    </div>*@
                                 </div>
                                 <div class="card-body">
                                     <div class="row">
@@ -137,92 +137,91 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-4">
                             <div class="card card-primary dual-select">
                                 <div class="card-header">
                                     <h3 class="card-title">
                                         <i class="fas fa-link"></i>
-                                        Status
+                                        Options
                                     </h3>
-                                    <div class="card-tools">
+                                    @*<div class="card-tools">
                                         <button type="button" class="btn btn-tool" data-card-widget="collapse">
                                             <i class="fas fa-minus"></i>
                                         </button>
-                                    </div>
+                                    </div>*@
                                 </div>
                                 <div class="card-body">
-                                    <table id="table-status-codes" class="table table-striped">
-                                        <thead>
-                                            <tr>
-                                                <th>ID</th>
-                                                <th>Description</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>a</td>
-                                                <td>Adventive</td>
-                                            </tr>
-                                            <tr>
-                                                <td>c</td>
-                                                <td>Cultivated</td>
-                                            </tr>
-                                            <tr>
-                                                <td>n</td>
-                                                <td>Native</td>
-                                            </tr>
-                                            <tr>
-                                                <td>i</td>
-                                                <td>Naturalized</td>
-                                            </tr>
-                                            <tr>
-                                                <td>o</td>
-                                                <td>Other</td>
-                                            </tr>
-                                            <tr>
-                                                <td>u</td>
-                                                <td>Uncertain</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
+                                    <div class="form-group form-horizontal">
+                                        <label>Genepool Code</label>
+                                        @Html.DropDownListFor(x => x.Entity.GenepoolCode, Model.GenepoolCodes, "NULL", new { @class = "form-control" })
+                                    </div>
+                                    <div id="section-common-name" class="form-group form-horizontal">
+                                        <label>Crop Common Name</label>
+                                        @Html.TextBoxFor(x => x.Entity.CropCommonName, new { @class = "form-control" })
+                                    </div>
+                                    <div class="form-group clearfix section-checkbox">
+                                        <div class="icheck-primary d-inline">
+                                            @Html.CheckBoxFor(x => x.Entity.IsCropOption, new { id = "cbxIsCrop" })
+                                            <label for="cbxIsCrop">
+                                                Crop
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group clearfix section-checkbox">
+                                        <div class="icheck-primary d-inline">
+                                            @Html.CheckBoxFor(x => x.Entity.IsGraftStockOption, new { id = "cbxIsGraftstock" })
+                                            <label for="cbxIsGraftstock">
+                                                Graftstock
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group clearfix section-checkbox">
+                                        <div class="icheck-primary d-inline">
+                                            @Html.CheckBoxFor(x => x.Entity.IsPotentialOption, new { id = "cbxIsPotential" })
+                                            <label for="cbxIsPotential">
+                                                Potential
+                                            </label>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-5">
+                        <div class="col-md-4">
                             <div class="card card-primary card-outline dual-select">
                                 <div class="card-header">
                                     <h3 class="card-title">
-                                        <i class="fas fa-globe"></i>
-                                        Geographies
+                                        <i class="fas fa-tree"></i>
+                                        Crop For CWR
                                     </h3>
-                                    <div class="card-tools">
+                                    @*<div class="card-tools">
                                         <button type="button" class="btn btn-tool" data-card-widget="collapse">
                                             <i class="fas fa-minus"></i>
                                         </button>
-                                    </div>
+                                    </div>*@
                                 </div>
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-md-12">
-                                            <button id="btnOpenGeographyLookupModal"
-                                                    class="btn btn-default btn-block"
-                                                    data-toggle="modal"
-                                                    data-target="#modal-geography-lookup">
-                                                Search Geography
-                                            </button>
+                                            <div class="input-group">
+                                                @Html.TextBoxFor(x => x.SearchEntity.CropForCWRName, new { @class = "form-control" })
+                                                @Html.HiddenFor(x => x.SearchEntity.CropForCWRID)
+                                                <span class="input-group-append">
+                                                    <button type="button" id="btnLookupCropForCWR" class="btn btn-default btn-flat"><i class="fa fa-search"></i></button>
+                                                </span>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div id="section-search-results-geography" class="col-md-12">
+                                        <div id="section-search-results-crop-for-cwr" class="col-md-12">
                                             <!-- DATA HERE -->
                                         </div>
                                     </div>
                                 </div>
                                 @*<div id="search-progress-overlay-species-b" class="overlay">
-                        <i class="fas fa-2x fa-sync fa-spin"></i>
-                    </div>*@
+                <i class="fas fa-2x fa-sync fa-spin"></i>
+            </div>*@
                                 <div class="card-footer">
-                                    <button id="btnClearAllSpeciesB" class="btn btn-default">Reset</button>
+                                    <button id="btnClearAllCropForCWR" class="btn btn-default">Reset</button>
                                     <button id="btnGenerateMaps" class="btn btn-info float-right">Generate Maps</button>
                                 </div>
                             </div>
@@ -232,7 +231,7 @@
                         <div class="col-md-12">
                             <div class="card card-default">
                                 <div class="card-header">
-                                    <h3 class="card-title">Geography Maps</h3>
+                                    <h3 class="card-title">CWR Maps</h3>
                                     <div class="card-tools">
                                         <button type="button" class="btn btn-tool" data-card-widget="collapse">
                                             <i class="fas fa-minus"></i>
@@ -241,14 +240,14 @@
                                 </div>
                                 <div class="card-body">
                                     <div class="row">
-                                        <div id="section-geography-maps" class="col-md-12">
+                                        <div id="section-cwr-maps" class="col-md-12">
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    @{Html.RenderAction("RenderLookupModal", "Geography", new { isLookupFormat = "Y" }); }
+                    @{Html.RenderAction("RenderLookupModal", "CropForCWR"); }
                 </div>
             </div>
 
@@ -265,17 +264,13 @@
     $("#search-progress-overlay-species").hide();
     InitDataTableMinimal("table-status-codes");
     $("#section-validation-errors").hide();
+    $("#section-common-name").hide();
 
-    // *******************************************************************
-    // IMPORTANT: Any DataTable that is not visible when rendered must
-    // be adjusted once it does become visible (modal shown, tab clicked),
-    // to enable column headings to render correctly. -- CBH, 6/26/23
-    // *******************************************************************
-    $("#modal-geography-lookup").on('shown.bs.modal', function () {
-        $($.fn.dataTable.tables(true)).DataTable()
-            .columns.adjust();
-    });
-
+    /*
+     * ***************************************************************
+     * Species search logic
+     * ***************************************************************
+     */
     $("#btnLookupSpecies").click(function () {
         var eventAction = $(this).data("ggtools-action");
         var searchText = $("#SearchEntity_SpeciesName").val();
@@ -317,6 +312,126 @@
         });
     }
 
+    /*
+     * ***************************************************************
+     * Crop for CWR search logic
+     * ***************************************************************
+     */
+    $("#btnLookupCropForCWR").click(function () {
+        var eventAction = $(this).data("ggtools-action");
+        var searchText = $("#SearchEntity_CropForCWRName").val();
+        SearchCropForCWR(eventAction, 0, searchText, "section-search-results-" + eventAction, "table-search-results-" + eventAction);
+    });
+
+    function SearchCropForCWR(eventAction, speciesId, searchText, searchResultSectionName, searchResultTableName) {
+        var link = '@Url.Action("Lookup","CropForCWR")';
+        var formData = new FormData();
+
+        formData.append("SearchEntity.Name", searchText);
+        formData.append("SearchEntity.IsMultiSelect", "Y");
+
+         $("#search-progress-overlay-crop-for-cwr").show();
+
+        $.ajax({
+            url: link,
+            type: 'POST',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (response) {
+                $("#section-search-results-crop-for-cwr").html(response);
+                $("#search-progress-overlay-crop-for-cwr").hide();
+                InitDataTableLookupFormatWithMultiSelect("data-table-crop-for-cwr-lookup");
+            },
+            error: function () {
+                alert("Error");
+            }
+        });
+    }
+
+    /*
+     * ***************************************************************
+     * CWR Map batch logic
+     * ***************************************************************
+     */
+    $('#cbxIsCrop').click(function () {
+        if (!$(this).is(':checked')) {
+            $("#section-common-name").hide();
+            $("#Entity_CropCommonName").val("");
+            $("#Entity_IsCrop").val("Y");
+        }
+        else {
+            $("#section-common-name").show();
+            $("#Entity_IsCrop").val("Y");
+        }
+    });
+
+    $(document).on("click", "[id*='btnGenerateMaps']", function () {
+        GenerateMaps();
+    });
+
+    function GenerateMaps() {
+        var link = '@Url.Action("AddBatch", "CWRMap")';
+        var selectedSpeciesIdList = GetSelectedEntityIDs("data-table-species-lookup");
+        var selectedCropForCwrIdList = GetSelectedEntityIDs("data-table-crop-for-cwr-lookup");
+        var genepoolCode = $("#Entity_GenepoolCode").val();
+        var cropCommonName = $("#Entity_CropCommonName").val();
+        var formData = new FormData();
+
+        formData.append("SpeciesIDList", selectedSpeciesIdList);
+        formData.append("CropForCWRIDList", selectedCropForCwrIdList);
+        formData.append("Entity.GenepoolCode", genepoolCode);
+        formData.append("Entity.CropCommonName", cropCommonName);
+
+        if ($("#cbxIsCrop").is(":checked")) {
+            formData.append("Entity.IsCrop", "Y");
+        }
+
+        if ($("#cbxIsGraftstock").is(":checked")) {
+            formData.append("Entity.IsGraftstock", "Y");
+        }
+
+        if ($("#cbxIsPotential").is(":checked")) {
+            formData.append("Entity.IsPotential", "Y");
+        }
+
+        //DEBUG
+        //alert("DEBUG SPECIES ARE " + selectedSpeciesIDList);
+        //alert("DEBUG GEO ARE " + selectedGeographyIDList);
+        //alert("DEBUG STATUS IS " + selectedStatusCode);
+
+        // Ensure that all params are present.
+        if ((selectedSpeciesIdList.length == 0) || (selectedCropForCwrIdList.length == 0)) {
+            $("#section-validation-errors").show();
+            return;
+        }
+        else {
+            $("#section-validation-errors").hide();
+        }
+
+        $.ajax({
+            url: link,
+            type: 'POST',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (response) {
+                $("#section-cwr-maps").html(response);
+                InitDataTableSingleSelect("data-table-geography-maps");
+            },
+            error: function () {
+                alert("Error");
+            }
+        });
+    }
+
+    /*
+     * ***************************************************************
+     * Datatables logic
+     * ***************************************************************
+     */
     function InitDataTableMinimal(tableName) {
         $(document).ready(function () {
             tableName = "#" + tableName;
@@ -341,7 +456,6 @@
             }
         });
     }
-
 
     function InitDataTableSpeciesLookup(tableName) {
         $(document).ready(function () {
@@ -369,78 +483,6 @@
                 ]
             });
             table.row(':eq(0)', { page: 'current' }).select();
-        });
-    }
-
-
-    function LoadGeographies(geographyIdList)
-    {
-        var link = '@Url.Action("_ListGeography","GeographyMap")';
-        var formData = new FormData();
-
-        formData.append("idList", geographyIdList);
-
-        $.ajax({
-            url: link,
-            type: 'POST',
-            cache: false,
-            contentType: false,
-            processData: false,
-            data: formData,
-            success: function (response) {
-                $("#section-search-results-geography").html(response);
-            },
-            error: function () {
-                alert("Error");
-            }
-        });
-    }
-
-    $(document).on("click", "[id*='btnGenerateMaps']", function () {
-        GenerateMaps();
-    });
-
-    function GenerateMaps() {
-        var link = '@Url.Action("Add", "GeographyMap")';
-        var selectedSpeciesIDList = GetSelectedEntityIDs("data-table-species-lookup");
-        var selectedStatusCode = GetSelectedEntityIDs("table-status-codes");
-        var selectedGeographyIDList = GetSelectedEntityIDs("data-table-geography-lookup");
-        var formData = new FormData();
-
-        //DEBUG
-        //alert("DEBUG SPECIES ARE " + selectedSpeciesIDList);
-        //alert("DEBUG GEO ARE " + selectedGeographyIDList);
-        //alert("DEBUG STATUS IS " + selectedStatusCode);
-
-        // Ensure that all params are present.
-        if ((selectedSpeciesIDList.length == 0) ||
-            (selectedGeographyIDList.length == 0)) {
-            (selectedStatusCode.length == 0)
-            $("#section-validation-errors").show();
-            return;
-        }
-        else {
-            $("#section-validation-errors").hide();
-        }
-
-        formData.append("StatusCode", selectedStatusCode);
-        formData.append("SpeciesIDList", selectedSpeciesIDList);
-        formData.append("GeographyIDList", selectedGeographyIDList);
-
-        $.ajax({
-            url: link,
-            type: 'POST',
-            cache: false,
-            contentType: false,
-            processData: false,
-            data: formData,
-            success: function (response) {
-                $("#section-geography-maps").html(response);
-                InitDataTableSingleSelect("data-table-geography-maps");
-            },
-            error: function () {
-                alert("Error");
-            }
         });
     }
 </script>

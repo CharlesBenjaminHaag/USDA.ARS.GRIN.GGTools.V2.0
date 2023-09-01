@@ -15,12 +15,14 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
 {
     public class CWRMapViewModelBase : AppViewModelBase
     {
+        private string _CropForCWRIDList;
+        private string _SpeciesIDList;
         private CWRMap _Entity = new CWRMap();
         private CWRMapSearch _SearchEntity = new CWRMapSearch();
         private Collection<CWRMap> _DataCollection = new Collection<CWRMap>();
         private Collection<Cooperator> _DataCollectionCooperators = new Collection<Cooperator>();
         private Collection<CodeValue> _DataCollectionNotes = new Collection<CodeValue>();
-    
+        private List<CWRMap> _DataCollectionBatch = new List<CWRMap>();
         public CWRMapViewModelBase()
         {
             using (CropForCWRManager mgr = new CropForCWRManager())
@@ -40,6 +42,16 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
                     PublishException(ex);
                 }
             }
+        }
+        public string CropForCWRIDList
+        {
+            get { return _CropForCWRIDList; }
+            set { _CropForCWRIDList = value; }
+        }
+        public string SpeciesIDList
+        {
+            get { return _SpeciesIDList; }
+            set { _SpeciesIDList = value; }
         }
 
         public CWRMap Entity
@@ -66,6 +78,11 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
             set { _DataCollectionNotes = value; }
         }
 
+        public List<CWRMap> DataCollectionBatch
+        {
+            get { return _DataCollectionBatch; }
+            set { _DataCollectionBatch = value; }
+        }
         public SelectList GenepoolCodes { get; set; }
         public SelectList IsCropOptions { get; set; }
         public SelectList IsGraftStockOptions { get; set; }

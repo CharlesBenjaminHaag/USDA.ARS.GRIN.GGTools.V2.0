@@ -159,7 +159,44 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
                 Insert();
             }
         }
+        public List<CWRMap> InsertMultiple()
+        {
+            int cwrMapId = 0;
+            string[] speciesIdList = SpeciesIDList.Split(',');
+            string[] cropForCwrIdList = CropForCWRIDList.Split(',');
+            List<CWRMap> cWRMaps = new List<CWRMap>();
 
+            using (CWRMapManager mgr = new CWRMapManager())
+            {
+                foreach (var speciesId in speciesIdList)
+                {
+                    foreach (var cropForCwrId in cropForCwrIdList)
+                    {
+                        CWRMap cWRMap = new CWRMap();
+                        cWRMap.SpeciesID = Int32.Parse(speciesId);
+                        cWRMap.GenepoolCode = Entity.GenepoolCode;
+                        cWRMap.CropCommonName = Entity.CropCommonName;
+                        cWRMap.IsCrop = Entity.IsCrop;
+                        cWRMap.IsGraftstock = Entity.IsGraftstock;
+                        cWRMap.IsPotential = Entity.IsPotential;
+                        cWRMap.CreatedByCooperatorID = Entity.CreatedByCooperatorID;
+                        cwrMapId = mgr.Insert(cWRMap);
+
+                        // Add new syn map record to a list of recs created in the current session.
+                        // Note that, given that the sproc only inserts records if the taxon A/syn code/taxon B
+                        // combination does not already exist, the result of the insert in those instances will
+                        // be -1, vs. the new synonym map ID.
+                        if (cwrMapId > 0)
+                        {
+                            CWRMap cwrMapBatch = mgr.Get(cwrMapId);
+                            cWRMaps.Add(cwrMapBatch);
+                        }
+                    }
+                }
+            }
+            DataCollection = new Collection<CWRMap>(cWRMaps);
+            return cWRMaps;
+        }
         public void Insert()
         {
             using (CWRMapManager mgr = new CWRMapManager())

@@ -1,70 +1,28 @@
-﻿@model USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer.SpeciesViewModel
+﻿@model USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer.CropForCWRViewModel
 <br />
-<table id="data-table-species-lookup" class="table table-responsive table-striped" style="width:100%">
+<table id="data-table-crop-for-cwr-lookup" class="table table-responsive table-striped" style="width:100%">
     <thead>
         <tr>
             <th></th>
             <th>ID</th>
             <th>Name</th>
-            <th>Accepted</th>
-            <th></th>
         </tr>
     </thead>
     <tbody>
-        @if (Model.DataCollection.Count() > 0)
-        {
-            foreach (var result in Model.DataCollection)
-            {
-                <tr>
-                    <td>
-                        @result.ID
-                    </td>
-                    <td><span class="label label-default">@result.ID</span></td>
-                    <td>@Html.Raw(result.FullName)</td>
-                    <td>@Html.Raw(Model.FormatBoolean(result.IsAcceptedName))</td>
-                    <td>
-                        @if (Model.ActiveFilterOption != "2")
-                        {
-                            <button id="btnAuthor1" value="@result.Name" class="btn btn-primary btn-sm proto" onclick="SelectSpecies(@result.ID, this.value);return false;">Select</button>
-                        }
-                    </td>
-                </tr>
-            }
-        }
-        else
+        @foreach (var result in Model.DataCollection)
         {
             <tr>
-                <td colspan="3">
-                    <div class="callout callout-info" style="vertical-align:middle; margin-top:5px;">
-                        Your search returned no matches.
-                    </div>
+                <td>
+                    @result.ID
                 </td>
+                <td>
+                    @result.ID
+                </td>
+                <td>@Html.Raw(result.CropForCWRName)</td>
             </tr>
         }
     </tbody>
 </table>
 <script type="text/javascript">
-    $(document).ready(function () {
-        InitLookupDataTable(true);
-    });
-
-    function InitLookupDataTable(allowMultiSelect) {
-        $(document).ready(function () {
-            var table = $('#data-table-species-lookup').DataTable({
-                dom: 'Blfrtip',
-                paging: true,
-                responsive: true,
-                stateSave: true,
-                buttons: [
-                    'selectAll',
-                    'selectNone'
-                ],
-                select: allowMultiSelect,
-                lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],
-                columnDefs: [
-                    { targets: [0], visible: false }
-                ]
-            });
-        });
-    }
+   
 </script>
