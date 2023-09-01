@@ -28,11 +28,11 @@
             <thead>
                 <tr>
                     <th></th>
-                    <th>ID</th>
                     @if (Model.EventAction == "FOLDER")
                     {
                         <th></th>
                     }
+                    <th>ID</th>
                     <th>Short Name</th>
                     <th>Full Name</th>
                     <th>Note</th>
@@ -44,11 +44,11 @@
                 {
                 <tr>
                     <td>@result.ID</td>
-                    <td>@result.ID</td>
                     @if (Model.EventAction == "FOLDER")
                     {
                         <td>@result.AppUserItemListID</td>
                     }
+                    <td>@result.ID</td>
                     <td>@result.ShortName</td>
                     <td>@Html.Raw(result.FullName)</td>
                     <td>@Html.Raw(result.Note)</td>

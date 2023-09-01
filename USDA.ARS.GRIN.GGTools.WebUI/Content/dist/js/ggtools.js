@@ -86,7 +86,7 @@ function InitDataTableFolderFormat(tableName) {
                 {
                     text: 'Delete From Folder',
                     action: function (e, dt, node, config) {
-                        DeleteBatch();
+                        DeleteBatchPrompt();
                     }
                 }
             ],

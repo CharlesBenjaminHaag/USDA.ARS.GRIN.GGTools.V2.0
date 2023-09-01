@@ -124,23 +124,23 @@
         }
     }
 
-    $("#btnDelete").click(function () {
-        var action = $(this).data("ggtools-action");
-        $("#EventAction").val(action);
-        $("#EventValue").val(
-            $(this).data("ggtools-value"));
-    });
-
     /*
     * ***********************************************************
     * Deletion logic
     * ***********************************************************
     */
-    $(document).on("click", "[id*='btnDeleteFolderItem']", function () {
-        var value = $(this).data("ggtools-value");
+    $(document).on("click", "[id*='btnDeleteBatch']", function () {
+        DeleteBatch();
     });
 
-    $(document).on("click", "[id*='btnDeleteItem']", function () {
+    //$("#btnDelete").click(function () {
+    //    var action = $(this).data("ggtools-action");
+    //    $("#EventAction").val(action);
+    //    $("#EventValue").val(
+    //        $(this).data("ggtools-value"));
+    //});
+
+    @*$(document).on("click", "[id*='btnDeleteItem']", function () {
         var id = $(this).attr("id");
         var eventValue = $(this).data("ggtools-value");
         DeleteItem(eventValue);
@@ -167,23 +167,43 @@
             error: function (ex) {
             }
         });
+    }*@
+
+    function DeleteBatchPrompt() {
+        var selectedFolderItems = GetSelectedAppUserItemListIDs("data_table_taxonomy_author");
+        $("#section-item-count").html(selectedFolderItems.length);
+        $("#modal-batch-delete-confirm").modal("show");
     }
 
     function DeleteBatch() {
+        var link = '@Url.Action("DeleteItems","Folder")';
         var folderId = $("#Entity_ID").val();
         var selectedFolderItems = GetSelectedAppUserItemListIDs("data_table_taxonomy_author");
+        var formData = new FormData();
+
         $("#ItemIDList").val(selectedFolderItems);
 
-        //DEBUG
-        $("#section-debug").html(selectedFolderItems);
+        formData.append("FolderID", folderId);
+        formData.append("ItemIDList", selectedFolderItems);
 
         $("#section-item-count").html(selectedFolderItems.length);
         $("#modal-batch-delete-confirm").modal("show");
 
-        // TODO
-        // Get FOLDER ID
-        // Get selected FOLDER ITEM ID's
-        // Call item-delete method
+        $.ajax({
+            url: link,
+            type: 'POST',
+            cache: false,
+            dataType: 'json',
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (data) {
+                var refresh = window.location.href;
+                window.location.href = refresh;
+            },
+            error: function (ex) {
+            }
+        });
     }
 
     /*

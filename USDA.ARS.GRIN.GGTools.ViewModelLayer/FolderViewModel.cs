@@ -287,7 +287,6 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
                 }
             }
         }
-
         public void DeleteItem(int appUserItemListId)
         {
             using (FolderManager mgr = new FolderManager())
@@ -300,6 +299,18 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
                 {
                     PublishException(ex);
                     throw ex;
+                }
+            }
+        }
+        public void DeleteItems()
+        {
+            string[] itemIdList = ItemIDList.Split(',');
+
+            using (FolderManager mgr = new FolderManager())
+            {
+                foreach (var itemId in itemIdList)
+                {
+                    mgr.DeleteItem(Int32.Parse(itemId));
                 }
             }
         }

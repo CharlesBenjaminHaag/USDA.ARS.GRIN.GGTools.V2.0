@@ -692,6 +692,38 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 return RedirectToAction("InternalServerError", "Error");
             }
         }
+
+        [HttpPost]
+        public JsonResult DeleteItems(FormCollection coll)
+        {
+            FolderViewModel viewModel = new FolderViewModel();
+            viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
+
+            try
+            {
+                viewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
+
+                if (!String.IsNullOrEmpty(coll["FolderID"]))
+                {
+                    viewModel.SearchEntity.ID = Int32.Parse(coll["FolderID"]);
+                }
+
+                viewModel.Get(viewModel.SearchEntity.ID);
+
+                if (!String.IsNullOrEmpty(coll["ItemIDList"]))
+                {
+                    viewModel.ItemIDList = coll["ItemIDList"];
+                }
+                viewModel.DeleteItems();
+
+                return Json(new { success = true }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false }, JsonRequestBehavior.AllowGet);
+            }
+
+        }
         public ActionResult Delete(int entityId)
         {
             try 
