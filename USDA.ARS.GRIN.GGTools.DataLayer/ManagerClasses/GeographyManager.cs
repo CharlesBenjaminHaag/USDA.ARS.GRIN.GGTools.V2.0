@@ -283,30 +283,37 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             return results;
         }
 
-        public List<Country> GetCountries(string continentNameList = "", string subContinents = "")
+        public List<Country> GetCountries(string continentNameList = "", string subContinents = "", string isRegionMapped = "Y")
         {
             List<Country> results = new List<Country>();
             string sqlOperator = " WHERE ";
 
             SQL = " SELECT DISTINCT CountryCode, CountryDescription FROM vw_GRINGlobal_Geography WHERE IsValid = 'Y' ";
 
-            if (!String.IsNullOrEmpty(continentNameList))
+            if (isRegionMapped == "Y")
             {
-                SQL +=  " AND Continent IN (" + continentNameList + ") ";
-                
-            }
+                if (!String.IsNullOrEmpty(continentNameList))
+                {
+                    SQL += " AND Continent IN (" + continentNameList + ") ";
 
-            if (!String.IsNullOrEmpty(subContinents))
+                }
+
+                if (!String.IsNullOrEmpty(subContinents))
+                {
+                    if (SQL.Contains("WHERE"))
+                    {
+                        sqlOperator = " AND ";
+                    }
+                    else
+                    {
+                        sqlOperator = " WHERE ";
+                    }
+                    SQL += sqlOperator + " SubContinent IN (" + subContinents + ')';
+                }
+            }
+            else
             {
-                if (SQL.Contains("WHERE"))
-                {
-                    sqlOperator = " AND ";
-                }
-                else
-                {
-                    sqlOperator = " WHERE ";
-                }
-                SQL += sqlOperator + " SubContinent IN (" + subContinents + ')';
+                SQL += " AND RegionID = -9";
             }
 
             SQL += " ORDER BY CountryDescription ASC ";

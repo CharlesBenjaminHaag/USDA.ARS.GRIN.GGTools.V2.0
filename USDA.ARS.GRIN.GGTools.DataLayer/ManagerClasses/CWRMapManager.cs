@@ -11,6 +11,15 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
 {
     public partial class CWRMapManager : GRINGlobalDataManagerBase, IManager<CWRMap, CWRMapSearch>
     {
+        public CWRMap Get(int entityId)
+        {
+            SQL = "usp_GRINGlobal_TaxonomyCWRMap_Select";
+            var parameters = new List<IDbDataParameter> {
+                CreateParameter("taxonomy_cwr_map_id", (object)entityId, false)
+            };
+            CWRMap cWRMap = GetRecord<CWRMap>(SQL, CommandType.StoredProcedure, parameters.ToArray());
+            return cWRMap;
+        }
         public virtual List<CWRMap> Search(CWRMapSearch searchEntity)
         {
 
@@ -83,7 +92,6 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             RowsAffected = results.Count;
             return results;
         }
-
         public virtual int Insert(CWRMap entity)
         {
             Reset(CommandType.StoredProcedure);
@@ -101,20 +109,18 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             {
                 throw new Exception();
             }
-            return RowsAffected;
+            return entity.ID;
         }
-       
-        public virtual List<Cooperator> GetCooperators(string tableName)
-        {
-            SQL = "usp_GGTools_GRINGlobal_CreatedByCooperators_Select";
-            var parameters = new List<IDbDataParameter> {
-                CreateParameter("table_name", (object)tableName, false)
-            };
-            List<Cooperator> cooperators = GetRecords<Cooperator>(SQL, CommandType.StoredProcedure, parameters.ToArray());
-            RowsAffected = cooperators.Count;
-            return cooperators;
-        }
-
+        //public virtual List<Cooperator> GetCooperators(string tableName)
+        //{
+        //    SQL = "usp_GGTools_GRINGlobal_CreatedByCooperators_Select";
+        //    var parameters = new List<IDbDataParameter> {
+        //        CreateParameter("table_name", (object)tableName, false)
+        //    };
+        //    List<Cooperator> cooperators = GetRecords<Cooperator>(SQL, CommandType.StoredProcedure, parameters.ToArray());
+        //    RowsAffected = cooperators.Count;
+        //    return cooperators;
+        //}
         public int Update(CWRMap entity)
         {
             Reset(CommandType.StoredProcedure);
@@ -127,12 +133,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             RowsAffected = ExecuteNonQuery();
              return RowsAffected;
         }
-
         public int Delete(CWRMap entity)
-        {
-            throw new NotImplementedException();
-        }
-        public CWRMap Get(int entityId)
         {
             throw new NotImplementedException();
         }
@@ -202,12 +203,10 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
                 AddParameter("created_by", entity.CreatedByCooperatorID == 0 ? DBNull.Value : (object)entity.CreatedByCooperatorID, true);
             }
         }
-
         public void BuildInsertUpdateParameters()
         {
             throw new NotImplementedException();
         }
-
         /// <summary>
         /// REFACTOR
         /// </summary>

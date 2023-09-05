@@ -10,10 +10,10 @@
         margin-left: 25px;
     }
 
-    #modal-geography-lookup table.dataTable thead tr {
+    /*#modal-geography-lookup table.dataTable thead tr {
         background-color: #17a2b8;
         color: white;
-    }
+    }*/
 </style>
 <div class="modal fade" id="modal-geography-lookup" style="display: none;" aria-hidden="true">
     <div class="modal-dialog modal-xl">
@@ -28,55 +28,33 @@
                 </button>
             </div>
             <div class="modal-body">
+
                 <!-- BEGIN DEBUG -->
                 @*<div class="row">
+                    <label>CONTINENTS</label>
                     <div class="col-md-12"><input type="text" style="background-color:yellow;" id="txtDEBUGContinents" class="form-control" /></div>
                 </div>
                 <div class="row">
+                    <label>SUBCONTINENTS</label>
                     <div class="col-md-12"><input type="text" style="background-color:yellow;" id="txtDEBUGSubContinents" class="form-control" /></div>
-                </div>*@
-                @*<div class="row">
+                </div>
+                <div class="row">
+                    <label>COUNTRIES</label>
                     <div class="col-md-12"><input type="text" style="background-color:yellow;" id="txtDEBUGCountries" class="form-control" /></div>
-                </div>*@
-                @*<div class="row">
+                </div>
+                <div class="row">
+                    <label>ADMIN</label>
                     <div class="col-md-12"><input type="text" style="background-color:yellow;" id="txtDEBUGAdministrativeUnits" class="form-control" /></div>
                 </div>*@
                 <!-- END DEBUG -->
 
                 <div class="row">
-                    <!-- CONTINENT -->
-                    <div class="col-md-3">
-                        <div id="section-continents-TODO">
-                            <table id="table-geography-continent" class="table table-hover" style="width:100%;">
-                                <thead>
-                                    <tr>
-                                        <th></th>
-                                        <th>Continents</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach (var result in Model.DataCollectionContinents)
-                                    {
-                                        <tr>
-                                            <td></td>
-                                            <td>
-                                                <div class="icheck-primary">
-                                                    <input type="checkbox" value="" id="check_@result.Continent" class="ggtools-check-continent">
-                                                    <label for="check_@result.Continent">@result.Continent</label>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    }
-                                </tbody>
-                            </table>
-                            <div id="section-check-all-continent" style="padding: 10px;">
-                                <div class="icheck-primary">
-                                    <input type="checkbox" value="" id="check-all-continent" class="form-check-input-continents">
-                                    <label for="check-all-continent">Select All</label>
-                                </div>
-                            </div>
-                        </div>
+                    <div class="col-md-12">
+                        @Html.Partial("~/Views/Taxonomy/Geography/Modals/_SelectListContinent.cshtml")
                     </div>
+                </div>
+                <br />
+                <div class="row">
                     <!-- SUBCONTINENT -->
                     <div class="col-md-3">
                         <div id="section-subcontinents">
@@ -89,6 +67,7 @@
                             </div>
                         </div>
                     </div>
+                                      
                     <!-- COUNTRY -->
                     <div class="col-md-3">
                         <div id="section-countries">
@@ -102,7 +81,7 @@
                         </div>
                     </div>
                     <!-- ADMIN -->
-                    <div class="col-md-3">
+                    <div class="col-md-6">
                         <div id="section-administrative-units">
                             @Html.Partial("~/Views/Taxonomy/Geography/Modals/_SelectListAdministrativeUnits.cshtml")
                         </div>
@@ -162,6 +141,27 @@
         $("#section-generate-map-options").hide();
     });
 
+    /*
+     * ***********************************************************
+     * Region selector
+     * ***********************************************************
+     */
+    $(function () {
+        $("#cbxSearchByRegion").change(function () {
+            var searchByRegion = $("#cbxSearchByRegion").prop('checked');
+
+            if (searchByRegion) {
+                $("#section-card-continents").show();
+                ClearAllCountries();
+            }
+            else {
+                $("#section-card-continents").hide();
+                ClearAllSubContinents();
+                LoadCountries("", "");
+            }
+        });
+    });
+
     $(function () {
         $(".ggtools-check-continent").change(function () {
             var selectedContinents = GetSelectedContinents();
@@ -214,7 +214,7 @@
         var formData = new FormData();
         var geographyIdList = GetSelectedAdministrativeUnits();
         var geographyStatusCode = $("#ddlGeographyStatusCode").val();
-       
+
         formData.append("Entity.SpeciesID", $("#frmEdit #Entity_ID").val());
         formData.append("Entity.GeographyStatusCode", geographyStatusCode);
         formData.append("GeographyIDList", geographyIdList);
@@ -238,13 +238,18 @@
 
     function GetSelectedContinents() {
         var valueArray = [];
-        $("#table-geography-continent input:checked").each(function () {
-            var id = $(this).attr("id").replace('check_', '');
+       
+        $("#section-select-continents input:checked").each(function () {
+        //$("#table-geography-continent input:checked").each(function () {
+            /*var id = $(this).attr("id").replace('check_', '');*/
+            var id = $(this).attr("value").replace('check_', '');
             var id = "'" + id + "'";
             valueArray.push(id);
         });
         //DEBUG
         /*$("#txtDEBUGContinents").val(valueArray);*/
+        alert("DEBUG CONTS " + valueArray);
+
         return valueArray;
     }
 
@@ -291,6 +296,26 @@
         /*alert("DEBUG SEL ADMIN " + valueArray);*/
         //$("#txtDEBUGAdministrativeUnits").val(valueArray);
         return valueArray;
+    }
+
+    function LoadContinents() {
+        var link = '@Url.Action("_ListContinents", "Geography")';
+        var formData = new FormData();
+
+        $.ajax({
+            url: link,
+            type: 'POST',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (response) {
+                $("#section-continents").html(response);
+            },
+            error: function () {
+                alert("Error searching geography");
+            }
+        });
     }
 
     function LoadSubContinents(continents) {
@@ -361,6 +386,13 @@
                 alert("Error searching geography");
             }
         });
+    }
+
+    function ClearAllContinents() {
+        table = $("#table-geography-continent").DataTable();
+        table
+            .clear()
+            .draw();
     }
 
     function ClearAllSubContinents()

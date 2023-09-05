@@ -11,7 +11,8 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
     public class CooperatorViewModel : CooperatorViewModelBase, IViewModel<Cooperator>
     {
         public int AuthenticatedUserCooperatorSiteID { get; set; }
-        
+        public string RequestorEmailAddress { get; set; }
+        public string RequestorNotes { get; set; }
         public void Delete()
         {
             throw new NotImplementedException();
@@ -218,7 +219,22 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
             {
                 ValidationMessages.Add(new Common.Library.ValidationMessage { Message = "First name required." });
             }
-        
+
+            if (String.IsNullOrEmpty(Entity.LastName))
+            {
+                ValidationMessages.Add(new Common.Library.ValidationMessage { Message = "Last name required." });
+            }
+
+            if (String.IsNullOrEmpty(Entity.EmailAddress))
+            {
+                ValidationMessages.Add(new Common.Library.ValidationMessage { Message = "Email address required." });
+            }
+
+            if (Entity.SiteID == 0)
+            {
+                ValidationMessages.Add(new Common.Library.ValidationMessage { Message = "Please select a site." });
+            }
+
             if (ValidationMessages.Count > 0)
             {
                 validated = false;

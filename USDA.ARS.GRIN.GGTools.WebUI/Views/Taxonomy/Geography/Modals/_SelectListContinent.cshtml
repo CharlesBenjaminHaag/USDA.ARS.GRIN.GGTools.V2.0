@@ -1,22 +1,40 @@
 ﻿@model USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer.GeographyViewModel
-<input type="button" class="check" value="check all" />
-<div id="section-select-continents" class="row">
-    
-    
-    
-    @foreach (var result in Model.DataCollectionContinents)
-    { 
-        <div class="col-md-2">
-            <div class="form-group clearfix">
-                <div class="icheck-primary d-inline">
-                    <input type="checkbox" id="@result.ID" value="@result.Continent" />
-                    <label for="@result.ID">
-                        @result.Continent @result.ID
-                    </label>
-                </div>
-            </div>
+<div class="form-group clearfix">
+    <div class="icheck-primary d-inline">
+        <input type="checkbox" id="cbxSearchByRegion" value="" checked="checked" />
+        <label for="cbxSearchByRegion">
+            Search using region
+        </label>
+    </div>
+</div>
+
+<div id="section-card-continents" class="card card-outline card-primary">
+    <div class="card-header">
+        <h3 class="card-title">Primary Outline</h3>
+        <div class="card-tools">
+            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                <i class="fas fa-minus"></i>
+            </button>
         </div>
-    }
+    </div>
+    <div class="card-body">
+
+        <div id="section-select-continents" class="row">
+            @foreach (var result in Model.DataCollectionContinents)
+            {
+                <div class="col-md-2">
+                    <div class="form-group clearfix">
+                        <div class="icheck-primary d-inline">
+                            <input type="checkbox" id="@result.ID" value="@result.Continent" class="ggtools-check-continent" />
+                            <label for="@result.ID">
+                                @result.Continent
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
 </div>
 <script type="text/javascript">
 

@@ -164,55 +164,55 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             }
         }
 
-        [HttpPost]
-        public PartialViewResult Add(FormCollection formCollection)
-        {
-            CWRMapViewModel viewModel = new CWRMapViewModel();
-            FolderViewModel folderViewModel = new FolderViewModel();
-            viewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
+        //[HttpPost]
+        //public PartialViewResult Add(FormCollection formCollection)
+        //{
+        //    CWRMapViewModel viewModel = new CWRMapViewModel();
+        //    FolderViewModel folderViewModel = new FolderViewModel();
+        //    viewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
 
-            if (!String.IsNullOrEmpty(formCollection["IDList"]))
-            {
-                viewModel.Entity.ItemIDList = formCollection["IDList"];
-            }
+        //    if (!String.IsNullOrEmpty(formCollection["IDList"]))
+        //    {
+        //        viewModel.Entity.ItemIDList = formCollection["IDList"];
+        //    }
             
             
 
-            if (!String.IsNullOrEmpty(formCollection["CropForCWRID"]))
-            {
-                viewModel.Entity.CropForCWRID = Int32.Parse(formCollection["CropForCWRID"]);
-            }
-            if (!String.IsNullOrEmpty(formCollection["GenepoolCode"]))
-            {
-                viewModel.Entity.GenepoolCode = formCollection["GenepoolCode"];
-            }
-            if (!String.IsNullOrEmpty(formCollection["CropCommonName"]))
-            {
-                viewModel.Entity.CropCommonName = formCollection["CropCommonName"];
-            }
+        //    if (!String.IsNullOrEmpty(formCollection["CropForCWRID"]))
+        //    {
+        //        viewModel.Entity.CropForCWRID = Int32.Parse(formCollection["CropForCWRID"]);
+        //    }
+        //    if (!String.IsNullOrEmpty(formCollection["GenepoolCode"]))
+        //    {
+        //        viewModel.Entity.GenepoolCode = formCollection["GenepoolCode"];
+        //    }
+        //    if (!String.IsNullOrEmpty(formCollection["CropCommonName"]))
+        //    {
+        //        viewModel.Entity.CropCommonName = formCollection["CropCommonName"];
+        //    }
 
-            // FOLDER
-            if (!String.IsNullOrEmpty(formCollection["FolderTitle"]))
-            {
-                folderViewModel.Entity.FolderName = formCollection["FolderTitle"];
-            }
-            if (!String.IsNullOrEmpty(formCollection["FolderCategory"]))
-            {
-                folderViewModel.Entity.Category = formCollection["FolderCategory"];
-            }
-            if (!String.IsNullOrEmpty(formCollection["FolderDescription"]))
-            {
-                folderViewModel.Entity.Description = formCollection["FolderDescription"];
-            }
-            viewModel.InsertBatch();
+        //    // FOLDER
+        //    if (!String.IsNullOrEmpty(formCollection["FolderTitle"]))
+        //    {
+        //        folderViewModel.Entity.FolderName = formCollection["FolderTitle"];
+        //    }
+        //    if (!String.IsNullOrEmpty(formCollection["FolderCategory"]))
+        //    {
+        //        folderViewModel.Entity.Category = formCollection["FolderCategory"];
+        //    }
+        //    if (!String.IsNullOrEmpty(formCollection["FolderDescription"]))
+        //    {
+        //        folderViewModel.Entity.Description = formCollection["FolderDescription"];
+        //    }
+        //    viewModel.InsertBatch();
 
-            // Retrieve newly-added records.
-            viewModel.EventAction = "SEARCH";
-            viewModel.SearchEntity.CropForCWRID = viewModel.Entity.CropForCWRID; ;
-            viewModel.Search();
-            ModelState.Clear();
-            return PartialView("~/Views/CWRMap/_SelectList.cshtml", viewModel);
-        }
+        //    // Retrieve newly-added records.
+        //    viewModel.EventAction = "SEARCH";
+        //    viewModel.SearchEntity.CropForCWRID = viewModel.Entity.CropForCWRID; ;
+        //    viewModel.Search();
+        //    ModelState.Clear();
+        //    return PartialView("~/Views/CWRMap/_SelectList.cshtml", viewModel);
+        //}
 
         [HttpPost]
         public PartialViewResult AddBatch(FormCollection formCollection)
@@ -257,7 +257,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             Session["CWR-MAPS"] = batchedMaps;
             viewModel.DataCollectionBatch = batchedMaps;
 
-            return PartialView("~/Views/Taxonomy/GeographyMap/_ListBatch.cshtml", viewModel);
+            return PartialView("~/Views/Taxonomy/CWRMap/_ListBatch.cshtml", viewModel);
         }
 
         public ActionResult Add(int cropForCwrId = 0)

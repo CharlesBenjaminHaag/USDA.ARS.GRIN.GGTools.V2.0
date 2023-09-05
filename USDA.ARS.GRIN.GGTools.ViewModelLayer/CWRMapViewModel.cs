@@ -49,8 +49,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
                 {
                     try
                     {
-                        SearchEntity.ID = entityId;
-                        Search();
+                        mgr.Get(entityId);
                     }
                     catch (Exception ex)
                     {
@@ -174,6 +173,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
                     {
                         CWRMap cWRMap = new CWRMap();
                         cWRMap.SpeciesID = Int32.Parse(speciesId);
+                        cWRMap.CropForCWRID = Int32.Parse(cropForCwrId);
                         cWRMap.GenepoolCode = Entity.GenepoolCode;
                         cWRMap.CropCommonName = Entity.CropCommonName;
                         cWRMap.IsCrop = Entity.IsCrop;
