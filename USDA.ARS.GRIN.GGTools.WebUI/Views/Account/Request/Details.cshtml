@@ -17,34 +17,57 @@
                     <label>Contact Information</label>
                     <div id="section-employee-email" class="row">
                         <div class="col-md-6">
-                            <div class="form-group">
+                            <div class="input-group mb-3">
                                 @Html.TextBoxFor(x => x.Entity.FirstName, new { @class = "form-control", @placeholder = "First name" })
+                                <div class="input-group-append">
+                                    <div class="input-group-text">
+                                        <span class="fas fa-user"></span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <div class="form-group">
+                            <div class="input-group mb-3">
                                 @Html.TextBoxFor(x => x.Entity.LastName, new { @class = "form-control", @placeholder = "Last name" })
+                                <div class="input-group-append">
+                                    <div class="input-group-text">
+                                        <span class="fas fa-user"></span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-12">
 
-                            <div class="form-group">
-                                @Html.TextBoxFor(x => x.Entity.EmailAddress, new { @class = "form-control", @placeholder = "Employee email address" })
+                            <div class="input-group mb-3">
+                                @Html.TextBoxFor(x => x.Entity.EmailAddress, new { @class = "form-control", @placeholder = "Employee email address", @type="email" })
+                                <div class="input-group-append">
+                                    <div class="input-group-text">
+                                        <span class="fas fa-envelope"></span>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                @Html.TextBoxFor(x => x.Entity.JobTitle, new { @class = "form-control", @placeholder = "Job title" })
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                @Html.TextBoxFor(x => x.Entity.PrimaryPhone, new { @class = "form-control", @placeholder = "Phone number" })
-                            </div>
-                        </div>
 
+
+                        </div>
+                        <div class="col-md-6">
+
+                            <div class="input-group">
+                                @Html.TextBoxFor(x => x.Entity.JobTitle, new { @class = "form-control", @placeholder = "Job title" })
+                                <div class="input-group-append">
+                                    <span class="input-group-text"><i class="fas fa-building"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                @Html.TextBoxFor(x => x.Entity.PrimaryPhone, new { @class = "form-control", @placeholder = "Phone number", @mask="(999) 999-9999" })
+                                <div class="input-group-append">
+                                    <span class="input-group-text"><i class="fas fa-phone"></i></span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <label>Location</label>
+                    <label>Site</label>
                     <div id="section-employee-address" class="row">
                         <div class="col-md-12">
                             <div class="form-group">
@@ -52,6 +75,41 @@
                             </div>
                         </div>
                         <div id="section-site-address" class="col-md-12">
+                            <!--DYNAMIC SITE DETAILS HERE-->
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>Primary Address</label>
+                                        <input type="text" class="form-control" readonly="readonly" />
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" readonly="readonly" />
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" readonly="readonly" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>City</label>
+                                        <input type="text" class="form-control" readonly="readonly" />
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>State</label>
+                                        <input type="text" class="form-control" readonly="readonly" />
+                                    </div>
+                                </div>
+                                <div class="col-md-5">
+                                    <div class="form-group">
+                                        <label>ZIP/Postal Code</label>
+                                        <input type="text" class="form-control" readonly="readonly" />
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
@@ -92,23 +150,19 @@
 </div>
 <script type="text/javascript">
     //btnStepSaveDetails
-    $('#btnStepSaveDetails').on('click', function () {
+    //$('#btnStepSaveDetails').on('click', function () {
+    //    //TODO?
+    //});
 
-        alert("DEBUG SAVE");
+    //function Validate() {
+    //    var isValid = true;
+    //    //TODO
+    //    return isValid;
+    //}
 
-    });
-
-    function Validate() {
-        var isValid = true;
-
-        //TODO
-
-        return isValid;
-    }
-
-    function Save() {
-
-    }
+    //function Save() {
+    //    //TODO?
+    //}
 
     $('#Entity_SiteID').on('change', function () {
         LoadSite(this.value);
@@ -129,7 +183,7 @@
         data: formData,
         success: function (response) {
             //DEBUG
-            alert("DEBUG: " + response);
+            //alert("DEBUG: " + response);
 
             $("#section-site-address").html(response);
         }

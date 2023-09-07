@@ -15,6 +15,8 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
         private AppUserItemList _Entity = new AppUserItemList();
         private AppUserItemListSearch _SearchEntity = new AppUserItemListSearch();
         private Collection<AppUserItemList> _DataCollection = new Collection<AppUserItemList>();
+        private Collection<AppUserItemList> _DataCollectionTabs = new Collection<AppUserItemList>();
+        private Collection<AppEntityRecord> _DataCollectionLists = new Collection<AppEntityRecord>();
 
         public AppUserItemList Entity
         {
@@ -32,6 +34,18 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
         {
             get { return _DataCollection; }
             set { _DataCollection = value; }
+        }
+
+        public Collection<AppUserItemList> DataCollectionTabs
+        {
+            get { return _DataCollectionTabs; }
+            set { _DataCollectionTabs = value; }
+        }
+
+        public Collection<AppEntityRecord> DataCollectionLists
+        {
+            get { return _DataCollectionLists; }
+            set { _DataCollectionLists = value; }
         }
     }
 }

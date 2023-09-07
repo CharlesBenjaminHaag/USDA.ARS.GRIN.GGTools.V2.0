@@ -806,11 +806,11 @@
     <Content Include="Views\Folder\Cooperator\_Widget.cshtml" />
     <Content Include="Views\Shared\_LayoutAdminLTE3Taxonomy.cshtml" />
     <Content Include="Views\Folder\Explorer\Index.cshtml" />
-    <Content Include="Views\Folder\Import\Index.cshtml" />
+    <Content Include="Views\AppUserItemList\Import\Index.cshtml" />
     <Content Include="Views\Cooperator\_SiteCuratorListWidget.cshtml" />
     <Content Include="Views\Taxonomy\GeographyMap\EditBatch.cshtml" />
     <Content Include="Views\Folder\Edit.cshtml" />
-    <Content Include="Views\Shared\_BootstrapTreeview.cshtml" />
+    <Content Include="Views\Shared\_SimulatedTreeview.cshtml" />
     <Content Include="Views\Taxonomy\CommonName\Modals\_EditBatch.cshtml" />
     <Content Include="Views\Taxonomy\CWRMap\Modals\_EditBatch.cshtml" />
     <Content Include="Views\Taxonomy\CWRTrait\Modals\_EditBatch.cshtml" />
@@ -843,6 +843,12 @@
     <Content Include="Views\Taxonomy\CWRMap\_ListBatch.cshtml" />
     <Content Include="Views\Taxonomy\CropForCWR\Modals\_Lookup.cshtml" />
     <Content Include="Views\Taxonomy\CropForCWR\Modals\_SelectList.cshtml" />
+    <Content Include="Views\Account\Request\ThankYou.cshtml" />
+    <Content Include="Views\AppUserItemList\Import\_TabList.cshtml" />
+    <Content Include="Views\AppUserItemList\Import\_ListsByTab.cshtml" />
+    <Content Include="Views\AppUserItemList\Import\_ItemsByList.cshtml" />
+    <Content Include="Views\Shared\_BootstrapTreeview2.cshtml" />
+    <Content Include="Views\Folder\Modals\_Import.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

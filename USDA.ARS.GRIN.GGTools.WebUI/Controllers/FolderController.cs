@@ -770,5 +770,20 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             FolderViewModel viewModel = new FolderViewModel();
             return View("~/Views/Folder/Import/Index.cshtml", viewModel);
         }
+        public PartialViewResult RenderImportModal()
+        {
+            try
+            {
+                FolderViewModel viewModel = new FolderViewModel();
+
+                viewModel.GetFolderCategories(AuthenticatedUser.CooperatorID);
+                return PartialView("~/Views/Folder/Modals/_Import.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
+        }
     }
 }

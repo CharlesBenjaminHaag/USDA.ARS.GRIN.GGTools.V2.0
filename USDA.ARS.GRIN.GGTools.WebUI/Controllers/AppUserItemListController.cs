@@ -12,6 +12,53 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
     public class AppUserItemListController : BaseController, IController<AppUserItemList>
     {
         private static readonly Logger Log = LogManager.GetCurrentClassLogger();
+
+        public PartialViewResult GetTabList()
+        {
+            AppUserItemListViewModel viewModel = new AppUserItemListViewModel();
+            try
+            {
+                viewModel.GetTabList(AuthenticatedUser.CooperatorID);
+
+                return PartialView("~/Views/AppUserItemList/Import/_TabList.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
+        }
+
+        public PartialViewResult GetListsByTab(string tabName)
+        {
+            AppUserItemListViewModel viewModel = new AppUserItemListViewModel();
+            try
+            {
+                viewModel.GetListsByTab(AuthenticatedUser.CooperatorID, tabName);
+                return PartialView("~/Views/AppUserItemList/Import/_ListsByTab.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
+        }
+
+        public PartialViewResult GetItemsByList(string listName)
+        {
+            AppUserItemListViewModel viewModel = new AppUserItemListViewModel();
+            try
+            {
+                viewModel.GetItemsByList(AuthenticatedUser.CooperatorID, listName);
+                return PartialView("~/Views/AppUserItemList/Import/_ItemsByList.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
+        }
+
         public PartialViewResult _ListFolderItems(int folderId)
         {
             try
@@ -49,6 +96,24 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
         {
             return View();
         }
+        public ActionResult Import()
+        {
+            AppUserItemListViewModel viewModel = new AppUserItemListViewModel();
+
+            try
+            {
+                //TODO Init page with
+                // 1) Tabs
+                // 2) Lists per tab
+                // 3) Data-type groups per list
+                return View("~/Views/AppUserItemList/Import/Index.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return RedirectToAction("InternalServerError", "Error");
+    }
+}
 
         public PartialViewResult _List(string tabName = "", int cooperatorId = 0)
         {

@@ -22,6 +22,30 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
             throw new NotImplementedException();
         }
 
+        public void GetTabList(int cooperatorId)
+        {
+            using (AppUserItemListManager mgr = new AppUserItemListManager())
+            {
+                DataCollectionTabs = new Collection<AppUserItemList>(mgr.GetTabList(cooperatorId));
+            }
+        }
+
+        public void GetListsByTab(int cooperatorId, string tabName)
+        {
+            using (AppUserItemListManager mgr = new AppUserItemListManager())
+            {
+                DataCollectionLists = new Collection<AppEntityRecord>(mgr.GetListsByTab(cooperatorId, tabName));
+            }
+        }
+
+        public void GetItemsByList(int cooperatorId, string listName)
+        {
+            using (AppUserItemListManager mgr = new AppUserItemListManager())
+            {
+                DataCollection = new Collection<AppUserItemList>(mgr.GetItemsByList(cooperatorId, listName));
+            }
+        }
+
         public void HandleRequest()
         {
             throw new NotImplementedException();

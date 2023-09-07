@@ -24,6 +24,45 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
         {
             throw new NotImplementedException();
         }
+        public List<AppUserItemList> GetTabList(int cooperatorId)
+        {
+            SQL = "usp_GRINGlobal_AppUserItemListTabs_Select";
+            List<AppUserItemList> appUserItemLists = new List<AppUserItemList>();
+
+            var parameters = new List<IDbDataParameter> {
+                CreateParameter("cooperator_id", (object)cooperatorId, false)
+            };
+
+            appUserItemLists = GetRecords<AppUserItemList>(SQL, CommandType.StoredProcedure, parameters.ToArray());
+            return appUserItemLists;
+        }
+
+        public List<AppEntityRecord> GetListsByTab(int cooperatorId, string tabName)
+        {
+            SQL = "usp_GRINGlobal_AppUserItemListsByTab_Select";
+            List<AppEntityRecord> appUserItemLists = new List<AppEntityRecord>();
+
+            var parameters = new List<IDbDataParameter> {
+                CreateParameter("cooperator_id", (object)cooperatorId, false),
+                CreateParameter("tab_name", (object)tabName, false)
+            };
+
+            appUserItemLists = GetRecords<AppEntityRecord>(SQL, CommandType.StoredProcedure, parameters.ToArray());
+            return appUserItemLists;
+        }
+        public List<AppUserItemList> GetItemsByList(int cooperatorId, string listName)
+        {
+            SQL = "usp_GRINGlobal_AppUserItemListItemsByList_Select";
+            List<AppUserItemList> appUserItemLists = new List<AppUserItemList>();
+
+            var parameters = new List<IDbDataParameter> {
+                CreateParameter("cooperator_id", (object)cooperatorId, false),
+                CreateParameter("list_name", (object)listName, false)
+            };
+
+            appUserItemLists = GetRecords<AppUserItemList>(SQL, CommandType.StoredProcedure, parameters.ToArray());
+            return appUserItemLists;
+        }
 
         public int Insert(AppUserItemList entity)
         {

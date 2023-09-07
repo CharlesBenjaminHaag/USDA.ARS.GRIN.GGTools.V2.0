@@ -114,6 +114,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             SQL += " AND (@SiteID                   IS NULL     OR SiteID                   =       @SiteID)";
             SQL += " AND (@SysUserIsEnabled         IS NULL     OR SysUserIsEnabled         =       @SysUserIsEnabled)";
         
+            // Search by pre-defined time frame
             switch (searchEntity.CreatedTimeFrame)
             {
                 case "TDY":
@@ -137,6 +138,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
                     break;
             }
 
+            // Search by pre-defined time frame
             switch (searchEntity.ModifiedTimeFrame)
             {
                 case "TDY":
@@ -159,6 +161,13 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
                     SQL += " AND CreatedDate<CAST(GETDATE() AS date) ";
                     break;
             }
+            
+            // If sys group tag specified, find all cooperators in the specified group.
+            if (!String.IsNullOrEmpty(searchEntity.SysGroupTag))
+            {
+                SQL += " AND SysUserID IN (SELECT SysUserID FROM vw_GRINGlobal_Sys_Group_User_Map WHERE GroupTag = '" + searchEntity.SysGroupTag + "') ";
+            }
+
             SQL += " ORDER BY FullName";
 
             var parameters = new List<IDbDataParameter> {
@@ -285,8 +294,8 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             if (entity.ID > 0)
             {
                 AddParameter("cooperator_id", entity.ID == 0 ? DBNull.Value : (object)entity.ID, true);
+                AddParameter("web_cooperator_id", entity.WebCooperatorID == 0 ? DBNull.Value : (object)entity.WebCooperatorID, true);
             }
-            //AddParameter("web_cooperator_id", entity.WebCooperatorID == 0 ? DBNull.Value : (object)entity.WebCooperatorID, true);
             AddParameter("site_id", entity.SiteID == 0 ? DBNull.Value : (object)entity.SiteID, true);
             AddParameter("last_name", String.IsNullOrEmpty(entity.LastName) ? DBNull.Value : (object)entity.LastName, true);
             AddParameter("title", String.IsNullOrEmpty(entity.Salutation) ? DBNull.Value : (object)entity.Salutation, true);
