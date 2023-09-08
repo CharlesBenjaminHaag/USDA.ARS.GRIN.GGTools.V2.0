@@ -20,6 +20,8 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
             using (WebCooperatorManager mgr = new WebCooperatorManager())
             {
                 Salutations = new SelectList(mgr.GetCodeValues("COOPERATOR_TITLE"), "Value", "Title");
+                Categories = new SelectList(mgr.GetCodeValues("COOPERATOR_CATEGORY"), "Value", "Title");
+                States = new SelectList(mgr.GetStates(), "ID", "Admin1");
             }
         }
         
@@ -53,9 +55,9 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
         }
 
         #region Select Lists
-
+        public SelectList States { get; set; }
         public SelectList Salutations { get; set; }
-
+        public SelectList Categories { get; set; }
         #endregion
     }
 }

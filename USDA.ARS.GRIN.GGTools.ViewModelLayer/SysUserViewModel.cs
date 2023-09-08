@@ -207,6 +207,23 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
                 throw ex;
             }
         }
+
+        public void UpdateStatus()
+        {
+            try
+            {
+                using (SysUserManager mgr = new SysUserManager())
+                {
+                    mgr.Update(Entity);
+                }
+            }
+            catch (Exception ex)
+            {
+                PublishException(ex);
+                throw ex;
+            }
+        }
+
         public bool Authenticate()
         {
             string storedPassword = String.Empty;

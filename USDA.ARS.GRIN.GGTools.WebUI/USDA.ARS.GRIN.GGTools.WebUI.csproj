@@ -850,6 +850,8 @@
     <Content Include="Views\Shared\_BootstrapTreeview2.cshtml" />
     <Content Include="Views\Folder\Modals\_Import.cshtml" />
     <Content Include="Views\Taxonomy\Geography\Modals\_LookupRegion.cshtml" />
+    <Content Include="Views\Cooperator\_MenuEdit.cshtml" />
+    <Content Include="Views\Shared\Modals\_Email.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

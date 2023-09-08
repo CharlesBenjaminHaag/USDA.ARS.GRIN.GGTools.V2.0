@@ -185,28 +185,30 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 return PartialView("~/Views/Error/_InternalServerError.cshtml");
             }
         }
-        //public ActionResult Activate(int entityId)
-        //{
-        //    try
-        //    {
-        //        CooperatorViewModel viewModel = new CooperatorViewModel();
-        //        viewModel.Get(entityId, "");
-        //        viewModel.Entity.StatusCode = "ACTIVE";
-        //        viewModel.Update();
-        //        viewModel.Get(entityId, "");
+        public ActionResult Activate(int cooperatorId)
+        {
+            try
+            {
+                CooperatorViewModel viewModel = new CooperatorViewModel();
+                viewModel.Get(cooperatorId);
+                viewModel.Entity.StatusCode = "ACTIVE";
+                viewModel.Entity.ModifiedByCooperatorID = AuthenticatedUser.CooperatorID;
+                viewModel.Update();
 
-        //        viewModel.PageTitle = String.Format("Edit Cooperator [{0}]: {1}, {2}", entityId, viewModel.Entity.LastName, viewModel.Entity.FirstName);
-        //        viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
-        //        viewModel.AuthenticatedUser = AuthenticatedUser;
-        //        viewModel.MainSectionCSSClass = "col-md-9";
-        //        return View("~/Views/Cooperator/Edit.cshtml", viewModel);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Log.Error(ex);
-        //        return RedirectToAction("InternalServerError", "Error");
-        //    }
-        //}
+                SysUserViewModel sysUserViewModel = new SysUserViewModel();
+                sysUserViewModel.Get(viewModel.Entity.SysUserID);
+                sysUserViewModel.Entity.IsEnabled = "Y";
+                sysUserViewModel.Entity.ModifiedByCooperatorID = AuthenticatedUser.CooperatorID;
+                sysUserViewModel.UpdateStatus();
+
+                return RedirectToAction("Edit", "Cooperator", new { entityId = cooperatorId });
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return RedirectToAction("InternalServerError", "Error");
+            }
+        }
         [HttpPost]
         public ActionResult Edit(CooperatorViewModel viewModel)
         {

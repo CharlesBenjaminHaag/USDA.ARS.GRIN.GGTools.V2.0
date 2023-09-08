@@ -4,6 +4,25 @@
     Layout = "~/Views/Shared/_LayoutAdminLTE3.cshtml";
 }
 
+<style>
+    .alert a {
+        color: black;
+        text-decoration: none;
+    }
+</style>
+
+@if (Model.Entity.StatusCode == "PENDING")
+{
+<div class="alert alert-warning alert-dismissible">
+    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+    <h5><i class="icon fas fa-exclamation-triangle"></i> Cooperator In Pending Status</h5>
+    This cooperator record is currently in <strong>PENDING</strong> status. To complete the approval process and notify the cooperator of their new account, click Approve below.
+    <br><br>
+    <a href="@Url.Action("Activate","Cooperator", new { @cooperatorId = Model.Entity.ID })" class="btn btn-outline-dark">Approve</a>
+    <button class="btn btn-outline-dark">Preview Email</button>
+</div>
+}
+
 <div class="row">
     <div class="col-md-3">
         <div id="section-sys-user-widget">
@@ -38,6 +57,35 @@
                     @Html.Partial("~/Views/Shared/_ValidationMessages.cshtml")
                     @Html.Partial("~/Views/Shared/_RevisionHistory.cshtml")
                     <div class="row">
+                        <div class="col-md-1">
+                            <div class="form-group">
+                                <label>Status</label>
+                                <br />
+                                @if (Model.Entity.StatusCode == "ACTIVE")
+                                {
+                                    <span class="badge bg-green">
+                                        @Model.Entity.StatusCode
+                                    </span>
+                                }
+                                else
+                                {
+                                    if (Model.Entity.StatusCode == "PENDING")
+                                    {
+                                        <span class="badge bg-warning">
+                                            @Model.Entity.StatusCode
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-danger">
+                                            @Model.Entity.StatusCode
+                                        </span>
+                                    }
+                                }
+
+
+                            </div>
+                        </div>
                         <div class="col-md-2">
                             <div class="form-group">
                                 <label>Salutation</label>
@@ -50,7 +98,7 @@
                                 @Html.TextBoxFor(x => x.Entity.FirstName, new { @class = "form-control" })
                             </div>
                         </div>
-                        <div class="col-md-5">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label>Last Name</label>
                                 @Html.TextBoxFor(x => x.Entity.LastName, new { @class = "form-control" })

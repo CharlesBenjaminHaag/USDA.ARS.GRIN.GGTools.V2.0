@@ -96,7 +96,11 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
 
         public WebCooperator Get(int entityId)
         {
-            throw new NotImplementedException();
+            using (WebCooperatorManager mgr = new WebCooperatorManager())
+            {
+                Entity = mgr.Get(entityId);
+            }
+            return Entity;
         }
     }
 }

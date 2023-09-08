@@ -6,7 +6,7 @@ using NLog;
 
 namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
 {
-    public class EmailTemplateController : BaseController, IController<EmailTemplateViewModel>
+    public class EmailTemplateController : BaseController
     {
         private static readonly Logger Log = LogManager.GetCurrentClassLogger();
         public PartialViewResult _ListFolderItems(int folderId)
@@ -63,13 +63,15 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
         }
 
         [HttpPost]
-        public ActionResult Edit(EmailTemplateViewModel viewModel)
+        public PartialViewResult Save(EmailTemplateViewModel viewModel)
         {
             try
             {
                 viewModel.Entity.ModifiedByCooperatorID = AuthenticatedUser.CooperatorID;
                 viewModel.Update();
-                return RedirectToAction("Index","EmailTemplate");
+
+                viewModel.Get(viewModel.Entity.ID);
+                return PartialView("~/Views/EmailTemplate/","EmailTemplate");
             }
             catch (Exception ex)
             {

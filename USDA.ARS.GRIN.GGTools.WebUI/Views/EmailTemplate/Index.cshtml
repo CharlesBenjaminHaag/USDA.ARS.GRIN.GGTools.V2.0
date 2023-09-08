@@ -1,7 +1,7 @@
 ﻿@model USDA.ARS.GRIN.GGTools.ViewModelLayer.EmailTemplateViewModel
 @{
     ViewBag.Title = Model.PageTitle;
-    Layout = "~/Views/Shared/_LayoutAdminLTE.cshtml";
+    Layout = "~/Views/Shared/_LayoutAdminLTE3.cshtml";
 }
 
 <style>
@@ -26,41 +26,48 @@
         text-decoration: underline;
     }
 
-        .dashboard-link a, a:hover {
-            color: white;
-        }
-
-    /*#section-totals-by-status a:link, a:visited {
+    .dashboard-link a, a:hover {
         color: white;
-    }*/
+    }
+
+    .active-test {
+        /*background-color: #067eff;
+        color:white;*/
+    }
+
+
+    
 </style>
 
 <section class="content">
     <div class="row">
         <div class="col-md-3">
-            <div class="box box-solid">
-                <div class="box-header with-border">
-                    <h3 class="box-title">Templates</h3>
-                    <div class="box-tools">
-                        <button type="button" class="btn btn-box-tool" data-widget="collapse">
-                            <i class="fa fa-minus"></i>
+
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Folders</h3>
+                    <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                            <i class="fas fa-minus"></i>
                         </button>
                     </div>
                 </div>
-                <div id="section-template-list" class="box-body no-padding">
-                    <ul class="nav nav-pills nav-stacked">
+                <div id="section-template-list" class="card-body p-0">
+                    <ul class="nav nav-pills flex-column">
                         @foreach (var emailTemplate in Model.DataCollection)
                         {
-                            <li id="@emailTemplate.ID">
-                                <a href="#">
-                                    <i class="fa fa-envelope"></i> @emailTemplate.Title
-                                    @*<span class="pull-right">Standard rejection template</span>*@
+                            <li id="@emailTemplate.ID" class="nav-item">
+                                <a href="#" class="nav-link">
+                                    <i class="fas fa-inbox"></i> @emailTemplate.Title
                                 </a>
                             </li>
                         }
                     </ul>
                 </div>
+
             </div>
+
+      
         </div>
         <!-- /.col -->
         <div class="col-md-9">
@@ -83,9 +90,8 @@
 
     $(function () {
         $('#section-template-list ul.nav li').on('click', function () {
-
-            $(this).parent().find('li.active').removeClass('active');
-            $(this).addClass('active');
+            $(this).parent().find('li.active').removeClass('active-test');
+            $(this).addClass('active-test');
             var itemId = $(this).attr('id');
             LoadData(itemId);
         });
@@ -94,7 +100,7 @@
     function LoadData(id)
     {
         var $getStatusElement = $('li#' + id);
-        $getStatusElement.addClass('active');
+        $getStatusElement.addClass('active-test');
 
         var link = '@Url.Action("View", "EmailTemplate")';
 
@@ -112,6 +118,14 @@
                         console.log(response);
                     }
             });
+    }
+
+    $(document).on("click", "[id='btnSave']", function () {
+        Save();
+    });
+
+    function Save() {
+        alert("DEBUG");
     }
 
 </script>

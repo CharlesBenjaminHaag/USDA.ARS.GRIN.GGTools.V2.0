@@ -64,6 +64,52 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             }
         }
 
+        [HttpPost]
+        public ActionResult Edit(WebCooperatorViewModel viewModel)
+        {
+            try
+            {
+                if (!viewModel.Validate())
+                {
+                    if (viewModel.ValidationMessages.Count > 0) return View(viewModel);
+                }
+
+                if (viewModel.Entity.ID == 0)
+                {
+                    viewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
+                    viewModel.Insert();
+                }
+                else
+                {
+                    viewModel.Entity.ModifiedByCooperatorID = AuthenticatedUser.CooperatorID;
+                    viewModel.Update();
+                }
+                return RedirectToAction("Edit", "Cooperator", new { entityId = viewModel.Entity.ID });
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return RedirectToAction("InternalServerError", "Error");
+            }
+        }
+        public ActionResult Edit(int entityId)
+        {
+            try
+            {
+                WebCooperatorViewModel viewModel = new WebCooperatorViewModel();
+                viewModel.Get(entityId);
+                viewModel.PageTitle = String.Format("Edit Web Cooperator [{0}]: {1}, {2}", entityId, viewModel.Entity.LastName, viewModel.Entity.FirstName);
+                viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
+                viewModel.AuthenticatedUser = AuthenticatedUser;
+                return View("~/Views/WebCooperator/Edit.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return RedirectToAction("InternalServerError", "Error");
+            }
+        }
+
         // ******************************************************************************
         // BEGIN OLD CODE
         // ******************************************************************************

@@ -24,17 +24,15 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
 
         public Cooperator Get(int entityId, string environment = "")
         {
-            List<Cooperator> cooperators = new List<Cooperator>();
             Cooperator cooperator = new Cooperator();
 
-            CooperatorSearch cooperatorSearch = new CooperatorSearch();
-            cooperatorSearch.Environment = environment;
-            cooperatorSearch.ID = entityId;
-            cooperators = Search(cooperatorSearch);
-            if (cooperators.Count == 1)
-            {
-                cooperator = cooperators[0];
-            }
+            SQL = "usp_GRINGlobal_Cooperator_Select";
+
+            var parameters = new List<IDbDataParameter> {
+                    CreateParameter("cooperator_id", (object)entityId, false)
+                };
+
+            cooperator = GetRecord<Cooperator>(SQL, CommandType.StoredProcedure, parameters.ToArray());
             return cooperator;
         }
 

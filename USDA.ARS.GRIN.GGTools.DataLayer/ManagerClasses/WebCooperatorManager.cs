@@ -19,22 +19,27 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
         {
             throw new NotImplementedException();
         }
+        
         public WebCooperator Get(int entityId)
         {
-            List<WebCooperator> webCooperators = new List<WebCooperator>();
             WebCooperator webCooperator = new WebCooperator();
 
-            WebCooperatorSearch webCooperatorSearch = new WebCooperatorSearch();
-            webCooperatorSearch.ID = entityId;
-            
-            webCooperators = Search(webCooperatorSearch);
-            if (webCooperators.Count == 1)
-            {
-                webCooperator = webCooperators[0];
-            }
+            SQL = "usp_GRINGlobal_WebCooperator_Select";
+
+            var parameters = new List<IDbDataParameter> {
+                CreateParameter("web_cooperator_id", (object)entityId, false)
+            };
+
+            webCooperator = GetRecord<WebCooperator>(SQL, CommandType.StoredProcedure, parameters.ToArray());
             return webCooperator;
         }
-
+        public List<State> GetStates()
+        {
+            List<State> states = new List<State>();
+            SQL = "SELECT ID, Admin1 FROM vw_GRINGlobal_Geography_State ORDER BY Admin1";
+            states = GetRecords<State>(SQL);
+            return states;
+        }
         public WebCooperator GetByCooperatorID(int cooperatorId)
         {
             WebCooperator webCooperator = new WebCooperator();

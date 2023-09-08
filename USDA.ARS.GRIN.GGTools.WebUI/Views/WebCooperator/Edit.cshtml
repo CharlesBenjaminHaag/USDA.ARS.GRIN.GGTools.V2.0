@@ -4,12 +4,6 @@
     Layout = "~/Views/Shared/_LayoutAdminLTE3.cshtml";
 }
 
-<style>
-    .row {
-        margin-top: 5px;
-    }
-</style>
-
 <div class="row">
     <div class="col-md-3">
         <div id="section-web-user-widget">
@@ -47,64 +41,60 @@
                                 <div class="col-md-2">
                                     <div class="form-group">
                                         <label>Salutation</label>
-                                        @Html.DropDownListFor(x => x.Entity, Model.Salutations, "Select value", new { @class = "form-control" })
+                                        @Html.DropDownListFor(x => x.Entity.Title, Model.Salutations, "Select value", new { @class = "form-control" })
                                     </div>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-5">
                                     <div class="form-group">
                                         <label>First Name</label>
                                         @Html.TextBoxFor(x => x.Entity.FirstName, new { @class = "form-control" })
                                     </div>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-5">
                                     <div class="form-group">
                                         <label>Last Name</label>
                                         @Html.TextBoxFor(x => x.Entity.LastName, new { @class = "form-control" })
                                     </div>
                                 </div>
-                                <div class="col-md-4">
-                                    <label>Job Title</label>
-                                    @Html.TextBoxFor(x => x.Entity.JobTitle, new { @class = "form-control" })
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-3">
-                                    <label>Organization</label>
-                                    @Html.TextBoxFor(x => x.Entity.Organization, new { @class = "form-control" })
-                                </div>
-                                <div class="col-md-2">
-                                    <label>Abbrev</label>
-                                    @Html.TextBoxFor(x => x.Entity.OrganizationAbbrev, new { @class = "form-control" })
-                                </div>
-                                <div class="col-md-4">
+                                <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Email</label>
                                         @Html.TextBoxFor(x => x.Entity.EmailAddress, new { @class = "form-control" })
                                     </div>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Phone</label>
                                         @Html.TextBoxFor(x => x.Entity.PrimaryPhone, new { @class = "form-control" })
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-4">
-
-                                </div>
-                                <div class="col-md-4">
-
-                                </div>
-                                <div class="col-md-2">
-
-                                </div>
-                                <div class="col-md-2">
-
-                                </div>
-                            </div>
-                            <div class="row">
                                 <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Job Title</label>
+                                        @Html.TextBoxFor(x => x.Entity.JobTitle, new { @class = "form-control" })
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Category</label>
+                                        @Html.DropDownListFor(x => x.Entity.CategoryCode, Model.Categories, "Select value", new { @class = "form-control" })
+                                    </div>
+                                </div>
+                                <div class="col-md-9">
+                                    <div class="form-group">
+                                        <label>Organization</label>
+                                        @Html.TextBoxFor(x => x.Entity.Organization, new { @class = "form-control" })
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Abbrev</label>
+                                        @Html.TextBoxFor(x => x.Entity.OrganizationAbbrev, new { @class = "form-control" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
                                     <div class="form-group">
                                         <label>Address</label>
                                         @Html.TextBoxFor(x => x.Entity.Address1, new { @class = "form-control" })
@@ -115,20 +105,22 @@
                                     <div class="form-group">
                                         @Html.TextBoxFor(x => x.Entity.Address3, new { @class = "form-control" })
                                     </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
                                     <div class="form-group">
                                         <label>City</label>
                                         @Html.TextBoxFor(x => x.Entity.City, new { @class = "form-control" })
                                     </div>
-                                    <div class="row">
-
-                                        <div class="col-md-6">
-                                            <label>Postal Code</label>
-                                            @Html.TextBoxFor(x => x.Entity.PostalCode, new { @class = "form-control" })
-                                        </div>
-                                    </div>
                                 </div>
-                                <div class="col-md-6">
-
+                                <div class="col-md-3">
+                                    <label>State/Geo</label>
+                                    @Html.DropDownListFor(x => x.Entity.GeographyID, Model.States, "Select state", new { @class = "form-control" })
+                                </div>
+                                <div class="col-md-3">
+                                    <label>Postal Code</label>
+                                    @Html.TextBoxFor(x => x.Entity.PostalCode, new { @class = "form-control" })
                                 </div>
                             </div>
                             <div id="section-edit-controls" class="edit-controls" style="margin-top:25px;">
@@ -149,7 +141,7 @@
     </div>
 </div>
 
-@{Html.RenderAction("RenderEditModal", "WebUser");}
+@*@{Html.RenderAction("RenderEditModal", "WebUser");}*@
 
 <script type="text/javascript">
     $(document).ready(function () {

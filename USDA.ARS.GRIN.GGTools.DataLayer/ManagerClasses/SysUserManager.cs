@@ -19,7 +19,6 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             parameters.Clear();
             return sysUser;
         }
-
         public SysUser GetByCooperatorID(int cooperatorId)
         {
             SysUser sysUser = new SysUser();
@@ -32,7 +31,6 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             parameters.Clear();
             return sysUser;
         }
-
         public List<SysUser> GetTaxonomySysUsers()
         {
             List<SysUser> sysUsers = new List<SysUser>();
@@ -48,8 +46,6 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             RowsAffected = sysUsers.Count;
             return sysUsers;
         }
-       
-
         public virtual List<SysUser> Search(SysUserSearch searchEntity)
         {
             SysUser sysUser = new SysUser();
@@ -191,7 +187,22 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
         }
         public int Update(SysUser entity)
         {
+            Reset(CommandType.StoredProcedure);
             
+            SQL = "usp_GRINGlobal_Sys_User_Update";
+
+            AddParameter("sys_user_id", entity.SysUserID == 0 ? entity.ID : (object)entity.SysUserID, true);
+            AddParameter("is_enabled", String.IsNullOrEmpty(entity.IsEnabled) ? DBNull.Value : (object)entity.IsEnabled, true);
+            AddParameter("modified_by", entity.ModifiedByCooperatorID == 0 ? DBNull.Value : (object)entity.ModifiedByCooperatorID, true);
+            AddParameter("@out_error_number", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
+            
+            RowsAffected = ExecuteNonQuery();
+            int errorNumber = GetParameterValue<int>("@out_error_number", -1);
+            if (errorNumber > 0)
+            {
+                throw new Exception(errorNumber.ToString());
+            }
+
             return RowsAffected;
         }
 

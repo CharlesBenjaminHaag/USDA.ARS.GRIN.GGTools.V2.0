@@ -1,31 +1,85 @@
 ﻿@model USDA.ARS.GRIN.GGTools.ViewModelLayer.EmailTemplateViewModel
-<div class="box box-primary">
-    <div class="box-header with-border">
-        <h3 class="box-title">@Model.Entity.Title</h3>
-    </div>
-    <div class="box-body no-padding">
-        <div class="mailbox-read-info">
-            <h3>@Model.Entity.Subject</h3>
-            <h5>
-                @Model.Entity.EmailFrom
-                <span class="mailbox-read-time pull-right">Last edited @Model.Entity.ModifiedDate</span>
-            </h5>
+@using (Html.BeginForm("Edit", "EmailTemplate", FormMethod.Post, new { id = "frmEdit" }))
+{
+    <div class="card card-primary card-outline">
+        <div class="card-header">
+            <h3 class="card-title">@Model.Entity.Title</h3>
+        </div>
+        <div class="card-body">
+
+            <div id="DEBUG" style="background-color:yellow;">
+                <h3>SAMPLE NEW ACCT TEXT</h3>
+                <p>Your GRIN-Global Curator Tool Account Has Been Created</p>
+                <p>You have two accounts:</p>
+                <ul>
+                <li>Your <b>Curator Tool </b>account allows you to access data 
+                    within the Curator Tool.&nbsp;<ul>
+                    <li>Your password will expire within 30 days of its most recent 
+                    change. To reset it, refer to 
+                    the <a href="https://npgsweb.ars-grin.gov/ggtools/Login/RequestPasswordReset" target="_blank">Self-Service Password Utility</a>.</li><li>For information related to downloading and installing the Curator Tool, please refer to:<ul><li><a href="https://www.grin-global.org/download_ct.html" target="_blank">Curator Tool Installation Page</a></li></ul></li></ul></li><li>Your <b>Public Website</b> account allows you to log into the Public Website to access curator-specific reports, as well as the <a href="https://www.grin-global.org/sql_examples.htm" target="_blank">Web Query</a> tool.</li></ul>
+                <table width="100%">
+                    <tbody>
+                        <tr>
+                            <td colspan="2"><h6>CT Account</h6></td>
+                            <td colspan="2"><h6>Website Account</h6></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Username</strong></td>           
+                            <td>USER</td>
+                            <td><strong>Username</strong></td>
+                            <td>USER</td>
+                            
+                        </tr>
+                        <tr>
+                            <td><b>Password</b></td>
+                            <td>PASS</td>
+                            <td><b>Password</b></td>
+                            <td>PASS</td>
+                            
+                        </tr>
+                        <tr>
+                            <td><strong>Expires</strong></td>
+                            <td>EXP DATE</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        </tbody>
+                </table>
+                
+            </div>
+
+            <div class="form-group">
+                <input class="form-control" placeholder="From:" value="@Model.Entity.EmailFrom" readonly="readonly">
+            </div>
+            <div class="form-group">
+                <input class="form-control" placeholder="<<Recipient email(s) here>>" , readonly="readonly">
+            </div>
+            <div class="form-group">
+                <input class="form-control" placeholder="Subject:" value="@Model.Entity.Subject">
+            </div>
+            <div class="form-group">
+                @Html.TextAreaFor(x => x.Entity.Body, new { @class = "form-control" })
+            </div>
+            @Html.Partial("~/Views/Shared/_RevisionHistorySimple.cshtml")
+        </div>
+        <div class="card-footer">
+            <div class="float-right">
+                <button id="btnSave" type="button" class="btn btn-primary"><i class="far fa-save"></i> Save Edits</button>
+            </div>
+            <button type="reset" class="btn btn-default"><i class="fas fa-times"></i> Discard</button>
         </div>
 
-        <div class="mailbox-controls with-border" style="padding:15px;">
-            
-        </div>
-        <div class="mailbox-read-message">
-            @Html.Raw(Model.Entity.Body)
-        </div>
     </div>
-    <div class="box-footer">
-    </div>
-    <div class="box-footer">
-        <div class="btn-group pull-right">
-            <a href="@Url.Action("Edit","EmailTemplate", new { @entityId = Model.Entity.ID })" class="btn btn-default">
-                <i class="fa fa-edit"></i>Edit Template
-            </a>
-        </div>
-    </div>
-</div>
+}
+<script type="text/javascript">
+    // Set body field to RTF format.
+    $('#Entity_Body').summernote({
+        height: 275,                 // set editor height
+        minHeight: null,             // set minimum height of editor
+        maxHeight: null,             // set maximum height of editor
+        'width': '100%',
+        focus: true                  // set focus to editable area after initializing summernote
+    });
+</script>
+
+

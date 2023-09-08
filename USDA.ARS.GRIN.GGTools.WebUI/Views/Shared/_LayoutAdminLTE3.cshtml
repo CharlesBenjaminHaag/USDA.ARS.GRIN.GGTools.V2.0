@@ -95,9 +95,6 @@
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/adminlte/js")
     @Scripts.Render("~/ggtools/js")
-
-
-
 </head>
 <body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed text-sm">
     <div class="wrapper">
@@ -108,20 +105,24 @@
         </div>
 
         <nav class="main-header navbar navbar-expand navbar-white navbar-light text-sm">
-            
+
             <!-- TODO: Refactor. Show context-sensitive menu. -->
-            @{ 
-                string eventAction = @ViewContext.RouteData.Values["controller"].ToString();
-                string eventValue = @ViewContext.RouteData.Values["action"].ToString(); 
-            }
+            @{ string eventAction = @ViewContext.RouteData.Values["controller"].ToString();
+                            string eventValue = @ViewContext.RouteData.Values["action"].ToString(); }
 
-            @if ((eventAction == "Cooperator") && (eventValue == "Get"))
+            @if (eventAction == "Cooperator")
             {
-
+                if ((eventValue == "Get") || (eventValue == "Edit"))
+                {
+                    @Html.Partial("~/Views/Cooperator/_MenuEdit.cshtml") }
+                else
+                {
+                    @Html.Partial("~/Views/Shared/_NavbarListOptions.cshtml") 
+                }
             }
             else
             {
-                @Html.Partial("~/Views/Shared/_NavbarListOptions.cshtml")           
+                @Html.Partial("~/Views/Shared/_NavbarListOptions.cshtml")            
             }
 
             <ul class="navbar-nav ml-auto">
@@ -201,6 +202,9 @@
                         break;
                     case "WebOrderRequest":
                         Html.RenderAction("RenderSidebar", "WebOrderRequest");
+                        break;
+                    case "Cooperator":
+                        Html.RenderAction("RenderSidebar", "Home");
                         break;
                     case "Folder":
                         if (actionName == "Explorer")

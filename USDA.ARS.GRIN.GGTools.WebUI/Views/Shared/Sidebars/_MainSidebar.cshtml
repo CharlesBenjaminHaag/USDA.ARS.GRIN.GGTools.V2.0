@@ -8,44 +8,44 @@
         </li>
         <li class="nav-item menu-open">
             <a href="#" class="nav-link ">
-                <i class="nav-icon fas fa-compass"></i>
+                <i class="nav-icon fas fa-cogs"></i>
                 <p>
-                    Navigation
+                    Workspaces
                     <i class="right fas fa-angle-left"></i>
                 </p>
             </a>
             <ul class="nav nav-treeview">
                 <li class="nav-item">
                     <a href="@Url.Action("Navigate","Home", new { applicationCode = "GGT-NRR"})" class="nav-link">
-                        <i class="fas fa-cogs nav-icon"></i>
+                        <i class="fas fa-circle nav-icon"></i>
                         <p>NRR Tool</p>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a href="@Url.Action("Navigate","Home", new { applicationCode = "GGT-TAX"})" class="nav-link">
-                        <i class="fas fa-cogs nav-icon"></i>
+                        <i class="fas fa-circle nav-icon"></i>
                         <p>Taxonomy Editor</p>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a href="@Url.Action("Index","Cooperator")" class="nav-link">
-                        <i class="fas fa-cogs nav-icon"></i>
-                        <p>User Manager</p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="@Url.Action("Navigate","Home", new { applicationCode = "GGT-CUR"})" class="nav-link">
-                        <i class="fas fa-cogs nav-icon"></i>
-                        <p>Curators</p>
+                        <i class="fas fa-circle nav-icon"></i>
+                        <p>ARM Tool</p>
                     </a>
                 </li>
             </ul>
         </li>
         <li class="nav-header">SYSADMIN</li>
         <li class="nav-item">
+            <a href="@Url.Action("Index","EmailTemplate")" class="nav-link">
+                <i class="nav-icon fas fa-envelope"></i>
+                <p>Email Templates</p>
+            </a>
+        </li>
+        <li class="nav-item">
             <a href="@Url.Action("Explorer","SysGroup")" class="nav-link">
                 <i class="nav-icon fas fa-users-cog"></i>
-                <p>Groups</p>
+                <p>Sys Groups</p>
             </a>
         </li>
         <li class="nav-item">
