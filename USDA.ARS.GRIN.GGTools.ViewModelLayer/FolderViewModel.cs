@@ -24,7 +24,6 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
         public void HandleRequest()
         {
         }
-
         public void Get()
         {
             using (FolderManager mgr = new FolderManager())
@@ -39,7 +38,6 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
                 }
             }
         }
-
         public int Search()
         {
             using (FolderManager mgr = new FolderManager())
@@ -69,37 +67,6 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
                 return mgr.RowsAffected;
             }
         }
-
-        //public void GetMySharedFolders(int cooperatorId)
-        //{
-        //    using (FolderManager mgr = new FolderManager())
-        //    {
-        //        try
-        //        {
-        //            DataCollection = new Collection<AppUserItemFolder>(mgr.Search(SearchEntity));
-        //            RowsAffected = mgr.RowsAffected;
-
-        //            if (DataCollection.Count == 1)
-        //            {
-        //                Entity = DataCollection[0];
-        //            }
-
-        //            // Get types
-        //            List<string> DEBUG = DataCollection.Select(x => x.FolderTypeDescription).Distinct().ToList();
-        //            foreach (var type in DEBUG)
-        //            {
-        //                DataCollectionFolderTypes.Add(new CodeValue { Value = type, Title = type });
-        //            }
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            PublishException(ex);
-        //            throw ex;
-        //        }
-        //        return mgr.RowsAffected;
-        //    }
-        //}
-
         public void GetRelatedFolders()
         {
             using (FolderManager mgr = new FolderManager())
@@ -107,24 +74,6 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
                 DataCollection = new Collection<AppUserItemFolder>(mgr.GetRelatedFolders(SearchEntity));
             }
         }
-
-        //public int GetSharedFolders(int cooperatorId)
-        //{
-        //    using (FolderManager mgr = new FolderManager())
-        //    {
-        //        try
-        //        {
-        //            DataCollectionShared = new Collection<AppUserItemFolder>(mgr.GetSharedFolders(cooperatorId));
-        //            RowsAffected = mgr.RowsAffected;
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            PublishException(ex);
-        //            throw ex;
-        //        }
-        //    }
-        //    return RowsAffected;
-        //}
         public int GetAvailableFolders(int cooperatorId, string tableName)
         {
             using (FolderManager mgr = new FolderManager())
@@ -163,7 +112,6 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
             }
             return Entity;
         }
-
         public void GetAvailableCooperators()
         {
             using (FolderManager mgr = new FolderManager())
@@ -171,7 +119,6 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
                 DataCollectionAvailableCooperators = new Collection<Cooperator>(mgr.GetAvailableCooperators(Entity.ID));
             }
         }
-
         public void GetCurrentCooperators()
         {
             using (FolderManager mgr = new FolderManager())
@@ -179,7 +126,6 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
                 DataCollectionCurrentCooperators = new Collection<Cooperator>(mgr.GetCurrentCollaborators(Entity.ID));
             }
         }
-
         public void GetFolderItems(int folderId)
         {
             using (FolderManager mgr = new FolderManager())
@@ -196,6 +142,22 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
                 try
                 {
                     RowsAffected = mgr.Insert(Entity);
+                }
+                catch (Exception ex)
+                {
+                    PublishException(ex);
+                    throw ex;
+                }
+                return RowsAffected;
+            }
+        }
+        public int Import()
+        {
+            using (FolderManager mgr = new FolderManager())
+            {
+                try
+                {
+                    RowsAffected = mgr.Import(Entity);
                 }
                 catch (Exception ex)
                 {

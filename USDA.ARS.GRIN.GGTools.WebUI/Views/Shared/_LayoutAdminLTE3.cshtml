@@ -108,7 +108,22 @@
         </div>
 
         <nav class="main-header navbar navbar-expand navbar-white navbar-light text-sm">
-            @Html.Partial("~/Views/Shared/_NavbarListOptions.cshtml")
+            
+            <!-- TODO: Refactor. Show context-sensitive menu. -->
+            @{ 
+                string eventAction = @ViewContext.RouteData.Values["controller"].ToString();
+                string eventValue = @ViewContext.RouteData.Values["action"].ToString(); 
+            }
+
+            @if ((eventAction == "Cooperator") && (eventValue == "Get"))
+            {
+
+            }
+            else
+            {
+                @Html.Partial("~/Views/Shared/_NavbarListOptions.cshtml")           
+            }
+
             <ul class="navbar-nav ml-auto">
                 <!-- Notifications Dropdown Menu -->
                 <li class="nav-item dropdown">

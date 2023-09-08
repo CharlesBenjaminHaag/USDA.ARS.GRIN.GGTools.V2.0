@@ -488,7 +488,7 @@
     <Content Include="Views\Taxonomy\CommonNameLanguage\_List.cshtml" />
     <Content Include="Views\Taxonomy\Geography\Edit.cshtml" />
     <Content Include="Views\Taxonomy\Geography\Index.cshtml" />
-    <Content Include="Views\Taxonomy\Geography\Search.cshtml" />
+    <Content Include="Views\Taxonomy\Geography\_OBSOLETE\Search.cshtml" />
     <Content Include="Views\Taxonomy\Geography\_Detail.cshtml" />
     <Content Include="Views\Taxonomy\Geography\_List.cshtml" />
     <Content Include="Views\Taxonomy\GeographyMap\Edit.cshtml" />
@@ -849,6 +849,7 @@
     <Content Include="Views\AppUserItemList\Import\_ItemsByList.cshtml" />
     <Content Include="Views\Shared\_BootstrapTreeview2.cshtml" />
     <Content Include="Views\Folder\Modals\_Import.cshtml" />
+    <Content Include="Views\Taxonomy\Geography\Modals\_LookupRegion.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

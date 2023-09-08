@@ -48,6 +48,7 @@
             </div>
             <div class="content">
                 <div class="container" style="max-width:1500px;">
+                    <div id="section-folder-confirmation"></div>
                     <div class="row">
                         <div id="section-lists-by-tab" class="col-md-3">
                             @{Html.RenderAction("GetListsByTab", "AppUserItemList", new { @tabName = "Tab 1" });}
@@ -87,7 +88,16 @@
 @Html.Partial("~/Views/Shared/_Scripts.cshtml")
 <script type="text/javascript">
 
+    document.getElementById("tabNode1").click();
+    /*$("#myUL ul li:first").css("background-color", "yellow");*/
+    var defaultTab = $("#myUL ul li:first").attr('id');
+
+    //DEBUG
+    /*alert("DEFAULT TAB FIRST IN LIST IS " + defaultTab);*/
+
     $("#section-progress-overlay").hide();
+
+    LoadItemsByList(defaultTab.replace("selector-",""));
 
     //$('#section-tab-list ul.nav li').on('click', function () {
     //    var selectedId = $(this).attr('id').replace("tab-","");

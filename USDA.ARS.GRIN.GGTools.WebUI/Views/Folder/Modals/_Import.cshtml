@@ -12,64 +12,70 @@
                 </button>
             </div>
             <div class="modal-body">
-                <div class="card">
-                    <div class="card-header p-2">
-                        
+                <div class="row">
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label>Items to Import</label>
+                            <input type="text" id="txtItemsToImport" class="form-control" readonly="readonly">
+                        </div>
                     </div>
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <label>Name</label>
-                                    <input type="text" id="txtFolderTitle" class="form-control">
-                                </div>
-                                <div class="form-group">
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label>Category</label>
-                                                @Html.DropDownListFor(x => x.Entity.Category, Model.Categories, "Select value", new { @class = "form-control" })
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <label>Add Category</label>
-                                            <input type="text" id="txtFolderNewCategory" class="form-control">
-                                        </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Folder Data Type</label>
+                            <input type="text" id="txtFolderDataType" class="form-control" readonly="readonly">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>Name</label>
+                            <input type="text" id="txtFolderTitle" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Category</label>
+                                        @Html.DropDownListFor(x => x.Entity.Category, Model.Categories, "Select value", new { @class = "form-control" })
                                     </div>
                                 </div>
-                                <div class="form-group">
-                                    <label>Description</label>
-                                    <textarea id="txtFolderDescription" class="form-control" rows="3"></textarea>
+                                <div class="col-md-6">
+                                    <label>Add Category</label>
+                                    <input type="text" id="txtFolderNewCategory" class="form-control">
                                 </div>
-                                <div class="form-group">
-                                    <div class="margin">
-                                        <div class="form-group clearfix">
-                                            <div class="icheck-primary d-inline">
-                                                <input class="custom-control-input" type="checkbox" id="cbxIsFavorite" value="option1">
-                                                <label for="cbxIsFavorite">
-                                                    Add this folder to my Favorites list.
-                                                </label>
-                                            </div>
-                                        </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Description</label>
+                            <textarea id="txtFolderDescription" class="form-control" rows="3"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <div class="margin">
+                                <div class="form-group clearfix">
+                                    <div class="icheck-primary d-inline">
+                                        <input class="custom-control-input" type="checkbox" id="cbxIsFavorite" value="option1">
+                                        <label for="cbxIsFavorite">
+                                            Add this folder to my Favorites list.
+                                        </label>
                                     </div>
-
                                 </div>
                             </div>
-                            <div class="col-md-6">
 
-                            </div>
                         </div>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <button id="btnAddFolder" class="btn btn-primary float-right">Save</button>
-                            </div>
-                        </div>
+                    </div>
+                    <div class="col-md-6">
 
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
                     </div>
                 </div>
             </div>
             <div class="modal-footer justify-content-between">
                 <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                <button id="btnImportFolder" class="btn btn-primary float-right" data-dismiss="modal">Import Folder</button>
             </div>
         </div>
     </div>
@@ -104,25 +110,34 @@ Modal that appears if no record is selected for folder addition.
         InitDataTableLookupFormat("data-table-folder-list");
     });
 
-    $("#btnOpenFolderModal").click(function () {
-        var tableName = $("#TableName").val();
-        var dataTableName = "data_table_" + tableName;
-        var selectedItemIdList = GetSelectedEntityIDs(dataTableName);
+    //$("#btnOpenFolderModal").click(function () {
+    //    var tableName = $("#TableName").val();
+    //    var dataTableName = "data_table_" + tableName;
+    //    var selectedItemIdList = GetSelectedEntityIDs(dataTableName);
+    //    var selectedDataTypeList = GetSelectedDataTypes();
 
-        // Do not display the folder modal unless the user has selected at least
-        // one record to add.
-        if (selectedItemIdList.length < 1) {
-            $("#modal-validation-warning").modal("show");
-        }
-        else {
-            $("#modal-folder-edit").modal("show");
-        }
-    });
+    //    //DEBUG
+    //    alert("SEL DATA TYPES " + selectedDataTypeList);
+
+    //    // Do not display the folder modal unless the user has selected at least
+    //    // one record to add.
+    //    if (selectedItemIdList.length < 1) {
+    //        $("#modal-validation-warning").modal("show");
+    //    }
+    //    else {
+    //        $("#modal-folder-edit").modal("show");
+    //    }
+    //});
 
     function OpenFolderModal() {
         var tableName = $("#TableName").val();
         var dataTableName = "data-table-app-user-item-list-items";
         var selectedItemIdList = GetSelectedEntityIDs(dataTableName);
+        var selectedDataTypeList = GetSelectedDataTypes();
+
+        selectedDataTypeList = jQuery.unique(selectedDataTypeList);
+        // TODO Need to require that folder contain only one data type -- 
+        // validate here, or group data in underlying list. --CBH 9/7/23
 
         // Do not display the folder modal unless the user has selected at least
         // one record to add.
@@ -132,27 +147,90 @@ Modal that appears if no record is selected for folder addition.
         else {
             $("#modal-folder-import").modal("show");
         }
+
+        // Set default attributes.
+        $("#txtFolderTitle").val(GetDefaultFolderName());
+        $("#txtFolderNewCategory").val("CT Imports");
+        $("#txtItemsToImport").val(selectedItemIdList.length);
+        $("#txtFolderDataType").val(selectedDataTypeList[0]);
     }
 
-    $("#btnOpenFolderModalInSingleMode").click(function () {
-        event.preventDefault();
-        $("#EventAction").val("FOLDER");
-        $("#EventValue").val("SINGLE");
-        $("#modal-folder-edit").modal("show");
+    function GetDefaultFolderName() {
+        var defaultFolderName = $("#section-detail-title").html();
+        if (defaultFolderName.length == 0) {
+            defaultFolderName = "(New Imported Folder)";
+        }
+        return defaultFolderName;
+    }
+
+    //TODO
+    /* *********************************************************************
+     * btnImportFolder event
+     * *********************************************************************
+     */
+
+    //$("#btnOpenFolderModalInSingleMode").click(function () {
+    //    event.preventDefault();
+    //    $("#EventAction").val("FOLDER");
+    //    $("#EventValue").val("SINGLE");
+    //    $("#modal-folder-edit").modal("show");
+    //});
+
+    $("#btnImportFolder").click(function () {
+        ImportFolder();
     });
 
-    $("#btnAddFolder").click(function () {
-        AddFolder(0);
-    });
+    function ImportFolder() {
+        var link = '@Url.Action("Import", "Folder")';
+        var folderName = $("#txtFolderTitle").val();
+        var folderCategory = $("#Entity_Category").val();
+        var folderNewCategory = $("#txtFolderNewCategory").val();
+        var folderDescription = $("#txtFolderDescription").val();
+        var tableName = $("#txtFolderDataType").val().replace("_ID","");
+        var selectedItemIdList = GetSelectedEntityIDs("data-table-app-user-item-list-items");
+        var formData = new FormData();
 
-    $("#btnUpdateFolder").click(function () {
-        UpdateFolder();
-    });
+        if (typeof selectedItemIdList != 'undefined') {
+            formData.append("IDList", selectedItemIdList);
+        }
+
+        if ($('#cbxIsFavorite').prop('checked') == true) {
+            formData.append("IsFavorite", "Y");
+        }
+
+        formData.append("TableName", tableName);
+        formData.append("FolderName", folderName);
+        formData.append("FolderType", tableName);
+        formData.append("Category", folderCategory);
+        formData.append("NewCategory", folderNewCategory);
+        formData.append("Description", folderDescription);
+
+        // TEST Show confirmation alert once folder done.
+        $.ajax({
+            url: link,
+            type: 'POST',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (response) {
+                $("#section-folder-confirmation").html(response);
+            },
+            error: function () {
+                alert("Error");
+            }
+        });
+        $("#modal-folder-edit").modal("hide");
+    }
+
+    //$("#btnUpdateFolder").click(function () {
+    //    UpdateFolder();
+    //});
 
     /*
      * Adds a batch of selected items to an existing folder
      */
-    function UpdateFolder() {
+    @*function UpdateFolder() {
         var link = '@Url.Action("Update", "Folder")';
         var entityId = $("#Entity_ID").val();
         var tableName = $("#TableName").val();
@@ -186,78 +264,18 @@ Modal that appears if no record is selected for folder addition.
             }
         });
         $("#modal-folder-edit").modal("hide");
-    }
+    }*@
 
     /*
      * Adds a batch of items to a newly-created folder
     */
-    function AddFolder(folderId) {
-        var link = '@Url.Action("Add", "Folder")';
-        var entityId = $("#Entity_ID").val();
-        var eventAction = $("#EventAction").val();
-        var eventValue = $("#EventValue").val();
-        var tableName = $("#TableName").val();
-        var dataTableName = "data_table_" + tableName;
-        var folderName = $("#txtFolderTitle").val();
-        var folderCategory = $("#Entity_Category").val();
-        var folderNewCategory = $("#txtFolderNewCategory").val();
-        var folderDescription = $("#txtFolderDescription").val();
-        var selectedItemIdList = GetSelectedEntityIDs(dataTableName);
-        var formData = new FormData();
-
-        if ((eventAction == "FOLDER" && eventValue == "SINGLE")) {
-            formData.append("EntityID", entityId);
-        }
-
-        // If there are no values in the selected ID list, use single-record mode.
-        if (selectedItemIdList.length < 1) {
-            selectedItemIdList = entityId;
-        }
-
-        if (typeof selectedItemIdList != 'undefined') {
-            formData.append("IDList", selectedItemIdList);
-        }
-
-        if ($('#cbxIsFavorite').prop('checked') == true) {
-            formData.append("IsFavorite", "Y");
-        }
-
-        if ($('#cbxIsShared').prop('checked') == true) {
-            formData.append("IsShared", true);
-        }
-
-        formData.append("FolderID", folderId);
-        formData.append("TableName", tableName);
-        formData.append("FolderName", folderName);
-        formData.append("FolderType", tableName);
-        formData.append("Category", folderCategory);
-        formData.append("NewCategory", folderNewCategory);
-        formData.append("Description", folderDescription);
-
-        // TEST Show confirmation alert once folder done.
-        $.ajax({
-            url: link,
-            type: 'POST',
-            cache: false,
-            contentType: false,
-            processData: false,
-            data: formData,
-            success: function (response) {
-                $("#section-folder-confirmation").html(response);
-            },
-            error: function () {
-                alert("Error");
-            }
-        });
-        $("#modal-folder-edit").modal("hide");
-    }
 
     function ConfirmFolderSave(folderTitle) {
         $("#new-folder-name").html(folderTitle);
         $("#alert-folder-confirmation").show();
     }
 
-    function SaveFolderItems(folderId) {
+    @*function SaveFolderItems(folderId) {
         var link = '@Url.Action("AddItems", "Folder")';
         var tableName = $("#TableName").val();
         var selectedItemIdList = GetSelectedEntityIDs("data-table-order");
@@ -284,6 +302,15 @@ Modal that appears if no record is selected for folder addition.
             }
         });
         $("#modal-folder-edit").modal("hide");
+    }*@
+
+    function GetSelectedDataTypes() {
+        var table = $('#data-table-app-user-item-list-items').DataTable();
+        var ids = $.map(table.rows('.selected').data(), function (item) {
+            return item[3]
+        });
+        console.log(ids)
+        return ids;
     }
 </script>
 

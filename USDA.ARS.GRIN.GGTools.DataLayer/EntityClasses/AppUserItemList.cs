@@ -18,6 +18,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
         public string Category { get; set; }
         public int IDNumber { get; set; }
         public string IDType { get; set; }
+        public int EntityID { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
         public string Properties { get; set; }

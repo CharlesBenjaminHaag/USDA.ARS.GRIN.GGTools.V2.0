@@ -1,5 +1,6 @@
 ﻿using NLog;
 using System;
+using System.Configuration;
 using System.Web.Mvc;
 using USDA.ARS.GRIN.GGTools.ViewModelLayer;
 
@@ -123,6 +124,10 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             const int SYS_GROUP_ID_WEBTOOLS = 6;
             const string SYS_GROUP_TAG_GGTOOLS_MANAGE_COOPERATOR = "GGTOOLS_MANAGE_COOPERATOR";
 
+            string defaultSysUserPassword = String.Empty;
+
+            defaultSysUserPassword = ConfigurationManager.AppSettings["DefaultSysUserPassword"];
+
             CooperatorViewModel sessionCooperatorViewModel = null;
             SysUserViewModel sysUserViewModel = new SysUserViewModel();
             SysUserViewModel verificationSysUserViewModel = new SysUserViewModel();
@@ -142,6 +147,9 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 sessionCooperatorViewModel.Entity.StatusCode = DEFAULT_COOPERATOR_STATUS;
                 sessionCooperatorViewModel.Entity.CreatedByCooperatorID = DEFAULT_ADMIN_SYS_USER_ID;
                 sessionCooperatorViewModel.Entity.WebCooperatorID = 0;
+                sessionCooperatorViewModel.Entity.Organization = "Agricultural Research Service";
+                sessionCooperatorViewModel.Entity.OrganizationAbbrev = "ARS";
+                sessionCooperatorViewModel.Entity.CategoryCode = "UARS";
                 sessionCooperatorViewModel.Insert();
 
                 // Sys user
@@ -162,7 +170,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
 
                     sysUserViewModel.Entity.SysUserName = sysUserViewModel.Entity.UserName;                   
                     sysUserViewModel.Entity.CreatedByCooperatorID = DEFAULT_ADMIN_SYS_USER_ID;
-                    sysUserViewModel.Entity.Password = sysUserViewModel.GetSecurePassword("GR1NGl@bal!2023");
+                    sysUserViewModel.Entity.Password = sysUserViewModel.GetSecurePassword(defaultSysUserPassword);
                     sysUserViewModel.Entity.SysUserPassword = sysUserViewModel.Entity.Password;
                     sysUserViewModel.Entity.CooperatorID = sessionCooperatorViewModel.Entity.ID;
                     sysUserViewModel.Entity.IsEnabled = "N";
@@ -189,15 +197,18 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 }
 
                 // Web coop
-                webCooperatorViewModel.Entity.FirstName = viewModel.Entity.FirstName;
-                webCooperatorViewModel.Entity.LastName = viewModel.Entity.LastName;
-                webCooperatorViewModel.Entity.JobTitle = viewModel.Entity.JobTitle;
-                webCooperatorViewModel.Entity.Address1 = viewModel.Entity.AddressLine1;
-                webCooperatorViewModel.Entity.Address2 = viewModel.Entity.AddressLine2;
-                webCooperatorViewModel.Entity.Address3 = viewModel.Entity.AddressLine3;
-                webCooperatorViewModel.Entity.City = viewModel.Entity.City;
-                webCooperatorViewModel.Entity.GeographyID = viewModel.Entity.GeographyID;
-                webCooperatorViewModel.Entity.PostalCode = viewModel.Entity.PostalIndex;
+                webCooperatorViewModel.Entity.FirstName = sessionCooperatorViewModel.Entity.FirstName;
+                webCooperatorViewModel.Entity.LastName = sessionCooperatorViewModel.Entity.LastName;
+                webCooperatorViewModel.Entity.JobTitle = sessionCooperatorViewModel.Entity.JobTitle;
+                webCooperatorViewModel.Entity.Address1 = sessionCooperatorViewModel.Entity.AddressLine1;
+                webCooperatorViewModel.Entity.Address2 = sessionCooperatorViewModel.Entity.AddressLine2;
+                webCooperatorViewModel.Entity.Address3 = sessionCooperatorViewModel.Entity.AddressLine3;
+                webCooperatorViewModel.Entity.City = sessionCooperatorViewModel.Entity.City;
+                webCooperatorViewModel.Entity.GeographyID = sessionCooperatorViewModel.Entity.GeographyID;
+                webCooperatorViewModel.Entity.PostalCode = sessionCooperatorViewModel.Entity.PostalIndex;
+                webCooperatorViewModel.Entity.Organization = sessionCooperatorViewModel.Entity.Organization;
+                webCooperatorViewModel.Entity.OrganizationAbbrev = sessionCooperatorViewModel.Entity.OrganizationAbbrev;
+                webCooperatorViewModel.Entity.CategoryCode = sessionCooperatorViewModel.Entity.CategoryCode;
                 webCooperatorViewModel.Entity.CreatedByCooperatorID = DEFAULT_ADMIN_WEB_USER_ID;
                 webCooperatorViewModel.Entity.StatusCode = DEFAULT_COOPERATOR_STATUS;
                 webCooperatorViewModel.Insert();
@@ -210,12 +221,24 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 }
 
                 // Web user
-                webUserViewModel.Entity.WebUserName = sessionCooperatorViewModel.Entity.EmailAddress;
-                webUserViewModel.Entity.WebUserPassword = sysUserViewModel.GetSecurePassword("GR1NGl@bal!2023");
-                webUserViewModel.Entity.CreatedByCooperatorID = DEFAULT_ADMIN_WEB_USER_ID;
-                webUserViewModel.Entity.WebCooperatorID = webCooperatorViewModel.Entity.ID;
-                webUserViewModel.Entity.IsEnabled = "N";
-                webUserViewModel.Insert();
+
+                //TODO See if exists; if so, log action so that approval process
+                //will see steps needed.
+                webUserViewModel.SearchEntity.WebUserName = sessionCooperatorViewModel.Entity.EmailAddress;
+                webUserViewModel.Search();
+                if (webUserViewModel.DataCollection.Count > 0)
+                {
+                    // TODO ADD ACTION
+                }
+                else
+                {
+                    webUserViewModel.Entity.WebUserName = sessionCooperatorViewModel.Entity.EmailAddress;
+                    webUserViewModel.Entity.WebUserPassword = sysUserViewModel.GetSecurePassword(defaultSysUserPassword);
+                    webUserViewModel.Entity.CreatedByCooperatorID = DEFAULT_ADMIN_WEB_USER_ID;
+                    webUserViewModel.Entity.WebCooperatorID = webCooperatorViewModel.Entity.ID;
+                    webUserViewModel.Entity.IsEnabled = "N";
+                    webUserViewModel.Insert();
+                }
 
                 //TODO
                 //Emails to:

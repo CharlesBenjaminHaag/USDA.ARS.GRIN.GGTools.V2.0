@@ -126,7 +126,7 @@
                                                 @Html.TextBoxFor(x => x.Entity.GeographyDescription, new { @class = "form-control", @readonly = "readonly" })
                                                 @Html.HiddenFor(x => x.Entity.GeographyID)
                                                 <span class="input-group-append">
-                                                    <button id="btnShowGeographyModal" type="button" data-toggle="modal" data-target="#modal-geography-lookup-simple" class="btn btn-default btn-flat">
+                                                    <button id="btnOpenGeographyModal" type="button" data-toggle="modal" data-target="#modal-geography-lookup-simple" class="btn btn-default btn-flat">
                                                         <i class="fa fa-search"></i>
                                                     </button>
                                                 </span>
@@ -203,6 +203,16 @@
     $("#modal-geography-lookup").on('shown.bs.modal', function () {
         $($.fn.dataTable.tables(true)).DataTable()
             .columns.adjust();
+    });
+
+    $("#btnOpenGeographyModal").click(function () {
+        var geographyDescription = $("#Entity_GeographyDescription").val();
+        Modal_Init(geographyDescription);
+
+        //DEBUG
+        alert("GEO MODAL INIT " + geographyDescription);
+
+        $("#modal-geography-lookup-simple").modal("show");
     });
 </script>
 

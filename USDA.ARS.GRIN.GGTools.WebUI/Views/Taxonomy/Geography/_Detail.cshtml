@@ -10,31 +10,22 @@
     <div class="card-body">
         <div class="tab-content">
             <div class="tab-pane active" id="section-search-criteria">
-                <div class="btn-group">
-                    <a class="btn btn-default btn-sm" href="@Url.Action("Add","Geography")">
-                        <i class="fa fa-plus"></i> New
-                    </a>
-                </div>
-                <div class="btn-group">
-                    <button id="btnOpenFolderModal" type="button" class="btn btn-default btn-sm"><i class="fa fa-folder"></i></button>
-                </div>
                 <div class="row">
-                    
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <div class="form-group form-horizontal">
                             <label>Continent</label>
-                            @Html.TextBoxFor(x=>x.SearchEntity.ContinentName, new { @class = "form-control" })
+                            @Html.TextBoxFor(x => x.SearchEntity.ContinentName, new { @class = "form-control" })
                             @*@Html.DropDownListFor(x => x.SearchEntity.ContinentRegionID, Model.Continents, "All continents", new { @class = "form-control" })*@
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <div class="form-group form-horizontal">
                             <label>Subcontinent</label>
                             @Html.TextBoxFor(x => x.SearchEntity.SubContinentName, new { @class = "form-control" })
                             @*@Html.DropDownListFor(x => x.SearchEntity.SubContinentRegionID, Model.SubContinents, "All subcontinents", new { @class = "form-control" })*@
                         </div>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                         <div class="form-group form-horizontal">
                             <label>Country</label>
                             @Html.TextBoxFor(x => x.SearchEntity.CountryDescription, new { @class = "form-control" })
@@ -43,8 +34,14 @@
                     </div>
                     <div class="col-md-1">
                         <div class="form-group form-horizontal">
-                            <label>IsValid</label>
+                            <label>Valid</label>
                             @Html.DropDownListFor(x => x.SearchEntity.IsValid, Model.YesNoOptions, "Either", new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="col-md-1">
+                        <div class="form-group form-horizontal">
+                            <label>Has Region</label>
+                            @Html.DropDownListFor(x => x.SearchEntity.IsRegionMapped, Model.YesNoOptions, "Either", new { @class = "form-control" })
                         </div>
                     </div>
                 </div>

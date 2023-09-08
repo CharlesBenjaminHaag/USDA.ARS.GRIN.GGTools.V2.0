@@ -14,25 +14,24 @@
     @Html.HiddenFor(x => x.Entity.ID)
     <div class="card card-default">
         <div class="card-header">
-            @if (Model.Entity.ID > 0)
-            {
-                <div class="btn-group">
-                    <a href="@Url.Action("Add", "GeographyMap", new { geographyId = Model.Entity.ID })" , class="btn btn-default btn-sm pull-right">
-                        <i class="fa fa-plus margin-r-5"></i>
-                        Map
-                    </a>
-                </div>
-            }
-            <div class="btn-group">
-                <button type="button" class="btn btn-default btn-sm pull-right" data-toggle="modal" data-target="#modal-note-lookup">
-                    <i class="fa fa-search margin-r-5"></i>
-                    Notes
+            <h3 class="card-title">Geography Edit</h3>
+            <div class="card-tools">
+                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                    <i class="fas fa-minus"></i>
                 </button>
             </div>
         </div>
         <div class="card-body">
             @Html.Partial("~/Views/Shared/_ValidationMessages.cshtml")
             <div class="row">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <div class="form-group">
+                            <label>Region</label>
+                            @Html.DropDownListFor(x => x.Entity.RegionID, Model.Regions, "NULL", new { @class = "form-control" })
+                        </div>
+                    </div>
+                </div>
                 <div class="col-md-3">
                     <div class="form-group">
                         <label>Country</label>

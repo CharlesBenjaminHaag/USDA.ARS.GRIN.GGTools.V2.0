@@ -6,9 +6,9 @@
             <th>Sort Order</th>
             <th>Item Title</th>
             <th>ID Type</th>
+            <th>ID</th>
             <th>Created</th>
             <th>Last Modified</th>
-            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -23,20 +23,15 @@
                 </td>
                 <td>@result.ItemTitle</td>
                 <td>@result.IDType</td>
+                <td>@result.EntityID</td>
                 <td>
-                    @result.CreatedDate.ToShortDateString() at @result.CreatedDate.ToShortTimeString()
+                    @result.CreatedDate.ToShortDateString()
                 </td>
                 <td>
                     @if (result.ModifiedDate > DateTime.MinValue)
                     {
                         @result.ModifiedDate.ToShortDateString()
                     }
-                </td>
-                <td>
-                    <a href="@Url.Action("DeleteItem", "AppUserItemList", new { entityId = result.IDNumber })" class="btn btn-danger btn-sm pull-right row-edit" style="margin-left:5px;">
-                        <i class="fa fa-trash"></i> Remove
-                    </a>
-
                 </td>
             </tr>
         }

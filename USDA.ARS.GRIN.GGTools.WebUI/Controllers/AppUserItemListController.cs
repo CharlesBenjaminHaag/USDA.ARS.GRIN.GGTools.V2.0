@@ -114,6 +114,83 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 return RedirectToAction("InternalServerError", "Error");
     }
 }
+        //public PartialViewResult Import(FormCollection coll)
+        //{
+        //    FolderViewModel viewModel = new FolderViewModel();
+        //    viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
+
+        //    try
+        //    {
+        //        viewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
+
+        //        if (!String.IsNullOrEmpty(coll["FolderID"]))
+        //        {
+        //            viewModel.Entity.ID = Int32.Parse(coll["FolderID"]);
+        //        }
+
+        //        if (!String.IsNullOrEmpty(coll["IDList"]))
+        //        {
+        //            viewModel.Entity.ItemIDList = coll["IDList"];
+        //        }
+
+        //        if (!String.IsNullOrEmpty(coll["TableName"]))
+        //        {
+        //            viewModel.Entity.TableName = coll["TableName"];
+        //        }
+
+        //        if (!String.IsNullOrEmpty(coll["FolderName"]))
+        //        {
+        //            viewModel.Entity.FolderName = coll["FolderName"];
+        //        }
+
+        //        if (!String.IsNullOrEmpty(coll["FolderType"]))
+        //        {
+        //            viewModel.Entity.FolderType = coll["FolderType"];
+        //        }
+
+        //        if (!String.IsNullOrEmpty(coll["NewCategory"]))
+        //        {
+        //            viewModel.Entity.Category = coll["NewCategory"];
+        //        }
+        //        else
+        //        {
+        //            if (!String.IsNullOrEmpty(coll["Category"]))
+        //            {
+        //                viewModel.Entity.Category = coll["Category"];
+        //            }
+        //        }
+
+        //        if (!String.IsNullOrEmpty(coll["Description"]))
+        //        {
+        //            viewModel.Entity.Description = coll["Description"];
+        //        }
+
+        //        if (!String.IsNullOrEmpty(coll["IsFavorite"]))
+        //        {
+        //            viewModel.Entity.IsFavorite = coll["IsFavorite"];
+        //        }
+
+        //        if (viewModel.Entity.ID == 0)
+        //        {
+        //            viewModel.Insert();
+        //        }
+        //        else
+        //        {
+        //            viewModel.Update();
+        //        }
+
+        //        // TEST Return new folder as JSON
+        //        viewModel.SearchEntity.ID = viewModel.Entity.ID;
+        //        viewModel.Search();
+        //        viewModel.EventAction = "ADD";
+        //        return PartialView("~/Views/Folder/_Confirmation.cshtml", viewModel);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Log.Error(ex);
+        //        return PartialView("~/Views/Error/_InternalServerError.cshtml");
+        //    }
+        //}
 
         public PartialViewResult _List(string tabName = "", int cooperatorId = 0)
         {

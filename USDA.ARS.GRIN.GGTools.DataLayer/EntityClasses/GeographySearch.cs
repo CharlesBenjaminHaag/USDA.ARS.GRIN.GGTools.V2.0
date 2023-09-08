@@ -26,6 +26,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         public string Admin2TypeCode { get; set; }
         public string Admin2TypeDescription { get; set; }
         public string IsValid { get; set; }
+        public string IsRegionMapped { get; set; }
         public string Title { get; set; }
         public string ContinentIDList { get; set; }
         public string ContinentName { get; set; }

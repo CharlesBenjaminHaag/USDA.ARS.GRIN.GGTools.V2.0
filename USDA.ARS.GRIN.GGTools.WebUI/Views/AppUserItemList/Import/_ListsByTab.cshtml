@@ -52,14 +52,14 @@
 
     </div>
 
-    <div class="card-body">
+    <div id="section-tab-treeview" class="card-body">
         <ul id="myUL">
             <li>
-                <span class="caret">Tab 1</span>
+                <span id="tabNode1" class="caret">Tab 1</span>
                 <ul class="nested">
                     @foreach (var result in Model.DataCollectionLists)
                     {
-                        <li>
+                        <li id="selector-@result.TextValue">
                             <a href="#" id="@result.TextValue">
                                 @result.TextValue
                             </a>

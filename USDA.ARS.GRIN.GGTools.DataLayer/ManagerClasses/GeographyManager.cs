@@ -68,6 +68,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             SQL += " AND    (@SubcontinentName              IS NULL OR  Subcontinent            LIKE    '%' + @SubcontinentName + '%')";
             SQL += " AND    (@SubContinentRegionID          IS NULL OR  SubContinentRegionID    =       @SubContinentRegionID)";
             SQL += " AND    (@IsValid                       IS NULL OR  IsValid                 =       @IsValid)";
+            SQL += " AND    (@IsRegionMapped                IS NULL OR  IsRegionMapped          =       @IsRegionMapped)";
 
             // EXTENDED
             SQL += " AND    (@Admin1 IS NULL OR Admin1 COLLATE Latin1_General_CI_AI LIKE '%' + @Admin1 + '%')";
@@ -135,6 +136,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
                 CreateParameter("SubContinentRegionID", searchEntity.SubContinentRegionID > 0 ? (object)searchEntity.SubContinentRegionID : DBNull.Value, true),
                 CreateParameter("CountryCode", (object)searchEntity.CountryCode ?? DBNull.Value, true),
                 CreateParameter("IsValid", (object)searchEntity.IsValid ?? DBNull.Value, true),
+                CreateParameter("IsRegionMapped", (object)searchEntity.IsRegionMapped ?? DBNull.Value, true),
                 
                 //EXTENDED 
                 CreateParameter("Admin1", (object)searchEntity.Admin1 ?? DBNull.Value, true),
@@ -239,18 +241,14 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             return codeValues;
         }
 
-        //public List<Region> GetRegions()
-        //{
-        //    List<Region> results = new List<Region>();
+        public List<Region> GetRegions()
+        {
+            List<Region> results = new List<Region>();
 
-        //    SQL = " SELECT r.region_id AS ID, " +
-        //        " CONCAT(r.continent, CASE WHEN r.subcontinent IS NULL THEN '' ELSE CONCAT(', ', r.subcontinent) END " +
-        //        " ) AS Title FROM region r ORDER BY Title ";
-      
-        //    results = GetRecords<Region>(SQL);
-        //    RowsAffected = results.Count;
-        //    return results;
-        //}
+            SQL = "usp_GRINGlobal_Regions_Select";
+            results = GetRecords<Region>(SQL, CommandType.StoredProcedure);
+            return results;
+        }
 
         public List<Region> GetContinents()
         {
