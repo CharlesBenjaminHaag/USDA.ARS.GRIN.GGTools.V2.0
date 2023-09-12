@@ -64,15 +64,16 @@
                                     </div>
 
                                 </div>
-
                                 <div id="section-items-by-list" class="card-body">
-
-
                                 </div>
                                 <div id="section-progress-overlay" class="overlay">
                                     <i class="fas fa-2x fa-sync-alt"></i>
                                 </div>
                             </div>
+                        
+                            <!-- TEST SESSION LIST-->
+                            
+                        
                         </div>
                     </div>
                 </div>
@@ -112,7 +113,7 @@
     //        alert(myValue);
     //    });
     //});
- 
+
 
     @*function LoadListsByTab(tabName) {
         var link = '@Url.Action("GetListsByTab", "AppUserItemList", new { tabName = "TAB_NAME" })';
@@ -134,6 +135,38 @@
             }
         });
     }*@
+
+    function LoadData() {
+        LoadListsByTab("Tab 1");
+    //    LoadItemsByList(GetDefaultFolderName());
+    }
+
+    function LoadListsByTab(tabName) {
+        var link = '@Url.Action("GetListsByTab", "AppUserItemList", new { tabName = "TAB_NAME" })';
+        link = link.replace("TAB_NAME", tabName);
+
+        var formData = new FormData();
+        formData.append("tabName", tabName);
+
+        $("#section-progress-overlay").show();
+
+        $.ajax({
+            url: link,
+            type: 'POST',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (response) {
+                $("#section-lists-by-tab").html(response);
+                $("#section-progress-overlay").hide();
+
+                document.getElementById("tabNode1").click();
+                var defaultTab = $("#myUL ul li:first").attr('id');
+                LoadItemsByList(defaultTab.replace("selector-", ""));
+            }
+        });
+    }
 
     function LoadItemsByList(listName) {
         var link = '@Url.Action("GetItemsByList", "AppUserItemList", new { listName = "LIST_NAME" })';

@@ -359,6 +359,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
         public PartialViewResult Import(FormCollection coll)
         {
             FolderViewModel viewModel = new FolderViewModel();
+            List<AppUserItemFolder> batchedFolders = new List<AppUserItemFolder>();
             viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
 
             try
@@ -419,6 +420,16 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 viewModel.SearchEntity.ID = viewModel.Entity.ID;
                 viewModel.Search();
                 viewModel.EventAction = "ADD";
+
+                // Add each generated folder to session-stored list.
+                if (Session["IMPORTED-FOLDER-LIST"] != null)
+                {
+                   batchedFolders = Session["IMPORTED-FOLDER-LIST"] as List<AppUserItemFolder>;
+                }
+                batchedFolders.AddRange(viewModel.DataCollection);
+                Session["IMPORTED-FOLDER-LIST"] = batchedFolders;
+                viewModel.DataCollectionBatch = batchedFolders;
+
                 return PartialView("~/Views/Folder/_Confirmation.cshtml", viewModel);
             }
             catch (Exception ex)

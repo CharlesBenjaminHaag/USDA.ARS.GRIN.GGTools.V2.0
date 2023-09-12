@@ -23,6 +23,7 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
         private Collection<AppUserItemFolder> _DataCollection = new Collection<AppUserItemFolder>();
         private Collection<AppUserItemFolder> _DataCollectionShared = new Collection<AppUserItemFolder>();
         private Collection<AppUserItemFolder> _DataCollectionAvailableFolders = new Collection<AppUserItemFolder>();
+        private List<AppUserItemFolder> _DataCollectionBatch = new List<AppUserItemFolder>();
 
         private Collection<AppUserItemList> _DataCollectionFolderItems = new Collection<AppUserItemList>();
         private Collection<CodeValue> _DataCollectionFolderLists = new Collection<CodeValue>();
@@ -102,6 +103,13 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
             get { return _DataCollectionAvailableFolders; }
             set { _DataCollectionAvailableFolders = value; }
         }
+
+        public List<AppUserItemFolder> DataCollectionBatch
+        {
+            get { return _DataCollectionBatch; }
+            set { _DataCollectionBatch = value; }
+        }
+
         public Collection<Cooperator> DataCollectionAvailableCooperators
         {
             get { return _DataCollectionAvailableCooperators; }
