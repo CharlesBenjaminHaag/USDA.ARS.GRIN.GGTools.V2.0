@@ -117,6 +117,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
         public ActionResult Final(CooperatorViewModel viewModel)
         {
             const string DEFAULT_COOPERATOR_STATUS = "PENDING";
+            const string DEFAULT_WEB_COOPERATOR_IS_ACTIVE = "Y";
             const int DEFAULT_ADMIN_SYS_USER_ID = 48;
             const int DEFAULT_ADMIN_WEB_USER_ID = 1;
             const int SYS_GROUP_ID_ALLUSERS = 2;
@@ -210,7 +211,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 webCooperatorViewModel.Entity.OrganizationAbbrev = sessionCooperatorViewModel.Entity.OrganizationAbbrev;
                 webCooperatorViewModel.Entity.CategoryCode = sessionCooperatorViewModel.Entity.CategoryCode;
                 webCooperatorViewModel.Entity.CreatedByCooperatorID = DEFAULT_ADMIN_WEB_USER_ID;
-                webCooperatorViewModel.Entity.StatusCode = DEFAULT_COOPERATOR_STATUS;
+                webCooperatorViewModel.Entity.IsActive = DEFAULT_WEB_COOPERATOR_IS_ACTIVE;
                 webCooperatorViewModel.Insert();
 
                 if (webCooperatorViewModel.Entity.ID > 0)

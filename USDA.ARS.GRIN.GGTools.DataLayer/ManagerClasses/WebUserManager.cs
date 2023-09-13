@@ -112,7 +112,24 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
         }
         public int Update(WebUser entity)
         {
-            
+            Reset(CommandType.StoredProcedure);
+            Validate<WebUser>(entity);
+            SQL = "usp_GRINGlobal_Web_User_Update";
+
+            AddParameter("web_user_id", entity.WebUserID == 0 ? DBNull.Value : (object)entity.WebUserID, true);
+            AddParameter("user_name", String.IsNullOrEmpty(entity.WebUserName) ? DBNull.Value : (object)entity.WebUserName, true);
+            AddParameter("password", String.IsNullOrEmpty(entity.WebUserPassword) ? DBNull.Value : (object)entity.WebUserPassword, true);
+            AddParameter("is_enabled", String.IsNullOrEmpty(entity.IsEnabled) ? DBNull.Value : (object)entity.IsEnabled, true);
+            AddParameter("web_cooperator_id", entity.WebCooperatorID == 0 ? DBNull.Value : (object)entity.WebCooperatorID, true);
+            AddParameter("@out_error_number", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
+            RowsAffected = ExecuteNonQuery();
+
+            var errorNumber = GetParameterValue<int>("@out_error_number", -1);
+
+            if (errorNumber > 0)
+                throw new Exception(errorNumber.ToString());
+
+            return entity.ID;
             return RowsAffected;
         }
         public int Copy(int sysUserId, int webCooperatorId)

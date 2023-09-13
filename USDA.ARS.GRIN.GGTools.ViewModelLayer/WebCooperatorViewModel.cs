@@ -77,7 +77,19 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
 
         public int Update()
         {
-            throw new NotImplementedException();
+            using (WebCooperatorManager mgr = new WebCooperatorManager())
+            {
+                try
+                {
+                    mgr.Update(Entity);
+                }
+                catch (Exception ex)
+                {
+                    PublishException(ex);
+                    throw ex;
+                }
+                return Entity.ID;
+            }
         }
 
         // Create a web cooperator based on an existing cooperator.

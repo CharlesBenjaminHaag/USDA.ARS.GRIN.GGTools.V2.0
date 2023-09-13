@@ -20,8 +20,8 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
         private Collection<SysGroup> _DataCollectionGroups = new Collection<SysGroup>();
         private Collection<Folder> _DataCollectionFolders = new Collection<Folder>();
         private Collection<ReportItem> _DataCollectionReportItems = new Collection<ReportItem>();
-        public string MainSectionCSSClass { get; set; }
-
+        private EmailTemplate _EmailMessage = new EmailTemplate();
+       
         public CooperatorViewModelBase()
         {
             using (CooperatorManager mgr = new CooperatorManager())
@@ -97,7 +97,11 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
             get { return _DataCollectionReportItems; }
             set { _DataCollectionReportItems = value; }
         }
-
+        public EmailTemplate EmailMessage
+        {
+            get { return _EmailMessage; }
+            set { _EmailMessage = value; }
+        }
         #region Select Lists
 
         public SelectList States { get; set; }

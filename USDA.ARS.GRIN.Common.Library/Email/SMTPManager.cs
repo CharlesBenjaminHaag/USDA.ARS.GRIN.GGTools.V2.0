@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Configuration;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,11 +22,24 @@ namespace USDA.ARS.GRIN.Common.Library.Email
                 mailMessage.From = new MailAddress("noreply@usda.gov");
                 mailMessage.ReplyToList.Add(new MailAddress("gringlobal-feedback@usda.gov"));
                 recipientList = sMTPMailMessage.To.Split(';');
-                foreach (var recipient in recipientList)
+
+                // If running in test mode, add only test email address(es) to
+                // list.
+                string runInTestMode = ConfigurationManager.AppSettings["RunInTestMode"];
+
+                if (runInTestMode == "Y")
                 {
-                    if (!String.IsNullOrEmpty(recipient))
+                    string testModeRecipientEmailAddress = ConfigurationManager.AppSettings["TestModeRecipientEmailAddress"];
+                    mailMessage.To.Add(testModeRecipientEmailAddress);
+                }
+                else
+                {
+                    foreach (var recipient in recipientList)
                     {
-                        mailMessage.To.Add(recipient);
+                        if (!String.IsNullOrEmpty(recipient))
+                        {
+                            mailMessage.To.Add(recipient);
+                        }
                     }
                 }
                 mailMessage.Subject = sMTPMailMessage.Subject;

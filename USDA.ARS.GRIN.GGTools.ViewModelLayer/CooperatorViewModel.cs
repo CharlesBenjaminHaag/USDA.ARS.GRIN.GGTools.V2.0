@@ -85,7 +85,6 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
                 TotalRecordsOwned = DataCollectionReportItems.ToList().Sum(x => x.Total);
             }
         }
-      
         public int Insert()
         {
             SysUserViewModel sysUserViewModel = new SysUserViewModel();
@@ -114,7 +113,6 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
                 return Entity.ID;
             }
         }
-
         public void Search()
         {
             using (CooperatorManager mgr = new CooperatorManager())
@@ -136,29 +134,6 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
                 }
             }
         }
-
-        //public void SearchSiteCurators(int siteId)
-        //{
-        //    using (CooperatorManager mgr = new CooperatorManager())
-        //    {
-        //        try
-        //        {
-        //            DataCollection = new Collection<Cooperator>(mgr.SearchSiteCurators(siteId));
-        //            if (DataCollection.Count() == 1)
-        //            {
-        //                Entity = DataCollection[0];
-        //            }
-
-        //            RowsAffected = mgr.RowsAffected;
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            PublishException(ex);
-        //            throw ex;
-        //        }
-        //    }
-        //}
-
         public List<Cooperator> SearchNotes(string searchText)
         {
             throw new NotImplementedException();

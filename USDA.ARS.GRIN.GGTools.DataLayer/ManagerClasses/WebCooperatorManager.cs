@@ -24,7 +24,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
         {
             WebCooperator webCooperator = new WebCooperator();
 
-            SQL = "usp_GRINGlobal_WebCooperator_Select";
+            SQL = "usp_GRINGlobal_Web_Cooperator_Select";
 
             var parameters = new List<IDbDataParameter> {
                 CreateParameter("web_cooperator_id", (object)entityId, false)
@@ -58,9 +58,9 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
         {
             Reset(CommandType.StoredProcedure);
             Validate<WebCooperator>(entity);
-            SQL = "usp_GRINGlobal_Web_Cooperator_Insert";
-
             BuildInsertUpdateParameters(entity);
+
+            SQL = "usp_GRINGlobal_Web_Cooperator_Insert";
 
             AddParameter("@out_error_number", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
             AddParameter("@out_web_cooperator_id", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
@@ -99,14 +99,16 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
         {
             Reset(CommandType.StoredProcedure);
             Validate<WebCooperator>(entity);
+            BuildInsertUpdateParameters(entity);
 
-            SQL = "usp_GGTools_Orders_WebCooperatorStatus_Update";
+            SQL = "usp_GRINGlobal_Web_Cooperator_Update";
 
-            AddParameter("web_cooperator_id", entity.ID == 0 ? DBNull.Value : (object)entity.ID, true);
-            AddParameter("vetted_status_code", String.IsNullOrEmpty(entity.VettedStatusCode) ? DBNull.Value : (object)entity.VettedStatusCode, true);
-            AddParameter("note", (object)entity.Note ?? DBNull.Value, true);
-            AddParameter("modified_by_web_user_id", entity.ModifiedByWebUserID == 0 ? DBNull.Value : (object)entity.ModifiedByWebUserID, true);
+            AddParameter("@out_error_number", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
             RowsAffected = ExecuteNonQuery();
+
+            var errorNumber = GetParameterValue<int>("@out_error_number", -1);
+            if (errorNumber > 0)
+                throw new Exception(errorNumber.ToString());
             return RowsAffected;
         }
         public int Copy(int cooperatorId)
@@ -162,14 +164,15 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             AddParameter("primary_phone", String.IsNullOrEmpty(entity.PrimaryPhone) ? DBNull.Value : (object)entity.PrimaryPhone, true);
             AddParameter("email_address", String.IsNullOrEmpty(entity.EmailAddress) ? DBNull.Value : (object)entity.EmailAddress, true);
             AddParameter("category_code", String.IsNullOrEmpty(entity.CategoryCode) ? DBNull.Value : (object)entity.CategoryCode, true);
+            AddParameter("is_active", String.IsNullOrEmpty(entity.IsActive) ? DBNull.Value : (object)entity.IsActive, true);
             AddParameter("organization_region_code", String.IsNullOrEmpty(entity.OrganizationRegionCode) ? DBNull.Value : (object)entity.OrganizationRegionCode, true);
             AddParameter("discipline_code", String.IsNullOrEmpty(entity.DisciplineCode) ? DBNull.Value : (object)entity.DisciplineCode, true);
             AddParameter("note", String.IsNullOrEmpty(entity.Note) ? DBNull.Value : (object)entity.Note, true);
 
-            if (entity.ID > 0)
-            {
-                AddParameter("modified_by", entity.WebUserID == 0 ? DBNull.Value : (object)entity.WebUserID, true);
-            }
+            //if (entity.ID > 0)
+            //{
+            //    AddParameter("modified_by", entity.WebUserID == 0 ? DBNull.Value : (object)entity.WebUserID, true);
+            //}
             //else
             //{
             //    AddParameter("created_by", entity.WebUserID == 0 ? DBNull.Value : (object)entity.WebUserID, true);

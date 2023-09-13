@@ -25,27 +25,6 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
             return Entity;
         }
         
-        public void GetGroups(int sysUserId)
-        {
-            using (WebUserManager mgr = new WebUserManager())
-            {
-                try
-                {
-                    DataCollectionGroups = new Collection<SysGroupUserMap>(mgr.SelectGroups(sysUserId));
-                    RowsAffected = mgr.RowsAffected;
-                    if (RowsAffected == 1)
-                    {
-                        Entity = DataCollection[0];
-                    }
-                }
-                catch (Exception ex)
-                {
-                    PublishException(ex);
-                    throw ex;
-                }
-            }
-        }
-
         public int Search()
         {
             using (WebUserManager mgr = new WebUserManager())
@@ -76,6 +55,22 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
                 {
                     Entity.WebUserPassword = GetSecurePassword(Entity.WebUserPassword);
                     Entity.ID = mgr.Insert(Entity);
+                }
+                catch (Exception ex)
+                {
+                    PublishException(ex);
+                    throw ex;
+                }
+                return Entity.ID;
+            }
+        }
+        public int Update()
+        {
+            using (WebUserManager mgr = new WebUserManager())
+            {
+                try
+                {
+                    Entity.ID = mgr.Update(Entity);
                 }
                 catch (Exception ex)
                 {

@@ -13,13 +13,12 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
     {
         public int WebUserID { get; set; }
         public string WebUserName { get; set; }
-        public string IsEnabled { get; set; }
+        public string IsActive { get; set; }
         public DateTime WebUserCreatedDate { get; set; }
         public string Title { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string FullName { get; set; }
-        public string AssembledName { get; set; }
         public string EmailAddress { get; set; }
         public string JobTitle { get; set; }
         public string OrganizationRegionCode { get; set; }
@@ -35,7 +34,6 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
         public string PostalCode { get; set; }
         public string CategoryCode { get; set; }
         public string DisciplineCode { get; set; }
-        public string StatusCode { get; set; }
         public int TotalOrders { get; set; }
         public int TotalOrderItems { get; set; }
         public string VettedStatusCode { get; set; }
