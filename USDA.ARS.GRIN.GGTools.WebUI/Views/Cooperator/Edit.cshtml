@@ -233,7 +233,10 @@
         formData.append("EmailMessage.From", $("#EmailMessage_From").val());
         formData.append("EmailMessage.To", $("#EmailMessage_To").val());
         formData.append("EmailMessage.Subject", $("#EmailMessage_Subject").val());
-        formData.append("EmailMessage.Body", $("#EmailMessage_Body").val());
+
+        // Get edited text from Summernote control.
+        var editedEmailBody = $("#EmailMessage_Body").summernote("code");
+        formData.append("EmailMessage.Body", editedEmailBody);
      
         $.ajax({
             url: link,
@@ -244,6 +247,7 @@
             data: formData,
             success: function (response) {
                 $("#section-folder-confirmation").html(response);
+                window.location.href = window.location.href;
             },
             error: function () {
                 alert("Error");

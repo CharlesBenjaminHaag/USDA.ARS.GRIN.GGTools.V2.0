@@ -431,7 +431,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                     webCooperatorViewModel.Get(cooperatorViewModel.Entity.WebCooperatorID);
                     webCooperatorViewModel.Entity.IsActive = "Y";
                     webCooperatorViewModel.Update();
-                    
+
                     WebUserViewModel webUserViewModel = new WebUserViewModel();
                     webUserViewModel.Get(cooperatorViewModel.Entity.WebUserID);
                     webUserViewModel.Entity.IsEnabled = "Y";
@@ -443,20 +443,37 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                     EmailTemplate emailTemplate = emailTemplateViewModel.Get("CNA");
 
                     SMTPMailMessage requestorEmailMessage = new SMTPMailMessage();
-                    requestorEmailMessage.From = emailTemplate.EmailFrom;
-                    requestorEmailMessage.To = cooperatorViewModel.Entity.EmailAddress;
-                    requestorEmailMessage.Subject = emailTemplate.Subject;
 
-                    emailTemplate.Body = emailTemplate.Body.Replace("[FIRST_NAME]", cooperatorViewModel.Entity.FirstName);
-                    emailTemplate.Body = emailTemplate.Body.Replace("[LAST_NAME]", cooperatorViewModel.Entity.LastName);
-                    emailTemplate.Body = emailTemplate.Body.Replace("[CURATOR_TOOL_USER_NAME]", sysUserViewModel.Entity.SysUserName);
-                    emailTemplate.Body = emailTemplate.Body.Replace("[WEB_USER_NAME]", cooperatorViewModel.Entity.EmailAddress);
-                    emailTemplate.Body = emailTemplate.Body.Replace("[CURATOR_TOOL_PASSWORD]", ConfigurationManager.AppSettings["DefaultSysUserPassword"]);
-                    emailTemplate.Body = emailTemplate.Body.Replace("[CURATOR_TOOL_PASSWORD_EXPIRATION_DATE]", sysUserViewModel.Entity.SysUserPasswordExpirationDate.ToShortDateString());
-                    emailTemplate.Body = emailTemplate.Body.Replace("[WEB_USER_PASSWORD]", ConfigurationManager.AppSettings["DefaultSysUserPassword"]);
-                    requestorEmailMessage.Body = emailTemplate.Body;
+                    // If there is edited email present in the viewmodel, use those
+                    // fields. Otherwise, use the default template text.
+                    if (!String.IsNullOrEmpty(viewModel.EmailMessage.Body))
+                    {
+                        requestorEmailMessage.From = viewModel.EmailMessage.From;
+                        requestorEmailMessage.To = viewModel.EmailMessage.To;
+                        requestorEmailMessage.Subject = viewModel.EmailMessage.Subject;
+                        requestorEmailMessage.CC = viewModel.EmailMessage.CC;
+                        requestorEmailMessage.Body = viewModel.EmailMessage.Body;
+                        requestorEmailMessage.IsHtml = viewModel.EmailMessage.IsHtml;
+                    }
+                    else
+                    { 
+                        requestorEmailMessage.From = emailTemplate.EmailFrom;
+                        requestorEmailMessage.To = cooperatorViewModel.Entity.EmailAddress;
+                        requestorEmailMessage.Subject = emailTemplate.Subject;
+                        requestorEmailMessage.Body = emailTemplate.Body;
+                        requestorEmailMessage.IsHtml = true;
+                    }
 
-                    requestorEmailMessage.IsHtml = true;
+                    // Replace substitution variables with values from cooperator data
+                    // fields.
+                    requestorEmailMessage.Body = requestorEmailMessage.Body.Replace("[FIRST_NAME]", cooperatorViewModel.Entity.FirstName);
+                    requestorEmailMessage.Body = requestorEmailMessage.Body.Replace("[LAST_NAME]", cooperatorViewModel.Entity.LastName);
+                    requestorEmailMessage.Body = requestorEmailMessage.Body.Replace("[CURATOR_TOOL_USER_NAME]", sysUserViewModel.Entity.SysUserName);
+                    requestorEmailMessage.Body = requestorEmailMessage.Body.Replace("[WEB_USER_NAME]", cooperatorViewModel.Entity.EmailAddress);
+                    requestorEmailMessage.Body = requestorEmailMessage.Body.Replace("[CURATOR_TOOL_PASSWORD]", ConfigurationManager.AppSettings["DefaultSysUserPassword"]);
+                    requestorEmailMessage.Body = requestorEmailMessage.Body.Replace("[CURATOR_TOOL_PASSWORD_EXPIRATION_DATE]", sysUserViewModel.Entity.SysUserPasswordExpirationDate.ToShortDateString());
+                    requestorEmailMessage.Body = requestorEmailMessage.Body.Replace("[WEB_USER_PASSWORD]", ConfigurationManager.AppSettings["DefaultSysUserPassword"]);
+
                     sMTPManager.SendMessage(requestorEmailMessage);
                 }
 
