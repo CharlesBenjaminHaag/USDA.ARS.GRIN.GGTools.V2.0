@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Web;
 using System.Web.Mvc;
+using USDA.ARS.GRIN.Common.Library.Email;
 using System.Collections.ObjectModel;
 using USDA.ARS.GRIN.GGTools.AppLayer;
 using USDA.ARS.GRIN.GGTools.DataLayer;
@@ -20,7 +21,7 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
         private Collection<SysGroup> _DataCollectionGroups = new Collection<SysGroup>();
         private Collection<Folder> _DataCollectionFolders = new Collection<Folder>();
         private Collection<ReportItem> _DataCollectionReportItems = new Collection<ReportItem>();
-        private EmailTemplate _EmailMessage = new EmailTemplate();
+        private SMTPMailMessage _EmailMessage = new SMTPMailMessage();
        
         public CooperatorViewModelBase()
         {
@@ -97,7 +98,7 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
             get { return _DataCollectionReportItems; }
             set { _DataCollectionReportItems = value; }
         }
-        public EmailTemplate EmailMessage
+        public SMTPMailMessage EmailMessage
         {
             get { return _EmailMessage; }
             set { _EmailMessage = value; }

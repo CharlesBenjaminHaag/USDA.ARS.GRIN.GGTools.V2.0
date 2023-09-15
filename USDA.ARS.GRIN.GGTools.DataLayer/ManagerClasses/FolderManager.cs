@@ -93,17 +93,15 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             RowsAffected = results.Count;
             return results;
         }
-        public virtual List<AppUserItemFolder> GetAvailableFolders(int cooperatorId, string tableName)
+        public virtual List<AppUserItemFolder> GetAvailableFolders(int cooperatorId)
         {
             List<AppUserItemFolder> results = new List<AppUserItemFolder>();
 
             SQL = " SELECT * FROM vw_GRINGlobal_App_User_Item_Folder";
             SQL += " WHERE CreatedByCooperatorID = @CreatedByCooperatorID ";
-            SQL += " AND FolderType = @FolderType";
-
+          
             var parameters = new List<IDbDataParameter> {
                 CreateParameter("CreatedByCooperatorID", cooperatorId, true),
-                CreateParameter("FolderType", (object)tableName ?? DBNull.Value, true),
             };
             results = GetRecords<AppUserItemFolder>(SQL, parameters.ToArray());
             RowsAffected = results.Count;
@@ -224,8 +222,8 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
                 appUserItemList.AppUserItemFolderID = entity.ID;
                 appUserItemList.CreatedByCooperatorID = entity.CreatedByCooperatorID;
                 appUserItemList.IDNumber = Int32.Parse(id);
-                appUserItemList.IDType = entity.FolderType;
-                //appUserItemList.ListName = entity.FolderName;
+                appUserItemList.IDType = entity.TableName;
+                appUserItemList.ListName = entity.FolderName;
                 InsertItem(appUserItemList);
             }
             return 0;
@@ -259,7 +257,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
 
             AddParameter("app_user_item_folder_id", (object)appUserItemList.AppUserItemFolderID, false);
             AddParameter("cooperator_id", (object)appUserItemList.CreatedByCooperatorID, false);
-            //AddParameter("folder_name", (object)appUserItemList.ListName, false);
+            AddParameter("list_name", (object)appUserItemList.ListName, false);
             AddParameter("item_id", (object)appUserItemList.IDNumber, false);
             AddParameter("folder_type", (object)appUserItemList.IDType.Replace("_ID",""), false);
             AddParameter("created_by", (object)appUserItemList.CreatedByCooperatorID ?? DBNull.Value, true);

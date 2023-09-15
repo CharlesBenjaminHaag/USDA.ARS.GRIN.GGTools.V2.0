@@ -53,6 +53,7 @@
     <Compile Include="EntityClasses\AppSetting.cs" />
     <Compile Include="EntityClasses\AppUserDynamicQuerySearch.cs" />
     <Compile Include="EntityClasses\AppUserDynamicQuery.cs" />
+    <Compile Include="EntityClasses\AppUserItemFolderSearch.cs" />
     <Compile Include="EntityClasses\AppUserItemListSearch.cs" />
     <Compile Include="EntityClasses\AppUserItemList.cs" />
     <Compile Include="EntityClasses\Author.cs" />
@@ -154,6 +155,7 @@
     <Compile Include="ManagerClasses\AuthorManager.cs" />
     <Compile Include="ManagerClasses\CooperatorMapManager.cs" />
     <Compile Include="ManagerClasses\EconomicUsageTypeManager.cs" />
+    <Compile Include="ManagerClasses\AppUserItemFolderManager.cs" />
     <Compile Include="ManagerClasses\GRINGlobalDataManagerBase.cs" />
     <Compile Include="ManagerClasses\CitationManager.cs" />
     <Compile Include="ManagerClasses\ClassificationManager.cs" />

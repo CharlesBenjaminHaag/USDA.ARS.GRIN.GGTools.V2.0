@@ -80,7 +80,7 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
             {
                 try
                 {
-                    DataCollectionAvailableFolders = new Collection<AppUserItemFolder>(mgr.GetAvailableFolders(cooperatorId, tableName));
+                    DataCollectionAvailableFolders = new Collection<AppUserItemFolder>(mgr.GetAvailableFolders(cooperatorId));
                     RowsAffected = mgr.RowsAffected;
                 }
                 catch (Exception ex)
@@ -105,7 +105,6 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
                 if (RowsAffected == 1)
                 {
                     Entity = DataCollection[0];
-                    Entity.IsFavoriteOption = ToBool(Entity.IsFavorite);
                 //    DataCollectionAvailableCooperators = new Collection<Cooperator>(mgr.GetAvailableCollaborators(Entity.ID));
                 //    DataCollectionCurrentCooperators = new Collection<Cooperator>(mgr.GetCurrentCollaborators(Entity.ID));
                 }
@@ -223,7 +222,6 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
             {
                 try
                 {
-                    Entity.IsFavorite = FromBool(Entity.IsFavoriteOption);
                     RowsAffected = mgr.Update(Entity);
                 }
                 catch (Exception ex)

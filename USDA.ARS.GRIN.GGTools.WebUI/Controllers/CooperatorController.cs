@@ -562,8 +562,29 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
         }
         public PartialViewResult RenderEmailModal(int entityId)
         {
-            CooperatorViewModel viewModel = new CooperatorViewModel();
-            return PartialView("~/Views/Cooperator/Modals/_Email.cshtml", viewModel);
+            CooperatorViewModel cooperatorViewModel = new CooperatorViewModel();
+            cooperatorViewModel.Get(entityId);
+
+            EmailTemplateViewModel emailTemplateViewModel = new EmailTemplateViewModel();
+            EmailTemplate emailTemplate = emailTemplateViewModel.Get("CNA");
+
+            SMTPMailMessage requestorEmailMessage = new SMTPMailMessage();
+            requestorEmailMessage.From = emailTemplate.EmailFrom;
+            requestorEmailMessage.To = cooperatorViewModel.Entity.EmailAddress;
+            requestorEmailMessage.Subject = emailTemplate.Subject;
+
+            emailTemplate.Body = emailTemplate.Body.Replace("[FIRST_NAME]", cooperatorViewModel.Entity.FirstName);
+            emailTemplate.Body = emailTemplate.Body.Replace("[LAST_NAME]", cooperatorViewModel.Entity.LastName);
+            emailTemplate.Body = emailTemplate.Body.Replace("[CURATOR_TOOL_USER_NAME]", cooperatorViewModel.Entity.SysUserName);
+            emailTemplate.Body = emailTemplate.Body.Replace("[WEB_USER_NAME]", cooperatorViewModel.Entity.EmailAddress);
+            emailTemplate.Body = emailTemplate.Body.Replace("[CURATOR_TOOL_PASSWORD]", ConfigurationManager.AppSettings["DefaultSysUserPassword"]);
+            emailTemplate.Body = emailTemplate.Body.Replace("[CURATOR_TOOL_PASSWORD_EXPIRATION_DATE]", cooperatorViewModel.Entity.SysUserPasswordExpirationDate.ToShortDateString());
+            emailTemplate.Body = emailTemplate.Body.Replace("[WEB_USER_PASSWORD]", ConfigurationManager.AppSettings["DefaultSysUserPassword"]);
+            requestorEmailMessage.Body = emailTemplate.Body;
+            requestorEmailMessage.IsHtml = true;
+            cooperatorViewModel.EmailMessage = requestorEmailMessage;
+
+            return PartialView("~/Views/Cooperator/Modals/_Email.cshtml", cooperatorViewModel);
         }
         public ActionResult Delete(FormCollection formCollection)
         {

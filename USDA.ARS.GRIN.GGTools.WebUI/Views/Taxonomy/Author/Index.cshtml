@@ -5,8 +5,7 @@
 }
 @Html.Partial("~/Views/Taxonomy/Author/_Detail.cshtml")
 @Html.Partial("~/Views/Taxonomy/Author/_List.cshtml")
-@{Html.RenderAction("_Edit", "Folder", new { @tableName = "taxonomy_author" }); }
-
+@{Html.RenderAction("RenderEditModal", "AppUserItemFolder", new { @sysTableName = Model.TableName }); }
 <script type="text/javascript">
 
     $(document).ready(function () {
@@ -33,5 +32,5 @@
         Reset();
     });
 
-    
+
 </script>

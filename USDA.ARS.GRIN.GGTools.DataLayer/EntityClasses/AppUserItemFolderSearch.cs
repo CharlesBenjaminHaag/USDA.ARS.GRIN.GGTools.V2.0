@@ -7,16 +7,14 @@ using USDA.ARS.GRIN.GGTools.AppLayer;
 
 namespace USDA.ARS.GRIN.GGTools.DataLayer
 {
-    public partial class AppUserItemFolder : AppEntityBase
+    public partial class AppUserItemFolderSearch : SearchEntityBase
     {
+        public int EntityID { get; set; }
         public string FolderName { get; set; }
         public string FolderType { get; set; }
-        public string FolderTypeDescription { get; set; }
         public string Description { get; set; }
-        public int TotalItems { get; set; }
         public string Category { get; set; }
-        public string NewCategory { get; set; }
+        public bool IsShared { get; set; }
         public string IsFavorite { get; set; }
-        public string IsShared { get; set; }
     }
 }

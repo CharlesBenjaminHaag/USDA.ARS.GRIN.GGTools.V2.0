@@ -201,7 +201,7 @@
     @{Html.RenderAction("RenderEmailModal", "Cooperator", new { @entityId = Model.Entity.ID }); }
     @{Html.RenderAction("RenderEditModal", "SysUser"); }
     @{Html.RenderAction("RenderEditModal", "SysGroupUserMap", new { sysUserId = Model.Entity.SysUserID }); }
-    <script type="text/javascript">
+<script type="text/javascript">
     $(document).ready(function () {
         Init();
     });
@@ -219,6 +219,39 @@
         var formData = new FormData();
         //TODO
     }
+
+    $(document).on("click", "[id*='btnSendEmailAndActivate']", function () {
+        SetStatusWithEmail();
+    });
+
+    function SetStatusWithEmail() {
+        var link = '@Url.Action("SetStatus", "Cooperator")';
+        var formData = new FormData();
+
+        formData.append("EventAction", "ACTIVATE");
+        formData.append("Entity.ID", $("#Entity_ID").val());
+        formData.append("EmailMessage.From", $("#EmailMessage_From").val());
+        formData.append("EmailMessage.To", $("#EmailMessage_To").val());
+        formData.append("EmailMessage.Subject", $("#EmailMessage_Subject").val());
+        formData.append("EmailMessage.Body", $("#EmailMessage_Body").val());
+     
+        $.ajax({
+            url: link,
+            type: 'POST',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (response) {
+                $("#section-folder-confirmation").html(response);
+            },
+            error: function () {
+                alert("Error");
+            }
+        });
+        $("#modal-folder-edit").modal("hide");
+    }
+
 
     //$(document).on("click", "[id*='btnSaveWebCooperator']", function () {
     //    SaveWebCooperator();
@@ -470,6 +503,6 @@
     //    var link = $("#frmSysUserResetPassword").attr("action");
     //    //TODO
     //}
-    </script>
+</script>
 
 

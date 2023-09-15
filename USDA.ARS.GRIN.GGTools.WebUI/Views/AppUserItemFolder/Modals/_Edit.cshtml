@@ -1,5 +1,4 @@
 ﻿@model USDA.ARS.GRIN.GGTools.ViewModelLayer.AppUserItemFolderViewModel
-
 <div class="modal fade text-sm" id="modal-folder-edit" style="display: none;" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -23,13 +22,13 @@
                     <div class="card-body">
                         <div class="tab-content">
                             <div class="tab-pane active" id="folder-create">
-                                @using (Html.BeginForm("Edit", "ApUserItemFolder", FormMethod.Post, new { id = "frmEdit" }))
+                                @using (Html.BeginForm("Edit", "AppUserItemFolder", FormMethod.Post, new { id = "frmEdit" }))
                                 {
                                     <div class="row">
                                         <div class="col-md-12">
                                             <div class="form-group">
                                                 <label>Name</label>
-                                                <input type="text" id="txtFolderTitle" class="form-control">
+                                                @Html.TextBoxFor(x=>x.Entity.FolderName, new { @class = "form-control" })
                                             </div>
                                             <div class="form-group">
                                                 <div class="row">
@@ -41,13 +40,13 @@
                                                     </div>
                                                     <div class="col-md-6">
                                                         <label>Add Category</label>
-                                                        <input type="text" id="txtFolderNewCategory" class="form-control">
+                                                        @Html.TextBoxFor(x=>x.Entity.NewCategory, new { @class="form-control" })
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <label>Description</label>
-                                                <textarea id="txtFolderDescription" class="form-control" rows="3"></textarea>
+                                                @Html.TextAreaFor(x => x.Entity.Description, new { @class = "form-control", @rows = "5" });
                                             </div>
                                             <div class="form-group">
                                                 <div class="margin">
@@ -69,7 +68,7 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-md-12">
-                                            <button id="btnAddFolder" class="btn btn-primary float-right">Save</button>
+                                            <button id="btnSaveNewFolder" type="button" class="btn btn-primary float-right" data-dismiss="modal">Save</button>
                                         </div>
                                     </div>
                                 }
@@ -88,7 +87,7 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @foreach (var folder in Model.DataCollectionAvailableFolders)
+                                                @foreach (var folder in Model.DataCollectionUserFolders)
                                                 {
                                                     <tr>
                                                         <td>
@@ -114,7 +113,7 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <button id="btnUpdateFolder" class="btn btn-primary float-right">Update Selected Folder</button>
+                                        <button id="btnUpdateSelectedFolder" class="btn btn-primary float-right">Update Selected Folder</button>
                                     </div>
                                 </div>
                             </div>
@@ -180,11 +179,11 @@ Modal that appears if no record is selected for folder addition.
         $("#modal-folder-edit").modal("show");
     });
 
-    $("#btnAddFolder").click(function () {
-        AddFolder(0);
+    $("#btnSaveNewFolder").click(function () {
+        SaveNewFolder();
     });
 
-    $("#btnUpdateFolder").click(function () {
+    $("#btnUpdateSelectedFolder").click(function () {
         UpdateFolder();
     });
 
@@ -230,50 +229,39 @@ Modal that appears if no record is selected for folder addition.
     /*
      * Adds a batch of items to a newly-created folder
     */
-    function AddFolder(folderId) {
-        var link = '@Url.Action("Add", "AppUserItemFolder")';
+    function SaveNewFolder() {
+        var link = '@Url.Action("Edit", "AppUserItemFolder")';
         var entityId = $("#Entity_ID").val();
-        var eventAction = $("#EventAction").val();
-        var eventValue = $("#EventValue").val();
-        var tableName = $("#TableName").val();
-        var dataTableName = "data_table_" + tableName;
-        var folderName = $("#txtFolderTitle").val();
-        var folderCategory = $("#Entity_Category").val();
-        var folderNewCategory = $("#txtFolderNewCategory").val();
-        var folderDescription = $("#txtFolderDescription").val();
-        var selectedItemIdList = GetSelectedEntityIDs(dataTableName);
         var formData = new FormData();
-
-        if ((eventAction == "FOLDER" && eventValue == "SINGLE")) {
-            formData.append("EntityID", entityId);
-        }
-
+       
         // If there are no values in the selected ID list, use single-record mode.
+        
+
+        //if ($('#cbxIsFavorite').prop('checked') == true) {
+        //    formData.append("IsFavorite", "Y");
+        //}
+
+        //if ($('#cbxIsShared').prop('checked') == true) {
+        //    formData.append("IsShared", true);
+        //}
+
+        formData.append("Entity.TableName", $("#TableName").val());
+        formData.append("Entity.FolderName", $("#Entity_FolderName").val());
+        formData.append("Entity.FolderType", "STATIC");
+        formData.append("Entity.Category", $("#Entity_Category").val());
+        formData.append("Entity.NewCategory", $("#Entity_NewCategory").val());
+        formData.append("Entity.Description", $("#Entity_Description").val());
+
+        var selectedItemIdList = GetSelectedEntityIDs("data_table_" + $("#TableName").val());
         if (selectedItemIdList.length < 1) {
-            selectedItemIdList = entityId;
+            alert("ERROR: No items selected");
         }
 
-        if (typeof selectedItemIdList != 'undefined') {
-            formData.append("IDList", selectedItemIdList);
+        if (typeof selectedItemIdList == 'undefined') {
+            alert("ERROR: Item ID list undefined");
         }
+        formData.append("EntityIDList", selectedItemIdList);
 
-        if ($('#cbxIsFavorite').prop('checked') == true) {
-            formData.append("IsFavorite", "Y");
-        }
-
-        if ($('#cbxIsShared').prop('checked') == true) {
-            formData.append("IsShared", true);
-        }
-
-        formData.append("FolderID", folderId);
-        formData.append("TableName", tableName);
-        formData.append("FolderName", folderName);
-        formData.append("FolderType", tableName);
-        formData.append("Category", folderCategory);
-        formData.append("NewCategory", folderNewCategory);
-        formData.append("Description", folderDescription);
-
-        // TEST Show confirmation alert once folder done.
         $.ajax({
             url: link,
             type: 'POST',

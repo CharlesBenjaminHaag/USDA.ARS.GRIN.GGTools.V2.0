@@ -87,7 +87,10 @@
             margin-bottom: 10px;
         }
     </style>
-      
+
+    <!-- SummerNote -->
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
+
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/adminlte/js")
@@ -270,7 +273,7 @@ else
 
 
     $(document).ready(function () {
-        $('#txtNote').summernote({
+        $('textarea').summernote({
             height: 100,                 // set editor height
             minHeight: null,             // set minimum height of editor
             maxHeight: null,             // set maximum height of editor

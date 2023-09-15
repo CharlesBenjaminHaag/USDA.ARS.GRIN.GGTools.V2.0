@@ -52,6 +52,8 @@
     <Compile Include="AccessionInventoryAttachmentViewModelBase.cs" />
     <Compile Include="AppUserDynamicQueryViewModelBase.cs" />
     <Compile Include="AppUserDynamicQueryViewModel.cs" />
+    <Compile Include="AppUserItemFolderViewModelBase.cs" />
+    <Compile Include="AppUserItemFolderViewModel.cs" />
     <Compile Include="AppUserItemListViewModel.cs" />
     <Compile Include="AppUserItemListViewModelBase.cs" />
     <Compile Include="AuthenticatedViewModelBase.cs" />

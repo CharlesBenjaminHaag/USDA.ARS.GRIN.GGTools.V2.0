@@ -277,6 +277,16 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 return PartialView("~/Views/Error/_InternalServerError.cshtml");
             }
         }
+        /// <summary>
+        /// Adds a list of records of a given data type to a newly-created
+        /// folder.
+        /// </summary>
+        /// <param name="coll"></param>
+        /// <returns>A partial view containing:
+        /// 1) the name of the newly-created
+        /// folder
+        /// 2) a link to the folder detail page.
+        /// </returns>
         [HttpPost]
         public PartialViewResult Add(FormCollection coll)
         {
@@ -309,7 +319,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
 
                 if (!String.IsNullOrEmpty(coll["FolderType"]))
                 {
-                    viewModel.Entity.FolderType = coll["FolderType"];
+                    viewModel.Entity.FolderType = "FOLDER";
                 }
 
                 if (!String.IsNullOrEmpty(coll["NewCategory"]))
@@ -438,8 +448,6 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 return PartialView("~/Views/Error/_InternalServerError.cshtml");
             }
         }
-
-
         public JsonResult AddFolderItem(int folderId, int entityId, string tableName)
         {
             try
@@ -476,7 +484,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 if (!String.IsNullOrEmpty(coll["TableName"]))
                 {
                     viewModel.Entity.TableName = coll["TableName"];
-                    viewModel.Entity.FolderType = coll["TableName"];
+                    viewModel.Entity.FolderType = "STATIC";
                 }
 
                 viewModel.InsertFolderItems();
@@ -722,9 +730,9 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                         if (viewModel.ValidationMessages.Count > 0) return View(viewModel);
                     }
 
-                    if (!String.IsNullOrEmpty(viewModel.Entity.AlternateCategory))
+                    if (!String.IsNullOrEmpty(viewModel.Entity.NewCategory))
                     {
-                        viewModel.Entity.Category = viewModel.Entity.AlternateCategory;
+                        viewModel.Entity.Category = viewModel.Entity.NewCategory;
                     }
 
                     if (viewModel.Entity.ID == 0)

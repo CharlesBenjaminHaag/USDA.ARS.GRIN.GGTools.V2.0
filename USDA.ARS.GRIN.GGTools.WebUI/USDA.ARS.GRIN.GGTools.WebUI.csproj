@@ -139,6 +139,7 @@
     <Compile Include="Controllers\AccessionIPRController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AppUserDynamicQueryController.cs" />
+    <Compile Include="Controllers\AppUserItemFolderController.cs" />
     <Compile Include="Controllers\AppUserItemListController.cs" />
     <Compile Include="Controllers\AuthorController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
@@ -853,6 +854,10 @@
     <Content Include="Views\Cooperator\_MenuEdit.cshtml" />
     <Content Include="Views\Shared\Modals\_Email.cshtml" />
     <Content Include="Views\Cooperator\Modals\_Email.cshtml" />
+    <Content Include="Views\AppUserItemFolder\Modals\_BatchDelete.cshtml" />
+    <Content Include="Views\AppUserItemFolder\Modals\_Edit.cshtml" />
+    <Content Include="Views\AppUserItemFolder\Modals\_Import.cshtml" />
+    <Content Include="Views\AppUserItemFolder\Modals\_SelectList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
