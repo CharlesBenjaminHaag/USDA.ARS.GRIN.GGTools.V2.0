@@ -46,6 +46,8 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
             }
         }
 
+        
+
         public void HandleRequest()
         {
             throw new NotImplementedException();
@@ -53,7 +55,11 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
 
         public int Insert()
         {
-            throw new NotImplementedException();
+            using (AppUserItemListManager mgr = new AppUserItemListManager())
+            {
+                mgr.Insert(Entity);
+            }
+            return Entity.ID;
         }
 
         public void Search()

@@ -192,13 +192,14 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
         //    }
         //}
 
-        public PartialViewResult _List(string tabName = "", int cooperatorId = 0)
+        public PartialViewResult _List(string tabName = "", int cooperatorId = 0, int appUserItemFolderId = 0)
         {
             AppUserItemListViewModel viewModel = new AppUserItemListViewModel();
             try
             {
                 viewModel.SearchEntity.ListName = tabName;
                 viewModel.SearchEntity.CreatedByCooperatorID = cooperatorId;
+                viewModel.SearchEntity.AppUserItemFolderID = appUserItemFolderId;
                 viewModel.Search();
                 return PartialView(viewModel);
             }

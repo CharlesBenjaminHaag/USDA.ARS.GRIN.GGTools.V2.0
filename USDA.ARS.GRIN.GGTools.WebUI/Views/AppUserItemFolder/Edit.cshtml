@@ -1,4 +1,4 @@
-﻿@model USDA.ARS.GRIN.GGTools.ViewModelLayer.FolderViewModel
+﻿@model USDA.ARS.GRIN.GGTools.ViewModelLayer.AppUserItemFolderViewModel
 @{
     ViewBag.Title = Model.PageTitle;
     Layout = "~/Views/Shared/_LayoutAdminLTE3.cshtml";
@@ -14,11 +14,11 @@
     <div class="card-body" id="section-search-criteria">
         <div class="tab-content">
             <div class="tab-pane active" id="detail">
-                @{Html.RenderAction("_ListFolderItems", Model.Entity.FolderTypeDescription, new { @folderId = Model.Entity.ID, displayFormat = "" });}
+                @{Html.RenderAction("_List", "AppUserItemList", new { @appUserItemFolderId = Model.Entity.ID, displayFormat = "" });}
             </div>
             <div class="tab-pane" id="sharing">
-                @Html.Partial("~/Views/Shared/_RevisionHistory.cshtml")
-                @using (Html.BeginForm("Edit", "Folder", FormMethod.Post, new { id = "frmEdit" }))
+                @Html.Partial("~/Views/Taxonomy/Shared/_RevisionHistory.cshtml")
+                @using (Html.BeginForm("EditDetails", "AppUserItemFolder", FormMethod.Post, new { id = "frmEdit" }))
                 {
                     @Html.HiddenFor(x => x.PageTitle)
                     @Html.HiddenFor(x => x.EventAction)
@@ -26,15 +26,8 @@
                     @Html.HiddenFor(x => x.TableName)
                     @Html.HiddenFor(x => x.TableCode)
                     @Html.HiddenFor(x => x.Entity.ID)
-                    @Html.HiddenFor(x => x.Entity.FolderType)
                     @Html.HiddenFor(x => x.Entity.RelatedItemCount)
                     <div class="row">
-                        <div class="col-md-2">
-                            <div class="form-group">
-                                <label>Type</label>
-                                @Html.TextBoxFor(x => x.Entity.FolderTypeDescription, new { @class = "form-control", @readonly = "readonly" })
-                            </div>
-                        </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Name</label>
@@ -65,12 +58,12 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group clearfix">
-                                @*<div class="icheck-primary d-inline">
-                                    @Html.CheckBoxFor(x => x, new { id = "cbxIsFavorite", @type = "checkbox", @class = "custom-control-input" })
+                                <div class="icheck-primary d-inline">
+                                    @Html.CheckBoxFor(x => x.IsFavoriteSelector, new { id = "cbxIsFavorite", @type = "checkbox", @class = "custom-control-input" })
                                     <label for="cbxIsFavorite">
                                         Add this folder to my Favorites list.
                                     </label>
-                                </div>*@
+                                </div>
                             </div>
                         </div>
                     </div>

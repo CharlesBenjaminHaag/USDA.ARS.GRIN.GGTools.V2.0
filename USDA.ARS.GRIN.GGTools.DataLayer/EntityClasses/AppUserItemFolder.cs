@@ -17,6 +17,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
         public string Category { get; set; }
         public string NewCategory { get; set; }
         public string IsFavorite { get; set; }
+        public bool IsFavoriteOption { get; set; }
         public string IsShared { get; set; }
     }
 }

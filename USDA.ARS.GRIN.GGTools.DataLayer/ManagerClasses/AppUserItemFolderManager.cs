@@ -10,7 +10,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
 {
     public partial class AppUserItemFolderManager : AppDataManagerBase
     {
-        public AppUserItemFolder Get(FolderSearch searchEntity)
+        public AppUserItemFolder Get(AppUserItemFolderSearch searchEntity)
         {
             AppUserItemFolder appUserItemFolder = new AppUserItemFolder();
 
@@ -29,17 +29,41 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             List<AppUserItemFolder> results = new List<AppUserItemFolder>();
 
             SQL = " SELECT * FROM vw_GRINGlobal_App_User_Item_Folder"; 
-            //SQL += " WHERE  (@FolderType                IS NULL OR   FolderTypeDescription      =   @FolderType)";
-            SQL += " WHERE    (@Category                  IS NULL OR   Category                   =   @Category)";
+            SQL += " WHERE  (@Category                  IS NULL OR   Category                   =   @Category)";
             SQL += " AND    (@CreatedByCooperatorID     IS NULL OR   CreatedByCooperatorID      =   @CreatedByCooperatorID)";
             SQL += " AND    (@AppUserItemFolderID       IS NULL OR   ID                         =   @AppUserItemFolderID)";
             SQL += " AND    (@IsFavorite                IS NULL OR   IsFavorite                 =   @IsFavorite)";
 
-            if (searchEntity.IsShared == true)
+            //if (searchEntity.IsShared == "Y")
+            //{
+            //    SQL += " AND ID IN (SELECT FolderID " +
+            //            " FROM vw_GRINGlobal_App_User_Item_Folder_Cooperator_Map " +
+            //            " WHERE CooperatorID = @SharedWithCooperatorID) ";
+            //}
+
+            switch (searchEntity.TimeFrame)
             {
-                SQL += " AND ID IN (SELECT FolderID " +
-                        " FROM vw_GRINGlobal_App_User_Item_Folder_Cooperator_Map " +
-                        " WHERE CooperatorID = @SharedWithCooperatorID) ";
+                case "1D":
+                    SQL += " AND (CONVERT(date, CreatedDate) = CONVERT(date, GETDATE()))";
+                    break;
+                case "3D":
+                    SQL += " AND  CreatedDate >= DATEADD(day,-3, GETDATE())";
+                    break;
+                case "7D":
+                    SQL += " AND  CreatedDate >= DATEADD(day,-7, GETDATE())";
+                    break;
+                case "30D":
+                    SQL += " AND  CreatedDate >= DATEADD(day,-30, GETDATE())";
+                    break;
+                case "60D":
+                    SQL += " AND  CreatedDate >= DATEADD(day,-60, GETDATE())";
+                    break;
+                case "90D":
+                    SQL += " AND  CreatedDate >= DATEADD(day,-90, GETDATE())";
+                    break;
+                case "YEAR":
+                    SQL += " AND  DATEPART(year, CreatedDate) = DATEPART(year, GETDATE())";
+                    break;
             }
 
             var parameters = new List<IDbDataParameter> {
@@ -159,7 +183,18 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
 
             return codeValues;
         }
+        public virtual List<ReportItem> GetIDTypes(int appUserItemFolderId)
+        {
+            List<ReportItem> reportItems = new List<ReportItem>();
 
+            SQL = "usp_GRINGlobal_App_User_Item_List_ID_Types_Select";
+
+            var parameters = new List<IDbDataParameter> {
+            CreateParameter("app_user_item_folder_id", (object)appUserItemFolderId, false)
+            };
+            reportItems = GetRecords<ReportItem>(SQL, CommandType.StoredProcedure, parameters.ToArray());
+            return reportItems;
+        }
         protected virtual void BuildInsertUpdateParameters(AppUserItemFolder entity)
         {
             if (entity.ID > 0)
@@ -168,7 +203,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             }
 
             AddParameter("folder_name", (object)entity.FolderName, false);
-            AddParameter("folder_type", (object)entity.FolderType, false);
+            //AddParameter("folder_type", (object)entity.FolderType ?? DBNull.Value, true);
             AddParameter("category", (object)entity.Category ?? DBNull.Value, true);
             AddParameter("description", (object)entity.Description ?? DBNull.Value, true);
             AddParameter("is_favorite", (object)entity.IsFavorite ?? DBNull.Value, true);

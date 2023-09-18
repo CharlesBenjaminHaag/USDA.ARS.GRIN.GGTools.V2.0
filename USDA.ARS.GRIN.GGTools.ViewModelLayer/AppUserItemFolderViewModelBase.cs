@@ -17,6 +17,7 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
         private Collection<AppUserItemFolder> _DataCollectionUserFolders = new Collection<AppUserItemFolder>();
         private Collection<Cooperator> _DataCollectionAvailableCooperators = new Collection<Cooperator>();
         private Collection<Cooperator> _DataCollectionSharedCooperators = new Collection<Cooperator>();
+        private Collection<ReportItem> _DataCollectionIDTypes = new Collection<ReportItem>();
 
         public AppUserItemFolderViewModelBase()
         {
@@ -68,7 +69,11 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
             get { return _DataCollectionSharedCooperators; }
             set { _DataCollectionSharedCooperators = value; }
         }
-
+        public Collection<ReportItem> DataCollectionIDTypes
+        {
+            get { return _DataCollectionIDTypes; }
+            set { _DataCollectionIDTypes = value; }
+        }
         public SelectList Categories { get; set; }
     }
 }

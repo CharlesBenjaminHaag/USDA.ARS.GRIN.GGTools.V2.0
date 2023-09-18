@@ -17,32 +17,85 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
         {
             return View();
         }
+        public PartialViewResult _List(int formatCode = 1, int cooperatorId = 0, string isFavorite = null, string timeFrame = "", string isShared = "N")
+        {
+            AppUserItemFolderViewModel viewModel = new AppUserItemFolderViewModel();
+            viewModel.SearchEntity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
+            viewModel.SearchEntity.IsFavorite = isFavorite;
+            viewModel.SearchEntity.TimeFrame = timeFrame;
+            viewModel.SearchEntity.IsShared = isShared;
+            viewModel.Search();
 
-        [HttpPost]
-        public PartialViewResult Edit(AppUserItemFolderViewModel viewModel)
+            return PartialView("~/Views/AppUserItemFolder/_ListWidget.cshtml", viewModel);
+        }
+        public ActionResult Edit(int entityId)
         {
             try
             {
-                viewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
-                
+                AppUserItemFolderViewModel viewModel = new AppUserItemFolderViewModel(AuthenticatedUser.CooperatorID);
+                viewModel.TableName = "app_user_item_folder";
+                viewModel.TableCode = "Folder";
+                viewModel.AuthenticatedUser = AuthenticatedUser;
+
+                if (entityId > 0)
+                {
+                    viewModel.SearchEntity.ID = entityId;
+                    viewModel.Get();
+                    viewModel.PageTitle = String.Format("Edit Folder: {0}", viewModel.Entity.FolderName);
+                }
+                else
+                {
+                    viewModel.PageTitle = String.Format("Add Folder");
+                }
+                return View(viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return RedirectToAction("InternalServerError", "Error");
+            }
+        }
+        [HttpPost]
+        public PartialViewResult Add(AppUserItemFolderViewModel viewModel)
+        {
+            try
+            {
                 if (viewModel.Entity.ID == 0)
                 {
+                    viewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
                     viewModel.Insert();
                 }
                 else
                 {
+                    viewModel.Entity.ModifiedByCooperatorID = AuthenticatedUser.CooperatorID;
                     viewModel.Update();
                 }
                 viewModel.SearchEntity.ID = viewModel.Entity.ID;
-                //viewModel.Search();
+                viewModel.Get();
                 viewModel.EventAction = "ADD";
                 return PartialView("~/Views/Folder/_Confirmation.cshtml", viewModel);
+
             }
             catch (Exception ex)
             {
                 Log.Error(ex);
                 return PartialView("~/Views/Error/_InternalServerError.cshtml");
             }
+        }
+        public ActionResult EditDetails(AppUserItemFolderViewModel viewModel)
+        {
+            viewModel.Update();
+            return RedirectToAction("Edit","AppUserItemFolder", new { @entityId = viewModel.Entity.ID });
+        }
+        public PartialViewResult AddItems(AppUserItemFolderViewModel viewModel)
+        {
+            AppUserItemFolderViewModel appUserItemFolderViewModel = new AppUserItemFolderViewModel();
+            appUserItemFolderViewModel.SearchEntity.ID = viewModel.Entity.ID;
+            appUserItemFolderViewModel.Get();
+            appUserItemFolderViewModel.Entity.TableName = viewModel.Entity.TableName;
+            appUserItemFolderViewModel.EntityIDList = viewModel.EntityIDList;
+            appUserItemFolderViewModel.InsertItems();
+            return PartialView("~/Views/Folder/_Confirmation.cshtml", appUserItemFolderViewModel);
         }
         public PartialViewResult RenderEditModal(string sysTableName)
         {

@@ -858,6 +858,10 @@
     <Content Include="Views\AppUserItemFolder\Modals\_Edit.cshtml" />
     <Content Include="Views\AppUserItemFolder\Modals\_Import.cshtml" />
     <Content Include="Views\AppUserItemFolder\Modals\_SelectList.cshtml" />
+    <Content Include="Views\AppUserItemFolder\Edit.cshtml" />
+    <Content Include="Views\AppUserItemFolder\_Confirmation.cshtml" />
+    <Content Include="Views\AppUserItemFolder\_List.cshtml" />
+    <Content Include="Views\AppUserItemFolder\_ListWidget.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

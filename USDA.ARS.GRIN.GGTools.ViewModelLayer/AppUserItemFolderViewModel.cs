@@ -13,27 +13,82 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
 {
     public class AppUserItemFolderViewModel: AppUserItemFolderViewModelBase
     {
+        public bool IsFavoriteSelector { get; set; }
         public AppUserItemFolderViewModel()
         { }
         public AppUserItemFolderViewModel(int cooperatorId) : base(cooperatorId)
         {}
+        public void Get()
+        {
+            using (AppUserItemFolderManager mgr = new AppUserItemFolderManager())
+            {
+                try
+                {
+                    Entity = mgr.Get(SearchEntity);
+                }
+                catch (Exception ex)
+                {
+                    PublishException(ex);
+                }
+            }
+        }
+        // Returns a list of the ID types contained in a given folder.
+        public void GetIDTypes(int appItemFolderId)
+        {
+            using (AppUserItemFolderManager mgr = new AppUserItemFolderManager())
+            {
+                
+            }
+        }
+        public int Search()
+        {
+            using (AppUserItemFolderManager mgr = new AppUserItemFolderManager())
+            {
+                try
+                {
+                    DataCollection = new Collection<AppUserItemFolder>(mgr.Search(SearchEntity));
+                    RowsAffected = mgr.RowsAffected;
+
+                    if (DataCollection.Count == 1)
+                    {
+                        Entity = DataCollection[0];
+                    }
+                }
+                catch (Exception ex)
+                {
+                    PublishException(ex);
+                    throw ex;
+                }
+                return mgr.RowsAffected;
+            }
+        }
         public int Insert()
         {
             using (AppUserItemFolderManager mgr = new AppUserItemFolderManager())
             {
                 try
                 {
-                    Entity.ID = mgr.Insert(Entity);
-                    AppUserItemListViewModel appUserItemListViewModel = new AppUserItemListViewModel();
-                    foreach (var entityId in EntityIDList.Split(','))
+                    if (!String.IsNullOrEmpty(Entity.NewCategory))
                     {
-                        AppUserItemList appUserItemList = new AppUserItemList();
-                        appUserItemList.AppUserItemFolderID = Entity.FolderID;
-                        appUserItemList.ItemTitle = Entity.FolderName;
-                        appUserItemList.EntityID = Int32.Parse(entityId);
-                        appUserItemList.CreatedByCooperatorID = Entity.CreatedByCooperatorID;
-                        appUserItemListViewModel.Insert();
+                        Entity.Category = Entity.NewCategory;
                     }
+                    Entity.ID = mgr.Insert(Entity);
+                    InsertItems();
+                    //AppUserItemListViewModel appUserItemListViewModel = new AppUserItemListViewModel();
+                    //foreach (var entityId in EntityIDList.Split(','))
+                    //{
+                    //    appUserItemListViewModel.Entity.AppUserItemFolderID = Entity.ID;
+                    //    appUserItemListViewModel.Entity.CooperatorID = Entity.CreatedByCooperatorID;
+                    //    appUserItemListViewModel.Entity.TabName = "GGTools Taxon Editor";
+                    //    appUserItemListViewModel.Entity.ListName = Entity.FolderName;
+                    //    appUserItemListViewModel.Entity.IDNumber = Int32.Parse(entityId);
+                    //    appUserItemListViewModel.Entity.IDType = Entity.TableName.ToUpper() + "_ID";
+                    //    appUserItemListViewModel.Entity.SortOrder = Int32.Parse(entityId);
+                    //    appUserItemListViewModel.Entity.Title = Entity.FolderName + " " + Entity.TableName.ToUpper();
+                    //    appUserItemListViewModel.Entity.Description = "Added in GGTools Taxonomy Editor";
+                    //    appUserItemListViewModel.Entity.CreatedByCooperatorID = Entity.CreatedByCooperatorID;
+                    //    appUserItemListViewModel.Insert();
+                    //}
                 }
                 catch (Exception ex)
                 {
@@ -43,13 +98,42 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
                 return RowsAffected;
             }
         }
+        public int InsertItems()
+        {
+            AppUserItemListViewModel appUserItemListViewModel = new AppUserItemListViewModel();
+            // If the update includes to the folder contents as well as its
+            // metadata, add them here.
+            if (!String.IsNullOrEmpty(EntityIDList))
+            {
+                foreach (var entityId in EntityIDList.Split(','))
+                {
+                    appUserItemListViewModel.Entity.AppUserItemFolderID = Entity.ID;
+                    appUserItemListViewModel.Entity.CooperatorID = Entity.CreatedByCooperatorID;
+                    appUserItemListViewModel.Entity.TabName = "GGTools Taxon Editor";
+                    appUserItemListViewModel.Entity.ListName = Entity.FolderName;
+                    appUserItemListViewModel.Entity.IDNumber = Int32.Parse(entityId);
+                    appUserItemListViewModel.Entity.IDType = Entity.TableName.ToUpper() + "_ID";
+                    appUserItemListViewModel.Entity.SortOrder = Int32.Parse(entityId);
+                    appUserItemListViewModel.Entity.Title = Entity.FolderName + " " + Entity.TableName.ToUpper();
+                    appUserItemListViewModel.Entity.Description = "Added in GGTools Taxonomy Editor";
+                    appUserItemListViewModel.Entity.CreatedByCooperatorID = Entity.CreatedByCooperatorID;
+                    appUserItemListViewModel.Insert();
+                }
+            }
+            return RowsAffected;
+        }
         public int Update()
         {
             using (AppUserItemFolderManager mgr = new AppUserItemFolderManager())
             {
                 try
                 {
+                    if (!String.IsNullOrEmpty(Entity.NewCategory))
+                    {
+                        Entity.Category = Entity.NewCategory;
+                    }
                     RowsAffected = mgr.Update(Entity);
+                    AppUserItemListViewModel appUserItemListViewModel = new AppUserItemListViewModel();
                 }
                 catch (Exception ex)
                 {

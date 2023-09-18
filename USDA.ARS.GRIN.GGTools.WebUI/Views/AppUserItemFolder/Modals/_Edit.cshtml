@@ -24,6 +24,7 @@
                             <div class="tab-pane active" id="folder-create">
                                 @using (Html.BeginForm("Edit", "AppUserItemFolder", FormMethod.Post, new { id = "frmEdit" }))
                                 {
+                                    @Html.HiddenFor(x=>x.Entity.ID, new { id = "hfAppUserItemFolderID" })
                                     <div class="row">
                                         <div class="col-md-12">
                                             <div class="form-group">
@@ -46,7 +47,7 @@
                                             </div>
                                             <div class="form-group">
                                                 <label>Description</label>
-                                                @Html.TextAreaFor(x => x.Entity.Description, new { @class = "form-control", @rows = "5" });
+                                                @Html.TextBoxFor(x => x.Entity.Description, new { @class = "form-control"})
                                             </div>
                                             <div class="form-group">
                                                 <div class="margin">
@@ -76,7 +77,7 @@
                             <div class="tab-pane" id="folder-select">
                                 <div class="row">
                                     <div id="section-folder-list" class="col-md-12">
-                                        <table id="data-table-folder-list" class="table table-striped ggtools" style="width:100%">
+                                        <table id="data_table_app_user_item_folder_list" class="table table-striped ggtools" style="width:100%">
                                             <thead>
                                                 <tr>
                                                     <th></th>
@@ -154,7 +155,7 @@ Modal that appears if no record is selected for folder addition.
 
 <script type="text/javascript">
     $(document).ready(function () {
-        InitDataTableLookupFormat("data-table-folder-list");
+        InitDataTableLookupFormat("data_table_app_user_item_folder_list");
     });
 
     $("#btnOpenFolderModal").click(function () {
@@ -191,22 +192,24 @@ Modal that appears if no record is selected for folder addition.
      * Adds a batch of selected items to an existing folder
      */
     function UpdateFolder() {
-        var link = '@Url.Action("Update", "Folder")';
-        var entityId = $("#Entity_ID").val();
+        var link = '@Url.Action("AddItems", "AppUserItemFolder")';
+        var appUserItemFolderId = GetSelectedEntityIDs("data_table_app_user_item_folder_list");
         var tableName = $("#TableName").val();
         var dataTableName = "data_table_" + tableName;
-        var selectedItemIdList = GetSelectedEntityIDs(dataTableName);
-        var folderId = GetSelectedEntityIDs("data-table-folder-list");
         var formData = new FormData();
 
-        // If there are no values in the selected ID list, use single-record mode.
+        var selectedItemIdList = GetSelectedEntityIDs("data_table_" + $("#TableName").val());
         if (selectedItemIdList.length < 1) {
-            selectedItemIdList = entityId;
+            alert("ERROR: No items selected");
         }
 
-        formData.append("IDList", selectedItemIdList);
-        formData.append("FolderID", folderId);
-        formData.append("TableName", tableName);
+        if (typeof selectedItemIdList == 'undefined') {
+            alert("ERROR: Item ID list undefined");
+        }
+
+        formData.append("Entity.ID", appUserItemFolderId);
+        formData.append("EntityIDList", selectedItemIdList);
+        formData.append("Entity.TableName", tableName);
 
         // TEST Show confirmation alert once folder done.
         $.ajax({
@@ -230,7 +233,7 @@ Modal that appears if no record is selected for folder addition.
      * Adds a batch of items to a newly-created folder
     */
     function SaveNewFolder() {
-        var link = '@Url.Action("Edit", "AppUserItemFolder")';
+        var link = '@Url.Action("Add", "AppUserItemFolder")';
         var entityId = $("#Entity_ID").val();
         var formData = new FormData();
        
