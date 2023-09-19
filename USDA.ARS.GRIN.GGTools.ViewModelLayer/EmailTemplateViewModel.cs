@@ -73,6 +73,12 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
                 try
                 {
                     DataCollection = new Collection<EmailTemplate>(mgr.Search(SearchEntity));
+
+                    if (DataCollection.Count == 1)
+                    {
+                        Entity = DataCollection[0];
+                    }
+
                     RowsAffected = mgr.RowsAffected;
                 }
                 catch (Exception ex)

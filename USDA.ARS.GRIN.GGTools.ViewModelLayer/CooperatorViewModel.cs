@@ -35,13 +35,13 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
             }
         }
 
-        public void GetSiteCurators(string sysGroupName)
+        public void GetSiteCurators(int siteId)
         {
             using (CooperatorManager mgr = new CooperatorManager())
             {
                 try
                 {
-                    DataCollection = new Collection<Cooperator>(mgr.GetSiteCurators(sysGroupName));
+                    DataCollection = new Collection<Cooperator>(mgr.GetSiteCurators(siteId));
                     if (DataCollection.Count() == 1)
                     {
                         Entity = DataCollection[0];

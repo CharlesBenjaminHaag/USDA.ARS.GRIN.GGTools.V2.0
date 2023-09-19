@@ -15,7 +15,7 @@
     @Html.Partial("~/Views/Taxonomy/EconomicUse/_Detail.cshtml")
 }
 @Html.Partial("~/Views/Taxonomy/EconomicUse/_List.cshtml")
-@{Html.RenderAction("_Edit", "Folder", new { @tableName = "taxonomy_use" }); }
+@{Html.RenderAction("RenderEditModal", "AppUserItemFolder", new { @sysTableName = "taxonomy_use" }); }
 
 <script type="text/javascript">
 

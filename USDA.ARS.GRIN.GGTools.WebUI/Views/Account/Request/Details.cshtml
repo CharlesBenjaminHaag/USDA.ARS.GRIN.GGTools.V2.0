@@ -39,7 +39,7 @@
                         <div class="col-md-12">
 
                             <div class="input-group mb-3">
-                                @Html.TextBoxFor(x => x.Entity.EmailAddress, new { @class = "form-control", @placeholder = "Employee email address", @type="email" })
+                                @Html.TextBoxFor(x => x.Entity.EmailAddress, new { @class = "form-control", @placeholder = "Employee email address", @type = "email" })
                                 <div class="input-group-append">
                                     <div class="input-group-text">
                                         <span class="fas fa-envelope"></span>
@@ -60,7 +60,7 @@
                         </div>
                         <div class="col-md-6">
                             <div class="input-group">
-                                @Html.TextBoxFor(x => x.Entity.PrimaryPhone, new { @class = "form-control", @placeholder = "Phone number", @mask="(999) 999-9999" })
+                                @Html.TextBoxFor(x => x.Entity.PrimaryPhone, new { @class = "form-control", @placeholder = "Phone number", @mask = "(999) 999-9999" })
                                 <div class="input-group-append">
                                     <span class="input-group-text"><i class="fas fa-phone"></i></span>
                                 </div>
@@ -115,24 +115,24 @@
 
                     <!-- ENVIRONMENTS -->
                     @*<label>Environment(s)</label>
-                <div id="section-employee-environments" class="row">
-                    <div class="col-md-6">
-                        <div class="input-group">
-                            <input type="text" disabled="" readonly class="form-control" value="Production">
-                            <span class="input-group-addon">
-                                <input id="cbxCopyNote" type="checkbox" checked="checked">
-                            </span>
+                    <div id="section-employee-environments" class="row">
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                <input type="text" disabled="" readonly class="form-control" value="Production">
+                                <span class="input-group-addon">
+                                    <input id="cbxCopyNote" type="checkbox" checked="checked">
+                                </span>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="input-group">
-                            <input type="text" disabled="" readonly class="form-control" value="Training">
-                            <span class="input-group-addon">
-                                <input id="cbxCopyNote" type="checkbox" checked="checked">
-                            </span>
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                <input type="text" disabled="" readonly class="form-control" value="Training">
+                                <span class="input-group-addon">
+                                    <input id="cbxCopyNote" type="checkbox" checked="checked">
+                                </span>
+                            </div>
                         </div>
-                    </div>
-                </div>*@
+                    </div>*@
                     <div class="row">
                         <div class="col-md-6">
                             <a href="@Url.Action("New","Account")"
@@ -147,6 +147,9 @@
 
                 </div>
             }
+        </div>
+        <div id="search-progress-overlay-cooperator" class="overlay">
+            <i class="fas fa-2x fa-sync fa-spin"></i>
         </div>
         <div class="card-footer">Version @AppInfo.GetVersion()</div>
     </div>
@@ -167,6 +170,8 @@
     //    //TODO?
     //}
 
+    $("#search-progress-overlay-cooperator").hide();
+
     $('#Entity_SiteID').on('change', function () {
         LoadSite(this.value);
     });
@@ -176,6 +181,8 @@
         var formData = new FormData();
 
         formData.append("entityId", siteId);
+
+        $("#search-progress-overlay-cooperator").show();
 
         $.ajax({
         url: link,
@@ -189,6 +196,7 @@
             //alert("DEBUG: " + response);
 
             $("#section-site-address").html(response);
+            $("#search-progress-overlay-cooperator").hide();
         }
         });
     }

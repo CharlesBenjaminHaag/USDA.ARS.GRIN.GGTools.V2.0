@@ -20,7 +20,7 @@
     @Html.Partial("~/Views/Taxonomy/CropForCWR/_List.cshtml")
 </div>
 
-@{Html.RenderAction("_Edit", "Folder", new { @tableName = "taxonomy_cwr_crop" }); }
+@{Html.RenderAction("RenderEditModal", "AppUserItemFolder", new { @sysTableName = "taxonomy_cwr_crop" }); }
 
 <script type="text/javascript">
 

@@ -16,12 +16,12 @@
             </div>
         </div>
 
-        @if (Model.AuthenticatedUser.IsInRole("ADMINS"))
-        {
+        @*@if (Model.AuthenticatedUser.IsInRole("ADMINS"))
+        {*@
             <div id="section-edit-controls" class="card-footer">
                 <button id="btnEditGroups" class="btn btn-default btn-block" data-toggle="modal" data-target="#modal-sys-group-user-map-edit">Edit Groups</button>
             </div>
-        }
+        @*}*@
     </div>
 }
 else

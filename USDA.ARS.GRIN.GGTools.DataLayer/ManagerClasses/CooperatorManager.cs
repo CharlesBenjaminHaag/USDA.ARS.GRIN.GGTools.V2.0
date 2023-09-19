@@ -49,13 +49,13 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             cooperatorStatus = GetRecord<CooperatorStatus>(SQL, CommandType.StoredProcedure, parameters.ToArray());
             return cooperatorStatus;
         }
-        public List<Cooperator> GetSiteCurators(string siteShortName)
+        public List<Cooperator> GetSiteCurators(int siteId)
         {
             List<Cooperator> cooperators = new List<Cooperator>();
-            SQL = "usp_GRINGlobal_SiteCurators_Select";
+            SQL = "usp_GRINGlobal_Site_Curators_Select";
 
             var parameters = new List<IDbDataParameter> {
-                    CreateParameter("site_short_name", (object)siteShortName, false)
+                    CreateParameter("site_id", (object)siteId, false)
                 };
 
             cooperators = GetRecords<Cooperator>(SQL, CommandType.StoredProcedure, parameters.ToArray());

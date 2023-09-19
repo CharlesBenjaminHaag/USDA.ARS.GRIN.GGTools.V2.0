@@ -2,6 +2,7 @@
 using System;
 using System.Configuration;
 using System.Web.Mvc;
+using USDA.ARS.GRIN.Common.Library.Email;
 using USDA.ARS.GRIN.GGTools.ViewModelLayer;
 
 namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
@@ -124,23 +125,21 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             const int SYS_GROUP_ID_CTUSERS = 3;
             const int SYS_GROUP_ID_WEBTOOLS = 6;
             const string SYS_GROUP_TAG_GGTOOLS_MANAGE_COOPERATOR = "GGTOOLS_MANAGE_COOPERATOR";
-
             string defaultSysUserPassword = String.Empty;
+            SMTPManager sMTPManager = new SMTPManager();
+            SMTPMailMessage sMTPMailMessage = new SMTPMailMessage();
+            SMTPMailMessage sMTPMailMessageCopy = new SMTPMailMessage();
 
             defaultSysUserPassword = ConfigurationManager.AppSettings["DefaultSysUserPassword"];
 
             CooperatorViewModel sessionCooperatorViewModel = null;
+            CooperatorViewModel approvalListCooperatorViewModel = new CooperatorViewModel();
             SysUserViewModel sysUserViewModel = new SysUserViewModel();
             SysUserViewModel verificationSysUserViewModel = new SysUserViewModel();
             SysGroupUserMapViewModel sysGroupUserMapViewModel = new SysGroupUserMapViewModel();
             WebCooperatorViewModel webCooperatorViewModel = new WebCooperatorViewModel();
             WebUserViewModel webUserViewModel = new WebUserViewModel();
 
-            //TODO
-            //Get notes
-            //Save coop and related records
-            //Send primary email
-            //Send CC if requested
             if (Session["NEW_ACCOUNT"] != null)
             {
                 // Cooperator
@@ -241,21 +240,54 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                     webUserViewModel.Insert();
                 }
 
-                //TODO
-                //Emails to:
-                //1. Approval list/group
-                sessionCooperatorViewModel.SearchEntity.SysGroupTag = SYS_GROUP_TAG_GGTOOLS_MANAGE_COOPERATOR;
-                sessionCooperatorViewModel.Search();
+                // Send an email to each user in the GGTOOLS_MANAGE_COOPERATOR group.
+                approvalListCooperatorViewModel.SearchEntity.SysGroupTag = SYS_GROUP_TAG_GGTOOLS_MANAGE_COOPERATOR;
+                approvalListCooperatorViewModel.Search();
 
-                foreach (var result in sessionCooperatorViewModel.DataCollection)
-                { 
-                    // TODO email each user
+                EmailTemplateViewModel emailTemplateViewModel = new EmailTemplateViewModel();
+                emailTemplateViewModel.SearchEntity.CategoryCode = "CNR";
+                emailTemplateViewModel.Search();
+
+                if(emailTemplateViewModel.DataCollection.Count == 0)
+                {
+                    throw new IndexOutOfRangeException("Curator tool request email template not found.");
                 }
 
-                //2. IF SELECTED, requestor
+                foreach (var result in approvalListCooperatorViewModel.DataCollection)
+                {
+                    sMTPMailMessage.From = emailTemplateViewModel.Entity.EmailFrom;
+                    sMTPMailMessage.To = result.EmailAddress;
+                    sMTPMailMessage.Subject = emailTemplateViewModel.Entity.Subject;
+                    sMTPMailMessage.Body = emailTemplateViewModel.Entity.Body;
 
+                    sMTPMailMessage.Body = sMTPMailMessage.Body.Replace("[FIRST_NAME]", sessionCooperatorViewModel.Entity.FirstName);
+                    sMTPMailMessage.Body = sMTPMailMessage.Body.Replace("[LAST_NAME]", sessionCooperatorViewModel.Entity.LastName);
+                    sMTPMailMessage.Body = sMTPMailMessage.Body.Replace("[EMAIL_ADDRESS]", sessionCooperatorViewModel.Entity.EmailAddress);
+                    sMTPMailMessage.Body = sMTPMailMessage.Body.Replace("[PRIMARY_PHONE]", sessionCooperatorViewModel.Entity.PrimaryPhone);
+                    sMTPMailMessage.Body = sMTPMailMessage.Body.Replace("[JOB_TITLE]", sessionCooperatorViewModel.Entity.JobTitle);
+                    sMTPMailMessage.Body = sMTPMailMessage.Body.Replace("[SITE_LONG_NAME]", sessionCooperatorViewModel.Entity.SiteName);
+                    sMTPMailMessage.Body = sMTPMailMessage.Body.Replace("[ADDRESS_1]", sessionCooperatorViewModel.Entity.AddressLine1);
+                    sMTPMailMessage.Body = sMTPMailMessage.Body.Replace("[ADDRESS_2]", sessionCooperatorViewModel.Entity.AddressLine2);
+                    sMTPMailMessage.Body = sMTPMailMessage.Body.Replace("[ADDRESS_3]", sessionCooperatorViewModel.Entity.AddressLine3);
+                    sMTPMailMessage.Body = sMTPMailMessage.Body.Replace("[CITY]", sessionCooperatorViewModel.Entity.City);
+                    sMTPMailMessage.Body = sMTPMailMessage.Body.Replace("[STATE]", sessionCooperatorViewModel.Entity.StateName);
+                    sMTPMailMessage.Body = sMTPMailMessage.Body.Replace("[POSTAL_CODE]", sessionCooperatorViewModel.Entity.PostalIndex);
+                    sMTPMailMessage.Body = sMTPMailMessage.Body.Replace("[NOTE]", viewModel.RequestorNotes);
+
+                    sMTPManager.SendMessage(sMTPMailMessage);
+                }
+
+                // If the user has requested a copy, generate and send a duplicate of the request
+                // to the specified email address,
+                if (!String.IsNullOrEmpty(viewModel.RequestorEmailAddress))
+                {
+                    sMTPMailMessageCopy = sMTPMailMessage;
+                    sMTPMailMessageCopy.To = viewModel.RequestorEmailAddress;
+                    sMTPMailMessageCopy.Subject = "Your Curator Tool Account Request";
+                    sMTPMailMessageCopy.Body = "You submitted the following GRIN-Global Curator Tool account request on " + DateTime.Today.ToShortDateString() + " at " + DateTime.Now.ToShortTimeString() + ": <br>" + sMTPMailMessageCopy.Body;
+                    sMTPManager.SendMessage(sMTPMailMessageCopy);
+                }
             }
-
             return View("~/Views/Account/Request/ThankYou.cshtml");
         }
         public PartialViewResult GetSite(int entityId)

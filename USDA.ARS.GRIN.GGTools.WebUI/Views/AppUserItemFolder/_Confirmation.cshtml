@@ -16,5 +16,5 @@
     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
     <h5><i class="icon fas fa-check"></i>Folder @Model.ToTitleCase(actionVerb) Successfully</h5>
     The folder <strong>@Model.Entity.FolderName</strong> has been @actionVerb.&nbsp;
-    <a href="@Url.Action("Edit","Folder", new { entityId = Model.Entity.ID })">View Folder</a>
+    <a href="@Url.Action("Edit","AppUserItemFolder", new { entityId = Model.Entity.ID })">View Folder</a>
 </div>

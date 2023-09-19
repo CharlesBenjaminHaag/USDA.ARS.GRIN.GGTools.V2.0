@@ -16,7 +16,7 @@
     @Html.Partial("~/Views/Taxonomy/Regulation/_Detail.cshtml")
 }
 @Html.Partial("~/Views/Taxonomy/Regulation/_List.cshtml")
-@{Html.RenderAction("_Edit", "Folder", new { @tableName = "taxonomy_regulation" }); }
+@{Html.RenderAction("RenderEditModal", "AppUserItemFolder", new { @sysTableName = "taxonomy_regulation" }); }
 
 <script type="text/javascript">
 

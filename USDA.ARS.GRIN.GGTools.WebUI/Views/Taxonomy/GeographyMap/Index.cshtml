@@ -26,7 +26,7 @@
     </div>
 }
 
-@{Html.RenderAction("_Edit", "Folder", new { @tableName = Model.TableName }); }
+@{Html.RenderAction("RenderEditModal", "AppUserItemFolder", new { @sysTableName = Model.TableName }); }
 @*@{Html.RenderAction("RenderLookupModal", "Citation", new { isMultiSelect = "Y" }); }*@
 @Html.Partial("~/Views/Shared/Modals/_SaveSearch.cshtml")
 

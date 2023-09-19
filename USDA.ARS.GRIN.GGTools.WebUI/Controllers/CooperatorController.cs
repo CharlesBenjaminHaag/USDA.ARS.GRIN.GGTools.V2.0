@@ -525,14 +525,14 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 return PartialView("~/Views/Error/_InternalServerError.cshtml");
             }
         }
-        public PartialViewResult RenderSiteCuratorListWidget(string siteShortName)
+        public PartialViewResult RenderSiteCuratorListWidget(int siteId)
         {
             try
             {
                 CooperatorViewModel viewModel = new CooperatorViewModel();
                 viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
                 viewModel.AuthenticatedUser = AuthenticatedUser;
-                viewModel.GetSiteCurators(siteShortName);
+                viewModel.GetSiteCurators(siteId);
                 return PartialView("~/Views/Cooperator/_ListWidget.cshtml", viewModel);
             }
             catch (Exception ex)

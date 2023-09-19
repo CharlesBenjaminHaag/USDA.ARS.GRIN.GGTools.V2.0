@@ -24,7 +24,7 @@
             <div class="card-body web-order-request">
                 <div class="tab-content">
                     <div class="tab-pane fade show active" id="tab-content-cooperator" role="tabpanel" aria-labelledby="custom-tabs-two-home-tab">
-                         @{Html.RenderAction("RenderSiteCuratorListWidget", "Cooperator", new { siteShortName = Model.SiteShortName }); }
+                         @{Html.RenderAction("RenderSiteCuratorListWidget", "Cooperator", new { siteId = Model.SiteID }); }
                     </div>
                     <div class="tab-pane fade" id="tab-content-sys-user" role="tabpanel" aria-labelledby="custom-tabs-two-home-tab">
                         @{Html.RenderAction("_Edit", "Site", new { @entityId = Model.AuthenticatedUser.SiteID }); }

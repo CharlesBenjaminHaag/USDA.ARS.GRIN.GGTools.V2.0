@@ -48,7 +48,18 @@ namespace USDA.ARS.GRIN.GGTools.WebUI
         public static string GetDatabase()
         {
             string databaseName = String.Empty;
-            databaseName = ConfigurationManager.AppSettings["Database"];
+            //databaseName = ConfigurationManager.AppSettings["Database"];
+
+            USDA.ARS.GRIN.GGTools.DataLayer.CodeValueManager mgr = new CodeValueManager();
+            if (mgr.ConnectionString.Contains("gringlobal"))
+            {
+                databaseName = "PRODUCTION";
+            }
+            else
+            {
+                databaseName = "TRAINING";
+            }
+           
             return databaseName.ToUpper();
         }
         public static string GetSupportEmail()
