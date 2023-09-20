@@ -42,6 +42,10 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                     viewModel.SearchEntity.ID = entityId;
                     viewModel.Get();
                     viewModel.PageTitle = String.Format("Edit Folder: {0}", viewModel.Entity.FolderName);
+                
+                    //TODO Get list of ID types/tables within the folder.
+
+                
                 }
                 else
                 {
@@ -117,6 +121,37 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 Log.Error(ex);
                 return PartialView("~/Views/Error/_InternalServerError.cshtml");
             }
+        }
+        [HttpPost]
+        public JsonResult DeleteItems(FormCollection coll)
+        {
+            AppUserItemFolderViewModel viewModel = new AppUserItemFolderViewModel();
+            viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
+
+            try
+            {
+                viewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
+
+                if (!String.IsNullOrEmpty(coll["FolderID"]))
+                {
+                    viewModel.SearchEntity.ID = Int32.Parse(coll["FolderID"]);
+                }
+
+                if (!String.IsNullOrEmpty(coll["ItemIDList"]))
+                {
+                    viewModel.ItemIDList = coll["ItemIDList"].ToString();
+                }
+
+                viewModel.Get();
+                viewModel.DeleteItems();
+
+                return Json(new { success = true }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false }, JsonRequestBehavior.AllowGet);
+            }
+
         }
     }
 }

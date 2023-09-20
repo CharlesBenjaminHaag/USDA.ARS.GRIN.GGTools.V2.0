@@ -46,7 +46,13 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
             }
         }
 
-        
+        public void GetSysTablesByAppUserItemFolder(int appUserItemFolderId)
+        {
+            using (AppUserItemListManager mgr = new AppUserItemListManager())
+            {
+               DataCollectionSysTables = new Collection<SysTable>(mgr.GetSysTablesByAppUserItemFolder(appUserItemFolderId));
+            }
+        }
 
         public void HandleRequest()
         {

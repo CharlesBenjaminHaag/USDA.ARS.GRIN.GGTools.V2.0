@@ -63,6 +63,18 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             appUserItemLists = GetRecords<AppUserItemList>(SQL, CommandType.StoredProcedure, parameters.ToArray());
             return appUserItemLists;
         }
+        public List<SysTable> GetSysTablesByAppUserItemFolder(int appUserItemFolderId)
+        {
+            SQL = "usp_GRINGlobal_Sys_Tables_By_App_User_Item_Folder_Select";
+            List<SysTable> sysTables = new List<SysTable>();
+
+            var parameters = new List<IDbDataParameter> {
+                CreateParameter("app_user_item_folder_id", (object)appUserItemFolderId, false),
+            };
+
+            sysTables = GetRecords<SysTable>(SQL, CommandType.StoredProcedure, parameters.ToArray());
+            return sysTables;
+        }
         public List<AppUserItemList> Search(AppUserItemListSearch search)
         {
             SQL = "SELECT * FROM  vw_GRINGlobal_App_User_Item_List ";

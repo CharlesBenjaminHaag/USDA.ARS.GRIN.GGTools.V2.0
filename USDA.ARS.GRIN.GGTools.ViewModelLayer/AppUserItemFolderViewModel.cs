@@ -143,5 +143,17 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
                 return RowsAffected;
             }
         }
+        public void DeleteItems()
+        {
+            string[] itemIdList = ItemIDList.Split(',');
+
+            using (AppUserItemFolderManager mgr = new AppUserItemFolderManager())
+            {
+                foreach (var itemId in itemIdList)
+                {
+                    mgr.DeleteItem(Int32.Parse(itemId));
+                }
+            }
+        }
     }
 }

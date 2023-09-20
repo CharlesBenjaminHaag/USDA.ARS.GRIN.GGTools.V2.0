@@ -14,7 +14,7 @@
     <div class="card-body" id="section-search-criteria">
         <div class="tab-content">
             <div class="tab-pane active" id="detail">
-                @{Html.RenderAction("_List", "AppUserItemList", new { @appUserItemFolderId = Model.Entity.ID, displayFormat = "" });}
+                @{Html.RenderAction("_ListByFolder", "AppUserItemList", new { @appUserItemFolderId = Model.Entity.ID });}
             </div>
             <div class="tab-pane" id="sharing">
                 @Html.Partial("~/Views/Taxonomy/Shared/_RevisionHistory.cshtml")
@@ -117,6 +117,35 @@
         }
     }
 
+    function Load() {
+        var eventAction = $("#EventAction").val();
+        var eventValue = $("#EventValue").val();
+        LoadFolderItems(eventAction, eventValue);
+    }
+
+    function LoadFolderItems(eventAction, eventValue) {
+        var id = $("#Entity_ID").val();
+        var link = '@Url.Action("EVENT_VALUE", "EVENT_ACTION")';
+        link = link.replace("EVENT_VALUE", eventValue);
+        link = link.replace("EVENT_ACTION", eventAction);
+
+        var formData = new FormData();
+
+        formData.append("folderId", id);
+
+        $.ajax({
+            url: link,
+            type: 'POST',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (response) {
+                $("#tab-sys-tables-content").html(response);
+            }
+        });
+    }
+
     /*
     * ***********************************************************
     * Deletion logic
@@ -126,42 +155,6 @@
         DeleteBatch();
     });
 
-    //$("#btnDelete").click(function () {
-    //    var action = $(this).data("ggtools-action");
-    //    $("#EventAction").val(action);
-    //    $("#EventValue").val(
-    //        $(this).data("ggtools-value"));
-    //});
-
-    @*$(document).on("click", "[id*='btnDeleteItem']", function () {
-        var id = $(this).attr("id");
-        var eventValue = $(this).data("ggtools-value");
-        DeleteItem(eventValue);
-    });
-
-    function DeleteItem(id) {
-        var link = '@Url.Action("DeleteItem","Folder")';
-        var formData = new FormData();
-
-        formData.append("appUserItemListId", id);
-
-        $.ajax({
-            url: link,
-            type: 'POST',
-            cache: false,
-            dataType: 'json',
-            contentType: false,
-            processData: false,
-            data: formData,
-            success: function (data) {
-                /*console.log(data);*/
-                /*ConfirmFolderSave(data.folder.FolderName);*/
-            },
-            error: function (ex) {
-            }
-        });
-    }*@
-
     function DeleteBatchPrompt() {
         var selectedFolderItems = GetSelectedAppUserItemListIDs("data_table_taxonomy_author");
         $("#section-item-count").html(selectedFolderItems.length);
@@ -169,7 +162,7 @@
     }
 
     function DeleteBatch() {
-        var link = '@Url.Action("DeleteItems","Folder")';
+        var link = '@Url.Action("DeleteItems","AppUserItemFolder")';
         var folderId = $("#Entity_ID").val();
         var selectedFolderItems = GetSelectedAppUserItemListIDs("data_table_taxonomy_author");
         var formData = new FormData();
@@ -191,8 +184,7 @@
             processData: false,
             data: formData,
             success: function (data) {
-                var refresh = window.location.href;
-                window.location.href = refresh;
+                Load();
             },
             error: function (ex) {
             }

@@ -164,6 +164,23 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
 
             return RowsAffected;
         }
+        public int DeleteItem(int appUserItemListId)
+        {
+            Reset(CommandType.StoredProcedure);
+
+            SQL = "usp_GRINGlobal_AppUserItemList_Delete";
+            AddParameter("@app_user_item_list_id", (object)appUserItemListId, false);
+            AddParameter("@out_error_number", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
+            RowsAffected = ExecuteNonQuery();
+
+            int errorNumber = GetParameterValue<int>("@out_error_number", -1);
+            if (errorNumber > 0)
+            {
+                throw new Exception(errorNumber.ToString());
+            }
+
+            return RowsAffected;
+        }
         public virtual List<CodeValue> GetCategories(int cooperatorId = 0)
         {
             List<CodeValue> codeValues = new List<CodeValue>();

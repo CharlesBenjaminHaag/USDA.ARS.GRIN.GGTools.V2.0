@@ -210,6 +210,21 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             }
         }
 
+        public PartialViewResult _ListByFolder(int cooperatorId = 0, int appUserItemFolderId = 0)
+        {
+            AppUserItemListViewModel viewModel = new AppUserItemListViewModel();
+            try
+            {
+                viewModel.GetSysTablesByAppUserItemFolder(appUserItemFolderId);
+                return PartialView(viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
+        }
+
         public ActionResult Search(AppUserItemList viewModel)
         {
             throw new NotImplementedException();
