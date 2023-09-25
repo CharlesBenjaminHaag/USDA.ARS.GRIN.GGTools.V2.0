@@ -1,9 +1,9 @@
-﻿/*! ggtools.js
-* ================
-* Main JS application file for GGTools. This file
-* should be included in all layout pages. 
-* 
-* @author Benjamin Haag
+﻿/*
+* Name         : ggtools.js
+* Description  : Main JS application file for GGTools. This file
+*                should be included in all layout pages. 
+* Last Updated : 9/23/23
+* By           : Benjamin Haag
 */
 
 /* ========================================================================================
@@ -21,15 +21,6 @@ function AddRecord() {
     var addNewRecordUrl = $("#hfAddNewRecordLink").val();
     window.location.href = addNewRecordUrl;
 }
-
-//function BatchEdit() {
-//    var link = $("#hfBatchEditLink").val();
-
-//    //DEBUG
-//    alert("BATCH EDIT URL " + link);
-
-//    //window.location.href = link;
-//}
 
 /*
  * Datatable utilities
@@ -82,7 +73,7 @@ function InitDataTableFolderFormat(tableName) {
                 'selectNone',
                 'csv',
                 'excel',
-                'pdf',
+                'pdfHtml5',
                 {
                     text: 'Delete From Folder',
                     action: function (e, dt, node, config) {
@@ -328,7 +319,8 @@ function GetSelectedAppUserItemListIDs(tableName) {
     var ids = $.map(table.rows('.selected').data(), function (item) {
         return item[1]
     });
-    console.log(ids)
+
+    /*alert(" DEBUG DATATABLE  IS " + tableName + " IDS ARE " + ids);*/
     return ids;
 }
 

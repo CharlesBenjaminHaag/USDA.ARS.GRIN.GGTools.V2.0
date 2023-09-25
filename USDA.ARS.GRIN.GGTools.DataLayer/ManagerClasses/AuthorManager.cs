@@ -39,7 +39,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             Reset(CommandType.StoredProcedure);
             Validate<Author>(entity);
 
-            SQL = "usp_GGTools_Taxon_Author_Insert";
+            SQL = "usp_GRINGlobal_Taxonomy_Author_Insert";
 
             BuildInsertUpdateParameters(entity);
             AddParameter("@out_error_number", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
@@ -105,7 +105,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
                 " auil.list_name AS ListName, " +
                 " auil.app_user_item_folder_id AS FolderID, " +
                 " vgta.* " +
-                " FROM vw_GGTools_Taxon_Authors vgta " +
+                " FROM vw_GRINGlobal_Taxonomy_Author vgta " +
                 " JOIN app_user_item_list auil " +
                 " ON vgta.ID = auil.id_number " +
                 " WHERE auil.id_type = 'taxonomy_author' ";
@@ -118,30 +118,13 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             RowsAffected = results.Count;
             return results;
         }
-        public List<Author> SearchTaxa(string tableName, string searchText)
-        {
-            List<Author> results = new List<Author>();
-
-            SQL = "SELECT DISTINCT " +
-                " AuthorityText " +
-                " FROM vw_GGTools_Taxon_Authorities ";
-            SQL += " WHERE  (@AuthorityText     IS NULL OR AuthorityText        LIKE  '%' + @AuthorityText + '%') ";
-            SQL += " AND    (@TableName         IS NULL OR TableName            LIKE  '%' + @TableName + '%')";
-            SQL += " ORDER BY AuthorityText ";
-
-            var parameters = new List<IDbDataParameter> {
-                CreateParameter("AuthorityText", (object)searchText, true),
-                CreateParameter("TableName", (object)tableName, true)
-            };
-            results = GetRecords<Author>(SQL, parameters.ToArray());
-            return results;
-        }
+        
         public int Update(Author entity)
         {
             Reset(CommandType.StoredProcedure);
             Validate<Author>(entity);
 
-            SQL = "usp_GGTools_Taxon_Author_Update";
+            SQL = "usp_GRINGlobal_Taxonomy_Author_Update";
 
             BuildInsertUpdateParameters(entity);
             AddParameter("@out_error_number", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
@@ -150,7 +133,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         }
         public virtual List<Cooperator> GetCooperators(string tableName)
         {
-            SQL = "usp_GGTools_GRINGlobal_CreatedByCooperators_Select";
+            SQL = "usp_GRINGlobal_Cooperators_Select";
             var parameters = new List<IDbDataParameter> {
                 CreateParameter("table_name", (object)tableName, false)
             };

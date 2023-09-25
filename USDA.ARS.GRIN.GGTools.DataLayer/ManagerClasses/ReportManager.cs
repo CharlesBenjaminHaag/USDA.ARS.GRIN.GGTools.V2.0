@@ -17,20 +17,16 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             switch (code)
             {
                 case "WORORD":
-                    SQL = "SELECT * FROM vw_GGTools_Orders_Rpt_WebOrderRequestsToOrderRequests WHERE YEAR(OrderDate) = 2022";
+                    SQL = "SELECT * FROM vw_GRINGlobal_Rpt_Web_Order_Request_Order_Request WHERE YEAR(OrderDate) = 2022";
                     break;
-                case "NRRFPR":
-                    SQL = "SELECT * FROM vw_GGTools_Orders_Rpt_NRRFlagsPerRequest WHERE YEAR(OrderDate) = 2022";
-                    break;
+               
                 case "NRRPOFF":
-                    SQL = "SELECT TOP 50 * FROM vw_GGTools_Orders_Rpt_NRRPastOffenders ORDER BY OrderDate DESC";
+                    SQL = "SELECT TOP 50 * FROM vw_GRINGlobal_Rpt_NRR_Past_Offenders ORDER BY OrderDate DESC";
                     break;
                 case "NRRPREV":
-                    SQL = "SELECT * FROM vw_GGTools_Orders_Rpt_NRRPrevented";
+                    SQL = "SELECT * FROM vw_GRINGlobal_Rpt_NRR_Prevented ";
                     break;
-                case "WOSTAT":
-                    SQL = "SELECT TOP 50 * FROM vw_GGTools_Orders_Rpt_WebOrderStats ORDER BY CanceledItems DESC";
-                    break;
+                
             }
 
             using (IDataReader rdr = GetDataReader())

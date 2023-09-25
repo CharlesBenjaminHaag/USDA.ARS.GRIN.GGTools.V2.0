@@ -165,7 +165,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
                 " auil.list_name AS ListName, " +
                 " auil.app_user_item_folder_id AS FolderID, " +
                 " vgtcn.* " +
-                " FROM vw_GGTools_Taxon_CommonNames vgtcn " +
+                " FROM vw_GRINGlobal_Taxonomy_Common_Name vgtcn " +
                 " JOIN app_user_item_list auil " +
                 " ON vgtcn.ID = auil.id_number " +
                 " WHERE auil.id_type = 'taxonomy_common_name' ";
@@ -248,7 +248,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
 
         public virtual List<Cooperator> GetCooperators(string tableName)
         {
-            SQL = "usp_GGTools_GRINGlobal_CreatedByCooperators_Select";
+            SQL = "usp_GRINGlobal_Cooperators_Created_By_Select";
             var parameters = new List<IDbDataParameter> {
                 CreateParameter("table_name", (object)tableName, false)
             };
@@ -259,7 +259,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
 
         public virtual List<CodeValue> GetCodeValues(string groupName)
         {
-            SQL = "usp_GGTools_GRINGlobal_CodeValuesByGroup_Select";
+            SQL = "usp_GRINGlobal_Code_Values_Select";
             var parameters = new List<IDbDataParameter> {
                 CreateParameter("group_name", (object)groupName, false)
             };

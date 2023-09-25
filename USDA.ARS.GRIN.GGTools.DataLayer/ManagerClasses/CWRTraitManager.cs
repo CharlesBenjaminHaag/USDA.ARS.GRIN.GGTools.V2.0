@@ -99,7 +99,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         }
         public virtual List<Cooperator> GetCooperators(string tableName)
         {
-            SQL = "usp_GGTools_GRINGlobal_CreatedByCooperators_Select";
+            SQL = "usp_GRINGlobal_Cooperators_Created_By_Select";
             var parameters = new List<IDbDataParameter> {
                 CreateParameter("table_name", (object)tableName, false)
             };
@@ -110,7 +110,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
 
         public virtual List<CodeValue> GetCodeValues(string groupName)
         {
-            SQL = "usp_GGTools_GRINGlobal_CodeValuesByGroup_Select";
+            SQL = "usp_GRINGlobal_Code_Values_Select";
             var parameters = new List<IDbDataParameter> {
                 CreateParameter("group_name", (object)groupName, false)
             };
@@ -123,7 +123,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             Reset(CommandType.StoredProcedure);
             Validate<CWRTrait>(entity);
 
-            SQL = "usp_GGTools_Taxon_CWRTrait_Insert";
+            SQL = "usp_GRINGlobal_Taxonomy_Cwr_Trait_Insert";
 
             BuildInsertUpdateParameters(entity);
             AddParameter("@out_error_number", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
@@ -143,7 +143,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             Reset(CommandType.StoredProcedure);
             Validate<CWRTrait>(entity);
 
-            SQL = "usp_GGTools_Taxon_CWRTrait_Update";
+            SQL = "usp_GRINGlobal_Taxonomy_Cwr_Trait_Update";
 
             BuildInsertUpdateParameters(entity);
             AddParameter("@out_error_number", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
@@ -186,7 +186,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         public List<CodeValue> SearchNotes(string tableName, string note)
         {
             // Create SQL to search for rows
-            SQL = "SELECT Value, Description FROM vw_GGTools_Taxon_Notes ";
+            SQL = "SELECT Value, Description FROM vw_GRINGlobal_Taxonomy_Note ";
             SQL += " WHERE (@Note      IS NULL      OR Description     LIKE     '%' + @Note + '%') ";
             SQL += " AND   (Value      =            @TableName) ";
 

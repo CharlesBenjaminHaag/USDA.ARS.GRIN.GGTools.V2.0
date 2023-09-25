@@ -78,12 +78,11 @@
 </div>
 
 <script type="text/javascript">
-    $("#btnDelete").click(function () {
+    $(document).on("click", "[id='btnDelete']", function () {
         $("#modal-delete-confirm").modal("show");
     });
 
     $("#btnDeleteConfirm").click(function () {
-        var refreshLink = '@Url.Action("Index","CropForCWR")';
         Delete();
     });
 
@@ -97,9 +96,6 @@
 
         link = link.replace("[ACTION]", tableCode);
         refreshLink = refreshLink.replace("[ACTION]", tableCode);
-
-        //DEBUG
-        alert("DEBUG REFRESH LINK IS " + refreshLink);
 
         formData.append("TableName", tableName);
         formData.append("EntityID", entityId);

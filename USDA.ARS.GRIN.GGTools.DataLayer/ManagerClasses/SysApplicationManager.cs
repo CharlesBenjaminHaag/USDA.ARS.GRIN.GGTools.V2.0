@@ -11,7 +11,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
         {
             List<SysApplication> results = new List<SysApplication>();
 
-            SQL = " SELECT * FROM vw_GGTools_GRINGlobal_SysApplications";
+            SQL = " SELECT * FROM vw_GRINGlobal_Sys_Application";
             SQL += " WHERE (@ApplicationCode        IS NULL     OR      ApplicationCode                     =           @ApplicationCode)";
             SQL += " AND (@SysUserID IS NULL OR SysUserID = @SysUserID)";
             var parameters = new List<IDbDataParameter> {

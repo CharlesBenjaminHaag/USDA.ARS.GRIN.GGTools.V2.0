@@ -303,22 +303,22 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
             throw new NotImplementedException();
         }
 
-        public void SaveSearch()
-        {
-            AppUserDynamicQuery appUserDynamicQuery = new AppUserDynamicQuery();
-            appUserDynamicQuery.CreatedByCooperatorID = AuthenticatedUserCooperatorID;
-            appUserDynamicQuery.Title = SearchEntity.SaveSearchTitle;
-            appUserDynamicQuery.Description = SearchEntity.SaveSearchDescription;
-            appUserDynamicQuery.DataSource = TableName;
-            appUserDynamicQuery.QuerySyntax = SerializeToXml(SearchEntity);
-            using (AppUserDynamicQueryManager mgr = new AppUserDynamicQueryManager())
-            {
-                mgr.Insert(appUserDynamicQuery);
-            }
-            //TODO
-            //Serialize search entity
-            //Save to DB
+        //public void SaveSearch()
+        //{
+        //    AppUserDynamicQuery appUserDynamicQuery = new AppUserDynamicQuery();
+        //    appUserDynamicQuery.CreatedByCooperatorID = AuthenticatedUserCooperatorID;
+        //    appUserDynamicQuery.Title = SearchEntity.SaveSearchTitle;
+        //    appUserDynamicQuery.Description = SearchEntity.SaveSearchDescription;
+        //    appUserDynamicQuery.DataSource = TableName;
+        //    appUserDynamicQuery.QuerySyntax = SerializeToXml(SearchEntity);
+        //    using (AppUserDynamicQueryManager mgr = new AppUserDynamicQueryManager())
+        //    {
+        //        mgr.Insert(appUserDynamicQuery);
+        //    }
+        //    //TODO
+        //    //Serialize search entity
+        //    //Save to DB
 
-        }
+        //}
     }
 }

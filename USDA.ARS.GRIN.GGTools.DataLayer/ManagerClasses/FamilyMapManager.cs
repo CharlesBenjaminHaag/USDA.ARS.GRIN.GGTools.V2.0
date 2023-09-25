@@ -206,7 +206,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         {
             List<FamilyMap> results = new List<FamilyMap>();
 
-            SQL = " SELECT * FROM vw_GGTools_Taxon_FamilyMapAppUserItemLists ";
+            SQL = " SELECT * FROM vw_GRINGlobal_Folder_Taxonomy_Family_Map ";
             SQL += "WHERE  (@FolderID   IS NULL OR  FolderID       =           @FolderID)";
 
             var parameters = new List<IDbDataParameter> {

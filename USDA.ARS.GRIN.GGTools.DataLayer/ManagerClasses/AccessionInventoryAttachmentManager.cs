@@ -96,7 +96,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
         {
             AccessionInventoryAttachment result = new AccessionInventoryAttachment();
 
-            SQL = "usp_GGTools_GRINGlobal_AccessionInventoryAttachment_Select";
+            //SQL = "usp_GGTools_GRINGlobal_AccessionInventoryAttachment_Select";
 
             var parameters = new List<IDbDataParameter> {
                 CreateParameter("accession_inv_attach_id", entityId > 0 ? (object)entityId : DBNull.Value, true),
@@ -116,7 +116,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             Reset(CommandType.StoredProcedure);
             Validate<AccessionInventoryAttachment>(entity);
 
-            SQL = "usp_GGTools_GRINGlobal_AccessionInventoryAttachmentValidation_Insert";
+            //SQL = "usp_GGTools_GRINGlobal_AccessionInventoryAttachmentValidation_Insert";
 
             AddParameter("accession_inv_attach_id", entity.ID == 0 ? DBNull.Value : (object)entity.ID, true);
             AddParameter("is_virtual_path_valid", String.IsNullOrEmpty(entity.IsVirtualPathValid) ? DBNull.Value : (object)entity.IsVirtualPathValid, true);
@@ -139,19 +139,19 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
         {
             List<AccessionInventoryAttachment> results = new List<AccessionInventoryAttachment>();
 
-            SQL = "SELECT * FROM vw_GGTools_GRINGlobal_AccessionInventory_Attachments ";
-            SQL += " WHERE  (@CreatedByCooperatorID         IS NULL OR CreatedByCooperatorID        =     @CreatedByCooperatorID)";
-            SQL += " AND    (@OwnedByCooperatorID           IS NULL OR OwnedByCooperatorID          =     @OwnedByCooperatorID)";
-            SQL += " AND    (@InventoryText                 IS NULL OR InventoryText                LIKE  '%' + @InventoryText + '%')";
-            SQL += " AND    (@Title                         IS NULL OR Title                        =     @Title)";
-            SQL += " AND    (@AttachmentDescription         IS NULL OR AttachmentDescription        =     @AttachmentDescription)";
-            SQL += " AND    (@AttachmentDescriptionCode     IS NULL OR AttachmentDescriptionCode    =     @AttachmentDescriptionCode)";
-            SQL += " AND    (@ContentType                   IS NULL OR ContentType                  =     @ContentType)";
-            SQL += " AND    (@CategoryCode                  IS NULL OR CategoryCode                 =     @CategoryCode)";
-            SQL += " AND    (@IsWebVisible                  IS NULL OR IsWebVisible                 =     @IsWebVisible)"; 
-            SQL += " AND    (@IsVirtualPathValid            IS NULL OR IsVirtualPathValid           =     @IsVirtualPathValid)"; 
-            SQL += " AND    (@IsThumbnailVirtualPathValid   IS NULL OR IsThumbnailVirtualPathValid  =     @IsThumbnailVirtualPathValid)";
-            SQL += " AND    (@IsValidated                   IS NULL OR IsValidated                  =     @IsValidated)";
+            //SQL = "SELECT * FROM vw_GGTools_GRINGlobal_AccessionInventory_Attachments ";
+            //SQL += " WHERE  (@CreatedByCooperatorID         IS NULL OR CreatedByCooperatorID        =     @CreatedByCooperatorID)";
+            //SQL += " AND    (@OwnedByCooperatorID           IS NULL OR OwnedByCooperatorID          =     @OwnedByCooperatorID)";
+            //SQL += " AND    (@InventoryText                 IS NULL OR InventoryText                LIKE  '%' + @InventoryText + '%')";
+            //SQL += " AND    (@Title                         IS NULL OR Title                        =     @Title)";
+            //SQL += " AND    (@AttachmentDescription         IS NULL OR AttachmentDescription        =     @AttachmentDescription)";
+            //SQL += " AND    (@AttachmentDescriptionCode     IS NULL OR AttachmentDescriptionCode    =     @AttachmentDescriptionCode)";
+            //SQL += " AND    (@ContentType                   IS NULL OR ContentType                  =     @ContentType)";
+            //SQL += " AND    (@CategoryCode                  IS NULL OR CategoryCode                 =     @CategoryCode)";
+            //SQL += " AND    (@IsWebVisible                  IS NULL OR IsWebVisible                 =     @IsWebVisible)"; 
+            //SQL += " AND    (@IsVirtualPathValid            IS NULL OR IsVirtualPathValid           =     @IsVirtualPathValid)"; 
+            //SQL += " AND    (@IsThumbnailVirtualPathValid   IS NULL OR IsThumbnailVirtualPathValid  =     @IsThumbnailVirtualPathValid)";
+            //SQL += " AND    (@IsValidated                   IS NULL OR IsValidated                  =     @IsValidated)";
 
             var parameters = new List<IDbDataParameter> {
                 CreateParameter("CreatedByCooperatorID", searchEntity.CreatedByCooperatorID > 0 ? (object)searchEntity.CreatedByCooperatorID : DBNull.Value, true),
@@ -201,7 +201,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             Reset(CommandType.StoredProcedure);
             Validate<AccessionInventoryAttachment>(entity);
 
-            SQL = "usp_GGTools_GRINGlobal_AccessionInventoryAttachment_Update";
+            //SQL = "usp_GGTools_GRINGlobal_AccessionInventoryAttachment_Update";
 
             BuildInsertUpdateParameters(entity);
             //AddParameter("@out_error_number", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
@@ -210,8 +210,8 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
         }
         public virtual List<Cooperator> GetCooperators(string tableName)
         {
-            SQL = "SELECT * FROM vw_GGTools_GRINGlobal_Cooperators WHERE siteshortname = 'NC7' " +
-                    " AND SysUserID IS NOT NULL ORDER BY LastName, FirstName";
+            //SQL = "SELECT * FROM vw_GGTools_GRINGlobal_Cooperators WHERE siteshortname = 'NC7' " +
+            //        " AND SysUserID IS NOT NULL ORDER BY LastName, FirstName";
             var parameters = new List<IDbDataParameter> {
             //    CreateParameter("table_name", (object)tableName, false)
             };
@@ -220,7 +220,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
         }
         public virtual List<CodeValue> GetCodeValues(string groupName)
         {
-            SQL = "usp_GGTools_GRINGlobal_CodeValuesByGroup_Select";
+            SQL = "usp_GRINGlobal_Code_Values_Select";
             var parameters = new List<IDbDataParameter> {
                 CreateParameter("group_name", (object)groupName, false)
             };
@@ -231,15 +231,15 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
         {
             List<AccessionInventoryAttachment> results = new List<AccessionInventoryAttachment>();
 
-            SQL = " SELECT auil.app_user_item_list_id AS ListID, " +
-                " auil.list_name AS ListName, " +
-                " auil.app_user_item_folder_id AS FolderID, " +
-                " vgtf.* " +
-                " FROM vw_GGTools_GRINGlobal_AccessionInventoryAttachments vgga " +
-                " JOIN app_user_item_list auil " +
-                " ON vgga.ID = auil.id_number " +
-                " WHERE auil.id_type = 'accession_inventory_attachment' ";
-            SQL += "AND  (@FolderID                          IS NULL OR  auil.app_user_item_folder_id       =           @FolderID)";
+            //SQL = " SELECT auil.app_user_item_list_id AS ListID, " +
+            //    " auil.list_name AS ListName, " +
+            //    " auil.app_user_item_folder_id AS FolderID, " +
+            //    " vgtf.* " +
+            //    " FROM vw_GGTools_GRINGlobal_AccessionInventoryAttachments vgga " +
+            //    " JOIN app_user_item_list auil " +
+            //    " ON vgga.ID = auil.id_number " +
+            //    " WHERE auil.id_type = 'accession_inventory_attachment' ";
+            //SQL += "AND  (@FolderID                          IS NULL OR  auil.app_user_item_folder_id       =           @FolderID)";
 
             var parameters = new List<IDbDataParameter> {
                 CreateParameter("FolderID", searchEntity.FolderID > 0 ? (object)searchEntity.FolderID : DBNull.Value, true)

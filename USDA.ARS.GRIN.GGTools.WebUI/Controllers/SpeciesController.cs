@@ -91,20 +91,14 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
         public PartialViewResult _ListFolderItems(int folderId, string displayFormat = "")
         {
             SpeciesViewModel viewModel = new SpeciesViewModel();
-            string listPartialViewName = "~/Views/Taxonomy/Species/_List.cshtml";
-
+     
             try
             {
                 viewModel.EventAction = "FOLDER";
                 viewModel.SearchEntity.FolderID = folderId;
                 viewModel.GetFolderItems();
 
-                if (displayFormat == "SELECT")
-                {
-                    listPartialViewName = "~/Views/Taxonomy/Species/Modals/_SelectList.cshtml";
-                }
-
-                return PartialView(listPartialViewName, viewModel);
+                return PartialView("~/Views/Taxonomy/Species/_ListFolder.cshtml", viewModel);
             }
             catch (Exception ex)
             {

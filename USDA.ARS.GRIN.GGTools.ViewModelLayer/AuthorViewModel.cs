@@ -104,14 +104,14 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
             {
                 try
                 {
-                    if (!String.IsNullOrEmpty(SearchEntity.AuthorityText))
-                    {
-                        DataCollection = new Collection<Author>(mgr.SearchTaxa(SearchEntity.TableName, SearchEntity.AuthorityText));
-                    }
-                    else 
-                    {
+                    //if (!String.IsNullOrEmpty(SearchEntity.AuthorityText))
+                    //{
+                    //    DataCollection = new Collection<Author>(mgr.SearchTaxa(SearchEntity.TableName, SearchEntity.AuthorityText));
+                    //}
+                    //else 
+                    //{
                         DataCollection = new Collection<Author>(mgr.Search(SearchEntity));
-                    }
+                    //}
 
                     if (DataCollection.Count == 1)
                     {

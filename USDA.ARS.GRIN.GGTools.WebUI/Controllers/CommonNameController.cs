@@ -185,25 +185,6 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             }
         }
 
-        public PartialViewResult FolderItems(int folderId)
-        {
-            try
-            {
-                CommonNameViewModel viewModel = new CommonNameViewModel();
-                viewModel.EventAction = "SEARCH";
-                viewModel.EventValue = "FOLDER";
-                viewModel.SearchEntity.FolderID = folderId;
-                viewModel.SearchFolderItems();
-                ModelState.Clear();
-                return PartialView(BASE_PATH + "_List.cshtml", viewModel);
-            }
-            catch (Exception ex)
-            {
-                Log.Error(ex);
-                return PartialView("~/Views/Error/_InternalServerError.cshtml","Error");
-            }
-        }
-
         public ActionResult Index()
         {
             try
@@ -265,7 +246,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 viewModel.EventAction = "FOLDER";
                 viewModel.SearchEntity.FolderID = folderId;
                 viewModel.GetFolderItems();
-                return PartialView(BASE_PATH + "_List.cshtml", viewModel);
+                return PartialView(BASE_PATH + "_ListFolder.cshtml", viewModel);
             }
             catch (Exception ex)
             {

@@ -46,9 +46,10 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             try
             {
                 viewModel.EventAction = "FOLDER";
+                viewModel.TableName = "citation";
                 viewModel.SearchEntity.FolderID = folderId;
                 viewModel.GetFolderItems();
-                return PartialView(BASE_PATH + "_List.cshtml", viewModel);
+                return PartialView(BASE_PATH + "_ListFolder.cshtml", viewModel);
             }
             catch (Exception ex)
             {

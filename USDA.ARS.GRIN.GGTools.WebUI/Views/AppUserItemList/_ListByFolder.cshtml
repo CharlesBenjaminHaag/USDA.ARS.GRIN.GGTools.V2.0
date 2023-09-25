@@ -1,6 +1,4 @@
 ﻿@model USDA.ARS.GRIN.GGTools.ViewModelLayer.AppUserItemListViewModel
-
-<!-- BEGIN ID TYPE TABS -->
 <div class="card card-primary card-tabs">
     <div class="card-header p-0 pt-1">
         <ul class="nav nav-tabs" id="tab-sys-tables" role="tablist">
@@ -21,7 +19,11 @@
                     navLinkCssClass = "nav-link";
                 }
 
-                <li id="@result.TableName" class="nav-item">
+                <li 
+                    id="@result.TableName" 
+                    class="nav-item"
+                    data-ggtools-event-action="@result.TableTitle.Replace(" ","")"
+                    data-ggtools-event-value="_ListFolderItems">
                     <a class="@navLinkCssClass" 
                        id="link-@result.TableName" 
                        data-toggle="pill" 
@@ -44,77 +46,25 @@
     </div>
 
 </div>
-<!-- END ID TYPE TABS-->
-
-
-<table id="data_table_app_user_item_list" class="table table-striped search-results" style=" width:100%;">
-    <thead>
-        <tr>
-            <th></th>
-            <th></th>
-            <th>ID</th>
-            <th>ID Type</th>
-            <th>ID Number</th>
-            <th>List Name</th>
-            <th>Item Title</th>
-            <th>Created</th>
-            <th>Last Modified</th>
-
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var result in Model.DataCollection)
-        {
-            <tr>
-                <td></td>
-                <td></td>
-                <td>
-                    @result.ID
-                </td>
-                <td>
-                    @result.IDType
-                </td>
-                <td>
-                    @result.EntityID
-                </td>
-                <td>
-                    @result.ListName
-                </td>
-                <td>@result.ItemTitle</td>
-                <td>
-                    @result.CreatedDate.ToShortDateString() at @result.CreatedDate.ToShortTimeString()
-                </td>
-                <td>
-                    @if (result.ModifiedDate > DateTime.MinValue)
-                    {
-                        @result.ModifiedDate.ToShortDateString()
-                    }
-                </td>
-
-            </tr>
-        }
-    </tbody>
-</table>
 <script type="text/javascript">
     $(document).ready(function () {
         var defaultTab = $("#tab-sys-tables li:first").attr('id');
-
-        //TODO Get data attribs and call appropriate method
-        //to populate relevant list.
-
+        var eventAction = $("#tab-sys-tables li:first").data("ggtools-event-action");
+        var eventValue = $("#tab-sys-tables li:first").data("ggtools-event-value");
+        LoadFolderItems(defaultTab, eventAction, eventValue);
         InitDataTableFolderFormat("data_table_app_user_item_list");
     });
 
     $('#tab-sys-tables li a').click(function (event) {
         event.preventDefault(); // stop default event to stop reloading of page
-        var myValue = $(this).attr("id");
-        
+        var tableName = $(this).attr("id");
         var eventAction = $(this).data("ggtools-event-action");
         var eventValue = $(this).data("ggtools-event-value");
 
         $("#EventAction").val(eventAction);
         $("#EventValue").val(eventValue);
 
-        LoadFolderItems(eventAction, eventValue);
+        LoadFolderItems(tableName, eventAction, eventValue);
     });
+
 </script>

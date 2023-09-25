@@ -40,7 +40,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         }
         public List<Genus> GetSynonyms(int entityId)
         {
-            SQL = "usp_GGTools_Taxon_GenusSynonyms_Select";
+            SQL = "usp_GRINGlobal_Taxonomy_Genus_Synonyms_Select";
             var parameters = new List<IDbDataParameter> {
                 CreateParameter("@taxonomy_genus_id", (object)entityId, false)
             };
@@ -49,7 +49,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         }
         public List<Genus> GetSubdivisions(string genusName)
         {
-            SQL = "usp_GGTools_Taxon_GenusSubdivisions_Select";
+            SQL = "usp_GRINGlobal_Taxonomy_Genus_Subdivisions_Select";
             var parameters = new List<IDbDataParameter> {
                 CreateParameter("@genus_name", (object)genusName, false)
             };
@@ -82,7 +82,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         {
             Reset(CommandType.StoredProcedure);
             Validate<Genus>(entity);
-            SQL = "usp_GGTools_Taxon_Infrageneric_Insert";
+            SQL = "usp_GRINGlobal_Taxonomy_Genus_Infrageneric_Insert";
 
             BuildInfrageneticInsertUpdateParameters(entity);
 
@@ -103,7 +103,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         {
             GenusSearch searchEntity = new GenusSearch { Name = genusName };
 
-            SQL = "SELECT * FROM vw_GGTools_Taxon_Genera WHERE Name = @Name AND Rank='GENUS'";
+            SQL = "SELECT * FROM vw_GRINGlobal_Taxonomy_Genus WHERE Name = @Name AND Rank='GENUS'";
             var parameters = new List<IDbDataParameter> {
                 CreateParameter("Name", (object)searchEntity.Name ?? DBNull.Value, true)
             };
@@ -164,7 +164,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         {
             List<Genus> results = new List<Genus>();
 
-            SQL = " SELECT vgtcn.* FROM vw_GGTools_Taxon_Genera vgtcn JOIN vw_GGTools_GRINGlobal_AppUserItemLists vgga " +
+            SQL = " SELECT vgtcn.* FROM vw_GRINGlobal_Taxonomy_Genus vgtcn JOIN vw_GRINGlobal_App_User_Item_List vgga " +
                    " ON vgtcn.ID = vgga.EntityID WHERE vgga.TableName = 'taxonomy_genus' ";
             SQL += "AND  (@FolderID                          IS NULL OR  FolderID       =           @FolderID)";
 
@@ -195,7 +195,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             Reset(CommandType.StoredProcedure);
             Validate<Genus>(entity);
 
-            SQL = "usp_GGTools_Taxon_Infrageneric_Update";
+            SQL = "usp_GRINGlobal_Taxonomy_Genus_Infrageneric_Update";
 
             BuildInfrageneticInsertUpdateParameters(entity);
             AddParameter("@out_error_number", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
@@ -300,7 +300,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         public List<CodeValue> SearchNotes(string tableName, string note)
         {
             // Create SQL to search for rows
-            SQL = "SELECT Value, Description FROM vw_GGTools_Taxon_Notes ";
+            SQL = "SELECT Value, Description FROM vw_GRINGlobal_Taxonomy_Note ";
             SQL += " WHERE (@Note      IS NULL      OR Description     LIKE     '%' + @Note + '%') ";
             SQL += " AND   (Value      =            @TableName) ";
 

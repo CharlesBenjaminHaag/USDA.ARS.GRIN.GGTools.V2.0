@@ -3,6 +3,9 @@
     ViewBag.Title = Model.PageTitle;
     Layout = "~/Views/Shared/_LayoutAdminLTE3.cshtml";
 }
+@Html.HiddenFor(x => x.EventAction)
+@Html.HiddenFor(x => x.EventValue)
+@Html.HiddenFor(x => x.EventNote)
 <div class="card">
     <div id="section-folder-options" class="card-header p-2">
         <ul class="nav nav-pills">
@@ -14,15 +17,16 @@
     <div class="card-body" id="section-search-criteria">
         <div class="tab-content">
             <div class="tab-pane active" id="detail">
-                @{Html.RenderAction("_ListByFolder", "AppUserItemList", new { @appUserItemFolderId = Model.Entity.ID });}
+                <div class="overlay-wrapper">
+                    <div id="section-tab-overlay" class="overlay"><i class="fas fa-3x fa-sync-alt fa-spin"></i><div class="text-bold pt-2">Loading...</div></div>
+                    @{Html.RenderAction("_ListByFolder", "AppUserItemList", new { @appUserItemFolderId = Model.Entity.ID });}
+                </div>
             </div>
             <div class="tab-pane" id="sharing">
                 @Html.Partial("~/Views/Taxonomy/Shared/_RevisionHistory.cshtml")
                 @using (Html.BeginForm("EditDetails", "AppUserItemFolder", FormMethod.Post, new { id = "frmEdit" }))
                 {
                     @Html.HiddenFor(x => x.PageTitle)
-                    @Html.HiddenFor(x => x.EventAction)
-                    @Html.HiddenFor(x => x.EventValue)
                     @Html.HiddenFor(x => x.TableName)
                     @Html.HiddenFor(x => x.TableCode)
                     @Html.HiddenFor(x => x.Entity.ID)
@@ -51,7 +55,7 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label>Description</label>
-                                @Html.TextAreaFor(x => x.Entity.Description, new { @class = "form-control" })
+                                @Html.TextBoxFor(x => x.Entity.Description, new { @class = "form-control" })
                             </div>
                         </div>
                     </div>
@@ -71,12 +75,12 @@
                         <div class="col-md-12">
                             <div class="margin">
                                 <a href="@Url.Action("Refresh")" class="btn btn-default">Reset</a>
-                                @if (Model.Entity.ID > 0)
-                                {
-                                    <button id="btnDelete" type="button" class="btn btn-danger">
-                                        Delete
-                                    </button>
-                                }
+                                @*@if (Model.Entity.ID > 0)
+                                    {
+                                        <button id="btnDelete" type="button" class="btn btn-danger">
+                                            Delete
+                                        </button>
+                                    }*@
                                 <button type="submit" class="btn btn-info float-right">Save</button>
                             </div>
                         </div>
@@ -94,16 +98,19 @@
                 </div>
                 <br />
                 <div id="section_folder_cooperator_widget">
-                    @{Html.RenderAction("RenderFolderCooperatorWidget", "Folder", new { @folderId = Model.Entity.ID });}
+                    @{Html.RenderAction("RenderFolderCooperatorWidget", "AppUserItemFolder", new { @folderId = Model.Entity.ID });}
                 </div>
             </div>
         </div>
     </div>
+    <div class="card-footer">
+
+    </div>
 </div>
 
 @Html.Partial("~/Views/Taxonomy/Shared/Modals/_Delete.cshtml")
-@{Html.RenderAction("RenderFolderCooperatorEditModal", "Folder", new { @entityId = Model.Entity.ID });}
-@{Html.RenderAction("RenderFolderItemDeleteModal", "Folder", new { @entityId = Model.Entity.ID });}
+@{Html.RenderAction("RenderFolderCooperatorEditModal", "AppUserItemFolder", new { @entityId = Model.Entity.ID });}
+@{Html.RenderAction("RenderFolderItemDeleteModal", "AppUserItemFolder", new { @entityId = Model.Entity.ID });}
 
 <script type="text/javascript">
     $(document).ready(function () {
@@ -117,21 +124,36 @@
         }
     }
 
+    /*
+    * ***********************************************************
+    * Folder item logic
+    * ***********************************************************
+    */
     function Load() {
         var eventAction = $("#EventAction").val();
         var eventValue = $("#EventValue").val();
-        LoadFolderItems(eventAction, eventValue);
+        var tableName = $("#EventNote").val();
+        LoadFolderItems(tableName, eventAction, eventValue);
     }
 
-    function LoadFolderItems(eventAction, eventValue) {
+    function LoadFolderItems(tableName, eventAction, eventValue) {
         var id = $("#Entity_ID").val();
         var link = '@Url.Action("EVENT_VALUE", "EVENT_ACTION")';
         link = link.replace("EVENT_VALUE", eventValue);
         link = link.replace("EVENT_ACTION", eventAction);
+        tableName = tableName.replace("link-","");
+
+        $("#EventAction").val(eventAction);
+        $("#EventValue").val(eventValue);
+        $("#EventNote").val(tableName);
 
         var formData = new FormData();
 
         formData.append("folderId", id);
+        //DEBUG
+        //alert("ID IS " + id + " EVENT VALUE IS " + eventValue + " EVENT ACTION IS " + eventAction);
+
+        $("#section-tab-overlay").show();
 
         $.ajax({
             url: link,
@@ -142,6 +164,11 @@
             data: formData,
             success: function (response) {
                 $("#tab-sys-tables-content").html(response);
+                $("#section-tab-overlay").hide();
+            },
+            error: function () {
+                alert("Error calling " + link);
+                $("#section-tab-overlay").hide();
             }
         });
     }
@@ -151,12 +178,13 @@
     * Deletion logic
     * ***********************************************************
     */
-    $(document).on("click", "[id*='btnDeleteBatch']", function () {
+    $(document).on("click", "[id='btnDeleteBatch']", function () {
         DeleteBatch();
     });
 
     function DeleteBatchPrompt() {
-        var selectedFolderItems = GetSelectedAppUserItemListIDs("data_table_taxonomy_author");
+        var tableName = $("#EventNote").val();
+        var selectedFolderItems = GetSelectedAppUserItemListIDs("data_table_" + tableName);
         $("#section-item-count").html(selectedFolderItems.length);
         $("#modal-batch-delete-confirm").modal("show");
     }
@@ -164,7 +192,8 @@
     function DeleteBatch() {
         var link = '@Url.Action("DeleteItems","AppUserItemFolder")';
         var folderId = $("#Entity_ID").val();
-        var selectedFolderItems = GetSelectedAppUserItemListIDs("data_table_taxonomy_author");
+        var tableName = $("#EventNote").val();
+        var selectedFolderItems = GetSelectedAppUserItemListIDs("data_table_" + tableName);
         var formData = new FormData();
 
         $("#ItemIDList").val(selectedFolderItems);
@@ -173,7 +202,7 @@
         formData.append("ItemIDList", selectedFolderItems);
 
         $("#section-item-count").html(selectedFolderItems.length);
-        $("#modal-batch-delete-confirm").modal("show");
+        /*$("#modal-batch-delete-confirm").modal("show");*/
 
         $.ajax({
             url: link,

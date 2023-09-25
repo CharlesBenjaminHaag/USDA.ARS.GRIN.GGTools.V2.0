@@ -46,48 +46,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             RowsAffected = webUsers.Count;
             return webUsers;
         }
-        public virtual List<SysGroupUserMap> SelectGroups(int sysUserId)
-        {
-            List<SysGroupUserMap> sysGroupUserMaps = new List<SysGroupUserMap>();
-            SQL = "usp_GRINGlobal_Sys_Group_User_Map_Select";
-
-            var parameters = new List<IDbDataParameter> {
-                CreateParameter("sys_user_id", (object)sysUserId, false)
-            };
-            sysGroupUserMaps = GetRecords<SysGroupUserMap>(SQL, CommandType.StoredProcedure, parameters.ToArray());
-            parameters.Clear();
-
-            RowsAffected = sysGroupUserMaps.Count;
-            return sysGroupUserMaps;
-        }
-        
-        public int InsertWebUserPasswordResetToken(int sysUserId, string passwordResetToken)
-        {
-            Reset(CommandType.StoredProcedure);
-
-            SQL = "usp_GGTools_GRINGlobal_WebUserPasswordResetToken_Insert";
-
-            AddParameter("sys_user_id", (object)sysUserId, false);
-            AddParameter("password_reset_token", (object)passwordResetToken, false);
-            AddParameter("@out_error_number", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
-            AddParameter("@out_sys_user_password_reset_token_id", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
-            RowsAffected = ExecuteNonQuery();
-            var errorCode = GetParameterValue<string>("@out_error_number", "");
-            return RowsAffected;
-        }
-
-        public int ValidateWebUserPasswordResetToken(string passwordResetToken)
-        {
-            WebUser sysUser = new WebUser();
-            SQL = "usp_GGTools_GRINGlobal_WebUserPasswordResetToken_Select";
-
-            var parameters = new List<IDbDataParameter> {
-                CreateParameter("password_reset_token", (object)passwordResetToken, false)
-            };
-            sysUser = GetRecord<WebUser>(SQL, CommandType.StoredProcedure, parameters.ToArray());
-            return sysUser.ID;
-        }
-
+       
         public int Insert(WebUser entity)
         {
             Reset(CommandType.StoredProcedure);
@@ -155,25 +114,6 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
 
             return entityId;
         }
-        public int UpdatePassword(WebUser entity)
-        {
-            Reset(CommandType.StoredProcedure);
-
-            SQL = "usp_GGTools_GRINGlobal_WebUserPassword_Update";
-
-            AddParameter("sys_user_id", (object)entity.WebUserID, false);
-            AddParameter("password", (object)entity.WebUserPassword, false);
-            AddParameter("@out_error_number", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
-
-            RowsAffected = ExecuteNonQuery();
-
-            int errorNumber = GetParameterValue<int>("@out_error_number", -1);
-            if (errorNumber > 0)
-            {
-                throw new Exception("DB Error");
-            }
-
-            return RowsAffected;
-        }
+       
     }
 }

@@ -66,22 +66,22 @@
                                 @switch (result.Rank)
                                 {
                                     case "SUBFAMILY":
-                                        <a href="@Url.Action("EditSubfamily", "Family", new { entityId = result.ID })" class="btn btn-primary btn-sm pull-right row-edit">
+                                        <a href="@Url.Action("EditSubfamily", "Family", new { entityId = result.ID })" class="btn btn-default btn-sm pull-right row-edit">
                                             <i class="fa fa-edit"></i>
                                         </a>
                                         break;
                                     case "TRIBE":
-                                        <a href="@Url.Action("EditTribe", "Family", new { entityId = result.ID })" class="btn btn-primary btn-sm pull-right row-edit">
+                                        <a href="@Url.Action("EditTribe", "Family", new { entityId = result.ID })" class="btn btn-default btn-sm pull-right row-edit">
                                             <i class="fa fa-edit"></i>
                                         </a>
                                         break;
                                     case "SUBTRIBE":
-                                        <a href="@Url.Action("EditSubtribe", "Family", new { entityId = result.ID })" class="btn btn-primary btn-sm pull-right row-edit">
+                                        <a href="@Url.Action("EditSubtribe", "Family", new { entityId = result.ID })" class="btn btn-default btn-sm pull-right row-edit">
                                             <i class="fa fa-edit"></i>
                                         </a>
                                         break;
                                     default:
-                                        <a href="@Url.Action("Edit", "FamilyMap", new { entityId = result.ID })" class="btn btn-primary btn-sm pull-right row-edit">
+                                        <a href="@Url.Action("Edit", "FamilyMap", new { entityId = result.ID })" class="btn btn-default btn-sm pull-right row-edit">
                                             <i class="fa fa-edit"></i>
                                         </a>
                                         break;

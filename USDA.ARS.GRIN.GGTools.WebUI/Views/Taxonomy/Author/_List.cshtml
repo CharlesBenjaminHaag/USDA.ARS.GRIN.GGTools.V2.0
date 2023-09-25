@@ -2,15 +2,7 @@
 
 @{ 
     string pageTitle = "";
-
-    if (Model.EventAction == "FOLDER")
-    {
-        pageTitle = "Folder Items (" + @Model.DataCollection.Count + ")";
-    }
-    else
-    {
-        pageTitle = "Search Results (" + @Model.DataCollection.Count + ")";
-    }
+    pageTitle = "Search Results (" + @Model.DataCollection.Count + ")";
 }
 
 <div class="card card-default">
@@ -28,10 +20,6 @@
             <thead>
                 <tr>
                     <th></th>
-                    @if (Model.EventAction == "FOLDER")
-                    {
-                        <th></th>
-                    }
                     <th>ID</th>
                     <th>Short Name</th>
                     <th>Full Name</th>
@@ -44,16 +32,12 @@
                 {
                 <tr>
                     <td>@result.ID</td>
-                    @if (Model.EventAction == "FOLDER")
-                    {
-                        <td>@result.AppUserItemListID</td>
-                    }
                     <td>@result.ID</td>
                     <td>@result.ShortName</td>
                     <td>@Html.Raw(result.FullName)</td>
                     <td>@Html.Raw(result.Note)</td>
                     <td style="text-align:right;">
-                        <a href="@Url.Action("Edit", "Author", new { entityId = result.ID })" class="btn btn-primary btn-sm pull-right row-edit">
+                        <a href="@Url.Action("Edit", "Author", new { entityId = result.ID })" class="btn btn-default btn-sm pull-right row-edit">
                             <i class="fa fa-edit"></i>
                         </a>
                     </td>
@@ -65,8 +49,6 @@
 </div>
 <script type="text/javascript">
     $(document).ready(function () {
-        InitDataTableFolderFormat("data_table_taxonomy_author");
+        InitDataTable("data_table_taxonomy_author");
     });
-
-    
 </script>

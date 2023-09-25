@@ -147,7 +147,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
                 " auil.list_name AS ListName, " +
                 " auil.app_user_item_folder_id AS FolderID, " +
                 " vgtf.* " +
-                " FROM vw_GGTools_Taxon_Families vgtf " +
+                " FROM vw_GRINGlobal_Taxonomy_Family_Map vgtf " +
                 " JOIN app_user_item_list auil " +
                 " ON vgtf.ID = auil.id_number " +
                 " WHERE auil.id_type = 'taxonomy_family' ";

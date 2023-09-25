@@ -61,19 +61,19 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
                 TargetCooperators = new SelectList(mgr.Search(new CooperatorSearch { SiteID = siteId }), "ID", "FullName");
             }
         }
-        public void Transfer()
-        {
-            //TODO iterate through table list and call transfer for each 
-            using (CooperatorManager mgr = new CooperatorManager())
-            {
-                string[] tableNameCollection ;
-                tableNameCollection = SourceTableList.Split(',');
-                foreach (var tableName in tableNameCollection)
-                {
-                    mgr.Transfer(SourceCooperatorID, TargetCooperatorID, tableName);
-                }
-            }
-            //TODO
-        }
+        //public void Transfer()
+        //{
+        //    //TODO iterate through table list and call transfer for each 
+        //    using (CooperatorManager mgr = new CooperatorManager())
+        //    {
+        //        string[] tableNameCollection ;
+        //        tableNameCollection = SourceTableList.Split(',');
+        //        foreach (var tableName in tableNameCollection)
+        //        {
+        //            mgr.Transfer(SourceCooperatorID, TargetCooperatorID, tableName);
+        //        }
+        //    }
+        //    //TODO
+        //}
     }
 }

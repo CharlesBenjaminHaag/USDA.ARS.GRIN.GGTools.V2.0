@@ -80,7 +80,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
                  " auil.list_name AS ListName, " + 
                  " auil.app_user_item_folder_id AS FolderID, " + 
                  " vgtc.* " +
-                 " FROM vw_GGTools_Taxon_CWRMaps vgtc " +
+                 " FROM vw_GRINGlobal_Taxonomy_CWR_Map vgtc " +
                  " JOIN app_user_item_list auil ON vgtc.ID = auil.id_number " +
                  " WHERE auil.id_type = 'taxonomy_cwr_map'  ";
             SQL += "AND  (@FolderID                          IS NULL OR  auil.app_user_item_folder_id       =           @FolderID)";
@@ -111,16 +111,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             }
             return entity.ID;
         }
-        //public virtual List<Cooperator> GetCooperators(string tableName)
-        //{
-        //    SQL = "usp_GGTools_GRINGlobal_CreatedByCooperators_Select";
-        //    var parameters = new List<IDbDataParameter> {
-        //        CreateParameter("table_name", (object)tableName, false)
-        //    };
-        //    List<Cooperator> cooperators = GetRecords<Cooperator>(SQL, CommandType.StoredProcedure, parameters.ToArray());
-        //    RowsAffected = cooperators.Count;
-        //    return cooperators;
-        //}
+       
         public int Update(CWRMap entity)
         {
             Reset(CommandType.StoredProcedure);
@@ -216,7 +207,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         public List<CodeValue> SearchNotes(string tableName, string note)
         {
             // Create SQL to search for rows
-            SQL = "SELECT Value, Description FROM vw_GGTools_Taxon_Notes ";
+            SQL = "SELECT Value, Description FROM vw_GRINGlobal_Taxonomy_Note ";
             SQL += " WHERE (@Note      IS NULL      OR Description     LIKE     '%' + @Note + '%') ";
             SQL += " AND   (Value      =            @TableName) ";
 

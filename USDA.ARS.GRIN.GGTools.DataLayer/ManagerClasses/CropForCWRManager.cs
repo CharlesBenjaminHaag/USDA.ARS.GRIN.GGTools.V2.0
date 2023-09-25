@@ -19,7 +19,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             Validate<CropForCWR>(entity);
 
             // Create SQL to call a stored procedure
-            SQL = "usp_GGTools_Taxon_CwrCrop_Insert";
+            SQL = "usp_GRINGlobal_Taxonomy_Cwr_Crop_Insert";
 
             // Create standard insert parameters
             BuildInsertUpdateParameters(entity);
@@ -47,7 +47,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             Reset(CommandType.StoredProcedure);
             Validate<CropForCWR>(entity);
 
-            SQL = "usp_GGTools_Taxon_CWRCrop_Update";
+            SQL = "usp_GRINGlobal_Taxonomy_CWR_Crop_Update";
 
             BuildInsertUpdateParameters(entity);
             AddParameter("@out_error_number", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
@@ -104,7 +104,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         public List<CodeValue> SearchNotes(string tableName, string note)
         {
             // Create SQL to search for rows
-            SQL = "SELECT Value, Description FROM vw_GGTools_Taxon_Notes ";
+            SQL = "SELECT Value, Description FROM vw_GRINGlobal_Taxonomy_Note ";
             SQL += " WHERE (@Note      IS NULL      OR Description     LIKE     '%' + @Note + '%') ";
             SQL += " AND   (Value      =            @TableName) ";
     

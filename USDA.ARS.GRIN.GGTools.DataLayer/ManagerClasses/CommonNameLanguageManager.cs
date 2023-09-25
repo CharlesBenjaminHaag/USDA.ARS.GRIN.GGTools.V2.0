@@ -41,7 +41,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             Reset(CommandType.StoredProcedure);
             Validate<CommonNameLanguage>(entity);
 
-            SQL = "usp_GGTools_Taxon_CommonNameLanguage_Insert";
+            SQL = "usp_GRINGlobal_Taxonomy_Common_Name_Language_Insert";
 
             BuildInsertUpdateParameters(entity);
 
@@ -115,7 +115,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             Reset(CommandType.StoredProcedure);
             Validate<CommonNameLanguage>(entity);
 
-            SQL = "usp_GGTools_Taxon_CommonNameLanguage_Update";
+            SQL = "usp_GRINGlobal_Taxonomy_Common_Name_Language_Update";
 
             BuildInsertUpdateParameters(entity);
             AddParameter("@out_error_number", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
@@ -133,7 +133,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         public int UpdateCountry(int entityId, string countryCode, int modifiedByCooperatorId)
         {
             Reset(CommandType.StoredProcedure);
-            SQL = "usp_GGTools_Taxon_CommonNameLanguageCountry_Update";
+            SQL = "usp_GRINGlobal_Taxonomy_Common_Name_Language_Country_Update";
 
             AddParameter("taxonomy_common_name_lang_id", (object)entityId, true);
             AddParameter("country_code", (object)countryCode, true);

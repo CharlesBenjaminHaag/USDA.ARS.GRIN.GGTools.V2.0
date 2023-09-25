@@ -14,7 +14,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         {
             Reset(CommandType.StoredProcedure);
             Validate<RegulationMap>(entity);
-            SQL = "usp_GGTools_Taxon_RegulationMap_Insert";
+            SQL = "usp_GRINGlobal_Taxonomy_Regulation_Map_Insert";
 
             BuildInsertUpdateParameters(entity);
 
@@ -40,7 +40,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             Reset(CommandType.StoredProcedure);
             Validate<RegulationMap>(entity);
 
-            SQL = "usp_GGTools_Taxon_RegulationMap_Update";
+            SQL = "usp_GRINGlobal_Taxonomy_Regulation_Map_Update";
 
             BuildInsertUpdateParameters(entity);
             AddParameter("@out_error_number", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
@@ -114,7 +114,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         {
             List<RegulationMap> results = new List<RegulationMap>();
 
-            SQL = " SELECT vgtcn.* FROM vw_GGTools_Taxon_RegulationMaps vgtcn JOIN vw_GGTools_GRINGlobal_AppUserItemLists vgga " +
+            SQL = " SELECT vgtcn.* FROM vw_GRINGlobal_Taxonomy_Regulation_Map vgtcn JOIN vw_GRINGlobal_App_User_Item_List vgga " +
                    " ON vgtcn.ID = vgga.EntityID WHERE vgga.TableName = 'taxonomy_regulation_map' ";
             SQL += "AND  (@FolderID                          IS NULL OR  FolderID       =           @FolderID)";
 

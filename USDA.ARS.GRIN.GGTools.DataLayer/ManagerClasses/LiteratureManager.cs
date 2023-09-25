@@ -121,7 +121,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
 
         public virtual List<Cooperator> GetCooperators(string tableName)
         {
-            SQL = "usp_GGTools_GRINGlobal_CreatedByCooperators_Select";
+            SQL = "usp_GRINGlobal_Cooperators_Created_By_Select";
             var parameters = new List<IDbDataParameter> {
                 CreateParameter("table_name", (object)tableName, false)
             };
@@ -167,7 +167,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
 
         public virtual List<CodeValue> GetCodeValues(string groupName)
         {
-            SQL = "usp_GGTools_GRINGlobal_CodeValuesByGroup_Select";
+            SQL = "usp_GRINGlobal_Code_Values_Select";
             var parameters = new List<IDbDataParameter> {
                 CreateParameter("group_name", (object)groupName, false)
             };

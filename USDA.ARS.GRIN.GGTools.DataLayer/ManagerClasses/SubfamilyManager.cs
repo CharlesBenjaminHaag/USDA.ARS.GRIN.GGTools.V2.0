@@ -43,16 +43,16 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             throw new NotImplementedException();
         }
 
-        public Subfamily Get(int entityId)
-        {
-            Subfamily subFamily = new Subfamily();
-            SQL = "usp_GGTools_Taxon_Subfamily_Select";
+        //public Subfamily Get(int entityId)
+        //{
+        //    Subfamily subFamily = new Subfamily();
+        //    SQL = "usp_GGTools_Taxon_Subfamily_Select";
 
-            var parameters = new List<IDbDataParameter> {
-            CreateParameter("taxonomy_subfamily_id", (object)entityId, false)            };
-            subFamily = GetRecord<Subfamily>(SQL, CommandType.StoredProcedure, parameters.ToArray());
-            return subFamily;
-        }
+        //    var parameters = new List<IDbDataParameter> {
+        //    CreateParameter("taxonomy_subfamily_id", (object)entityId, false)            };
+        //    subFamily = GetRecord<Subfamily>(SQL, CommandType.StoredProcedure, parameters.ToArray());
+        //    return subFamily;
+        //}
 
         public int Insert(Subfamily entity)
         {

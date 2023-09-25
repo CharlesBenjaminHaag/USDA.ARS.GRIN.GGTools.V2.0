@@ -55,7 +55,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
         {
             Reset(CommandType.StoredProcedure);
             Validate<CodeValue>(entity);
-            SQL = "usp_GGTools_GRINGlobal_CodeValue_Insert";
+            SQL = "usp_GRINGlobal_Code_Value_Insert";
 
             BuildInsertUpdateParameters(entity);
 
@@ -75,7 +75,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
         {
             List<CodeValue> results = new List<CodeValue>();
 
-            SQL = "SELECT * FROM vw_GGTools_GRINGlobal_CodeValues ";
+            SQL = "SELECT * FROM vw_GRINGlobal_Code_Value ";
             SQL += " WHERE  (@GroupName     IS NULL              OR    GroupName    =       @GroupName) ";
             SQL += " AND    (@Code          IS NULL              OR    Code         LIKE    '%' + @Code + '%') ";
             SQL += " AND    (@CodeTitle     IS NULL              OR    CodeTitle    LIKE    '%' + @CodeTitle + '%') ";
@@ -112,7 +112,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
         }
         public virtual List<Cooperator> GetCooperators(string tableName)
         {
-            SQL = "usp_GGTools_GRINGlobal_Cooperators_Select";
+            SQL = "usp_GRINGlobal_Cooperators_Select";
             var parameters = new List<IDbDataParameter> {
                 CreateParameter("table_name", (object)tableName, false)
             };

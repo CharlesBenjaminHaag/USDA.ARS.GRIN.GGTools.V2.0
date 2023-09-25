@@ -55,7 +55,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         public int UpdateSpeciesCitation(string tableName, int entityId, int citationId, int modifiedBy)
         {
             Reset(CommandType.StoredProcedure);
-            SQL = "usp_GGTools_Taxon_CitationReference_Update";
+            SQL = "usp_GRINGlobal_Citation_Reference_Update";
 
             AddParameter("table_name", (object)tableName, true);
             AddParameter("id_value", (object)entityId, true);
@@ -302,7 +302,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         }
         public virtual List<Cooperator> GetCooperators(string tableName)
         {
-            SQL = "usp_GGTools_GRINGlobal_CreatedByCooperators_Select";
+            SQL = "usp_GRINGlobal_Cooperators_Select";
             var parameters = new List<IDbDataParameter> {
                 CreateParameter("table_name", (object)tableName, false)
             };
@@ -312,7 +312,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         }
         public virtual List<CodeValue> GetCodeValues(string groupName)
         {
-            SQL = "usp_GGTools_GRINGlobal_CodeValuesByGroup_Select";
+            SQL = "usp_GRINGlobal_Code_Values_Select";
             var parameters = new List<IDbDataParameter> {
                 CreateParameter("group_name", (object)groupName, false)
             };

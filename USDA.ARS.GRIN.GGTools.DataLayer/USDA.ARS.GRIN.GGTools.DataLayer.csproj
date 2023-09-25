@@ -150,7 +150,6 @@
     <Compile Include="EntityClasses\Tribe.cs" />
     <Compile Include="EntityClasses\TribeSearch.cs" />
     <Compile Include="ManagerClasses\AccessionInventoryAttachmentManager.cs" />
-    <Compile Include="ManagerClasses\AppUserDynamicQueryManager.cs" />
     <Compile Include="ManagerClasses\AppUserItemListManager.cs" />
     <Compile Include="ManagerClasses\AuthorManager.cs" />
     <Compile Include="ManagerClasses\CooperatorMapManager.cs" />
@@ -186,8 +185,6 @@
     <Compile Include="ManagerClasses\SiteManager.cs" />
     <Compile Include="ManagerClasses\SpeciesManager.cs" />
     <Compile Include="ManagerClasses\SpeciesSynonymMapManager.cs" />
-    <Compile Include="ManagerClasses\SubfamilyManager.cs" />
-    <Compile Include="ManagerClasses\SubtribeManasger.cs" />
     <Compile Include="ManagerClasses\SysAppErrorManager.cs" />
     <Compile Include="ManagerClasses\SysApplicationManager.cs" />
     <Compile Include="ManagerClasses\SysDBErrorManager.cs" />
@@ -198,7 +195,6 @@
     <Compile Include="ManagerClasses\SysUserManager.cs" />
     <Compile Include="EntityClasses\OrderRequest.cs" />
     <Compile Include="EntityClasses\OrderRequestSearch.cs" />
-    <Compile Include="ManagerClasses\TribeManager.cs" />
     <Compile Include="ManagerClasses\WebCooperatorManager.cs" />
     <Compile Include="ManagerClasses\WebOrderRequestManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -51,7 +51,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
 
             Reset(CommandType.StoredProcedure);
             Validate<SpeciesSynonymMap>(entity);
-            SQL = "usp_GGTools_Taxon_SpeciesSynonymMap_Insert";
+            SQL = "usp_GRINGlobal_Taxonomy_Species_Synonym_Map_Insert";
 
             AddParameter("taxonomy_species_id_subject", (object)entity.SpeciesAID, false);
             AddParameter("taxonomy_species_id_predicate", (object)entity.SpeciesBID, false);

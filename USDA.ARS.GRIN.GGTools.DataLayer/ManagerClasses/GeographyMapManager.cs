@@ -14,7 +14,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         {
             Reset(CommandType.StoredProcedure);
             Validate<GeographyMap>(entity);
-            SQL = "usp_GGTools_Taxon_GeographyMap_Insert";
+            SQL = "usp_GRINGlobal_Taxonomy_Geography_Map_Insert";
 
             BuildInsertUpdateParameters(entity);
 
@@ -40,7 +40,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             Reset(CommandType.StoredProcedure);
             Validate<GeographyMap>(entity);
 
-            SQL = "usp_GGTools_Taxon_GeographyMap_Update";
+            SQL = "usp_GRINGlobal_Taxonomy_Geography_Map_Update";
 
             BuildInsertUpdateParameters(entity);
             AddParameter("@out_error_number", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
@@ -164,7 +164,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
                 " auil.list_name AS ListName, " +
                 " auil.app_user_item_folder_id AS FolderID, " +
                 " vgtgm.* " +
-                " FROM vw_GGTools_Taxon_GeographyMaps vgtgm " +
+                " FROM vw_GRINGlobal_Taxonomy_Geography_Map vgtgm " +
                 " JOIN app_user_item_list auil " +
                 " ON vgtgm.ID = auil.id_number " +
                 " WHERE auil.id_type = 'taxonomy_geography_map' ";
@@ -207,7 +207,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
 
         public virtual List<Cooperator> GetCooperators(string tableName)
         {
-            SQL = "usp_GGTools_GRINGlobal_CreatedByCooperators_Select";
+            SQL = "usp_GRINGlobal_Cooperators_Created_By_Select";
             var parameters = new List<IDbDataParameter> {
                 CreateParameter("table_name", (object)tableName, false)
             };
@@ -217,7 +217,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         }
         public virtual List<CodeValue> GetCodeValues(string groupName)
         {
-            SQL = "usp_GGTools_GRINGlobal_CodeValuesByGroup_Select";
+            SQL = "usp_GRINGlobal_Code_Values_Select";
             var parameters = new List<IDbDataParameter> {
                 CreateParameter("group_name", (object)groupName, false)
             };

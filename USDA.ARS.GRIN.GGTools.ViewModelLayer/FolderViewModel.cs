@@ -125,15 +125,15 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
                 DataCollectionCurrentCooperators = new Collection<Cooperator>(mgr.GetCurrentCollaborators(Entity.ID));
             }
         }
-        public void GetFolderItems(int folderId)
-        {
-            using (FolderManager mgr = new FolderManager())
-            {
-                //TODO Determine which table to load
+        //public void GetFolderItems(int folderId)
+        //{
+        //    using (FolderManager mgr = new FolderManager())
+        //    {
+        //        //TODO Determine which table to load
 
-                DataCollectionFolderItems = new Collection<AppUserItemList>(mgr.GetFolderItems(folderId));
-            }
-        }
+        //        DataCollectionFolderItems = new Collection<AppUserItemList>(mgr.GetFolderItems(folderId));
+        //    }
+        //}
         public int Insert()
         {
             using (FolderManager mgr = new FolderManager())
@@ -174,48 +174,48 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
             }
             return 0;
         }
-        public int InsertCollaborators()
-        {
-            using (FolderManager mgr = new FolderManager())
-            {
-                try
-                {
-                    string[] itemIdArray = ItemIDList.Split(',');
-                    foreach (var itemId in itemIdArray)
-                    {
-                        int cooperatorId = Int32.Parse(itemId);
-                        RowsAffected = mgr.InsertCollaborator(cooperatorId, Entity.ID);
-                    }
-                }
-                catch (Exception ex)
-                {
-                    PublishException(ex);
-                    throw ex;
-                }
-                return RowsAffected;
-            }
-        }
-        public int DeleteCollaborators()
-        {
-            using (FolderManager mgr = new FolderManager())
-            {
-                try
-                {
-                    string[] itemIdArray = ItemIDList.Split(',');
-                    foreach (var itemId in itemIdArray)
-                    {
-                        int cooperatorId = Int32.Parse(itemId);
-                        RowsAffected = mgr.DeleteCollaborator(cooperatorId, Entity.ID);
-                    }
-                }
-                catch (Exception ex)
-                {
-                    PublishException(ex);
-                    throw ex;
-                }
-                return RowsAffected;
-            }
-        }
+        //public int InsertCollaborators()
+        //{
+        //    using (FolderManager mgr = new FolderManager())
+        //    {
+        //        try
+        //        {
+        //            string[] itemIdArray = ItemIDList.Split(',');
+        //            foreach (var itemId in itemIdArray)
+        //            {
+        //                int cooperatorId = Int32.Parse(itemId);
+        //                RowsAffected = mgr.InsertCollaborator(cooperatorId, Entity.ID);
+        //            }
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            PublishException(ex);
+        //            throw ex;
+        //        }
+        //        return RowsAffected;
+        //    }
+        //}
+        //public int DeleteCollaborators()
+        //{
+        //    using (FolderManager mgr = new FolderManager())
+        //    {
+        //        try
+        //        {
+        //            string[] itemIdArray = ItemIDList.Split(',');
+        //            foreach (var itemId in itemIdArray)
+        //            {
+        //                int cooperatorId = Int32.Parse(itemId);
+        //                RowsAffected = mgr.DeleteCollaborator(cooperatorId, Entity.ID);
+        //            }
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            PublishException(ex);
+        //            throw ex;
+        //        }
+        //        return RowsAffected;
+        //    }
+        //}
         public int Update()
         {
             using (FolderManager mgr = new FolderManager())

@@ -34,7 +34,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
         {
             List<EmailTemplate> results = new List<EmailTemplate>();
 
-            SQL = " SELECT * FROM vw_GGTools_GRINGlobal_EmailTemplates ";
+            SQL = " SELECT * FROM vw_GRINGlobal_Email_Template ";
             SQL += " WHERE  (@CategoryCode          IS NULL     OR      CategoryCode    =   @CategoryCode)";
             SQL += " AND    (@ID                    IS NULL     OR      ID              =   @ID)";
 
@@ -52,7 +52,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
         {
             Reset(CommandType.StoredProcedure);
             Validate<EmailTemplate>(entity);
-            SQL = "usp_GGTools_GRINGlobal_EmailTemplate_Update";
+            SQL = "usp_GRINGlobal_Email_Template_Update";
 
             BuildInsertUpdateParameters(entity);
 

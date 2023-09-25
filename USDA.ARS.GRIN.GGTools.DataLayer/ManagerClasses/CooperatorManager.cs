@@ -65,7 +65,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
         public List<ReportItem> GetRecordsOwned(int cooperatorId)
         {
             List<ReportItem> reportItems = new List<ReportItem>();
-            SQL = "usp_GGTools_GRINGlobal_RecordsOwnedByCooperator_Select";
+            SQL = "usp_GRINGlobal_Cooperator_Records_Owned_Select";
 
             var parameters = new List<IDbDataParameter> {
                 CreateParameter("cooperator_id", (object)cooperatorId, false)
@@ -215,25 +215,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             return entity.ID;
         }
 
-        public int Transfer(int sourceCooperatorID, int targetCooperatorId, string tableName)
-        {
-            Reset(CommandType.StoredProcedure);
-            SQL = "usp_GGTools_GRINGlobal_CooperatorRecordOwnershipByTable_Update";
-
-            AddParameter("sys_table_name", tableName, true);
-            AddParameter("target_cooperator_id", targetCooperatorId, true);
-            AddParameter("source_cooperator_id", sourceCooperatorID, true);
-
-            RowsAffected = ExecuteNonQuery();
-
-            //var errorNumber = GetParameterValue<int>("@out_error_number", -1);
-
-            //if (errorNumber > 0)
-            //    throw new Exception(errorNumber.ToString());
-
-            return RowsAffected;
-        }
-
+        
         public List<CodeValue> GetTimeFrameOptions()
         {
             List<CodeValue> timeFrameOptions = new List<CodeValue>();
@@ -248,7 +230,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
         public List<SysGroup> GetGroups(int entityId)
         {
             List<SysGroup> groups = new List<SysGroup>();
-            SQL = "SELECT * FROM vw_GGTools_GRINGlobal_SysGroupUserMaps " +
+            SQL = "SELECT * FROM vw_GRINGlobal_Sys_Group_User_Map " +
                 " WHERE SysUserID = @SysUserID";
             var parameters = new List<IDbDataParameter> {
                 CreateParameter("SysUserID", entityId, true),
@@ -264,13 +246,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             states = GetRecords<State>(SQL);
             return states;
         }
-        public List<CodeValue> GetOrganizations()
-        {
-            List<CodeValue> states = new List<CodeValue>();
-            SQL = "SELECT OrganizationAbbrev AS Value, Organization AS Title FROM vw_GGTools_GRINGlobal_Organizations";
-            List<CodeValue> codeValues = GetRecords<CodeValue>(SQL);
-            return codeValues;
-        }
+        
         public List<Site> GetSites()
         {
             List<Site> sites = new List<Site>();
@@ -280,7 +256,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
         }
         public virtual List<CodeValue> GetCodeValues(string groupName)
         {
-            SQL = "usp_GGTools_GRINGlobal_CodeValuesByGroup_Select";
+            SQL = "usp_GRINGlobal_Code_Values_Select";
             var parameters = new List<IDbDataParameter> {
                 CreateParameter("group_name", (object)groupName, false)
             };

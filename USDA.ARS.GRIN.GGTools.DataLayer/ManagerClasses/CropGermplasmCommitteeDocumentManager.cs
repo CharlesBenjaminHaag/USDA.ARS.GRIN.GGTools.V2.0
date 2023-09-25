@@ -15,7 +15,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             Reset(CommandType.StoredProcedure);
             Validate<CropGermplasmCommitteeDocument>(entity);
 
-            SQL = "usp_GGTools_GRINGlobal_CropGermplasmCommitteeDocument_Insert";
+            SQL = "usp_GRINGlobal_Crop_Germplasm_Committee_Document_Insert";
 
             BuildInsertUpdateParameters(entity);
             
@@ -35,7 +35,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             Reset(CommandType.StoredProcedure);
             Validate<CropGermplasmCommitteeDocument>(entity);
 
-            SQL = "usp_GGTools_GRINGlobal_CropGermplasmCommitteeDocument_Update";
+            SQL = "usp_GRINGlobal_Crop_Germplasm_Committee_Document_Update";
 
             BuildInsertUpdateParameters(entity);
             
@@ -55,7 +55,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
 
         public CropGermplasmCommitteeDocument Get(int entityId)
         {
-            SQL = "usp_GGTools_GRINGlobal_CropGermplasmCommitteeDocument_Select";
+            SQL = "usp_GRINGlobal_Crop_Germplasm_Committee_Document_Select";
             CropGermplasmCommitteeDocument cropGermplasmCommitteeDocument = new CropGermplasmCommitteeDocument();
 
             var parameters = new List<IDbDataParameter> {
@@ -68,7 +68,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
 
         public List<CropGermplasmCommittee> GetCropGermplasmCommittees()
         {
-            SQL = "SELECT * FROM vw_GGTools_GRINGlobal_CropGermplasmCommittee";
+            SQL = "SELECT * FROM vw_GRINGlobal_Crop_Germplasm_Committee";
             List<CropGermplasmCommittee> cropGermplasmCommittees = GetRecords<CropGermplasmCommittee>(SQL);
             RowsAffected = cropGermplasmCommittees.Count;
             return cropGermplasmCommittees;
@@ -77,7 +77,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
         public virtual List<CropGermplasmCommitteeDocument> Search(CropGermplasmCommitteeDocumentSearch search)
         {
             // Create SQL to search for rows
-            SQL = "SELECT * FROM vw_GGTools_GRINGlobal_CropGermplasmCommitteeDocument";
+            SQL = "SELECT * FROM vw_GRINGlobal_Crop_Germplasm_Committee_Document";
             SQL += " WHERE (@CreatedByCooperatorID  IS NULL OR CreatedByCooperatorID    =       @CreatedByCooperatorID) ";
             SQL += " AND   (@Title                  IS NULL OR Title                    LIKE    '%' + @Title + '%') ";
             SQL += " AND   (@CategoryCode           IS NULL OR CategoryCode             =       @CategoryCode) ";
@@ -120,7 +120,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
      
         public virtual List<Cooperator> GetCooperators(string tableName)
         {
-            SQL = "usp_GGTools_GRINGlobal_CreatedByCooperators_Select";
+            SQL = "usp_GRINGlobal_Cooperators_Created_By_Select";
             var parameters = new List<IDbDataParameter> {
                 CreateParameter("table_name", (object)tableName, false)
             };
@@ -131,7 +131,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
 
         public virtual List<CodeValue> GetCodeValues(string groupName)
         {
-            SQL = "usp_GGTools_GRINGlobal_CodeValuesByGroup_Select";
+            SQL = "usp_GRINGlobal_Code_Values_Select";
             var parameters = new List<IDbDataParameter> {
                 CreateParameter("group_name", (object)groupName, false)
             };

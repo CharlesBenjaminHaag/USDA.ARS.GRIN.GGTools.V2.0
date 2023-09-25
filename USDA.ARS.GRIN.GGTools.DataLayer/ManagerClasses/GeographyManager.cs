@@ -29,7 +29,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         {
             Reset(CommandType.StoredProcedure);
             Validate<Geography>(entity);
-            SQL = "usp_GGTools_Taxon_Geography_Insert";
+            SQL = "usp_GRINGlobal_Geography_Insert";
 
             BuildInsertUpdateParameters(entity);
 
@@ -168,7 +168,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         {
             Reset(CommandType.StoredProcedure);
             Validate<Geography>(entity);
-            SQL = "usp_GGTools_Taxon_Geography_Update";
+            SQL = "usp_GRINGlobal_Geography_Update";
 
             BuildInsertUpdateParameters(entity);
 
@@ -223,7 +223,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
 
         public virtual List<Cooperator> GetCooperators(string tableName)
         {
-            SQL = "usp_GGTools_GRINGlobal_CreatedByCooperators_Select";
+            SQL = "usp_GRINGlobal_Cooperators_Created_By_Select";
             var parameters = new List<IDbDataParameter> {
                 CreateParameter("table_name", (object)tableName, false)
             };

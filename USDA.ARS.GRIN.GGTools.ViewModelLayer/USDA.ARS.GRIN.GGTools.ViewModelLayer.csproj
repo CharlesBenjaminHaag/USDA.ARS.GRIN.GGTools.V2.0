@@ -50,8 +50,6 @@
   <ItemGroup>
     <Compile Include="AccessionInventoryAttachmentViewModel.cs" />
     <Compile Include="AccessionInventoryAttachmentViewModelBase.cs" />
-    <Compile Include="AppUserDynamicQueryViewModelBase.cs" />
-    <Compile Include="AppUserDynamicQueryViewModel.cs" />
     <Compile Include="AppUserItemFolderViewModelBase.cs" />
     <Compile Include="AppUserItemFolderViewModel.cs" />
     <Compile Include="AppUserItemListViewModel.cs" />
@@ -123,10 +121,6 @@
     <Compile Include="SpeciesBatchEditViewModel.cs" />
     <Compile Include="SpeciesViewModel.cs" />
     <Compile Include="SpeciesViewModelBase.cs" />
-    <Compile Include="SubfamilyViewModel.cs" />
-    <Compile Include="SubfamilyViewModelBase.cs" />
-    <Compile Include="SubtribeViewModel.cs" />
-    <Compile Include="SubtribeViewModelBase.cs" />
     <Compile Include="SynonymMapViewModel.cs" />
     <Compile Include="SynonymMapViewModelBase.cs" />
     <Compile Include="SysApplicationViewModel.cs" />
@@ -148,8 +142,6 @@
     <Compile Include="WebUserViewModel .cs" />
     <Compile Include="SysUserViewModel.cs" />
     <Compile Include="SysUserViewModelBase.cs" />
-    <Compile Include="TribeViewModel.cs" />
-    <Compile Include="TribeViewModelBase.cs" />
     <Compile Include="ViewModelBase.cs" />
     <Compile Include="WebCooperatorViewModel.cs" />
     <Compile Include="WebCooperatorViewModelBase.cs" />

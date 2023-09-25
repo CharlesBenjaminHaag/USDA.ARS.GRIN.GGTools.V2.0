@@ -126,25 +126,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             return codeValues;
         }
 
-        //public virtual List<CodeValue> GetFolderLists(int cooperatorId)
-        //{
-        //    List<CodeValue> codeValues = new List<CodeValue>();
-        //    FolderSearch searchEntity = new FolderSearch { CreatedByCooperatorID = cooperatorId };
-
-        //    SQL =   " SELECT ListName AS Value, " +
-        //            " CONVERT(NVARCHAR, COUNT(*)) AS Title " + 
-        //            " FROM vw_GGTools_GRINGlobal_AppUserItemLists " + 
-        //            " WHERE TableName <> 'FOLDER' " +
-        //            " AND CooperatorID = @CooperatorID " +
-        //            " GROUP BY ListName ";
-        //    var parameters = new List<IDbDataParameter> {
-        //        CreateParameter("CooperatorID", searchEntity.CreatedByCooperatorID > 0 ? (object)searchEntity.CreatedByCooperatorID : DBNull.Value, true)
-        //    };
-
-        //    codeValues = GetRecords<CodeValue>(SQL, parameters.ToArray());
-        //    return codeValues;
-        //}
-
+       
         public virtual List<CodeValue> GetFolderCategories(int cooperatorId = 0)
         {
             List<CodeValue> codeValues = new List<CodeValue>();
@@ -163,20 +145,6 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             codeValues = GetRecords<CodeValue>(SQL, parameters.ToArray());
            
             return codeValues;
-        }
-
-        public virtual List<AppUserItemList> GetFolderItems(int folderId)
-        {
-            List<AppUserItemList> appUserFolderItems = new List<AppUserItemList>();
-
-            SQL = "usp_GGTools_Taxon_AppUserItemList_Select";
-
-            var parameters = new List<IDbDataParameter> {
-                CreateParameter("app_user_item_folder_id", (object)folderId, false)
-            };
-
-            appUserFolderItems = GetRecords<AppUserItemList>(SQL, CommandType.StoredProcedure, parameters.ToArray());
-            return appUserFolderItems;
         }
 
         public virtual int Insert(AppUserItemFolder entity)
@@ -224,7 +192,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
                 appUserItemList.IDNumber = Int32.Parse(id);
                 appUserItemList.IDType = entity.TableName;
                 appUserItemList.ListName = entity.FolderName;
-                InsertItem(appUserItemList);
+                //InsertItem(appUserItemList);
             }
             return 0;
         }
@@ -247,34 +215,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             return 0;
         }
 
-        private int InsertItem(AppUserItemList appUserItemList)
-        {
-            int rowsAffected = 0;
-
-            Reset(CommandType.StoredProcedure);
-
-            SQL = "usp_GGTools_GRINGlobal_AppUserItemList_Insert ";
-
-            AddParameter("app_user_item_folder_id", (object)appUserItemList.AppUserItemFolderID, false);
-            AddParameter("cooperator_id", (object)appUserItemList.CreatedByCooperatorID, false);
-            AddParameter("list_name", (object)appUserItemList.ListName, false);
-            AddParameter("item_id", (object)appUserItemList.IDNumber, false);
-            AddParameter("folder_type", (object)appUserItemList.IDType.Replace("_ID",""), false);
-            AddParameter("created_by", (object)appUserItemList.CreatedByCooperatorID ?? DBNull.Value, true);
-
-            AddParameter("@out_error_number", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
-            AddParameter("@out_app_user_item_list_id", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
-
-            rowsAffected = ExecuteNonQuery();
-
-            RowsAffected = GetParameterValue<int>("@out_app_user_item_list_id", -1);
-            int errorNumber = GetParameterValue<int>("@out_error_number", -1);
-            if (errorNumber > 0)
-            {
-                throw new Exception(errorNumber.ToString());
-            }
-            return rowsAffected;
-        }
+       
         private int ImportItem(AppUserItemList appUserItemList)
         {
             int rowsAffected = 0;
@@ -406,40 +347,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
 
             return RowsAffected;
         }
-        public int DeleteCollaborator(int cooperatorId, int folderId)
-        {
-            Reset(CommandType.StoredProcedure);
-
-            SQL = "usp_GGTools_GRINGlobal_AppUserItemFolderCooperatorMap_Delete";
-            AddParameter("cooperator_id", (object)cooperatorId, false);
-            AddParameter("app_user_item_folder_id", (object)folderId, false);
-            AddParameter("@out_error_number", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
-            RowsAffected = ExecuteNonQuery();
-
-            int errorNumber = GetParameterValue<int>("@out_error_number", -1);
-            if (errorNumber > 0)
-            {
-                throw new Exception(errorNumber.ToString());
-            }
-
-            return RowsAffected;
-        }
-
-
-        public Folder Get(int entityId)
-        {
-            SQL = "SELECT * FROM vw_GGTools_Taxon_Folders " +
-                " WHERE ID = @app_user_item_folder_id";
-            Folder folder = new Folder();
-
-            var parameters = new List<IDbDataParameter> {
-                CreateParameter("@app_user_item_folder_id", (object)entityId, false)
-            };
-            folder = GetRecord<Folder>(SQL, parameters.ToArray());
-            return folder;
-        }
-
-        public void BuildInsertUpdateParameters()
+                public void BuildInsertUpdateParameters()
         {
             throw new NotImplementedException();
         }
@@ -469,7 +377,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
         
         public virtual List<Cooperator> GetCooperators(string tableName)
         {
-            SQL = "usp_GGTools_GRINGlobal_CreatedByCooperators_Select";
+            SQL = "usp_GRINGlobal_Cooperators_Created_By_Select";
             var parameters = new List<IDbDataParameter> {
                 CreateParameter("table_name", (object)tableName, false)
             };
@@ -478,24 +386,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             return cooperators;
         }
 
-        public int InsertCollaborator(int cooperatorId, int appUserItemFolderId)
-        {
-            int rowsAffected = 0;
-
-            Reset(CommandType.StoredProcedure);
-
-            SQL = "usp_GGTools_GRINGlobal_AppUserItemFolderCooperatorMap_Insert";
-
-            AddParameter("app_user_item_folder_id", (object)appUserItemFolderId, false);
-            AddParameter("cooperator_id", (object)cooperatorId, false);
-            AddParameter("created_by", (object)48 ?? DBNull.Value, true);
-
-            AddParameter("@out_error_number", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
-            AddParameter("@out_app_user_item_folder_cooperator_map_id", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
-
-            rowsAffected = ExecuteNonQuery();
-            return rowsAffected;
-        }
+       
       
         AppUserItemFolder IManager<AppUserItemFolder, FolderSearch>.Get(int entityId)
         {

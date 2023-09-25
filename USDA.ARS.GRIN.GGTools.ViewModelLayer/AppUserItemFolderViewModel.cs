@@ -151,7 +151,8 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
             {
                 foreach (var itemId in itemIdList)
                 {
-                    mgr.DeleteItem(Int32.Parse(itemId));
+                    var itemIdParsed = itemId.Split('-')[1];
+                    mgr.DeleteItem(Int32.Parse(itemIdParsed));
                 }
             }
         }

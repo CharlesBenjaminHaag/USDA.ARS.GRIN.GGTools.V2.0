@@ -10,7 +10,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
         public SysUser Get(int entityId)
         {
             SysUser sysUser = new SysUser();
-            SQL = "usp_GGTools_GRINGlobal_SysUser_Select";
+            SQL = "usp_GRINGlobal_Sys_User_Select";
 
             var parameters = new List<IDbDataParameter> {
                 CreateParameter("sys_user_id", (object)entityId, false)
@@ -106,7 +106,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
         {
             Reset(CommandType.StoredProcedure);
 
-            SQL = "usp_GGTools_GRINGlobal_SysGroupUserMap_Insert";
+            SQL = "usp_GRINGlobal_Sys_Group_User_Map_Insert";
 
             AddParameter("sys_user_id", (object)sysGroupUserMap.SysUserID, false);
             AddParameter("sys_group_id", (object)sysGroupUserMap.SysGroupID, false);

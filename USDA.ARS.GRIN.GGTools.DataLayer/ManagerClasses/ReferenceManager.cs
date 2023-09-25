@@ -14,7 +14,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         public List<CodeValue> SearchNotes(ReferenceSearch searchEntity)
         {
             // Create SQL to search for rows
-            SQL = "SELECT Value, Description FROM vw_GGTools_Taxon_Notes ";
+            SQL = "SELECT Value, Description FROM vw_GRINGlobal_Taxonomy_Note ";
             SQL += " WHERE (@Note      IS NULL      OR Description     LIKE     '%' + @Note + '%') ";
             SQL += " AND   (Value      =            @TableName) ";
 

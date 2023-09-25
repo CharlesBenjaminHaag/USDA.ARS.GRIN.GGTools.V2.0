@@ -1,0 +1,77 @@
+﻿@model USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer.GeographyViewModel
+<div id="section-search-results" class="card card-default">
+    <div class="card-header">
+        <h3 class="card-title">Geography (@Model.DataCollection.Count)</h3>
+        <div class="card-tools">
+            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                <i class="fas fa-minus"></i>
+            </button>
+        </div>
+    </div>
+    <div class="card-body">
+        <table id="data_table_geography" class="table table-striped" style=" width:100%;">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th width="5%">ID</th>
+                    <th>Continent</th>
+                    <th>Subcontinent</th>
+                    <th>Country</th>
+                    <th>Admin 1</th>
+                    <th>Type</th>
+                    <th>Admin 2</th>
+                    <th>Type</th>
+                    <th>Valid</th>
+                    <th>Note</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var result in Model.DataCollection)
+                {
+                    <tr>
+                        <td>
+                            @result.ID
+                        </td>
+                        <td>
+                            <a href="@Url.Action("Edit", "Geography", new { @entityId = result.ID })">[@result.ID]</a>
+                        </td>
+                        <td>@result.Continent</td>
+                        <td>@result.SubContinent</td>
+                        <td>@result.CountryDescription</td>
+                        <td>@result.Admin1</td>
+                        <td>@result.Admin1TypeDescription</td>
+                        <td>@result.Admin2</td>
+                        <td>@result.Admin2TypeDescription</td>
+                        <td>
+                            @Html.Raw(Model.FormatBoolean(@result.IsValid))
+                        </td>
+                        <td>
+                            @Html.Raw(result.Note)
+                        </td>
+                        <td>
+                            @if (Model.EventAction == "FOLDER")
+                            {
+                                <a href="@Url.Action("DeleteItem", "Folder", new { @folderId = result.FolderID, @appUserItemListId = result.AppUserItemListID })"
+                                   class="btn btn-danger btn-sm float-right row-edit margin-r-5">
+                                    <i class="fa fa-trash"></i>
+                                </a>
+                            }
+                            else
+                            {
+                                <a href="@Url.Action("Edit", "Geography", new { entityId = result.ID })" class="btn btn-default btn-sm float-right row-edit">
+                                    <i class="fa fa-edit"></i>
+                                </a>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        InitDataTable("data_table_geography");
+    });
+</script>

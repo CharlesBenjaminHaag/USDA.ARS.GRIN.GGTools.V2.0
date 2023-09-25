@@ -34,7 +34,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             {
                 AppUserItemFolderViewModel viewModel = new AppUserItemFolderViewModel(AuthenticatedUser.CooperatorID);
                 viewModel.TableName = "app_user_item_folder";
-                viewModel.TableCode = "Folder";
+                viewModel.TableCode = "AppUserItemFolder";
                 viewModel.AuthenticatedUser = AuthenticatedUser;
 
                 if (entityId > 0)
@@ -77,7 +77,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 viewModel.SearchEntity.ID = viewModel.Entity.ID;
                 viewModel.Get();
                 viewModel.EventAction = "ADD";
-                return PartialView("~/Views/Folder/_Confirmation.cshtml", viewModel);
+                return PartialView("~/Views/AppUserItemFolder/_Confirmation.cshtml", viewModel);
 
             }
             catch (Exception ex)
@@ -99,7 +99,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             appUserItemFolderViewModel.Entity.TableName = viewModel.Entity.TableName;
             appUserItemFolderViewModel.EntityIDList = viewModel.EntityIDList;
             appUserItemFolderViewModel.InsertItems();
-            return PartialView("~/Views/Folder/_Confirmation.cshtml", appUserItemFolderViewModel);
+            return PartialView("~/Views/AppUserItemFolder/_Confirmation.cshtml", appUserItemFolderViewModel);
         }
         public PartialViewResult RenderEditModal(string sysTableName)
         {
@@ -149,9 +149,48 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             }
             catch (Exception ex)
             {
+                Log.Error(ex);
                 return Json(new { success = false }, JsonRequestBehavior.AllowGet);
             }
+        }
 
+        public PartialViewResult RenderFolderItemDeleteModal(int entityId)
+        {
+            try
+            {
+                FolderViewModel viewModel = new FolderViewModel();
+                viewModel.SearchEntity.ID = entityId;
+                viewModel.Get();
+                return PartialView("~/Views/AppUserItemFolder/Modals/_BatchDelete.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
+        }
+        public PartialViewResult RenderFolderCooperatorEditModal(int entityId)
+        {
+            try
+            {
+                FolderViewModel viewModel = new FolderViewModel();
+                viewModel.Entity.ID = entityId;
+                viewModel.GetAvailableCooperators();
+                viewModel.GetCurrentCooperators();
+                return PartialView("~/Views/AppUserItemFolder/Cooperator/_Edit.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
+        }
+        public PartialViewResult RenderFolderCooperatorWidget(int folderId)
+        {
+            FolderViewModel viewModel = new FolderViewModel();
+            viewModel.Entity.ID = folderId;
+            viewModel.GetCurrentCooperators();
+            return PartialView("~/Views/AppUserItemFolder/Cooperator/_Widget.cshtml", viewModel);
         }
     }
 }

@@ -22,7 +22,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 viewModel.EventAction = "FOLDER";
                 viewModel.SearchEntity.FolderID = folderId;
                 viewModel.GetFolderItems();
-                return PartialView(BASE_PATH + "_List.cshtml", viewModel);
+                return PartialView(BASE_PATH + "_ListFolder.cshtml", viewModel);
             }
             catch (Exception ex)
             {
@@ -73,14 +73,14 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 return RedirectToAction("InternalServerError", "Error");
             }
         }
-        public ActionResult RunSavedSearch(int id)
-        {
-            AppUserDynamicQueryViewModel viewModel = new AppUserDynamicQueryViewModel();
-            viewModel.Get(id);
-            GeographyMapSearch geographyMapSearch = viewModel.Deserialize<GeographyMapSearch>(viewModel.Entity.QuerySyntax);
-            TempData["GEO-MAP-SEARCH"] = geographyMapSearch;
-            return RedirectToAction("Index", "GeographyMap");
-        }
+        //public ActionResult RunSavedSearch(int id)
+        //{
+        //    AppUserDynamicQueryViewModel viewModel = new AppUserDynamicQueryViewModel();
+        //    viewModel.Get(id);
+        //    GeographyMapSearch geographyMapSearch = viewModel.Deserialize<GeographyMapSearch>(viewModel.Entity.QuerySyntax);
+        //    TempData["GEO-MAP-SEARCH"] = geographyMapSearch;
+        //    return RedirectToAction("Index", "GeographyMap");
+        //}
         public PartialViewResult _List(string eventValue = "", int speciesId = 0)
         {
             try

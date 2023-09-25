@@ -106,7 +106,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         {
             List<Classification> results = new List<Classification>();
 
-            SQL = " SELECT vgtcn.* FROM vw_GGTools_Taxon_Classifications vgtcn JOIN vw_GGTools_GRINGlobal_AppUserItemLists vgga " +
+            SQL = " SELECT vgtcn.* FROM vw_GRINGlobal_Taxonomy_Classification vgtcn JOIN vw_GRINGlobal_App_User_Item_List vgga " +
                     " ON vgtcn.ID = vgga.EntityID WHERE vgga.TableName = 'taxonomy_classification' ";
             SQL += "AND  (@FolderID                          IS NULL OR  FolderID       =           @FolderID)";
 

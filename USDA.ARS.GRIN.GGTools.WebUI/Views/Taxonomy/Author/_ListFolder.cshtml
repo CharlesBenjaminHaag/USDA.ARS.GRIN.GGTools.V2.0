@@ -1,0 +1,42 @@
+﻿@model USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer.AuthorViewModel
+<table id="data_table_taxonomy_author" class="table table-striped ggtools">
+    <thead>
+        <tr>
+            <th></th>
+            <th></th>
+            <th>ID</th>
+            <th>DEBUG</th>
+            <th>Short Name</th>
+            <th>Full Name</th>
+            <th>Note</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var result in Model.DataCollection)
+        {
+            <tr>
+                <td>@result.ID</td>
+                <td>@result.EntityKey</td>
+                <td>@result.ID</td>
+                <td>@result.EntityKey</td>
+                <td>@result.ShortName</td>
+                <td>@Html.Raw(result.FullName)</td>
+                <td>@Html.Raw(result.Note)</td>
+                <td style="text-align:right;">
+                    <a href="@Url.Action("Edit", "Author", new { entityId = result.ID })" class="btn btn-default btn-sm pull-right row-edit">
+                        <i class="fa fa-edit"></i>
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        InitDataTableFolderFormat("data_table_taxonomy_author");
+    });
+
+
+</script>
