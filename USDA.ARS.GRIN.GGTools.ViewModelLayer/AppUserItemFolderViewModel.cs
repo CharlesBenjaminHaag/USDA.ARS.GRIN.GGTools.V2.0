@@ -32,6 +32,13 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
                 }
             }
         }
+        public void GetRelatedFolders()
+        {
+            using (AppUserItemFolderManager mgr = new AppUserItemFolderManager())
+            {
+                DataCollection = new Collection<AppUserItemFolder>(mgr.GetRelatedFolders(SearchEntity));
+            }
+        }
         // Returns a list of the ID types contained in a given folder.
         public void GetIDTypes(int appItemFolderId)
         {
@@ -74,21 +81,6 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
                     }
                     Entity.ID = mgr.Insert(Entity);
                     InsertItems();
-                    //AppUserItemListViewModel appUserItemListViewModel = new AppUserItemListViewModel();
-                    //foreach (var entityId in EntityIDList.Split(','))
-                    //{
-                    //    appUserItemListViewModel.Entity.AppUserItemFolderID = Entity.ID;
-                    //    appUserItemListViewModel.Entity.CooperatorID = Entity.CreatedByCooperatorID;
-                    //    appUserItemListViewModel.Entity.TabName = "GGTools Taxon Editor";
-                    //    appUserItemListViewModel.Entity.ListName = Entity.FolderName;
-                    //    appUserItemListViewModel.Entity.IDNumber = Int32.Parse(entityId);
-                    //    appUserItemListViewModel.Entity.IDType = Entity.TableName.ToUpper() + "_ID";
-                    //    appUserItemListViewModel.Entity.SortOrder = Int32.Parse(entityId);
-                    //    appUserItemListViewModel.Entity.Title = Entity.FolderName + " " + Entity.TableName.ToUpper();
-                    //    appUserItemListViewModel.Entity.Description = "Added in GGTools Taxonomy Editor";
-                    //    appUserItemListViewModel.Entity.CreatedByCooperatorID = Entity.CreatedByCooperatorID;
-                    //    appUserItemListViewModel.Insert();
-                    //}
                 }
                 catch (Exception ex)
                 {
@@ -116,6 +108,7 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
                     appUserItemListViewModel.Entity.SortOrder = Int32.Parse(entityId);
                     appUserItemListViewModel.Entity.Title = Entity.FolderName + " " + Entity.TableName.ToUpper();
                     appUserItemListViewModel.Entity.Description = "Added in GGTools Taxonomy Editor";
+                    appUserItemListViewModel.Entity.Properties = "";
                     appUserItemListViewModel.Entity.CreatedByCooperatorID = Entity.CreatedByCooperatorID;
                     appUserItemListViewModel.Insert();
                 }
@@ -156,5 +149,8 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
                 }
             }
         }
+        #region Dynamic Folder
+
+        #endregion
     }
 }

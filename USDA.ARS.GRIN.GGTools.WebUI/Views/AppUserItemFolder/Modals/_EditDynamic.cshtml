@@ -1,0 +1,162 @@
+﻿<div class="modal fade text-sm" id="modal-dynamic-folder-edit" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">
+                    <i class="fas fa-folder"></i>
+                    Create Dynamic Folder
+                </h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>Folder Title</label>
+                            <input id="txtFolderTitle" name="SearchEntity.SearchTitle" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label>Description</label>
+                            <input id="txtFolderDescription" name="SearchEntity.SearchDescription" class="form-control" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                <button id="btnSaveNewDynamicFolder" type="button" class="btn btn-primary float-right" data-dismiss="modal">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--
+*************************************************************************************************
+Modal that appears if no record is selected for folder addition.
+*************************************************************************************************
+-->
+<div class="modal fade" id="modal-validation-warning" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog">
+        <div class="modal-content bg-danger">
+            <div class="modal-header">
+                <h4 class="modal-title">No Record(s) Selected</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Please first select at least one record to add to the folder.</p>
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-outline-light float-right" data-dismiss="modal">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        
+    });
+
+    $("#btnOpenDynamicFolderModal").click(function () {
+        var tableName = $("#TableName").val();
+        var dataTableName = "data_table_" + tableName;
+        var selectedItemIdList = GetSelectedEntityIDs(dataTableName);
+        $("#modal-dynamic-folder-edit").modal("show");
+    });
+
+    $("#btnSaveNewDynamicFolder").click(function () {
+        SaveNewDynamicFolder();
+    });
+
+    //$("#btnUpdateSelectedDynamicFolder").click(function () {
+    //    UpdateDynamicFolder();
+    //});
+
+    /*
+     * Adds a batch of selected items to an existing folder
+     */
+    @*function UpdateDynamicFolder() {
+        var link = '@Url.Action("AddItems", "AppUserItemFolder")';
+        var appUserItemFolderId = GetSelectedEntityIDs("data_table_app_user_item_folder_list");
+        var tableName = $("#TableName").val();
+        var dataTableName = "data_table_" + tableName;
+        var formData = new FormData();
+
+        var selectedItemIdList = GetSelectedEntityIDs("data_table_" + $("#TableName").val());
+        if (selectedItemIdList.length < 1) {
+            alert("ERROR: No items selected");
+        }
+
+        if (typeof selectedItemIdList == 'undefined') {
+            alert("ERROR: Item ID list undefined");
+        }
+
+        formData.append("Entity.ID", appUserItemFolderId);
+        formData.append("EntityIDList", selectedItemIdList);
+        formData.append("Entity.TableName", tableName);
+
+        // TEST Show confirmation alert once folder done.
+        $.ajax({
+            url: link,
+            type: 'POST',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (response) {
+                $("#section-folder-confirmation").html(response);
+            },
+            error: function () {
+                alert("Error");
+            }
+        });
+        $("#modal-dynamic-folder-edit").modal("hide");
+    }*@
+
+    /*
+     * Adds a batch of items to a newly-created folder
+    */
+    function SaveNewDynamicFolder() {
+        $("#EventValue").val("SAVE");
+        $("#frmMain").submit();
+    }
+
+    function ConfirmFolderSave(folderTitle) {
+        $("#new-dynamic-folder-name").html(folderTitle);
+        $("#alert-dynamic-folder-confirmation").show();
+    }
+
+    @*function SaveFolderItems(folderId) {
+        var link = '@Url.Action("AddItems", "Folder")';
+        var tableName = $("#TableName").val();
+        var selectedItemIdList = GetSelectedEntityIDs("data-table-order");
+        var formData = new FormData();
+
+        formData.append("FolderID", folderId);
+        formData.append("TableName", tableName);
+
+        if (typeof selectedItemIdList != 'undefined') {
+            formData.append("IDList", selectedItemIdList);
+        }
+
+        $.ajax({
+            url: link,
+            type: 'POST',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (result) {
+            },
+            error: function () {
+                alert("Error");
+            }
+        });
+        $("#modal-dynamic-folder-edit").modal("hide");
+    }*@
+</script>
+

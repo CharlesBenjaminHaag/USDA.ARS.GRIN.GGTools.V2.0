@@ -16,6 +16,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI
             get 
             {
                 StringBuilder sessionKeyName = new StringBuilder();
+                sessionKeyName.Append("DYN_SEARCH_");
                 sessionKeyName.Append(this.ControllerContext.RouteData.Values["controller"].ToString().ToUpper());
                 sessionKeyName.Append("_");
                 sessionKeyName.Append(this.ControllerContext.RouteData.Values["action"].ToString().ToUpper());

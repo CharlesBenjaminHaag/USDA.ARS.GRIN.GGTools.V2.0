@@ -28,10 +28,10 @@ namespace USDA.ARS.GRIN.GGTools.AppLayer
         public string CitationText { get; set; }
         public string SQLStatement { get; set; }
         public string SQLWhere { get; set; }
-        public string SaveSearchTitle
+        public string SearchTitle
         { get; set; }
         
-        public string SaveSearchDescription
+        public string SearchDescription
         { get; set; }
         
     }

@@ -79,6 +79,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
         /// <returns></returns>
         public ActionResult RequestPasswordReset()
         {
+            Session.Clear();
             SysUserViewModel viewModel = new SysUserViewModel();
             return View(viewModel);
         }

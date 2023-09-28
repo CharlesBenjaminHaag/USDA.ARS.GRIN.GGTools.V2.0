@@ -13,8 +13,8 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
         public string FolderType { get; set; }
         public string FolderTypeDescription { get; set; }
         public string Description { get; set; }
-        public int TotalItems { get; set; }
         public string Category { get; set; }
+        public int TotalItems { get; set; }
         public string NewCategory { get; set; }
         public string IsFavorite { get; set; }
         public bool IsFavoriteOption { get; set; }

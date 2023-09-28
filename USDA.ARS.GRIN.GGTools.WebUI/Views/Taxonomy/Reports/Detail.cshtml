@@ -111,7 +111,7 @@
                 <div class="collapse navbar-collapse order-3" id="navbarCollapse">
                     <!-- BEGIN EDIT PAGE MENU -->
                     <ul class="navbar-nav">
-                        @{Html.RenderAction("_RelatedFoldersMenu", "Folder", new { tableName = Model.TableName, entityId = Model.Entity.ID }); }
+                        @{Html.RenderAction("RenderRelatedFoldersMenu", "AppUserItemFolder", new { sysTableName = Model.TableName, entityId = Model.Entity.ID }); }
                     </ul>
                     <!-- END EDIT PAGE MENU-->
                 </div>
@@ -140,7 +140,7 @@
             <div class="content">
                 <div class="container" style="max-width:1500px;">
                     <div id="section-folder-confirmation"></div>
-                    @{Html.RenderAction("_Edit", "Folder", new { tableName = Model.TableName }); }
+                    @{Html.RenderAction("RenderEditModal", "AppUserItemFolder", new { sysTableName = Model.TableName }); }
 
                 <div class="card card-default">
                     <div class="card-header">

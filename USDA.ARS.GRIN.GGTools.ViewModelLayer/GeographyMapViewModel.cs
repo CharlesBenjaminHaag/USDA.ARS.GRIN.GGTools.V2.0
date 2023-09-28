@@ -112,30 +112,14 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
             {
                 try
                 {
-                    //if (!String.IsNullOrEmpty(ItemIDList))
-                    //{
-                    //    string[] itemIdList = ItemIDList.Split(',');
-                    //    foreach (var itemId in itemIdList)
-                    //    {
-                    //        GeographyMap geographyMap = new GeographyMap();
-                    //        geographyMap.SpeciesID = Entity.SpeciesID;
-                    //        geographyMap.GeographyID = Int32.Parse(itemId);
-                    //        geographyMap.GeographyStatusCode = Entity.GeographyStatusCode;
-                    //        geographyMap.CreatedByCooperatorID = Entity.CreatedByCooperatorID;
-                    //        var geographyMapId = mgr.Insert(geographyMap);
-                    //        geographyMapIDList.Add(geographyMapId.ToString());
-                    //    }
-                    //}
-                    //else
-                    //{
-                        RowsAffected = mgr.Insert(Entity);
-                        Entity = mgr.Get(Entity.ID);
-                        DataCollection.Add(Entity);
-                    //}
+                    RowsAffected = mgr.Insert(Entity);
+                    Entity = mgr.Get(Entity.ID);
+                    DataCollection.Add(Entity);
                 }
                 catch (Exception ex)
                 {
                     PublishException(ex);
+                    throw ex; 
                 }
             }
         }

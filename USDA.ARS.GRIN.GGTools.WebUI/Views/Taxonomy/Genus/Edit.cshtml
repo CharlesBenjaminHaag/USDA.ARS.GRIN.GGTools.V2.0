@@ -44,7 +44,7 @@
                                 </ul>
                             </li>
 
-                            Html.RenderAction("_RelatedFoldersMenu", "Folder", new { tableName = Model.TableName, entityId = Model.Entity.ID });
+                            Html.RenderAction("RenderRelatedFoldersMenu", "AppUserItemFolder", new { sysTableName = Model.TableName, entityId = Model.Entity.ID });
                         }
                     </ul>
                     <!-- END EDIT PAGE MENU-->

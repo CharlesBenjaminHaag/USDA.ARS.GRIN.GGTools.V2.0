@@ -24,6 +24,21 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             
             return appUserItemFolder;
         }
+        public virtual List<AppUserItemFolder> GetRelatedFolders(AppUserItemFolderSearch searchEntity)
+        {
+            List<AppUserItemFolder> results = new List<AppUserItemFolder>();
+
+            SQL = " SELECT DISTINCT FolderID, FolderName " +
+                    " FROM vw_GRINGlobal_Folder_" + searchEntity.TableName + " WHERE CreatedByCooperatorID = @CreatedByCooperatorID";
+
+            var parameters = new List<IDbDataParameter> {
+                CreateParameter("CreatedByCooperatorID", searchEntity.CreatedByCooperatorID, true)
+            };
+            results = GetRecords<AppUserItemFolder>(SQL, parameters.ToArray());
+            RowsAffected = results.Count;
+            return results;
+        }
+
         public virtual List<AppUserItemFolder> Search(AppUserItemFolderSearch searchEntity)
         {
             List<AppUserItemFolder> results = new List<AppUserItemFolder>();
@@ -33,6 +48,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             SQL += " AND    (@CreatedByCooperatorID     IS NULL OR   CreatedByCooperatorID      =   @CreatedByCooperatorID)";
             SQL += " AND    (@AppUserItemFolderID       IS NULL OR   ID                         =   @AppUserItemFolderID)";
             SQL += " AND    (@IsFavorite                IS NULL OR   IsFavorite                 =   @IsFavorite)";
+            SQL += " AND    (@FolderType                IS NULL OR   FolderType                 =   @FolderType)";
 
             //if (searchEntity.IsShared == "Y")
             //{
@@ -67,11 +83,11 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             }
 
             var parameters = new List<IDbDataParameter> {
-                //CreateParameter("FolderType", !String.IsNullOrEmpty(searchEntity.FolderTypeDescription) ? (object)searchEntity.FolderTypeDescription : DBNull.Value, true),
                 CreateParameter("Category", !String.IsNullOrEmpty(searchEntity.Category) ? (object)searchEntity.Category : DBNull.Value, true),
                 CreateParameter("CreatedByCooperatorID", searchEntity.CreatedByCooperatorID > 0 ? (object)searchEntity.CreatedByCooperatorID : DBNull.Value, true),
                 //CreateParameter("SharedWithCooperatorID", searchEntity.SharedWithCooperatorID > 0 ? (object)searchEntity.SharedWithCooperatorID : DBNull.Value, true),
                 CreateParameter("IsFavorite", !String.IsNullOrEmpty(searchEntity.IsFavorite) ? (object)searchEntity.IsFavorite : DBNull.Value, true),
+                CreateParameter("FolderType", !String.IsNullOrEmpty(searchEntity.FolderType) ? (object)searchEntity.FolderType : DBNull.Value, true),
                 CreateParameter("AppUserItemFolderID", searchEntity.ID > 0 ? (object)searchEntity.ID : DBNull.Value, true),
             };
 
@@ -220,7 +236,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             }
 
             AddParameter("folder_name", (object)entity.FolderName, false);
-            //AddParameter("folder_type", (object)entity.FolderType ?? DBNull.Value, true);
+            AddParameter("folder_type", (object)entity.FolderType ?? DBNull.Value, true);
             AddParameter("category", (object)entity.Category ?? DBNull.Value, true);
             AddParameter("description", (object)entity.Description ?? DBNull.Value, true);
             AddParameter("is_favorite", (object)entity.IsFavorite ?? DBNull.Value, true);

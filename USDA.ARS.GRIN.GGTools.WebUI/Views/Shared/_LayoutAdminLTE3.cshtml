@@ -114,14 +114,17 @@
             {
                 if ((eventValue == "Get") || (eventValue == "Edit"))
                 {
-@Html.Partial("~/Views/Cooperator/_MenuEdit.cshtml") }
-else
-{
-@Html.Partial("~/Views/Shared/_NavbarListOptions.cshtml") }
-}
-else
-{
-@Html.Partial("~/Views/Shared/_NavbarListOptions.cshtml")}
+                    @Html.Partial("~/Views/Cooperator/_MenuEdit.cshtml") 
+                }
+                else
+                    {
+                        @Html.Partial("~/Views/Shared/_NavbarListOptions.cshtml") 
+                    }
+                }
+                else
+                {
+                    @Html.Partial("~/Views/Shared/_NavbarListOptions.cshtml")
+                }
 
             <ul class="navbar-nav ml-auto">
                 <!-- Notifications Dropdown Menu -->

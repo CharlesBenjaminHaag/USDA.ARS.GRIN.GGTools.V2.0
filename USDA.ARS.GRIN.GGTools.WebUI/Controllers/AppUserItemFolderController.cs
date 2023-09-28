@@ -17,13 +17,15 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
         {
             return View();
         }
-        public PartialViewResult _List(int formatCode = 1, int cooperatorId = 0, string isFavorite = null, string timeFrame = "", string isShared = "N")
+        public PartialViewResult _List(int formatCode = 1, int cooperatorId = 0, string folderType = "", string isFavorite = null, string timeFrame = "", string isShared = "N")
         {
-            AppUserItemFolderViewModel viewModel = new AppUserItemFolderViewModel();
+           AppUserItemFolderViewModel viewModel = new AppUserItemFolderViewModel();
+             
             viewModel.SearchEntity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
             viewModel.SearchEntity.IsFavorite = isFavorite;
             viewModel.SearchEntity.TimeFrame = timeFrame;
             viewModel.SearchEntity.IsShared = isShared;
+            viewModel.SearchEntity.FolderType = folderType;
             viewModel.Search();
 
             return PartialView("~/Views/AppUserItemFolder/_ListWidget.cshtml", viewModel);
@@ -86,6 +88,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 return PartialView("~/Views/Error/_InternalServerError.cshtml");
             }
         }
+       
         public ActionResult EditDetails(AppUserItemFolderViewModel viewModel)
         {
             viewModel.Update();
@@ -153,7 +156,6 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 return Json(new { success = false }, JsonRequestBehavior.AllowGet);
             }
         }
-
         public PartialViewResult RenderFolderItemDeleteModal(int entityId)
         {
             try
@@ -192,5 +194,79 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             viewModel.GetCurrentCooperators();
             return PartialView("~/Views/AppUserItemFolder/Cooperator/_Widget.cshtml", viewModel);
         }
+        public PartialViewResult RenderRelatedFoldersMenu(string sysTableName, int entityId = 0)
+        {
+            AppUserItemFolderViewModel viewModel = new AppUserItemFolderViewModel();
+
+            try
+            {
+                if (String.IsNullOrEmpty(sysTableName))
+                {
+                    throw new IndexOutOfRangeException("Error in FolderController._RelatedFoldersMenu(): Table name not specified.");
+                }
+
+                if (entityId == 0)
+                {
+                    throw new IndexOutOfRangeException("Error in FolderController._RelatedFoldersMenu(): ID field not specified.");
+                }
+
+                viewModel.Entity.ID = entityId;
+                viewModel.TableName = sysTableName;
+                viewModel.SearchEntity.TableName = sysTableName;
+                viewModel.SearchEntity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
+                viewModel.GetRelatedFolders();
+                return PartialView("~/Views/AppUserItemFolder/_RelatedFoldersMenu.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
+        }
+
+        #region Dynamic Folder
+
+        public PartialViewResult RenderDynamicFolderEditModal()
+        {
+            try
+            {
+                AppUserItemFolderViewModel viewModel = new AppUserItemFolderViewModel(AuthenticatedUser.CooperatorID);
+                return PartialView("~/Views/AppUserItemFolder/Modals/_EditDynamic.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
+        }
+        public PartialViewResult AddDynamicFolder(AppUserItemFolderViewModel viewModel)
+        {
+            try
+            {
+                if (viewModel.Entity.ID == 0)
+                {
+                    viewModel.Entity.FolderType = "DYNAMIC";
+                    viewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
+                    viewModel.Insert();
+                }
+                else
+                {
+                    viewModel.Entity.ModifiedByCooperatorID = AuthenticatedUser.CooperatorID;
+                    viewModel.Update();
+                }
+                viewModel.SearchEntity.ID = viewModel.Entity.ID;
+                viewModel.Get();
+                viewModel.EventAction = "ADD";
+                return PartialView("~/Views/AppUserItemFolder/_ConfirmationDynamic.cshtml", viewModel);
+
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
+        }
+
+        #endregion
     }
 }

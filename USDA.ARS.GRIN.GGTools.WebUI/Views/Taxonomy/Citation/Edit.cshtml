@@ -26,7 +26,7 @@
                             <li class="nav-item d-none d-sm-inline-block">
                                 <a href="@Url.Action("Clone", "Citation", new { entityId = Model.Entity.ID })" class="nav-link">Clone</a>
                             </li>
-                            Html.RenderAction("_RelatedFoldersMenu", "Folder", new { tableName = Model.TableName, entityId = Model.Entity.ID });
+                            Html.RenderAction("RenderRelatedFoldersMenu", "AppUserItemFolder", new { sysTableName = Model.TableName, entityId = Model.Entity.ID });
                         }
                     </ul>
                     <!-- END EDIT PAGE MENU-->
@@ -167,7 +167,7 @@
                                     <div class="col-md-12">
                                         <div class="form-group">
                                             <label>Citation Title</label>
-                                            @Html.TextAreaFor(x => x.Entity.CitationTitle, new { @class = "form-control", @autocomplete = "off", @data_lpignore = "true", @rows = 1 })
+                                            @Html.TextBoxFor(x => x.Entity.CitationTitle, new { @class = "form-control", @autocomplete = "off", @data_lpignore = "true", @rows = 1 })
                                         </div>
                                     </div>
                                 </div>
@@ -175,7 +175,7 @@
                                     <div class="col-md-12">
                                         <div class="form-group">
                                             <label>Author Name</label>
-                                            @Html.TextAreaFor(x => x.Entity.AuthorName, new { @class = "form-control", @autocomplete = "off", @data_lpignore = "true", @rows = 1 })
+                                            @Html.TextBoxFor(x => x.Entity.AuthorName, new { @class = "form-control", @autocomplete = "off", @data_lpignore = "true", @rows = 1 })
                                         </div>
                                     </div>
                                 </div>
@@ -267,10 +267,8 @@
                             </div>
                         </div>
                     }
-                    
+                    @{Html.RenderAction("RenderEditModal", "AppUserItemFolder", new { sysTableName = Model.TableName }); }
                     @{Html.RenderAction("RenderReferenceCountsWidget", "Citation", new { @citationId = Model.Entity.ID });}
-
-                    @{Html.RenderAction("_Edit", "Folder", new { tableName = Model.TableName }); }
                     @{Html.RenderAction("RenderLookupModal", "Literature"); }
                     @{Html.RenderAction("RenderLookupModal", "Genus"); }
                     @{Html.RenderAction("RenderLookupModal", "Species"); }

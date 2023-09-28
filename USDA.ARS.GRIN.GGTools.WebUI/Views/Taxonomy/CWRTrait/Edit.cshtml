@@ -22,7 +22,7 @@
                     <ul class="navbar-nav">
                         @if (Model.Entity.ID > 0)
                         {
-                            Html.RenderAction("_RelatedFoldersMenu", "Folder", new { tableName = Model.TableName, entityId = Model.Entity.ID });
+                            Html.RenderAction("RenderRelatedFoldersMenu", "AppUserItemFolder", new { sysTableName = Model.TableName, entityId = Model.Entity.ID });
                             <li class="nav-item">
                                 <button id="btnOpenTaxonomyCWRTraitCloneModal"
                                         type="button"
@@ -196,7 +196,7 @@
                     }
                     @Html.Partial("~/Views/Shared/Modals/_NoteLookup2.cshtml")
                     @Html.Partial("~/Views/Taxonomy/Shared/Modals/_Delete.cshtml")
-                    @{Html.RenderAction("_Edit", "Folder", new { tableName = Model.TableName }); }
+                    @{Html.RenderAction("RenderEditModal", "AppUserItemFolder", new { sysTableName = Model.TableName }); }
 
                     <script type="text/javascript">
                         $(document).ready(function () {

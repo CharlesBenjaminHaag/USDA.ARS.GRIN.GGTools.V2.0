@@ -368,8 +368,8 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         {
             List<Geography> results = new List<Geography>();
 
-            SQL = " SELECT ID, GeographyText FROM vw_GRINGlobal_Geography_State  ";
-            SQL += " ORDER BY GeographyText ASC ";
+            SQL = " SELECT ID, Admin1 FROM vw_GRINGlobal_Geography_State  ";
+            SQL += " ORDER BY Admin1 ASC ";
 
             results = GetRecords<Geography>(SQL);
             RowsAffected = results.Count;

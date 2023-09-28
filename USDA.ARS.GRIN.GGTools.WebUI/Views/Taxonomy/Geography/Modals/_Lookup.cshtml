@@ -91,30 +91,22 @@
                                 <label for="check-all-administrative-units">Select All</label>
                             </div>
                         </div>
-
-                        @if (Model.IsLookupFormat == "N")
-                        {
-                            <div id="section-generate-map-options">
-                                <div class="form-group">
-                                    <label>Status</label>
-                                    <select id="ddlGeographyStatusCode" class="form-control">
-                                        <option value="a">Adventive</option>
-                                        <option value="c">Cultivated</option>
-                                        <option value="n" selected>Native</option>
-                                        <option value="i">Naturalized</option>
-                                        <option value="o">Other</option>
-                                        <option value="u">Uncertain</option>
-                                    </select>
-                                </div>
-                                <button id="btnGenerateGeographyMaps" class="btn btn-primary btn-block" data-dismiss="modal">Generate Maps</button>
+                        <div id="section-generate-map-options">
+                            <div class="form-group">
+                                <label>Status</label>
+                                <select id="ddlGeographyStatusCode" class="form-control">
+                                    <option value="a">Adventive</option>
+                                    <option value="c">Cultivated</option>
+                                    <option value="n" selected>Native</option>
+                                    <option value="i">Naturalized</option>
+                                    <option value="o">Other</option>
+                                    <option value="u">Uncertain</option>
+                                </select>
                             </div>
-                        }
-                        else
-                        {
-                            <button id="btnGetSelectedAdministrativeUnits" class="btn btn-primary btn-block" data-dismiss="modal">Use Selected Geographies</button>
-                        }
+                            <button id="btnGenerateGeographyMaps" class="btn btn-primary btn-block" data-dismiss="modal">Generate Maps</button>
+                        </div>
                     </div>
-                    </div>
+                </div>
             </div>
             <div class="modal-footer justify-content-between">
                 <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>

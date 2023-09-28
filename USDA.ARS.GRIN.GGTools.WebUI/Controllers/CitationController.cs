@@ -443,18 +443,6 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
         {
             try
             {
-                // Retrieve existing citation 
-
-                //viewModel.Get(citationId);
-
-                // Create clone of citation
-                //CitationViewModel cloneViewModel = new CitationViewModel();
-                //cloneViewModel.Entity = viewModel.Entity;
-                //cloneViewModel.Entity.ID = 0;
-                //cloneViewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
-                //cloneViewModel.Insert();
-
-                // Set reference of specified record to newly-cloned citation id.
                 CitationViewModel viewModel = new CitationViewModel();
                 viewModel.UpdateSpeciesCitation(tableName, entityId, citationId, AuthenticatedUser.CooperatorID);
                 return Json(new { citationId = citationId }, JsonRequestBehavior.AllowGet);
@@ -759,7 +747,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             return PartialView("~/Views/Taxonomy/Citation/Modals/_Edit.cshtml", viewModel);
         }
 
-        public PartialViewResult RenderWidget(int entityId)
+        public PartialViewResult RenderWidget(int entityId = 0)
         {
             CitationViewModel viewModel = new CitationViewModel();
 

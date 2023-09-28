@@ -101,28 +101,27 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
 
         public int Insert(AppUserItemList entity)
         {
-             
-                int rowsAffected = 0;
+            int rowsAffected = 0;
 
-                Reset(CommandType.StoredProcedure);
+            Reset(CommandType.StoredProcedure);
 
-                SQL = "usp_GRINGlobal_App_User_Item_List_Insert";
+            SQL = "usp_GRINGlobal_App_User_Item_List_Insert";
 
-                AddParameter("app_user_item_folder_id", (object)entity.AppUserItemFolderID, false);
-                AddParameter("cooperator_id", (object)entity.CreatedByCooperatorID, false);
-                AddParameter("tab_name", (object)entity.TabName, false);
-                AddParameter("list_name", (object)entity.ListName, false);
-                AddParameter("id_number", (object)entity.IDNumber, false);
-                AddParameter("id_type", (object)entity.IDType.Replace("_ID", ""), false);
-                AddParameter("sort_order", (object)entity.IDNumber, false);
-                AddParameter("title", (object)entity.ListName, false);
-                AddParameter("description", (object)entity.Description, false);
-                AddParameter("created_by", (object)entity.CreatedByCooperatorID ?? DBNull.Value, true);
+            AddParameter("app_user_item_folder_id", (object)entity.AppUserItemFolderID, false);
+            AddParameter("cooperator_id", (object)entity.CreatedByCooperatorID, false);
+            AddParameter("tab_name", (object)entity.TabName, false);
+            AddParameter("list_name", (object)entity.ListName, false);
+            AddParameter("id_number", (object)entity.IDNumber, false);
+            AddParameter("id_type", (object)entity.IDType.Replace("_ID", ""), false);
+            AddParameter("sort_order", (object)entity.IDNumber, false);
+            AddParameter("title", (object)entity.ListName, false);
+            AddParameter("description", (object)entity.Description, false);
+            AddParameter("properties", (object)entity.Properties, false);
+            AddParameter("created_by", (object)entity.CreatedByCooperatorID ?? DBNull.Value, true);
+            AddParameter("@out_error_number", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
+            AddParameter("@out_app_user_item_list_id", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
 
-                AddParameter("@out_error_number", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
-                AddParameter("@out_app_user_item_list_id", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
-
-                rowsAffected = ExecuteNonQuery();
+            rowsAffected = ExecuteNonQuery();
 
                 RowsAffected = GetParameterValue<int>("@out_app_user_item_list_id", -1);
                 int errorNumber = GetParameterValue<int>("@out_error_number", -1);

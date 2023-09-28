@@ -887,6 +887,9 @@
     <Content Include="Views\AppUserItemFolder\Cooperator\_ListCurrent.cshtml" />
     <Content Include="Views\AppUserItemFolder\Cooperator\_Widget.cshtml" />
     <Content Include="Views\Taxonomy\SpeciesSynonymMap\_ListFolder.cshtml" />
+    <Content Include="Views\AppUserItemFolder\_RelatedFoldersMenu.cshtml" />
+    <Content Include="Views\AppUserItemFolder\Modals\_EditDynamic.cshtml" />
+    <Content Include="Views\AppUserItemFolder\_ConfirmationDynamic.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
