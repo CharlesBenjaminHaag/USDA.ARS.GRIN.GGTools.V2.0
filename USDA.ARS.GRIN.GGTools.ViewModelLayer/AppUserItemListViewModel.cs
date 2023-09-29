@@ -76,6 +76,11 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
                 {
                     DataCollection = new Collection<AppUserItemList>(mgr.Search(SearchEntity));
                     RowsAffected = mgr.RowsAffected;
+
+                    if (DataCollection.Count == 1)
+                    {
+                        Entity = DataCollection[0];
+                    }
                 }
                 catch (Exception ex)
                 {

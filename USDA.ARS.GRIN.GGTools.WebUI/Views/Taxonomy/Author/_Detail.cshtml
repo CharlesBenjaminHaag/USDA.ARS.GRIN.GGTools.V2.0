@@ -74,7 +74,7 @@
                 <div class="tab-pane" id="timeline">
                     <div class="row">
                         <div class="col-md-12">
-                            @{Html.RenderAction("_List", "AppUserItemFolder", new { @cooperatorId = Model.AuthenticatedUserCooperatorID, @folderType = "DYNAMIC" });}
+                            @{Html.RenderAction("_ListDynamic", "AppUserItemFolder", new { @cooperatorId = Model.AuthenticatedUserCooperatorID, @dataType = Model.TableName });}
                         </div>
                     </div>
                 </div>

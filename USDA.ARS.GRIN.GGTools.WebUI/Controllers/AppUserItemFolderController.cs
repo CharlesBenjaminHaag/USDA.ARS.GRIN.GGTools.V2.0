@@ -239,26 +239,40 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 return PartialView("~/Views/Error/_InternalServerError.cshtml");
             }
         }
-        public PartialViewResult AddDynamicFolder(AppUserItemFolderViewModel viewModel)
+        //public PartialViewResult AddDynamicFolder(AppUserItemFolderViewModel viewModel)
+        //{
+        //    try
+        //    {
+        //        if (viewModel.Entity.ID == 0)
+        //        {
+        //            viewModel.Entity.FolderType = "DYNAMIC";
+        //            viewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
+        //            viewModel.Insert();
+        //        }
+        //        else
+        //        {
+        //            viewModel.Entity.ModifiedByCooperatorID = AuthenticatedUser.CooperatorID;
+        //            viewModel.Update();
+        //        }
+        //        viewModel.SearchEntity.ID = viewModel.Entity.ID;
+        //        viewModel.Get();
+        //        viewModel.EventAction = "ADD";
+        //        return PartialView("~/Views/AppUserItemFolder/_ConfirmationDynamic.cshtml", viewModel);
+
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Log.Error(ex);
+        //        return PartialView("~/Views/Error/_InternalServerError.cshtml");
+        //    }
+        //}
+        public PartialViewResult _ListDynamic(int formatCode = 1, int cooperatorId = 0, string folderType = "", string dataType = "", string isFavorite = null, string timeFrame = "", string isShared = "N")
         {
+            AppUserItemFolderViewModel viewModel = new AppUserItemFolderViewModel();
             try
             {
-                if (viewModel.Entity.ID == 0)
-                {
-                    viewModel.Entity.FolderType = "DYNAMIC";
-                    viewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
-                    viewModel.Insert();
-                }
-                else
-                {
-                    viewModel.Entity.ModifiedByCooperatorID = AuthenticatedUser.CooperatorID;
-                    viewModel.Update();
-                }
-                viewModel.SearchEntity.ID = viewModel.Entity.ID;
-                viewModel.Get();
-                viewModel.EventAction = "ADD";
-                return PartialView("~/Views/AppUserItemFolder/_ConfirmationDynamic.cshtml", viewModel);
-
+                viewModel.GetDynamicFolders(cooperatorId, dataType);
+                return PartialView("~/Views/AppUserItemFolder/_ListWidgetDynamic.cshtml", viewModel);
             }
             catch (Exception ex)
             {

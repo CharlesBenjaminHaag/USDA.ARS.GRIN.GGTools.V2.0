@@ -13,7 +13,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
     {
         public CWRMap Get(int entityId)
         {
-            SQL = "usp_GRINGlobal_TaxonomyCWRMap_Select";
+            SQL = "usp_GRINGlobal_Taxonomy_CWR_Map_Select";
             var parameters = new List<IDbDataParameter> {
                 CreateParameter("taxonomy_cwr_map_id", (object)entityId, false)
             };

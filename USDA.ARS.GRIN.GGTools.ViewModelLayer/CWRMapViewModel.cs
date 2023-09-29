@@ -49,7 +49,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
                 {
                     try
                     {
-                        mgr.Get(entityId);
+                       Entity = mgr.Get(entityId);
                     }
                     catch (Exception ex)
                     {

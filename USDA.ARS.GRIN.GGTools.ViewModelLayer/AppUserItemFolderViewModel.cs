@@ -39,6 +39,15 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
                 DataCollection = new Collection<AppUserItemFolder>(mgr.GetRelatedFolders(SearchEntity));
             }
         }
+        public void GetDynamicFolders(int cooperatorId, string dataType)
+        {
+            using (AppUserItemFolderManager mgr = new AppUserItemFolderManager())
+            {
+                SearchEntity.CreatedByCooperatorID = cooperatorId;
+                SearchEntity.DataType = dataType;
+                DataCollectionDynamicFolders = new Collection<AppUserItemDynamicFolder>(mgr.GetDynamicFolders(SearchEntity));
+            }
+        }
         // Returns a list of the ID types contained in a given folder.
         public void GetIDTypes(int appItemFolderId)
         {

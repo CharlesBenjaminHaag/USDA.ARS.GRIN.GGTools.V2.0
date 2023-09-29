@@ -26,13 +26,13 @@
         <div class="tab-content">
             
             <div class="tab-pane fade show active" id="tab-content-favorites" role="tabpanel" aria-labelledby="custom-tabs-two-home-tab">
-                @{Html.RenderAction("_List", "AppUserItemFolder", new { @cooperatorId = Model.AuthenticatedUser.CooperatorID, @isFavorite = "Y" }); }
+                @{Html.RenderAction("_List", "AppUserItemFolder", new { @cooperatorId = Model.AuthenticatedUser.CooperatorID, @folderType="STATIC", @isFavorite = "Y" }); }
             </div>
             <div class="tab-pane fade" id="tab-content-recent" role="tabpanel" aria-labelledby="custom-tabs-two-home-tab">
-                @{Html.RenderAction("_List", "AppUserItemFolder", new { @cooperatorId = Model.AuthenticatedUser.CooperatorID, @timeFrame = "7D" }); }
+                @{Html.RenderAction("_List", "AppUserItemFolder", new { @cooperatorId = Model.AuthenticatedUser.CooperatorID, @folderType = "STATIC", @timeFrame = "7D" }); }
             </div>
             <div class="tab-pane fade" id="tab-content-shared" role="tabpanel" aria-labelledby="custom-tabs-two-home-tab">
-                @{Html.RenderAction("_List", "AppUserItemFolder", new { @cooperatorId = Model.AuthenticatedUser.CooperatorID, @isShared = "Y" }); }
+                @{Html.RenderAction("_List", "AppUserItemFolder", new { @cooperatorId = Model.AuthenticatedUser.CooperatorID, @folderType = "STATIC", @isShared = "Y" }); }
             </div>
         </div>
     </div>

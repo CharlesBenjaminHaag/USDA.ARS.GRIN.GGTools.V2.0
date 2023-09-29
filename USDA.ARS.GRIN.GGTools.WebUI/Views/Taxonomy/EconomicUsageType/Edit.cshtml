@@ -146,7 +146,7 @@
                     @{
                         if (Model.Entity.ID > 0)
                         {
-                            { Html.RenderAction("_Edit", "Folder", new { @tableName = "taxonomy_economic_usage_type" }); }
+                            {Html.RenderAction("RenderEditModal", "AppUserItemFolder", new { sysTableName = Model.TableName }); }
                         }
                     }
                 </div>

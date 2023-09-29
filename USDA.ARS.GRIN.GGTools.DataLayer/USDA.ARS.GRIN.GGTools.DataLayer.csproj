@@ -53,6 +53,7 @@
     <Compile Include="EntityClasses\AppSetting.cs" />
     <Compile Include="EntityClasses\AppUserDynamicQuerySearch.cs" />
     <Compile Include="EntityClasses\AppUserDynamicQuery.cs" />
+    <Compile Include="EntityClasses\AppUserItemDynamicFolder.cs" />
     <Compile Include="EntityClasses\AppUserItemFolderSearch.cs" />
     <Compile Include="EntityClasses\AppUserItemListSearch.cs" />
     <Compile Include="EntityClasses\AppUserItemList.cs" />

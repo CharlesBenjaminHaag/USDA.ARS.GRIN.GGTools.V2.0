@@ -40,16 +40,14 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
         {
             List<SysTable> results = new List<SysTable>();
 
-            SQL = " SELECT * FROM vw_GRINGlobal_Sys_Table";
+            SQL = " SELECT ID, DatabaseAreaCode, TableName, TableTitle, TableCode FROM vw_GRINGlobal_Sys_Table";
             SQL += " WHERE  (@ID                    IS NULL     OR ID                   =       @ID)";
             SQL += " AND    (@DatabaseAreaCode      IS NULL     OR DatabaseAreaCode     =       @DatabaseAreaCode)";
-
-            // Temp (?)
             SQL += " AND TableTitle IS NOT NULL ";
-
-            // Also temp
             SQL += " AND TableName <> 'taxonomy_family'";
-
+            SQL += " UNION ";
+            SQL += " SELECT ID, DatabaseAreaCode, TableName, TableTitle, TableCode FROM vw_GRINGlobal_Sys_Table";
+            SQL += " WHERE TableName IN ('citation','literature','geography')"; 
             SQL += " ORDER BY TableTitle ";
 
              var parameters = new List<IDbDataParameter> {

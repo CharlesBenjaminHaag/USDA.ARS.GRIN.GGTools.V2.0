@@ -38,7 +38,24 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             RowsAffected = results.Count;
             return results;
         }
+        public virtual List<AppUserItemDynamicFolder> GetDynamicFolders(AppUserItemFolderSearch searchEntity)
+        {
+            List<AppUserItemDynamicFolder> results = new List<AppUserItemDynamicFolder>();
 
+            SQL = " SELECT * " +
+                    " FROM vw_GRINGlobal_App_User_Item_Dynamic_Folder " +
+                    " WHERE CreatedByCooperatorID = @CreatedByCooperatorID " +
+                    " AND DataType = @SysTableName";
+
+            var parameters = new List<IDbDataParameter> {
+                CreateParameter("CreatedByCooperatorID", searchEntity.CreatedByCooperatorID, true),
+                CreateParameter("SysTableName", searchEntity.DataType, true)
+
+        };
+            results = GetRecords<AppUserItemDynamicFolder>(SQL, parameters.ToArray());
+            RowsAffected = results.Count;
+            return results;
+        }
         public virtual List<AppUserItemFolder> Search(AppUserItemFolderSearch searchEntity)
         {
             List<AppUserItemFolder> results = new List<AppUserItemFolder>();
@@ -237,6 +254,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
 
             AddParameter("folder_name", (object)entity.FolderName, false);
             AddParameter("folder_type", (object)entity.FolderType ?? DBNull.Value, true);
+            AddParameter("data_type", (object)entity.DataType ?? DBNull.Value, true);
             AddParameter("category", (object)entity.Category ?? DBNull.Value, true);
             AddParameter("description", (object)entity.Description ?? DBNull.Value, true);
             AddParameter("is_favorite", (object)entity.IsFavorite ?? DBNull.Value, true);

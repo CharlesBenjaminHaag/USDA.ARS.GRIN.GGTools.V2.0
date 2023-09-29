@@ -115,7 +115,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 {
                     viewModel.Get(entityId);
                     viewModel.EventAction = "Edit";
-                    viewModel.PageTitle = String.Format("Edit Regulation [{0}]: {1}", entityId, viewModel.Entity.Description);
+                    viewModel.PageTitle = String.Format("Edit Regulation [{0}]: {1}", entityId, viewModel.Entity.AssembledName);
                 }
                 else
                 {

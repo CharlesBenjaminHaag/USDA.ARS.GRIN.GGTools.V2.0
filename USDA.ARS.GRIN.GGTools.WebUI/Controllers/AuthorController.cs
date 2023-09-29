@@ -10,7 +10,7 @@ using NLog;
 namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
 {
     [GrinGlobalAuthentication]
-    public class AuthorController : BaseController, IController<AuthorViewModel>
+    public class AuthorController : BaseController
     {
         protected static string BASE_PATH = "~/Views/Taxonomy/Author/";
         private static readonly Logger Log = LogManager.GetCurrentClassLogger();
@@ -31,7 +31,6 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 return PartialView("~/Views/Error/_InternalServerError.cshtml");
             }
         }
-
         public PartialViewResult _ListFamilyReferences(string shortName)
         {
             try
@@ -68,8 +67,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 return PartialView("~/Views/Error/_InternalServerError.cshtml");
             }
         }
-
-        public ActionResult Index()
+        public ActionResult Index(string eventAction = "", int folderId = 0)
         {
             try
             {
@@ -84,6 +82,14 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                     viewModel = Session[targetKey] as AuthorViewModel;
                 }
 
+                if (eventAction == "RUN_SEARCH")
+                {
+                    AppUserItemListViewModel appUserItemListViewModel = new AppUserItemListViewModel();
+                    appUserItemListViewModel.SearchEntity.AppUserItemFolderID = folderId;
+                    appUserItemListViewModel.Search();
+                    viewModel.SearchEntity = viewModel.Deserialize<AuthorSearch>(appUserItemListViewModel.Entity.Properties);
+                    viewModel.Search();
+                }
                 return View(BASE_PATH + "Index.cshtml", viewModel);
             }
             catch (Exception ex)
@@ -92,7 +98,6 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 return RedirectToAction("InternalServerError", "Error");
             }
         }
-        
         public ActionResult Edit(int entityId)
         {
             try
@@ -119,7 +124,6 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 return RedirectToAction("InternalServerError", "Error");
             }
         }
-
         [HttpPost]
         public ActionResult Edit(AuthorViewModel viewModel)
         {
@@ -166,7 +170,6 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 return View();
             }
         }
-
         [HttpPost]
         public ActionResult Search(AuthorViewModel viewModel)
         {
@@ -185,6 +188,8 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                     appUserItemFolderViewModel.Entity.FolderName = viewModel.SearchEntity.SearchTitle;
                     appUserItemFolderViewModel.Entity.Description = viewModel.SearchEntity.SearchDescription;
                     appUserItemFolderViewModel.Entity.Category = "";
+                    appUserItemFolderViewModel.Entity.FolderType = "DYNAMIC";
+                    appUserItemFolderViewModel.Entity.DataType = viewModel.TableName;
                     appUserItemFolderViewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
                     appUserItemFolderViewModel.Insert();
 
@@ -216,7 +221,6 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 return RedirectToAction("InternalServerError", "Error");
             }
         }
-
         public PartialViewResult _Search(AuthorViewModel viewModel)
         {
             try
@@ -232,7 +236,6 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 return PartialView("~/Views/Error/_InternalServerError.cshtml", viewModel);
             }
         }
-
         [HttpPost]
         public PartialViewResult Lookup(FormCollection formCollection)
         {
@@ -260,13 +263,11 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             viewModel.Search();
             return PartialView(BASE_PATH + "/Modals/_SelectList.cshtml", viewModel);
         }
-
         [HttpPost]
         public JsonResult Add(FormCollection formCollection)
         {
             throw new NotImplementedException();
         }
-
         public PartialViewResult RenderLookupModal()
         {
             try
@@ -280,25 +281,6 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 return PartialView("~/Views/Error/_InternalServerError.cshtml");
             }
         }
-
-        //[HttpPost]
-        //public PartialViewResult LookupTaxa(FormCollection formCollection)
-        //{
-        //    AuthorViewModel viewModel = new AuthorViewModel();
-
-        //    if (!String.IsNullOrEmpty(formCollection["TableName"]))
-        //    {
-        //        viewModel.SearchEntity.TableName = formCollection["TableName"];
-        //    }
-
-        //    if (!String.IsNullOrEmpty(formCollection["AuthorityText"]))
-        //    {
-        //        viewModel.SearchEntity.AuthorityText = formCollection["AuthorityText"];
-        //    }
-        //    viewModel.Search();
-        //    return PartialView("~/Views/Author/Modals/_AuthoritySelectList.cshtml", viewModel);
-        //}
-
         public ActionResult Add()
         {
             try
@@ -314,12 +296,10 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 return RedirectToAction("InternalServerError", "Error");
             }
         }
-
         public ActionResult Search(Author viewModel)
         {
             throw new NotImplementedException();
         }
-
         public ActionResult Delete(FormCollection formCollection)
         {
             throw new NotImplementedException();

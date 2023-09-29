@@ -890,6 +890,7 @@
     <Content Include="Views\AppUserItemFolder\_RelatedFoldersMenu.cshtml" />
     <Content Include="Views\AppUserItemFolder\Modals\_EditDynamic.cshtml" />
     <Content Include="Views\AppUserItemFolder\_ConfirmationDynamic.cshtml" />
+    <Content Include="Views\AppUserItemFolder\_ListWidgetDynamic.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

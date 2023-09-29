@@ -50,15 +50,6 @@
 
                 <!-- BEGIN RIGHT-ALIGNED NAV MENU -->
                 <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
-                    @if (Model.Entity.ID > 0)
-                    {
-                        <li id="nav-item-view-website" class="nav-item">
-                            <a class="nav-link" href="#" role="button">
-                                <i class="far fa-globe"></i>
-                                View on Website
-                            </a>
-                        </li>
-                    }
                     @Html.Partial("~/Views/Shared/_NavbarRight.cshtml")
                 </ul>
                 <!-- END RIGHT-ALIGNED NAV MENU -->
@@ -335,9 +326,22 @@
                                         Delete
                                     </button>
                                 }
-                                <button type="submit" class="btn btn-primary float-right">Save</button>
+                                
+                            <div class="btn-group float-right">
+                                @if (Model.Entity.ID > 0)
+                                {
+                                    <a href="https://npgsweb.ars-grin.gov/gringlobal/taxon/taxonomyfamily?id=@Model.Entity.ID" class="btn btn-info float-right" target="_blank">
+                                        <i class="fas fa-globe"></i>
+                                        View on Public Website
+                                    </a>
+                                }
+                                <button type="submit" class="btn btn-primary float-right margin-05">
+                                    <i class="fas fa-save"></i>
+                                    Save Changes
+                                </button>
                             </div>
                         </div>
+                    </div>
                     }
 
                     @if (Model.Entity.ID > 0)
