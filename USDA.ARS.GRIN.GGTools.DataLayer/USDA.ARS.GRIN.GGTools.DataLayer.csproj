@@ -54,10 +54,13 @@
     <Compile Include="EntityClasses\AppUserDynamicQuerySearch.cs" />
     <Compile Include="EntityClasses\AppUserDynamicQuery.cs" />
     <Compile Include="EntityClasses\AppUserItemDynamicFolder.cs" />
+    <Compile Include="EntityClasses\AppUserItemFolderCooperatorMapSearch.cs" />
+    <Compile Include="EntityClasses\AppUserItemFolderCooperatorMap.cs" />
     <Compile Include="EntityClasses\AppUserItemFolderSearch.cs" />
     <Compile Include="EntityClasses\AppUserItemListSearch.cs" />
     <Compile Include="EntityClasses\AppUserItemList.cs" />
     <Compile Include="EntityClasses\Author.cs" />
+    <Compile Include="EntityClasses\AuthorReference.cs" />
     <Compile Include="EntityClasses\AuthorSearch.cs" />
     <Compile Include="EntityClasses\Citation.cs" />
     <Compile Include="EntityClasses\CitationSearch.cs" />
@@ -151,6 +154,7 @@
     <Compile Include="EntityClasses\Tribe.cs" />
     <Compile Include="EntityClasses\TribeSearch.cs" />
     <Compile Include="ManagerClasses\AccessionInventoryAttachmentManager.cs" />
+    <Compile Include="ManagerClasses\AppUserItemFolderCooperatorMapManager.cs" />
     <Compile Include="ManagerClasses\AppUserItemListManager.cs" />
     <Compile Include="ManagerClasses\AuthorManager.cs" />
     <Compile Include="ManagerClasses\CooperatorMapManager.cs" />

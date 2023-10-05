@@ -50,6 +50,8 @@
   <ItemGroup>
     <Compile Include="AccessionInventoryAttachmentViewModel.cs" />
     <Compile Include="AccessionInventoryAttachmentViewModelBase.cs" />
+    <Compile Include="AppUserItemFolderCooperatorMapViewModel.cs" />
+    <Compile Include="AppUserItemFolderCooperatorMapViewModelBase.cs" />
     <Compile Include="AppUserItemFolderViewModelBase.cs" />
     <Compile Include="AppUserItemFolderViewModel.cs" />
     <Compile Include="AppUserItemListViewModel.cs" />
@@ -138,6 +140,7 @@
     <Compile Include="SysTableViewModel.cs" />
     <Compile Include="SysTableViewModelBase.cs" />
     <Compile Include="TaxonomyExplorerViewModel.cs" />
+    <Compile Include="TrainingRosterViewModel.cs" />
     <Compile Include="WebUserViewModelBase.cs" />
     <Compile Include="WebUserViewModel .cs" />
     <Compile Include="SysUserViewModel.cs" />

@@ -359,7 +359,19 @@
                                     </a>
                                 }
 
-                                <button type="submit" class="btn btn-primary float-right">Save</button>
+                            <div class="btn-group float-right">
+                                @if (Model.Entity.ID > 0)
+                                {
+                                    <a href="https://npgsweb.ars-grin.gov/gringlobal/taxon/taxonomygenus?id=@Model.Entity.ID" class="btn btn-info float-right" target="_blank">
+                                        <i class="fas fa-globe"></i>
+                                        View on Public Website
+                                    </a>
+                                }
+                                <button type="submit" class="btn btn-primary float-right margin-05">
+                                    <i class="fas fa-save"></i>
+                                    Save Changes
+                                </button>
+                            </div>
                             </div>
                         </div>
                     }
@@ -373,6 +385,8 @@
                                     <li id="tab_selector_species" class="nav-item"><a class="nav-link" href="#tab_content_species" data-toggle="tab">Species</a></li>
                                     <li id="tab_selector_synonyms" class="nav-item"><a class="nav-link" href="#tab_content_synonyms" data-toggle="tab">Synonyms</a></li>
                                     <li id="tab_selector_subdivisions" class="nav-item"><a class="nav-link" href="#tab_content_subdivisions" data-toggle="tab">Subdivisions</a></li>
+                                    <li id="tab_selector_common_names" class="nav-item"><a class="nav-link" href="#tab_content_common_names" data-toggle="tab">Common Names</a></li>
+
                                 </ul>
                             </div>
                             <div class="card-body">
@@ -383,15 +397,13 @@
                                         </div>
                                     </div>
                                     <div class="tab-pane" id="tab_content_species">
-                                        <!--TODO-->
                                     </div>
                                     <div class="tab-pane" id="tab_content_synonyms">
-                                        <!--TODO-->
                                     </div>
                                     <div class="tab-pane" id="tab_content_subdivisions">
-                                        <!--TODO-->
                                     </div>
-
+                                    <div class="tab-pane" id="tab_content_common_names">
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -454,6 +466,10 @@
                     case "tab_selector_subdivisions":
                         link = '@Url.Action("_ListSubdivisions", "Genus", new { genusName = "GENUS_NAME" })';
                         link = link.replace("GENUS_NAME", genusName);
+                        break;
+                    case "tab_selector_common_names":
+                        link = '@Url.Action("_List", "CommonName", new { genusId = "GENUS_ID" })';
+                        link = link.replace("GENUS_ID", entityId);
                         break;
                     default:
                         // code block

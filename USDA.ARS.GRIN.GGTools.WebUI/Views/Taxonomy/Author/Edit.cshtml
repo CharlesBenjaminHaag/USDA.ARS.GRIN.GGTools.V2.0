@@ -82,7 +82,30 @@
                         @Html.HiddenFor(x => x.TableName)
                         @Html.HiddenFor(x => x.TableCode)
                         @Html.HiddenFor(x => x.Entity.ID)
+                        @Html.HiddenFor(x => x.OriginalShortName)
                         @Html.Partial("~/Views/Shared/_RevisionHistory.cshtml")
+                        <!-- Reference warning-->
+                        <div class="modal fade" id="modal-warning-references" style="display: none;" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content bg-warning">
+                                    <div class="modal-header">
+                                        <h4 class="modal-title">Warning Modal</h4>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">×</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p>One fine body…</p>
+                                    </div>
+                                    <div class="modal-footer justify-content-between">
+                                        <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Close</button>
+                                        <button type="button" class="btn btn-outline-dark">Save changes</button>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
 
                         <div class="card card-default">
                             <div class="card-header">
@@ -135,31 +158,19 @@
                                         Delete
                                     </button>
                                 }
-                                <button type="submit" class="btn btn-primary float-right">Save</button>
+                                <button id="btnSaveAuthor" type="button" class="btn btn-primary float-right">Save</button>
                             </div>
                         </div>
                     }
 
-                    @if(Model.Entity.ID > 0 && !String.IsNullOrEmpty(Model.Entity.ShortName))
+                    @if (Model.Entity.ID > 0 && !String.IsNullOrEmpty(Model.Entity.ShortName))
                     {
-                        { Html.RenderAction("_List", "Species", new { @speciesAuthority = Model.Entity.ShortName }); }
+                        { Html.RenderAction("_ListReferences", "Author", new { @shortName = Model.Entity.ShortName }); }
                     }
-                  
+
                     @Html.Partial("~/Views/Shared/Modals/_NoteLookup2.cshtml")
                     @Html.Partial("~/Views/Taxonomy/Shared/Modals/_Delete.cshtml")
                     @{Html.RenderAction("RenderEditModal", "AppUserItemFolder", new { sysTableName = Model.TableName }); }
-
-                    <script type="text/javascript">
-                        $(document).ready(function () {
-                            Init();
-                            /*InitializeCKEditor();*/
-                        });
-
-                        function Init() {
-
-                        }
-                    </script>
-                    <br />
                 </div>
             </div>
 
@@ -169,6 +180,81 @@
         <!-- Main Footer -->
         @Html.Partial("~/Views/Shared/_Footer.cshtml")
     </div>
+    <!-- Author ref. warning modal -->
+    <div class="modal fade" id="modal-alert-author-references">
+        <div class="modal-dialog">
+            <div class="modal-content bg-warning">
+                <div class="modal-header">
+                    <h4 class="modal-title">Taxon Author References Found</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>There are currently multiple taxa that reference the author name <span id="section-author-original-short-name" style="font-weight:bold;"></span>. It is recommended that you update these records.</p>
+                </div>
+                <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Close</button>
+                    <button id="btnSaveAuthorOnly" type="button" class="btn btn-outline-dark">Save Author Only</button>
+                    <button id="btnSaveAuthorAndUpdateReferences" type="button" class="btn btn-outline-dark">Save and Update References</button>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
 </body>
 </html>
 @Html.Partial("~/Views/Shared/_Scripts.cshtml")
+<script type="text/javascript">
+    //btnSaveAuthor
+    $("#btnSaveAuthor").on('click', function (event) {
+       
+        var originalAuthorShortName = $("#OriginalShortName").val();
+        var newAuthorShortName = $("#Entity_ShortName").val();
+        var table = $('#data_table_taxonomy_author').DataTable();
+       
+        if ((originalAuthorShortName != newAuthorShortName) && (table.data().count() > 0)) {
+            $("#section-author-original-short-name").html(originalAuthorShortName);
+            $("#modal-alert-author-references").modal("show");
+        }
+        else {
+            $("#frmEdit").submit();
+        }
+    });
+
+    $("#btnSaveAuthorOnly").on('click', function (event) {
+        $("#frmEdit").submit();
+    });
+
+    $("#btnSaveAuthorAndUpdateReferences").on('click', function (event) {
+        $("#EventAction").val("SAVE");
+        $("#EventValue").val("REF");
+        $("#frmEdit").submit();
+    });
+
+    $(function () {
+        var mark = function () {
+            // Read the keyword
+            var keyword = $("#OriginalShortName").val();
+
+            // Determine selected options
+            var options = {};
+            $("input[name='opt[]']").each(function () {
+                options[$(this).val()] = $(this).is(":checked");
+            });
+
+            // Remove previous marked elements and mark
+            // the new keyword inside the context
+            $("#data_table_taxonomy_author").unmark({
+                done: function () {
+                    $("#data_table_taxonomy_author").mark(keyword, options);
+                }
+            });
+        };
+
+        $("input[name='Entity.ShortName']").on("input", mark);
+        $("input[type='checkbox']").on("change", mark);
+
+    });
+</script>

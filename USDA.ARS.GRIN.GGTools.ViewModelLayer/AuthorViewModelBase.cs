@@ -11,10 +11,12 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
 {
     public class AuthorViewModelBase : AppViewModelBase
     {
+        private string _OriginalShortName = String.Empty;
         private Author _Entity = new Author();
         private AuthorSearch _SearchEntity = new AuthorSearch();
         private Collection<Author> _DataCollection = new Collection<Author>();
         private Collection<CodeValue> _DataCollectionNotes = new Collection<CodeValue>();
+        private Collection<AuthorReference> _DataCollectionReferences = new Collection<AuthorReference>();
         private int _SearchResultsFormat;
 
         public AuthorViewModelBase()
@@ -23,6 +25,11 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
             {
                 Cooperators = new SelectList(mgr.GetCooperators("taxonomy_author"), "ID", "FullName");
             }
+        }
+        public string OriginalShortName
+        {
+            get { return _OriginalShortName; }
+            set { _OriginalShortName = value; }
         }
 
         public Author Entity
@@ -48,7 +55,11 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
             get { return _DataCollectionNotes; }
             set { _DataCollectionNotes = value; }
         }
-
+        public Collection<AuthorReference> DataCollectionReferences
+        {
+            get { return _DataCollectionReferences; }
+            set { _DataCollectionReferences = value; }
+        }
         public int SearchResultsFormat
         {
             get { return _SearchResultsFormat; }

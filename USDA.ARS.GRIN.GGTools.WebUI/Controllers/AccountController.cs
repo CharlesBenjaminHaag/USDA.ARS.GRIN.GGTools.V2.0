@@ -16,18 +16,18 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             ViewBag.PageTitle = "Curator Tool Account Request: Introduction";
             return View("~/Views/Account/Request/Introduction.cshtml");
         }
+      
+        //public ActionResult Step(int seq)
+        //{ 
+        //    switch(seq)
+        //    {
+        //        case 1:
+        //            return RedirectToAction("Details", "Account");
 
-        public ActionResult Step(int seq)
-        { 
-            switch(seq)
-            {
-                case 1:
-                    return RedirectToAction("Details", "Account");
-
-                default:
-                    return View("~/Views/Account/Request/Introduction.cshtml");
-            }
-        }
+        //        default:
+        //            return View("~/Views/Account/Request/Introduction.cshtml");
+        //    }
+        //}
 
         public ActionResult Details()
         {
@@ -304,5 +304,58 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 return PartialView("~/Views/Error/_InternalServerError.cshtml");
             }
         }
+        public PartialViewResult RenderBatchEditModal()
+        {
+            try
+            {
+                CooperatorViewModel viewModel = new CooperatorViewModel();
+                return PartialView("~/Views/Cooperator/Modals/_EditBatch.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
+        }
+        #region Training roster
+        public PartialViewResult RenderTrainingRosterEditModal()
+        {
+            try
+            {
+                TrainingRosterViewModel viewModel = new TrainingRosterViewModel();
+                return PartialView("~/Views/Account/Modals/_TrainingRosterEdit.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
+        }
+        public PartialViewResult RenderTrainingRosterWidget()
+        {
+            try
+            {
+                TrainingRosterViewModel viewModel = new TrainingRosterViewModel();
+                return PartialView("~/Views/Account/_TrainingRosterWidget.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
+        }
+        [HttpPost]
+        public JsonResult CreateTrainingRoster(TrainingRosterViewModel viewModel)
+        {
+            try
+            {
+                return Json("true", JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json("true", JsonRequestBehavior.AllowGet);
+            }
+        }
+        #endregion
     }
 }

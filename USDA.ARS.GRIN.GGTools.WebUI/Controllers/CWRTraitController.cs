@@ -56,7 +56,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI
                     viewModel.Get(entityId);
                     viewModel.Entity.IsPotentialOption = viewModel.ToBool(viewModel.Entity.IsPotential);
                     viewModel.EventAction = "Edit";
-                    viewModel.PageTitle = String.Format("Edit CWR Trait [{0}]", entityId);
+                    viewModel.PageTitle = String.Format("Edit CWR Trait [{0}]: {1} {2} {3}", entityId, viewModel.Entity.CropForCWRName, viewModel.Entity.TraitClassTitle, viewModel.Entity.BreedingTypeTitle);
                 }
                 else
                 {

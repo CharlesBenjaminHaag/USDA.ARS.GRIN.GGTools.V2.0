@@ -15,5 +15,6 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
         public string SubContinent { get; set; }
         public string ContinentAbbrev { get; set; }
         public string SubContinentAbbrev { get; set; }
+        public string RegionText { get; set; }
     }
 }

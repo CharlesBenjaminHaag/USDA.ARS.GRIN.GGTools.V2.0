@@ -31,6 +31,8 @@
                     @Html.HiddenFor(x => x.TableCode)
                     @Html.HiddenFor(x => x.Entity.ID)
                     @Html.HiddenFor(x => x.Entity.RelatedItemCount)
+                    @Html.HiddenFor(x => x.Entity.FolderType)
+                    @Html.HiddenFor(x => x.Entity.DataType)
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
@@ -63,7 +65,7 @@
                         <div class="col-md-12">
                             <div class="form-group clearfix">
                                 <div class="icheck-primary d-inline">
-                                    @Html.CheckBoxFor(x => x.IsFavoriteSelector, new { id = "cbxIsFavorite", @type = "checkbox", @class = "custom-control-input" })
+                                    @Html.CheckBoxFor(x => x.Entity.IsFavoriteOption, new { id = "cbxIsFavorite", @type = "checkbox", @class = "custom-control-input" })
                                     <label for="cbxIsFavorite">
                                         Add this folder to my Favorites list.
                                     </label>
@@ -76,11 +78,11 @@
                             <div class="margin">
                                 <a href="@Url.Action("Refresh")" class="btn btn-default">Reset</a>
                                 @*@if (Model.Entity.ID > 0)
-                                    {
-                                        <button id="btnDelete" type="button" class="btn btn-danger">
-                                            Delete
-                                        </button>
-                                    }*@
+                        {
+                            <button id="btnDelete" type="button" class="btn btn-danger">
+                                Delete
+                            </button>
+                        }*@
                                 <button type="submit" class="btn btn-info float-right">Save</button>
                             </div>
                         </div>
@@ -88,28 +90,28 @@
                 }
             </div>
             <div class="tab-pane" id="tab_3">
-                <div class="row">
-                    <div class="col-md-12">
-                        <button id="btnAddCooperator" class="btn btn-default float-right" data-toggle="modal" data-target="#modal-folder-edit-cooperators">
-                            <i class="fas fa-users"></i>
-                            Edit Sharing Options
-                        </button>
-                    </div>
-                </div>
-                <br />
                 <div id="section_folder_cooperator_widget">
-                    @{Html.RenderAction("RenderFolderCooperatorWidget", "AppUserItemFolder", new { @folderId = Model.Entity.ID });}
+                    @{Html.RenderAction("RenderWidget", "AppUserItemFolderCooperatorMap", new { @appUserItemFolderId = Model.Entity.ID });}
                 </div>
             </div>
         </div>
     </div>
     <div class="card-footer">
-
+        @if (Model.Entity.ID > 0)
+        {
+            <button id="btnDelete" type="button" class="btn btn-danger">
+                Delete
+            </button>
+        }
+        <button id="btnAddCooperator" class="btn btn-default float-right" data-toggle="modal" data-target="#modal-folder-edit-cooperators">
+            <i class="fas fa-users"></i>
+            Edit Sharing Options
+        </button>
     </div>
 </div>
 
 @Html.Partial("~/Views/Taxonomy/Shared/Modals/_Delete.cshtml")
-@{Html.RenderAction("RenderFolderCooperatorEditModal", "AppUserItemFolder", new { @entityId = Model.Entity.ID });}
+@{Html.RenderAction("RenderEditModal", "AppUserItemFolderCooperatorMap", new { @appUserItemFolderId = Model.Entity.ID });}
 @{Html.RenderAction("RenderFolderItemDeleteModal", "AppUserItemFolder", new { @entityId = Model.Entity.ID });}
 
 <script type="text/javascript">
@@ -139,9 +141,15 @@
     function LoadFolderItems(tableName, eventAction, eventValue) {
         var id = $("#Entity_ID").val();
         var link = '@Url.Action("EVENT_VALUE", "EVENT_ACTION")';
+
+        
+
         link = link.replace("EVENT_VALUE", eventValue);
         link = link.replace("EVENT_ACTION", eventAction);
-        tableName = tableName.replace("link-","");
+        //tableName = tableName.replace("link-","");
+
+        //DEBUG
+        //alert("DEBUG TAB " + tableName + " ACT " + eventAction + " VAL " + eventValue);
 
         $("#EventAction").val(eventAction);
         $("#EventValue").val(eventValue);

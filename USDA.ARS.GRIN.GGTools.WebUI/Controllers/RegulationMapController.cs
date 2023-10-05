@@ -57,10 +57,12 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             }
         }
 
-        public PartialViewResult _List(string eventValue = "", int speciesId = 0, int regulationId = 0)
+        public PartialViewResult _List(string eventValue = "", int speciesId = 0, int regulationId = 0, int geographyId = 0)
         {
             RegulationMapViewModel viewModel = new RegulationMapViewModel();
-            viewModel.SearchEntity = new RegulationMapSearch { SpeciesID = speciesId, RegulationID = regulationId };
+            viewModel.SearchEntity.SpeciesID = speciesId;
+            viewModel.SearchEntity.RegulationID = regulationId;
+            viewModel.SearchEntity.GeographyID = geographyId;
             viewModel.Search();
             return PartialView(BASE_PATH + "_List.cshtml", viewModel);
         }

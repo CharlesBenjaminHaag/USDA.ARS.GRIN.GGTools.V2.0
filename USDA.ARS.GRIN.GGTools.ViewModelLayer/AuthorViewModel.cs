@@ -75,7 +75,13 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
                 }
             }
         }
-
+        public void GetReferences()
+        {
+            using (AuthorManager mgr = new AuthorManager())
+            {
+                DataCollectionReferences = new Collection<AuthorReference>(mgr.GetReferences(SearchEntity.ShortName));
+            }
+        }
         public void HandleRequest()
         {
             throw new NotImplementedException();
@@ -157,7 +163,16 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
             }
             return RowsAffected;
         }
+        public int UpdateReferences(string originalValue, string newValue)
+        {
+            SearchEntity.ShortName = originalValue;
+            using (AuthorManager mgr = new AuthorManager())
+            {
+                mgr.UpdateReferences(originalValue, newValue);
+            }
 
+            return 0;
+        }
         public void SearchFolderItems()
         {
             using (AuthorManager mgr = new AuthorManager())

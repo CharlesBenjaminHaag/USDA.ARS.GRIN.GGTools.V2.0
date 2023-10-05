@@ -200,6 +200,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 viewModel.SearchEntity.ListName = tabName;
                 viewModel.SearchEntity.CreatedByCooperatorID = cooperatorId;
                 viewModel.SearchEntity.AppUserItemFolderID = appUserItemFolderId;
+                
                 viewModel.Search();
                 return PartialView(viewModel);
             }

@@ -81,12 +81,13 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
         //    TempData["GEO-MAP-SEARCH"] = geographyMapSearch;
         //    return RedirectToAction("Index", "GeographyMap");
         //}
-        public PartialViewResult _List(string eventValue = "", int speciesId = 0)
+        public PartialViewResult _List(string eventValue = "", int geographyId = 0, int speciesId = 0)
         {
             try
             {
                 GeographyMapViewModel viewModel = new GeographyMapViewModel();
-                viewModel.SearchEntity = new GeographyMapSearch { SpeciesID = speciesId };
+                viewModel.SearchEntity.GeographyID = geographyId;
+                viewModel.SearchEntity.SpeciesID = speciesId;
                 viewModel.Search();
                 return PartialView(BASE_PATH + "_List.cshtml", viewModel);
             }

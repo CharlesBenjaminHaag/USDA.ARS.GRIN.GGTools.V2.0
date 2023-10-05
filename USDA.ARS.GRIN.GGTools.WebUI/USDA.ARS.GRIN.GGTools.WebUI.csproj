@@ -139,6 +139,7 @@
     <Compile Include="Controllers\AccessionIPRController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AppUserItemFolderController.cs" />
+    <Compile Include="Controllers\AppUserItemFolderCooperatorMapController.cs" />
     <Compile Include="Controllers\AppUserItemListController.cs" />
     <Compile Include="Controllers\AuthorController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
@@ -648,7 +649,7 @@
     <Content Include="Views\Taxonomy\Species\Modals\_SelectListSimple.cshtml" />
     <Content Include="Views\Taxonomy\Species\_Edit.cshtml" />
     <Content Include="Views\Cooperator\View.cshtml" />
-    <Content Include="Views\Cooperator\_Edit.cshtml" />
+    <Content Include="Views\Cooperator\_EditBatch.cshtml" />
     <Content Include="Views\SysUser\_Edit.cshtml" />
     <Content Include="Views\WebUser\_Edit.cshtml" />
     <Content Include="Views\WebCooperator\_Edit.cshtml" />
@@ -724,7 +725,7 @@
     <Content Include="Views\Taxonomy\Citation\_Clone.cshtml" />
     <Content Include="Views\Taxonomy\Citation\_View.cshtml" />
     <Content Include="Views\Shared\_RevisionHistorySimple.cshtml" />
-    <Content Include="Views\Cooperator\_ChecklistWidget.cshtml" />
+    <Content Include="Views\_OBSOLETE\_ChecklistWidget.cshtml" />
     <Content Include="Views\Taxonomy\Geography\Modals\_SelectListContinent.cshtml" />
     <Content Include="Views\Taxonomy\Geography\Modals\_SelectListSubContinent.cshtml" />
     <Content Include="Views\Taxonomy\Geography\Modals\_SelectListAdministrativeUnits.cshtml" />
@@ -834,7 +835,6 @@
     <Content Include="Views\Taxonomy\Citation\_WIdgetCitationReferences.cshtml" />
     <Content Include="Views\_OBSOLETE\Folder\Modals\_BatchDelete.cshtml" />
     <Content Include="Views\Account\Request\Introduction.cshtml" />
-    <Content Include="Views\Account\Request\Details - Copy.cshtml" />
     <Content Include="Views\Account\Request\Details.cshtml" />
     <Content Include="Views\Account\Request\Confirm.cshtml" />
     <Content Include="Views\Account\Request\Final.cshtml" />
@@ -881,16 +881,21 @@
     <Content Include="Views\Taxonomy\Species\_ListFolder.cshtml" />
     <Content Include="Views\AppUserItemFolder\_ListAvailable.cshtml" />
     <Content Include="Views\AppUserItemFolder\_ListCurrent.cshtml" />
-    <Content Include="Views\AppUserItemFolder\_Widget.cshtml" />
-    <Content Include="Views\AppUserItemFolder\Cooperator\_Edit.cshtml" />
-    <Content Include="Views\AppUserItemFolder\Cooperator\_ListAvailable.cshtml" />
-    <Content Include="Views\AppUserItemFolder\Cooperator\_ListCurrent.cshtml" />
-    <Content Include="Views\AppUserItemFolder\Cooperator\_Widget.cshtml" />
+    <Content Include="Views\AppUserItemFolderCooperatorMap\_Widget.cshtml" />
+    <Content Include="Views\AppUserItemFolderCooperatorMap\Modals\_Edit.cshtml" />
+    <Content Include="Views\AppUserItemFolderCooperatorMap\Modals\_ListNonMapped.cshtml" />
+    <Content Include="Views\AppUserItemFolderCooperatorMap\Modals\_ListMapped.cshtml" />
+    <Content Include="Views\AppUserItemFolderCooperatorMap\Modals\_Widget.cshtml" />
     <Content Include="Views\Taxonomy\SpeciesSynonymMap\_ListFolder.cshtml" />
     <Content Include="Views\AppUserItemFolder\_RelatedFoldersMenu.cshtml" />
     <Content Include="Views\AppUserItemFolder\Modals\_EditDynamic.cshtml" />
     <Content Include="Views\AppUserItemFolder\_ConfirmationDynamic.cshtml" />
     <Content Include="Views\AppUserItemFolder\_ListWidgetDynamic.cshtml" />
+    <Content Include="Views\Taxonomy\Author\_ListReferences.cshtml" />
+    <Content Include="Views\Account\Modals\_TrainingRosterEdit.cshtml" />
+    <Content Include="Views\Account\EditBatch.cshtml" />
+    <Content Include="Views\Cooperator\Modals\_EditBatch.cshtml" />
+    <Content Include="Views\Account\_TrainingRosterWidget.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -898,6 +903,7 @@
     <Folder Include="Content\dist\js\pages\" />
     <Folder Include="logs\" />
     <Folder Include="Models\" />
+    <Folder Include="Views\AppUserItemFolder\Cooperator\" />
     <Folder Include="Views\Demo\" />
     <Folder Include="Views\Main\" />
     <Folder Include="Views\Search\" />

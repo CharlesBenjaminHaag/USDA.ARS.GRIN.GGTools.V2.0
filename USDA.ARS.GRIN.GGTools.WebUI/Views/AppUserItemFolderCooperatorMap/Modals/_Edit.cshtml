@@ -1,4 +1,4 @@
-﻿@model USDA.ARS.GRIN.GGTools.ViewModelLayer.FolderViewModel
+﻿@model USDA.ARS.GRIN.GGTools.ViewModelLayer.AppUserItemFolderCooperatorMapViewModel
 <div class="modal fade text-sm" id="modal-folder-edit-cooperators" style="display: none;" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -14,15 +14,15 @@
             <div class="modal-body">
                 <div class="row">
                     <div class="col-md-6">
-                        <button id="btnAddCooperators" class="btn btn-default btn-block">>></button>
+                        <button id="btnMapCooperators" class="btn btn-default btn-block">>></button>
                         <div id="section-available-cooperators">
-                            @Html.Partial("~/Views/AppUserItemFolder/Cooperator/_ListAvailable.cshtml")
+                            @Html.Partial("~/Views/AppUserItemFolderCooperatorMap/Modals/_ListNonMapped.cshtml")
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <button id="btnRemoveCooperators" class="btn btn-default btn-block"><<</button>
+                        <button id="btnUnMapCooperators" class="btn btn-default btn-block"><<</button>
                         <div id="section-current-cooperators">
-                            @Html.Partial("~/Views/AppUserItemFolder/Cooperator/_ListCurrent.cshtml")
+                            @Html.Partial("~/Views/AppUserItemFolderCooperatorMap/Modals/_ListMapped.cshtml")
                         </div>
                     </div>
                 </div>
@@ -34,26 +34,26 @@
     </div>
 </div>
 <script type="text/javascript">
-    $("#btnAddCooperators").click(function () {
+    $("#btnMapCooperators").click(function () {
         var entityId = $("#Entity_ID").val();
-        AddCooperators();
-        LoadAvailableCooperators(entityId);
-        LoadCurrentCooperators(entityId);
+        MapCooperators();
+        LoadNonMappedCooperators(entityId);
+        LoadMappedCooperators(entityId);
     });
 
-    $("#btnRemoveCooperators").click(function () {
+    $("#btnUnMapCooperators").click(function () {
         var entityId = $("#Entity_ID").val();
-        RemoveCooperators();
-        LoadCurrentCooperators(entityId);
-        LoadAvailableCooperators(entityId);
+        UnMapCooperators();
+        LoadMappedCooperators(entityId);
+        LoadNonMappedCooperators(entityId);
     });
 
     $("#btnCloseEditCooperatorsModal").click(function () {
         RenderFolderCooperatorWidget();
     });
 
-    function AddCooperators() {
-        var link = '@Url.Action("AddCooperators","Folder")';
+    function MapCooperators() {
+        var link = '@Url.Action("Add","AppUserItemFolderCooperatorMap")';
         var entityId = $("#Entity_ID").val();
         var selectedItemIdList = GetSelectedEntityIDs("data-table-available-cooperators");
         var formData = new FormData();
@@ -78,7 +78,7 @@
         });
     }
 
-    function RemoveCooperators() {
+    function UnMapCooperators() {
         var link = '@Url.Action("DeleteCooperators","Folder")';
         var entityId = $("#Entity_ID").val();
         var selectedItemIdList = GetSelectedEntityIDs("data-table-current-cooperators");
@@ -102,8 +102,8 @@
         });
     }
 
-    function LoadAvailableCooperators(folderId) {
-        var link = '@Url.Action("_ListAvailableCooperators","Folder")';
+    function LoadNonMappedCooperators(folderId) {
+        var link = '@Url.Action("_ListNonMappedCooperators","Folder")';
         var formData = new FormData();
 
         formData.append("FolderID", folderId);
@@ -124,8 +124,8 @@
         });
     }
 
-    function LoadCurrentCooperators(folderId) {
-        var link = '@Url.Action("_ListCurrentCooperators", "Folder")';
+    function LoadMappedCooperators(folderId) {
+        var link = '@Url.Action("_ListMappedCooperators", "Folder")';
         var formData = new FormData();
 
         formData.append("FolderID", folderId);

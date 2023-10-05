@@ -9,7 +9,15 @@
         @{Html.RenderAction("RenderWidget", "Cooperator", new { cooperatorId = Model.CooperatorID }); }
     </div>
     <div class="col-md-9">
-        <div class="card card-primary card-tabs">
+      @{Html.RenderAction("RenderTrainingRosterWidget","Account");}
+        <div class="row">
+            <div class="col-12 col-sm-12">
+          
+            </div>
+
+        </div>
+
+        @*<div class="card card-primary card-tabs">
             <div id="section-cooperator-tabs" class="card-header p-0 pt-1">
                 <ul class="nav nav-tabs" id="custom-tabs-two-tab" role="tablist">
                     <li class="pt-2 px-3"><h3 id="placeholder-cooperator-name" class="card-title">My Site</h3></li>
@@ -24,14 +32,14 @@
             <div class="card-body web-order-request">
                 <div class="tab-content">
                     <div class="tab-pane fade show active" id="tab-content-cooperator" role="tabpanel" aria-labelledby="custom-tabs-two-home-tab">
-                         @{Html.RenderAction("RenderSiteCuratorListWidget", "Cooperator", new { siteId = Model.SiteID }); }
+                        @{Html.RenderAction("RenderSiteCuratorListWidget", "Cooperator", new { siteId = Model.SiteID }); }
                     </div>
                     <div class="tab-pane fade" id="tab-content-sys-user" role="tabpanel" aria-labelledby="custom-tabs-two-home-tab">
                         @{Html.RenderAction("_Edit", "Site", new { @entityId = Model.AuthenticatedUser.SiteID }); }
                     </div>
                 </div>
             </div>
-        </div>
+        </div>*@
     </div>
 </div>
 

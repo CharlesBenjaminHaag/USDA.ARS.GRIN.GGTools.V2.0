@@ -2,7 +2,7 @@
 * Name         : ggtools.js
 * Description  : Main JS application file for GGTools. This file
 *                should be included in all layout pages. 
-* Last Updated : 9/23/23
+* Last Updated : 10/4/23
 * By           : Benjamin Haag
 */
 
@@ -281,6 +281,32 @@ function InitDataTableLightMultiSelect(tableName) {
     });
 }
 
+function InitDataTableDualSelectFormat(tableName) {
+    $(document).ready(function () {
+        var table = $("#" + tableName).DataTable({
+            paging: false,
+            responsive: true,
+            buttons: [
+                'selectAll',
+                'selectNone',
+            ],
+            stateSave: true,
+            "bLengthChange": false,
+            scrollY: '300px',
+            select: {
+                style: 'multi'
+            },
+            searching: false,
+            columnDefs: [
+                {
+                    target: 0,
+                    visible: false,
+                    searchable: false,
+                }
+            ]
+        });
+    });
+}
 //function SetControlVisibility(tableName) {
 //    //TODO Logic to disable any controls "linked" to this table that depend on its data.
 //    //alert("TABLE " + tableName + "LOADED");

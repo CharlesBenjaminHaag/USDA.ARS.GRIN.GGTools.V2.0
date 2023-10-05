@@ -107,6 +107,29 @@
     </div>
 }
 
+@if (Model.Entity.ID > 0)
+{
+    <div class="card">
+        <div id="section-dependent-data" class="card-header p-2">
+            <ul id="list-dependent-data" class="nav nav-pills">
+                <li id="tab_selector_taxonomy_geography_map" data-ggtools-action="GeographyMap" data-ggtools-value="_List" class="nav-item"><a class="nav-link active" href="#tab_content_taxonomy_geography_map" data-toggle="tab">Distributions</a></li>
+                <li id="tab_selector_taxonomy_regulation_map" data-ggtools-action="RegulationMap" data-ggtools-value="_List" class="nav-item"><a class="nav-link" href="#tab_content_taxonomy_regulation_map" data-toggle="tab">Regulations</a></li>
+              </ul>
+        </div>
+        <div class="card-body">
+            <div class="tab-content">
+                <div class="tab-pane active" id="tab_content_taxonomy_geography_map">
+                </div>
+                <div class="tab-pane" id="tab_content_taxonomy_regulation_map">
+                </div>
+            </div>
+        </div>
+        <div id="progress_overlay" class="overlay">
+            <i class="fas fa-2x fa-sync-alt fa-spin"></i>
+        </div>
+    </div>
+}
+
 @Html.Partial("~/Views/Shared/Modals/_NoteLookup2.cshtml")
 @Html.Partial("~/Views/Taxonomy/Shared/Modals/_Delete.cshtml")
 
@@ -115,6 +138,49 @@
         Init();
     });
 
+    $('#section-dependent-data ul.nav li').on('click', function () {
+        var selectedId = $(this).attr('id');
+        var action = $(this).data("ggtools-action");
+        var value = $(this).data("ggtools-value");
+        LoadDependentData(selectedId, action, value);
+    });
+
     function Init() {
+        // Ensure that the overlays in each modal are hidden by default
+        $(".overlay").hide();
+
+        SetControlVisibility();
+
+        // Load default-visible tab of dependent data.
+        var defaultId = $('ul#list-dependent-data li:first').attr("id");
+        var action = $('ul#list-dependent-data li:first').data("ggtools-action");
+        var value = $('ul#list-dependent-data li:first').data("ggtools-value");
+        LoadDependentData(defaultId, action, value);
+    }
+
+    function LoadDependentData(controlId, eventAction, eventValue) {
+        var link = '@Url.Action("EVENT_VALUE","EVENT_ACTION", new { geographyId = "GEOGRAPHY_ID" })';
+        var entityId = $("#Entity_ID").val();
+        var formData = new FormData();
+        var sectionData = controlId.replace("tab_selector", "tab_content");
+
+        link = link.replace("GEOGRAPHY_ID", entityId);
+        link = link.replace("EVENT_ACTION", eventAction);
+        link = link.replace("EVENT_VALUE", eventValue);
+
+        $("#progress_overlay").show();
+
+        $.ajax({
+            url: link,
+            type: 'POST',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (response) {
+                $("#" + sectionData).html(response);
+                $("#progress_overlay").hide();
+            }
+        });
     }
 </script>

@@ -11,6 +11,12 @@
         <div class="tab-content">
             <div class="tab-pane active" id="section-search-criteria">
                 <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label id="lblStandardAbbreviation">Geography</label>
+                            @Html.DropDownListFor(x => x.SearchEntity.GeographyID, Model.States, "All geographies", new { @class = "form-control" })
+                        </div>
+                    </div>
                     <div class="col-md-5">
                         <div class="form-group form-horizontal">
                             <label>Regulation</label>

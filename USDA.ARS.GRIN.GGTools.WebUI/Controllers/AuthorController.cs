@@ -31,35 +31,14 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 return PartialView("~/Views/Error/_InternalServerError.cshtml");
             }
         }
-        public PartialViewResult _ListFamilyReferences(string shortName)
+        public PartialViewResult _ListReferences(string shortName)
         {
             try
             {
-                return PartialView("~/Views/Shared/_UnderConstruction.cshtml");
-            }
-            catch (Exception ex)
-            {
-                Log.Error(ex);
-                return PartialView("~/Views/Error/_InternalServerError.cshtml");
-            }
-        }
-        public PartialViewResult _ListGenusReferences(string shortName)
-        {
-            try
-            {
-                return PartialView("~/Views/Shared/_UnderConstruction.cshtml");
-            }
-            catch (Exception ex)
-            {
-                Log.Error(ex);
-                return PartialView("~/Views/Error/_InternalServerError.cshtml");
-            }
-        }
-        public PartialViewResult _ListSpeciesReferences(string shortName)
-        {
-            try
-            {
-                return PartialView("~/Views/Shared/_UnderConstruction.cshtml");
+                AuthorViewModel viewModel = new AuthorViewModel();
+                viewModel.SearchEntity.ShortName = shortName;
+                viewModel.GetReferences();
+                return PartialView("~/Views/Taxonomy/Author/_ListReferences.cshtml", viewModel);
             }
             catch (Exception ex)
             {
@@ -108,7 +87,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 if (entityId > 0)
                 {
                     viewModel.Get(entityId);
-                    viewModel.EventAction = "Edit";
+                    viewModel.OriginalShortName = viewModel.Entity.ShortName;                                        viewModel.EventAction = "Edit";
                     viewModel.PageTitle = String.Format("Edit Author [{0}]: {1}", entityId, viewModel.Entity.FullName);
                 }
                 else
@@ -144,6 +123,12 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                     viewModel.Entity.ModifiedByCooperatorID = AuthenticatedUser.CooperatorID;
                     viewModel.Update();
                 }
+
+                if ((viewModel.EventAction == "SAVE") && (viewModel.EventValue == "REF"))
+                {   
+                    viewModel.UpdateReferences(viewModel.OriginalShortName, viewModel.Entity.ShortName);
+                }
+
                 return RedirectToAction("Edit", "Author", new { entityId = viewModel.Entity.ID });
             }
             catch (Exception ex)

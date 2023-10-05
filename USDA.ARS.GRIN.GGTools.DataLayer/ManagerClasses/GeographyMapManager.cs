@@ -95,17 +95,16 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
 
             SQL = "SELECT * FROM vw_GRINGlobal_Taxonomy_Geography_Map ";
             SQL += "WHERE (@GeographyDescription        IS NULL OR      GeographyDescription        LIKE  '%' + @GeographyDescription + '%')";
-
-            SQL += " AND  (@ID   IS NULL OR ID       =         @ID)";
-            SQL += " AND    (@CreatedByCooperatorID         IS NULL OR CreatedByCooperatorID    =       @CreatedByCooperatorID)";
-            SQL += " AND    (@CreatedDate                   IS NULL OR CreatedDate              =       @CreatedDate)";
-            SQL += " AND    (@ModifiedByCooperatorID        IS NULL OR ModifiedByCooperatorID   =       @ModifiedByCooperatorID)";
-            SQL += " AND    (@ModifiedDate                  IS NULL OR ModifiedDate             =       @ModifiedDate)";
-            SQL += " AND    (@Note                          IS NULL OR Note                     LIKE    '%' + @Note + '%')";
-
-            SQL += " AND    (@SpeciesID                 IS NULL OR      SpeciesID                   =           @SpeciesID)";
-            SQL += " AND    (@SpeciesName               IS NULL OR      SpeciesName                 LIKE  '%' + @SpeciesName + '%')";
-            SQL += " AND    (@GeographyDescription      IS NULL OR      GeographyDescription        =           @GeographyDescription)";
+            SQL += " AND  ( @ID   IS NULL OR ID                                                      =       @ID)";
+            SQL += " AND    (@CreatedByCooperatorID         IS NULL OR CreatedByCooperatorID        =       @CreatedByCooperatorID)";
+            SQL += " AND    (@CreatedDate                   IS NULL OR CreatedDate                  =       @CreatedDate)";
+            SQL += " AND    (@ModifiedByCooperatorID        IS NULL OR ModifiedByCooperatorID       =       @ModifiedByCooperatorID)";
+            SQL += " AND    (@ModifiedDate                  IS NULL OR ModifiedDate                 =       @ModifiedDate)";
+            SQL += " AND    (@Note                          IS NULL OR Note                         LIKE    '%' + @Note + '%')";
+            SQL += " AND    (@GeographyID                   IS NULL OR      GeographyID             =           @GeographyID)";
+            SQL += " AND    (@SpeciesID                     IS NULL OR      SpeciesID               =           @SpeciesID)";
+            SQL += " AND    (@SpeciesName                   IS NULL OR      SpeciesName             LIKE  '%' + @SpeciesName + '%')";
+            SQL += " AND    (@GeographyDescription          IS NULL OR      GeographyDescription    =           @GeographyDescription)";
             SQL += " AND    (@GeographyStatusCode       IS NULL OR      GeographyStatusCode         =           @GeographyStatusCode)";
             SQL += " AND    (@CountryCode               IS NULL OR      CountryCode                 =           @CountryCode)";
             SQL += " AND    (@CountryName               IS NULL OR      CountryName                 LIKE  '%' + @CountryName + '%')";
@@ -140,6 +139,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
                 CreateParameter("Note", (object)searchEntity.Note ?? DBNull.Value, true),
 
                 CreateParameter("GeographyDescription", (object)searchEntity.GeographyDescription ?? DBNull.Value, true),
+                CreateParameter("GeographyID", searchEntity.GeographyID > 0 ? (object)searchEntity.GeographyID : DBNull.Value, true),
                 CreateParameter("SpeciesID", searchEntity.SpeciesID > 0 ? (object)searchEntity.SpeciesID : DBNull.Value, true),
                 CreateParameter("SpeciesName", (object)searchEntity.SpeciesName ?? DBNull.Value, true),
                 CreateParameter("GeographyStatusCode", (object)searchEntity.GeographyStatusCode ?? DBNull.Value, true),

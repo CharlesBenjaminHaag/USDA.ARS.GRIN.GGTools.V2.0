@@ -174,11 +174,54 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
 
             entity.ID = newFolderId;
 
-            //if (!String.IsNullOrEmpty(entity.ItemIDList))
-            //{
-            //    ImportItems(entity);
-            //}
+            if (!String.IsNullOrEmpty(entity.ItemIDList))
+            {
+                ImportItems(entity);
+            }
             return RowsAffected;
+        }
+        public int ImportItems(AppUserItemFolder entity)
+        {
+            string[] idCollection;
+            idCollection = entity.ItemIDList.Split(',');
+            foreach (var id in idCollection)
+            {
+                AppUserItemList appUserItemList = new AppUserItemList();
+                appUserItemList.ID = Int32.Parse(id);
+                appUserItemList.AppUserItemFolderID = entity.ID;
+                appUserItemList.CreatedByCooperatorID = entity.CreatedByCooperatorID;
+                appUserItemList.IDNumber = Int32.Parse(id);
+                appUserItemList.IDType = entity.FolderType;
+                //appUserItemList.ListName = entity.FolderName;
+                ImportItem(appUserItemList);
+            }
+            return 0;
+        }
+        private int ImportItem(AppUserItemList appUserItemList)
+        {
+            int rowsAffected = 0;
+
+            Reset(CommandType.StoredProcedure);
+
+            SQL = "usp_GRINGlobal_AppUserItemFolderListMap_Insert";
+
+            AddParameter("app_user_item_folder_id", (object)appUserItemList.AppUserItemFolderID, false);
+            AddParameter("app_user_item_list_id", (object)appUserItemList.ID, false);
+            AddParameter("cooperator_id", (object)appUserItemList.CreatedByCooperatorID, false);
+            AddParameter("created_by", (object)appUserItemList.CreatedByCooperatorID ?? DBNull.Value, true);
+
+            AddParameter("@out_error_number", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
+            AddParameter("@out_app_user_item_folder_list_map_id", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
+
+            rowsAffected = ExecuteNonQuery();
+
+            RowsAffected = GetParameterValue<int>("@out_app_user_item_folder_list_map_id", -1);
+            int errorNumber = GetParameterValue<int>("@out_error_number", -1);
+            if (errorNumber > 0)
+            {
+                throw new Exception(errorNumber.ToString());
+            }
+            return rowsAffected;
         }
         public int Delete(AppUserItemFolder entity)
         {

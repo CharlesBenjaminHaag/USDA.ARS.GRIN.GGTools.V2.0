@@ -91,8 +91,17 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
        
         public ActionResult EditDetails(AppUserItemFolderViewModel viewModel)
         {
-            viewModel.Update();
-            return RedirectToAction("Edit","AppUserItemFolder", new { @entityId = viewModel.Entity.ID });
+            try
+            {
+                viewModel.Entity.IsFavorite = viewModel.FromBool(viewModel.IsFavoriteSelector);
+                viewModel.Update();
+                return RedirectToAction("Edit", "AppUserItemFolder", new { @entityId = viewModel.Entity.ID });
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return RedirectToAction("InternalServerError", "Error");
+            }
         }
         public PartialViewResult AddItems(AppUserItemFolderViewModel viewModel)
         {
@@ -160,7 +169,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
         {
             try
             {
-                FolderViewModel viewModel = new FolderViewModel();
+                AppUserItemFolderViewModel viewModel = new AppUserItemFolderViewModel();
                 viewModel.SearchEntity.ID = entityId;
                 viewModel.Get();
                 return PartialView("~/Views/AppUserItemFolder/Modals/_BatchDelete.cshtml", viewModel);
@@ -170,29 +179,6 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 Log.Error(ex);
                 return PartialView("~/Views/Error/_InternalServerError.cshtml");
             }
-        }
-        public PartialViewResult RenderFolderCooperatorEditModal(int entityId)
-        {
-            try
-            {
-                FolderViewModel viewModel = new FolderViewModel();
-                viewModel.Entity.ID = entityId;
-                viewModel.GetAvailableCooperators();
-                viewModel.GetCurrentCooperators();
-                return PartialView("~/Views/AppUserItemFolder/Cooperator/_Edit.cshtml", viewModel);
-            }
-            catch (Exception ex)
-            {
-                Log.Error(ex);
-                return PartialView("~/Views/Error/_InternalServerError.cshtml");
-            }
-        }
-        public PartialViewResult RenderFolderCooperatorWidget(int folderId)
-        {
-            FolderViewModel viewModel = new FolderViewModel();
-            viewModel.Entity.ID = folderId;
-            viewModel.GetCurrentCooperators();
-            return PartialView("~/Views/AppUserItemFolder/Cooperator/_Widget.cshtml", viewModel);
         }
         public PartialViewResult RenderRelatedFoldersMenu(string sysTableName, int entityId = 0)
         {
@@ -223,7 +209,102 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 return PartialView("~/Views/Error/_InternalServerError.cshtml");
             }
         }
+        public PartialViewResult RenderImportModal()
+        {
+            try
+            {
+                AppUserItemFolderViewModel viewModel = new AppUserItemFolderViewModel(AuthenticatedUser.CooperatorID);
+                return PartialView("~/Views/AppUserItemFolder/Modals/_Import.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
+        }
+        [HttpPost]
+        public PartialViewResult Import(FormCollection coll)
+        {
+            AppUserItemFolderViewModel viewModel = new AppUserItemFolderViewModel();
+            List<AppUserItemFolder> batchedFolders = new List<AppUserItemFolder>();
+            viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
 
+            try
+            {
+                viewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
+
+                if (!String.IsNullOrEmpty(coll["FolderID"]))
+                {
+                    viewModel.Entity.ID = Int32.Parse(coll["FolderID"]);
+                }
+
+                if (!String.IsNullOrEmpty(coll["IDList"]))
+                {
+                    viewModel.Entity.ItemIDList = coll["IDList"];
+                }
+
+                if (!String.IsNullOrEmpty(coll["TableName"]))
+                {
+                    viewModel.Entity.TableName = coll["TableName"];
+                }
+
+                if (!String.IsNullOrEmpty(coll["FolderName"]))
+                {
+                    viewModel.Entity.FolderName = coll["FolderName"];
+                }
+
+                if (!String.IsNullOrEmpty(coll["FolderType"]))
+                {
+                    viewModel.Entity.FolderType = coll["FolderType"];
+                }
+
+                if (!String.IsNullOrEmpty(coll["NewCategory"]))
+                {
+                    viewModel.Entity.Category = coll["NewCategory"];
+                }
+                else
+                {
+                    if (!String.IsNullOrEmpty(coll["Category"]))
+                    {
+                        viewModel.Entity.Category = coll["Category"];
+                    }
+                }
+
+                if (!String.IsNullOrEmpty(coll["Description"]))
+                {
+                    viewModel.Entity.Description = coll["Description"];
+                }
+
+                if (!String.IsNullOrEmpty(coll["IsFavorite"]))
+                {
+                    viewModel.Entity.IsFavorite = coll["IsFavorite"];
+                }
+
+                viewModel.Import();
+
+                // Retrieve newly-created folder. Return confirmation
+                // widget.
+                viewModel.SearchEntity.ID = viewModel.Entity.ID;
+                viewModel.Search();
+                viewModel.EventAction = "ADD";
+
+                // Add each generated folder to session-stored list.
+                if (Session["IMPORTED-FOLDER-LIST"] != null)
+                {
+                    batchedFolders = Session["IMPORTED-FOLDER-LIST"] as List<AppUserItemFolder>;
+                }
+                batchedFolders.AddRange(viewModel.DataCollection);
+                Session["IMPORTED-FOLDER-LIST"] = batchedFolders;
+                viewModel.DataCollectionBatch = batchedFolders;
+
+                return PartialView("~/Views/AppUserItemFolder/_Confirmation.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
+        }
         #region Dynamic Folder
 
         public PartialViewResult RenderDynamicFolderEditModal()

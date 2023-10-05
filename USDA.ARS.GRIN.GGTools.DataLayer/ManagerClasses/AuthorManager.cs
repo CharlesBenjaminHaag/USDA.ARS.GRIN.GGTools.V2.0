@@ -34,6 +34,46 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             RowsAffected = results.Count;
             return results;
         }
+        public List<AuthorReference> GetReferences(string shortName)
+        {
+            SQL = "usp_GRINGlobal_Taxonomy_Author_References_Select";
+            List<AuthorReference> results = new List<AuthorReference>();
+            
+            var parameters = new List<IDbDataParameter> {
+                CreateParameter("short_name", (object)shortName, false)
+            };
+
+            results = GetRecords<AuthorReference>(SQL, CommandType.StoredProcedure, parameters.ToArray());
+            return results;
+        }
+
+        public int UpdateReferences(string originalValue, string newValue)
+        {
+            List<AuthorReference> authorReferences = new List<AuthorReference>();
+            authorReferences = GetReferences(originalValue);
+
+            foreach (var reference in authorReferences)
+            {
+                UpdateReference(reference);
+            }
+            return 0;
+        }
+
+        public int UpdateReference(AuthorReference entity)
+        {
+            Reset(CommandType.StoredProcedure);
+            Validate<AuthorReference>(entity);
+
+            SQL = "usp_GRINGlobal_Taxonomy_Author_Reference_Update";
+
+            //AddParameter("table_name", (object)tableName, true);
+            //AddParameter("field_name", (object)fieldName, true);
+            //AddParameter("original_value", (object)originalValue, true);
+            //AddParameter("new_value", (object)newValue, true);
+            //TODO
+            return 0;
+        }
+
         public int Insert(Author entity)
         {
             Reset(CommandType.StoredProcedure);

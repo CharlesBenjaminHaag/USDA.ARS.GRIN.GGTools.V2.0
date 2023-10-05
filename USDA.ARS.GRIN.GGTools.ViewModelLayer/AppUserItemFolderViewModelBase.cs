@@ -16,9 +16,8 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
         private Collection<AppUserItemFolder> _DataCollection = new Collection<AppUserItemFolder>();
         private Collection<AppUserItemFolder> _DataCollectionUserFolders = new Collection<AppUserItemFolder>();
         private Collection<AppUserItemDynamicFolder> _DataCollectionDynamicFolders = new Collection<AppUserItemDynamicFolder>();
-        private Collection<Cooperator> _DataCollectionAvailableCooperators = new Collection<Cooperator>();
-        private Collection<Cooperator> _DataCollectionSharedCooperators = new Collection<Cooperator>();
         private Collection<ReportItem> _DataCollectionIDTypes = new Collection<ReportItem>();
+        private List<AppUserItemFolder> _DataCollectionBatch = new List<AppUserItemFolder>();
 
         public AppUserItemFolderViewModelBase()
         {
@@ -64,16 +63,10 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
             get { return _DataCollectionDynamicFolders; }
             set { _DataCollectionDynamicFolders = value; }
         }
-        public Collection<Cooperator> DataCollectionAvailableCooperators
+        public List<AppUserItemFolder> DataCollectionBatch
         {
-            get { return _DataCollectionAvailableCooperators; }
-            set { _DataCollectionAvailableCooperators = value; }
-        }
-
-        public Collection<Cooperator> DataCollectionCurrentCooperators
-        {
-            get { return _DataCollectionSharedCooperators; }
-            set { _DataCollectionSharedCooperators = value; }
+            get { return _DataCollectionBatch; }
+            set { _DataCollectionBatch = value; }
         }
         public Collection<ReportItem> DataCollectionIDTypes
         {

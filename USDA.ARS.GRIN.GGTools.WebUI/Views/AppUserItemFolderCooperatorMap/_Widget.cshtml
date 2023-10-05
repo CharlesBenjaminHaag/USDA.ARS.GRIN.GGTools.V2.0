@@ -1,9 +1,9 @@
-﻿@model USDA.ARS.GRIN.GGTools.ViewModelLayer.FolderViewModel
+﻿@model USDA.ARS.GRIN.GGTools.ViewModelLayer.AppUserItemFolderCooperatorMapViewModel
 
 <div class="row">
-    @if (Model.DataCollectionCurrentCooperators.Count > 0)
+    @if (Model.DataCollectionMappedCooperators.Count > 0)
     {
-        foreach (var result in Model.DataCollectionCurrentCooperators)
+        foreach (var result in Model.DataCollectionMappedCooperators)
         {
             <div class="col-md-4">
                 <div class="card bg-light d-flex flex-fill">
@@ -40,8 +40,8 @@
             </div>
         }
     }
-    else 
-    { 
+    else
+    {
         <div class="col-md-12">
             <div class="alert alert-info alert-dismissible">
                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>

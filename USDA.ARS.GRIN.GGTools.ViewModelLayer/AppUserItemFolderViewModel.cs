@@ -25,6 +25,7 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
                 try
                 {
                     Entity = mgr.Get(SearchEntity);
+                    Entity.IsFavoriteOption = ToBool(Entity.IsFavorite);
                 }
                 catch (Exception ex)
                 {
@@ -123,6 +124,22 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
                 }
             }
             return RowsAffected;
+        }
+        public int Import()
+        {
+            using (AppUserItemFolderManager mgr = new AppUserItemFolderManager())
+            {
+                try
+                {
+                    RowsAffected = mgr.Import(Entity);
+                }
+                catch (Exception ex)
+                {
+                    PublishException(ex);
+                    throw ex;
+                }
+                return RowsAffected;
+            }
         }
         public int Update()
         {

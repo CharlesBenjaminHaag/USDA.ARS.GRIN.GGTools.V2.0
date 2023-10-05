@@ -53,7 +53,7 @@
                                                 <div class="margin">
                                                     <div class="form-group clearfix">
                                                         <div class="icheck-primary d-inline">
-                                                            <input class="custom-control-input" type="checkbox" id="cbxIsFavorite" value="option1">
+                                                            @Html.CheckBoxFor(x => x.Entity.IsFavoriteOption, new { id = "cbxIsFavorite", @type = "checkbox", @class = "custom-control-input" })
                                                             <label for="cbxIsFavorite">
                                                                 Add this folder to my Favorites list.
                                                             </label>
@@ -236,17 +236,10 @@ Modal that appears if no record is selected for folder addition.
         var link = '@Url.Action("Add", "AppUserItemFolder")';
         var entityId = $("#Entity_ID").val();
         var formData = new FormData();
-       
-        // If there are no values in the selected ID list, use single-record mode.
-        
-
-        //if ($('#cbxIsFavorite').prop('checked') == true) {
-        //    formData.append("IsFavorite", "Y");
-        //}
-
-        //if ($('#cbxIsShared').prop('checked') == true) {
-        //    formData.append("IsShared", true);
-        //}
+      
+        if ($('#cbxIsFavorite').prop('checked') == true) {
+            formData.append("Entity.IsFavorite", "Y");
+        }
 
         formData.append("Entity.TableName", $("#TableName").val());
         formData.append("Entity.FolderName", $("#Entity_FolderName").val());

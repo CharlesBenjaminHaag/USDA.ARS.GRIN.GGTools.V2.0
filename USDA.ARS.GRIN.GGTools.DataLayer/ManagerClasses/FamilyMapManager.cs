@@ -27,9 +27,9 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
 
         public List<FamilyMap> GetSynonyms(int entityId)
         {
-            SQL = "usp_GRINGlobal_Taxonomy_Family_Synonyms_Select";
+            SQL = "usp_GRINGlobal_Taxonomy_Family_Map_Synonyms_Select";
             var parameters = new List<IDbDataParameter> {
-                CreateParameter("@taxonomy_family_id", (object)entityId, false)
+                CreateParameter("@taxonomy_family_map_id", (object)entityId, false)
             };
             List<FamilyMap> familyMaps = GetRecords<FamilyMap>(SQL, CommandType.StoredProcedure, parameters.ToArray());
             return familyMaps;
