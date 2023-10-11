@@ -30,6 +30,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
 
             return PartialView("~/Views/AppUserItemFolder/_ListWidget.cshtml", viewModel);
         }
+        
         public ActionResult Edit(int entityId)
         {
             try
@@ -44,10 +45,6 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                     viewModel.SearchEntity.ID = entityId;
                     viewModel.Get();
                     viewModel.PageTitle = String.Format("Edit Folder: {0}", viewModel.Entity.FolderName);
-                
-                    //TODO Get list of ID types/tables within the folder.
-
-                
                 }
                 else
                 {

@@ -18,10 +18,10 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
         {
             return View();
         }
-        public JsonResult Map()
-        { }
-        public JsonResult UnMap()
-        { }
+        //public JsonResult Map()
+        //{ }
+        //public JsonResult UnMap()
+        //{ }
         public PartialViewResult _List()
         {
             AppUserItemFolderViewModel viewModel = new AppUserItemFolderViewModel();

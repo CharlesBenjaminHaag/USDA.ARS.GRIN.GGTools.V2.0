@@ -1,9 +1,11 @@
 ﻿using System.Web.Mvc;
 using System;
 using System.Collections.Generic;
+using USDA.ARS.GRIN.GGTools.AppLayer;
 using USDA.ARS.GRIN.GGTools.WebUI;
 using USDA.ARS.GRIN.GGTools.DataLayer;
 using USDA.ARS.GRIN.GGTools.ViewModelLayer;
+using USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer;
 using NLog;
 
 namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
@@ -225,6 +227,48 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 return PartialView("~/Views/Error/_InternalServerError.cshtml");
             }
         }
+
+        public PartialViewResult _ListDynamic(int cooperatorId = 0, int appUserItemFolderId = 0)
+        {
+            AppUserItemFolderViewModel appUserItemFolderViewModel = new AppUserItemFolderViewModel();
+            AppUserItemListViewModel appUserItemListViewModel = new AppUserItemListViewModel();
+            AuthorViewModel authorViewModel = new AuthorViewModel();
+
+            try
+            {
+                appUserItemFolderViewModel.SearchEntity.ID = appUserItemFolderId;
+                appUserItemFolderViewModel.Search();
+
+                appUserItemListViewModel.SearchEntity.AppUserItemFolderID = appUserItemFolderId;
+                appUserItemListViewModel.GetDynamic();
+
+                //TODO Based on folder data type, retrieve and deserialize XML from app user item list
+                // record, and instantiate relevant viewmodel.
+
+                
+                
+                switch (appUserItemFolderViewModel.Entity.DataType)
+                {
+                    case "taxonomy_author":
+                        
+                        break;
+                    case "citation":
+                        
+                        break;
+                }
+
+                //TODO Can I refactor this? Need variable for each view model in a massive switch
+                // statement. --CBH 10/6/23
+
+                return PartialView("~/Views/AppUserItemList/_ListDynamic.cshtml", appUserItemListViewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
+        }
+
 
         public ActionResult Search(AppUserItemList viewModel)
         {

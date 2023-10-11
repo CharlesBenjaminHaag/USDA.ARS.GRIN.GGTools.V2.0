@@ -5,24 +5,47 @@
     {
         foreach (var result in Model.DataCollection)
         {
-            <div class="col-md-4">
-                <div class="info-box shadow">
-                    <span class="info-box-icon bg-info"><i class="far fa-folder"></i></span>
-                    <div class="info-box-content">
-                        <span class="info-box-text">
-                            @if (result.IsFavorite == "Y")
-                            {
-                                <i class="fas fa-star text-warning"></i>
-                            }
-                            <a href="@Url.Action("Edit", "AppUserItemFolder", new { @entityId = result.ID })">
-                                @result.FolderName
-                            </a>
-                        </span>
-                        <span class="info-box-number">@result.Description (@result.TotalItems)</span>
-                    </div>
+    <div class="col-md-4">
+        @if (result.FolderType == "DYNAMIC")
+        {
+            <div class="info-box shadow">
+                <span class="info-box-icon bg-primary">
+                    <i class="far fa-star"></i>
+                </span>
+                <div class="info-box-content">
+                    <span class="info-box-text">
+                        @if (result.IsFavorite == "Y")
+                        {
+                            <i class="fas fa-star text-warning"></i>
+                        }
+                        <a href="@Url.Action("Edit", "AppUserItemFolder", new { @entityId = result.ID })">
+                            @result.FolderName
+                        </a>
+                    </span>
+                    <span class="info-box-number">@result.Description (@result.TotalItems)</span>
+                </div>
 
+            </div>
+        }
+        else
+        {
+            <div class="info-box shadow">
+                <span class="info-box-icon bg-info"><i class="far fa-folder"></i></span>
+                <div class="info-box-content">
+                    <span class="info-box-text">
+                        @if (result.IsFavorite == "Y")
+                        {
+                            <i class="fas fa-star text-warning"></i>
+                        }
+                        <a href="@Url.Action("Edit", "AppUserItemFolder", new { @entityId = result.ID })">
+                            @result.FolderName
+                        </a>
+                    </span>
+                    <span class="info-box-number">@result.Description (@result.TotalItems)</span>
                 </div>
             </div>
+        }
+    </div>
         }
     }
     else

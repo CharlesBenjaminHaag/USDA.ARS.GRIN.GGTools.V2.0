@@ -54,6 +54,18 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
             }
         }
 
+        public void GetDynamic()
+        {
+            using (AppUserItemListManager mgr = new AppUserItemListManager())
+            {
+                DataCollection = new Collection<AppUserItemList>(mgr.Search(SearchEntity));
+                if (DataCollection.Count == 1)
+                {
+                    Entity = DataCollection[0];
+                }
+            }
+        }
+
         public void HandleRequest()
         {
             throw new NotImplementedException();

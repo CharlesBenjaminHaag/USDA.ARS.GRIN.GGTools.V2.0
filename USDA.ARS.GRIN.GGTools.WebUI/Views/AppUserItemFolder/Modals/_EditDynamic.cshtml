@@ -121,6 +121,7 @@ Modal that appears if no record is selected for folder addition.
      * Adds a batch of items to a newly-created folder
     */
     function SaveNewDynamicFolder() {
+        $("#EventAction").val("SEARCH");
         $("#EventValue").val("SAVE");
         $("#frmMain").submit();
     }

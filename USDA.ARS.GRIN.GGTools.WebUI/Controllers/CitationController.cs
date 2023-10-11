@@ -1,13 +1,15 @@
 ﻿using NLog;
 using System;
 using System.Web.Mvc;
+using USDA.ARS.GRIN.GGTools.ViewModelLayer;
 using USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer;
+using USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer;
 using USDA.ARS.GRIN.GGTools.WebUI;
 
 namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
 {
     [GrinGlobalAuthentication]
-    public class CitationController : BaseController, IController<CitationViewModel>
+    public class CitationController : BaseController
     {
         protected static string BASE_PATH = "~/Views/Taxonomy/Citation/";
         private static readonly Logger Log = LogManager.GetCurrentClassLogger();
@@ -57,6 +59,30 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 return PartialView("~/Views/Error/_InternalServerError.cshtml");
             }
         }
+        public PartialViewResult _ListDynamicFolderItems(int folderId)
+        {
+            AppUserItemFolderViewModel appUserItemFolderViewModel = new AppUserItemFolderViewModel();
+            AppUserItemListViewModel appUserItemListViewModel = new AppUserItemListViewModel();
+
+            try
+            {
+                appUserItemFolderViewModel.SearchEntity.ID = folderId;
+                appUserItemFolderViewModel.Search();
+
+                appUserItemListViewModel.SearchEntity.AppUserItemFolderID = folderId;
+                appUserItemListViewModel.GetDynamic();
+
+                CitationViewModel viewModel = new CitationViewModel();
+                viewModel.SearchEntity = viewModel.Deserialize<CitationSearch>(appUserItemListViewModel.Entity.Properties);
+                viewModel.Search();
+                return PartialView(BASE_PATH + "_List.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
+        }
         [HttpPost]
         public ActionResult Search(CitationViewModel viewModel)
         {
@@ -65,6 +91,15 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 Session[SessionKeyName] = viewModel;
                 viewModel.Search();
                 ModelState.Clear();
+
+                // Save search if attribs supplied.
+                if ((viewModel.EventAction == "SEARCH") && (viewModel.EventValue == "SAVE"))
+                {
+                    viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
+                    viewModel.SaveSearch();
+                    viewModel.EventValue = "";
+                }
+
                 return View(BASE_PATH + "Index.cshtml", viewModel);
             }
             catch (Exception ex)
@@ -136,7 +171,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
         //    return PartialView(BASE_PATH + "_List.cshtml", viewModel);
         //}
 
-        public ActionResult Index()
+        public ActionResult Index(string eventAction = "", int folderId = 0)
         {
             try
             {
@@ -146,6 +181,11 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 if (Session[targetKey] != null)
                 {
                     viewModel = Session[targetKey] as CitationViewModel;
+                }
+
+                if (eventAction == "RUN_SEARCH")
+                {
+                    viewModel.RunSearch(folderId);
                 }
 
                 viewModel.PageTitle = "Citation Search";

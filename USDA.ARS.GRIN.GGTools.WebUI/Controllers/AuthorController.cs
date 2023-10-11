@@ -31,6 +31,12 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 return PartialView("~/Views/Error/_InternalServerError.cshtml");
             }
         }
+        public PartialViewResult _ListDynamicFolderItems(int folderId)
+        {
+            AuthorViewModel viewModel = new AuthorViewModel();
+            viewModel.RunSearch(folderId);
+            return PartialView(BASE_PATH + "_List.cshtml", viewModel);
+        }
         public PartialViewResult _ListReferences(string shortName)
         {
             try
@@ -169,33 +175,8 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 // Save search if attribs supplied.
                 if ((viewModel.EventAction == "SEARCH") && (viewModel.EventValue == "SAVE"))
                 {
-                    AppUserItemFolderViewModel appUserItemFolderViewModel = new AppUserItemFolderViewModel();
-                    appUserItemFolderViewModel.Entity.FolderName = viewModel.SearchEntity.SearchTitle;
-                    appUserItemFolderViewModel.Entity.Description = viewModel.SearchEntity.SearchDescription;
-                    appUserItemFolderViewModel.Entity.Category = "";
-                    appUserItemFolderViewModel.Entity.FolderType = "DYNAMIC";
-                    appUserItemFolderViewModel.Entity.DataType = viewModel.TableName;
-                    appUserItemFolderViewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
-                    appUserItemFolderViewModel.Insert();
-
-                    if (appUserItemFolderViewModel.Entity.ID <= 0)
-                    {
-                        throw new IndexOutOfRangeException("Error adding new folder.");
-                    }
-
-                    AppUserItemListViewModel appUserItemListViewModel = new AppUserItemListViewModel();
-                    appUserItemListViewModel.Entity.AppUserItemFolderID = appUserItemFolderViewModel.Entity.ID;
-                    appUserItemListViewModel.Entity.CooperatorID = AuthenticatedUser.CooperatorID;
-                    appUserItemListViewModel.Entity.TabName = "GGTools Taxon Editor";
-                    appUserItemListViewModel.Entity.ListName = appUserItemFolderViewModel.Entity.FolderName;
-                    appUserItemListViewModel.Entity.IDNumber = 0;
-                    appUserItemListViewModel.Entity.IDType = "FOLDER";
-                    appUserItemListViewModel.Entity.SortOrder = 0;
-                    appUserItemListViewModel.Entity.Title = appUserItemFolderViewModel.Entity.FolderName;
-                    appUserItemListViewModel.Entity.Description = "Added in GGTools Taxonomy Editor";
-                    appUserItemListViewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CreatedByCooperatorID;
-                    appUserItemListViewModel.Entity.Properties = viewModel.SerializeToXml(viewModel.SearchEntity);
-                    appUserItemListViewModel.Insert();
+                    viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
+                    viewModel.SaveSearch();
                 }
 
                 return View(BASE_PATH + "Index.cshtml", viewModel);
@@ -281,10 +262,10 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 return RedirectToAction("InternalServerError", "Error");
             }
         }
-        public ActionResult Search(Author viewModel)
-        {
-            throw new NotImplementedException();
-        }
+        //public ActionResult Search(Author viewModel)
+        //{
+        //    throw new NotImplementedException();
+        //}
         public ActionResult Delete(FormCollection formCollection)
         {
             throw new NotImplementedException();

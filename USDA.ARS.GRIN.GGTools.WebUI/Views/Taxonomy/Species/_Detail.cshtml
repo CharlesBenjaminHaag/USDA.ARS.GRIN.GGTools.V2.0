@@ -43,12 +43,12 @@
                             <span class="sr-only">Toggle Dropdown</span>
                         </button>
                         <div class="dropdown-menu" role="menu" style="">
-                            <a id="btnSaveSearch" class="dropdown-item" href="#">Save Search</a>
+                            <a id="btnOpenDynamicFolderModal" class="dropdown-item" href="#">Save Search</a>
                         </div>
                     </div>
                 </div>
             </div>
-            
+
             <div id="tab-sql-editor" class="tab-pane">
                 @using (Html.BeginForm("Search", "Species", FormMethod.Post, new { id = "frmMain" }))
                 {
@@ -58,8 +58,8 @@
                                 <label>SQL</label>
                                 @Html.TextBoxFor(x => x.SearchEntity.SQLStatement, new { @class = "form-control" })
                             </div>
-                            </div>
                         </div>
+                    </div>
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
@@ -67,17 +67,18 @@
                                 @Html.TextAreaFor(x => x.SearchEntity.SQLWhere, new { @class = "form-control" })
                             </div>
                         </div>
-                        </div>
+                    </div>
                 }
             </div>
-            
+
             <div id="tab-saved-searches" class="tab-pane">
                 <div class="row">
                     <div class="col-md-12">
-                        
+                        @{Html.RenderAction("_ListDynamic", "AppUserItemFolder", new { @cooperatorId = Model.AuthenticatedUserCooperatorID, @dataType = Model.TableName });}
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+@Html.Partial("~/Views/AppUserItemFolder/Modals/_EditDynamic.cshtml")

@@ -18,8 +18,16 @@
         <div class="tab-content">
             <div class="tab-pane active" id="detail">
                 <div class="overlay-wrapper">
-                    <div id="section-tab-overlay" class="overlay"><i class="fas fa-3x fa-sync-alt fa-spin"></i><div class="text-bold pt-2">Loading...</div></div>
-                    @{Html.RenderAction("_ListByFolder", "AppUserItemList", new { @appUserItemFolderId = Model.Entity.ID });}
+                    @if (Model.Entity.FolderType == "DYNAMIC")
+                    {
+                        @*<div id="section-tab-overlay" class="overlay"><i class="fas fa-3x fa-sync-alt fa-spin"></i><div class="text-bold pt-2">Loading...</div></div>*@
+                        { Html.RenderAction("_ListDynamicFolderItems", Model.Entity.DataTypeDescription, new { @folderId = Model.Entity.ID }); }
+                    }
+                    else
+                    {
+                        <div id="section-tab-overlay" class="overlay"><i class="fas fa-3x fa-sync-alt fa-spin"></i><div class="text-bold pt-2">Loading...</div></div>
+                        { Html.RenderAction("_ListByFolder", "AppUserItemList", new { @appUserItemFolderId = Model.Entity.ID }); }
+                    }
                 </div>
             </div>
             <div class="tab-pane" id="sharing">
@@ -161,7 +169,7 @@
         //DEBUG
         //alert("ID IS " + id + " EVENT VALUE IS " + eventValue + " EVENT ACTION IS " + eventAction);
 
-        $("#section-tab-overlay").show();
+        /*$("#section-tab-overlay").show();*/
 
         $.ajax({
             url: link,

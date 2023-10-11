@@ -220,6 +220,14 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 Session[SessionKeyName] = viewModel;
                 viewModel.Search();
                 ModelState.Clear();
+
+                // Save search if attribs supplied.
+                if ((viewModel.EventAction == "SEARCH") && (viewModel.EventValue == "SAVE"))
+                {
+                    viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
+                    viewModel.SaveSearch();
+                }
+
                 return View(BASE_PATH + "Index.cshtml", viewModel);
             }
             catch (Exception ex)
@@ -254,9 +262,20 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 return PartialView("~/Views/Error/_InternalServerError.cshtml");
             }
         }
-        // ======================================================================================
-        // MODALS 
-        // ======================================================================================
+        public PartialViewResult _ListDynamicFolderItems(int folderId)
+        {
+            try
+            {
+                CommonNameViewModel viewModel = new CommonNameViewModel();
+                viewModel.RunSearch(folderId);
+                return PartialView(BASE_PATH + "_List.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
+        }
         public PartialViewResult RenderEditModal(int genusId = 0, int speciesId = 0)
         {
             try

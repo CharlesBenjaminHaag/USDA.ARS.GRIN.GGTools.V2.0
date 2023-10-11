@@ -360,13 +360,14 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             }
         }
 
-        public PartialViewResult _List(int cropForCwrId)
+        public PartialViewResult _List(int cropForCwrId = 0, int speciesId = 0)
         {
             CWRMapViewModel viewModel = new CWRMapViewModel();
             try
             {
                 viewModel.EventAction = "SEARCH";
                 viewModel.SearchEntity.CropForCWRID = cropForCwrId;
+                viewModel.SearchEntity.SpeciesID = speciesId;
                 viewModel.Search();
                 ModelState.Clear();
                 return PartialView(BASE_PATH + "_List.cshtml", viewModel);

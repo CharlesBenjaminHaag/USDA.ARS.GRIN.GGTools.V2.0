@@ -56,6 +56,44 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
             }
 
         }
+        public void RunSearch(int appUserItemFolderId)
+        {
+            AppUserItemListViewModel appUserItemListViewModel = new AppUserItemListViewModel();
+            appUserItemListViewModel.SearchEntity.AppUserItemFolderID = appUserItemFolderId;
+            appUserItemListViewModel.Search();
+            SearchEntity = Deserialize<RegulationSearch>(appUserItemListViewModel.Entity.Properties);
+            Search();
+        }
+        public void SaveSearch()
+        {
+            AppUserItemFolderViewModel appUserItemFolderViewModel = new AppUserItemFolderViewModel();
+            appUserItemFolderViewModel.Entity.FolderName = SearchEntity.SearchTitle;
+            appUserItemFolderViewModel.Entity.Description = SearchEntity.SearchDescription;
+            appUserItemFolderViewModel.Entity.Category = "";
+            appUserItemFolderViewModel.Entity.FolderType = "DYNAMIC";
+            appUserItemFolderViewModel.Entity.DataType = TableName;
+            appUserItemFolderViewModel.Entity.CreatedByCooperatorID = AuthenticatedUserCooperatorID;
+            appUserItemFolderViewModel.Insert();
+
+            if (appUserItemFolderViewModel.Entity.ID <= 0)
+            {
+                throw new IndexOutOfRangeException("Error adding new folder.");
+            }
+
+            AppUserItemListViewModel appUserItemListViewModel = new AppUserItemListViewModel();
+            appUserItemListViewModel.Entity.AppUserItemFolderID = appUserItemFolderViewModel.Entity.ID;
+            appUserItemListViewModel.Entity.CooperatorID = AuthenticatedUserCooperatorID;
+            appUserItemListViewModel.Entity.TabName = "GGTools Taxon Editor";
+            appUserItemListViewModel.Entity.ListName = appUserItemFolderViewModel.Entity.FolderName;
+            appUserItemListViewModel.Entity.IDNumber = 0;
+            appUserItemListViewModel.Entity.IDType = "FOLDER";
+            appUserItemListViewModel.Entity.SortOrder = 0;
+            appUserItemListViewModel.Entity.Title = appUserItemFolderViewModel.Entity.FolderName;
+            appUserItemListViewModel.Entity.Description = "Added in GGTools Taxonomy Editor";
+            appUserItemListViewModel.Entity.CreatedByCooperatorID = AuthenticatedUserCooperatorID;
+            appUserItemListViewModel.Entity.Properties = SerializeToXml(SearchEntity);
+            appUserItemListViewModel.Insert();
+        }
         public int Insert()
         {
             using (RegulationManager mgr = new RegulationManager())

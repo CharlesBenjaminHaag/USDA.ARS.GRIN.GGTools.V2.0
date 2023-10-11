@@ -152,6 +152,14 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 Session[SessionKeyName] = viewModel;
                 viewModel.Search();
                 ModelState.Clear();
+
+                // Save search if attribs supplied.
+                if ((viewModel.EventAction == "SEARCH") && (viewModel.EventValue == "SAVE"))
+                {
+                    viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
+                    viewModel.SaveSearch();
+                }
+
                 return View(BASE_PATH + "Index.cshtml", viewModel);
             }
             catch (Exception ex)

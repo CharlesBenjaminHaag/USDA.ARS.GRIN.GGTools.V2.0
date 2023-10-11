@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using USDA.ARS.GRIN.GGTools.WebUI;
+using USDA.ARS.GRIN.GGTools.ViewModelLayer;
 using USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer;
 using USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer;
 using NLog;
@@ -73,6 +74,30 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 viewModel.SearchEntity.FolderID = folderId;
                 viewModel.GetFolderItems();
                 return PartialView(BASE_PATH + "_ListFolder.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
+        }
+        public PartialViewResult _ListDynamicFolderItems(int folderId)
+        {
+            AppUserItemFolderViewModel appUserItemFolderViewModel = new AppUserItemFolderViewModel();
+            AppUserItemListViewModel appUserItemListViewModel = new AppUserItemListViewModel();
+
+            try
+            {
+                appUserItemFolderViewModel.SearchEntity.ID = folderId;
+                appUserItemFolderViewModel.Search();
+
+                appUserItemListViewModel.SearchEntity.AppUserItemFolderID = folderId;
+                appUserItemListViewModel.GetDynamic();
+
+                AuthorViewModel viewModel = new AuthorViewModel();
+                viewModel.SearchEntity = viewModel.Deserialize<AuthorSearch>(appUserItemListViewModel.Entity.Properties);
+                viewModel.Search();
+                return PartialView(BASE_PATH + "_List.cshtml", viewModel);
             }
             catch (Exception ex)
             {
@@ -242,6 +267,14 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             {
                 viewModel.Search();
                 ModelState.Clear();
+
+                // Save search if attribs supplied.
+                if ((viewModel.EventAction == "SEARCH") && (viewModel.EventValue == "SAVE"))
+                {
+                    viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
+                    viewModel.SaveSearch();
+                }
+
                 return View(BASE_PATH + "Index.cshtml", viewModel);
             }
             catch (Exception ex)

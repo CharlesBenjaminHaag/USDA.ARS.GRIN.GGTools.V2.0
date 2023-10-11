@@ -29,6 +29,24 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 return RedirectToAction("InternalServerError", "Error");
             }
         }
+
+        public PartialViewResult _ListFolderItems(int folderId)
+        {
+            EconomicUsageTypeViewModel viewModel = new EconomicUsageTypeViewModel();
+            try
+            {
+                viewModel.EventAction = "FOLDER";
+                viewModel.SearchEntity.FolderID = folderId;
+                viewModel.GetFolderItems();
+                return PartialView(BASE_PATH + "_ListFolder.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
+        }
+
         [HttpPost]
         public PartialViewResult Lookup(EconomicUsageTypeViewModel viewModel)
         {
