@@ -3,18 +3,7 @@
     ViewBag.Title = Model.PageTitle;
     Layout = "~/Views/Shared/_LayoutAdminLTE3.cshtml";
 }
-@using (Html.BeginForm("Search", "RegulationMap", FormMethod.Post, new { id = "frmMain" }))
-{
-    @Html.HiddenFor(x => x.EventAction)
-    @Html.HiddenFor(x => x.EventValue)
-    @Html.HiddenFor(x => x.TableName)
-    @Html.HiddenFor(x => x.TableCode)
-    @Html.HiddenFor(x => x.PageTitle)
-    @Html.HiddenFor(x => x.AuthenticatedUserCooperatorID)
-    @Html.HiddenFor(x => x.ItemIDList)
-    @Html.HiddenFor(x => x.AuthenticatedUserCooperatorID)
-    @Html.Partial("~/Views/Taxonomy/RegulationMap/_Detail.cshtml")
-}
+@Html.Partial("~/Views/Taxonomy/RegulationMap/_Detail.cshtml")
 @Html.Partial("~/Views/Taxonomy/RegulationMap/_List.cshtml")
 @{Html.RenderAction("RenderEditModal", "AppUserItemFolder", new { sysTableName = Model.TableName }); }
 

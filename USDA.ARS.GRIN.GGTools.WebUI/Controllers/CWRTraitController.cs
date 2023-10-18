@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using USDA.ARS.GRIN.GGTools.WebUI;
+using USDA.ARS.GRIN.GGTools.ViewModelLayer;
 using USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer;
 using USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer;
 using NLog;
@@ -101,7 +102,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI
             }
         }
 
-        public ActionResult Index(int cwrMapId = 0, int citationId = 0)
+        public ActionResult Index(string eventAction = "", int folderId = 0, int cwrMapId = 0, int citationId = 0)
         {
             CWRTraitViewModel viewModel = new CWRTraitViewModel();
             
@@ -128,6 +129,15 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI
                 if (Session[targetKey] != null)
                 {
                     viewModel = Session[targetKey] as CWRTraitViewModel;
+                }
+
+                if (eventAction == "RUN_SEARCH")
+                {
+                    AppUserItemListViewModel appUserItemListViewModel = new AppUserItemListViewModel();
+                    appUserItemListViewModel.SearchEntity.AppUserItemFolderID = folderId;
+                    appUserItemListViewModel.Search();
+                    viewModel.SearchEntity = viewModel.Deserialize<CWRTraitSearch>(appUserItemListViewModel.Entity.Properties);
+                    viewModel.Search();
                 }
 
                 return View(BASE_PATH + "Index.cshtml", viewModel);
@@ -172,6 +182,21 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI
                 return PartialView("~/Views/Error/_InternalServerError.cshtml");
             }
         }
+        public PartialViewResult _ListDynamicFolderItems(int folderId)
+        {
+            CWRTraitViewModel viewModel = new CWRTraitViewModel();
+
+            try
+            {
+                viewModel.RunSearch(folderId);
+                return PartialView(BASE_PATH + "_List.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
+        }
         [HttpPost]
         public ActionResult Search(CWRTraitViewModel viewModel)
         {
@@ -181,6 +206,14 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI
                 viewModel.EventAction = "SEARCH";
                 viewModel.Search();
                 ModelState.Clear();
+
+                // Save search if attribs supplied.
+                if ((viewModel.EventAction == "SEARCH") && (viewModel.EventValue == "SAVE"))
+                {
+                    viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
+                    viewModel.SaveSearch();
+                }
+
                 return View(BASE_PATH + "Index.cshtml", viewModel);
             }
             catch (Exception ex)

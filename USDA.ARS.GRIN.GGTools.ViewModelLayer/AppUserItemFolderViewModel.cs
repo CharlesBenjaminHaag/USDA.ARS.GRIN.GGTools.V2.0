@@ -162,6 +162,21 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
                 return RowsAffected;
             }
         }
+        public void Delete()
+        {
+            try
+            {
+                using (AppUserItemFolderManager mgr = new AppUserItemFolderManager())
+                {
+                    mgr.Delete(TableName, Entity.ID);
+                }
+            }
+            catch (Exception ex)
+            {
+                PublishException(ex);
+                throw ex;
+            }
+        }
         public void DeleteItems()
         {
             string[] itemIdList = ItemIDList.Split(',');

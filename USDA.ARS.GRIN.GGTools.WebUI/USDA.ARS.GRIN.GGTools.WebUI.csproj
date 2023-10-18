@@ -164,7 +164,6 @@
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\ExplorerController.cs" />
     <Compile Include="Controllers\FamilyMapController.cs" />
-    <Compile Include="Controllers\FolderController.cs" />
     <Compile Include="Controllers\GenusController.cs" />
     <Compile Include="Controllers\GeographyController.cs" />
     <Compile Include="Controllers\GeographyMapController.cs" />
@@ -897,6 +896,8 @@
     <Content Include="Views\Cooperator\Modals\_EditBatch.cshtml" />
     <Content Include="Views\Account\_TrainingRosterWidget.cshtml" />
     <Content Include="Views\AppUserItemList\_ListDynamic.cshtml" />
+    <Content Include="Views\AppUserItemFolder\Index.cshtml" />
+    <Content Include="Views\Taxonomy\GeographyMap\_MenuEdit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

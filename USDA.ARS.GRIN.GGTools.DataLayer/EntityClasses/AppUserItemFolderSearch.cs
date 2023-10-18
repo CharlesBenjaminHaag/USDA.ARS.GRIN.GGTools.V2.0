@@ -18,5 +18,6 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
         public string IsFavorite { get; set; }
         public string IsShared { get; set; }
         public string TimeFrame { get; set; }
+        public int SharedWithCooperatorID { get; set; }
     }
 }

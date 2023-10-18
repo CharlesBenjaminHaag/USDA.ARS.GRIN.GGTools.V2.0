@@ -9,7 +9,7 @@ using NLog;
 
 namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
 {
-    public class EconomicUsageTypeController : BaseController, IController<EconomicUsageTypeViewModel>
+    public class EconomicUsageTypeController : BaseController
     {
         protected static string BASE_PATH = "~/Views/Taxonomy/EconomicUsageType/";
         private static readonly Logger Log = LogManager.GetCurrentClassLogger();
@@ -21,6 +21,14 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 Session[SessionKeyName] = viewModel;
                 viewModel.Search();
                 ModelState.Clear();
+
+                // Save search if attribs supplied.
+                if ((viewModel.EventAction == "SEARCH") && (viewModel.EventValue == "SAVE"))
+                {
+                    viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
+                    viewModel.SaveSearch();
+                }
+
                 return View(BASE_PATH + "Index.cshtml", viewModel);
             }
             catch (Exception ex)
@@ -46,7 +54,21 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 return PartialView("~/Views/Error/_InternalServerError.cshtml");
             }
         }
+        public PartialViewResult _ListDynamicFolderItems(int folderId)
+        {
+            AuthorViewModel viewModel = new AuthorViewModel();
 
+            try
+            {
+                viewModel.RunSearch(folderId);
+                return PartialView(BASE_PATH + "_List.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
+        }
         [HttpPost]
         public PartialViewResult Lookup(EconomicUsageTypeViewModel viewModel)
         {
@@ -63,12 +85,22 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             }
         }
 
-        public ActionResult Index()
+        public ActionResult Index(string eventAction = "", int folderId = 0)
         {
             try
             {
                 EconomicUsageTypeViewModel viewModel = new EconomicUsageTypeViewModel();
                 viewModel.TableName = "taxonomy_economic_usage_type";
+
+                if (eventAction == "RUN_SEARCH")
+                {
+                    AppUserItemListViewModel appUserItemListViewModel = new AppUserItemListViewModel();
+                    appUserItemListViewModel.SearchEntity.AppUserItemFolderID = folderId;
+                    appUserItemListViewModel.Search();
+                    viewModel.SearchEntity = viewModel.Deserialize<EconomicUsageTypeSearch>(appUserItemListViewModel.Entity.Properties);
+                    viewModel.Search();
+                }
+
                 return View(BASE_PATH + "Index.cshtml", viewModel);
             }
             catch (Exception ex)

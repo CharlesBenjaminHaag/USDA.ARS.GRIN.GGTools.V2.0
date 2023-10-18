@@ -150,7 +150,7 @@
         var id = $("#Entity_ID").val();
         var link = '@Url.Action("EVENT_VALUE", "EVENT_ACTION")';
 
-        
+
 
         link = link.replace("EVENT_VALUE", eventValue);
         link = link.replace("EVENT_ACTION", eventAction);
@@ -207,6 +207,7 @@
 
     function DeleteBatch() {
         var link = '@Url.Action("DeleteItems","AppUserItemFolder")';
+        var refreshLink = '@Url.Action("Index","Taxonomy")';
         var folderId = $("#Entity_ID").val();
         var tableName = $("#EventNote").val();
         var selectedFolderItems = GetSelectedAppUserItemListIDs("data_table_" + tableName);
@@ -251,11 +252,11 @@
     });
 
     function RenderFolderCooperatorWidget() {
-        var link = '@Url.Action("RenderFolderCooperatorWidget", "Folder")';
+        var link = '@Url.Action("RenderWidget", "AppUserItemFolderCooperatorMap")';
         var folderId = $("#Entity_ID").val();
         var formData = new FormData();
 
-        formData.append("folderId", folderId);
+        formData.append("appUserItemFolderId", folderId);
 
         $.ajax({
             url: link,
@@ -268,7 +269,7 @@
                 $("#section_folder_cooperator_widget").html(response);
             },
             error: function () {
-                alert("Error loading current cooperators");
+                alert("Error loading folder-sharing widget");
             }
         });
     }

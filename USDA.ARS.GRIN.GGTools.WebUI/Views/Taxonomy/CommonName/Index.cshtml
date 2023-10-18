@@ -3,20 +3,8 @@
     ViewBag.Title = Model.PageTitle;
     Layout = "~/Views/Shared/_LayoutAdminLTE3.cshtml";
 }
+@Html.Partial("~/Views/Taxonomy/CommonName/_Detail.cshtml")
 
-@using (Html.BeginForm("Search", "CommonName", FormMethod.Post, new { id = "frmMain" }))
-{
-    @Html.HiddenFor(x => x.EventAction)
-    @Html.HiddenFor(x => x.EventValue)
-    @Html.HiddenFor(x => x.TableName)
-    @Html.HiddenFor(x => x.TableCode)
-    @Html.HiddenFor(x => x.PageTitle)
-    @Html.HiddenFor(x => x.AuthenticatedUserCooperatorID)
-    @Html.HiddenFor(x => x.ItemIDList)
-    @Html.HiddenFor(x => x.DetailPartialViewName)
-    @Html.HiddenFor(x => x.ListPartialViewName)
-    @Html.Partial("~/Views/Taxonomy/CommonName/_Detail.cshtml")
-}
 
 @Html.Partial("~/Views/Taxonomy/CommonName/_List.cshtml")
 @*@Html.Partial("~/Views/Taxonomy/Citation/Modals/_Detail.cshtml")*@

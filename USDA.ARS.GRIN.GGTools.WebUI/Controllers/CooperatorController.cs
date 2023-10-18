@@ -552,6 +552,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             try
             {
                 viewModel.SearchEntity.ID = cooperatorId;
+                viewModel.AuthenticatedUser = AuthenticatedUser;
                 viewModel.Search();
                 return PartialView("~/Views/Cooperator/_Widget.cshtml", viewModel);
             }

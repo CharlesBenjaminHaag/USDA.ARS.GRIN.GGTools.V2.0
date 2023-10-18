@@ -10,7 +10,6 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
     public class GeographyMapSearch : SearchEntityBase 
     {
         public string GeographyMapIDList { get; set; }
-        public int ID { get; set; }
         public int SpeciesID { get; set; }
         public string SpeciesName { get; set; }
         public bool SpeciesIsAcceptedNameOption { get; set; }

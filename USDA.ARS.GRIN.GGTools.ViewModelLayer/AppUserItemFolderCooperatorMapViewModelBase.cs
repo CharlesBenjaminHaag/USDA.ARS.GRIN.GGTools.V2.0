@@ -9,7 +9,7 @@ using USDA.ARS.GRIN.GGTools.DataLayer;
 
 namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
 {
-    public class AppUserItemFolderCooperatorMapViewModelBase
+    public class AppUserItemFolderCooperatorMapViewModelBase : AppViewModelBase
     {
         private AppUserItemFolderCooperatorMap _Entity = new AppUserItemFolderCooperatorMap();
         private AppUserItemFolderCooperatorMapSearch _SearchEntity = new AppUserItemFolderCooperatorMapSearch();

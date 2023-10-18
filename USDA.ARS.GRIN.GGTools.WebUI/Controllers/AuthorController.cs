@@ -34,8 +34,17 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
         public PartialViewResult _ListDynamicFolderItems(int folderId)
         {
             AuthorViewModel viewModel = new AuthorViewModel();
-            viewModel.RunSearch(folderId);
-            return PartialView(BASE_PATH + "_List.cshtml", viewModel);
+
+            try 
+            { 
+                viewModel.RunSearch(folderId);
+                return PartialView(BASE_PATH + "_List.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
         }
         public PartialViewResult _ListReferences(string shortName)
         {

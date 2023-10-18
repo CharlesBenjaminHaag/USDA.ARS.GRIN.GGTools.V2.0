@@ -174,48 +174,48 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
             }
             return 0;
         }
-        //public int InsertCollaborators()
-        //{
-        //    using (FolderManager mgr = new FolderManager())
-        //    {
-        //        try
-        //        {
-        //            string[] itemIdArray = ItemIDList.Split(',');
-        //            foreach (var itemId in itemIdArray)
-        //            {
-        //                int cooperatorId = Int32.Parse(itemId);
-        //                RowsAffected = mgr.InsertCollaborator(cooperatorId, Entity.ID);
-        //            }
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            PublishException(ex);
-        //            throw ex;
-        //        }
-        //        return RowsAffected;
-        //    }
-        //}
-        //public int DeleteCollaborators()
-        //{
-        //    using (FolderManager mgr = new FolderManager())
-        //    {
-        //        try
-        //        {
-        //            string[] itemIdArray = ItemIDList.Split(',');
-        //            foreach (var itemId in itemIdArray)
-        //            {
-        //                int cooperatorId = Int32.Parse(itemId);
-        //                RowsAffected = mgr.DeleteCollaborator(cooperatorId, Entity.ID);
-        //            }
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            PublishException(ex);
-        //            throw ex;
-        //        }
-        //        return RowsAffected;
-        //    }
-        //}
+        public int InsertCollaborators()
+        {
+            using (FolderManager mgr = new FolderManager())
+            {
+                try
+                {
+                    string[] itemIdArray = ItemIDList.Split(',');
+                    foreach (var itemId in itemIdArray)
+                    {
+                        int cooperatorId = Int32.Parse(itemId);
+                        RowsAffected = mgr.InsertCollaborator(cooperatorId, Entity.ID);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    PublishException(ex);
+                    throw ex;
+                }
+                return RowsAffected;
+            }
+        }
+        public int DeleteCollaborators()
+        {
+            using (FolderManager mgr = new FolderManager())
+            {
+                try
+                {
+                    string[] itemIdArray = ItemIDList.Split(',');
+                    foreach (var itemId in itemIdArray)
+                    {
+                        int cooperatorId = Int32.Parse(itemId);
+                        RowsAffected = mgr.DeleteCollaborator(cooperatorId, Entity.ID);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    PublishException(ex);
+                    throw ex;
+                }
+                return RowsAffected;
+            }
+        }
         public int Update()
         {
             using (FolderManager mgr = new FolderManager())

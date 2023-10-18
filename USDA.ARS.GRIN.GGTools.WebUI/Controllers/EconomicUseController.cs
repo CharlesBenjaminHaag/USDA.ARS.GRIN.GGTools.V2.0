@@ -9,7 +9,7 @@ using NLog;
 
 namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
 {
-    public class EconomicUseController : BaseController, IController<EconomicUseViewModel>
+    public class EconomicUseController : BaseController
     {
         protected static string BASE_PATH = "~/Views/Taxonomy/EconomicUse/";
         private static readonly Logger Log = LogManager.GetCurrentClassLogger();
@@ -22,6 +22,21 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 viewModel.SearchEntity.FolderID = folderId;
                 viewModel.GetFolderItems();
                 return PartialView(BASE_PATH + "_ListFolder.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
+        }
+        public PartialViewResult _ListDynamicFolderItems(int folderId)
+        {
+            EconomicUseViewModel viewModel = new EconomicUseViewModel();
+
+            try
+            {
+                viewModel.RunSearch(folderId);
+                return PartialView(BASE_PATH + "_List.cshtml", viewModel);
             }
             catch (Exception ex)
             {
@@ -162,57 +177,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 return Json("FALSE", JsonRequestBehavior.AllowGet);
             }
         }
-
-        //public PartialViewResult BatchEdit()
-        //{
-        //    EconomicUseViewModel viewModel = new EconomicUseViewModel();
-        //    return PartialView("~/Views/Taxonomy/EconomicUse/_EditBatch.cshtml", viewModel);
-        //}
-
-        //[HttpPost]
-        //public PartialViewResult BatchEdit(EconomicUseViewModel viewModel)
-        //{
-        //    try
-        //    {
-        //        foreach (var speciesId in viewModel.SpeciesIDList.Split(','))
-        //        {
-        //            viewModel.Entity.ID = 0;
-        //            viewModel.Entity.SpeciesID = Int32.Parse(speciesId);
-        //            viewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
-        //            viewModel.Insert();
-        //        }
-        //        return PartialView("~/Views/Taxonomy/EconomicUse/_EditBatch.cshtml", viewModel);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Log.Error(ex);
-        //        viewModel.ValidationMessages.Add(new Common.Library.ValidationMessage { Message = ex.Message });
-        //        return PartialView("~/Views/Taxonomy/EconomicUse/_EditBatch.cshtml", viewModel);
-        //    }
-        //}
-        [HttpPost]
-        public PartialViewResult FolderItems(FormCollection formCollection)
-        {
-            EconomicUseViewModel viewModel = new EconomicUseViewModel();
-
-            try
-            {
-                if (!String.IsNullOrEmpty(formCollection["FolderID"]))
-                {
-                    viewModel.SearchEntity.FolderID = Int32.Parse(formCollection["FolderID"].ToString());
-                }
-                viewModel.SearchFolderItems();
-                ModelState.Clear();
-                return PartialView(BASE_PATH + "_List.cshtml", viewModel);
-            }
-            catch (Exception ex)
-            {
-                Log.Error(ex);
-                return PartialView("~/Views/Error/_InternalServerError.cshtml");
-            }
-        }
-
-        public ActionResult Index()
+        public ActionResult Index(string eventAction = "", int folderId = 0)
         {
             try
             {
@@ -223,6 +188,15 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 if (Session[targetKey] != null)
                 {
                     viewModel = Session[targetKey] as EconomicUseViewModel;
+                }
+
+                if (eventAction == "RUN_SEARCH")
+                {
+                    AppUserItemListViewModel appUserItemListViewModel = new AppUserItemListViewModel();
+                    appUserItemListViewModel.SearchEntity.AppUserItemFolderID = folderId;
+                    appUserItemListViewModel.Search();
+                    viewModel.SearchEntity = viewModel.Deserialize<EconomicUseSearch>(appUserItemListViewModel.Entity.Properties);
+                    viewModel.Search();
                 }
 
                 return View(BASE_PATH + "Index.cshtml", viewModel);
@@ -247,6 +221,14 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 Session[SessionKeyName] = viewModel;
                 viewModel.Search();
                 ModelState.Clear();
+
+                // Save search if attribs supplied.
+                if ((viewModel.EventAction == "SEARCH") && (viewModel.EventValue == "SAVE"))
+                {
+                    viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
+                    viewModel.SaveSearch();
+                }
+
                 return View(BASE_PATH + "Index.cshtml", viewModel);
             }
             catch (Exception ex)
@@ -272,9 +254,6 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             }
         }
 
-        // ======================================================================================
-        // MODALS 
-        // ======================================================================================
         public ActionResult RenderEditModal(int speciesId = 0)
         {
             EconomicUseViewModel viewModel = new EconomicUseViewModel();

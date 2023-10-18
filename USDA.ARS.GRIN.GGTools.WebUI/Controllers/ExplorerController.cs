@@ -147,21 +147,21 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 return PartialView("~/Views/Error/_InternalServerError.cshtml");
             }
         }
-        public PartialViewResult _ListRelatedFolders(string tableName = "")
-        {
-            try
-            {
-                FolderViewModel viewModel = new FolderViewModel();
-                viewModel.SearchEntity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
-                viewModel.SearchEntity.FolderType = tableName;
-                viewModel.Search();
-                return PartialView("~/Views/Taxonomy/Explorer/_ListFolders.cshtml", viewModel);
-            }
-            catch (Exception ex)
-            {
-                Log.Error(ex);
-                return PartialView("~/Views/Error/_InternalServerError.cshtml");
-            }
-        }
+        //public PartialViewResult _ListRelatedFolders(string tableName = "")
+        //{
+        //    try
+        //    {
+        //        FolderViewModel viewModel = new FolderViewModel();
+        //        viewModel.SearchEntity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
+        //        viewModel.SearchEntity.FolderType = tableName;
+        //        viewModel.Search();
+        //        return PartialView("~/Views/Taxonomy/Explorer/_ListFolders.cshtml", viewModel);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Log.Error(ex);
+        //        return PartialView("~/Views/Error/_InternalServerError.cshtml");
+        //    }
+        //}
     }
 }

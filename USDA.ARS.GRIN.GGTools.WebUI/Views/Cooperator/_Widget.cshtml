@@ -28,10 +28,20 @@
         <p class="text-muted">
             @Model.Entity.Organization @Model.Entity.OrganizationAbbrev
         </p>
-        <hr>
+        @*<hr>
         <strong><i class="far fa-file-alt mr-1"></i> Notes</strong>
-        <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam fermentum enim neque.</p>
-        <a href="@Url.Action("Edit","Cooperator", new { @entityId = Model.Entity.ID })" class="btn btn-default btn-block"><b>Edit</b></a>
+        <p class="text-muted">@Note</p>
+        *@
+    
     </div>
-
+    <div class="card-footer">
+        @if (Model.IsReadOnly == "Y")
+        {
+            <a href="@Url.Action("Edit","Cooperator", new { @entityId = Model.Entity.ID })" class="btn btn-default btn-block"><b>View</b></a>
+        }
+        else
+        {
+            <a href="@Url.Action("Edit","Cooperator", new { @entityId = Model.Entity.ID })" class="btn btn-default btn-block"><b>Edit</b></a>
+        }
+    </div>
 </div>

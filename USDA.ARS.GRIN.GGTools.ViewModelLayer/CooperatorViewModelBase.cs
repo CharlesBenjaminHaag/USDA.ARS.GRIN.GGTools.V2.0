@@ -103,6 +103,24 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
             get { return _EmailMessage; }
             set { _EmailMessage = value; }
         }
+
+        public string IsReadOnly
+        {
+            get
+            {
+                if ((AuthenticatedUser.IsInRole("GGTOOLS_ADMIN")) ||
+                    (AuthenticatedUser.CooperatorID == Entity.ID)
+                    )
+                {
+                    return "N";
+                }
+                else
+                {
+                    return "Y";
+                }
+            }
+        }
+
         #region Select Lists
 
         public SelectList States { get; set; }

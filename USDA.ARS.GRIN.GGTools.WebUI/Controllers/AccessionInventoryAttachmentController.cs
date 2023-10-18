@@ -61,7 +61,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                     case "VALIDATE":
                         break;
                     case "SAVE-SEARCH":
-                        SaveSearch(viewModel);
+                        //SaveSearch(viewModel);
                         break;
                 }
                 
@@ -96,24 +96,24 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             }
         }
 
-        public string SaveSearch(AccessionInventoryAttachmentViewModel viewModel)
-        {
-            try
-            {
-                FolderViewModel folderViewModel = new FolderViewModel();
-                folderViewModel.Entity.FolderName = "Accession Inventory Attachment Search";
-                folderViewModel.Entity.Category = "Cat";
-                folderViewModel.Entity.FolderType = "accession_inventory_attachment";
-                folderViewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
-                folderViewModel.Insert();
-                return "";
-            }
-            catch (Exception ex)
-            {
-                Log.Error(ex);
-                return "";
-            }
-        }
+        //public string SaveSearch(AccessionInventoryAttachmentViewModel viewModel)
+        //{
+        //    try
+        //    {
+        //        FolderViewModel folderViewModel = new FolderViewModel();
+        //        folderViewModel.Entity.FolderName = "Accession Inventory Attachment Search";
+        //        folderViewModel.Entity.Category = "Cat";
+        //        folderViewModel.Entity.FolderType = "accession_inventory_attachment";
+        //        folderViewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
+        //        folderViewModel.Insert();
+        //        return "";
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Log.Error(ex);
+        //        return "";
+        //    }
+        //}
 
         public ActionResult Delete(int entityId)
         {

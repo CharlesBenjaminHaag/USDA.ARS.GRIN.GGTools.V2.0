@@ -38,7 +38,7 @@
         }
     }
 
-    <div class="row">
+    <div class="row" id="section-input-fields">
         <div class="col-md-3">
             <div id="section-sys-user-widget">
                 @{Html.RenderAction("RenderWidget", "SysUser", new { sysUserId = Model.Entity.SysUserID }); }
@@ -60,9 +60,8 @@
                         </div>
                     </div>
                     <div class="card-body" style="display: block;">
-
                         @Html.HiddenFor(x => x.PageTitle)
-                        @*@Html.HiddenFor(x => x.IsReadOnly)*@
+                        @Html.HiddenFor(x => x.IsReadOnly)
                         @Html.HiddenFor(x => x.EventAction)
                         @Html.HiddenFor(x => x.EventValue)
                         @Html.HiddenFor(x => x.TableName)
@@ -191,23 +190,31 @@
                             </div>
                         </div>
                     </div>
-                    <div class="card-footer">
-                        <button id="btnSaveCooperator" type="submit" class="btn btn-default float-right">Save Changes</button>
-                    </div>
+                    @if (Model.IsReadOnly == "N")
+                    {
+                        <div class="card-footer">
+                            <button id="btnSaveCooperator" type="submit" class="btn btn-default float-right">Save Changes</button>
+                        </div>
+                    }
                 </div>
             }
         </div>
     </div>
-    @{Html.RenderAction("RenderEmailModal", "Cooperator", new { @entityId = Model.Entity.ID }); }
-    @{Html.RenderAction("RenderEditModal", "SysUser"); }
-    @{Html.RenderAction("RenderEditModal", "SysGroupUserMap", new { sysUserId = Model.Entity.SysUserID }); }
+
+@{Html.RenderAction("RenderEmailModal", "Cooperator", new { @entityId = Model.Entity.ID }); }
+@{Html.RenderAction("RenderEditModal", "SysUser"); }
+@{Html.RenderAction("RenderEditModal", "SysGroupUserMap", new { sysUserId = Model.Entity.SysUserID }); }
+
 <script type="text/javascript">
     $(document).ready(function () {
         Init();
     });
 
     function Init() {
-        /*SetReadOnly();*/
+        var isReadOnly = $("#IsReadOnly").val();
+        if (isReadOnly == "Y") {
+            SetReadOnly();
+        }
     }
 
     $(document).on("click", "[id*='btnSetStatus']", function () {

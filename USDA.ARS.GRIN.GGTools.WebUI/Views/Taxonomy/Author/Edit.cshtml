@@ -151,14 +151,19 @@
                                 </div>
                             </div>
                             <div class="card-footer">
-                                @Html.Partial("~/Views/Shared/_Reset.cshtml")
+                                <a href="@Url.Action("Refresh")" class="btn btn-default">
+                                    <i class="fa fa-undo"></i>
+                                    Reset
+                                </a>
                                 @if (Model.Entity.ID > 0)
                                 {
                                     <button id="btnDelete" type="button" class="btn btn-danger">
-                                        Delete
+                                        <i class="fa fa-trash"></i> Delete
                                     </button>
                                 }
-                                <button id="btnSaveAuthor" type="button" class="btn btn-primary float-right">Save</button>
+                                <button type="submit" class="btn btn-primary float-right">
+                                    <i class="fa fa-save"></i> Save Edits
+                                </button>
                             </div>
                         </div>
                     }

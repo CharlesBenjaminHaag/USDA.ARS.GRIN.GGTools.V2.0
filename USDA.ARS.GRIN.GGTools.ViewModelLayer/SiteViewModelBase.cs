@@ -44,5 +44,23 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
             set { _DataCollectionSiteCooperators = value; }
         }
         public SelectList Types { get; set; }
+        public string IsReadOnly
+        {
+            get
+            {
+                if ((AuthenticatedUser.IsInRole("GGTOOLS_COOPERATOR")) ||
+                    (AuthenticatedUser.IsInRole("MANAGE_COOPERATOR")) ||
+                    (AuthenticatedUser.IsInRole("GGTOOLS_ADMIN")) ||
+                    (AuthenticatedUser.CooperatorID == Entity.ID)
+                    )
+                {
+                    return "N";
+                }
+                else
+                {
+                    return "Y";
+                }
+            }
+        }
     }
 }

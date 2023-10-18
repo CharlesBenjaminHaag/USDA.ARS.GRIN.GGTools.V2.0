@@ -14,14 +14,14 @@
             <div class="modal-body">
                 <div class="row">
                     <div class="col-md-6">
-                        <button id="btnMapCooperators" class="btn btn-default btn-block">>></button>
-                        <div id="section-available-cooperators">
+                        <button id="btnMapCooperators" class="btn btn-success btn-block">Add >></button>
+                        <div id="section-non-mapped">
                             @Html.Partial("~/Views/AppUserItemFolderCooperatorMap/Modals/_ListNonMapped.cshtml")
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <button id="btnUnMapCooperators" class="btn btn-default btn-block"><<</button>
-                        <div id="section-current-cooperators">
+                        <button id="btnUnMapCooperators" class="btn btn-danger btn-block"><< Remove</button>
+                        <div id="section-mapped">
                             @Html.Partial("~/Views/AppUserItemFolderCooperatorMap/Modals/_ListMapped.cshtml")
                         </div>
                     </div>
@@ -37,8 +37,8 @@
     $("#btnMapCooperators").click(function () {
         var entityId = $("#Entity_ID").val();
         MapCooperators();
-        LoadNonMappedCooperators(entityId);
         LoadMappedCooperators(entityId);
+        LoadNonMappedCooperators(entityId);
     });
 
     $("#btnUnMapCooperators").click(function () {
@@ -58,8 +58,8 @@
         var selectedItemIdList = GetSelectedEntityIDs("data-table-available-cooperators");
         var formData = new FormData();
 
-        formData.append("FolderID", entityId);
-        formData.append("IDList", selectedItemIdList);
+        formData.append("Entity.FolderID", entityId);
+        formData.append("ItemIDList", selectedItemIdList);
 
         $.ajax({
             url: link,
@@ -79,13 +79,13 @@
     }
 
     function UnMapCooperators() {
-        var link = '@Url.Action("DeleteCooperators","Folder")';
+        var link = '@Url.Action("Delete", "AppUserItemFolderCooperatorMap")';
         var entityId = $("#Entity_ID").val();
         var selectedItemIdList = GetSelectedEntityIDs("data-table-current-cooperators");
         var formData = new FormData();
 
-        formData.append("FolderID", entityId);
-        formData.append("IDList", selectedItemIdList);
+        formData.append("Entity.FolderID", entityId);
+        formData.append("ItemIDList", selectedItemIdList);
 
         $.ajax({
             url: link,
@@ -103,10 +103,10 @@
     }
 
     function LoadNonMappedCooperators(folderId) {
-        var link = '@Url.Action("_ListNonMappedCooperators","Folder")';
+        var link = '@Url.Action("_ListNonMapped","AppUserItemFolderCooperatorMap")';
         var formData = new FormData();
 
-        formData.append("FolderID", folderId);
+        formData.append("appUserItemFolderId", folderId);
 
         $.ajax({
             url: link,
@@ -116,19 +116,19 @@
             processData: false,
             data: formData,
             success: function (response) {
-                $("#section-available-cooperators").html(response);
+                $("#section-non-mapped").html(response);
             },
             error: function () {
-                alert("Error loading available cooperators");
+                alert("Error loading non-mapped cooperators");
             }
         });
     }
 
     function LoadMappedCooperators(folderId) {
-        var link = '@Url.Action("_ListMappedCooperators", "Folder")';
+        var link = '@Url.Action("_ListMapped","AppUserItemFolderCooperatorMap")';
         var formData = new FormData();
 
-        formData.append("FolderID", folderId);
+        formData.append("appUserItemFolderId", folderId);
 
         $.ajax({
             url: link,
@@ -138,10 +138,10 @@
             processData: false,
             data: formData,
             success: function (response) {
-                $("#section-current-cooperators").html(response);
+                $("#section-mapped").html(response);
             },
             error: function () {
-                alert("Error loading current cooperators");
+                alert("Error loading non-mapped cooperators");
             }
         });
     }

@@ -174,7 +174,6 @@
     <Compile Include="ManagerClasses\EconomicUseManager.cs" />
     <Compile Include="ManagerClasses\EmailTemplateManager.cs" />
     <Compile Include="ManagerClasses\FamilyMapManager.cs" />
-    <Compile Include="ManagerClasses\FolderManager.cs" />
     <Compile Include="ManagerClasses\GenusManager.cs" />
     <Compile Include="ManagerClasses\GeographyManager.cs" />
     <Compile Include="ManagerClasses\GeographyMapManager.cs" />

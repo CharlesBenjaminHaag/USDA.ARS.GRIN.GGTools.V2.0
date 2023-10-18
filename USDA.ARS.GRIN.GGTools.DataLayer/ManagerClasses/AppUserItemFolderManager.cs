@@ -8,7 +8,7 @@ using USDA.ARS.GRIN.GGTools.DataLayer;
 
 namespace USDA.ARS.GRIN.GGTools.DataLayer
 {
-    public partial class AppUserItemFolderManager : AppDataManagerBase
+    public partial class AppUserItemFolderManager : GRINGlobalDataManagerBase
     {
         public AppUserItemFolder Get(AppUserItemFolderSearch searchEntity)
         {
@@ -67,12 +67,12 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             SQL += " AND    (@IsFavorite                IS NULL OR   IsFavorite                 =   @IsFavorite)";
             SQL += " AND    (@FolderType                IS NULL OR   FolderType                 =   @FolderType)";
 
-            //if (searchEntity.IsShared == "Y")
-            //{
-            //    SQL += " AND ID IN (SELECT FolderID " +
-            //            " FROM vw_GRINGlobal_App_User_Item_Folder_Cooperator_Map " +
-            //            " WHERE CooperatorID = @SharedWithCooperatorID) ";
-            //}
+            if (searchEntity.IsShared == "Y")
+            {
+                SQL += " AND ID IN (SELECT FolderID " +
+                        " FROM vw_GRINGlobal_App_User_Item_Folder_Cooperator_Map " +
+                        " WHERE CooperatorID = @SharedWithCooperatorID) ";
+            }
 
             switch (searchEntity.TimeFrame)
             {
@@ -102,7 +102,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             var parameters = new List<IDbDataParameter> {
                 CreateParameter("Category", !String.IsNullOrEmpty(searchEntity.Category) ? (object)searchEntity.Category : DBNull.Value, true),
                 CreateParameter("CreatedByCooperatorID", searchEntity.CreatedByCooperatorID > 0 ? (object)searchEntity.CreatedByCooperatorID : DBNull.Value, true),
-                //CreateParameter("SharedWithCooperatorID", searchEntity.SharedWithCooperatorID > 0 ? (object)searchEntity.SharedWithCooperatorID : DBNull.Value, true),
+                CreateParameter("SharedWithCooperatorID", searchEntity.SharedWithCooperatorID > 0 ? (object)searchEntity.SharedWithCooperatorID : DBNull.Value, true),
                 CreateParameter("IsFavorite", !String.IsNullOrEmpty(searchEntity.IsFavorite) ? (object)searchEntity.IsFavorite : DBNull.Value, true),
                 CreateParameter("FolderType", !String.IsNullOrEmpty(searchEntity.FolderType) ? (object)searchEntity.FolderType : DBNull.Value, true),
                 CreateParameter("AppUserItemFolderID", searchEntity.ID > 0 ? (object)searchEntity.ID : DBNull.Value, true),

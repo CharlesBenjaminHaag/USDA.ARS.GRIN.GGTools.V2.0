@@ -41,5 +41,78 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
                 throw ex;
             }
         }
+        public void Insert()
+        {
+            using (AppUserItemFolderCooperatorMapManager mgr = new AppUserItemFolderCooperatorMapManager())
+            {
+                try
+                {
+                    RowsAffected = mgr.Insert(Entity);
+                }
+                catch (Exception ex)
+                {
+                    PublishException(ex);
+                    throw ex;
+                }
+            }
+        }
+
+        public void InsertBatch()
+        {
+            using (AppUserItemFolderCooperatorMapManager mgr = new AppUserItemFolderCooperatorMapManager())
+            {
+                try
+                {
+                    string[] itemIdArray = ItemIDList.Split(',');
+                    foreach (var itemId in itemIdArray)
+                    {
+                        Entity.CooperatorID = Int32.Parse(itemId);
+                        RowsAffected = mgr.Insert(Entity);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    PublishException(ex);
+                    throw ex;
+                }
+            }
+        }
+
+        public void Delete()
+        {
+            using (AppUserItemFolderCooperatorMapManager mgr = new AppUserItemFolderCooperatorMapManager())
+            {
+                try
+                {
+                    RowsAffected = mgr.Delete(Entity);
+                }
+                catch (Exception ex)
+                {
+                    PublishException(ex);
+                    throw ex;
+                }
+            }
+        }
+
+        public void DeleteBatch()
+        {
+            using (AppUserItemFolderCooperatorMapManager mgr = new AppUserItemFolderCooperatorMapManager())
+            {
+                try
+                {
+                    string[] itemIdArray = ItemIDList.Split(',');
+                    foreach (var itemId in itemIdArray)
+                    {
+                        Entity.CooperatorID = Int32.Parse(itemId);
+                        RowsAffected = mgr.Delete(Entity);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    PublishException(ex);
+                    throw ex;
+                }
+            }
+        }
     }
 }

@@ -30,7 +30,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             }
         }
 
-        public ActionResult Index(int cropForCwrId = 0)
+        public ActionResult Index(string eventAction = "", int folderId = 0, int cropForCwrId = 0)
         {
             CWRMapViewModel viewModel = new CWRMapViewModel();
 
@@ -51,6 +51,15 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 if (Session[targetKey] != null)
                 {
                     viewModel = Session[targetKey] as CWRMapViewModel;
+                }
+
+                if (eventAction == "RUN_SEARCH")
+                {
+                    AppUserItemListViewModel appUserItemListViewModel = new AppUserItemListViewModel();
+                    appUserItemListViewModel.SearchEntity.AppUserItemFolderID = folderId;
+                    appUserItemListViewModel.Search();
+                    viewModel.SearchEntity = viewModel.Deserialize<CWRMapSearch>(appUserItemListViewModel.Entity.Properties);
+                    viewModel.Search();
                 }
 
                 return View(BASE_PATH + "Index.cshtml", viewModel);
@@ -155,6 +164,14 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 viewModel.EventAction = "SEARCH";
                 viewModel.Search();
                 ModelState.Clear();
+
+                // Save search if attribs supplied.
+                if ((viewModel.EventAction == "SEARCH") && (viewModel.EventValue == "SAVE"))
+                {
+                    viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
+                    viewModel.SaveSearch();
+                }
+
                 return View(BASE_PATH + "Index.cshtml", viewModel);
             }
             catch (Exception ex)
@@ -394,6 +411,23 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 return PartialView("~/Views/Error/_InternalServerError.cshtml");
             }
         }
+
+        public PartialViewResult _ListDynamicFolderItems(int folderId)
+        {
+            CWRMapViewModel viewModel = new CWRMapViewModel();
+
+            try
+            {
+                viewModel.RunSearch(folderId);
+                return PartialView(BASE_PATH + "_List.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
+        }
+
         [HttpPost]
         public PartialViewResult LookupNotes(FormCollection formCollection)
         {

@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using USDA.ARS.GRIN.GGTools.WebUI;
+using USDA.ARS.GRIN.GGTools.ViewModelLayer;
 using USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer;
 using USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer;
 using NLog;
@@ -161,7 +162,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
         //    }
         //}
 
-        public ActionResult Index(int orderId = 0, string rank="")
+        public ActionResult Index(string eventAction = "", int folderId = 0, int orderId = 0, string rank="")
         {
             FamilyMapViewModel viewModel = new FamilyMapViewModel();
 
@@ -184,6 +185,15 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                     viewModel = Session[targetKey] as FamilyMapViewModel;
                 }
 
+                if (eventAction == "RUN_SEARCH")
+                {
+                    AppUserItemListViewModel appUserItemListViewModel = new AppUserItemListViewModel();
+                    appUserItemListViewModel.SearchEntity.AppUserItemFolderID = folderId;
+                    appUserItemListViewModel.Search();
+                    viewModel.SearchEntity = viewModel.Deserialize<FamilyMapSearch>(appUserItemListViewModel.Entity.Properties);
+                    viewModel.Search();
+                }
+
                 return View(BASE_PATH + "Index.cshtml", viewModel);
             }
             catch (Exception ex)
@@ -199,9 +209,16 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             try
             {
                 Session[SessionKeyName] = viewModel;
-                //viewModel.SearchEntity.Rank = viewModel.EventValue;
                 viewModel.Search();
                 ModelState.Clear();
+
+                // Save search if attribs supplied.
+                if ((viewModel.EventAction == "SEARCH") && (viewModel.EventValue == "SAVE"))
+                {
+                    viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
+                    viewModel.SaveSearch();
+                }
+
                 return View(BASE_PATH + "Index.cshtml", viewModel);
             }
             catch (Exception ex)
@@ -245,7 +262,21 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 return PartialView("~/Views/Error/_InternalServerError.cshtml");
             }
         }
+        public PartialViewResult _ListDynamicFolderItems(int folderId)
+        {
+            FamilyMapViewModel viewModel = new FamilyMapViewModel();
 
+            try
+            {
+                viewModel.RunSearch(folderId);
+                return PartialView(BASE_PATH + "_List.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
+        }
         public PartialViewResult _ListGenera(int familyId)
         {
             FamilyMapViewModel viewModel = new FamilyMapViewModel();

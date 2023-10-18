@@ -133,6 +133,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             {
                 SiteViewModel viewModel = new SiteViewModel();
                 viewModel.Get(entityId);
+                viewModel.AuthenticatedUser = AuthenticatedUser;
                 return PartialView("~/Views/Site/_Edit.cshtml", viewModel);
             }
             catch (Exception ex)

@@ -544,84 +544,84 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
         }
 
 
-        //[HttpPost]
-        //public JsonResult AddCooperators(FormCollection coll)
-        //{
-        //    FolderViewModel viewModel = new FolderViewModel();
+        [HttpPost]
+        public JsonResult AddCooperators(FormCollection coll)
+        {
+            FolderViewModel viewModel = new FolderViewModel();
 
-        //    try
-        //    {
-        //        if (!String.IsNullOrEmpty(coll["FolderID"]))
-        //        {
-        //            viewModel.Entity.ID = Int32.Parse(coll["FolderID"]);
-        //        }
+            try
+            {
+                if (!String.IsNullOrEmpty(coll["FolderID"]))
+                {
+                    viewModel.Entity.ID = Int32.Parse(coll["FolderID"]);
+                }
 
-        //        if (!String.IsNullOrEmpty(coll["IDList"]))
-        //        {
-        //            viewModel.ItemIDList = coll["IDList"];
-        //        }
-        //        //TODO
-        //        viewModel.InsertCollaborators();
-        //        return Json(new { success = true }, JsonRequestBehavior.AllowGet);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Log.Error(ex);
-        //        return Json(new { success = false }, JsonRequestBehavior.AllowGet);
-        //    }
-        //}
+                if (!String.IsNullOrEmpty(coll["IDList"]))
+                {
+                    viewModel.ItemIDList = coll["IDList"];
+                }
+                //TODO
+                viewModel.InsertCollaborators();
+                return Json(new { success = true }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return Json(new { success = false }, JsonRequestBehavior.AllowGet);
+            }
+        }
 
-        //[HttpPost]
-        //public JsonResult DeleteCooperators(FormCollection coll)
-        //{
-        //    FolderViewModel viewModel = new FolderViewModel();
+        [HttpPost]
+        public JsonResult DeleteCooperators(FormCollection coll)
+        {
+            FolderViewModel viewModel = new FolderViewModel();
 
-        //    try
-        //    {
-        //        if (!String.IsNullOrEmpty(coll["FolderID"]))
-        //        {
-        //            viewModel.Entity.ID = Int32.Parse(coll["FolderID"]);
-        //        }
+            try
+            {
+                if (!String.IsNullOrEmpty(coll["FolderID"]))
+                {
+                    viewModel.Entity.ID = Int32.Parse(coll["FolderID"]);
+                }
 
-        //        if (!String.IsNullOrEmpty(coll["IDList"]))
-        //        {
-        //            viewModel.ItemIDList = coll["IDList"];
-        //        }
-        //        viewModel.DeleteCollaborators();
-        //        return Json(new { success = true }, JsonRequestBehavior.AllowGet);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Log.Error(ex);
-        //        return Json(new { success = false }, JsonRequestBehavior.AllowGet);
-        //    }
-        //}
-        //[HttpPost]
-        //public ActionResult _ListAvailableCooperators(FormCollection formCollection)
-        //{
-        //    FolderViewModel viewModel = new FolderViewModel();
+                if (!String.IsNullOrEmpty(coll["IDList"]))
+                {
+                    viewModel.ItemIDList = coll["IDList"];
+                }
+                viewModel.DeleteCollaborators();
+                return Json(new { success = true }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return Json(new { success = false }, JsonRequestBehavior.AllowGet);
+            }
+        }
+        [HttpPost]
+        public ActionResult _ListAvailableCooperators(FormCollection formCollection)
+        {
+            FolderViewModel viewModel = new FolderViewModel();
 
-        //    if (!String.IsNullOrEmpty(formCollection["FolderID"]))
-        //    {
-        //        viewModel.Entity.ID = Int32.Parse(formCollection["FolderID"]);
-        //    }
-        //    viewModel.GetAvailableCooperators();
-        //    return PartialView("~/Views/Folder/Cooperator/_ListAvailable.cshtml", viewModel);
-        //}
+            if (!String.IsNullOrEmpty(formCollection["FolderID"]))
+            {
+                viewModel.Entity.ID = Int32.Parse(formCollection["FolderID"]);
+            }
+            viewModel.GetAvailableCooperators();
+            return PartialView("~/Views/Folder/Cooperator/_ListAvailable.cshtml", viewModel);
+        }
 
-        //[HttpPost]
-        //public ActionResult _ListCurrentCooperators(FormCollection formCollection)
-        //{
-        //    FolderViewModel viewModel = new FolderViewModel();
+        [HttpPost]
+        public ActionResult _ListCurrentCooperators(FormCollection formCollection)
+        {
+            FolderViewModel viewModel = new FolderViewModel();
 
-        //    if (!String.IsNullOrEmpty(formCollection["FolderID"]))
-        //    {
-        //        viewModel.Entity.ID = Int32.Parse(formCollection["FolderID"]);
-        //    }
-        //    viewModel.GetCurrentCooperators();
-        //    return PartialView("~/Views/Folder/Cooperator/_ListCurrent.cshtml", viewModel);
-        //}
-        //
+            if (!String.IsNullOrEmpty(formCollection["FolderID"]))
+            {
+                viewModel.Entity.ID = Int32.Parse(formCollection["FolderID"]);
+            }
+            viewModel.GetCurrentCooperators();
+            return PartialView("~/Views/Folder/Cooperator/_ListCurrent.cshtml", viewModel);
+        }
+
         #endregion
 
         [HttpPost]

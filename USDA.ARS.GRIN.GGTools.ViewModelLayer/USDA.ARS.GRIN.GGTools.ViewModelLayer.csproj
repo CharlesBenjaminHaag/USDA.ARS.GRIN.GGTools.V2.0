@@ -95,8 +95,6 @@
     <Compile Include="ErrorViewModel.cs" />
     <Compile Include="FamilyMapViewModel.cs" />
     <Compile Include="FamilyMapViewModelBase.cs" />
-    <Compile Include="FolderViewModel.cs" />
-    <Compile Include="FolderViewModelBase.cs" />
     <Compile Include="GenusViewModel.cs" />
     <Compile Include="GenusViewModelBase.cs" />
     <Compile Include="GeographyMapViewModel.cs" />

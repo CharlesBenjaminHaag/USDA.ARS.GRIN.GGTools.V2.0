@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using USDA.ARS.GRIN.GGTools.WebUI;
+using USDA.ARS.GRIN.GGTools.ViewModelLayer;
 using USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer;
 using USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer;
 using NLog;
@@ -9,7 +10,7 @@ using NLog;
 namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
 {
     [GrinGlobalAuthentication]
-    public class GenusController : BaseController, IController<GenusViewModel>
+    public class GenusController : BaseController
     {
         protected static string BASE_PATH = "~/Views/Taxonomy/Genus/";
         private static readonly Logger Log = LogManager.GetCurrentClassLogger();
@@ -22,6 +23,21 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 viewModel.SearchEntity.FolderID = folderId;
                 viewModel.GetFolderItems();
                 return PartialView(BASE_PATH + "_ListFolder.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
+        }
+        public PartialViewResult _ListDynamicFolderItems(int folderId)
+        {
+            GenusViewModel viewModel = new GenusViewModel();
+
+            try
+            {
+                viewModel.RunSearch(folderId);
+                return PartialView(BASE_PATH + "_List.cshtml", viewModel);
             }
             catch (Exception ex)
             {
@@ -143,7 +159,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             }
         }
 
-        public virtual ActionResult Index()
+        public virtual ActionResult Index(string eventAction = "", int folderId = 0)
         {
             GenusViewModel viewModel = new GenusViewModel();
 
@@ -157,6 +173,15 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 if (Session[targetKey] != null)
                 {
                     viewModel = Session[targetKey] as GenusViewModel;
+                }
+
+                if (eventAction == "RUN_SEARCH")
+                {
+                    AppUserItemListViewModel appUserItemListViewModel = new AppUserItemListViewModel();
+                    appUserItemListViewModel.SearchEntity.AppUserItemFolderID = folderId;
+                    appUserItemListViewModel.Search();
+                    viewModel.SearchEntity = viewModel.Deserialize<GenusSearch>(appUserItemListViewModel.Entity.Properties);
+                    viewModel.Search();
                 }
 
                 return View(BASE_PATH + "Index.cshtml", viewModel);
@@ -180,6 +205,14 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 ViewBag.Title = viewModel.PageTitle;
                 viewModel.Search();
                 ModelState.Clear();
+
+                // Save search if attribs supplied.
+                if ((viewModel.EventAction == "SEARCH") && (viewModel.EventValue == "SAVE"))
+                {
+                    viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
+                    viewModel.SaveSearch();
+                }
+
                 return View(BASE_PATH + "Index.cshtml", viewModel);
             }
             catch (Exception ex)

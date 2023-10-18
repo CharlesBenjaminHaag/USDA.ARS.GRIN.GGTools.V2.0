@@ -4,26 +4,10 @@
     ViewBag.ID = Model.ID;
     Layout = "~/Views/Shared/_LayoutAdminLTE3.cshtml";
 }
-
-@using (Html.BeginForm("Search", "Species", FormMethod.Post, new { id = "frmMain" }))
-{
-    @Html.HiddenFor(x => x.EventAction)
-    @Html.HiddenFor(x => x.EventValue)
-    @Html.HiddenFor(x => x.TableName)
-    @Html.HiddenFor(x => x.TableCode)
-    @Html.HiddenFor(x => x.PageTitle)
-    @Html.HiddenFor(x => x.AuthenticatedUserCooperatorID)
-    @Html.HiddenFor(x => x.ItemIDList)
-    @Html.HiddenFor(x => x.AuthenticatedUserCooperatorID)
-    @Html.Partial("~/Views/Taxonomy/Species/_Detail.cshtml")
-}
-
-<div id="section-search-results" class="data-list">
-    @Html.Partial("~/Views/Taxonomy/Species/_List.cshtml")
-</div>
+@Html.Partial("~/Views/Taxonomy/Species/_Detail.cshtml")
+@Html.Partial("~/Views/Taxonomy/Species/_List.cshtml")
 @{Html.RenderAction("RenderEditModal", "AppUserItemFolder", new { @sysTableName = Model.TableName }); }
 <script type="text/javascript">
-
     $(document).ready(function () {
         Init();
         SetExtendedFields();
@@ -39,35 +23,4 @@
             $("#btnShowAggregateChildData").prop("disabled", true);
         }
     }
-
-
-
-    /*
-    * ===================================================================================================
-    * INFRASPECIFIC CONTROLS
-    * ===================================================================================================
-    */
-    //$("#Entity_Rank").change(function () {
-    //    var selectedRank = this.value;
-    //    SetInfraspecificControls(selectedRank);
-    //});
-
-    //function SetInfraspecificControls(rank) {
-    //    var sectionName = "#section-infraspecific-" + rank.toLowerCase();
-    //    var sectionAuthority = sectionName + "-authority";
-    //    var sectionHybrid = "#section-hybrid-" + rank.toLowerCase();
-    //    var isAcceptedName = $("#Entity_IsAcceptedName").val();
-
-    //    if (isAcceptedName == "Y") {
-    //        $(".accepted").hide();
-    //    }
-    //    else {
-    //        $(".accepted").show();
-    //    }
-
-    //    $(".infra").hide();
-    //    $(sectionName).show();
-    //    $(sectionAuthority).show();
-    //    $(sectionHybrid).show();
-    //}
 </script>

@@ -22,6 +22,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
            AppUserItemFolderViewModel viewModel = new AppUserItemFolderViewModel();
              
             viewModel.SearchEntity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
+            viewModel.SearchEntity.SharedWithCooperatorID = AuthenticatedUser.CooperatorID;
             viewModel.SearchEntity.IsFavorite = isFavorite;
             viewModel.SearchEntity.TimeFrame = timeFrame;
             viewModel.SearchEntity.IsShared = isShared;
@@ -131,6 +132,24 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 return PartialView("~/Views/Error/_InternalServerError.cshtml");
             }
         }
+
+        [HttpPost]
+        public JsonResult DeleteEntity(FormCollection formCollection)
+        {
+            try
+            {
+                AppUserItemFolderViewModel viewModel = new AppUserItemFolderViewModel();
+                viewModel.Entity.ID = Int32.Parse(GetFormFieldValue(formCollection, "EntityID"));
+                viewModel.TableName = GetFormFieldValue(formCollection, "TableName");
+                viewModel.Delete();
+                return Json(new { success = true }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { errorMessage = ex.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
         [HttpPost]
         public JsonResult DeleteItems(FormCollection coll)
         {

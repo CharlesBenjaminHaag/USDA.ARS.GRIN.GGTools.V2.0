@@ -54,7 +54,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI
 
         protected void Session_Start()
         {
-           
+            Session["USER-SESSION-START"] = DateTime.Now.ToShortTimeString();
         }
 
         protected void InitializeCachedData()

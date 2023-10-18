@@ -94,18 +94,19 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             RowsAffected = results.Count;
             return results;
         }
-        public virtual int Insert(AppUserItemFolder entity)
+        public virtual int Insert(AppUserItemFolderCooperatorMap entity)
         {
             int errorNumber = 0;
 
             Reset(CommandType.StoredProcedure);
-            Validate<AppUserItemFolder>(entity);
-            SQL = "usp_GRINGlobal_AppUserItemFolder_Insert";
-            
-            BuildInsertUpdateParameters(entity);
+            Validate<AppUserItemFolderCooperatorMap>(entity);
+            SQL = "usp_GRINGlobal_AppUserItemFolderCooperatorMap_Insert";
 
+            AddParameter("cooperator_id", (object)entity.CooperatorID, false);
+            AddParameter("app_user_item_folder_id", (object)entity.FolderID, false);
+            AddParameter("created_by", entity.CreatedByCooperatorID == 0 ? DBNull.Value : (object)entity.CreatedByCooperatorID, true);
             AddParameter("@out_error_number", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
-            AddParameter("@out_app_user_item_folder_id", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
+            AddParameter("@out_app_user_item_folder_cooperator_map_id", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
 
             RowsAffected = ExecuteNonQuery();
 
@@ -115,15 +116,15 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
                 throw new Exception(errorNumber.ToString());
             }
 
-            entity.ID = GetParameterValue<int>("@out_app_user_item_folder_id", -1);
+            entity.ID = GetParameterValue<int>("@out_app_user_item_folder_cooperator_map_id", -1);
             return entity.ID;
         }
-        public int Delete(AppUserItemFolder entity)
+        public int Delete(AppUserItemFolderCooperatorMap entity)
         {
             Reset(CommandType.StoredProcedure);
 
-            SQL = "usp_GRINGlobal_AppUserItemFolder_Delete";
-            AddParameter("@app_user_item_folder_id", (object)entity.ID, false);
+            SQL = "usp_GRINGlobal_AppUserItemFolderCooperatorMap_Insert";
+            AddParameter("@app_user_item_folder_cooperator_map_id", (object)entity.ID, false);
             AddParameter("@out_error_number", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
             RowsAffected = ExecuteNonQuery();
 
@@ -137,26 +138,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
         }
         protected virtual void BuildInsertUpdateParameters(AppUserItemFolder entity)
         {
-            if (entity.ID > 0)
-            {
-                AddParameter("app_user_item_folder_id", (object)entity.ID, false);
-            }
-
-            AddParameter("folder_name", (object)entity.FolderName, false);
-            AddParameter("folder_type", (object)entity.FolderType ?? DBNull.Value, true);
-            AddParameter("data_type", (object)entity.DataType ?? DBNull.Value, true);
-            AddParameter("category", (object)entity.Category ?? DBNull.Value, true);
-            AddParameter("description", (object)entity.Description ?? DBNull.Value, true);
-            AddParameter("is_favorite", (object)entity.IsFavorite ?? DBNull.Value, true);
-
-            if (entity.ID > 0)
-            {
-                AddParameter("modified_by", (object)entity.ModifiedByCooperatorID ?? DBNull.Value, true);
-            }
-            else 
-            {
-                AddParameter("created_by", (object)entity.CreatedByCooperatorID ?? DBNull.Value, true);
-            }
+            
         }
     }
 }

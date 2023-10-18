@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using USDA.ARS.GRIN.GGTools.WebUI;
+using USDA.ARS.GRIN.GGTools.ViewModelLayer;
 using USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer;
 using USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer;
 using NLog;
@@ -185,16 +186,26 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             }
         }
 
-        public ActionResult Index()
+        public ActionResult Index(string eventAction = "", int folderId = 0)
         {
             try
             {
                 CommonNameViewModel viewModel = new CommonNameViewModel();
+                viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
 
                 string targetKey = this.ControllerContext.RouteData.Values["controller"].ToString().ToUpper() + "_SEARCH";
                 if (Session[targetKey] != null)
                 {
                     viewModel = Session[targetKey] as CommonNameViewModel;
+                }
+
+                if (eventAction == "RUN_SEARCH")
+                {
+                    AppUserItemListViewModel appUserItemListViewModel = new AppUserItemListViewModel();
+                    appUserItemListViewModel.SearchEntity.AppUserItemFolderID = folderId;
+                    appUserItemListViewModel.Search();
+                    viewModel.SearchEntity = viewModel.Deserialize<CommonNameSearch>(appUserItemListViewModel.Entity.Properties);
+                    viewModel.Search();
                 }
 
                 viewModel.PageTitle = "Common Name Search";

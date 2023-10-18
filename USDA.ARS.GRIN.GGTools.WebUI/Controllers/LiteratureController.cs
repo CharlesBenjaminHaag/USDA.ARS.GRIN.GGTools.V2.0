@@ -10,7 +10,7 @@ using NLog;
 namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
 {
     [GrinGlobalAuthentication]
-    public class LiteratureController : BaseController, IController<LiteratureViewModel>
+    public class LiteratureController : BaseController
     {
         protected static string BASE_PATH = "~/Views/Taxonomy/Literature/";
         private static readonly Logger Log = LogManager.GetCurrentClassLogger();
@@ -32,20 +32,11 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
         }
         public PartialViewResult _ListDynamicFolderItems(int folderId)
         {
-            AppUserItemFolderViewModel appUserItemFolderViewModel = new AppUserItemFolderViewModel();
-            AppUserItemListViewModel appUserItemListViewModel = new AppUserItemListViewModel();
+            LiteratureViewModel viewModel = new LiteratureViewModel();
 
             try
             {
-                appUserItemFolderViewModel.SearchEntity.ID = folderId;
-                appUserItemFolderViewModel.Search();
-
-                appUserItemListViewModel.SearchEntity.AppUserItemFolderID = folderId;
-                appUserItemListViewModel.GetDynamic();
-
-                AuthorViewModel viewModel = new AuthorViewModel();
-                viewModel.SearchEntity = viewModel.Deserialize<AuthorSearch>(appUserItemListViewModel.Entity.Properties);
-                viewModel.Search();
+                viewModel.RunSearch(folderId);
                 return PartialView(BASE_PATH + "_List.cshtml", viewModel);
             }
             catch (Exception ex)
@@ -129,15 +120,11 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 return RedirectToAction("InternalServerError", "Error");
             }
         }
-
-        
-
         public PartialViewResult FolderItems(int folderId)
         {
             throw new NotImplementedException();
         }
-
-        public ActionResult Index()
+        public ActionResult Index(string eventAction = "", int folderId = 0)
         {
             LiteratureViewModel viewModel = new LiteratureViewModel();
             try
@@ -146,6 +133,16 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 viewModel.TableCode = "Literature";
                 viewModel.EventAction = "Search";
                 viewModel.PageTitle = "Literature Search";
+
+                if (eventAction == "RUN_SEARCH")
+                {
+                    AppUserItemListViewModel appUserItemListViewModel = new AppUserItemListViewModel();
+                    appUserItemListViewModel.SearchEntity.AppUserItemFolderID = folderId;
+                    appUserItemListViewModel.Search();
+                    viewModel.SearchEntity = viewModel.Deserialize<LiteratureSearch>(appUserItemListViewModel.Entity.Properties);
+                    viewModel.Search();
+                }
+
                 return View(BASE_PATH + "Index.cshtml", viewModel);
             }
             catch (Exception ex)
@@ -154,7 +151,6 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 return RedirectToAction("InternalServerError", "Error");
             }
         }
-
         public PartialViewResult SearchNotes(string searchText)
         {
             throw new NotImplementedException();

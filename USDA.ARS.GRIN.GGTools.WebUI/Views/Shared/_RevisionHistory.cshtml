@@ -1,6 +1,21 @@
-﻿@if (Model.Entity.ID > 0)
+﻿<style>
+    .callout-info a:link {
+        color: blue;
+        text-decoration: underline;
+    }
+
+    .callout-info a:hover {
+        color: blue;
+    }
+</style>
+
+@if (Model.Entity.ID > 0)
 {
-    <div class="callout callout-info">
-        @Html.Raw(Model.Entity.RevisionHistoryText)
-    </div>
+<div class="callout callout-info">
+    Created by <a href="@Url.Action("Edit","Cooperator", new { @entityId = Model.Entity.CreatedByCooperatorID })">@Model.Entity.CreatedByCooperatorName</a> on @Model.Entity.CreatedDate.ToShortDateString()
+    @if (Model.Entity.ModifiedDate != DateTime.MinValue)
+    {
+        <span>, modified by <a href="@Url.Action("Edit","Cooperator", new { @entityId = Model.Entity.ModifiedByCooperatorID })">@Model.Entity.ModifiedByCooperatorName</a> on @Model.Entity.ModifiedDate.ToShortDateString()</span>
+    }
+</div>
 }

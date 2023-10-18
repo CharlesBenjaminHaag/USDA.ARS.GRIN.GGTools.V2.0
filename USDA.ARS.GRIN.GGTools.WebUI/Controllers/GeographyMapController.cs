@@ -10,7 +10,7 @@ using USDA.ARS.GRIN.GGTools.WebUI;
 namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
 {
     [GrinGlobalAuthentication]
-    public class GeographyMapController : BaseController, IController<GeographyMapViewModel>
+    public class GeographyMapController : BaseController
     {
         protected static string BASE_PATH = "~/Views/Taxonomy/GeographyMap/";
         private static readonly Logger Log = LogManager.GetCurrentClassLogger();
@@ -32,20 +32,11 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
         }
         public PartialViewResult _ListDynamicFolderItems(int folderId)
         {
-            AppUserItemFolderViewModel appUserItemFolderViewModel = new AppUserItemFolderViewModel();
-            AppUserItemListViewModel appUserItemListViewModel = new AppUserItemListViewModel();
+            GeographyMapViewModel viewModel = new GeographyMapViewModel();
 
             try
             {
-                appUserItemFolderViewModel.SearchEntity.ID = folderId;
-                appUserItemFolderViewModel.Search();
-
-                appUserItemListViewModel.SearchEntity.AppUserItemFolderID = folderId;
-                appUserItemListViewModel.GetDynamic();
-
-                AuthorViewModel viewModel = new AuthorViewModel();
-                viewModel.SearchEntity = viewModel.Deserialize<AuthorSearch>(appUserItemListViewModel.Entity.Properties);
-                viewModel.Search();
+                viewModel.RunSearch(folderId);
                 return PartialView(BASE_PATH + "_List.cshtml", viewModel);
             }
             catch (Exception ex)
@@ -54,7 +45,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 return PartialView("~/Views/Error/_InternalServerError.cshtml");
             }
         }
-        public ActionResult Index()
+        public ActionResult Index(string eventAction = "", int folderId = 0)
         {
             GeographyMapViewModel viewModel = new GeographyMapViewModel();
             viewModel = LoadFromSession(viewModel);
@@ -69,6 +60,15 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 if (Session[targetKey] != null)
                 {
                     viewModel = Session[targetKey] as GeographyMapViewModel;
+                }
+
+                if (eventAction == "RUN_SEARCH")
+                {
+                    AppUserItemListViewModel appUserItemListViewModel = new AppUserItemListViewModel();
+                    appUserItemListViewModel.SearchEntity.AppUserItemFolderID = folderId;
+                    appUserItemListViewModel.Search();
+                    viewModel.SearchEntity = viewModel.Deserialize<GeographyMapSearch>(appUserItemListViewModel.Entity.Properties);
+                    viewModel.Search();
                 }
 
                 return View(BASE_PATH + "Index.cshtml", viewModel);

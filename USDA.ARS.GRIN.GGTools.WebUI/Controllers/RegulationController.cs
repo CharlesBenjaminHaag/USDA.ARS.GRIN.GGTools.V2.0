@@ -10,7 +10,7 @@ using NLog;
 namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
 {
     [GrinGlobalAuthentication]
-    public class RegulationController : BaseController, IController<RegulationViewModel>
+    public class RegulationController : BaseController
     {
         protected static string BASE_PATH = "~/Views/Taxonomy/Regulation/";
         private static readonly Logger Log = LogManager.GetCurrentClassLogger();
@@ -32,20 +32,11 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
         }
         public PartialViewResult _ListDynamicFolderItems(int folderId)
         {
-            AppUserItemFolderViewModel appUserItemFolderViewModel = new AppUserItemFolderViewModel();
-            AppUserItemListViewModel appUserItemListViewModel = new AppUserItemListViewModel();
+            RegulationViewModel viewModel = new RegulationViewModel();
 
             try
             {
-                appUserItemFolderViewModel.SearchEntity.ID = folderId;
-                appUserItemFolderViewModel.Search();
-
-                appUserItemListViewModel.SearchEntity.AppUserItemFolderID = folderId;
-                appUserItemListViewModel.GetDynamic();
-
-                AuthorViewModel viewModel = new AuthorViewModel();
-                viewModel.SearchEntity = viewModel.Deserialize<AuthorSearch>(appUserItemListViewModel.Entity.Properties);
-                viewModel.Search();
+                viewModel.RunSearch(folderId);
                 return PartialView(BASE_PATH + "_List.cshtml", viewModel);
             }
             catch (Exception ex)
@@ -54,7 +45,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 return PartialView("~/Views/Error/_InternalServerError.cshtml");
             }
         }
-        public ActionResult Index()
+        public ActionResult Index(string eventAction = "", int folderId = 0)
         {
             try
             {
@@ -62,6 +53,16 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
                 viewModel.PageTitle = "Regulation Search";
                 viewModel.TableName = "taxonomy_regulation";
+
+                if (eventAction == "RUN_SEARCH")
+                {
+                    AppUserItemListViewModel appUserItemListViewModel = new AppUserItemListViewModel();
+                    appUserItemListViewModel.SearchEntity.AppUserItemFolderID = folderId;
+                    appUserItemListViewModel.Search();
+                    viewModel.SearchEntity = viewModel.Deserialize<RegulationSearch>(appUserItemListViewModel.Entity.Properties);
+                    viewModel.Search();
+                }
+
                 return View(BASE_PATH + "Index.cshtml", viewModel);
             }
             catch (Exception ex)

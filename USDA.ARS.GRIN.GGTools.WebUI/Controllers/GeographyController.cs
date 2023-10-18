@@ -11,7 +11,7 @@ using NLog;
 namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
 {
     [GrinGlobalAuthentication]
-    public class GeographyController : BaseController, IController<GeographyViewModel>
+    public class GeographyController : BaseController
     {
         protected static string BASE_PATH = "~/Views/Taxonomy/Geography/";
         private static readonly Logger Log = LogManager.GetCurrentClassLogger();
@@ -31,7 +31,22 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 return PartialView("~/Views/Error/_InternalServerError.cshtml");
             }
         }
-        public ActionResult Index()
+        public PartialViewResult _ListDynamicFolderItems(int folderId)
+        {
+            GeographyViewModel viewModel = new GeographyViewModel();
+
+            try
+            {
+                viewModel.RunSearch(folderId);
+                return PartialView(BASE_PATH + "_List.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
+        }
+        public ActionResult Index(string eventAction = "", int folderId = 0)
         {
             try
             {
@@ -39,6 +54,16 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 viewModel.PageTitle = "Geography Search";
                 viewModel.TableName = "geography";
                 viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
+
+                if (eventAction == "RUN_SEARCH")
+                {
+                    AppUserItemListViewModel appUserItemListViewModel = new AppUserItemListViewModel();
+                    appUserItemListViewModel.SearchEntity.AppUserItemFolderID = folderId;
+                    appUserItemListViewModel.Search();
+                    viewModel.SearchEntity = viewModel.Deserialize<GeographySearch>(appUserItemListViewModel.Entity.Properties);
+                    viewModel.Search();
+                }
+
                 return View(BASE_PATH + "Index.cshtml", viewModel);
             }
             catch (Exception ex)
@@ -48,25 +73,25 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             }
         }
 
-        public ActionResult Search()
-        {
-            try
-            {
-                GeographyViewModel viewModel = new GeographyViewModel();
-                viewModel.PageTitle = "Geography Search";
-                viewModel.Entity.TableName = "geography";
-                //viewModel.DataCollectionRegions = new System.Collections.ObjectModel.Collection<Region>(viewModel.GetRegions());
-                //viewModel.DataCollectionCountries = new System.Collections.ObjectModel.Collection<Country>(viewModel.GetCountries());
-                viewModel.DataCollection = new System.Collections.ObjectModel.Collection<Geography>(viewModel.GetAdministrativeUnits());
-                viewModel.Search();
-                return View(BASE_PATH + "Index.cshtml", viewModel);
-            }
-            catch (Exception ex)
-            {
-                Log.Error(ex);
-                return RedirectToAction("InternalServerError", "Error");
-            }
-        }
+        //public ActionResult Search()
+        //{
+        //    try
+        //    {
+        //        GeographyViewModel viewModel = new GeographyViewModel();
+        //        viewModel.PageTitle = "Geography Search";
+        //        viewModel.Entity.TableName = "geography";
+        //        viewModel.DataCollection = new System.Collections.ObjectModel.Collection<Geography>(viewModel.GetAdministrativeUnits());
+        //        viewModel.Search();
+
+                
+        //        return View(BASE_PATH + "Index.cshtml", viewModel);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Log.Error(ex);
+        //        return RedirectToAction("InternalServerError", "Error");
+        //    }
+        //}
 
         [HttpPost]
         public ActionResult Search(GeographyViewModel viewModel)
@@ -75,6 +100,14 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             {
                 viewModel.Search();
                 ModelState.Clear();
+
+                // Save search if attribs supplied.
+                if ((viewModel.EventAction == "SEARCH") && (viewModel.EventValue == "SAVE"))
+                {
+                    viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
+                    viewModel.SaveSearch();
+                }
+
                 return View(BASE_PATH + "Index.cshtml", viewModel);
             }
             catch (Exception ex)

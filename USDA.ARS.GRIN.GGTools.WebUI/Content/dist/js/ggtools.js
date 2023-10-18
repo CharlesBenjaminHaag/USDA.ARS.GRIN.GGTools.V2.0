@@ -2,7 +2,7 @@
 * Name         : ggtools.js
 * Description  : Main JS application file for GGTools. This file
 *                should be included in all layout pages. 
-* Last Updated : 10/4/23
+* Last Updated : 10/17/23
 * By           : Benjamin Haag
 */
 
@@ -402,6 +402,7 @@ function SetReadOnly() {
     $("#section-input-fields input").attr('readonly', true);
     $("#section-file-input-fields input").attr('readonly', true);
     $("#section-file-input-fields input").prop('disabled', true);
+    $('section-file-input-fields input[type=checkbox]').attr('disabled', 'true');
     $("#section-edit-controls").hide();
     $(".edit-controls").hide();
 }
