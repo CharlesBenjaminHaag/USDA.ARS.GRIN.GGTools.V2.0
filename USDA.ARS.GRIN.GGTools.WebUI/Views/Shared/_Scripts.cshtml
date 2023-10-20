@@ -22,6 +22,10 @@
             focus: true                  // set focus to editable area after initializing summernote
         });
 
+        $(document).on('shown.bs.modal', function (e) {
+            $.fn.dataTable.tables({ visible: true, api: true }).columns.adjust();
+        });
+
         //$(function () {
         //    $("#SearchEntity_CreatedDate").datepicker();
         //    $("#SearchEntity_ModifiedDate").datepicker();

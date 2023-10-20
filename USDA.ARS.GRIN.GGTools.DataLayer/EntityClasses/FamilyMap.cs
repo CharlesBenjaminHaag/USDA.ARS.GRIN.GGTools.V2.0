@@ -22,7 +22,6 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         public int FamilyID { get; set; }
         public int LegacyFamilyID { get; set; }
         public string FamilyName { get; set; }
-        public string AssembledName { get; set; }
         public string AlternateName { get; set; }
         public string FamilyTypeCode { get; set; }
         public string FamilyTypeDescription { get; set; }
@@ -33,5 +32,6 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         public string TribeName { get; set; }
         public int SubtribeID { get; set; }
         public string SubtribeName { get; set; }
+        public string IsWebVisible { get; set; }
     }
 }

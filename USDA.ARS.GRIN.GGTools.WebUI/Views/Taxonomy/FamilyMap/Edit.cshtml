@@ -317,6 +317,32 @@
                                     </div>
                                     <!-- END NOTE FIELD-->
                                 </div>
+                                <!-- WEB VISIBLE -->
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <br />
+                                        <div class="form-group">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" value="Web Visible" readonly="readonly" />
+                                                <div class="input-group-append">
+                                                    <span class="input-group-text" style="background-color:white;">
+                                                        @Html.CheckBoxFor(x => x.Entity.IsWebVisibleOption)
+                                                        &nbsp;
+                                                    </span>
+                                                </div>
+                                                @if ((Model.Entity.ID > 0) && (Model.Entity.IsWebVisible == "Y"))
+                                                {
+                                                    <div class="input-group-append">
+                                                        <a href="https://npgsweb.ars-grin.gov/gringlobal/taxon/taxonomyfamily?id=@Model.Entity.ID" class="btn btn-default float-right" target="_blank">
+                                                            <i class="fas fa-globe"></i>
+                                                            View on Public Website
+                                                        </a>
+                                                    </div>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             <div class="card-footer">
                                 <a href="@Url.Action("Refresh")" class="btn btn-default">Reset</a>
@@ -328,13 +354,6 @@
                                 }
                                 
                             <div class="btn-group float-right">
-                                @if (Model.Entity.ID > 0)
-                                {
-                                    <a href="https://npgsweb.ars-grin.gov/gringlobal/taxon/taxonomyfamily?id=@Model.Entity.ID" class="btn btn-info float-right" target="_blank">
-                                        <i class="fas fa-globe"></i>
-                                        View on Public Website
-                                    </a>
-                                }
                                 <button type="submit" class="btn btn-primary float-right margin-05">
                                     <i class="fas fa-save"></i>
                                     Save Changes

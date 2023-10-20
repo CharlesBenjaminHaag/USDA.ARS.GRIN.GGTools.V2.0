@@ -22,10 +22,10 @@
                     <div class="card-body">
                         <div class="tab-content">
                             <div class="tab-pane active" id="folder-create">
-                                @using (Html.BeginForm("Edit", "AppUserItemFolder", FormMethod.Post, new { id = "frmEdit" }))
+                                @using (Html.BeginForm("Edit", "AppUserItemFolder", FormMethod.Post, new { id = "frmAppUserItemFolder" }))
                                 {
-                                    @Html.HiddenFor(x=>x.Entity.ID, new { id = "hfAppUserItemFolderID" })
-                                    <div class="row">
+                                    @Html.HiddenFor(x=> x.Entity.ParentID)
+                                   <div class="row">
                                         <div class="col-md-12">
                                             <div class="form-group">
                                                 <label>Name</label>
@@ -159,12 +159,13 @@ Modal that appears if no record is selected for folder addition.
     });
 
     $("#btnOpenFolderModal").click(function () {
+         
         var tableName = $("#TableName").val();
         var dataTableName = "data_table_" + tableName;
         var selectedItemIdList = GetSelectedEntityIDs(dataTableName);
 
-        // Do not display the folder modal unless the user has selected at least
-        // one record to add.
+         
+        
         if (selectedItemIdList.length < 1) {
             $("#modal-validation-warning").modal("show");
         }
@@ -174,9 +175,11 @@ Modal that appears if no record is selected for folder addition.
     });
 
     $("#btnOpenFolderModalInSingleMode").click(function () {
+         
         event.preventDefault();
         $("#EventAction").val("FOLDER");
         $("#EventValue").val("SINGLE");
+
         $("#modal-folder-edit").modal("show");
     });
 
@@ -193,12 +196,26 @@ Modal that appears if no record is selected for folder addition.
      */
     function UpdateFolder() {
         var link = '@Url.Action("AddItems", "AppUserItemFolder")';
+        var eventValue = $("#EventValue").val();
+        var entityId = $("#frmAppUserItemFolder #Entity_ParentID").val();
         var appUserItemFolderId = GetSelectedEntityIDs("data_table_app_user_item_folder_list");
         var tableName = $("#TableName").val();
         var dataTableName = "data_table_" + tableName;
         var formData = new FormData();
+        var selectedItemIdList = "";
 
-        var selectedItemIdList = GetSelectedEntityIDs("data_table_" + $("#TableName").val());
+        //DEBUG
+        /*alert("EVENT VAL " + eventValue + " PARENT ENTITY " + entityId);*/
+
+        if (eventValue == "SINGLE") {
+            selectedItemIdList = entityId;
+            //DEBUG
+            alert("ID LIST IS " + selectedItemIdList);
+        }
+        else {
+            selectedItemIdList = GetSelectedEntityIDs("data_table_" + $("#TableName").val());
+        }
+
         if (selectedItemIdList.length < 1) {
             alert("ERROR: No items selected");
         }
@@ -234,7 +251,8 @@ Modal that appears if no record is selected for folder addition.
     */
     function SaveNewFolder() {
         var link = '@Url.Action("Add", "AppUserItemFolder")';
-        var entityId = $("#Entity_ID").val();
+        var eventValue = $("#EventValue").val();
+        var entityId = $("#frmAppUserItemFolder #Entity_ParentID").val();
         var formData = new FormData();
       
         if ($('#cbxIsFavorite').prop('checked') == true) {
@@ -248,7 +266,16 @@ Modal that appears if no record is selected for folder addition.
         formData.append("Entity.NewCategory", $("#Entity_NewCategory").val());
         formData.append("Entity.Description", $("#Entity_Description").val());
 
-        var selectedItemIdList = GetSelectedEntityIDs("data_table_" + $("#TableName").val());
+        //DEBUG
+        /*alert("EVENT VAL " + eventValue + " PARENT ENTITY " + entityId);*/
+
+        if (eventValue == "SINGLE") {
+            var selectedItemIdList = entityId;
+        }
+        else {
+            var selectedItemIdList = GetSelectedEntityIDs("data_table_" + $("#TableName").val());
+        }
+
         if (selectedItemIdList.length < 1) {
             alert("ERROR: No items selected");
         }

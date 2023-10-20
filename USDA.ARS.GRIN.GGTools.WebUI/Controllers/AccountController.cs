@@ -61,7 +61,8 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 viewModel.Entity.AddressLine1 = siteViewModel.Entity.PrimaryAddress1;
                 viewModel.Entity.AddressLine2 = siteViewModel.Entity.PrimaryAddress2;
                 viewModel.Entity.AddressLine3 = siteViewModel.Entity.PrimaryAddress3;
-                viewModel.Entity.City = siteViewModel.Entity.PrimaryCity;
+                viewModel.Entity.City = siteViewModel.Entity.City;
+                viewModel.Entity.StateName = siteViewModel.Entity.State;
                 viewModel.Entity.GeographyID = siteViewModel.Entity.GeographyID;
                 viewModel.Entity.PostalIndex = siteViewModel.Entity.PostalIndex;
 

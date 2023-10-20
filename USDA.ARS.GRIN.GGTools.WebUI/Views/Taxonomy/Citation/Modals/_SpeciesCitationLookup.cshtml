@@ -10,8 +10,20 @@
                 </button>
             </div>
             <div class="modal-body">
-                <!--DEBUG-->
-                @Html.TextBoxFor(x=>x.EntityIDList, new { @class= "form-control" })
+                @if ((Model.ParentTableName == "taxonomy_cwr_map") || (Model.ParentTableName == "taxonomy_cwr_trait"))
+                { 
+                <div id="section-panel-help" class="alert alert-info alert-dismissible">
+                    <button type="button" class="close" aria-hidden="true">×</button>
+                    <h5><i class="icon fas fa-info"></i> Please Note</h5>
+                    <ul>
+                        <li>
+                            The species citation list will only list CWR citations related to the parent species.
+                        </li>
+                    </ul>
+                </div>
+                }
+
+                <!--@Html.TextBoxFor(x=>x.EntityIDList, new { @class= "form-control" })-->
                 <div class="card card-primary card-tabs">
                     <div class="card-header p-0 pt-1">
                         <ul class="nav nav-tabs" id="tabs-species-citation" role="tablist">
@@ -80,34 +92,6 @@
             });
     
     }
-
-    @*$(document).on("click", "[id='btnSearch']", function () {
-        LookupCitations();
-    });
-
-    function LookupCitations() {
-        var link = '@Url.Action("_Search","Citation")';
-        var formData = new FormData();
-
-        formData.append("SearchEntity.CreatedByCooperatorID", $("#SearchEntity_CreatedByCooperatorID").val());
-        formData.append("SearchEntity.TypeCode", $("#SearchEntity_TypeCode").val());
-        formData.append("SearchEntity.Abbreviation", $("#SearchEntity_Abbreviation").val());
-        formData.append("SearchEntity.CitationTitle", $("#SearchEntity_CitationTitle").val());
-        formData.append("SearchEntity.AuthorName", $("#SearchEntity_AuthorName").val());
-        formData.append("SearchEntity.CitationYear", $("#SearchEntity_CitationYear").val());
-
-        $.ajax({
-            url: link,
-            type: 'POST',
-            cache: false,
-            contentType: false,
-            processData: false,
-            data: formData,
-            success: function (response) {
-                $("#section-citation-lookup-search-results").html(response);
-            }
-        });
-    }*@
 
     $(document).on("click", "[id='btnSaveSelectedCitation']", function () {
         GetSelectedCitation("N", "data_table_lookup_citations");

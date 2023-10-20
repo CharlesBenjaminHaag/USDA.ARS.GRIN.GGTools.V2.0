@@ -103,7 +103,7 @@
             <div class="col-md-4">
                 <div class="form-group">
                     <label>City</label>
-                    @Html.TextBoxFor(x => x.Entity.PrimaryCity, new { @class = "form-control" })
+                    @Html.TextBoxFor(x => x.Entity.City, new { @class = "form-control" })
                 </div>
             </div>
             <div class="col-md-2">
@@ -116,6 +116,12 @@
                 <div class="form-group">
                     <label>City</label>
                     @Html.TextBoxFor(x => x.Entity.SecondaryCity, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label>State</label>
+                    @Model.Entity.State
                 </div>
             </div>
             <div class="col-md-2">

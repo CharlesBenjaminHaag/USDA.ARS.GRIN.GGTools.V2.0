@@ -52,8 +52,9 @@
                                         </li>
                                         <li><a href="@Url.Action("Add", "EconomicUse", new { @speciesId = Model.Entity.ID })" class="dropdown-item">Economic Use</a></li>
                                         <li><a href="@Url.Action("Add", "RegulationMap", new { @speciesId = Model.Entity.ID })" class="dropdown-item">Regulation</a></li>
-                                        <div class="dropdown-divider"></div>
-                                        <li><a href="@Url.Action("Map", "Species", new { @entityId = Model.Entity.ID })" class="dropdown-item">Batch Edit</a></li>
+                                        <li><a href="@Url.Action("Add", "CWRMap", new { @speciesId = Model.Entity.ID })" class="dropdown-item">CWR Map</a></li>
+                                       @*<div class="dropdown-divider"></div>
+                                        <li><a href="@Url.Action("Map", "Species", new { @entityId = Model.Entity.ID })" class="dropdown-item">Batch Edit</a></li>*@
                                     </ul>
                                 </li>
                                 <!-- FOLDERS -->
@@ -102,7 +103,7 @@
                                             {
                                                 <span>Synonym </span>
                                             }
-                                            <span>of <a href="@Url.Action("Edit","Species", new { @entityId = Model.Entity.ParentID })">@Html.Raw(Model.Entity.ParentName)</a></span>
+                                            <span>of <a href="@Url.Action("Edit", "Species", new { @entityId = Model.Entity.ParentID })">@Html.Raw(Model.Entity.ParentName)</a></span>
                                         }
                                         <span>Species</span>
 
@@ -129,7 +130,7 @@
                                 <!-- RETURN-TO-PARENT LOGIC -->
                                 @if (Model.Entity.ParentID > 0)
                                 {
-                                    <a href="@Url.Action("Edit","Species", new { @entityId = Model.Entity.ParentID })" class="btn btn-default btn-sm">Return to Parent Species</a>
+                                    <a href="@Url.Action("Edit", "Species", new { @entityId = Model.Entity.ParentID })" class="btn btn-default btn-sm">Return to Parent Species</a>
                                 }
                                 @Html.Partial("~/Views/Taxonomy/Shared/_Breadcrumbs.cshtml")
                             </div>
@@ -264,7 +265,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="row">
-                                                    <div class="col-md-3">
+                                                    <div class="col-md-4">
                                                         <div class="form-group">
                                                             <label>Genus</label>
                                                             <div class="input-group mb-3">
@@ -290,7 +291,7 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="col-md-3">
+                                                    <div class="col-md-4">
                                                         <div class="form-group">
                                                             <label>Species Name</label>
                                                             <div class="input-group">
@@ -310,7 +311,7 @@
                                                     @switch (Model.Entity.Rank.ToUpper())
                                                     {
                                                         case "SUBSPECIES":
-                                                            <div class="col-md-3">
+                                                            <div class="col-md-4">
                                                                 <div class="form-group">
                                                                     <label>Subspecies Name</label>
                                                                     @Html.HiddenFor(x => x.Entity.Name)
@@ -345,7 +346,7 @@
                                                             </div>
                                                             break;
                                                         case "VARIETY":
-                                                            <div class="col-md-3">
+                                                            <div class="col-md-4">
                                                                 <div class="form-group">
                                                                     <label>Subspecies Name</label>
                                                                     @Html.HiddenFor(x => x.Entity.Name)
@@ -353,7 +354,7 @@
                                                                     @Html.TextBoxFor(x => x.Entity.SubspeciesName, new { @class = "form-control" })
                                                                 </div>
                                                             </div>
-                                                            <div class="col-md-3">
+                                                            <div class="col-md-4">
                                                                 <div class="form-group">
                                                                     <label>Variety Name</label>
                                                                     <div class="input-group">
@@ -385,7 +386,7 @@
                                                             </div>
                                                             break;
                                                         case "SUBVARIETY":
-                                                            <div class="col-md-3">
+                                                            <div class="col-md-4">
                                                                 <div class="form-group">
                                                                     <label>Subspecies Name</label>
                                                                     @Html.HiddenFor(x => x.Entity.Name)
@@ -393,13 +394,13 @@
                                                                     @Html.TextBoxFor(x => x.Entity.SubspeciesName, new { @class = "form-control" })
                                                                 </div>
                                                             </div>
-                                                            <div class="col-md-3">
+                                                            <div class="col-md-4">
                                                                 <div class="form-group">
                                                                     <label>Variety Name</label>
                                                                     @Html.TextBoxFor(x => x.Entity.VarietyName, new { @class = "form-control" })
                                                                 </div>
                                                             </div>
-                                                            <div class="col-md-3">
+                                                            <div class="col-md-4">
                                                                 <div class="form-group">
                                                                     <label>Subvariety Name</label>
                                                                     <div class="input-group">
@@ -431,7 +432,7 @@
                                                             </div>
                                                             break;
                                                         case "FORM":
-                                                            <div class="col-md-3">
+                                                            <div class="col-md-4">
                                                                 <div class="form-group">
                                                                     <label>Subspecies Name</label>
                                                                     @Html.HiddenFor(x => x.Entity.Name)
@@ -439,19 +440,19 @@
                                                                     @Html.TextBoxFor(x => x.Entity.SubspeciesName, new { @class = "form-control" })
                                                                 </div>
                                                             </div>
-                                                            <div class="col-md-3">
+                                                            <div class="col-md-4">
                                                                 <div class="form-group">
                                                                     <label>Variety Name</label>
                                                                     @Html.TextBoxFor(x => x.Entity.VarietyName, new { @class = "form-control" })
                                                                 </div>
                                                             </div>
-                                                            <div class="col-md-3">
+                                                            <div class="col-md-4">
                                                                 <div class="form-group">
                                                                     <label>Subvariety Name</label>
                                                                     @Html.TextBoxFor(x => x.Entity.SubvarietyName, new { @class = "form-control" })
                                                                 </div>
                                                             </div>
-                                                            <div class="col-md-3">
+                                                            <div class="col-md-4">
                                                                 <div class="form-group">
                                                                     <label>Forma Name</label>
                                                                     <div class="input-group">
@@ -532,28 +533,18 @@
                                                             @Html.TextBoxFor(x => x.Entity.ProtologueVirtualPath, new { @class = "form-control" })
                                                         </div>
                                                     </div>
-                                                    <div class="col-md-12">
+                                                    <div class="col-md-10">
                                                         <div class="form-group">
                                                             <label>Hybrid Parentage</label>
                                                             @Html.TextBoxFor(x => x.Entity.HybridParentage, new { @class = "form-control" })
                                                         </div>
                                                     </div>
                                                     <div class="col-md-2">
-                                                        <div class="form-group clearfix section-checkbox">
+                                                        <div class="form-group clearfix section-checkbox" style=" margin-top:38px;">
                                                             <div class="icheck-primary d-inline">
                                                                 @Html.CheckBoxFor(x => x.Entity.IsSpecificHybridOption, new { id = "cbxIsSpecificHybrid" })
                                                                 <label for="cbxIsSpecificHybrid">
                                                                     Specific Hybrid
-                                                                </label>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-2">
-                                                        <div class="form-group clearfix section-checkbox">
-                                                            <div class="icheck-primary d-inline">
-                                                                @Html.CheckBoxFor(x => x.Entity.IsWebVisibleOption, new { id = "cbxIsWebVisible" })
-                                                                <label for="cbxIsWebVisible">
-                                                                    Web Visible
                                                                 </label>
                                                             </div>
                                                         </div>
@@ -573,6 +564,32 @@
                                                         </div>
                                                     </div>
                                                     <!-- END NOTE FIELD-->
+                                                </div>
+                                                <!-- WEB VISIBLE -->
+                                                <div class="row">
+                                                    <div class="col-md-3">
+                                                        <br />
+                                                        <div class="form-group">
+                                                            <div class="input-group">
+                                                                <input type="text" class="form-control" value="Web Visible" readonly="readonly" />
+                                                                <div class="input-group-append">
+                                                                    <span class="input-group-text" style="background-color:white;">
+                                                                        @Html.CheckBoxFor(x => x.Entity.IsWebVisibleOption)
+                                                                        &nbsp;
+                                                                    </span>
+                                                                </div>
+                                                                @if ((Model.Entity.ID > 0) && (Model.Entity.IsWebVisible == "Y"))
+                                                                {
+                                                                    <div class="input-group-append">
+                                                                        <a href="https://npgsweb.ars-grin.gov/gringlobal/taxon/taxonomydetail?id=@Model.Entity.ID" class="btn btn-default float-right" target="_blank">
+                                                                            <i class="fas fa-globe"></i>
+                                                                            View on Public Website
+                                                                        </a>
+                                                                    </div>
+                                                                }
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>

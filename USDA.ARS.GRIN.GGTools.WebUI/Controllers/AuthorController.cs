@@ -99,6 +99,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 AuthorViewModel viewModel = new AuthorViewModel();
                 viewModel.TableName = "taxonomy_author";
                 viewModel.TableCode = "Author";
+                viewModel.EventValue = "Edit";
                 if (entityId > 0)
                 {
                     viewModel.Get(entityId);

@@ -99,7 +99,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             AddParameter("@address_line1", (object)entity.PrimaryAddress1 ?? DBNull.Value, true);
             AddParameter("@address_line2", (object)entity.PrimaryAddress2 ?? DBNull.Value, true);
             AddParameter("@address_line3", (object)entity.PrimaryAddress3 ?? DBNull.Value, true);
-            AddParameter("@city", (object)entity.PrimaryCity ?? DBNull.Value, true);
+            AddParameter("@city", (object)entity.City ?? DBNull.Value, true);
             AddParameter("@primary_phone", (object)entity.PrimaryPhone ?? DBNull.Value, true);
             AddParameter("@email_address", (object)entity.EmailAddress ?? DBNull.Value, true);
             AddParameter("note", (object)entity.Note ?? DBNull.Value, true);

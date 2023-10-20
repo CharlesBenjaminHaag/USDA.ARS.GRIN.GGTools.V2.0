@@ -20,9 +20,16 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
         public PartialViewResult _List(int formatCode = 1, int cooperatorId = 0, string folderType = "", string isFavorite = null, string timeFrame = "", string isShared = "N")
         {
            AppUserItemFolderViewModel viewModel = new AppUserItemFolderViewModel();
-             
-            viewModel.SearchEntity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
-            viewModel.SearchEntity.SharedWithCooperatorID = AuthenticatedUser.CooperatorID;
+
+            if (isShared == "N")
+            {
+                viewModel.SearchEntity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
+            }
+            else
+            {
+                viewModel.SearchEntity.SharedWithCooperatorID = AuthenticatedUser.CooperatorID;
+            }
+
             viewModel.SearchEntity.IsFavorite = isFavorite;
             viewModel.SearchEntity.TimeFrame = timeFrame;
             viewModel.SearchEntity.IsShared = isShared;
@@ -111,12 +118,13 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             appUserItemFolderViewModel.InsertItems();
             return PartialView("~/Views/AppUserItemFolder/_Confirmation.cshtml", appUserItemFolderViewModel);
         }
-        public PartialViewResult RenderEditModal(string sysTableName)
+        public PartialViewResult RenderEditModal(string sysTableName, string eventValue = "", int parentEntityId = 0)
         {
             try
             {
                 AppUserItemFolderViewModel viewModel = new AppUserItemFolderViewModel(AuthenticatedUser.CooperatorID);
-
+                viewModel.EventValue = eventValue;
+                viewModel.Entity.ParentID = parentEntityId;
                 if (String.IsNullOrEmpty(sysTableName))
                 {
                     throw new IndexOutOfRangeException("Table name not specified.");

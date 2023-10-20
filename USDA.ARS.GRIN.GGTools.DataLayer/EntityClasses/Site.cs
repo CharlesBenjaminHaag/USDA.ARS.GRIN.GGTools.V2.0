@@ -24,7 +24,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
         public string PrimaryAddress1 { get; set; }
         public string PrimaryAddress2 { get; set; }
         public string PrimaryAddress3 { get; set; }
-        public string PrimaryCity { get; set; }
+        public string City { get; set; }
         public string PrimaryPhone { get; set; }
         public string SecondaryAddress1 { get; set; }
         public string SecondaryAddress2 { get; set; }
@@ -33,7 +33,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
         public string SecondaryPhone { get; set; }
         public string EmailAddress { get; set; }
         public int GeographyID { get; set; }
-        public string StateName { get; set; }
+        public string State { get; set; }
         public string PostalIndex { get; set; }
     }
 }

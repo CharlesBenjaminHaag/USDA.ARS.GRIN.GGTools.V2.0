@@ -771,6 +771,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             // GeographyMap Edit
 
             viewModel.TableName = tableName;
+            viewModel.ParentTableName = tableName;
             viewModel.EventAction = eventAction;
             viewModel.EventValue = eventValue;
             viewModel.GetSpeciesCitations(speciesId, tableName);

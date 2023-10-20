@@ -197,7 +197,11 @@
 
             $("#section-site-address").html(response);
             $("#search-progress-overlay-cooperator").hide();
-        }
+            },
+            error: function () {
+                alert("Error calling Account.GetSite() with ID " + siteId);
+                $("#search-progress-overlay-cooperator").hide();
+            }
         });
     }
 </script>
