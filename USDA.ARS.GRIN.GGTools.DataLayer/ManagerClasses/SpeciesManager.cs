@@ -234,6 +234,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             else
                 AddParameter("name_verified_date", (object)entity.NameVerifiedDate, true);
 
+            AddParameter("name", (object)entity.Name ?? DBNull.Value, true);
             AddParameter("species_name", (object)entity.SpeciesName ?? DBNull.Value, true);
             AddParameter("protologue", (object)entity.Protologue ?? DBNull.Value, true);
             AddParameter("protologue_virtual_path", (object)entity.ProtologueVirtualPath ?? DBNull.Value, true);

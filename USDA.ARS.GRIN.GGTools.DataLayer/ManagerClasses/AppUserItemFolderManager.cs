@@ -60,12 +60,13 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
         {
             List<AppUserItemFolder> results = new List<AppUserItemFolder>();
 
-            SQL = " SELECT * FROM vw_GRINGlobal_App_User_Item_Folder"; 
-            SQL += " WHERE  (@Category                  IS NULL OR   Category                   =   @Category)";
-            SQL += " AND    (@CreatedByCooperatorID     IS NULL OR   CreatedByCooperatorID      =   @CreatedByCooperatorID)";
-            SQL += " AND    (@AppUserItemFolderID       IS NULL OR   ID                         =   @AppUserItemFolderID)";
-            SQL += " AND    (@IsFavorite                IS NULL OR   IsFavorite                 =   @IsFavorite)";
-            SQL += " AND    (@FolderType                IS NULL OR   FolderType                 =   @FolderType)";
+            SQL = " SELECT * FROM vw_GRINGlobal_App_User_Item_Folder";
+            SQL += " WHERE  (@FolderName                IS NULL OR   FolderName             LIKE    '%' + @FolderName + '%')";
+            SQL += " AND    (@Category                  IS NULL OR   Category               =       @Category)";
+            SQL += " AND    (@CreatedByCooperatorID     IS NULL OR   CreatedByCooperatorID  =       @CreatedByCooperatorID)";
+            SQL += " AND    (@AppUserItemFolderID       IS NULL OR   ID                     =       @AppUserItemFolderID)";
+            SQL += " AND    (@IsFavorite                IS NULL OR   IsFavorite             =       @IsFavorite)";
+            SQL += " AND    (@FolderType                IS NULL OR   FolderType             =       @FolderType)";
 
             if (searchEntity.IsShared == "Y")
             {
@@ -100,6 +101,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             }
 
             var parameters = new List<IDbDataParameter> {
+                CreateParameter("FolderName", !String.IsNullOrEmpty(searchEntity.FolderName) ? (object)searchEntity.FolderName : DBNull.Value, true),
                 CreateParameter("Category", !String.IsNullOrEmpty(searchEntity.Category) ? (object)searchEntity.Category : DBNull.Value, true),
                 CreateParameter("CreatedByCooperatorID", searchEntity.CreatedByCooperatorID > 0 ? (object)searchEntity.CreatedByCooperatorID : DBNull.Value, true),
                 CreateParameter("SharedWithCooperatorID", searchEntity.SharedWithCooperatorID > 0 ? (object)searchEntity.SharedWithCooperatorID : DBNull.Value, true),

@@ -149,6 +149,7 @@
                             @Html.HiddenFor(x => x.Entity.ID)
                             @Html.HiddenFor(x => x.Entity.ParentID)
                             @Html.HiddenFor(x => x.Entity.ParentName)
+                            @Html.HiddenFor(x => x.Entity.Name)
                             @Html.HiddenFor(x => x.Entity.Rank)
                             @Html.HiddenFor(x => x.Entity.IsAccepted)
                             @Html.HiddenFor(x => x.Entity.IsAcceptedName)
@@ -306,7 +307,6 @@
                                                             </div>
                                                         </div>
                                                     </div>
-
                                                     <!-- BEGIN NAME/SUBTAXON NAME SECTION -->
                                                     @switch (Model.Entity.Rank.ToUpper())
                                                     {
@@ -511,7 +511,6 @@
                                                             break;
                                                     }
                                                     <!-- END NAME/SUBTAXON NAME SECTION -->
-
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-md-6">

@@ -14,15 +14,15 @@
                     <span aria-hidden="true">×</span>
                 </button>
             </div>
-            <div id="section-search-criteria" class="modal-body">
-                @using (Html.BeginForm(new { id = "frmGenusLookup", onsubmit = "return false;" }))
+            <div id=" " class="modal-body">
+                @using (Html.BeginForm("Search", "Genus", FormMethod.Post, new { id = "frmGenusLookup", @class = "ggtools-lookup-form" }))
                 {
-                    <input type="hidden" id="hfGenusLookupIDFieldName" />
-                    <input type="hidden" id="hfGenusLookupNameFieldName" />
+                    @*<input type="hidden" id="hfGenusLookupIDFieldName" />
+            <input type="hidden" id="hfGenusLookupNameFieldName" />*@
                     <div class="row">
                         <div class="col-md-12">
                             <label>Name</label>
-                            @Html.TextBoxFor(x => x.SearchEntity.Name, new { @id = "txtLookupGenusName", @class = "form-control" })
+                            @Html.TextBoxFor(x => x.SearchEntity.Name, new { @class = "form-control" })
                         </div>
                     </div>
                     <div class="row">
@@ -71,8 +71,8 @@
     $("#btnOpenGenusLookupModal").click(function () {
         var eventAction = $(this).data("ggtools-action");
         var eventValue = $(this).data("ggtools-value");
-        $("#hfGenusLookupIDFieldName").val(eventAction);
-        $("#hfGenusLookupNameFieldName").val(eventValue);
+        //$("#hfGenusLookupIDFieldName").val(eventAction);
+        //$("#hfGenusLookupNameFieldName").val(eventValue);
         $("#search-progress-overlay-genus-lookup").hide();
     });
 
@@ -96,7 +96,7 @@
 
     function SearchGenus() {
         var link = '@Url.Action("Lookup","Genus")';
-        var genusName = $("#txtLookupGenusName").val();
+        var genusName = $("#SearchEntity_Name").val();
         var formData = new FormData();
 
         formData.append("SearchEntity.Name", genusName);

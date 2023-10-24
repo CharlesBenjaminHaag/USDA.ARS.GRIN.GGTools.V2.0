@@ -15,7 +15,25 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
         private static readonly Logger Log = LogManager.GetCurrentClassLogger();
         public ActionResult Index()
         {
-            return View();
+            AppUserItemFolderViewModel viewModel = new AppUserItemFolderViewModel();
+            viewModel.TableName = "app_user_item_folder";
+            return View(viewModel);
+        }
+        [HttpPost]
+        public ActionResult Search(AppUserItemFolderViewModel viewModel)
+        {
+            try
+            {
+                viewModel.Search();
+                //viewModel.GetFolderTypes();
+                //viewModel.GetFolderCategories();
+                return View("~/Views/AppUserItemFolder/Index.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return RedirectToAction("InternalServerError", "Error");
+            }
         }
         public PartialViewResult _List(int formatCode = 1, int cooperatorId = 0, string folderType = "", string isFavorite = null, string timeFrame = "", string isShared = "N")
         {
@@ -279,7 +297,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
 
                 if (!String.IsNullOrEmpty(coll["FolderType"]))
                 {
-                    viewModel.Entity.FolderType = coll["FolderType"];
+                    viewModel.Entity.FolderType = "STATIC";
                 }
 
                 if (!String.IsNullOrEmpty(coll["NewCategory"]))

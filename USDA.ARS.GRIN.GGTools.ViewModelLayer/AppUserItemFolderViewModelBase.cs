@@ -21,13 +21,23 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
 
         public AppUserItemFolderViewModelBase()
         {
+            TableName = "app_user_item_folder";
+            using (AppUserItemFolderManager mgr = new AppUserItemFolderManager())
+            {
+                Cooperators = new SelectList(mgr.GetCooperators(TableName), "ID", "FullName");
+                YesNoOptions = new SelectList(mgr.GetYesNoOptions(), "Key", "Value");
+            }
         }
 
         public AppUserItemFolderViewModelBase(int cooperatorId)
         {
+            TableName = "app_user_item_folder";
             List<CodeValue> categories = new List<CodeValue>();
             using (AppUserItemFolderManager mgr = new AppUserItemFolderManager())
             {
+                Cooperators = new SelectList(mgr.GetCooperators(TableName), "ID", "FullName");
+                YesNoOptions = new SelectList(mgr.GetYesNoOptions(), "Key", "Value");
+
                 categories = mgr.GetCategories(cooperatorId);
 
                 AppUserItemFolderSearch searchEntity = new AppUserItemFolderSearch();

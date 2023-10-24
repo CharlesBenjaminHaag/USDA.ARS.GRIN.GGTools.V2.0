@@ -15,7 +15,7 @@
                 </button>
             </div>
             <div id="section-search-criteria" class="modal-body">
-                @using (Html.BeginForm("Search", "Author", FormMethod.Post, new { id = "frmAuthorLookup" }))
+                @using (Html.BeginForm("Search", "Author", FormMethod.Post, new { id = "frmAuthorLookup", @class = "ggtools-lookup-form" }))
                 {
                     @Html.HiddenFor(x => x.EventAction)
                     @Html.HiddenFor(x => x.EventValue)

@@ -121,7 +121,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 return PartialView("~/Views/Error/_InternalServerError.cshtml");
             }
         }
-        public ActionResult Index()
+        public ActionResult Index(string eventAction = "", int folderId = 0)
         {
             SpeciesViewModel viewModel = new SpeciesViewModel();
             viewModel.PageTitle = "Species Search";
@@ -133,6 +133,15 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             if (Session[targetKey] != null)
             {
                 viewModel = Session[targetKey] as SpeciesViewModel;
+            }
+
+            if (eventAction == "RUN_SEARCH")
+            {
+                AppUserItemListViewModel appUserItemListViewModel = new AppUserItemListViewModel();
+                appUserItemListViewModel.SearchEntity.AppUserItemFolderID = folderId;
+                appUserItemListViewModel.Search();
+                viewModel.SearchEntity = viewModel.Deserialize<SpeciesSearch>(appUserItemListViewModel.Entity.Properties);
+                viewModel.Search();
             }
 
             return View(BASE_PATH + "Index.cshtml", viewModel);

@@ -559,7 +559,7 @@
     <Content Include="Views\Login\ResetPasswordFinal.cshtml" />
     <Content Include="Views\WebOrder\_TEST.cshtml" />
     <Content Include="Views\CodeValue\Edit.cshtml" />
-    <Content Include="Views\_OBSOLETE\Folder\_Detail.cshtml" />
+    <Content Include="Views\AppUserItemFolder\_Detail.cshtml" />
     <Content Include="Views\Login\Error.cshtml" />
     <Content Include="Views\Shared\Sidebars\_MainSidebarARM.cshtml" />
     <Content Include="Views\SysGroup\Index.cshtml" />
@@ -590,7 +590,7 @@
     <Content Include="Views\Taxonomy\FamilyMap\_OBSOLETE\EditSubfamily.cshtml" />
     <Content Include="Views\Taxonomy\FamilyMap\_OBSOLETE\EditSubtribe.cshtml" />
     <Content Include="Views\Taxonomy\FamilyMap\_OBSOLETE\EditTribe.cshtml" />
-    <Content Include="Views\_OBSOLETE\Folder\Search.cshtml" />
+    <Content Include="Views\AppUserItemFolder\Index.cshtml" />
     <Content Include="Views\AppUserItemList\_List.cshtml" />
     <Content Include="Views\Cooperator\_SelectList.cshtml" />
     <Content Include="Views\_OBSOLETE\Folder\_BACKUP\_ListShared.cshtml" />
@@ -896,7 +896,6 @@
     <Content Include="Views\Cooperator\Modals\_EditBatch.cshtml" />
     <Content Include="Views\Account\_TrainingRosterWidget.cshtml" />
     <Content Include="Views\AppUserItemList\_ListDynamic.cshtml" />
-    <Content Include="Views\AppUserItemFolder\Index.cshtml" />
     <Content Include="Views\Taxonomy\GeographyMap\_MenuEdit.cshtml" />
   </ItemGroup>
   <ItemGroup>

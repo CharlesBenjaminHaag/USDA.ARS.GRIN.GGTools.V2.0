@@ -16,6 +16,7 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
             System.Data.DataTable dt = new System.Data.DataTable();
             using (SysDynamicQueryManager mgr = new SysDynamicQueryManager())
             {
+                SearchEntity.SQLStatement = SearchEntity.SQLStatement.Replace("<p>", "").Replace("</p>", "");
                 DataCollectionDataTable = mgr.Search(SearchEntity);
             }
         }

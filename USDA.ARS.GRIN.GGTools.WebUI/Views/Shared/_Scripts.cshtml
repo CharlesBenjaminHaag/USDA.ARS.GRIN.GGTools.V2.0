@@ -22,13 +22,15 @@
             focus: true                  // set focus to editable area after initializing summernote
         });
 
+        /* When any lookup modal is loaded, ensure that the first visible text input field
+         * within the lookup/search form has cursor focus. */
         $(document).on('shown.bs.modal', function (e) {
             $.fn.dataTable.tables({ visible: true, api: true }).columns.adjust();
-        });
+            $(".overlay").hide();
 
-        //$(function () {
-        //    $("#SearchEntity_CreatedDate").datepicker();
-        //    $("#SearchEntity_ModifiedDate").datepicker();
-        //});
+            var DEBUG = $(".ggtools-lookup-form :input[type='text']:visible:enabled:first").attr("id");
+            alert("FIRST TEXT IS " + DEBUG);
+            $(".ggtools-lookup-form :input[type='text']:visible:enabled:first").focus();
+        });
     });
 </script>

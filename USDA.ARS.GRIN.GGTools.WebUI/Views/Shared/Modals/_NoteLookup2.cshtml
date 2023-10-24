@@ -1,6 +1,9 @@
 ﻿<div class="modal fade" id="modal-note-lookup" style="display: none;" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
+            <div id="search-progress-overlay-note-lookup" class="overlay">
+                <i class="fas fa-2x fa-sync fa-spin"></i>
+            </div>
             <div class="modal-header">
                 <h4 class="modal-title">
                     <i class="fas fa-search"></i>
@@ -8,20 +11,22 @@
                 </h4>
             </div>
             <div class="modal-body">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            <label>Note Text</label>
-                            <input type="text" id="txtLookupNote" class="form-control" />
+                <form id="frmLookup" class="ggtools-lookup-form">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>Note Text</label>
+                                <input type="text" id="txtLookupNote" class="form-control" />
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <button id="btnLookupNote" class="btn btn-default float-right">Search</button>
                         </div>
                     </div>
-
-                </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <button id="btnLookupNote" class="btn btn-default float-right">Search</button>
-                    </div>
-                </div>
+                </form>
                 <div id="section-lookup-note-search-results">
                 </div>
             </div>
@@ -51,6 +56,8 @@
         formData.append("TableName", tableName);
         formData.append("Note", note);
 
+        $("#search-progress-overlay-note-lookup").show();
+
         $.ajax({
         url: link,
         type: 'POST',
@@ -59,10 +66,12 @@
         processData: false,
         data: formData,
         success: function (response) {
-        $("#section-lookup-note-search-results").html(response);
+            $("#section-lookup-note-search-results").html(response);
+            $("#search-progress-overlay-note-lookup").hide();
         },
         error: function () {
-        alert("Error");
+            alert("Error");
+            $("#search-progress-overlay-note-lookup").hide();
         }
         });
         }
