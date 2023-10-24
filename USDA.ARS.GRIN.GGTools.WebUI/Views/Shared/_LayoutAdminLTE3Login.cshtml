@@ -23,3 +23,10 @@
     <script src="../../dist/js/adminlte.min.js?v=3.2.0"></script>
 </body>
 </html>
+<script type="text/javascript">
+    /* When user begins typing, hide error message block. */
+    $(document).on('keypress', function (event) {
+        var keycode = (event.keyCode ? event.keyCode : event.which);
+        $("#section-input-error").hide();
+    });
+</script>

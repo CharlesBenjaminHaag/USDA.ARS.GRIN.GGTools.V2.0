@@ -30,25 +30,7 @@
                     }
                     else
                     {
-                        <div class="card">
-                            <div class="card-header">
-                                <h3 class="card-title">
-                                    <i class="fas fa-folder"></i>
-                                    <a href="@Url.Action("Edit","AppUserItemFolder", new { @entityId = result.ID })">@result.FolderName</a>
-                                </h3>
-                            </div>
-                            <div class="card-body">
-                                <dl>
-                                    <dt>Description</dt>
-                                    <dd>@result.Description</dd>
-                                </dl>
-                            </div>
-                            <div class="card-footer">
-                                Created @result.CreatedDate.ToShortDateString() by <a href="@Url.Action("Edit","Cooperator", new { @entityId = result.CreatedByCooperatorID })">@result.CreatedByCooperatorName</a>
-                            </div>
-                        </div>
-
-                        @*<div class="info-box shadow">
+                        <div class="info-box shadow">
                             <span class="info-box-icon bg-info"><i class="far fa-folder"></i></span>
                             <div class="info-box-content">
                                 <span class="info-box-text">
@@ -60,9 +42,9 @@
                                         @result.FolderName
                                     </a>
                                 </span>
-                                <span class="info-box-number">@result.CreatedDate.ToShortDateString() <span class="badge-info">@result.TotalItems items</span>
+                                <span class="info-box-number">Created @result.CreatedDate.ToShortDateString() <span class="badge badge-secondary float-right">@result.TotalItems items</span>
                             </div>
-                        </div>*@
+                        </div>
                     }
                 </div>
             }

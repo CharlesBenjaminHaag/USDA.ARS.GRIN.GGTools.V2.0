@@ -32,5 +32,11 @@
             alert("FIRST TEXT IS " + DEBUG);
             $(".ggtools-lookup-form :input[type='text']:visible:enabled:first").focus();
         });
+
+        /* When user begins typing, hide error message block. */
+        $(document).on('keypress', function (event) {
+            var keycode = (event.keyCode ? event.keyCode : event.which);
+            alert("DEBUG TYPING");
+        });
     });
 </script>

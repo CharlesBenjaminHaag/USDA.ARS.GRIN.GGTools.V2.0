@@ -267,6 +267,7 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
             if (!passwordIsValid)
             {
                 Entity.IsAuthenticated = false;
+                Entity.Password = String.Empty;
                 UserMessage = "Your password is incorrect.";
                 return false;
             }

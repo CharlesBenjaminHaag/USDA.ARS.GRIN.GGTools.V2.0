@@ -44,7 +44,11 @@
                     <div class="row mb-2">
                         <div class="col-sm-6">
                             <h1 class="m-0">
-                                @Html.Raw(Model.PageTitle)
+                                @{
+                                    string controllerName = ViewContext.RouteData.Values["controller"].ToString();
+                                    string actionName = ViewContext.RouteData.Values["action"].ToString();
+                                }
+                                <span>@actionName @controllerName [@Model.Entity.ID]: @Html.Raw(Model.Entity.AssembledName)</span>
                             </h1>
                         </div>
                         <div class="col-sm-6">
