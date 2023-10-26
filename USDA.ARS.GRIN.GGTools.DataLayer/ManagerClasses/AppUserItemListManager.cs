@@ -81,12 +81,14 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             SQL += " WHERE  (@CreatedByCooperatorID     IS NULL OR CreatedByCooperatorID    =       @CreatedByCooperatorID)";
             SQL += " AND    (@AppUserItemFolderID       IS NULL OR AppUserItemFolderID      =       @AppUserItemFolderID)";
             SQL += " AND    (@ID                        IS NULL OR ID                       =       @ID)";
+            SQL += " AND    (@TabName                   IS NULL OR TabName                  LIKE    '%' + @TabName + '%')";
             SQL += " AND    (@ListName                  IS NULL OR ListName                 LIKE    '%' + @ListName + '%')";
     
             var parameters = new List<IDbDataParameter> {
                 CreateParameter("CreatedByCooperatorID", search.CreatedByCooperatorID > 0 ? (object)search.CreatedByCooperatorID : DBNull.Value, true),
                 CreateParameter("AppUserItemFolderID", search.AppUserItemFolderID > 0 ? (object)search.AppUserItemFolderID : DBNull.Value, true),
                 CreateParameter("ID", search.ID > 0 ? (object)search.ID : DBNull.Value, true),
+                CreateParameter("TabName", (object)search.TabName ?? DBNull.Value, true),
                 CreateParameter("ListName", (object)search.ListName ?? DBNull.Value, true),
             };
             List<AppUserItemList> appUserItemLists = GetRecords<AppUserItemList>(SQL, parameters.ToArray());
@@ -131,6 +133,15 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
                 }
                 return rowsAffected;
             }
-         
+        public virtual List<Cooperator> GetCooperators(string tableName)
+        {
+            SQL = "usp_GRINGlobal_Cooperators_Select";
+            var parameters = new List<IDbDataParameter> {
+                CreateParameter("table_name", (object)tableName, false)
+            };
+            List<Cooperator> cooperators = GetRecords<Cooperator>(SQL, CommandType.StoredProcedure, parameters.ToArray());
+            RowsAffected = cooperators.Count;
+            return cooperators;
+        }
     }
 }

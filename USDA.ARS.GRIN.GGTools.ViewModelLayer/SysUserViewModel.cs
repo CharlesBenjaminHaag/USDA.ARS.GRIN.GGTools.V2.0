@@ -240,6 +240,13 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
                 return false;
             }
 
+            if (String.IsNullOrEmpty(SearchEntity.Password))
+            {
+                Entity.IsAuthenticated = false;
+                UserMessage = "Please enter your GRIN-Global password.";
+                return false;
+            }
+
             if (SearchEntity.UserName.Length > 50)
             {
                 Entity.IsAuthenticated = false;

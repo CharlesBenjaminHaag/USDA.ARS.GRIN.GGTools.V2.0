@@ -18,6 +18,15 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
         private Collection<AppUserItemList> _DataCollectionTabs = new Collection<AppUserItemList>();
         private Collection<AppEntityRecord> _DataCollectionLists = new Collection<AppEntityRecord>();
         private Collection<SysTable> _DataCollectionSysTables = new Collection<SysTable>();
+
+        public AppUserItemListViewModelBase()
+        {
+            using (AppUserItemListManager mgr = new AppUserItemListManager())
+            {
+                Cooperators = new SelectList(mgr.GetCooperators("app_user_item_list"), "ID", "FullName");
+            }
+        }
+        
         public AppUserItemList Entity
         {
             get { return _Entity; }

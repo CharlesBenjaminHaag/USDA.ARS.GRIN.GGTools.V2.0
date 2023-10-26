@@ -897,6 +897,7 @@
     <Content Include="Views\Account\_TrainingRosterWidget.cshtml" />
     <Content Include="Views\AppUserItemList\_ListDynamic.cshtml" />
     <Content Include="Views\Taxonomy\GeographyMap\_MenuEdit.cshtml" />
+    <Content Include="Views\AppUserItemList\_Detail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

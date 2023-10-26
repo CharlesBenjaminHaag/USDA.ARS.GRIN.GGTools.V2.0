@@ -8,36 +8,38 @@
                 </button>
             </div>
             <div id="section-search-criteria" class="modal-body">
-                <input type="hidden" id="hfFamilyLookupIDFieldName" />
-                <input type="hidden" id="hfFamilyLookupNameFieldName" />
-                <div class="row">
-                    <div class="col-md-12">
-                        <label>Name</label>
-                        <input type="text" id="txtLookupFamilyName" class="form-control" />
+                <form id="frmLookup">
+                    <input type="hidden" id="hfFamilyLookupIDFieldName" />
+                    <input type="hidden" id="hfFamilyLookupNameFieldName" />
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label>Name</label>
+                            <input type="text" id="txtLookupFamilyName" class="form-control" />
+                        </div>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="margin">
-                            <div class="form-group clearfix">
-                                <div class="icheck-primary d-inline">
-                                    <input class="custom-control-input" type="checkbox" id="cbxLookupIsAcceptedName" value="option1">
-                                    <label for="cbxLookupIsAcceptedName">
-                                        Search accepted names only.
-                                    </label>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="margin">
+                                <div class="form-group clearfix">
+                                    <div class="icheck-primary d-inline">
+                                        <input class="custom-control-input" type="checkbox" id="cbxLookupIsAcceptedName" value="option1">
+                                        <label for="cbxLookupIsAcceptedName">
+                                            Search accepted names only.
+                                        </label>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="margin">
-                            <button id="btnReset" class="btn btn-danger">Reset</button>
-                            <button id="btnLookupFamily" class="btn btn-default float-right">Search</button>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="margin">
+                                <button id="btnReset" class="btn btn-danger">Reset</button>
+                                <button id="btnLookupFamily" class="btn btn-default float-right">Search</button>
+                            </div>
                         </div>
                     </div>
-                </div>
+                </form>
                 <div id="section-family-lookup-search-results">
 
                 </div>

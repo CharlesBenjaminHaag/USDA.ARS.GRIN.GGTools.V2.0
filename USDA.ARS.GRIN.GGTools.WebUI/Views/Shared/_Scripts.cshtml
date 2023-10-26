@@ -27,16 +27,21 @@
         $(document).on('shown.bs.modal', function (e) {
             $.fn.dataTable.tables({ visible: true, api: true }).columns.adjust();
             $(".overlay").hide();
-
-            var DEBUG = $(".ggtools-lookup-form :input[type='text']:visible:enabled:first").attr("id");
-            alert("FIRST TEXT IS " + DEBUG);
             $(".ggtools-lookup-form :input[type='text']:visible:enabled:first").focus();
+            $("#frmLookup :input[type='text']:visible:enabled:first").focus();
+            $(".modal-body :input[type='text']:visible:enabled:first").focus();
         });
+
+        /* Set first edit field active in any edit form. */
+        $("#section-search-criteria :input[type='text']:visible:enabled:first").focus();
+        $("#frmMain :input[type='text']:visible:enabled:first").focus();
+        $("#frmEdit :input[type='text']:visible:enabled:first").focus();
+        $("#frmLookup :input[type='text']:visible:enabled:first").focus();
 
         /* When user begins typing, hide error message block. */
         $(document).on('keypress', function (event) {
             var keycode = (event.keyCode ? event.keyCode : event.which);
-            alert("DEBUG TYPING");
+            /*alert("DEBUG TYPING");*/
         });
     });
 </script>

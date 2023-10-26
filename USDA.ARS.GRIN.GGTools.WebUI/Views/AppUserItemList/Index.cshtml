@@ -1,8 +1,13 @@
-﻿
+﻿@model USDA.ARS.GRIN.GGTools.ViewModelLayer.AppUserItemListViewModel
 @{
-    ViewBag.Title = "Index";
-    Layout = "~/Views/Shared/_LayoutAdminLTE.cshtml";
+    ViewBag.Title = "App User Item List";
+    Layout = "~/Views/Shared/_LayoutAdminLTE3.cshtml";
 }
-
-<h2>Index</h2>
-
+@Html.Partial("~/Views/AppUserItemList/_Detail.cshtml")
+@Html.Partial("~/Views/AppUserItemList/_List.cshtml")
+@{Html.RenderAction("RenderImportModal", "AppUserItemFolder");}
+<script type="text/javascript">
+    function Import(option) {
+        OpenFolderModal();
+    }
+</script>

@@ -1,17 +1,16 @@
 ﻿using System.Web.Mvc;
 using System;
 using System.Collections.Generic;
-using USDA.ARS.GRIN.GGTools.AppLayer;
 using USDA.ARS.GRIN.GGTools.WebUI;
-using USDA.ARS.GRIN.GGTools.DataLayer;
 using USDA.ARS.GRIN.GGTools.ViewModelLayer;
 using USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer;
+using USDA.ARS.GRIN.GGTools.DataLayer;
 using NLog;
 
 namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
 {
     [GrinGlobalAuthentication]
-    public class AppUserItemListController : BaseController, IController<AppUserItemList>
+    public class AppUserItemListController : BaseController
     {
         private static readonly Logger Log = LogManager.GetCurrentClassLogger();
 
@@ -96,7 +95,16 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
         // GET: AppUserItemList
         public ActionResult Index()
         {
-            return View();
+            try
+            {
+                AppUserItemListViewModel viewModel = new AppUserItemListViewModel();
+                return View(viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return RedirectToAction("InternalServerError", "Error");
+            }
         }
         public ActionResult Import()
         {
@@ -116,84 +124,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 return RedirectToAction("InternalServerError", "Error");
     }
 }
-        //public PartialViewResult Import(FormCollection coll)
-        //{
-        //    FolderViewModel viewModel = new FolderViewModel();
-        //    viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
-
-        //    try
-        //    {
-        //        viewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
-
-        //        if (!String.IsNullOrEmpty(coll["FolderID"]))
-        //        {
-        //            viewModel.Entity.ID = Int32.Parse(coll["FolderID"]);
-        //        }
-
-        //        if (!String.IsNullOrEmpty(coll["IDList"]))
-        //        {
-        //            viewModel.Entity.ItemIDList = coll["IDList"];
-        //        }
-
-        //        if (!String.IsNullOrEmpty(coll["TableName"]))
-        //        {
-        //            viewModel.Entity.TableName = coll["TableName"];
-        //        }
-
-        //        if (!String.IsNullOrEmpty(coll["FolderName"]))
-        //        {
-        //            viewModel.Entity.FolderName = coll["FolderName"];
-        //        }
-
-        //        if (!String.IsNullOrEmpty(coll["FolderType"]))
-        //        {
-        //            viewModel.Entity.FolderType = coll["FolderType"];
-        //        }
-
-        //        if (!String.IsNullOrEmpty(coll["NewCategory"]))
-        //        {
-        //            viewModel.Entity.Category = coll["NewCategory"];
-        //        }
-        //        else
-        //        {
-        //            if (!String.IsNullOrEmpty(coll["Category"]))
-        //            {
-        //                viewModel.Entity.Category = coll["Category"];
-        //            }
-        //        }
-
-        //        if (!String.IsNullOrEmpty(coll["Description"]))
-        //        {
-        //            viewModel.Entity.Description = coll["Description"];
-        //        }
-
-        //        if (!String.IsNullOrEmpty(coll["IsFavorite"]))
-        //        {
-        //            viewModel.Entity.IsFavorite = coll["IsFavorite"];
-        //        }
-
-        //        if (viewModel.Entity.ID == 0)
-        //        {
-        //            viewModel.Insert();
-        //        }
-        //        else
-        //        {
-        //            viewModel.Update();
-        //        }
-
-        //        // TEST Return new folder as JSON
-        //        viewModel.SearchEntity.ID = viewModel.Entity.ID;
-        //        viewModel.Search();
-        //        viewModel.EventAction = "ADD";
-        //        return PartialView("~/Views/Folder/_Confirmation.cshtml", viewModel);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Log.Error(ex);
-        //        return PartialView("~/Views/Error/_InternalServerError.cshtml");
-        //    }
-        //}
-
+       
         public PartialViewResult _List(string tabName = "", int cooperatorId = 0, int appUserItemFolderId = 0)
         {
             AppUserItemListViewModel viewModel = new AppUserItemListViewModel();
@@ -269,10 +200,30 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             }
         }
 
-
-        public ActionResult Search(AppUserItemList viewModel)
+        [HttpPost]
+        public ActionResult Search(AppUserItemListViewModel viewModel)
         {
-            throw new NotImplementedException();
+            try
+            {
+                Session[SessionKeyName] = viewModel;
+                viewModel.EventAction = "SEARCH";
+                viewModel.Search();
+                ModelState.Clear();
+
+                // Save search if attribs supplied.
+                //if ((viewModel.EventAction == "SEARCH") && (viewModel.EventValue == "SAVE"))
+                //{
+                //    viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
+                //    viewModel.SaveSearch();
+                //}
+
+                return View("~/Views/AppUserItemList/Index.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return RedirectToAction("InternalServerError", "Error");
+            }
         }
 
         public ActionResult _Lookup(FormCollection formCollection)
