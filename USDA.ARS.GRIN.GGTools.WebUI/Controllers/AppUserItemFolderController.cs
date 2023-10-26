@@ -35,6 +35,18 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 return RedirectToAction("InternalServerError", "Error");
             }
         }
+
+        public PartialViewResult _HierarchicalList()
+        {
+            try
+            { 
+                
+            }
+            catch (Exception ex)
+            { 
+            
+            }
+        }
         public PartialViewResult _List(int formatCode = 1, int cooperatorId = 0, string folderType = "", string isFavorite = null, string timeFrame = "", string isShared = "N")
         {
            AppUserItemFolderViewModel viewModel = new AppUserItemFolderViewModel();
