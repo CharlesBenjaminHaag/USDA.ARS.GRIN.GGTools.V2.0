@@ -36,17 +36,17 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             }
         }
 
-        public PartialViewResult _HierarchicalList()
-        {
-            try
-            { 
+        //public PartialViewResult _HierarchicalList()
+        //{
+        //    try
+        //    { 
                 
-            }
-            catch (Exception ex)
-            { 
+        //    }
+        //    catch (Exception ex)
+        //    { 
             
-            }
-        }
+        //    }
+        //}
         public PartialViewResult _List(int formatCode = 1, int cooperatorId = 0, string folderType = "", string isFavorite = null, string timeFrame = "", string isShared = "N")
         {
            AppUserItemFolderViewModel viewModel = new AppUserItemFolderViewModel();
