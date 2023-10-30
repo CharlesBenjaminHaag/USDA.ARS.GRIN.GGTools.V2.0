@@ -1125,6 +1125,9 @@
     <Content Include="Views\AppUserItemList\_ListDynamic.cshtml" />
     <Content Include="Views\Taxonomy\GeographyMap\_MenuEdit.cshtml" />
     <Content Include="Views\AppUserItemList\_Detail.cshtml" />
+    <Content Include="Views\AppUserItemFolder\Explorer\Index.cshtml" />
+    <Content Include="Views\AppUserItemList\_SelectList.cshtml" />
+    <Content Include="Views\AppUserItemFolder\_Widget.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

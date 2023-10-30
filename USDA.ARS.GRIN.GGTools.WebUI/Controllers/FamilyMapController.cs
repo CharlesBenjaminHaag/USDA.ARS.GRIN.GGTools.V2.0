@@ -150,7 +150,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
         //        FamilyMapViewModel viewModel = new FamilyMapViewModel();
         //        viewModel.EventAction = "SEARCH";
         //        viewModel.EventValue = "FOLDER";
-        //        viewModel.SearchEntity.FolderID = folderId;
+        //        viewModel.SearchEntity.FolderID = appUserItemFolderId;
         //        viewModel.GetFolderItems();
         //        ModelState.Clear();
         //        return PartialView(BASE_PATH + "List.cshtml", viewModel);
@@ -245,14 +245,14 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 return PartialView("~/Views/Error/_InternalServerError.cshtml");
             }
         }
-        public PartialViewResult _ListFolderItems(int folderId)
+        public PartialViewResult _ListFolderItems(int appUserItemFolderId)
         {
             FamilyMapViewModel viewModel = new FamilyMapViewModel();
 
             try
             {
                 viewModel.EventAction = "FOLDER";
-                viewModel.SearchEntity.FolderID = folderId;
+                viewModel.SearchEntity.FolderID = appUserItemFolderId;
                 viewModel.GetFolderItems();
                 return PartialView(BASE_PATH + "_ListFolder.cshtml", viewModel);
             }

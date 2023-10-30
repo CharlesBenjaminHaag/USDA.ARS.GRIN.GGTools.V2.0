@@ -69,22 +69,22 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             }
         }
 
-        public PartialViewResult _ListSpeciesFolderItems(int folderId)
-        {
-            SpeciesViewModel viewModel = new SpeciesViewModel();
-            try
-            {
-                viewModel.EventAction = "FOLDER";
-                viewModel.SearchEntity.FolderID = folderId;
-                viewModel.GetFolderItems();
-                return PartialView("~/Views/Taxonomy/Explorer/_List.cshtml", viewModel);
-            }
-            catch (Exception ex)
-            {
-                Log.Error(ex);
-                return PartialView("~/Views/Error/_InternalServerError.cshtml");
-            }
-        }
+        //public PartialViewResult _ListSpeciesFolderItems(int folderId)
+        //{
+        //    SpeciesViewModel viewModel = new SpeciesViewModel();
+        //    try
+        //    {
+        //        viewModel.EventAction = "FOLDER";
+        //        viewModel.SearchEntity.FolderID = appUserItemFolderId;
+        //        viewModel.GetFolderItems();
+        //        return PartialView("~/Views/Taxonomy/Explorer/_List.cshtml", viewModel);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Log.Error(ex);
+        //        return PartialView("~/Views/Error/_InternalServerError.cshtml");
+        //    }
+        //}
 
         public PartialViewResult _ListFamily()
         {

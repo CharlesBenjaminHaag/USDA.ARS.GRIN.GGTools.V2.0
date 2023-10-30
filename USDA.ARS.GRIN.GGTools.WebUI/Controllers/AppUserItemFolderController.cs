@@ -19,6 +19,23 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             viewModel.TableName = "app_user_item_folder";
             return View(viewModel);
         }
+        public ActionResult Explorer()
+        {
+            AppUserItemFolderViewModel viewModel = new AppUserItemFolderViewModel();
+            try
+            { 
+                viewModel.TableName = "app_user_item_folder";
+                viewModel.SearchEntity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
+                viewModel.Search();
+                return View("~/Views/AppUserItemFolder/Explorer/Index.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return RedirectToAction("InternalServerError", "Error");
+            }
+        }
+
         [HttpPost]
         public ActionResult Search(AppUserItemFolderViewModel viewModel)
         {
@@ -35,18 +52,6 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 return RedirectToAction("InternalServerError", "Error");
             }
         }
-
-        //public PartialViewResult _HierarchicalList()
-        //{
-        //    try
-        //    { 
-                
-        //    }
-        //    catch (Exception ex)
-        //    { 
-            
-        //    }
-        //}
         public PartialViewResult _List(int formatCode = 1, int cooperatorId = 0, string folderType = "", string isFavorite = null, string timeFrame = "", string isShared = "N")
         {
            AppUserItemFolderViewModel viewModel = new AppUserItemFolderViewModel();
@@ -359,6 +364,22 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 return PartialView("~/Views/Error/_InternalServerError.cshtml");
             }
         }
+        public PartialViewResult RenderWidget(int appUserItemFolderId)
+        {
+            AppUserItemFolderViewModel viewModel = new AppUserItemFolderViewModel();
+            try 
+            { 
+                viewModel.SearchEntity.ID = appUserItemFolderId;
+                viewModel.Get();
+                return PartialView("~/Views/AppUserItemFolder/_Widget.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
+        }
+
         #region Dynamic Folder
 
         public PartialViewResult RenderDynamicFolderEditModal()
@@ -374,33 +395,6 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 return PartialView("~/Views/Error/_InternalServerError.cshtml");
             }
         }
-        //public PartialViewResult AddDynamicFolder(AppUserItemFolderViewModel viewModel)
-        //{
-        //    try
-        //    {
-        //        if (viewModel.Entity.ID == 0)
-        //        {
-        //            viewModel.Entity.FolderType = "DYNAMIC";
-        //            viewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
-        //            viewModel.Insert();
-        //        }
-        //        else
-        //        {
-        //            viewModel.Entity.ModifiedByCooperatorID = AuthenticatedUser.CooperatorID;
-        //            viewModel.Update();
-        //        }
-        //        viewModel.SearchEntity.ID = viewModel.Entity.ID;
-        //        viewModel.Get();
-        //        viewModel.EventAction = "ADD";
-        //        return PartialView("~/Views/AppUserItemFolder/_ConfirmationDynamic.cshtml", viewModel);
-
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Log.Error(ex);
-        //        return PartialView("~/Views/Error/_InternalServerError.cshtml");
-        //    }
-        //}
         public PartialViewResult _ListDynamic(int formatCode = 1, int cooperatorId = 0, string folderType = "", string dataType = "", string isFavorite = null, string timeFrame = "", string isShared = "N")
         {
             AppUserItemFolderViewModel viewModel = new AppUserItemFolderViewModel();

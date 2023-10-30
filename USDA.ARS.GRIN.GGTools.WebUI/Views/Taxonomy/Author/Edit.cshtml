@@ -83,6 +83,21 @@
                         @Html.HiddenFor(x => x.TableCode)
                         @Html.HiddenFor(x => x.Entity.ID)
                         @Html.HiddenFor(x => x.OriginalShortName)
+                        @Html.HiddenFor(x => x.AppUserItemFolderID)
+                        <!--
+                        =====================================================
+                        BEGIN REF. FOLDER LOGIC
+                        If ID of related folder > 0, show widget identifying folder
+                        and allowing user to
+                            1) Navigate to folder
+                            2) Remove this record from it.
+                        =====================================================
+                        -->
+                        if (Model.AppUserItemFolderID > 0)
+                        { 
+                            Html.RenderAction("RenderWidget", "AppUserItemFolder", new { appUserItemFolderId = Model.AppUserItemFolderID }); }
+                        }
+
                         @Html.Partial("~/Views/Shared/_RevisionHistory.cshtml")
                         <!-- Reference warning-->
                         <div class="modal fade" id="modal-warning-references" style="display: none;" aria-hidden="true">

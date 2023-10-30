@@ -114,7 +114,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
         // BEGIN OLD CODE
         // ******************************************************************************
 
-        public PartialViewResult _ListFolderItems(int folderId)
+        public PartialViewResult _ListFolderItems(int appUserItemFolderId)
         {
             try
             {

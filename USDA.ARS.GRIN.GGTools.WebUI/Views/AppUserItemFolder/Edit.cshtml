@@ -157,7 +157,7 @@
         //tableName = tableName.replace("link-","");
 
         //DEBUG
-        //alert("DEBUG TAB " + tableName + " ACT " + eventAction + " VAL " + eventValue);
+        /*alert("DEBUG TAB " + tableName + " ACT " + eventAction + " VAL " + eventValue);*/
 
         $("#EventAction").val(eventAction);
         $("#EventValue").val(eventValue);
@@ -165,7 +165,7 @@
 
         var formData = new FormData();
 
-        formData.append("folderId", id);
+        formData.append("appUserItemFolderId", id);
         //DEBUG
         //alert("ID IS " + id + " EVENT VALUE IS " + eventValue + " EVENT ACTION IS " + eventAction);
 
