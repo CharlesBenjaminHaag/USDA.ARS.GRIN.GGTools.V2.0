@@ -75,6 +75,13 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
                         " WHERE CooperatorID = @SharedWithCooperatorID) ";
             }
 
+            if (searchEntity.EntityID > 0)
+            {
+                SQL += " AND ID IN (SELECT AppUserItemFolderID " +
+                        " FROM vw_GRINGlobal_App_User_Item_List " +
+                        " WHERE IDNumber = @EntityID) ";
+            }
+
             switch (searchEntity.TimeFrame)
             {
                 case "1D":
@@ -108,6 +115,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
                 CreateParameter("IsFavorite", !String.IsNullOrEmpty(searchEntity.IsFavorite) ? (object)searchEntity.IsFavorite : DBNull.Value, true),
                 CreateParameter("FolderType", !String.IsNullOrEmpty(searchEntity.FolderType) ? (object)searchEntity.FolderType : DBNull.Value, true),
                 CreateParameter("AppUserItemFolderID", searchEntity.ID > 0 ? (object)searchEntity.ID : DBNull.Value, true),
+                CreateParameter("EntityID", searchEntity.EntityID > 0 ? (object)searchEntity.EntityID : DBNull.Value, true),
             };
 
             results = GetRecords<AppUserItemFolder>(SQL, parameters.ToArray());
@@ -259,6 +267,24 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
 
             return RowsAffected;
         }
+        public int DeleteItemByEntityID(int idNumber, int appUserItemFolderID)
+        {
+            Reset(CommandType.StoredProcedure);
+
+            SQL = "usp_GRINGlobal_AppUserItemList_ByEntityID_Delete";
+            AddParameter("@app_user_item_folder_id", (object)appUserItemFolderID, false);
+            AddParameter("@id_number", (object)idNumber, false);
+            AddParameter("@out_error_number", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
+            RowsAffected = ExecuteNonQuery();
+
+            int errorNumber = GetParameterValue<int>("@out_error_number", -1);
+            if (errorNumber > 0)
+            {
+                throw new Exception(errorNumber.ToString());
+            }
+
+            return RowsAffected;
+        }
         public virtual List<CodeValue> GetCategories(int cooperatorId = 0)
         {
             List<CodeValue> codeValues = new List<CodeValue>();
@@ -282,7 +308,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
         {
             List<ReportItem> reportItems = new List<ReportItem>();
 
-            SQL = "usp_GRINGlobal_App_User_Item_List_ID_Types_Select";
+            SQL = "usp_GRINGlobal_AppUserItemList_ID_Types_Select";
 
             var parameters = new List<IDbDataParameter> {
             CreateParameter("app_user_item_folder_id", (object)appUserItemFolderId, false)

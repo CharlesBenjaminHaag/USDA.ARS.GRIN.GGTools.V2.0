@@ -107,7 +107,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
 
             Reset(CommandType.StoredProcedure);
 
-            SQL = "usp_GRINGlobal_App_User_Item_List_Insert";
+            SQL = "usp_GRINGlobal_AppUserItemList_Insert";
 
             AddParameter("app_user_item_folder_id", (object)entity.AppUserItemFolderID, false);
             AddParameter("cooperator_id", (object)entity.CreatedByCooperatorID, false);

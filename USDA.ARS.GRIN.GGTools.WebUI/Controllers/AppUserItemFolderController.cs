@@ -175,6 +175,20 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 return PartialView("~/Views/Error/_InternalServerError.cshtml");
             }
         }
+        [HttpPost]
+        public JsonResult DeleteItemByEntityID(FormCollection formCollection)
+        {
+            try 
+            {
+                AppUserItemFolderViewModel viewModel = new AppUserItemFolderViewModel();
+                viewModel.DeleteItemByEntityID(Int32.Parse(GetFormFieldValue(formCollection, "IDNumber")), Int32.Parse(GetFormFieldValue(formCollection, "AppUserItemFolderID")));
+                return Json(new { success = true }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { errorMessage = ex.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
 
         [HttpPost]
         public JsonResult DeleteEntity(FormCollection formCollection)
@@ -192,7 +206,6 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 return Json(new { errorMessage = ex.Message }, JsonRequestBehavior.AllowGet);
             }
         }
-
         [HttpPost]
         public JsonResult DeleteItems(FormCollection coll)
         {
@@ -364,14 +377,21 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 return PartialView("~/Views/Error/_InternalServerError.cshtml");
             }
         }
-        public PartialViewResult RenderWidget(int appUserItemFolderId)
+        /// <summary>
+        /// Renders a widget that displays all folders that a given entity
+        /// is currently contained in.
+        /// </summary>
+        /// <param name="appUserItemFolderId"></param>
+        /// <returns></returns>
+        /// <remarks>Used on edit page.</remarks>
+        public PartialViewResult RenderRelatedFoldersWidget(int idNumber)
         {
             AppUserItemFolderViewModel viewModel = new AppUserItemFolderViewModel();
             try 
             { 
-                viewModel.SearchEntity.ID = appUserItemFolderId;
-                viewModel.Get();
-                return PartialView("~/Views/AppUserItemFolder/_Widget.cshtml", viewModel);
+                viewModel.SearchEntity.EntityID = idNumber;
+                viewModel.Search();
+                return PartialView("~/Views/AppUserItemFolder/_RelatedFoldersWidget.cshtml", viewModel);
             }
             catch (Exception ex)
             {

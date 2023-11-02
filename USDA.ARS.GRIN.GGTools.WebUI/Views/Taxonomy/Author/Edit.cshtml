@@ -95,7 +95,7 @@
                         -->
                         if (Model.AppUserItemFolderID > 0)
                         { 
-                            Html.RenderAction("RenderWidget", "AppUserItemFolder", new { appUserItemFolderId = Model.AppUserItemFolderID }); }
+                            Html.RenderAction("RenderRelatedFoldersWidget", "AppUserItemFolder", new { idNumber = Model.Entity.ID }); }
                         }
 
                         @Html.Partial("~/Views/Shared/_RevisionHistory.cshtml")
@@ -227,6 +227,11 @@
 </html>
 @Html.Partial("~/Views/Shared/_Scripts.cshtml")
 <script type="text/javascript">
+    function Page_Load() {
+        alert("DEBUG " + window.location.href);
+        window.location.href = window.location.href;
+    }
+
     //btnSaveAuthor
     $("#btnSaveAuthor").on('click', function (event) {
        
