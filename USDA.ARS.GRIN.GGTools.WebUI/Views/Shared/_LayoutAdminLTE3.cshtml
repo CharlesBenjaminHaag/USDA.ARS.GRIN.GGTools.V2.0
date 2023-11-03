@@ -106,7 +106,7 @@
             <img class="animation__wobble" src="~/dist/img/gringlobal-logo.jfif" alt="AdminLTELogo" height="90" width="90">
         </div>
 
-        <nav class="main-header navbar navbar-expand navbar-white navbar-light text-sm">
+        <nav class="main-header navbar navbar-expand navbar-white navbar-light bg-success text-sm">
 
             <!-- TODO: Refactor. Show context-sensitive menu. -->
             @{ string eventAction = @ViewContext.RouteData.Values["controller"].ToString();
@@ -173,7 +173,7 @@
             } }
 
         <aside class="main-sidebar @sidebarCssClass elevation-4">
-            <a href="@Url.Action("Index", "Home")" class="brand-link bg-s ">
+            <a href="@Url.Action("Index", "Home")" class="brand-link bg-success">
                 <img src="~/dist/img/GGlogo_BW.gif" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
                 <span class="brand-text font-weight-light">
                     <span>GGTools</span>

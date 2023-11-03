@@ -10,6 +10,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
     public class AppUserItemListSearch : SearchEntityBase
     {
         public int AppUserItemFolderID { get; set; }
+        public string IsImported { get; set; }
         public int CooperatorID { get; set; }
         public string TabName  { get; set; }
         public string ListName  { get; set; }

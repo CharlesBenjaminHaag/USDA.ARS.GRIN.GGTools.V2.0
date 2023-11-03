@@ -73,27 +73,43 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             SQL += " AND (@StatusCode               IS NULL     OR      StatusCode                      =           @StatusCode)";
             SQL += " AND (@Year                     IS NULL     OR      YEAR(CreatedDate)               =           @Year)";
 
-            if (SQL.Contains("WHERE"))
-            {
-                SQL += " AND ";
-            }
-            else
-            {
-                SQL += " WHERE ";
-            }
-
-
             if (searchEntity.IsLocked == "Y")
             {
+                if (SQL.Contains("WHERE"))
+                {
+                    SQL += " AND ";
+                }
+                else
+                {
+                    SQL += " WHERE ";
+                }
                 SQL += "  (@IsLocked IS NULL OR IsLocked = 1)";
             }
 
             if (searchEntity.HasOrders == "Y")
             {
+                if (SQL.Contains("WHERE"))
+                {
+                    SQL += " AND ";
+                }
+                else
+                {
+                    SQL += " WHERE ";
+                }
                 SQL += "  (RelatedOrders > 0)";
             }
-            
-            switch (searchEntity.TimeFrame)
+
+            if (!String.IsNullOrEmpty(searchEntity.TimeFrame))
+            {
+                if (SQL.Contains("WHERE"))
+                {
+                    SQL += " AND ";
+                }
+                else
+                {
+                    SQL += " WHERE ";
+                }
+                switch (searchEntity.TimeFrame)
             {
                 case "1D":
                     SQL += "  (CONVERT(date, OrderDate) = CONVERT(date, GETDATE()))";
@@ -113,16 +129,16 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
                 case "90D":
                     SQL += "  OrderDate >= DATEADD(day,-90, GETDATE())";
                     break;
-                case "YEAR":
+                case "1Y":
                     SQL += "  DATEPART(year, OrderDate) = DATEPART(year, GETDATE())";
                     break;
             }
-
-            if (!String.IsNullOrEmpty(searchEntity.StatusList))
-            {
-                searchEntity.StatusList = String.Join(",", Array.ConvertAll(searchEntity.StatusList.Split(','), z => "'" + z + "'"));
-                SQL += "  StatusCode IN (" + searchEntity.StatusList + ")";
             }
+            //if (!String.IsNullOrEmpty(searchEntity.StatusList))
+            //{
+            //    searchEntity.StatusList = String.Join(",", Array.ConvertAll(searchEntity.StatusList.Split(','), z => "'" + z + "'"));
+            //    SQL += "  StatusCode IN (" + searchEntity.StatusList + ")";
+            //}
 
             //if (!String.IsNullOrEmpty(searchEntity.WebUserList))
             //{

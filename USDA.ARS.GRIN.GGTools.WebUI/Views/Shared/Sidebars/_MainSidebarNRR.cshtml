@@ -1,6 +1,6 @@
 ﻿@model USDA.ARS.GRIN.GGTools.ViewModelLayer.WebOrderRequestViewModel
 <nav class="mt-2">
-    <ul class="nav nav-pills nav-sidebar nav-child-indent flex-column" data-widget="treeview" role="menu" data-accordion="false">
+    <ul class="nav nav-pills nav-sidebar nav-child-indent flex-column nav-flat sidebar-light-primary" data-widget="treeview" role="menu" data-accordion="false">
         <!-- TODO: Refactor this element into a partial shared across sidebars-->
         <li class="nav-item">
             <a href="@Url.Action("Index","Home")" class="nav-link">
@@ -8,6 +8,8 @@
                 <p>Home</p>
             </a>
         </li>
+
+        <li class="nav-header">FILTERS</li>
         <!-- TIME FRAME -->
         <li class="nav-item menu-open">
             <a href="#" class="nav-link ">
@@ -19,21 +21,39 @@
             </a>
             <ul class="nav nav-treeview">
                 <li class="nav-item">
-                    <a id="1D" href="" class="nav-link">
+                    <a id="1D" data-ggtools-action="filter-by-time-frame" href="" class="nav-link">
                         <i class="fas fa-calendar nav-icon"></i>
                         <p>Today</p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a id="3D" href="" class="nav-link">
+                    <a id="3D" data-ggtools-action="filter-by-time-frame" href="" class="nav-link">
                         <i class="fas fa-calendar nav-icon"></i>
                         <p>The Last Three Days</p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a id="7D" href="" class="nav-link">
+                    <a id="7D" data-ggtools-action="filter-by-time-frame" href="" class="nav-link">
                         <i class="fas fa-calendar nav-icon"></i>
                         <p>This Month</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a id="60D" data-ggtools-action="filter-by-time-frame" href="" class="nav-link">
+                        <i class="fas fa-calendar nav-icon"></i>
+                        <p>The Last 2 Months</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a id="90D" data-ggtools-action="filter-by-time-frame" href="" class="nav-link">
+                        <i class="fas fa-calendar nav-icon"></i>
+                        <p>The Last 3 Months</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a id="1Y" data-ggtools-action="filter-by-time-frame" href="" class="nav-link">
+                        <i class="fas fa-calendar nav-icon"></i>
+                        <p>The Current Year</p>
                     </a>
                 </li>
             </ul>
@@ -44,19 +64,19 @@
             <a href="#" class="nav-link ">
                 <i class="nav-icon fas fa-circle"></i>
                 <p>
-                    Status
+                    Current Status
                     <i class="right fas fa-angle-left"></i>
                 </p>
             </a>
             <ul class="nav nav-treeview">
                 <li class="nav-item">
-                    <a id="STATUS-NRR_FLAGGED" href="" class="nav-link">
+                    <a id="NRR_FLAGGED" data-ggtools-action="filter-by-status" href="" class="nav-link">
                         <i class="fas fa-circle text-red nav-icon"></i>
                         <p>NRR Flagged</p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a id="STATUS-SUBMITTED" href="" class="nav-link">
+                    <a id="SUBMITTED" data-ggtools-action="filter-by-status" href="" class="nav-link">
                         <i class="fas fa-circle text-green nav-icon"></i>
                         <p>Submitted</p>
                     </a>
@@ -75,13 +95,13 @@
             </a>
             <ul class="nav nav-treeview">
                 <li class="nav-item">
-                    <a id="ASSIGNEDTO-123" href="" class="nav-link">
+                    <a id="123" data-ggtools-action="filter-by-assigned-to" href="" class="nav-link">
                         <i class="fas fas fa-user nav-icon"></i>
                         <p>Bockelman, Harold</p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a id="ASSIGNEDTO-456" href="" class="nav-link">
+                    <a id="456" data-ggtools-action="filter-by-assigned-to" href="" class="nav-link">
                         <i class="fas fas fa-user nav-icon"></i>
                         <p>Reisinger, Marty</p>
                     </a>
@@ -115,13 +135,15 @@
     $('.nav-link').on('click', function () {
         event.preventDefault();
         var id = $(this).attr('id');
+        var eventAction = $(this).attr('data-ggtools-action');
 
         if (typeof id === "undefined") {
 
         }
         else {
             //DEBUG
-            alert("CLICKED " + id);
+            $("#" + eventAction).val(id);
+            LoadWebOrderRequestList();
         }
     });
 </script>

@@ -18,6 +18,7 @@
                     <th></th>
                     <th>ID</th>
                     <th>ID Type</th>
+                    <th>Imported</th>
                     <th>ID Number</th>
                     <th>List Name</th>
                     <th>Item Title</th>
@@ -30,7 +31,7 @@
                 @foreach (var result in Model.DataCollection)
                 {
                     <tr>
-                        <td></td>
+                        <td>@result.ID</td>
                         <td></td>
                         <td>
                             @result.ID
@@ -39,14 +40,22 @@
                             @result.IDType
                         </td>
                         <td>
-                            @result.EntityID
+                            @Html.Raw(Model.FormatBoolean(result.IsImported))
+                        </td>
+                        <td>
+                            @if (result.EntityID > 0)
+                            { 
+                                <span>
+                                    @result.EntityID
+                                </span>                            
+                            }
                         </td>
                         <td>
                             @result.ListName
                         </td>
                         <td>@result.ItemTitle</td>
                         <td>
-                            @result.CreatedDate.ToShortDateString() at @result.CreatedDate.ToShortTimeString()
+                            @result.CreatedDate.ToShortDateString()
                         </td>
                         <td>
                             @if (result.ModifiedDate > DateTime.MinValue)

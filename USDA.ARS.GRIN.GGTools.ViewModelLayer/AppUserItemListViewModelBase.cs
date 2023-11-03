@@ -24,6 +24,7 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
             using (AppUserItemListManager mgr = new AppUserItemListManager())
             {
                 Cooperators = new SelectList(mgr.GetCooperators("app_user_item_list"), "ID", "FullName");
+                YesNoOptions = new SelectList(mgr.GetYesNoOptions(), "Key", "Value");
             }
         }
         

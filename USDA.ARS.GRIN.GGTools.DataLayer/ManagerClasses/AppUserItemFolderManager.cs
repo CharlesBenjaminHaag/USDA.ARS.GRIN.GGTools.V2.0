@@ -66,7 +66,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             SQL += " AND    (@CreatedByCooperatorID     IS NULL OR   CreatedByCooperatorID  =       @CreatedByCooperatorID)";
             SQL += " AND    (@AppUserItemFolderID       IS NULL OR   ID                     =       @AppUserItemFolderID)";
             SQL += " AND    (@IsFavorite                IS NULL OR   IsFavorite             =       @IsFavorite)";
-            SQL += " AND    (@FolderType                IS NULL OR   FolderType             =       @FolderType)";
+           SQL += " AND    (@FolderType                IS NULL OR   FolderType             =       @FolderType)";
 
             if (searchEntity.IsShared == "Y")
             {
@@ -193,16 +193,20 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
         public int ImportItems(AppUserItemFolder entity)
         {
             string[] idCollection;
+            //string[] idTokens;
             idCollection = entity.ItemIDList.Split(',');
             foreach (var id in idCollection)
             {
+                //TODO
+                //parse each element:
+                //To LEFT of - character = table name/ID type
+                //To RIGHT of - character = ID of entity in table
+                //idTokens = id.Split('-');
+                
                 AppUserItemList appUserItemList = new AppUserItemList();
-                appUserItemList.ID = Int32.Parse(id);
                 appUserItemList.AppUserItemFolderID = entity.ID;
+                appUserItemList.ID = Int32.Parse(id);
                 appUserItemList.CreatedByCooperatorID = entity.CreatedByCooperatorID;
-                appUserItemList.IDNumber = Int32.Parse(id);
-                appUserItemList.IDType = entity.FolderType;
-                //appUserItemList.ListName = entity.FolderName;
                 ImportItem(appUserItemList);
             }
             return 0;

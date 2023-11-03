@@ -31,7 +31,7 @@
                         @Html.TextBoxFor(x => x.SearchEntity.TabName, new { @class = "form-control" })
                     </div>
                 </div>
-                <div class="col-md-2">
+                <div class="col-md-4">
                     <div class="form-group">
                         <label>List Name</label>
                         @Html.TextBoxFor(x => x.SearchEntity.ListName, new { @class = "form-control" })
@@ -45,9 +45,13 @@
                         @*@Html.DropDownListFor(x => x.SearchEntity.FolderTypeDescription, Model.Types, "All types", new { @class = "form-control" })*@
                     </div>
                 </div>
-                <div class="col-md-1">
-                    <label>Imported</label>
+                <div class="col-md-2">
+                    <div class="form-group form-horizontal">
+                        <label>Imported From CT</label>
+                        @Html.DropDownListFor(x => x.SearchEntity.IsImported, Model.YesNoOptions, "Either", new { @class = "form-control" })
+                    </div>
                 </div>
+
             </div>
         </div>
         <div class="card-footer">
