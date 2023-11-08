@@ -19,30 +19,10 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
         {
             try
             {
-                
-                AppUserItemFolderViewModel appUserItemFolderViewModel = new AppUserItemFolderViewModel();
-                AppUserItemListViewModel appUserItemListViewModel = new AppUserItemListViewModel();
-                SysDynamicQueryViewModel sysDynamicQueryViewModel = new SysDynamicQueryViewModel();
-
-                appUserItemFolderViewModel.SearchEntity.ID = entityId;
-                appUserItemFolderViewModel.Get();
-
-                appUserItemListViewModel.SearchEntity.AppUserItemFolderID = entityId;
-                appUserItemListViewModel.Search();
-
-                sysDynamicQueryViewModel.PageTitle = "Edit Saved Search";
-                sysDynamicQueryViewModel.Entity.ParentID = appUserItemListViewModel.Entity.ID;
-                sysDynamicQueryViewModel.Entity.ID = appUserItemFolderViewModel.Entity.ID;
-                sysDynamicQueryViewModel.Entity.Title = appUserItemFolderViewModel.Entity.FolderName;
-                sysDynamicQueryViewModel.Entity.Description = appUserItemFolderViewModel.Entity.Description;
-                sysDynamicQueryViewModel.Entity.SQLStatement = appUserItemListViewModel.Entity.Properties;
-                sysDynamicQueryViewModel.Entity.CreatedByCooperatorID = appUserItemFolderViewModel.Entity.CreatedByCooperatorID;
-                sysDynamicQueryViewModel.Entity.CreatedByCooperatorName = appUserItemFolderViewModel.Entity.CreatedByCooperatorName;
-                sysDynamicQueryViewModel.Entity.CreatedDate = appUserItemFolderViewModel.Entity.CreatedDate;
-                sysDynamicQueryViewModel.Entity.ModifiedByCooperatorID = appUserItemFolderViewModel.Entity.ModifiedByCooperatorID;
-                sysDynamicQueryViewModel.Entity.ModifiedByCooperatorName = appUserItemFolderViewModel.Entity.ModifiedByCooperatorName;
-                sysDynamicQueryViewModel.Entity.ModifiedDate = appUserItemFolderViewModel.Entity.ModifiedDate;
-                return View(sysDynamicQueryViewModel);
+                SysDynamicQueryViewModel viewModel = new SysDynamicQueryViewModel();
+                viewModel.Entity.ID = entityId;
+                viewModel.Get();
+                return View(viewModel);
             }
             catch (Exception ex)
             {
@@ -159,9 +139,9 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 }
 
                 SysDynamicQueryViewModel sysDynamicQueryViewModel = new SysDynamicQueryViewModel();
-                viewModel.SearchEntity.ID = viewModel.Entity.ID;
-                viewModel.Search();
-                return PartialView("~/Views/SysDynamicQuery/_Edit.cshtml", viewModel);
+                sysDynamicQueryViewModel.Entity.ID = viewModel.Entity.ID;
+                sysDynamicQueryViewModel.Get();
+                return PartialView("~/Views/SysDynamicQuery/_Edit.cshtml", sysDynamicQueryViewModel);
             }
             catch (Exception ex)
             {

@@ -19,7 +19,30 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
                 DataCollectionDataTable = mgr.Search(SearchEntity);
             }
         }
+        public void Get()
+        {
+            AppUserItemFolderViewModel appUserItemFolderViewModel = new AppUserItemFolderViewModel();
+            AppUserItemListViewModel appUserItemListViewModel = new AppUserItemListViewModel();
 
+            appUserItemFolderViewModel.SearchEntity.ID = Entity.ID;
+            appUserItemFolderViewModel.Get();
+
+            appUserItemListViewModel.SearchEntity.AppUserItemFolderID = Entity.ID;
+            appUserItemListViewModel.Search();
+
+            PageTitle = "Edit Saved Search";
+            Entity.ParentID = appUserItemListViewModel.Entity.ID;
+            Entity.ID = appUserItemFolderViewModel.Entity.ID;
+            Entity.Title = appUserItemFolderViewModel.Entity.FolderName;
+            Entity.Description = appUserItemFolderViewModel.Entity.Description;
+            Entity.SQLStatement = appUserItemListViewModel.Entity.Properties;
+            Entity.CreatedByCooperatorID = appUserItemFolderViewModel.Entity.CreatedByCooperatorID;
+            Entity.CreatedByCooperatorName = appUserItemFolderViewModel.Entity.CreatedByCooperatorName;
+            Entity.CreatedDate = appUserItemFolderViewModel.Entity.CreatedDate;
+            Entity.ModifiedByCooperatorID = appUserItemFolderViewModel.Entity.ModifiedByCooperatorID;
+            Entity.ModifiedByCooperatorName = appUserItemFolderViewModel.Entity.ModifiedByCooperatorName;
+            Entity.ModifiedDate = appUserItemFolderViewModel.Entity.ModifiedDate;
+        }
         public void SaveSearch()
         {
             AppUserItemFolderViewModel appUserItemFolderViewModel = new AppUserItemFolderViewModel();
