@@ -98,11 +98,12 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             return View(BASE_PATH + "Edit.cshtml", viewModel);
         }
 
-        public ActionResult Edit(int entityId)
+        public ActionResult Edit(int entityId, int appUserItemFolderId = 0)
         {
             try
             {
                 GenusViewModel viewModel = new GenusViewModel();
+                viewModel.AppUserItemFolderID = appUserItemFolderId;
                 viewModel.Get(entityId);
                 viewModel.PageTitle = viewModel.GetPageTitle();
                 viewModel.TableName = "taxonomy_genus";

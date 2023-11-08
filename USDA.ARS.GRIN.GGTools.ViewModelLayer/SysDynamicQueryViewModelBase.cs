@@ -11,10 +11,16 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
 {
     public class SysDynamicQueryViewModelBase: AppViewModelBase
     {
+        private AppUserItemFolder _AppUserItemFolderFolderEntity = new AppUserItemFolder();
         private SysDynamicQuery _Entity = new SysDynamicQuery();
         private SysDynamicQuerySearch _SearchEntity = new SysDynamicQuerySearch();
         private Collection<SysDynamicQuery> _DataCollection = new Collection<SysDynamicQuery>();
         private DataTable _DataCollectionDataTable = new DataTable();
+        public AppUserItemFolder AppUserItemFolderEntity
+        {
+            get { return _AppUserItemFolderFolderEntity; }
+            set { _AppUserItemFolderFolderEntity = value; }
+        }
 
         public SysDynamicQuery Entity
         {

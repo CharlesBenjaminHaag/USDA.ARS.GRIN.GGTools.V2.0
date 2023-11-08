@@ -5,3 +5,10 @@
 }
 @Html.Partial("~/Views/SysDynamicQuery/_Detail.cshtml")
 @Html.Partial("~/Views/SysDynamicQuery/_List.cshtml")
+@{Html.RenderAction("RenderEditModal", "SysDynamicQuery");}
+
+<script type="text/javascript">
+    $("#btnSubmitSysDynamicQuery").on('click', function (event) {
+        
+    });
+</script>

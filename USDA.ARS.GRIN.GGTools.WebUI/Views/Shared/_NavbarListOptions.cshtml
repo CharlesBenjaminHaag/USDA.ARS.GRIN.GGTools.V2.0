@@ -37,14 +37,25 @@
             }
             else
             {
-                <li class="nav-item d-none d-sm-inline-block">
-                    <a href="@Url.Action("Add", eventAction)" class="nav-link">New</a>
-                </li> 
+                if ((eventAction == "Taxonomy") && (eventValue == "Index"))
+                { }
+                else
+                {
+                    <li class="nav-item d-none d-sm-inline-block">
+                        <a href="@Url.Action("Add", eventAction)" class="nav-link">New</a>
+                    </li>
+                }
             }
         }
 
-    <li class="nav-item d-none d-sm-inline-block">
-        <a href="#" id="btnOpenFolderModal" class="nav-link">Add to Folder</a>
-    </li>
+        if ((eventValue == "Edit") || (eventValue == "List") || (eventValue == "Search"))
+        {
+            if (eventAction != "Taxonomy")
+            {
+                <li class="nav-item d-none d-sm-inline-block">
+                    <a href="#" id="btnOpenFolderModal" class="nav-link">Add to Folder</a>
+                </li>
+            }
+        }
     }
 </ul>

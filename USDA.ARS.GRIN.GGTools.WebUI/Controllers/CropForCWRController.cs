@@ -151,7 +151,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             throw new NotImplementedException();
         }
 
-        public ActionResult Edit(int entityId = 0)
+        public ActionResult Edit(int entityId = 0, int appUserItemFolderId = 0)
         {
             try
             {

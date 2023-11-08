@@ -103,7 +103,34 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
 
         public int Update(AppUserItemList entity)
         {
-            throw new NotImplementedException();
+            int rowsAffected = 0;
+
+            Reset(CommandType.StoredProcedure);
+
+            SQL = "usp_GRINGlobal_App_User_Item_List_Update";
+
+            AddParameter("app_user_item_folder_id", (object)entity.AppUserItemFolderID, false);
+            AddParameter("app_user_item_list_id", (object)entity.ID, false);
+            AddParameter("cooperator_id", (object)entity.CreatedByCooperatorID, false);
+            AddParameter("tab_name", (object)entity.TabName ?? DBNull.Value, true);
+            AddParameter("list_name", (object)entity.ListName ?? DBNull.Value, true);
+            AddParameter("id_number", (object)entity.IDNumber ?? DBNull.Value, true);
+            AddParameter("id_type", (object)entity.IDType.Replace("_ID", ""), false);
+            AddParameter("sort_order", (object)entity.IDNumber ?? DBNull.Value, true);
+            AddParameter("title", (object)entity.ListName ?? DBNull.Value, true);
+            AddParameter("description", (object)entity.Description ?? DBNull.Value, true);
+            AddParameter("properties", (object)entity.Properties ?? DBNull.Value, true);
+            AddParameter("modified_by", (object)entity.ModifiedByCooperatorID ?? DBNull.Value, true);
+            AddParameter("@out_error_number", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
+          
+            rowsAffected = ExecuteNonQuery();
+
+            int errorNumber = GetParameterValue<int>("@out_error_number", -1);
+            if (errorNumber > 0)
+            {
+                throw new Exception(errorNumber.ToString());
+            }
+            return rowsAffected;
         }
 
         public int Insert(AppUserItemList entity)

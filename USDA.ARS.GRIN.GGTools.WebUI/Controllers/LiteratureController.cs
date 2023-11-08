@@ -72,13 +72,14 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             throw new NotImplementedException();
         }
 
-        public ActionResult Edit(int entityId)
+        public ActionResult Edit(int entityId, int appUserItemFolderId = 0)
         {
             try
             {
                 LiteratureViewModel viewModel = new LiteratureViewModel();
                 viewModel.TableName = "literature";
                 viewModel.TableCode = "Literature";
+                viewModel.AppUserItemFolderID = appUserItemFolderId;
                 viewModel.Get(entityId);
                 viewModel.PageTitle = String.Format("Edit Literature [{0}]", viewModel.Entity.ID);
                 return View(BASE_PATH + "Edit.cshtml", viewModel);

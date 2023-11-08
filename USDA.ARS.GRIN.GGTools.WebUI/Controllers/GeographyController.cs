@@ -117,13 +117,15 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             }
         }
 
-        public ActionResult Edit(int entityId)
+        public ActionResult Edit(int entityId, int appUserItemFolderId = 0)
         {
             try
             {
                 GeographyViewModel viewModel = new GeographyViewModel();
                 viewModel.TableName = "geography";
                 viewModel.TableCode = "Geography";
+                viewModel.AppUserItemFolderID = appUserItemFolderId;
+
                 if (entityId > 0)
                 { 
                     viewModel.Get(entityId);

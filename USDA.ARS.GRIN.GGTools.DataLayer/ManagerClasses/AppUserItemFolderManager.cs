@@ -271,11 +271,11 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
 
             return RowsAffected;
         }
-        public int DeleteItemByEntityID(int idNumber, int appUserItemFolderID)
+        public int DeleteItemByEntityID(int appUserItemFolderID, int idNumber)
         {
             Reset(CommandType.StoredProcedure);
 
-            SQL = "usp_GRINGlobal_AppUserItemList_ByEntityID_Delete";
+            SQL = "usp_GRINGlobal_AppUserItemList_By_EntityID_Delete";
             AddParameter("@app_user_item_folder_id", (object)appUserItemFolderID, false);
             AddParameter("@id_number", (object)idNumber, false);
             AddParameter("@out_error_number", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);

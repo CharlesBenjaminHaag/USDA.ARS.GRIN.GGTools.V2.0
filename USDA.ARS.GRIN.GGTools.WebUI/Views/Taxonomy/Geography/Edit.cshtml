@@ -12,6 +12,22 @@
     @Html.HiddenFor(x => x.TableName)
     @Html.HiddenFor(x => x.TableCode)
     @Html.HiddenFor(x => x.Entity.ID)
+
+    <!--
+                        =====================================================
+                        BEGIN REF. FOLDER LOGIC
+                        =====================================================
+                        -->
+    @if (Model.AppUserItemFolderID > 0)
+    {
+        Html.RenderAction("RenderRelatedFoldersWidget", "AppUserItemFolder", new { idNumber = Model.Entity.ID });
+    }
+    <!--
+    =====================================================
+    BEGIN REF. FOLDER LOGIC
+    =====================================================
+    -->
+
     <div class="card card-default">
         <div class="card-header">
             <h3 class="card-title">Geography Edit</h3>
@@ -114,7 +130,7 @@
             <ul id="list-dependent-data" class="nav nav-pills">
                 <li id="tab_selector_taxonomy_geography_map" data-ggtools-action="GeographyMap" data-ggtools-value="_List" class="nav-item"><a class="nav-link active" href="#tab_content_taxonomy_geography_map" data-toggle="tab">Distributions</a></li>
                 <li id="tab_selector_taxonomy_regulation_map" data-ggtools-action="RegulationMap" data-ggtools-value="_List" class="nav-item"><a class="nav-link" href="#tab_content_taxonomy_regulation_map" data-toggle="tab">Regulations</a></li>
-              </ul>
+            </ul>
         </div>
         <div class="card-body">
             <div class="tab-content">

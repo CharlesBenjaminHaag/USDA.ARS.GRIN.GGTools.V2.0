@@ -82,6 +82,22 @@
                         @Html.HiddenFor(x => x.TableName)
                         @Html.HiddenFor(x => x.TableCode)
                         @Html.HiddenFor(x => x.Entity.ID)
+
+                        <!--
+        =====================================================
+        BEGIN REF. FOLDER LOGIC
+        =====================================================
+        -->
+                        @if (Model.AppUserItemFolderID > 0)
+                        {
+                            Html.RenderAction("RenderRelatedFoldersWidget", "AppUserItemFolder", new { idNumber = Model.Entity.ID });
+                        }
+                        <!--
+        =====================================================
+        BEGIN REF. FOLDER LOGIC
+        =====================================================
+        -->
+
                         <div id="section-verification">
                             @Html.Partial("~/Views/Taxonomy/Shared/_RevisionHistory.cshtml")
                         </div>

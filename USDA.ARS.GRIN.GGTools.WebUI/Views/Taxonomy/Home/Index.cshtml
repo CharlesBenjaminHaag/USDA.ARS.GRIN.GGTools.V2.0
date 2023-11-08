@@ -25,25 +25,25 @@
             <li id="tab-sys-user" class="nav-item">
                 <a class="nav-link" id="tab-selector-shared-with-me" data-toggle="pill" href="#tab-content-shared-with-me" role="tab" aria-controls="custom-tabs-two-profile" aria-selected="false">Shared With Me</a>
             </li>
-            <li id="tab-sys-user" class="nav-item">
+            @*<li id="tab-sys-user" class="nav-item">
                 <a class="nav-link" id="tab-selector-dynamic" data-toggle="pill" href="#tab-content-dynamic" role="tab" aria-controls="custom-tabs-two-profile" aria-selected="false">Dynamic Folders</a>
-            </li>
+            </li>*@
         </ul>
     </div>
     <div class="card-body web-order-request">
         <div class="tab-content">
             <div class="tab-pane fade show active" id="tab-content-favorites" role="tabpanel" aria-labelledby="custom-tabs-two-home-tab">
-                @{Html.RenderAction("_List", "AppUserItemFolder", new { @cooperatorId = Model.AuthenticatedUser.CooperatorID, @folderType = "STATIC", @isFavorite = "Y" }); }
+                @{Html.RenderAction("_List", "AppUserItemFolder", new { @cooperatorId = Model.AuthenticatedUser.CooperatorID, @isFavorite = "Y" }); }
             </div>
             <div class="tab-pane fade" id="tab-content-recently-added" role="tabpanel" aria-labelledby="custom-tabs-two-home-tab">
-                @{Html.RenderAction("_List", "AppUserItemFolder", new { @cooperatorId = Model.AuthenticatedUser.CooperatorID, @folderType = "STATIC", @timeFrame = "7D" }); }
+                @{Html.RenderAction("_List", "AppUserItemFolder", new { @cooperatorId = Model.AuthenticatedUser.CooperatorID, @timeFrame = "7D" }); }
             </div>
             <div class="tab-pane fade" id="tab-content-shared-with-me" role="tabpanel" aria-labelledby="custom-tabs-two-home-tab">
-                @{Html.RenderAction("_List", "AppUserItemFolder", new { @cooperatorId = Model.AuthenticatedUser.CooperatorID, @folderType = "STATIC", @isShared = "Y" }); }
+                @{Html.RenderAction("_List", "AppUserItemFolder", new { @cooperatorId = Model.AuthenticatedUser.CooperatorID, @isShared = "Y" }); }
             </div>
-            <div class="tab-pane fade" id="tab-content-dynamic" role="tabpanel" aria-labelledby="custom-tabs-two-home-tab">
+            @*<div class="tab-pane fade" id="tab-content-dynamic" role="tabpanel" aria-labelledby="custom-tabs-two-home-tab">
                 @{Html.RenderAction("_List", "AppUserItemFolder", new { @cooperatorId = Model.AuthenticatedUser.CooperatorID, @folderType = "DYNAMIC" }); }
-            </div>
+            </div>*@
         </div>
     </div>
 </div>

@@ -317,7 +317,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             }
         }
 
-        public ActionResult Edit(int entityId)
+        public ActionResult Edit(int entityId, int appUserItemFolderId = 0)
         {
             try
             {
@@ -325,6 +325,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 viewModel.TableName = "citation";
                 viewModel.TableCode = "Citation";
                 viewModel.EventAction = "Edit";
+                viewModel.AppUserItemFolderID = appUserItemFolderId;
 
                 if (entityId > 0)
                 {

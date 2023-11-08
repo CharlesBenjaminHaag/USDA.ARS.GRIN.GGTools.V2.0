@@ -234,12 +234,14 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             return PartialView("~/Views/Taxonomy/GeographyMap/_ListBatch.cshtml", viewModel);
         }
 
-        public ActionResult Edit(int entityId)
+        public ActionResult Edit(int entityId, int appUserItemFolderId = 0)
         {
             try
             {
                 GeographyMapViewModel viewModel = new GeographyMapViewModel();
                 viewModel.TableName = "taxonomy_geography_map";
+                viewModel.AppUserItemFolderID = appUserItemFolderId;
+
                 viewModel.Get(entityId);
                 viewModel.PageTitle = String.Format("Edit Distribution [{0}]: {1}, {2}", entityId, viewModel.Entity.SpeciesName, viewModel.Entity.GeographyDescription);
                 return View(BASE_PATH + "Edit.cshtml", viewModel);

@@ -45,13 +45,15 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI
             throw new NotImplementedException();
         }
 
-        public ActionResult Edit(int entityId)
+        public ActionResult Edit(int entityId, int appUserItemFolderId = 0)
         {
             try
             {
                 CWRTraitViewModel viewModel = new CWRTraitViewModel();
                 viewModel.TableName = "taxonomy_cwr_trait";
                 viewModel.TableCode = "CWRTrait";
+                viewModel.AppUserItemFolderID = appUserItemFolderId;
+
                 if (entityId > 0)
                 {
                     viewModel.Get(entityId);

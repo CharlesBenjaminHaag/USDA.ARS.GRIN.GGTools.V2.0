@@ -9,7 +9,7 @@ using NLog;
 namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
 {
     [GrinGlobalAuthentication]
-    public class ClassificationController :  BaseController, IController<ClassificationViewModel>
+    public class ClassificationController :  BaseController
     {
         protected static string BASE_PATH = "~/Views/Taxonomy/Order/";
         private static readonly Logger Log = LogManager.GetCurrentClassLogger();
@@ -75,7 +75,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             throw new NotImplementedException();
         }
 
-        public ActionResult Edit(int entityId)
+        public ActionResult Edit(int entityId, int appUserItemFolderId = 0)
         {
             try
             {

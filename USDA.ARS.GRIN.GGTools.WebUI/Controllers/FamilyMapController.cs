@@ -82,7 +82,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             }
         }
 
-        public ActionResult Edit(int entityId)
+        public ActionResult Edit(int entityId, int appUserItemFolderId = 0)
         {
             try
             {
@@ -92,6 +92,8 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 {
                     viewModel.TableName = "taxonomy_family_map";
                     viewModel.TableCode = "FamilyMap";
+                    viewModel.AppUserItemFolderID = appUserItemFolderId;
+
                     viewModel.Get(entityId);
                     viewModel.PageTitle = String.Format("Edit {0} [{1}]", viewModel.Entity.AssembledName, viewModel.Entity.ID);
                 }

@@ -126,7 +126,6 @@
                                 </h1>
                             </div>
                             <div class="col-sm-6">
-
                                 <!-- RETURN-TO-PARENT LOGIC -->
                                 @if (Model.Entity.ParentID > 0)
                                 {
@@ -165,6 +164,22 @@
                             @Html.HiddenFor(x => x.Entity.VerifiedByCooperatorID)
                             @Html.HiddenFor(x => x.Entity.VerifiedByCooperatorName)
                             @Html.HiddenFor(x => x.Entity.NameVerifiedDate)
+
+                            <!--
+                            =====================================================
+                            BEGIN REF. FOLDER LOGIC
+                            =====================================================
+                            -->
+                            if (Model.AppUserItemFolderID > 0)
+                            {
+                                Html.RenderAction("RenderRelatedFoldersWidget", "AppUserItemFolder", new { idNumber = Model.Entity.ID });
+                            }
+                            <!--
+                            =====================================================
+                            BEGIN REF. FOLDER LOGIC
+                            =====================================================
+                            -->
+
                             <input type="hidden" id="hfModalEventValue" />
                             <div id="section-verification">
                                 @Html.Partial("~/Views/Taxonomy/Species/_RevisionHistory.cshtml")

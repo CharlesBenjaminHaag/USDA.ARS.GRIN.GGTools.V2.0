@@ -109,7 +109,8 @@
         <nav class="main-header navbar navbar-expand navbar-white navbar-light bg-success text-sm">
 
             <!-- TODO: Refactor. Show context-sensitive menu. -->
-            @{ string eventAction = @ViewContext.RouteData.Values["controller"].ToString();
+            @{ 
+                string eventAction = @ViewContext.RouteData.Values["controller"].ToString();
                 string eventValue = @ViewContext.RouteData.Values["action"].ToString(); }
 
             @if (eventAction == "Cooperator")
@@ -121,12 +122,12 @@
                 else
                     {
                         @Html.Partial("~/Views/Shared/_NavbarListOptions.cshtml") 
-                    }
                 }
-                else
-                {
-                    @Html.Partial("~/Views/Shared/_NavbarListOptions.cshtml")
-                }
+            }
+            else
+            {
+                @Html.Partial("~/Views/Shared/_NavbarListOptions.cshtml")
+            }
 
             <ul class="navbar-nav ml-auto">
                 <!-- Notifications Dropdown Menu -->
@@ -286,13 +287,13 @@
     });
 
     $(document).ready(function () {
-        $('textarea').summernote({
-            height: 100,                 // set editor height
-            minHeight: null,             // set minimum height of editor
-            maxHeight: null,             // set maximum height of editor
-            'width': '100%',
-            focus: true                  // set focus to editable area after initializing summernote
-        });
+        //$('textarea').summernote({
+        //    height: 100,                 // set editor height
+        //    minHeight: null,             // set minimum height of editor
+        //    maxHeight: null,             // set maximum height of editor
+        //    'width': '100%',
+        //    focus: true                  // set focus to editable area after initializing summernote
+        //});
 
         $(function () {
             $("#SearchEntity_CreatedDate").datepicker();
@@ -304,6 +305,12 @@
         $("#frmMain :input[type='text']:visible:enabled:first").focus();
         $("#frmEdit :input[type='text']:visible:enabled:first").focus();
         $("#frmLookup :input[type='text']:visible:enabled:first").focus();
+
+        /* When user begins typing, hide error message block. */
+        $(document).on('keypress', function (event) {
+            var keycode = (event.keyCode ? event.keyCode : event.which);
+            $("#section-input-error").hide();
+        });
     });
 
 </script>

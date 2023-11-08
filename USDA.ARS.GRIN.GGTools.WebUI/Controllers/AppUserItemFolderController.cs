@@ -181,7 +181,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             try 
             {
                 AppUserItemFolderViewModel viewModel = new AppUserItemFolderViewModel();
-                viewModel.DeleteItemByEntityID(Int32.Parse(GetFormFieldValue(formCollection, "IDNumber")), Int32.Parse(GetFormFieldValue(formCollection, "AppUserItemFolderID")));
+                viewModel.DeleteItemByEntityID(Int32.Parse(GetFormFieldValue(formCollection, "AppUserItemFolderID")), Int32.Parse(GetFormFieldValue(formCollection, "IDNumber")));
                 return Json(new { success = true }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)

@@ -1128,6 +1128,9 @@
     <Content Include="Views\AppUserItemFolder\Explorer\Index.cshtml" />
     <Content Include="Views\AppUserItemList\_SelectList.cshtml" />
     <Content Include="Views\AppUserItemFolder\_RelatedFoldersWidget.cshtml" />
+    <Content Include="Views\SysDynamicQuery\Modals\_Edit.cshtml" />
+    <Content Include="Views\SysDynamicQuery\Edit.cshtml" />
+    <Content Include="Views\SysDynamicQuery\_Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1135,7 +1138,6 @@
     <Folder Include="Content\dist\js\pages\" />
     <Folder Include="logs\" />
     <Folder Include="Models\" />
-    <Folder Include="Views\AppUserDynamicFolder\" />
     <Folder Include="Views\AppUserItemFolder\Cooperator\" />
     <Folder Include="Views\Demo\" />
     <Folder Include="Views\Main\" />

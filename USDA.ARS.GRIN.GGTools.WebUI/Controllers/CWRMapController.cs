@@ -71,13 +71,15 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             }
         }
 
-        public ActionResult Edit(int entityId = 0)
+        public ActionResult Edit(int entityId = 0, int appUserItemFolderId = 0)
         {
             try
             {
                 CWRMapViewModel viewModel = new CWRMapViewModel();
                 viewModel.TableName = "taxonomy_cwr_map";
                 viewModel.TableCode = "CWRMap";
+                viewModel.AppUserItemFolderID = appUserItemFolderId;
+
                 viewModel.Get(entityId);
                 viewModel.PageTitle = String.Format("Edit CWR Map [{0}]: {1}", entityId, viewModel.Entity.AssembledName);
                 

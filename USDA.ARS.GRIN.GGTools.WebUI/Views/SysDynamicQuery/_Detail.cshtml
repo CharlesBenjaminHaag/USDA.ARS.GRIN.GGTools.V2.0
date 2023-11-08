@@ -37,19 +37,19 @@
                                     SQL Statement
                                     &nbsp;<i class="fas fa-info-circle" style="color:#17a2b8;"></i>
                                 </label>
-                                @Html.TextAreaFor(x => x.SearchEntity.SQLStatement, new { @class = "form-control" })
+                                @Html.TextAreaFor(x => x.SearchEntity.SQLStatement, new { @class = "form-control", @rows="10" })
                             </div>
                         </div>
                     </div>
                     <div>
                         <button id="btnReset" type="button" class="btn btn-default">Reset</button>
                         <div class="btn-group float-right">
-                            <button type="submit" class="btn btn-info">Search</button>
+                            <button id="btnSubmitSysDynamicQuery" type="submit" class="btn btn-info">Search</button>
                             <button type="button" class="btn btn-info dropdown-toggle dropdown-icon" data-toggle="dropdown" aria-expanded="false">
                                 <span class="sr-only">Toggle Dropdown</span>
                             </button>
                             <div class="dropdown-menu" role="menu" style="">
-                                <a id="btnOpenDynamicFolderModal" class="dropdown-item" href="#">Save Search</a>
+                                <a id="btnOpenSysDynamicQueryModal" class="dropdown-item" href="#">Save Search</a>
                             </div>
                         </div>
                     </div>

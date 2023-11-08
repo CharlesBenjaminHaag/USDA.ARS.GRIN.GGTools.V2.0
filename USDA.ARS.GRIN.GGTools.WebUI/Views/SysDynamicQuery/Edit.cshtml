@@ -1,4 +1,4 @@
-﻿@model USDA.ARS.GRIN.GGTools.ViewModelLayer.AppUserItemFolderViewModel
+﻿@model USDA.ARS.GRIN.GGTools.ViewModelLayer.SysDynamicQueryViewModel
 @{
     ViewBag.Title = Model.PageTitle;
     Layout = "~/Views/Shared/_LayoutAdminLTE3.cshtml";
@@ -9,102 +9,16 @@
 <div class="card">
     <div id="section-folder-options" class="card-header p-2">
         <ul class="nav nav-pills">
-            <li id="tab-folder-detail" class="nav-item"><a class="nav-link active" href="#detail" data-toggle="tab">Items</a></li>
-            <li id="tab-folder-sharing" class="nav-item"><a class="nav-link" href="#sharing" data-toggle="tab">Details</a></li>
-            <li id="tab-folder-sharing" class="nav-item"><a class="nav-link" href="#tab_3" data-toggle="tab">Sharing</a></li>
+            <li id="tab-folder-detail" class="nav-item"><a class="nav-link active" href="#tab-content-detail" data-toggle="tab">Details</a></li>
+            <li id="tab-folder-sharing" class="nav-item"><a class="nav-link" href="#tab-content-sharing" data-toggle="tab">Sharing</a></li>
         </ul>
     </div>
     <div class="card-body" id="section-search-criteria">
         <div class="tab-content">
-            <div class="tab-pane active" id="detail">
-                <div class="overlay-wrapper">
-                    @if (Model.Entity.FolderType == "DYNAMIC")
-                    {
-                        @*<div id="section-tab-overlay" class="overlay"><i class="fas fa-3x fa-sync-alt fa-spin"></i><div class="text-bold pt-2">Loading...</div></div>*@
-                        { Html.RenderAction("_ListDynamicFolderItems", Model.Entity.DataTypeDescription, new { @folderId = Model.Entity.ID }); }
-                    }
-                    else
-                    {
-                        if (Model.Entity.FolderType == "STATIC")
-                        {
-                            <div id="section-tab-overlay" class="overlay"><i class="fas fa-3x fa-sync-alt fa-spin"></i><div class="text-bold pt-2">Loading...</div></div>
-                            { Html.RenderAction("_ListByFolder", "AppUserItemList", new { @appUserItemFolderId = Model.Entity.ID }); }
-                        }
-                        else
-                        {
-                            <h3>@Model.Entity.FolderType</h3>
-                        }
-                    }
-                </div>
+            <div class="tab-pane active" id="tab-content-detail">
+                @Html.Partial("~/Views/SysDynamicQuery/_Edit.cshtml")
             </div>
-            <div class="tab-pane" id="sharing">
-                @Html.Partial("~/Views/Taxonomy/Shared/_RevisionHistory.cshtml")
-                @using (Html.BeginForm("EditDetails", "AppUserItemFolder", FormMethod.Post, new { id = "frmEdit" }))
-                {
-                    @Html.HiddenFor(x => x.PageTitle)
-                    @Html.HiddenFor(x => x.TableName)
-                    @Html.HiddenFor(x => x.TableCode)
-                    @Html.HiddenFor(x => x.Entity.ID)
-                    @Html.HiddenFor(x => x.Entity.RelatedItemCount)
-                    @Html.HiddenFor(x => x.Entity.FolderType)
-                    @Html.HiddenFor(x => x.Entity.DataType)
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label>Name</label>
-                                @Html.TextBoxFor(x => x.Entity.FolderName, new { @class = "form-control" })
-                            </div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="form-group">
-                                <label>Category</label>
-                                @Html.DropDownListFor(x => x.Entity.Category, Model.Categories, "Select value", new { @class = "form-control" })
-                            </div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="form-group">
-                                <label>Add Category</label>
-                                @Html.TextBoxFor(x => x.Entity.NewCategory, new { @class = "form-control" })
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label>Description</label>
-                                @Html.TextBoxFor(x => x.Entity.Description, new { @class = "form-control" })
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="form-group clearfix">
-                                <div class="icheck-primary d-inline">
-                                    @Html.CheckBoxFor(x => x.Entity.IsFavoriteOption, new { id = "cbxIsFavorite", @type = "checkbox", @class = "custom-control-input" })
-                                    <label for="cbxIsFavorite">
-                                        Add this folder to my Favorites list.
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="margin">
-                                <a href="@Url.Action("Refresh")" class="btn btn-default">Reset</a>
-                                @*@if (Model.Entity.ID > 0)
-                        {
-                            <button id="btnDelete" type="button" class="btn btn-danger">
-                                Delete
-                            </button>
-                        }*@
-                                <button type="submit" class="btn btn-info float-right">Save</button>
-                            </div>
-                        </div>
-                    </div>
-                }
-            </div>
-            <div class="tab-pane" id="tab_3">
+            <div class="tab-pane" id="tab-content-sharing">
                 <div id="section_folder_cooperator_widget">
                     @{Html.RenderAction("RenderWidget", "AppUserItemFolderCooperatorMap", new { @appUserItemFolderId = Model.Entity.ID });}
                 </div>

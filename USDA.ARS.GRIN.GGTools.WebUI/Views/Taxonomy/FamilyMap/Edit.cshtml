@@ -88,6 +88,22 @@
                         @Html.HiddenFor(x => x.Entity.SubtribeID)
                         @Html.HiddenFor(x => x.Entity.Rank)
                         @Html.HiddenFor(x => x.Entity.IsAcceptedName)
+
+                        <!--
+        =====================================================
+        BEGIN REF. FOLDER LOGIC
+        =====================================================
+        -->
+                        @if (Model.AppUserItemFolderID > 0)
+                        {
+                            Html.RenderAction("RenderRelatedFoldersWidget", "AppUserItemFolder", new { idNumber = Model.Entity.ID });
+                        }
+                        <!--
+        =====================================================
+        BEGIN REF. FOLDER LOGIC
+        =====================================================
+        -->
+
                         <div class="card card-default">
                             <div class="card-header">
                                 <h3 class="card-title">Summary</h3>
@@ -352,15 +368,15 @@
                                         Delete
                                     </button>
                                 }
-                                
-                            <div class="btn-group float-right">
-                                <button type="submit" class="btn btn-primary float-right margin-05">
-                                    <i class="fas fa-save"></i>
-                                    Save Changes
-                                </button>
+
+                                <div class="btn-group float-right">
+                                    <button type="submit" class="btn btn-primary float-right margin-05">
+                                        <i class="fas fa-save"></i>
+                                        Save Changes
+                                    </button>
+                                </div>
                             </div>
                         </div>
-                    </div>
                     }
 
                     @if (Model.Entity.ID > 0)
