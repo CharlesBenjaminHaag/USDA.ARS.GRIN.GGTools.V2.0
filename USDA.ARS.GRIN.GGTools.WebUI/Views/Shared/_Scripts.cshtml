@@ -41,8 +41,6 @@
         /* When user begins typing, hide error message block. */
         $(document).on('keypress', function (event) {
             var keycode = (event.keyCode ? event.keyCode : event.which);
-            //DEBUG
-            alert("KEY IS " + keycode);
             $("#section-input-error").hide();
         });
     });

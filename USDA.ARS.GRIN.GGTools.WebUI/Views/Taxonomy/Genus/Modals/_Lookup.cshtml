@@ -86,9 +86,6 @@
         var idList = GetSelectedEntityIDs("data-table-genus-lookup");
         var nameList = GetSelectedEntityLabels("data-table-genus-lookup");
 
-        //DEBUG
-        alert("DEBUG " + idField + " NAME " + nameField + " ID " + idList + " NAME " + nameList);
-
         $("#Entity_" + idField).val(idList);
         $("#Entity_" + nameField).val(nameList);
         $('#modal-genus-lookup').modal('hide');
