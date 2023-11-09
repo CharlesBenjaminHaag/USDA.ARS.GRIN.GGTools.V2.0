@@ -68,13 +68,13 @@
                     'selectNone',
                     'csv',
                     'excel',
-                    'pdf'
-                    //{
-                    //    text: '+ Add',
-                    //    action: function (e, dt, node, config) {
-                    //        AddRecord();
-                    //    }
-                    //}
+                    'pdf',
+                    {
+                        text: 'Add to Folder',
+                        action: function (e, dt, node, config) {
+                            AddFolder();
+                        }
+                    }
                 ],
                 select: true,
                 lengthMenu: [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],

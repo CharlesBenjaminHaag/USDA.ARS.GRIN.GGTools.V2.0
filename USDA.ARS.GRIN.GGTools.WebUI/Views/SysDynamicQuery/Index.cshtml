@@ -6,9 +6,10 @@
 @Html.Partial("~/Views/SysDynamicQuery/_Detail.cshtml")
 @Html.Partial("~/Views/SysDynamicQuery/_SearchResultsList.cshtml")
 @{Html.RenderAction("RenderEditModal", "SysDynamicQuery");}
+@{Html.RenderAction("RenderEditModal", "AppUserItemFolder", new { @sysTableName = Model.TableName }); }
 
 <script type="text/javascript">
     $("#btnSubmitSysDynamicQuery").on('click', function (event) {
-        
+
     });
 </script>

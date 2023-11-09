@@ -39,6 +39,10 @@
     </div>
 </div>
 
+<div id="section_search_results">
+
+</div>
+
 @Html.Partial("~/Views/Taxonomy/Shared/Modals/_Delete.cshtml")
 @{Html.RenderAction("RenderEditModal", "AppUserItemFolderCooperatorMap", new { @appUserItemFolderId = Model.Entity.ID });}
 @{Html.RenderAction("RenderFolderItemDeleteModal", "AppUserItemFolder", new { @entityId = Model.Entity.ID });}

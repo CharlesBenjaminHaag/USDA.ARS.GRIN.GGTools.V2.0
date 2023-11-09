@@ -73,6 +73,45 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 return View("~/Views/SysDynamicQuery/Index.cshtml", viewModel);
             }
         }
+
+        [HttpPost]
+        public PartialViewResult _Search(SysDynamicQueryViewModel viewModel)
+        {
+            try
+            {
+                //TODO: REFACTOR
+                viewModel.SearchEntity.SQLStatement = viewModel.Entity.SQLStatement;
+
+                if (!viewModel.Validate())
+                {
+                    if (viewModel.ValidationMessages.Count > 0) return PartialView("~/Views/SysDynamicQuery/_Edit.cshtml", viewModel);
+                }
+
+                //DEBUG Find tables in FROM clause (?)
+                Regex regex = new Regex(@"\bJOIN\s+(?<Retrieve>[a-zA-Z\._\d\[\]]+)\b|\bFROM\s+(?<Retrieve>[a-zA-Z\._\d\[\]]+)\b|\bUPDATE\s+(?<Update>[a-zA-Z\._\d]+)\b|\bINSERT\s+(?:\bINTO\b)?\s+(?<Insert>[a-zA-Z\._\d]+)\b|\bTRUNCATE\s+TABLE\s+(?<Delete>[a-zA-Z\._\d]+)\b|\bDELETE\s+(?:\bFROM\b)?\s+(?<Delete>[a-zA-Z\._\d]+)\b");
+
+                var obj = regex.Matches(viewModel.SearchEntity.SQLStatement);
+
+                foreach (Match m in obj)
+                {
+                    var DEBUG = m.ToString().Substring(m.ToString().IndexOf(" ")).Trim();
+                }
+
+                // TODO POC: Based on "key" table in query, determine data type
+                // of results.
+
+                viewModel.Search();
+                return PartialView("~/Views/SysDynamicQuery/_SearchResultsList.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                viewModel.ValidationMessages.Add(new Common.Library.ValidationMessage { Message = ex.Message });
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
+        }
+
+
         public PartialViewResult RenderEditModal()
         {
             try
