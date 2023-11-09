@@ -992,7 +992,7 @@
     <Content Include="Views\SysDynamicQuery\Index.cshtml" />
     <Content Include="Views\Taxonomy\SpeciesSynonymMap\_ListSynonymsB.cshtml" />
     <Content Include="Views\SysDynamicQuery\_Detail.cshtml" />
-    <Content Include="Views\SysDynamicQuery\_List.cshtml" />
+    <Content Include="Views\SysDynamicQuery\_SearchResultsList.cshtml" />
     <Content Include="Views\Taxonomy\Species\Map\Index.cshtml" />
     <Content Include="Views\Taxonomy\Citation\_DetailSearchCriteria.cshtml" />
     <Content Include="Views\Shared\_LayoutAdminLTE3NRR.cshtml" />
@@ -1131,6 +1131,9 @@
     <Content Include="Views\SysDynamicQuery\Modals\_Edit.cshtml" />
     <Content Include="Views\SysDynamicQuery\Edit.cshtml" />
     <Content Include="Views\SysDynamicQuery\_Edit.cshtml" />
+    <Content Include="Views\SysDynamicQuery\_List.cshtml" />
+    <Content Include="Views\AppUserItemFolder\Index BACKUP.cshtml" />
+    <Content Include="Views\AppUserItemList\Index BACKUP.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

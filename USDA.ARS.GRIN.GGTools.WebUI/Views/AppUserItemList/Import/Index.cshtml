@@ -186,7 +186,7 @@
             data: formData,
             success: function (response) {
                 $("#section-items-by-list").html(response);
-                InitDataTable("data-table-app-user-item-list-items");
+                InitDataTableFolderImportFormat("data-table-app-user-item-list-items");
                 $("#section-detail-title").html(listName);
                 $("#section-progress-overlay").hide();
             }
@@ -197,36 +197,38 @@
         OpenFolderModal();
     }
 
-    //function InitDataTableSingleColumnFormat(tableName) {
-    //    $(document).ready(function () {
-    //        tableName = "#" + tableName;
-    //        table = $(tableName).DataTable({
-    //            paging: false,
-    //            stateSave: true,
-    //            "bLengthChange": false,
-    //            //scrollY: '300px',
-    //            //scrollCollapse: true,
-    //            paging: false,
-    //            responsive: true,
-    //            select: {
-    //                style: 'single'
-    //            },
-    //            searching: true,
-    //            columnDefs: [
-    //                {
-    //                    target: 0,
-    //                    visible: false,
-    //                    searchable: false,
-    //                },
-    //            ]
-    //        });
-    //        table.row(':eq(0)', { page: 'current' }).select();
+    function InitDataTableFolderImportFormat(tableName) {
+        tableName = "#" + tableName;
+        $(document).ready(function () {
+            table = $(tableName).DataTable({
+                dom: 'Blfrtip',
+                paging: true,
+                "pageLength": 10,
+                responsive: true,
+                buttons: [
+                    'selectAll',
+                    'selectNone',
+                    'csv',
+                    'excel',
+                    'pdf',
+                    {
+                        text: 'Import Selected Records',
+                        action: function (e, dt, node, config) {
+                            EditBatch();
+                        }
+                    }
+                ],
+                select: true,
+                lengthMenu: [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],
+                columnDefs: [
+                    { targets: [0], visible: false }
+                ]
+            });
 
-    //        $(tableName).on('click', 'tr', function () {
-    //            var data = table.row(this).data();
-    //            LoadItemsByList(data[1]);
-    //        });
-
-    //    });
-    //}
+            $('table.ggtools').on('click', 'tr', function () {
+                var data = table.row(this).data();
+                /*alert('You clicked on ' + data[0] + "'s row");*/
+            });
+        });
+    }
 </script>

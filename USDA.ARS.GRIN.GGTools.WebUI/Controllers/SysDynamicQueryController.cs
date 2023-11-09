@@ -13,6 +13,14 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
         public ActionResult Index()
         {
             SysDynamicQueryViewModel viewModel = new SysDynamicQueryViewModel();
+
+            // *** TODO: REFACTOR ***
+            // Get saved SQLQUERY folders.
+            AppUserItemFolderViewModel appUserItemFolderViewModel = new AppUserItemFolderViewModel();
+            appUserItemFolderViewModel.SearchEntity.FolderType = "SQLQUERY";
+            appUserItemFolderViewModel.SearchEntity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
+            appUserItemFolderViewModel.Search();
+            viewModel.DataCollectionAppUserItemFolders = appUserItemFolderViewModel.DataCollection;
             return View(viewModel);
         }
         public ActionResult Edit(int entityId)
@@ -55,6 +63,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
 
 
                 viewModel.Search();
+                
                 return View("~/Views/SysDynamicQuery/Index.cshtml", viewModel);
             }
             catch (Exception ex)

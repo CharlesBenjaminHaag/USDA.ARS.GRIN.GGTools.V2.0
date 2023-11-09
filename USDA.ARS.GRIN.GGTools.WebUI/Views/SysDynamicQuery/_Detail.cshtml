@@ -8,13 +8,13 @@
    
     <div id="section-panel-help" class="alert alert-info alert-dismissible" style="display: none;">
         <button type="button" class="close" aria-hidden="true">×</button>
-        <h5><i class="icon fas fa-info"></i> Text Search</h5>
+        <h5><i class="icon fas fa-info"></i> SQL Query Guidelines</h5>
         <ul>
             <li>
-                By default, text search fields will use leading and trailing wildcard characters, and will match all records that contain the entered text.
+                Queries cannot contain INSERT, UPDATE, or DELETE clauses.
             </li>
             <li>
-                To search more precisely, enter wildcard characters (<strong>%</strong>) within the search text.
+                For the purposes of creating a folder, the query will determine the record data type based on the first table named in the FROM clause.
             </li>
         </ul>
     </div>
@@ -57,7 +57,7 @@
                 <div class="tab-pane" id="timeline">
                     <div class="row">
                         <div class="col-md-12">
-
+                            @Html.Partial("~/Views/SysDynamicQuery/_List.cshtml")
                         </div>
                     </div>
                 </div>

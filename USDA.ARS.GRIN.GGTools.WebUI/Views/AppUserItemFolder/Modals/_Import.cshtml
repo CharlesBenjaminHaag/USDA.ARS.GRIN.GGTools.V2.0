@@ -121,11 +121,10 @@ Modal that appears once import is complete.
 
     function OpenFolderModal() {
         var tableName = $("#TableName").val();
-        var dataTableName = "data_table_app_user_item_list";
+        var dataTableName = "data-table-app-user-item-list-items";
         var selectedItemIdList = GetSelectedEntityIDs(dataTableName);
-        var selectedDataTypeList = GetSelectedDataTypes();
-
-        selectedDataTypeList = jQuery.unique(selectedDataTypeList);
+        //var selectedDataTypeList = GetSelectedDataTypes();
+        //selectedDataTypeList = jQuery.unique(selectedDataTypeList);
         // TODO Need to require that folder contain only one data type --
         // validate here, or group data in underlying list. --CBH 9/7/23
 
@@ -169,7 +168,7 @@ Modal that appears once import is complete.
         var folderNewCategory = $("#txtFolderNewCategory").val();
         var folderDescription = $("#txtFolderDescription").val();
         /*var tableName = $("#txtFolderDataType").val().replace("_ID","");*/
-        var selectedItemIdList = GetSelectedEntityIDs("data_table_app_user_item_list");
+        var selectedItemIdList = GetSelectedEntityIDs("data-table-app-user-item-list-items");
         var formData = new FormData();
 
         if (selectedItemIdList.length > 0) {
