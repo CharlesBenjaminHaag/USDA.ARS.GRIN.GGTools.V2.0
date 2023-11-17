@@ -14,7 +14,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
     public class AccessionInventoryAttachmentController : BaseController, IController<AccessionInventoryAttachmentViewModel>
     {
         private static readonly Logger Log = LogManager.GetCurrentClassLogger();
-        public PartialViewResult _ListFolderItems(int folderId)
+        public PartialViewResult _ListFolderItems(int appUserItemFolderId)
         {
             try
             {
@@ -241,14 +241,14 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             }
         }
 
-        public PartialViewResult FolderItems(int folderId)
+        public PartialViewResult FolderItems(int appUserItemFolderId)
         {
             try
             {
                 AccessionInventoryAttachmentViewModel viewModel = new AccessionInventoryAttachmentViewModel();
                 viewModel.EventAction = "SEARCH";
                 viewModel.EventValue = "FOLDER";
-                viewModel.SearchEntity.FolderID = folderId;
+                viewModel.SearchEntity.FolderID = appUserItemFolderId;
                 viewModel.SearchFolderItems();
                 ModelState.Clear();
                 return PartialView("~/Views/Attachment/_List.cshtml", viewModel);

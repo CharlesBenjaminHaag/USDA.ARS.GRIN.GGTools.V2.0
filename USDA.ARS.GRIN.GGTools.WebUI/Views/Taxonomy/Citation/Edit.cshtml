@@ -48,7 +48,7 @@
                                     string controllerName = ViewContext.RouteData.Values["controller"].ToString();
                                     string actionName = ViewContext.RouteData.Values["action"].ToString();
                                 }
-                                <span>@actionName @controllerName [@Model.Entity.ID]: @Html.Raw(Model.Entity.AssembledName)</span>
+                                <span>@actionName @controllerName [@Model.Entity.ID]: @Html.Raw(Model.Entity.TaxonName) @Model.Entity.Abbreviation</span>
                             </h1>
                         </div>
                         <div class="col-sm-6">
@@ -69,6 +69,22 @@
                         @Html.HiddenFor(x => x.PageTitle)
                         @Html.HiddenFor(x => x.Entity.ID)
                         @Html.HiddenFor(x => x.Entity.CategoryCode)
+
+                        <!--
+        =====================================================
+        BEGIN REF. FOLDER LOGIC
+        =====================================================
+        -->
+                        if (Model.AppUserItemFolderID > 0)
+                        {
+                            Html.RenderAction("RenderRelatedFoldersWidget", "AppUserItemFolder", new { idNumber = Model.Entity.ID });
+                        }
+                        <!--
+        =====================================================
+        BEGIN REF. FOLDER LOGIC
+        =====================================================
+        -->
+
                         @Html.Partial("~/Views/Shared/_ValidationMessages.cshtml")
                         @Html.Partial("~/Views/Taxonomy/Shared/_RevisionHistory.cshtml")
                         <div class="card card-default">

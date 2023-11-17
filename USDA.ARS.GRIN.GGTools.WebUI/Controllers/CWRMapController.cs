@@ -71,13 +71,15 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             }
         }
 
-        public ActionResult Edit(int entityId = 0)
+        public ActionResult Edit(int entityId = 0, int appUserItemFolderId = 0)
         {
             try
             {
                 CWRMapViewModel viewModel = new CWRMapViewModel();
                 viewModel.TableName = "taxonomy_cwr_map";
                 viewModel.TableCode = "CWRMap";
+                viewModel.AppUserItemFolderID = appUserItemFolderId;
+
                 viewModel.Get(entityId);
                 viewModel.PageTitle = String.Format("Edit CWR Map [{0}]: {1}", entityId, viewModel.Entity.AssembledName);
                 
@@ -358,24 +360,24 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
 //            }
 //        }
 
-        public PartialViewResult FolderItems(int folderId)
-        {
-            try
-            {
-                CWRMapViewModel viewModel = new CWRMapViewModel();
-                viewModel.EventAction = "SEARCH";
-                viewModel.EventValue = "FOLDER";
-                viewModel.SearchEntity.FolderID = folderId;
-                viewModel.SearchFolderItems();
-                ModelState.Clear();
-                return PartialView("~/Views/CWRMap/_List.cshtml", viewModel);
-            }
-            catch (Exception ex)
-            {
-                Log.Error(ex);
-                return PartialView("~/Views/Error/_InternalServerError.cshtml");
-            }
-        }
+        //public PartialViewResult FolderItems(int folderId)
+        //{
+        //    try
+        //    {
+        //        CWRMapViewModel viewModel = new CWRMapViewModel();
+        //        viewModel.EventAction = "SEARCH";
+        //        viewModel.EventValue = "FOLDER";
+        //        viewModel.SearchEntity.FolderID = appUserItemFolderId;
+        //        viewModel.SearchFolderItems();
+        //        ModelState.Clear();
+        //        return PartialView("~/Views/CWRMap/_List.cshtml", viewModel);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Log.Error(ex);
+        //        return PartialView("~/Views/Error/_InternalServerError.cshtml");
+        //    }
+        //}
 
         public PartialViewResult _List(int cropForCwrId = 0, int speciesId = 0)
         {
@@ -395,13 +397,13 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 return PartialView("~/Views/Error/_InternalServerError.cshtml", "Error");
             }
         }
-        public PartialViewResult _ListFolderItems(int folderId)
+        public PartialViewResult _ListFolderItems(int appUserItemFolderId)
         {
             CWRMapViewModel viewModel = new CWRMapViewModel();
             try
             {
                 viewModel.EventAction = "FOLDER";
-                viewModel.SearchEntity.FolderID = folderId;
+                viewModel.SearchEntity.FolderID = appUserItemFolderId;
                 viewModel.GetFolderItems();
                 return PartialView(BASE_PATH + "_ListFolder.cshtml", viewModel);
             }

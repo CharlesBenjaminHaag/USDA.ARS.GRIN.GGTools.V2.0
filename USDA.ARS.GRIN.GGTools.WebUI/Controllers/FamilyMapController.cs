@@ -82,7 +82,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             }
         }
 
-        public ActionResult Edit(int entityId)
+        public ActionResult Edit(int entityId, int appUserItemFolderId = 0)
         {
             try
             {
@@ -92,6 +92,8 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 {
                     viewModel.TableName = "taxonomy_family_map";
                     viewModel.TableCode = "FamilyMap";
+                    viewModel.AppUserItemFolderID = appUserItemFolderId;
+
                     viewModel.Get(entityId);
                     viewModel.PageTitle = String.Format("Edit {0} [{1}]", viewModel.Entity.AssembledName, viewModel.Entity.ID);
                 }
@@ -150,7 +152,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
         //        FamilyMapViewModel viewModel = new FamilyMapViewModel();
         //        viewModel.EventAction = "SEARCH";
         //        viewModel.EventValue = "FOLDER";
-        //        viewModel.SearchEntity.FolderID = folderId;
+        //        viewModel.SearchEntity.FolderID = appUserItemFolderId;
         //        viewModel.GetFolderItems();
         //        ModelState.Clear();
         //        return PartialView(BASE_PATH + "List.cshtml", viewModel);
@@ -245,14 +247,14 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 return PartialView("~/Views/Error/_InternalServerError.cshtml");
             }
         }
-        public PartialViewResult _ListFolderItems(int folderId)
+        public PartialViewResult _ListFolderItems(int appUserItemFolderId)
         {
             FamilyMapViewModel viewModel = new FamilyMapViewModel();
 
             try
             {
                 viewModel.EventAction = "FOLDER";
-                viewModel.SearchEntity.FolderID = folderId;
+                viewModel.SearchEntity.FolderID = appUserItemFolderId;
                 viewModel.GetFolderItems();
                 return PartialView(BASE_PATH + "_ListFolder.cshtml", viewModel);
             }

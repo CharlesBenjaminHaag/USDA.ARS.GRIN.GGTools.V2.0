@@ -8,7 +8,7 @@
 
     <li class="nav-header">FOLDERS</li>
     @*<li class="nav-item">
-        <a href="@Url.Action("Explorer", "Folder")" class="nav-link">
+        <a href="@Url.Action("Explorer", "AppUserItemFolder")" class="nav-link">
             <i class="nav-icon fas fa-globe"></i>
             <p>Explorer</p>
         </a>
@@ -21,8 +21,8 @@
     </li>
     <li class="nav-item">
         <a href="@Url.Action("Import", "AppUserItemList")" class="nav-link">
-            <i class="nav-icon fas fa-cogs"></i>
-            <p>Import</p>
+            <i class="nav-icon fas fa-folder"></i>
+            <p>CT Folders</p>
         </a>
     </li>
 
@@ -39,12 +39,12 @@
             <p>Species Batch Edit</p>
         </a>
     </li>*@
-    <li class="nav-item">
+    @*<li class="nav-item">
         <a href="@Url.Action("Add","SpeciesSynonymMap")" class="nav-link">
             <i class="nav-icon fas fa-tools"></i>
             <p>Synonym Mapper</p>
         </a>
-    </li>
+    </li>*@
 
     <li class="nav-header">MANAGE DATA</li>
     @{ Html.RenderAction("_List", "SysTable"); }

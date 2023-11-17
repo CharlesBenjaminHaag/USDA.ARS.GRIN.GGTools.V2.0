@@ -257,13 +257,13 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             viewModel.Search();
             return PartialView(BASE_PATH + "_List.cshtml", viewModel);
         }
-        public PartialViewResult _ListFolderItems(int folderId)
+        public PartialViewResult _ListFolderItems(int appUserItemFolderId)
         {
             CommonNameViewModel viewModel = new CommonNameViewModel();
             try
             {
                 viewModel.EventAction = "FOLDER";
-                viewModel.SearchEntity.FolderID = folderId;
+                viewModel.SearchEntity.FolderID = appUserItemFolderId;
                 viewModel.GetFolderItems();
                 return PartialView(BASE_PATH + "_ListFolder.cshtml", viewModel);
             }

@@ -14,13 +14,13 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
     {
         protected static string BASE_PATH = "~/Views/Taxonomy/Genus/";
         private static readonly Logger Log = LogManager.GetCurrentClassLogger();
-        public PartialViewResult _ListFolderItems(int folderId)
+        public PartialViewResult _ListFolderItems(int appUserItemFolderId)
         {
             GenusViewModel viewModel = new GenusViewModel();
             try
             {
                 viewModel.EventAction = "FOLDER";
-                viewModel.SearchEntity.FolderID = folderId;
+                viewModel.SearchEntity.FolderID = appUserItemFolderId;
                 viewModel.GetFolderItems();
                 return PartialView(BASE_PATH + "_ListFolder.cshtml", viewModel);
             }
@@ -98,11 +98,12 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             return View(BASE_PATH + "Edit.cshtml", viewModel);
         }
 
-        public ActionResult Edit(int entityId)
+        public ActionResult Edit(int entityId, int appUserItemFolderId = 0)
         {
             try
             {
                 GenusViewModel viewModel = new GenusViewModel();
+                viewModel.AppUserItemFolderID = appUserItemFolderId;
                 viewModel.Get(entityId);
                 viewModel.PageTitle = viewModel.GetPageTitle();
                 viewModel.TableName = "taxonomy_genus";

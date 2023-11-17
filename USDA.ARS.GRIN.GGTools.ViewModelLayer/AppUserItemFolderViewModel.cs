@@ -177,6 +177,21 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
                 throw ex;
             }
         }
+        public void DeleteItemByEntityID(int appUserItemFolderId, int idNumber)
+        {
+            try
+            {
+                using (AppUserItemFolderManager mgr = new AppUserItemFolderManager())
+                {
+                    mgr.DeleteItemByEntityID(appUserItemFolderId, idNumber);
+                }
+            }
+            catch (Exception ex)
+            {
+                PublishException(ex);
+                throw ex;
+            }
+        }
         public void DeleteItems()
         {
             string[] itemIdList = ItemIDList.Split(',');

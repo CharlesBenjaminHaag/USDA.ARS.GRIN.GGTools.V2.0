@@ -14,13 +14,13 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
     {
         protected static string BASE_PATH = "~/Views/Taxonomy/GeographyMap/";
         private static readonly Logger Log = LogManager.GetCurrentClassLogger();
-        public PartialViewResult _ListFolderItems(int folderId)
+        public PartialViewResult _ListFolderItems(int appUserItemFolderId)
         {
             GeographyMapViewModel viewModel = new GeographyMapViewModel();
             try
             {
                 viewModel.EventAction = "FOLDER";
-                viewModel.SearchEntity.FolderID = folderId;
+                viewModel.SearchEntity.FolderID = appUserItemFolderId;
                 viewModel.GetFolderItems();
                 return PartialView(BASE_PATH + "_ListFolder.cshtml", viewModel);
             }
@@ -234,12 +234,14 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             return PartialView("~/Views/Taxonomy/GeographyMap/_ListBatch.cshtml", viewModel);
         }
 
-        public ActionResult Edit(int entityId)
+        public ActionResult Edit(int entityId, int appUserItemFolderId = 0)
         {
             try
             {
                 GeographyMapViewModel viewModel = new GeographyMapViewModel();
                 viewModel.TableName = "taxonomy_geography_map";
+                viewModel.AppUserItemFolderID = appUserItemFolderId;
+
                 viewModel.Get(entityId);
                 viewModel.PageTitle = String.Format("Edit Distribution [{0}]: {1}, {2}", entityId, viewModel.Entity.SpeciesName, viewModel.Entity.GeographyDescription);
                 return View(BASE_PATH + "Edit.cshtml", viewModel);
@@ -354,24 +356,24 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             throw new NotImplementedException();
         }
  
-        public PartialViewResult FolderItems(int folderId)
-        {
-            try
-            {
-                GeographyMapViewModel viewModel = new GeographyMapViewModel();
-                viewModel.EventAction = "SEARCH";
-                viewModel.EventValue = "FOLDER";
-                viewModel.SearchEntity.FolderID = folderId;
-                viewModel.SearchFolderItems();
-                ModelState.Clear();
-                return PartialView("~/Views/GeographyMap/_List.cshtml", viewModel);
-            }
-            catch (Exception ex)
-            {
-                Log.Error(ex);
-                return PartialView("~/Views/Error/_InternalServerError.cshtml");
-            }
-        }
+        //public PartialViewResult FolderItems(int folderId)
+        //{
+        //    try
+        //    {
+        //        GeographyMapViewModel viewModel = new GeographyMapViewModel();
+        //        viewModel.EventAction = "SEARCH";
+        //        viewModel.EventValue = "FOLDER";
+        //        viewModel.SearchEntity.FolderID = appUserItemFolderId;
+        //        viewModel.SearchFolderItems();
+        //        ModelState.Clear();
+        //        return PartialView("~/Views/GeographyMap/_List.cshtml", viewModel);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Log.Error(ex);
+        //        return PartialView("~/Views/Error/_InternalServerError.cshtml");
+        //    }
+        //}
 
         public ActionResult RenderLookupModal()
         {

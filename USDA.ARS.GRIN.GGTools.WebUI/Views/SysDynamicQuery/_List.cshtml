@@ -1,133 +1,74 @@
-﻿@using System.Data;
-@model USDA.ARS.GRIN.GGTools.ViewModelLayer.SysDynamicQueryViewModel
-
-<div class="card card-default">
-    <div class="card-header">
-        <h3 class="card-title">Query Results</h3>
-        <div class="card-tools">
-            <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                <i class="fas fa-minus"></i>
-            </button>
-        </div>
-    </div>
-    <div class="card-body">
-        <table id="data_table_sys_dynamic_query" class="table table-striped" style="width:100%;">
-            <thead>
-                <tr>
-                    @foreach (DataColumn col in Model.DataCollectionDataTable.Columns)
+﻿@model USDA.ARS.GRIN.GGTools.ViewModelLayer.SysDynamicQueryViewModel
+<table id="data_table_app_user_item_folder" class="table table-striped folder-table" style="width:100%;">
+    <thead>
+        <tr>
+            <th></th>
+            <th>ID</th>
+            <th>
+                <i class="fa fa-star"></i>
+            </th>
+            <th><i class="fa fa-users"></i></th>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Created</th>
+            <th>By</th>
+            @*<th>Modified</th>
+                <th>By</th>*@
+            @*<th style="text-align:center;">Items</th>*@
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var folder in Model.DataCollectionAppUserItemFolders)
+        {
+            <tr>
+                <td>
+                    @folder.ID
+                </td>
+                <td>
+                    @folder.ID
+                </td>
+                <td class="mailbox-star">
+                    @if (folder.IsFavorite == "Y")
                     {
-                        <th>@col.ColumnName</th>
+                        <a href="#"><i class="fa fa-star text-yellow"></i></a>
                     }
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (DataRow dr in Model.DataCollectionDataTable.Rows)
-                {
-                    <tr>
-                        @foreach (DataColumn rowCol in Model.DataCollectionDataTable.Columns)
+                </td>
+                <td>
+                    @if (folder.IsShared == "Y")
+                    {
+                        <a href="#"><i class="fa fa-users text-blue"></i></a>
+                    }
+                </td>
+                <td>
+                    @folder.FolderName
+                </td>
+                <td>@folder.Description</td>
+                <td>@folder.CreatedDate.ToShortDateString()</td>
+                <td>@folder.CreatedByCooperatorName</td>
+                @*<td>
+                        @if (folder.ModifiedDate > DateTime.MinValue)
                         {
-                            <td>
-                                @dr[rowCol.ColumnName]
-
-                            </td>
-
-                            @*if (rowCol.ColumnName == "OrderID")
-                                {
-                                    <td>
-                                        <span class="badge">
-                                            <a href="@Url.Action("View", "Order", new { entityId = dr[rowCol.ColumnName] })" style="color:white; text-decoration:underline;">
-                                                @dr[rowCol.ColumnName]
-                                            </a>
-                                        </span>
-                                    </td>
-                                }
-                                else
-                                {
-                                    if (rowCol.ColumnName.Contains("WebOrderID"))
-                                    {
-                                        <td>
-                                            <span class="badge">
-                                                <a href="@Url.Action("View", "WebOrder", new { entityId = dr[rowCol.ColumnName] })" style="color:white; text-decoration:underline;">
-                                                    @dr[rowCol.ColumnName]
-                                                </a>
-                                            </span>
-                                        </td>
-                                    }
-                                    else
-                                    {
-                                        if (rowCol.ColumnName.Contains("EmailAddress"))
-                                        {
-                                            <td>
-                                                <a href="@Url.Action("Search", "WebOrder", new { emailAddress = dr[rowCol.ColumnName] })">@dr[rowCol.ColumnName]</a>
-                                            </td>
-                                        }
-                                        else
-                                        {
-                                            if (rowCol.ColumnName.Contains("Organization"))
-                                            {
-                                                <td>
-                                                    <a href="@Url.Action("Search", "WebOrder", new { organization = dr[rowCol.ColumnName] })">@dr[rowCol.ColumnName]</a>
-                                                </td>
-                                            }
-                                            else
-                                            {
-                                                <td>@dr[rowCol.ColumnName]</td>
-                                            }
-                                        }
-                                    }
-                                }*@
+                            @folder.ModifiedDate.ToShortDateString()
                         }
-                    </tr>
-                }
-            </tbody>
-            <tfoot>
-                <tr>
-                    @*@foreach (DataColumn col in Model.ReportDataTable.Columns)
-                        {
-                            <td></td>
-                        }*@
-                </tr>
-            </tfoot>
-        </table>
-        </div>
-</div>
+                    </td>
+                    <td>@folder.ModifiedByCooperatorName</td>*@
+                @*<td style="text-align:center;">
+                        <span class="badge bg-gray" style="font-size:11pt;">
+                            @folder.TotalItems
+                        </span>
+                    </td>*@
+                <td style="text-align:right;">
+                    <a href="@Url.Action("Edit", "SysDynamicQuery", new { entityId = folder.ID })" class="btn btn-default btn-sm pull-right row-edit">
+                        <i class="fa fa-edit"></i>
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
 <script type="text/javascript">
-    InitDataTableDynamicQuery("data_table_sys_dynamic_query");
-
-    function InitDataTableDynamicQuery(tableName) {
-        tableName = "#" + tableName;
-        $(document).ready(function () {
-            table = $(tableName).DataTable({
-                dom: 'Blfrtip',
-                paging: true,
-                "pageLength": 10,
-                scrollX: true,
-                responsive: true,
-                buttons: [
-                    'selectAll',
-                    'selectNone',
-                    'csv',
-                    'excel',
-                    'pdf'
-                    //{
-                    //    text: '+ Add',
-                    //    action: function (e, dt, node, config) {
-                    //        AddRecord();
-                    //    }
-                    //}
-                ],
-                select: true,
-                lengthMenu: [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],
-                //columnDefs: [
-                //    { targets: [0], visible: false }
-                //]
-            });
-
-            $('table.ggtools').on('click', 'tr', function () {
-                var data = table.row(this).data();
-                /*alert('You clicked on ' + data[0] + "'s row");*/
-            });
-        });
-    }
-
+    $(document).ready(function () {
+        InitDataTable("data_table_app_user_item_folder");
+    });
 </script>

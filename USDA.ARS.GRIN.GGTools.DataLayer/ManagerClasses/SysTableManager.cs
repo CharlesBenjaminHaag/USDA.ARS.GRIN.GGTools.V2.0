@@ -47,7 +47,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             SQL += " AND TableName <> 'taxonomy_family'";
             SQL += " UNION ";
             SQL += " SELECT ID, DatabaseAreaCode, TableName, TableTitle, TableCode FROM vw_GRINGlobal_Sys_Table";
-            SQL += " WHERE TableName IN ('citation','literature','geography','app_user_item_list')"; 
+            SQL += " WHERE TableName IN ('citation','literature','geography')"; 
             SQL += " ORDER BY TableTitle ";
 
              var parameters = new List<IDbDataParameter> {

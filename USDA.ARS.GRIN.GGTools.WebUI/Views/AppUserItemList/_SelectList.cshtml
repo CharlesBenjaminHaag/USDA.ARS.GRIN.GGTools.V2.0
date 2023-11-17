@@ -1,84 +1,44 @@
 ﻿@model USDA.ARS.GRIN.GGTools.ViewModelLayer.AppUserItemListViewModel
-<div class="card card-default">
-    <div class="card-header">
-        <h3 class="card-title">App User Item List (@Model.DataCollection.Count())</h3>
-        <div class="card-tools">
-            <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                <i class="fas fa-minus"></i>
-            </button>
-        </div>
-    </div>
-    <!-- /.box-header -->
-    <div class="card-body">
 
-        <table id="data_table_app_user_item_list" class="table table-striped search-results" style=" width:100%;">
+        <table id="" class="table table-striped search-results ggtools-data-table" style=" width:100%;">
             <thead>
                 <tr>
                     <th></th>
                     <th></th>
                     <th>ID</th>
-                    <th>ID Type</th>
-                    <th>Imported</th>
-                    <th>ID Number</th>
-                    <th>List Name</th>
                     <th>Item Title</th>
-                    <th>Created</th>
-                    <th>Last Modified</th>
-
                 </tr>
             </thead>
             <tbody>
                 @foreach (var result in Model.DataCollection)
                 {
                     <tr>
-                        <td>@result.ID</td>
                         <td></td>
                         <td>
                             @result.ID
                         </td>
                         <td>
+                            @result.EntityID
+                        </td>
+                        <td>
                             @result.IDType
                         </td>
-                        <td>
-                            @Html.Raw(Model.FormatBoolean(result.IsImported))
-                        </td>
-                        <td>
-                            @if (result.EntityID > 0)
-                            { 
-                                <span>
-                                    @result.EntityID
-                                </span>                            
-                            }
-                        </td>
-                        <td>
-                            @result.ListName
-                        </td>
-                        <td>@result.ItemTitle</td>
-                        <td>
-                            @result.CreatedDate.ToShortDateString()
-                        </td>
-                        <td>
-                            @if (result.ModifiedDate > DateTime.MinValue)
-                            {
-                                @result.ModifiedDate.ToShortDateString()
-                            }
-                        </td>
-
-                    </tr>
+                                           </tr>
                 }
             </tbody>
         </table>
-        </div>
-    </div>
+     
 <script type="text/javascript">
     $(document).ready(function () {
         InitDataTableAppUserItemListFormat("data_table_app_user_item_list");
     });
 
     function InitDataTableAppUserItemListFormat(tableName) {
-        tableName = "#" + tableName;
+        //tableName = "#" + tableName;
+        tableName = ".ggtools-data-table";
         $(document).ready(function () {
             table = $(tableName).DataTable({
+                destroy: true,
                 dom: 'Blfrtip',
                 paging: true,
                 "pageLength": 10,

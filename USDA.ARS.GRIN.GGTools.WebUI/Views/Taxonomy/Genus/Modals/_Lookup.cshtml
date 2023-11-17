@@ -17,8 +17,8 @@
             <div id=" " class="modal-body">
                 @using (Html.BeginForm("Search", "Genus", FormMethod.Post, new { id = "frmGenusLookup", @class = "ggtools-lookup-form" }))
                 {
-                    @*<input type="hidden" id="hfGenusLookupIDFieldName" />
-            <input type="hidden" id="hfGenusLookupNameFieldName" />*@
+                    <input type="hidden" id="hfGenusLookupIDFieldName" />
+                    <input type="hidden" id="hfGenusLookupNameFieldName" />
                     <div class="row">
                         <div class="col-md-12">
                             <label>Name</label>
@@ -71,8 +71,8 @@
     $("#btnOpenGenusLookupModal").click(function () {
         var eventAction = $(this).data("ggtools-action");
         var eventValue = $(this).data("ggtools-value");
-        //$("#hfGenusLookupIDFieldName").val(eventAction);
-        //$("#hfGenusLookupNameFieldName").val(eventValue);
+        $("#hfGenusLookupIDFieldName").val(eventAction);
+        $("#hfGenusLookupNameFieldName").val(eventValue);
         $("#search-progress-overlay-genus-lookup").hide();
     });
 
@@ -85,9 +85,6 @@
         var nameField = $("#hfGenusLookupNameFieldName").val();
         var idList = GetSelectedEntityIDs("data-table-genus-lookup");
         var nameList = GetSelectedEntityLabels("data-table-genus-lookup");
-
-        //DEBUG
-        /*alert("DEBUG " + idField + " NAME " + nameField + " ID " + idList + " NAME " + nameList);*/
 
         $("#Entity_" + idField).val(idList);
         $("#Entity_" + nameField).val(nameList);

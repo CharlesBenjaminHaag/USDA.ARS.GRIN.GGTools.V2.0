@@ -9,17 +9,17 @@ using NLog;
 namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
 {
     [GrinGlobalAuthentication]
-    public class ClassificationController :  BaseController, IController<ClassificationViewModel>
+    public class ClassificationController :  BaseController
     {
         protected static string BASE_PATH = "~/Views/Taxonomy/Order/";
         private static readonly Logger Log = LogManager.GetCurrentClassLogger();
-        public PartialViewResult _ListFolderItems(int folderId)
+        public PartialViewResult _ListFolderItems(int appUserItemFolderId)
         {
             ClassificationViewModel viewModel = new ClassificationViewModel();
             try
             {
                 viewModel.EventAction = "FOLDER";
-                viewModel.SearchEntity.FolderID = folderId;
+                viewModel.SearchEntity.FolderID = appUserItemFolderId;
                 viewModel.GetFolderItems();
                 return PartialView(BASE_PATH + "_ListFolder.cshtml", viewModel);
             }
@@ -75,7 +75,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             throw new NotImplementedException();
         }
 
-        public ActionResult Edit(int entityId)
+        public ActionResult Edit(int entityId, int appUserItemFolderId = 0)
         {
             try
             {
@@ -182,24 +182,24 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             return PartialView(partialViewName, viewModel);
         }
 
-        public PartialViewResult FolderItems(int folderId)
-        {
-            try
-            {
-                ClassificationViewModel viewModel = new ClassificationViewModel();
-                viewModel.EventAction = "SEARCH";
-                viewModel.EventValue = "FOLDER";
-                viewModel.SearchEntity.FolderID = folderId;
-                viewModel.SearchFolderItems();
-                ModelState.Clear();
-                return PartialView(BASE_PATH + "_List.cshtml", viewModel);
-            }
-            catch (Exception ex)
-            {
-                Log.Error(ex);
-                return PartialView("~/Views/Error/_InternalServerError.cshtml");
-            }
-        }
+        //public PartialViewResult FolderItems(int folderId)
+        //{
+        //    try
+        //    {
+        //        ClassificationViewModel viewModel = new ClassificationViewModel();
+        //        viewModel.EventAction = "SEARCH";
+        //        viewModel.EventValue = "FOLDER";
+        //        viewModel.SearchEntity.FolderID = appUserItemFolderId;
+        //        viewModel.SearchFolderItems();
+        //        ModelState.Clear();
+        //        return PartialView(BASE_PATH + "_List.cshtml", viewModel);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Log.Error(ex);
+        //        return PartialView("~/Views/Error/_InternalServerError.cshtml");
+        //    }
+        //}
 
         [HttpPost]
         public PartialViewResult LookupNotes(FormCollection formCollection)

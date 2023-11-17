@@ -346,12 +346,24 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
         }
 
         #region Explorer
+        public ActionResult Explorer()
+        {
+            try 
+            { 
+                WebOrderRequestViewModel viewModel = new WebOrderRequestViewModel();
+                return View("~/Views/WebOrderRequest/Explorer/Index.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return RedirectToAction("InternalServerError", "Error");
+    }
+}
         [HttpPost]
         public PartialViewResult ExplorerList(WebOrderRequestViewModel viewModel)
         {
             try
             {
-                viewModel.SearchEntity.TimeFrame = "7D";
                 viewModel.Search();
                 return PartialView("~/Views/WebOrderRequest/Explorer/_List.cshtml", viewModel);
             }

@@ -13,7 +13,7 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
-        $('textarea').summernote({
+        $('#txtNote').summernote({
             /*$('#txtNote').summernote({*/
             height: 100,                 // set editor height
             minHeight: null,             // set minimum height of editor
@@ -41,7 +41,7 @@
         /* When user begins typing, hide error message block. */
         $(document).on('keypress', function (event) {
             var keycode = (event.keyCode ? event.keyCode : event.which);
-            /*alert("DEBUG TYPING");*/
+            $("#section-input-error").hide();
         });
     });
 </script>

@@ -83,89 +83,108 @@
                         @Html.HiddenFor(x => x.TableCode)
                         @Html.HiddenFor(x => x.Entity.ID)
                         @Html.HiddenFor(x => x.OriginalShortName)
-                        @Html.Partial("~/Views/Shared/_RevisionHistory.cshtml")
-                        <!-- Reference warning-->
-                        <div class="modal fade" id="modal-warning-references" style="display: none;" aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content bg-warning">
-                                    <div class="modal-header">
-                                        <h4 class="modal-title">Warning Modal</h4>
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">×</span>
-                                        </button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <p>One fine body…</p>
-                                    </div>
-                                    <div class="modal-footer justify-content-between">
-                                        <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Close</button>
-                                        <button type="button" class="btn btn-outline-dark">Save changes</button>
-                                    </div>
-                                </div>
+                        @Html.HiddenFor(x => x.AppUserItemFolderID)
 
+                        <!--
+                        =====================================================
+                        BEGIN REF. FOLDER LOGIC
+                        =====================================================
+                        -->
+                        if (Model.AppUserItemFolderID > 0)
+                        {
+                            Html.RenderAction("RenderRelatedFoldersWidget", "AppUserItemFolder", new { idNumber = Model.Entity.ID });
+                        }
+                        <!--
+                        =====================================================
+                        BEGIN REF. FOLDER LOGIC
+                        =====================================================
+                        -->
+
+                    }
+
+                    @Html.Partial("~/Views/Shared/_RevisionHistory.cshtml")
+                    <!-- Reference warning-->
+                    <div class="modal fade" id="modal-warning-references" style="display: none;" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content bg-warning">
+                                <div class="modal-header">
+                                    <h4 class="modal-title">Warning Modal</h4>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">×</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <p>One fine body…</p>
+                                </div>
+                                <div class="modal-footer justify-content-between">
+                                    <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Close</button>
+                                    <button type="button" class="btn btn-outline-dark">Save changes</button>
+                                </div>
                             </div>
 
                         </div>
 
-                        <div class="card card-default">
-                            <div class="card-header">
-                                <h3 class="card-title">Summary</h3>
-                                <div class="card-tools">
-                                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                                        <i class="fas fa-minus"></i>
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="card-body">
-                                @Html.Partial("~/Views/Shared/_ValidationMessages.cshtml")
-                                <div class="row">
-                                    <div class="col-md-5">
-                                        <div class="form-group">
-                                            <label>Short Name</label>
-                                            @Html.TextBoxFor(x => x.Entity.ShortName, new { @class = "form-control" })
-                                            @Html.ValidationMessageFor(x => x.Entity.ShortName, "", new { @class = "text-danger" })
-                                        </div>
-                                    </div>
-                                    <div class="col-md-7">
-                                        <div class="form-group">
-                                            <label>Full Name</label>
-                                            @Html.TextBoxFor(x => x.Entity.FullName, new { @class = "form-control" })
-                                            @Html.ValidationMessageFor(x => x.Entity.FullName, "", new { @class = "text-danger" })
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <!-- BEGIN NOTE FIELD -->
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            <label>
-                                                Note
-                                                &nbsp;<a href="" data-toggle="modal" data-target="#modal-note-lookup"><i class="fa fa-search"></i></a>
-                                            </label>
-                                            <div class="input-group">
-                                                @Html.TextAreaFor(x => x.Entity.Note, new { @id = "txtNote", @class = "form-control", @style = "width:100%;" })
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- END NOTE FIELD-->
-                                </div>
-                            </div>
-                            <div class="card-footer">
-                                <a href="@Url.Action("Refresh")" class="btn btn-default">
-                                    <i class="fa fa-undo"></i>
-                                    Reset
-                                </a>
-                                @if (Model.Entity.ID > 0)
-                                {
-                                    <button id="btnDelete" type="button" class="btn btn-danger">
-                                        <i class="fa fa-trash"></i> Delete
-                                    </button>
-                                }
-                                <button type="submit" class="btn btn-primary float-right">
-                                    <i class="fa fa-save"></i> Save Edits
+                    </div>
+
+                    <div class="card card-default">
+                        <div class="card-header">
+                            <h3 class="card-title">Summary</h3>
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                    <i class="fas fa-minus"></i>
                                 </button>
                             </div>
                         </div>
+                        <div class="card-body">
+                            @Html.Partial("~/Views/Shared/_ValidationMessages.cshtml")
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <div class="form-group">
+                                        <label>Short Name</label>
+                                        @Html.TextBoxFor(x => x.Entity.ShortName, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(x => x.Entity.ShortName, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-md-7">
+                                    <div class="form-group">
+                                        <label>Full Name</label>
+                                        @Html.TextBoxFor(x => x.Entity.FullName, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(x => x.Entity.FullName, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <!-- BEGIN NOTE FIELD -->
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>
+                                            Note
+                                            &nbsp;<a href="" data-toggle="modal" data-target="#modal-note-lookup"><i class="fa fa-search"></i></a>
+                                        </label>
+                                        <div class="input-group">
+                                            @Html.TextAreaFor(x => x.Entity.Note, new { @id = "txtNote", @class = "form-control", @style = "width:100%;" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- END NOTE FIELD-->
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <a href="@Url.Action("Refresh")" class="btn btn-default">
+                                <i class="fa fa-undo"></i>
+                                Reset
+                            </a>
+                            @if (Model.Entity.ID > 0)
+                            {
+                                <button id="btnDelete" type="button" class="btn btn-danger">
+                                    <i class="fa fa-trash"></i> Delete
+                                </button>
+                            }
+                            <button type="submit" class="btn btn-primary float-right">
+                                <i class="fa fa-save"></i> Save Edits
+                            </button>
+                        </div>
+                    </div>
                     }
 
                     @if (Model.Entity.ID > 0 && !String.IsNullOrEmpty(Model.Entity.ShortName))
@@ -212,6 +231,11 @@
 </html>
 @Html.Partial("~/Views/Shared/_Scripts.cshtml")
 <script type="text/javascript">
+    function Page_Load() {
+        /*alert("DEBUG " + window.location.href); */
+        window.location.href = window.location.href;
+    }
+
     //btnSaveAuthor
     $("#btnSaveAuthor").on('click', function (event) {
        

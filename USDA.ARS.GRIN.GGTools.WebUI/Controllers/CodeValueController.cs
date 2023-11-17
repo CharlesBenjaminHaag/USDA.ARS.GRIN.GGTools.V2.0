@@ -12,7 +12,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
     public class CodeValueController : BaseController, IController<CodeValueViewModel>
     {
         private static readonly Logger Log = LogManager.GetCurrentClassLogger();
-        public PartialViewResult _ListFolderItems(int folderId)
+        public PartialViewResult _ListFolderItems(int appUserItemFolderId)
         {
             try
             {

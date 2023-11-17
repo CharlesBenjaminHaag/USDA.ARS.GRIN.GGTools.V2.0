@@ -60,11 +60,15 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             }
         }
 
-        public PartialViewResult _ListFolderItems(int folderId)
+        [HttpPost]
+        public PartialViewResult _List(int appUserItemFolderId)
         {
             try
             {
-                return PartialView("~/Views/Shared/_UnderConstruction.cshtml");
+                AppUserItemListViewModel viewModel = new AppUserItemListViewModel();
+                viewModel.SearchEntity.AppUserItemFolderID = appUserItemFolderId;
+                viewModel.Search();
+                return PartialView("~/Views/AppUserItemList/_SelectList.cshtml", viewModel);
             }
             catch (Exception ex)
             {

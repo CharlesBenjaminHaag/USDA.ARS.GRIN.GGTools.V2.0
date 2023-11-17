@@ -22,7 +22,7 @@ namespace USDA.ARS.GRIN.GGTools.AppLayer
         private string _PageTitle;
         private string _ResultText;
         private string _UserMessage;
-        private string _IsMultiSelectable;
+        private int _AppUserItemFolderId;
 
         public int ID { get; set; }
         [AllowHtml]
@@ -80,12 +80,16 @@ namespace USDA.ARS.GRIN.GGTools.AppLayer
         public string ItemIDList { get; set; }
         public string EntityIDList { get; set; }
          
-        public string IsMultiSelectable 
-        { 
-            get { return _IsMultiSelectable; }
-            set { _IsMultiSelectable = value; }
+        //public string IsMultiSelectable 
+        //{ 
+        //    get { return _IsMultiSelectable; }
+        //    set { _IsMultiSelectable = value; }
+        //}
+        public int AppUserItemFolderID
+        {
+            get { return _AppUserItemFolderId; }
+            set { _AppUserItemFolderId = value; }
         }
-     
         #region Init Method
         public override void Init()
             {

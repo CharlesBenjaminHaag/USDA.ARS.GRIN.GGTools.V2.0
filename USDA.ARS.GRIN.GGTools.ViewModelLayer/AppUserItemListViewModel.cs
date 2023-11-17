@@ -10,7 +10,7 @@ using System.Collections.Generic;
 
 namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
 {
-    public class AppUserItemListViewModel : AppUserItemListViewModelBase, IViewModel<AppUserItemList>
+    public class AppUserItemListViewModel : AppUserItemListViewModelBase
     {
         public void Delete()
         {
@@ -101,10 +101,12 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
                 }
             }
         }
-
-        public int Update()
+        public void Update()
         {
-            throw new NotImplementedException();
+            using (AppUserItemListManager mgr = new AppUserItemListManager())
+            {
+                mgr.Update(Entity);
+            }
         }
     }
 }

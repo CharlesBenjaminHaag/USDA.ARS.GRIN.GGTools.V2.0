@@ -32,7 +32,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
 
             using (CommonNameLanguageManager commonNameLanguageMgr = new CommonNameLanguageManager())
             {
-                CommonNameLanguages = new SelectList(commonNameLanguageMgr.Search(new CommonNameLanguageSearch()),"ID","LanguageName");
+                CommonNameLanguages = new SelectList(commonNameLanguageMgr.Search(new CommonNameLanguageSearch()),"ID","AssembledName");
             }
         }
         public string SpeciesIDList

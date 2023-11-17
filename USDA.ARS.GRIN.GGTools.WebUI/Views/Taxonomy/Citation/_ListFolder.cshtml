@@ -63,7 +63,7 @@
                 @result.CitationYear
             </td>
             <td>
-                <a href="@Url.Action("Edit", "Citation", new { entityId = result.ID })" class="btn btn-default btn-sm float-right row-edit">
+                <a href="@Url.Action("Edit", "Citation", new { entityId = result.ID, appUserItemFolderId = Model.SearchEntity.FolderID })" class="btn btn-default btn-sm pull-right row-edit">
                     <i class="fa fa-edit"></i>
                 </a>
             </td>

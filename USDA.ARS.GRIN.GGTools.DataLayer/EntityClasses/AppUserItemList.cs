@@ -10,6 +10,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
     public class AppUserItemList : AppEntityBase
     {
         public int AppUserItemFolderID { get; set; }
+        public string IsImported { get; set; }
         public int CooperatorID { get; set; }
         public int SortOrder { get; set; }
         public string TabName  { get; set; }
@@ -22,5 +23,6 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
         public string Title { get; set; }
         public string Description { get; set; }
         public string Properties { get; set; }
+        public AppUserItemFolder AppUserItemFolder { get; set; }
     }
 }

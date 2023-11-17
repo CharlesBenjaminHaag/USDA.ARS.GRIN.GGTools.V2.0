@@ -66,13 +66,20 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             SQL += " AND    (@CreatedByCooperatorID     IS NULL OR   CreatedByCooperatorID  =       @CreatedByCooperatorID)";
             SQL += " AND    (@AppUserItemFolderID       IS NULL OR   ID                     =       @AppUserItemFolderID)";
             SQL += " AND    (@IsFavorite                IS NULL OR   IsFavorite             =       @IsFavorite)";
-            SQL += " AND    (@FolderType                IS NULL OR   FolderType             =       @FolderType)";
+           SQL += " AND    (@FolderType                IS NULL OR   FolderType             =       @FolderType)";
 
             if (searchEntity.IsShared == "Y")
             {
                 SQL += " AND ID IN (SELECT FolderID " +
                         " FROM vw_GRINGlobal_App_User_Item_Folder_Cooperator_Map " +
                         " WHERE CooperatorID = @SharedWithCooperatorID) ";
+            }
+
+            if (searchEntity.EntityID > 0)
+            {
+                SQL += " AND ID IN (SELECT AppUserItemFolderID " +
+                        " FROM vw_GRINGlobal_App_User_Item_List " +
+                        " WHERE IDNumber = @EntityID) ";
             }
 
             switch (searchEntity.TimeFrame)
@@ -108,6 +115,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
                 CreateParameter("IsFavorite", !String.IsNullOrEmpty(searchEntity.IsFavorite) ? (object)searchEntity.IsFavorite : DBNull.Value, true),
                 CreateParameter("FolderType", !String.IsNullOrEmpty(searchEntity.FolderType) ? (object)searchEntity.FolderType : DBNull.Value, true),
                 CreateParameter("AppUserItemFolderID", searchEntity.ID > 0 ? (object)searchEntity.ID : DBNull.Value, true),
+                CreateParameter("EntityID", searchEntity.EntityID > 0 ? (object)searchEntity.EntityID : DBNull.Value, true),
             };
 
             results = GetRecords<AppUserItemFolder>(SQL, parameters.ToArray());
@@ -185,16 +193,20 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
         public int ImportItems(AppUserItemFolder entity)
         {
             string[] idCollection;
+            //string[] idTokens;
             idCollection = entity.ItemIDList.Split(',');
             foreach (var id in idCollection)
             {
+                //TODO
+                //parse each element:
+                //To LEFT of - character = table name/ID type
+                //To RIGHT of - character = ID of entity in table
+                //idTokens = id.Split('-');
+                
                 AppUserItemList appUserItemList = new AppUserItemList();
-                appUserItemList.ID = Int32.Parse(id);
                 appUserItemList.AppUserItemFolderID = entity.ID;
+                appUserItemList.ID = Int32.Parse(id);
                 appUserItemList.CreatedByCooperatorID = entity.CreatedByCooperatorID;
-                appUserItemList.IDNumber = Int32.Parse(id);
-                appUserItemList.IDType = entity.FolderType;
-                //appUserItemList.ListName = entity.FolderName;
                 ImportItem(appUserItemList);
             }
             return 0;
@@ -259,6 +271,24 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
 
             return RowsAffected;
         }
+        public int DeleteItemByEntityID(int appUserItemFolderID, int idNumber)
+        {
+            Reset(CommandType.StoredProcedure);
+
+            SQL = "usp_GRINGlobal_AppUserItemList_By_EntityID_Delete";
+            AddParameter("@app_user_item_folder_id", (object)appUserItemFolderID, false);
+            AddParameter("@id_number", (object)idNumber, false);
+            AddParameter("@out_error_number", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
+            RowsAffected = ExecuteNonQuery();
+
+            int errorNumber = GetParameterValue<int>("@out_error_number", -1);
+            if (errorNumber > 0)
+            {
+                throw new Exception(errorNumber.ToString());
+            }
+
+            return RowsAffected;
+        }
         public virtual List<CodeValue> GetCategories(int cooperatorId = 0)
         {
             List<CodeValue> codeValues = new List<CodeValue>();
@@ -282,7 +312,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
         {
             List<ReportItem> reportItems = new List<ReportItem>();
 
-            SQL = "usp_GRINGlobal_App_User_Item_List_ID_Types_Select";
+            SQL = "usp_GRINGlobal_AppUserItemList_ID_Types_Select";
 
             var parameters = new List<IDbDataParameter> {
             CreateParameter("app_user_item_folder_id", (object)appUserItemFolderId, false)

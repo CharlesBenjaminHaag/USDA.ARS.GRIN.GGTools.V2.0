@@ -45,13 +45,15 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI
             throw new NotImplementedException();
         }
 
-        public ActionResult Edit(int entityId)
+        public ActionResult Edit(int entityId, int appUserItemFolderId = 0)
         {
             try
             {
                 CWRTraitViewModel viewModel = new CWRTraitViewModel();
                 viewModel.TableName = "taxonomy_cwr_trait";
                 viewModel.TableCode = "CWRTrait";
+                viewModel.AppUserItemFolderID = appUserItemFolderId;
+
                 if (entityId > 0)
                 {
                     viewModel.Get(entityId);
@@ -166,13 +168,13 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI
                 return PartialView("~/Views/Error/_InternalServerError.cshtml", "Error");
             }
         }
-        public PartialViewResult _ListFolderItems(int folderId)
+        public PartialViewResult _ListFolderItems(int appUserItemFolderId)
         {
             CWRTraitViewModel viewModel = new CWRTraitViewModel();
             try
             {
                 viewModel.EventAction = "FOLDER";
-                viewModel.SearchEntity.FolderID = folderId;
+                viewModel.SearchEntity.FolderID = appUserItemFolderId;
                 viewModel.GetFolderItems();
                 return PartialView(BASE_PATH + "_ListFolder.cshtml", viewModel);
             }

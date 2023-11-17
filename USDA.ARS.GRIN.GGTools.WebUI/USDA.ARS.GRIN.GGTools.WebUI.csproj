@@ -790,7 +790,7 @@
     <Content Include="Views\SysDynamicQuery\Index.cshtml" />
     <Content Include="Views\Taxonomy\SpeciesSynonymMap\_ListSynonymsB.cshtml" />
     <Content Include="Views\SysDynamicQuery\_Detail.cshtml" />
-    <Content Include="Views\SysDynamicQuery\_List.cshtml" />
+    <Content Include="Views\SysDynamicQuery\_SearchResultsList.cshtml" />
     <Content Include="Views\Taxonomy\Species\Map\Index.cshtml" />
     <Content Include="Views\Taxonomy\Citation\_DetailSearchCriteria.cshtml" />
     <Content Include="Views\Shared\_LayoutAdminLTE3NRR.cshtml" />
@@ -923,14 +923,15 @@
     <Content Include="Views\AppUserItemList\_ListDynamic.cshtml" />
     <Content Include="Views\Taxonomy\GeographyMap\_MenuEdit.cshtml" />
     <Content Include="Views\AppUserItemList\_Detail.cshtml" />
-    <Content Include="Scripts\bootstrap.min.js.map" />
-    <Content Include="Scripts\bootstrap.js.map" />
-    <Content Include="Scripts\bootstrap.esm.min.js.map" />
-    <Content Include="Scripts\bootstrap.esm.js.map" />
-    <Content Include="Scripts\bootstrap.bundle.min.js.map" />
-    <Content Include="Scripts\bootstrap.bundle.js.map" />
-    <Content Include="Scripts\jquery-3.7.1.slim.min.map" />
-    <Content Include="Scripts\jquery-3.7.1.min.map" />
+    <Content Include="Views\AppUserItemFolder\Explorer\Index.cshtml" />
+    <Content Include="Views\AppUserItemList\_SelectList.cshtml" />
+    <Content Include="Views\AppUserItemFolder\_RelatedFoldersWidget.cshtml" />
+    <Content Include="Views\SysDynamicQuery\Modals\_Edit.cshtml" />
+    <Content Include="Views\SysDynamicQuery\Edit.cshtml" />
+    <Content Include="Views\SysDynamicQuery\_Edit.cshtml" />
+    <Content Include="Views\SysDynamicQuery\_List.cshtml" />
+    <Content Include="Views\AppUserItemFolder\Index BACKUP.cshtml" />
+    <Content Include="Views\AppUserItemList\Index BACKUP.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -938,7 +939,6 @@
     <Folder Include="Content\dist\js\pages\" />
     <Folder Include="logs\" />
     <Folder Include="Models\" />
-    <Folder Include="Views\AppUserDynamicFolder\" />
     <Folder Include="Views\AppUserItemFolder\Cooperator\" />
     <Folder Include="Views\Demo\" />
     <Folder Include="Views\Main\" />

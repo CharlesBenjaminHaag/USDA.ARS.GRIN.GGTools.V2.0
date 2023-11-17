@@ -9,7 +9,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
     public class EmailTemplateController : BaseController
     {
         private static readonly Logger Log = LogManager.GetCurrentClassLogger();
-        public PartialViewResult _ListFolderItems(int folderId)
+        public PartialViewResult _ListFolderItems(int appUserItemFolderId)
         {
             try
             {

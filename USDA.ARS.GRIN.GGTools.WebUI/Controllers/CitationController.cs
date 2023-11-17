@@ -42,14 +42,14 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
         //    }
         //}
 
-        public PartialViewResult _ListFolderItems(int folderId)
+        public PartialViewResult _ListFolderItems(int appUserItemFolderId)
         {
             CitationViewModel viewModel = new CitationViewModel();
             try
             {
                 viewModel.EventAction = "FOLDER";
                 viewModel.TableName = "citation";
-                viewModel.SearchEntity.FolderID = folderId;
+                viewModel.SearchEntity.FolderID = appUserItemFolderId;
                 viewModel.GetFolderItems();
                 return PartialView(BASE_PATH + "_ListFolder.cshtml", viewModel);
             }
@@ -317,7 +317,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             }
         }
 
-        public ActionResult Edit(int entityId)
+        public ActionResult Edit(int entityId, int appUserItemFolderId = 0)
         {
             try
             {
@@ -325,6 +325,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 viewModel.TableName = "citation";
                 viewModel.TableCode = "Citation";
                 viewModel.EventAction = "Edit";
+                viewModel.AppUserItemFolderID = appUserItemFolderId;
 
                 if (entityId > 0)
                 {
