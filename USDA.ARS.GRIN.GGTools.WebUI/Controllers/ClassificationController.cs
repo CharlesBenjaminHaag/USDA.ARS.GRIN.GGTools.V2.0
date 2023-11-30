@@ -13,6 +13,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
     {
         protected static string BASE_PATH = "~/Views/Taxonomy/Order/";
         private static readonly Logger Log = LogManager.GetCurrentClassLogger();
+        
         public PartialViewResult _ListFolderItems(int appUserItemFolderId)
         {
             ClassificationViewModel viewModel = new ClassificationViewModel();
@@ -29,6 +30,23 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 return PartialView("~/Views/Error/_InternalServerError.cshtml");
             }
         }
+
+        public PartialViewResult _ListDynamicFolderItems(int folderId)
+        {
+            ClassificationViewModel viewModel = new ClassificationViewModel();
+
+            try
+            {
+                viewModel.RunSearch(folderId);
+                return PartialView(BASE_PATH + "_List.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
+        }
+
         [HttpPost]
         public JsonResult Add(FormCollection formCollection)
         {

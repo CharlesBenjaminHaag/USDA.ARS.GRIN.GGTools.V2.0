@@ -13,13 +13,13 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
         public ActionResult Index()
         {
             SysDynamicQueryViewModel viewModel = new SysDynamicQueryViewModel();
-
-            // *** TODO: REFACTOR ***
-            // Get saved SQLQUERY folders.
             AppUserItemFolderViewModel appUserItemFolderViewModel = new AppUserItemFolderViewModel();
+
             appUserItemFolderViewModel.SearchEntity.FolderType = "SQLQUERY";
             appUserItemFolderViewModel.SearchEntity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
             appUserItemFolderViewModel.Search();
+
+            viewModel.TableName = "app_user_item_folder";
             viewModel.DataCollectionAppUserItemFolders = appUserItemFolderViewModel.DataCollection;
             return View(viewModel);
         }
@@ -42,28 +42,36 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
         [HttpPost]
         public ActionResult Search(SysDynamicQueryViewModel viewModel)
         {
+            string sqlQueryDrivingTable = String.Empty;
+
             try
             {
                 if (!viewModel.Validate())
                 {
                     if (viewModel.ValidationMessages.Count > 0) return View("~/Views/SysDynamicQuery/Index.cshtml", viewModel);
                 }
-
-                //DEBUG Find tables in FROM clause (?)
-
-                Regex regex = new Regex(@"\bJOIN\s+(?<Retrieve>[a-zA-Z\._\d\[\]]+)\b|\bFROM\s+(?<Retrieve>[a-zA-Z\._\d\[\]]+)\b|\bUPDATE\s+(?<Update>[a-zA-Z\._\d]+)\b|\bINSERT\s+(?:\bINTO\b)?\s+(?<Insert>[a-zA-Z\._\d]+)\b|\bTRUNCATE\s+TABLE\s+(?<Delete>[a-zA-Z\._\d]+)\b|\bDELETE\s+(?:\bFROM\b)?\s+(?<Delete>[a-zA-Z\._\d]+)\b");
-
-                var obj = regex.Matches(viewModel.SearchEntity.SQLStatement);
-
-                foreach (Match m in obj)
+                viewModel.Clean();
+                
+                sqlQueryDrivingTable = viewModel.GetSQLQueryDrivingTable();
+                
+                if (String.IsNullOrEmpty(sqlQueryDrivingTable))
                 {
-                    var DEBUG = m.ToString().Substring(m.ToString().IndexOf(" ")).Trim();
-
+                    throw new NullReferenceException("Unable to determine the table being used in the query.");
                 }
+                 
+                //TODO
+                //If user has not supplied a PK in the search, flag -- id must be in first position.
 
+                //TODO
+                //Get friendly name of table
+                SysTableViewModel sysTableViewModel = new SysTableViewModel();
+                sysTableViewModel.SearchEntity.TableName = sqlQueryDrivingTable;
+                sysTableViewModel.Search();
 
                 viewModel.Search();
-                
+                viewModel.TableID = sysTableViewModel.Entity.ID;
+                viewModel.TableName = sysTableViewModel.Entity.SysTableName;
+                viewModel.TableTitle = sysTableViewModel.Entity.SysTableTitle;
                 return View("~/Views/SysDynamicQuery/Index.cshtml", viewModel);
             }
             catch (Exception ex)
@@ -125,6 +133,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 return PartialView("~/Views/Error/_InternalServerError.cshtml");
             }
         }
+        [HttpPost]
         public PartialViewResult SaveSearch(SysDynamicQueryViewModel viewModel)
         {
             try
@@ -197,5 +206,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 return PartialView("~/Views/Error/_InternalServerError.cshtml");
             }
         }
+        
+        
     }
 }

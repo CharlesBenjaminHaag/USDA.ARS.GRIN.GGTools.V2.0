@@ -161,6 +161,7 @@
     <Compile Include="EntityClasses\SysPermissionSearch.cs" />
     <Compile Include="EntityClasses\SysPermission.cs" />
     <Compile Include="EntityClasses\SysPermissionField.cs" />
+    <Compile Include="EntityClasses\SysTableField.cs" />
     <Compile Include="EntityClasses\SysTableSearch.cs" />
     <Compile Include="EntityClasses\SysTable.cs" />
     <Compile Include="EntityClasses\WebUserSearch.cs" />

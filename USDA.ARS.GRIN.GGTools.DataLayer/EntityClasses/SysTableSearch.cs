@@ -10,8 +10,8 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
     public partial class SysTableSearch : SearchEntityBase
     {
         public string DatabaseAreaCode { get; set; }
-        public string TableNameName { get; set; }
-        public string TableTitle { get; set; }
+        public string SysTableName { get; set; }
+        public string SysTableTitle { get; set; }
         public string TableCode { get; set; }
     }
 }

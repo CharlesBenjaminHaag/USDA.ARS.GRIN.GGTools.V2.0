@@ -14,34 +14,6 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
         protected static string BASE_PATH = "~/Views/Taxonomy/Citation/";
         private static readonly Logger Log = LogManager.GetCurrentClassLogger();
 
-        //public PartialViewResult Save(CitationViewModel viewModel)
-        //{
-        //    try
-        //    {
-        //        //if (!viewModel.Validate())
-        //        //{
-        //        //    if (viewModel.ValidationMessages.Count > 0) return View(viewModel);
-        //        //}
-
-        //        if (viewModel.Entity.ID == 0)
-        //        {
-        //            viewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
-        //            viewModel.Insert();
-        //        }
-        //        else
-        //        {
-        //            viewModel.Entity.ModifiedByCooperatorID = AuthenticatedUser.CooperatorID;
-        //            viewModel.Update();
-        //        }
-        //        return _Edit(viewModel.Entity.ID, "");
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Log.Error(ex);
-        //        return PartialView("~/Views/Error/_InternalServerError.cshtml");
-        //    }
-        //}
-
         public PartialViewResult _ListFolderItems(int appUserItemFolderId)
         {
             CitationViewModel viewModel = new CitationViewModel();
@@ -59,6 +31,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 return PartialView("~/Views/Error/_InternalServerError.cshtml");
             }
         }
+
         public PartialViewResult _ListDynamicFolderItems(int folderId)
         {
             AppUserItemFolderViewModel appUserItemFolderViewModel = new AppUserItemFolderViewModel();

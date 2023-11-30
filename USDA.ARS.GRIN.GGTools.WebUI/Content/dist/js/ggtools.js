@@ -2,7 +2,7 @@
 * Name         : ggtools.js
 * Description  : Main JS application file for GGTools. This file
 *                should be included in all layout pages. 
-* Last Updated : 10/17/23
+* Last Updated : 11/17/23
 * By           : Benjamin Haag
 */
 
@@ -40,9 +40,9 @@ function InitDataTable(tableName) {
                 'excel',
                 'pdf',
                 {
-                    text: 'Edit Batch',
+                    text: 'Add to Folder',
                     action: function (e, dt, node, config) {
-                        EditBatch();
+                        OpenFolderModal();
                     }
                 }
             ],

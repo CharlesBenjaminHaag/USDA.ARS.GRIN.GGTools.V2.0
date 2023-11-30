@@ -15,6 +15,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
         public string Title { get; set; }
         public string Description { get; set; }
         public string DataSource { get; set; }
+        [AllowHtml]
         public string SQLStatement { get; set; }
         public string IsFavorite { get; set; }
         public bool IsFavoriteOption { get; set; }

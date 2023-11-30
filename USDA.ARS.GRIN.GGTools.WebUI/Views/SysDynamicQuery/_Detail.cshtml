@@ -5,7 +5,8 @@
 {
     @Html.HiddenFor(x => x.EventAction)
     @Html.HiddenFor(x => x.EventValue)
-   
+    
+
     <div id="section-panel-help" class="alert alert-info alert-dismissible" style="display: none;">
         <button type="button" class="close" aria-hidden="true">×</button>
         <h5><i class="icon fas fa-info"></i> SQL Query Guidelines</h5>
@@ -37,7 +38,7 @@
                                     SQL Statement
                                     &nbsp;<i class="fas fa-info-circle" style="color:#17a2b8;"></i>
                                 </label>
-                                @Html.TextAreaFor(x => x.SearchEntity.SQLStatement, new { @class = "form-control", @rows="10" })
+                                @Html.TextAreaFor(x => x.SearchEntity.SQLStatement, new { @class = "form-control", @rows = "10" })
                             </div>
                         </div>
                     </div>

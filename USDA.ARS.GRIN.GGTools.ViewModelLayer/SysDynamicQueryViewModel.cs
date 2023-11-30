@@ -6,6 +6,7 @@ using USDA.ARS.GRIN.Common.Library.Security;
 using USDA.ARS.GRIN.GGTools.DataLayer;
 using USDA.ARS.GRIN.GGTools.ViewModelLayer;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 
 namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
 {
@@ -87,12 +88,14 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
             {
                 ValidationMessages.Add(new Common.Library.ValidationMessage { Message = "Please enter a valid SQL statement." });
             }
-
-            if ((SearchEntity.SQLStatement.Contains("INSERT")) ||
-                (SearchEntity.SQLStatement.Contains("UPDATE")) ||
-                (SearchEntity.SQLStatement.Contains("DELETE")) )
+            else
             {
-                ValidationMessages.Add(new Common.Library.ValidationMessage { Message = "This tool cannot be used to execute INSERT, UPDATE, or DELETE statements." });
+                if ((SearchEntity.SQLStatement.Contains("INSERT")) ||
+                    (SearchEntity.SQLStatement.Contains("UPDATE")) ||
+                    (SearchEntity.SQLStatement.Contains("DELETE")))
+                {
+                    ValidationMessages.Add(new Common.Library.ValidationMessage { Message = "This tool cannot be used to execute INSERT, UPDATE, or DELETE statements." });
+                }
             }
 
             if (ValidationMessages.Count > 0)
@@ -100,6 +103,44 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
                 validated = false;
             }
             return validated;
+        }
+
+        public void Clean()
+        {
+            if (!String.IsNullOrEmpty(SearchEntity.SQLStatement))
+            {
+                SearchEntity.SQLStatement = SearchEntity.SQLStatement.Replace('"',' ');
+                SearchEntity.SQLStatement = SearchEntity.SQLStatement.Replace("from", "FROM");
+            }
+        }
+
+        /// <summary>
+        /// Parses SQL statement to determine the driving table used in the query, based on position
+        /// relative to
+        /// </summary>
+        /// <returns></returns>
+        public string GetSQLQueryDrivingTable()
+        {
+            Regex regex = new Regex(@"\bJOIN\s+(?<Retrieve>[a-zA-Z\._\d\[\]]+)\b|\bFROM\s+(?<Retrieve>[a-zA-Z\._\d\[\]]+)\b|\bUPDATE\s+(?<Update>[a-zA-Z\._\d]+)\b|\bINSERT\s+(?:\bINTO\b)?\s+(?<Insert>[a-zA-Z\._\d]+)\b|\bTRUNCATE\s+TABLE\s+(?<Delete>[a-zA-Z\._\d]+)\b|\bDELETE\s+(?:\bFROM\b)?\s+(?<Delete>[a-zA-Z\._\d]+)\b");
+
+            var obj = regex.Matches(SearchEntity.SQLStatement);
+
+            foreach (Match m in obj)
+            {
+                TableName = m.ToString().Substring(m.ToString().IndexOf(" ")).Trim();
+            }
+            return TableName;
+        }
+
+        public SysTableField GetColumnInfo(string sysTableName, string sysTableFieldName)
+        {
+            SysTableField sysTableField = new SysTableField();
+
+            using (SysTableManager mgr = new SysTableManager())
+            {
+                sysTableField = mgr.GetSysTableField(sysTableName, sysTableFieldName);
+            }
+            return sysTableField;
         }
     }
 }

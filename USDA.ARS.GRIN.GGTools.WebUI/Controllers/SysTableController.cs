@@ -53,7 +53,20 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
 
         public ActionResult Edit(int entityId)
         {
-            throw new NotImplementedException();
+            try
+            {
+                SysTableViewModel viewModel = new SysTableViewModel();
+                viewModel.TableName = "sys_table";
+                viewModel.PageTitle = String.Format("Edit Sys Table [{0}]", entityId);
+                viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
+                viewModel.Get(entityId);
+                return View("~/Views/SysTable/Edit.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return RedirectToAction("InternalServerError", "Error");
+            }
         }
 
         public ActionResult Edit(SysTableViewModel viewModel)

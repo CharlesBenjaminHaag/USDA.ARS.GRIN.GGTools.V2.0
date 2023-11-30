@@ -6,6 +6,7 @@ using System.Configuration;
 using USDA.ARS.GRIN.Common.DataLayer;
 using USDA.ARS.GRIN.GGTools.AppLayer;
 using USDA.ARS.GRIN.GGTools.DataLayer;
+using System.Security.Policy;
 
 namespace USDA.ARS.GRIN.GGTools.DataLayer
 {
@@ -21,14 +22,25 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             throw new NotImplementedException();
         }
 
-        public SysTable Get(int siteId)
+        public SysTable Get(int sysTableId)
         {
             SQL = "usp_GRINGlobal_SysTable_Select";
             var parameters = new List<IDbDataParameter> {
-                CreateParameter("site_id", (object)siteId, false)
+                CreateParameter("site_id", (object)sysTableId, false)
             };
-            SysTable site = GetRecord<SysTable>(SQL, CommandType.StoredProcedure, parameters.ToArray());
-            return site;
+            SysTable sysTable = GetRecord<SysTable>(SQL, CommandType.StoredProcedure, parameters.ToArray());
+            return sysTable;
+        }
+
+        public SysTableField GetSysTableField(string sysTableName, string sysFieldName)
+        {
+            SQL = "usp_GRINGlobal_Sys_Table_Field_Select";
+            var parameters = new List<IDbDataParameter> {
+                CreateParameter("@table_name", (object)sysTableName, false),
+                CreateParameter("@field_name", (object)sysFieldName, false)
+            };
+            SysTableField sysTableField = GetRecord<SysTableField>(SQL, CommandType.StoredProcedure, parameters.ToArray());
+            return sysTableField;
         }
 
         public int Insert(SysTable entity)
@@ -40,19 +52,21 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
         {
             List<SysTable> results = new List<SysTable>();
 
-            SQL = " SELECT ID, DatabaseAreaCode, TableName, TableTitle, TableCode FROM vw_GRINGlobal_Sys_Table";
+            SQL = " SELECT * FROM vw_GRINGlobal_Sys_Table";
             SQL += " WHERE  (@ID                    IS NULL     OR ID                   =       @ID)";
             SQL += " AND    (@DatabaseAreaCode      IS NULL     OR DatabaseAreaCode     =       @DatabaseAreaCode)";
-            SQL += " AND TableTitle IS NOT NULL ";
-            SQL += " AND TableName <> 'taxonomy_family'";
-            SQL += " UNION ";
-            SQL += " SELECT ID, DatabaseAreaCode, TableName, TableTitle, TableCode FROM vw_GRINGlobal_Sys_Table";
-            SQL += " WHERE TableName IN ('citation','literature','geography')"; 
-            SQL += " ORDER BY TableTitle ";
+            SQL += " AND    (@SysTableName          IS NULL     OR SysTableName         =       @SysTableName)";
+            SQL += " AND SysTableTitle IS NOT NULL ";
+            //SQL += " AND TableName <> 'taxonomy_family'";
+            //SQL += " UNION ";
+            //SQL += " SELECT ID, DatabaseAreaCode, TableName, TableTitle, TableCode FROM vw_GRINGlobal_Sys_Table";
+            //SQL += " WHERE TableName IN ('citation','literature','geography')"; 
+            SQL += " ORDER BY SysTableTitle ";
 
              var parameters = new List<IDbDataParameter> {
                 CreateParameter("ID", searchEntity.ID > 0 ? (object)searchEntity.ID : DBNull.Value, true),
                 CreateParameter("DatabaseAreaCode", (object)searchEntity.DatabaseAreaCode ?? DBNull.Value, true),
+                CreateParameter("SysTableName", (object)searchEntity.TableName ?? DBNull.Value, true),
             };
 
             results = GetRecords<SysTable>(SQL, parameters.ToArray());
