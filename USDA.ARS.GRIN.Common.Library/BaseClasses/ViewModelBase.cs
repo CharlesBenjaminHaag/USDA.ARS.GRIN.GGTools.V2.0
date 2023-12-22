@@ -9,14 +9,26 @@ namespace USDA.ARS.GRIN.Common.Library
     #region Private Variables
     
     private ObservableCollection<ValidationMessage> _ValidationMessages = new ObservableCollection<ValidationMessage>();
+    private ObservableCollection<ValidationMessage> _UserMessages = new ObservableCollection<ValidationMessage>();
     private bool _IsValidationVisible = false;
     private Exception _LastException = null;
     private int _RowsAffected = 0;
     private string _LastExceptionMessage = string.Empty;
-    
-    #endregion
+
+        #endregion
 
     #region Public Properties
+
+    public ObservableCollection<ValidationMessage> UserMessages
+    {
+        get { return _UserMessages; }
+        set
+        {
+            _UserMessages = value;
+            RaisePropertyChanged("UserMessages");
+        }
+    }
+
     public ObservableCollection<ValidationMessage> ValidationMessages
     {
       get { return _ValidationMessages; }

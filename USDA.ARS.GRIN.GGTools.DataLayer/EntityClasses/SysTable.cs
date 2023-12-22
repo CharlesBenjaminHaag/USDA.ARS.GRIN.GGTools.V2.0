@@ -14,6 +14,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
         public string SysTableTitle { get; set; }
         public string TableCode { get; set; }
         public string IsCited { get; set; }
+        public string IsMapped { get; set; }
         public string IsWebPreviewable { get; set; }
     }
 }

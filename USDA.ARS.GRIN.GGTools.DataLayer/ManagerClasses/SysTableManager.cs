@@ -56,7 +56,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             SQL += " WHERE  (@ID                    IS NULL     OR ID                   =       @ID)";
             SQL += " AND    (@DatabaseAreaCode      IS NULL     OR DatabaseAreaCode     =       @DatabaseAreaCode)";
             SQL += " AND    (@SysTableName          IS NULL     OR SysTableName         =       @SysTableName)";
-            SQL += " AND SysTableTitle IS NOT NULL ";
+            //SQL += " AND SysTableTitle IS NOT NULL ";
             //SQL += " AND TableName <> 'taxonomy_family'";
             //SQL += " UNION ";
             //SQL += " SELECT ID, DatabaseAreaCode, TableName, TableTitle, TableCode FROM vw_GRINGlobal_Sys_Table";

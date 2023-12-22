@@ -74,10 +74,10 @@
         BEGIN REF. FOLDER LOGIC
         =====================================================
         -->
-                        @if (Model.AppUserItemFolderID > 0)
+                        @*@if (Model.AppUserItemFolderID > 0)
                         {
                             Html.RenderAction("RenderRelatedFoldersWidget", "AppUserItemFolder", new { idNumber = Model.Entity.ID });
-                        }
+                        }*@
                         <!--
         =====================================================
         BEGIN REF. FOLDER LOGIC
@@ -86,7 +86,7 @@
 
                         @Html.Partial("~/Views/Shared/_RevisionHistory.cshtml")
                         @Html.Partial("~/Views/Shared/_ValidationMessages.cshtml")
-                        <div class="card card-default">
+                        <div class="card card-success">
                             <div class="card-header">
                                 <h3 class="card-title">Summary</h3>
                                 <div class="card-tools">

@@ -117,15 +117,14 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             SQL = " SELECT * FROM vw_GRINGlobal_Taxonomy_Species ";
             SQL += " WHERE      (@ID                        IS NULL OR  ID = @ID) ";
             SQL += " AND        (@CreatedByCooperatorID     IS NULL OR  CreatedByCooperatorID = @CreatedByCooperatorID)";
-            //SQL += " AND (@Rank                           IS NULL OR  Rank = @Rank)";
             SQL += " AND        (@GenusID                   IS NULL OR  GenusID = @GenusID)";
             SQL += " AND        ((@SpeciesName              IS NULL OR  REPLACE(Name, ' x ', '')     LIKE    'X ' + @SpeciesName + '%')";
             SQL += " OR         (@SpeciesName               IS NULL OR  REPLACE(Name, ' x ', '')     LIKE    '+' + @SpeciesName + '%')";
             SQL += " OR         (@SpeciesName               IS NULL OR  REPLACE(Name, ' x ', '')     LIKE    @SpeciesName + '%'))";
-            //SQL += " AND (@VarietyName                    IS NULL OR VarietyName LIKE '%' + @VarietyName + '%')";
             SQL += " AND        (@SynonymCode               IS NULL OR  SynonymCode = @SynonymCode)";
             SQL += " AND        (@IsAcceptedName            IS NULL OR  IsAcceptedName              =       @IsAcceptedName)";
             SQL += " AND        (@SpeciesAuthority          IS NULL OR  COALESCE(SpeciesAuthority, SubspeciesAuthority, VarietyAuthority, SubvarietyAuthority, FormaAuthority)            LIKE    '%' + @SpeciesAuthority + '%')";
+            SQL += " AND        (@VerifiedByCooperatorID    IS NULL OR  VerifiedByCooperatorID = @VerifiedByCooperatorID)";
 
             if (!String.IsNullOrEmpty(searchEntity.IDList))
             {
@@ -146,6 +145,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
                 CreateParameter("SynonymCode", (object)searchEntity.SynonymCode ?? DBNull.Value, true),
                 CreateParameter("IsAcceptedName", (object)searchEntity.IsAcceptedName ?? DBNull.Value, true),
                 CreateParameter("SpeciesAuthority", (object)searchEntity.SpeciesAuthority ?? DBNull.Value, true),
+                CreateParameter("VerifiedByCooperatorID", searchEntity.VerifiedByCooperatorID > 0 ? (object)searchEntity.VerifiedByCooperatorID : DBNull.Value, true),
             };
 
             results = GetRecords<Species>(SQL, parameters.ToArray());
@@ -259,6 +259,13 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             ranks.Add(new CodeValue { Value = "SUBVARIETY", Title = "Subvariety" });
             ranks.Add(new CodeValue { Value = "FORMA", Title = "Forma" });
             return ranks;
+        }
+        public List<Cooperator> GetVerifiedByCooperators()
+        {
+            SQL = "usp_GRINGlobal_Taxonomy_Verified_By_Cooperators_Select";
+            List<Cooperator> cooperators = GetRecords<Cooperator>(SQL, CommandType.StoredProcedure);
+            RowsAffected = cooperators.Count;
+            return cooperators;
         }
     }
 }

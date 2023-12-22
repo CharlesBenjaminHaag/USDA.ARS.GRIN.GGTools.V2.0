@@ -18,6 +18,7 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
             using (SysDynamicQueryManager mgr = new SysDynamicQueryManager())
             {
                 DataCollectionDataTable = mgr.Search(SearchEntity);
+                RowsAffected = DataCollectionDataTable.Rows.Count;
             }
         }
         public void Get()
@@ -84,17 +85,37 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
         {
             bool validated = true;
 
+            // CHECK 1: Verify SQL statement exists
             if (String.IsNullOrEmpty(SearchEntity.SQLStatement))
             {
                 ValidationMessages.Add(new Common.Library.ValidationMessage { Message = "Please enter a valid SQL statement." });
+                return false;
             }
-            else
+ 
+            // CHECK 2: Verify that SQL does not contain restricted verbs
+            if ((SearchEntity.SQLStatement.Contains("INSERT")) ||
+                (SearchEntity.SQLStatement.Contains("UPDATE")) ||
+                (SearchEntity.SQLStatement.Contains("DELETE")))
             {
-                if ((SearchEntity.SQLStatement.Contains("INSERT")) ||
-                    (SearchEntity.SQLStatement.Contains("UPDATE")) ||
-                    (SearchEntity.SQLStatement.Contains("DELETE")))
+                ValidationMessages.Add(new Common.Library.ValidationMessage { Message = "This tool cannot be used to execute INSERT, UPDATE, or DELETE statements." });
+            }
+
+            // CHECK 3: Get driving table based on FROM statement.
+            TableName = GetSQLQueryDrivingTable();
+            if (String.IsNullOrEmpty(TableName))
+            {
+                ValidationMessages.Add(new Common.Library.ValidationMessage { Message = "The driving table could not be identified. Please verify the FROM clause." });
+            }
+            else 
+            {
+                // Determine whether driving table is mapped.
+                //Get friendly name of table
+                SysTableViewModel sysTableViewModel = new SysTableViewModel();
+                sysTableViewModel.SearchEntity.TableName = TableName;
+                sysTableViewModel.Search();
+                if (sysTableViewModel.Entity.IsMapped == "N")
                 {
-                    ValidationMessages.Add(new Common.Library.ValidationMessage { Message = "This tool cannot be used to execute INSERT, UPDATE, or DELETE statements." });
+                    UserMessages.Add(new Common.Library.ValidationMessage { Message = "Table not mapped; metadata not available." });
                 }
             }
 
@@ -123,7 +144,7 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
         {
             Regex regex = new Regex(@"\bJOIN\s+(?<Retrieve>[a-zA-Z\._\d\[\]]+)\b|\bFROM\s+(?<Retrieve>[a-zA-Z\._\d\[\]]+)\b|\bUPDATE\s+(?<Update>[a-zA-Z\._\d]+)\b|\bINSERT\s+(?:\bINTO\b)?\s+(?<Insert>[a-zA-Z\._\d]+)\b|\bTRUNCATE\s+TABLE\s+(?<Delete>[a-zA-Z\._\d]+)\b|\bDELETE\s+(?:\bFROM\b)?\s+(?<Delete>[a-zA-Z\._\d]+)\b");
 
-            var obj = regex.Matches(SearchEntity.SQLStatement);
+            var obj = regex.Matches(SearchEntity.SQLStatement.Replace("from","FROM"));
 
             foreach (Match m in obj)
             {

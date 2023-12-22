@@ -13,5 +13,6 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
         public string SysTableName { get; set; }
         public string SysTableTitle { get; set; }
         public string TableCode { get; set; }
+        public string IsMapped { get; set; }
     }
 }

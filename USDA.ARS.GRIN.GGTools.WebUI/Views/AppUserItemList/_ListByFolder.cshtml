@@ -22,7 +22,7 @@
                 <li 
                     id="@result.TableName" 
                     class="nav-item"
-                    data-ggtools-event-action="@result.TableTitle.Replace(" ","")"
+                    data-ggtools-event-action="@result.SysTableTitle.Replace(" ","")"
                     data-ggtools-event-value="_ListFolderItems">
                     <a class="@navLinkCssClass" 
                        id="link-@result.TableName" 
@@ -31,8 +31,8 @@
                        role="tab" 
                        aria-controls="" 
                        aria-selected="true"
-                       data-ggtools-event-action="@result.TableTitle.Replace(" ","")"
-                       data-ggtools-event-value="_ListFolderItems">@result.TableTitle</a>
+                       data-ggtools-event-action="@result.SysTableTitle.Replace(" ","")"
+                       data-ggtools-event-value="_ListFolderItems">@result.SysTableTitle</a>
                 </li>
                 i++;
             }

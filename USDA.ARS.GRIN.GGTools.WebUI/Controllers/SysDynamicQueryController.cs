@@ -50,28 +50,11 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 {
                     if (viewModel.ValidationMessages.Count > 0) return View("~/Views/SysDynamicQuery/Index.cshtml", viewModel);
                 }
-                viewModel.Clean();
-                
-                sqlQueryDrivingTable = viewModel.GetSQLQueryDrivingTable();
-                
-                if (String.IsNullOrEmpty(sqlQueryDrivingTable))
-                {
-                    throw new NullReferenceException("Unable to determine the table being used in the query.");
-                }
-                 
-                //TODO
-                //If user has not supplied a PK in the search, flag -- id must be in first position.
 
-                //TODO
-                //Get friendly name of table
-                SysTableViewModel sysTableViewModel = new SysTableViewModel();
-                sysTableViewModel.SearchEntity.TableName = sqlQueryDrivingTable;
-                sysTableViewModel.Search();
-
+                viewModel.Clean();  
+               
+                // Execute user-defined search.
                 viewModel.Search();
-                viewModel.TableID = sysTableViewModel.Entity.ID;
-                viewModel.TableName = sysTableViewModel.Entity.SysTableName;
-                viewModel.TableTitle = sysTableViewModel.Entity.SysTableTitle;
                 return View("~/Views/SysDynamicQuery/Index.cshtml", viewModel);
             }
             catch (Exception ex)

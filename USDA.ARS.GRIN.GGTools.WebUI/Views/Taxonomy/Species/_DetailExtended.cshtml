@@ -49,68 +49,6 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-sm-2">
-                <div class="form-group">
-                    <label>Created By</label>
-                    @Html.DropDownListFor(x => x.SearchEntity.CreatedByCooperatorID, Model.Cooperators, "All Cooperators", new { @class = "form-control" })
-                </div>
-            </div>
-            <div class="col-sm-2">
-                <div class="form-group">
-                    <div class="form-group">
-                        <label>Created Date</label>
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">
-                                    <i class="far fa-calendar-alt"></i>
-                                </span>
-                            </div>
-                            <input type="text" class="form-control float-right" id="reservation" name="DEBUG_DATE">
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-2">
-                <div class="form-group">
-                    <label>Modified By</label>
-                    @Html.DropDownListFor(x => x.SearchEntity.ModifiedByCooperatorID, Model.Cooperators, "All Cooperators", new { @class = "form-control" })
-                </div>
-            </div>
-            <div class="col-sm-2">
-                <div class="form-group">
-                    <label>Modified Date</label>
-                    @Html.TextBoxFor(x => x.SearchEntity.ModifiedDate, new { @class = "form-control" })
-                </div>
-            </div>
-            <div class="col-sm-2">
-                <div class="form-group">
-                    <label>Owned By</label>
-                    @Html.DropDownListFor(x => x.SearchEntity.OwnedByCooperatorID, Model.Cooperators, "All Cooperators", new { @class = "form-control" })
-                </div>
-            </div>
-            <div class="col-sm-2">
-                <div class="form-group">
-                    <label>Owned Date</label>
-                    @Html.TextBoxFor(x => x.SearchEntity.OwnedDate, new { @class = "form-control" })
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-sm-1">
-                <div class="form-group form-horizontal">
-                    <label>ID</label>
-                    @Html.TextBoxFor(x => x.SearchEntity.ID, new { @class = "form-control" })
-                </div>
-            </div>
-            <div class="col-md-11">
-                <div class="form-group form-horizontal">
-                    <label>Note</label>
-                    @Html.TextBoxFor(x => x.SearchEntity.Note, new { @class = "form-control" })
-                </div>
-            </div>
-        </div>
-        <div class="row">
             <div class="col-sm-1">
                 <div class="form-group form-horizontal">
                     <label>Current ID</label>
@@ -141,6 +79,14 @@
                     @Html.DropDownListFor(x => x.SearchEntity.IsNameVerifiedDateOption, Model.YesNoOptions, "Either", new { @class = "form-control" })
                 </div>
             </div>
+
+            <div class="col-md-4">
+                <div class="form-group form-horizontal">
+                    <label>Verified By</label>
+                    @Html.DropDownListFor(x => x.SearchEntity.VerifiedByCooperatorID, Model.VerifiedByCooperators, "Any Cooperator", new { @class = "form-control" })
+                </div>
+            </div>
+
             <div class="col-sm-3">
                 <div class="form-group form-horizontal">
                     <label>Protologue</label>

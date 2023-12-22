@@ -9,28 +9,35 @@
     @Html.HiddenFor(x => x.PageTitle)
     @Html.HiddenFor(x => x.AuthenticatedUserCooperatorID)
     @Html.HiddenFor(x => x.ItemIDList)
-    <div class="card">
-        <div class="card-header p-2">
-            <ul class="nav nav-pills">
-                <li class="nav-item"><a class="nav-link active" href="#activity" data-toggle="tab">Search Criteria</a></li>
-                <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">Saved Searches</a></li>
+
+    <div class="card card-success card-tabs">
+        <div class="card-header p-0 pt-1">
+            <ul class="nav nav-tabs" id="custom-tabs-one-tab" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" id="custom-tabs-one-home-tab" data-toggle="pill" href="#custom-tabs-one-home" role="tab" aria-controls="custom-tabs-one-home" aria-selected="true">
+                        <i class="nav-icon fas fa-search"></i> Search Criteria</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="custom-tabs-one-profile-tab" data-toggle="pill" href="#custom-tabs-one-profile" role="tab" aria-controls="custom-tabs-one-profile" aria-selected="false">
+                        <i class="nav-icon fas fa-folder"></i> Saved Searches</a>
+                </li>
             </ul>
         </div>
         <div class="card-body">
-            <div class="tab-content">
-                <div class="tab-pane active" id="activity">
+            <div class="tab-content" id="custom-tabs-one-tabContent">
+                <div class="tab-pane fade show active" id="custom-tabs-one-home" role="tabpanel" aria-labelledby="custom-tabs-one-home-tab">
                     <div id="section-search-criteria">
-                        
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="form-group form-horizontal">
-                                        <label>Name</label>
-                                        @Html.TextBoxFor(x => x.SearchEntity.Name, new { @class = "form-control" })
-                                    </div>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group form-horizontal">
+                                    <label>Name</label>
+                                    @Html.TextBoxFor(x => x.SearchEntity.Name, new { @class = "form-control" })
                                 </div>
                             </div>
-                            @Html.Partial("~/Views/Taxonomy/Order/_DetailExtended.cshtml")
-                        
+                        </div>
+                        @Html.Partial("~/Views/Taxonomy/Order/_DetailExtended.cshtml")
+
                     </div>
                     <div>
                         <button id="btnReset" type="button" class="btn btn-default">Reset</button>
@@ -45,7 +52,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="tab-pane" id="timeline">
+                <div class="tab-pane fade" id="custom-tabs-one-profile" role="tabpanel" aria-labelledby="custom-tabs-one-profile-tab">
                     <div class="row">
                         <div class="col-md-12">
                             @{Html.RenderAction("_ListDynamic", "AppUserItemFolder", new { @cooperatorId = Model.AuthenticatedUserCooperatorID, @dataType = Model.TableName });}

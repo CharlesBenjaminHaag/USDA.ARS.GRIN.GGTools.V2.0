@@ -2,87 +2,117 @@
 @using USDA.ARS.GRIN.GGTools.DataLayer;
 @model USDA.ARS.GRIN.GGTools.ViewModelLayer.SysDynamicQueryViewModel
 
+@Html.HiddenFor(x=>x.RowsAffected)
+
 @{ // REFACTOR: Set id of DataTable based on DB table extracted from query.
+    SysTableField sysTableFieldHeading = new SysTableField();
+    SysTableField sysTableField = new SysTableField();
     var tableId = "data_table_" + Model.TableName;
     int keyColumnCount = 0;
 }
 
-@if (Model.DataCollectionDataTable.Rows.Count > 0)
-{
-    <div class="card card-primary">
-        <div class="card-header">
-            <h3 class="card-title">
-                <i class="far fas fa-table nav-icon"></i>
-                Query Results: @Model.DataCollectionDataTable.Rows.Count Records Found in Table <a href="@Url.Action("Edit","SysTable", new { @entityId = Model.TableID})" style="text-decoration:underline;">@Model.TableTitle</a>
-            </h3>
-            <div class="card-tools">
-                <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                    <i class="fas fa-minus"></i>
-                </button>
+
+    @if (Model.DataCollectionDataTable.Rows.Count > 0)
+    {
+        <div class="card card-primary">
+            <div class="card-header">
+                <h3 class="card-title">
+                    <i class="far fas fa-table nav-icon"></i>
+                    Query Results: @Model.DataCollectionDataTable.Rows.Count Records Found in Table <a href="@Url.Action("Edit", "SysTable", new { @entityId = Model.TableID })" style="text-decoration:underline;">@Model.TableTitle</a>
+                </h3>
+                <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                        <i class="fas fa-minus"></i>
+                    </button>
+                </div>
             </div>
-        </div>
-        <div class="card-body">
-            <table id="@tableId" class="table table-striped" style="width:100%;">
-                <thead>
-                    <tr>
-                        @foreach (DataColumn col in Model.DataCollectionDataTable.Columns)
-                        {
+            <div class="card-body">
+                <table id="@tableId" class="table table-striped" style="width:100%;">
+                    <thead>
+                        <tr>
+                            @foreach (DataColumn col in Model.DataCollectionDataTable.Columns)
+                            {
+                            {
+                            // REFACTOR: If col is primary key, create TWO cols -- one for data; one to nav
+                            // to edit page corresponding to record type.
+
+                            sysTableFieldHeading = Model.GetColumnInfo(Model.TableName, col.ColumnName);
+                            }
+
+                            if (sysTableFieldHeading.IsPrimaryKey == "Y")
+                            {
                             <th>
                                 @col.ColumnName
                             </th>
-                        }
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (DataRow dr in Model.DataCollectionDataTable.Rows)
-                    {
-                        <tr>
-                            @foreach (DataColumn rowCol in Model.DataCollectionDataTable.Columns)
+                            <th></th>
+                            }
+                            else
                             {
-                                <td>
-                                    @{
+                            <th>
+                                @col.ColumnName
+                            </th>
+                            }
+                            }
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (DataRow dr in Model.DataCollectionDataTable.Rows)
+                        {
+                            <tr>
+                                @foreach (DataColumn rowCol in Model.DataCollectionDataTable.Columns)
+                                {
+                                    {
                                         // REFACTOR:
-                                        SysTableField sysTableField = new SysTableField();
+                                        
                                         sysTableField = Model.GetColumnInfo(Model.TableName, rowCol.ColumnName);
                                     }
 
-                                    @dr[rowCol.ColumnName]
-
-                                    @*@if (sysTableField.IsPrimaryKey == "Y")
+                                    if (sysTableField.IsPrimaryKey == "Y")
                                     {
                                         keyColumnCount++;
-                                        <a href="@Url.Action("Edit",Model.TableTitle, new { entityId = @dr[rowCol.ColumnName]})" , target="_blank">[@dr[rowCol.ColumnName]]</a>
+                                        <td>
+                                            @dr[rowCol.ColumnName]
+                                        </td>
+                                        <td>
+                                            <a href="@Url.Action("Edit", Model.TableTitle, new { entityId = @dr[rowCol.ColumnName] })" , target="_blank">[Edit]</a>
+                                        </td>
                                     }
                                     else
                                     {
-                                        @dr[rowCol.ColumnName]
-                                    }*@
-                                </td>
-                            }
-                        </tr>
-                    }
-                </tbody>
-                <tfoot>
-                    @if(keyColumnCount == 1)
-                    { 
-                        <div class="alert alert-warning alert-dismissible">
-                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                            <h5><i class="icon fas fa-exclamation-triangle"></i> No Primary Key Defined</h5>
-                            This query does not contain a primary key field for the table <strong>@Model.TableTitle</strong>. You will need to add a primary key prior to attempting to export these results to a folder. 
-                        </div>
-                    }
-                </tfoot>
-            </table>
+                                        <td>
+                                            @dr[rowCol.ColumnName]
+                                        </td>
+                                    }
+
+
+                                }
+                            </tr>
+                        }
+                    </tbody>
+                    <tfoot>
+                        @if (keyColumnCount == 0)
+                        {
+                            <div class="alert alert-warning alert-dismissible">
+                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                <h5><i class="icon fas fa-exclamation-triangle"></i> No Primary Key Defined</h5>
+                                This query does not contain a primary key field for the table <strong>@Model.TableTitle</strong>. You will need to add a primary key prior to attempting to export these results to a folder.
+                            </div>
+                        }
+                    </tfoot>
+                </table>
+            </div>
         </div>
-    </div>
-}
+    }
+
 <script type="text/javascript">
     $(document).ready(function () {
-        var tableName = "data_table_" + $("#TableName").val();
-        //DEBUG
-        alert("DEBUG DT ID IS " + tableName);
+        var searchResultsVisible = 0; 
+        searchResultsVisible = $("#RowsAffected").val();
 
-        InitDataTableDynamicQuery(tableName);
+        if (searchResultsVisible > 0) {
+            var tableName = "data_table_" + $("#TableName").val();
+            InitDataTableDynamicQuery(tableName);
+        }
     });
 
     function InitDataTableDynamicQuery(tableName) {

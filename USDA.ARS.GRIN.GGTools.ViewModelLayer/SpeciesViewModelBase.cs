@@ -33,6 +33,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
         private Collection<Species> _DataCollection = new Collection<Species>();
         private Collection<CodeValue> _DataCollectionProtologues = new Collection<CodeValue>();
         private Collection<CodeValue> _DataCollectionReports = new Collection<CodeValue>();
+        
         public SpeciesViewModelBase()
         {
             TableName = "taxonomy_species";
@@ -46,6 +47,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
             using (SpeciesManager mgr = new SpeciesManager())
             {
                 Cooperators = new SelectList(mgr.GetCooperators(TableName), "ID", "FullName");
+                VerifiedByCooperators = new SelectList(mgr.GetVerifiedByCooperators(), "ID", "FullName");
                 YesNoOptions = new SelectList(mgr.GetYesNoOptions(), "Key", "Value");
                 TimeFrameOptions = new SelectList(mgr.GetCodeValues("TAXONOMY_SEARCH_TIME_FRAME"), "Value", "Title");
                 SynonymCodes = new SelectList(mgr.GetCodeValues("TAXONOMY_SPECIES_QUALIFIER"), "Value", "Title");
@@ -139,6 +141,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
             get { return _DataCollectionReports; }
             set { _DataCollectionReports = value; }
         }
+         
 
         #region Select Lists
         public SelectList TableNames { get; set; }
@@ -159,7 +162,8 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
             }
         }
         public SelectList FormaRankTypes { get; set; }
-                
+        public SelectList VerifiedByCooperators { get; set; }        
+
         #endregion
 
         public string GetPageTitle()
