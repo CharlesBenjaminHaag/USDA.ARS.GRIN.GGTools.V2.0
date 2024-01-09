@@ -43,7 +43,7 @@
                     <div class="col-md-12">
                         <div class="margin">
                             <button id="btnReset" type="button" class="btn btn-default">Reset</button>
-                            <button id="btnLookupSpecies" type="button" class="btn btn-primary float-right">Search</button>
+                            <button id="btnGetSpecies" type="button" class="btn btn-primary float-right">Search</button>
                         </div>
                     </div>
                 </div>
@@ -77,11 +77,11 @@
         $("#search-progress-overlay").hide();
     });
 
-    $("#btnLookupSpecies").click(function () {
-        SearchSpecies();
+    $("#btnGetSpecies").click(function () {
+        GetSpecies();
     });
 
-    function SearchSpecies() {
+    function GetSpecies() {
         var link = '@Url.Action("Lookup","Species")';
         var speciesName = $("#txtLookupSpeciesName").val();
         var formData = new FormData();

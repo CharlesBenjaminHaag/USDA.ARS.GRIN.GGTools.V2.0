@@ -100,19 +100,19 @@
                         @Html.HiddenFor(x => x.Entity.IsAcceptedName)
 
                         <!--
-        =====================================================
-        BEGIN REF. FOLDER LOGIC
-        =====================================================
-        -->
-                        @if (Model.AppUserItemFolderID > 0)
+                        =====================================================
+                        BEGIN REF. FOLDER LOGIC
+                        =====================================================
+                        -->
+                        if (Model.AppUserItemFolderID > 0)
                         {
                             Html.RenderAction("RenderRelatedFoldersWidget", "AppUserItemFolder", new { idNumber = Model.Entity.ID });
                         }
                         <!--
-        =====================================================
-        BEGIN REF. FOLDER LOGIC
-        =====================================================
-        -->
+                        =====================================================
+                        BEGIN REF. FOLDER LOGIC
+                        =====================================================
+                        -->
 
                         <input id="hfCurrentAction" type="hidden" />
                         <input id="hfCurrentValue" type="hidden" />
@@ -445,7 +445,7 @@
                     @{Html.RenderAction("RenderLookupModal", "Author"); }
                     @{Html.RenderAction("RenderLookupModal", "Genus"); }
                     @{Html.RenderAction("RenderLookupModal", "Citation", new { tableName = Model.TableName, entityId = Model.Entity.ID }); }
-                    @Html.Partial("~/Views/Shared/Modals/_NoteLookup2.cshtml")
+                    @Html.Partial("~/Views/Shared/Modals/_NoteLookup.cshtml")
                     @Html.Partial("~/Views/Taxonomy/Shared/Modals/_Delete.cshtml")
                 </div>
             </div>

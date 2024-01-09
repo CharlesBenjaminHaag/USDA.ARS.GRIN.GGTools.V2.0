@@ -135,6 +135,7 @@
     <Compile Include="Controllers\AppUserItemFolderController.cs" />
     <Compile Include="Controllers\AppUserItemFolderCooperatorMapController.cs" />
     <Compile Include="Controllers\AppUserItemListController.cs" />
+    <Compile Include="Controllers\ImportController.cs" />
     <Compile Include="Controllers\AuthorController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\CitationController.cs" />
@@ -429,13 +430,6 @@
     <Content Include="Views\Taxonomy\Species\_List.cshtml" />
     <Content Include="Views\Taxonomy\Species\Modals\_Lookup.cshtml" />
     <Content Include="Views\Taxonomy\Species\Modals\_SelectList.cshtml" />
-    <Content Include="Views\_OBSOLETE\Folder\Explorer\Index_BACKUP.cshtml" />
-    <Content Include="Views\_OBSOLETE\Folder\_List.cshtml" />
-    <Content Include="Views\_OBSOLETE\Folder\_BACKUP\_SelectList.cshtml" />
-    <Content Include="Views\_OBSOLETE\Folder\_BACKUP\_Widget.cshtml" />
-    <Content Include="Views\_OBSOLETE\Folder\_BACKUP\_MyFoldersWidget.cshtml" />
-    <Content Include="Views\_OBSOLETE\Folder\Modals\_Edit.cshtml" />
-    <Content Include="Views\_OBSOLETE\Folder\_BACKUP\_ItemList.cshtml" />
     <Content Include="Views\Error\Index.cshtml" />
     <Content Include="Views\Error\InternalServerError.cshtml" />
     <Content Include="Views\Error\NotFound.cshtml" />
@@ -479,8 +473,6 @@
     <Content Include="Views\WebCooperator\_Widget.cshtml" />
     <Content Include="Views\WebUser\_Widget.cshtml" />
     <Content Include="Views\Shared\Partial\_MainSidebarNRR.cshtml" />
-    <Content Include="Views\_OBSOLETE\_Templates\Edit.cshtml" />
-    <Content Include="Views\_OBSOLETE\_Templates\_List.cshtml" />
     <Content Include="Views\Accession\Index.cshtml" />
     <Content Include="Views\AccessionIPR\Index.cshtml" />
     <Content Include="Views\InventoryMaintenancePolicy\Index.cshtml" />
@@ -618,10 +610,6 @@
     <Content Include="Views\AppUserItemFolder\Index.cshtml" />
     <Content Include="Views\AppUserItemList\_List.cshtml" />
     <Content Include="Views\Cooperator\_SelectList.cshtml" />
-    <Content Include="Views\_OBSOLETE\Folder\_BACKUP\_ListShared.cshtml" />
-    <Content Include="Views\_OBSOLETE\Folder\Cooperator\_ListCurrent.cshtml" />
-    <Content Include="Views\_OBSOLETE\Folder\Cooperator\_ListAvailable.cshtml" />
-    <Content Include="Views\_OBSOLETE\Folder\_BACKUP\_WidgetCurrentCollaborators.cshtml" />
     <Content Include="Views\SiteAdmin\_Detail.cshtml" />
     <Content Include="Views\SiteAdmin\Edit.cshtml" />
     <Content Include="Views\SiteAdmin\Index.cshtml" />
@@ -629,7 +617,6 @@
     <Content Include="Views\CropGermplasmCommitteeDocument\_Detail.cshtml" />
     <Content Include="Views\CropGermplasmCommitteeDocument\Edit.cshtml" />
     <Content Include="Views\CropGermplasmCommitteeDocument\_List.cshtml" />
-    <Content Include="Views\_OBSOLETE\Folder\_BACKUP\Edit_BACKUP.cshtml" />
     <Content Include="Views\Taxonomy\CropForCWR\_DetailExtended.cshtml" />
     <Content Include="Views\Taxonomy\Genus\_ListSynonyms.cshtml" />
     <Content Include="Views\Taxonomy\Genus\_ListSubdivisions.cshtml" />
@@ -653,7 +640,6 @@
     <Content Include="Views\Taxonomy\Literature\_DetailExtended.cshtml" />
     <Content Include="Views\Taxonomy\Author\_DetailExtended.cshtml" />
     <Content Include="Views\Taxonomy\Shared\Modals\_Delete.cshtml" />
-    <Content Include="Views\_OBSOLETE\Folder\Modals\_SelectList.cshtml" />
     <Content Include="Views\Taxonomy\SpeciesSynonymMap\_DetailExtended.cshtml" />
     <Content Include="Views\Taxonomy\FamilyMap\_ListGenera.cshtml" />
     <Content Include="Views\Taxonomy\FamilyMap\_OBSOLETE\_EditFamily.cshtml" />
@@ -693,15 +679,10 @@
     <Content Include="Views\SysGroupUserMap\Modals\_Lookup.cshtml" />
     <Content Include="Views\WebOrder\Explorer\Index.cshtml" />
     <Content Include="Views\WebOrder\Explorer\_List.cshtml" />
-    <Content Include="Views\_OBSOLETE\Folder\_Confirmation.cshtml" />
     <Content Include="Views\WebOrder\Explorer\_Detail.cshtml" />
     <Content Include="Views\WebOrder\Explorer\_Timeline.cshtml" />
     <Content Include="Views\Cooperator\_Add.cshtml" />
-    <Content Include="Views\_OBSOLETE\Folder\_RelatedFoldersListSpecies.cshtml" />
     <Content Include="Views\Taxonomy\Explorer\_ListFolders.cshtml" />
-    <Content Include="Views\_OBSOLETE\Folder\_RelatedFoldersListGenus.cshtml" />
-    <Content Include="Views\_OBSOLETE\Folder\_RelatedFoldersListFamily.cshtml" />
-    <Content Include="Views\_OBSOLETE\Folder\_RelatedFoldersList.cshtml" />
     <Content Include="Views\CooperatorGroup\_List.cshtml" />
     <Content Include="Views\CooperatorGroup\Edit.cshtml" />
     <Content Include="Views\CooperatorGroup\Index.cshtml" />
@@ -724,7 +705,6 @@
     <Content Include="Views\Taxonomy\Species\Edit.cshtml" />
     <Content Include="Views\Taxonomy\Shared\_RevisionHistory.cshtml" />
     <Content Include="Views\Taxonomy\Shared\_Note.cshtml" />
-    <Content Include="Views\_OBSOLETE\Folder\_RelatedFoldersMenu.cshtml" />
     <Content Include="Views\Taxonomy\Species\_RevisionHistory.cshtml" />
     <Content Include="Views\Taxonomy\SpeciesSynonymMap\_ListSynonymsA.cshtml" />
     <Content Include="Views\Taxonomy\_TEMPLATES\Edit.cshtml" />
@@ -732,7 +712,6 @@
     <Content Include="Views\Shared\_Footer.cshtml" />
     <Content Include="Views\Taxonomy\CWRMap\Edit.cshtml" />
     <Content Include="Views\Taxonomy\FamilyMap\Edit_BACKUP.cshtml" />
-    <Content Include="Views\_OBSOLETE\Folder\_ListExplorer.cshtml" />
     <Content Include="Views\Shared\_NavbarRight.cshtml" />
     <Content Include="Views\Shared\_NavbarListOptions.cshtml" />
     <Content Include="Views\Shared\_Breadcrumbs.cshtml" />
@@ -749,7 +728,6 @@
     <Content Include="Views\Taxonomy\Citation\_Clone.cshtml" />
     <Content Include="Views\Taxonomy\Citation\_View.cshtml" />
     <Content Include="Views\Shared\_RevisionHistorySimple.cshtml" />
-    <Content Include="Views\_OBSOLETE\_ChecklistWidget.cshtml" />
     <Content Include="Views\Taxonomy\Geography\Modals\_SelectListContinent.cshtml" />
     <Content Include="Views\Taxonomy\Geography\Modals\_SelectListSubContinent.cshtml" />
     <Content Include="Views\Taxonomy\Geography\Modals\_SelectListAdministrativeUnits.cshtml" />
@@ -822,18 +800,13 @@
     <Content Include="Views\Shared\_LayoutAdminLTE3Folder.cshtml" />
     <Content Include="Views\Taxonomy\Citation\_EditBatch2.cshtml" />
     <Content Include="Views\Shared\Sidebars\_MainSidebarFolder.cshtml" />
-    <Content Include="Views\_OBSOLETE\Folder\_ListMyFolders.cshtml" />
     <Content Include="Views\Taxonomy\Species\Partial\_Treeview.cshtml" />
-    <Content Include="Views\_OBSOLETE\Folder\Cooperator\_Edit.cshtml" />
     <Content Include="Views\SysUser\_Widget_BACKUP.cshtml" />
     <Content Include="Views\Cooperator\_Widget_BACKUP.cshtml" />
-    <Content Include="Views\_OBSOLETE\Folder\Cooperator\_Widget.cshtml" />
     <Content Include="Views\Shared\_LayoutAdminLTE3Taxonomy.cshtml" />
-    <Content Include="Views\_OBSOLETE\Folder\Explorer\Index.cshtml" />
     <Content Include="Views\AppUserItemList\Import\Index.cshtml" />
     <Content Include="Views\Cooperator\_SiteCuratorListWidget.cshtml" />
     <Content Include="Views\Taxonomy\GeographyMap\EditBatch.cshtml" />
-    <Content Include="Views\_OBSOLETE\Folder\Edit.cshtml" />
     <Content Include="Views\Shared\_SimulatedTreeview.cshtml" />
     <Content Include="Views\Taxonomy\CommonName\Modals\_EditBatch.cshtml" />
     <Content Include="Views\Taxonomy\CWRMap\Modals\_EditBatch.cshtml" />
@@ -857,7 +830,6 @@
     <Content Include="Views\Cooperator\Wizard\_Step4.cshtml" />
     <Content Include="Views\Cooperator\Wizard\_Step2.cshtml" />
     <Content Include="Views\Taxonomy\Citation\_WIdgetCitationReferences.cshtml" />
-    <Content Include="Views\_OBSOLETE\Folder\Modals\_BatchDelete.cshtml" />
     <Content Include="Views\Account\Request\Introduction.cshtml" />
     <Content Include="Views\Account\Request\Details.cshtml" />
     <Content Include="Views\Account\Request\Confirm.cshtml" />
@@ -871,7 +843,6 @@
     <Content Include="Views\AppUserItemList\Import\_ListsByTab.cshtml" />
     <Content Include="Views\AppUserItemList\Import\_ItemsByList.cshtml" />
     <Content Include="Views\Shared\_BootstrapTreeview2.cshtml" />
-    <Content Include="Views\_OBSOLETE\Folder\Modals\_Import.cshtml" />
     <Content Include="Views\Taxonomy\Geography\Modals\_LookupRegion.cshtml" />
     <Content Include="Views\Cooperator\_MenuEdit.cshtml" />
     <Content Include="Views\Shared\Modals\_Email.cshtml" />
@@ -934,6 +905,10 @@
     <Content Include="Views\AppUserItemList\Index BACKUP.cshtml" />
     <Content Include="Views\SysTable\Edit.cshtml" />
     <Content Include="Views\Shared\_UserMessages.cshtml" />
+    <Content Include="Views\Shared\_BACKUP\_NoteLookup2.cshtml" />
+    <Content Include="Views\Shared\_BACKUP\_NoteSelectList.cshtml" />
+    <Content Include="Views\Shared\Modals\_NoteLookup.cshtml" />
+    <Content Include="Views\Import\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
