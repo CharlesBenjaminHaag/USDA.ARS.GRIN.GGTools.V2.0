@@ -119,6 +119,7 @@
     <Compile Include="GeographyViewModel.cs" />
     <Compile Include="GeographyViewModelBase.cs" />
     <Compile Include="HomeViewModel.cs" />
+    <Compile Include="ImportViewModel.cs" />
     <Compile Include="IViewModel.cs" />
     <Compile Include="LiteratureViewModel.cs" />
     <Compile Include="LiteratureViewModelBase.cs" />

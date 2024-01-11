@@ -1,6 +1,8 @@
 ﻿using System.Web.Mvc;
 using System;
 using System.Collections.Generic;
+using ExcelDataReader;
+using System.Data;
 using USDA.ARS.GRIN.GGTools.WebUI;
 using USDA.ARS.GRIN.GGTools.ViewModelLayer;
 using USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer;
@@ -18,13 +20,43 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
         {
             try
             {
-                return View();
+                ImportViewModel viewModel = new ImportViewModel();
+                return View(viewModel);
             }
             catch (Exception ex)
             {
                 Log.Error(ex);
                 return RedirectToAction("InternalServerError", "Error");
             }
+        }
+
+        [HttpPost]
+        public ActionResult Post(ImportViewModel viewModel)
+        {
+            // TODO:
+
+            using (var stream = viewModel.DocumentUpload.InputStream)
+            {
+                using (var reader = ExcelReaderFactory.CreateReader(stream))
+                {
+                    DataSet result = reader.AsDataSet(new ExcelDataSetConfiguration()
+                    {
+                        ConfigureDataTable = (_) => new ExcelDataTableConfiguration()
+                        {
+                            UseHeaderRow = true,
+                        }
+                    });
+                    viewModel.DataCollectionDataTable = result.Tables[0];
+                };
+            }
+
+            // Get file stream
+
+            // Use EDR to load into datatable
+
+            // Return datatable in VM
+
+            return View("~/Views/Import/Index.cshtml", viewModel);
         }
        
     }
