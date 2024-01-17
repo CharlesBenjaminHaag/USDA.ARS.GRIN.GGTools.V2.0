@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace USDA.ARS.GRIN.Common.Library.Validation
+namespace USDA.ARS.GRIN.Common.StringHandling
 {
     public static class LevenshteinDistance
         {

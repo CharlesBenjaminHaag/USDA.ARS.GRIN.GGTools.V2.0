@@ -33,7 +33,12 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
         [HttpPost]
         public ActionResult Post(ImportViewModel viewModel)
         {
-            // TODO:
+            if (!viewModel.Validate())
+            {
+                if (viewModel.ValidationMessages.Count > 0) return View("~/Views/Import/Index.cshtml", viewModel);
+            }
+
+            viewModel.ImportFileName = viewModel.DocumentUpload.FileName;
 
             using (var stream = viewModel.DocumentUpload.InputStream)
             {
@@ -58,6 +63,14 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
 
             return View("~/Views/Import/Index.cshtml", viewModel);
         }
-       
+
+        [HttpPost]
+        public PartialViewResult PostImport()
+        {
+            
+            //TODO
+
+            return PartialView("~/Views/Import/_ListImport.cshtml");
+        }
     }
 }

@@ -43,6 +43,16 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             return sysTableField;
         }
 
+        public SysTableField GetSysTablePrimaryKeyField(string sysFieldName)
+        {
+            SQL = "usp_GRINGlobal_Sys_Table_Primary_Key_Field_Select";
+            var parameters = new List<IDbDataParameter> {
+                CreateParameter("@field_name", (object)sysFieldName, false)
+            };
+            SysTableField sysTableField = GetRecord<SysTableField>(SQL, CommandType.StoredProcedure, parameters.ToArray());
+            return sysTableField;
+        }
+
         public int Insert(SysTable entity)
         {
             throw new NotImplementedException();

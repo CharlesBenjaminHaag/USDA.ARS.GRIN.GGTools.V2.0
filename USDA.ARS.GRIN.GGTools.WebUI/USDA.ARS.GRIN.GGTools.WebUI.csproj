@@ -915,6 +915,8 @@
     <Content Include="Views\Shared\_BACKUP\_NoteSelectList.cshtml" />
     <Content Include="Views\Shared\Modals\_NoteLookup.cshtml" />
     <Content Include="Views\Import\Index.cshtml" />
+    <Content Include="Views\Import\_List.cshtml" />
+    <Content Include="Views\Import\_ListImport.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

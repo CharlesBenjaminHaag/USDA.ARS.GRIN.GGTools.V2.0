@@ -11,20 +11,42 @@ using USDA.ARS.GRIN.GGTools.DataLayer;
 
 namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
 {
-    public class ImportViewModel: AppViewModelBase
+    public class ImportViewModel : AppViewModelBase
     {
+        public string ImportFileName { get; set; }
         public HttpPostedFileBase DocumentUpload { get; set; }
         public DataTable DataCollectionDataTable { get; set; }
 
-        public SysTableField GetColumnInfo(string sysTableName, string sysTableFieldName)
+        public ImportViewModel()
+        {
+            DataCollectionDataTable = new DataTable();
+        }
+
+        public SysTableField GetColumnInfo(string sysTableFieldName)
         {
             SysTableField sysTableField = new SysTableField();
 
             using (SysTableManager mgr = new SysTableManager())
             {
-                sysTableField = mgr.GetSysTableField(sysTableName, sysTableFieldName);
+                sysTableField = mgr.GetSysTablePrimaryKeyField(sysTableFieldName);
             }
             return sysTableField;
+        }
+
+        public override bool Validate()
+        {
+            bool validated = true;
+
+            if (DocumentUpload == null)
+            {
+                ValidationMessages.Add(new Common.Library.ValidationMessage { Message = "Please select a correctly-formatted file to upload." });
+            }
+
+            if (ValidationMessages.Count > 0)
+            {
+                validated = false;
+            }
+            return validated;
         }
     }
 }
