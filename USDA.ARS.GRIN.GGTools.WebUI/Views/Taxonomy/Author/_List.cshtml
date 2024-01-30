@@ -48,7 +48,59 @@
     </div>
 </div>
 <script type="text/javascript">
+    //$(document).ready(function () {
+    //    InitDataTable("data_table_taxonomy_author");
+    //});
+
     $(document).ready(function () {
-        InitDataTable("data_table_taxonomy_author");
+        $('#data_table_taxonomy_author').DataTable({
+            dom: 'Bfrtip',
+            responsive: true,
+            select: true,
+            buttons: [
+                {
+                    extend: 'copyHtml5',
+                    exportOptions: {
+                        columns: [0, ':visible']
+                    }
+                },
+                {
+                    extend: 'excelHtml5',
+                    exportOptions: {
+                        columns: ':visible'
+                    }
+                },
+                {
+                    extend: 'pdfHtml5',
+                    exportOptions: {
+                        columns: [0, 1, 2, 5]
+                    }
+                },
+                'colvis',
+                'selectAll',
+                'selectNone',
+                {
+                    text: 'Add to Folder',
+                    action: function (e, dt, node, config) {
+                        OpenFolderModal();
+                    }
+                }
+            ]
+            
+        });
+
+
+        $('#data_table_taxonomy_author tbody').on('click', 'tr', function () {
+            if ($(this).hasClass('selected')) {
+                $(this).removeClass('selected');
+            }
+            else {
+                table.$('tr.selected').removeClass('selected');
+                $(this).addClass('selected');
+            }
+        });
+
+
     });
+
 </script>

@@ -93,19 +93,19 @@
                         @Html.HiddenFor(x => x.Entity.ID)
 
                         <!--
-        =====================================================
-        BEGIN REF. FOLDER LOGIC
-        =====================================================
-        -->
-                        @if (Model.AppUserItemFolderID > 0)
+                        =====================================================
+                        BEGIN REF. FOLDER LOGIC
+                        =====================================================
+                        -->
+                        if (Model.AppUserItemFolderID > 0)
                         {
                             Html.RenderAction("RenderRelatedFoldersWidget", "AppUserItemFolder", new { idNumber = Model.Entity.ID });
                         }
                         <!--
-        =====================================================
-        BEGIN REF. FOLDER LOGIC
-        =====================================================
-        -->
+                        =====================================================
+                        BEGIN REF. FOLDER LOGIC
+                        =====================================================
+                        -->
 
                         @Html.Partial("~/Views/Shared/_RevisionHistory.cshtml")
                         <div class="card card-default">

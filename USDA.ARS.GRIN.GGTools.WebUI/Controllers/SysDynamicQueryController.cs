@@ -13,7 +13,11 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
         public ActionResult Index()
         {
             SysDynamicQueryViewModel viewModel = new SysDynamicQueryViewModel();
+            SysTableViewModel sysTableViewModel = new SysTableViewModel();
             AppUserItemFolderViewModel appUserItemFolderViewModel = new AppUserItemFolderViewModel();
+
+            sysTableViewModel.GetSysTablesTaxonomy(true);
+            viewModel.DataCollectionSysTables = sysTableViewModel.DataCollection;
 
             appUserItemFolderViewModel.SearchEntity.FolderType = "SQLQUERY";
             appUserItemFolderViewModel.SearchEntity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;

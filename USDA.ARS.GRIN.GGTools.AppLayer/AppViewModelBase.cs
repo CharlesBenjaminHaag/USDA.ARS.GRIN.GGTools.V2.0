@@ -123,8 +123,26 @@ namespace USDA.ARS.GRIN.GGTools.AppLayer
 
         public string FormatBoolean(string value)
         {
+            
             if (String.IsNullOrEmpty(value))
                 return "";
+
+            // Allow for "ACTIVE" and "INACTIVE" variant.
+            if (value.ToUpper() == "ACTIVE")
+            {
+                return "<span class='badge badge-success'>ACTIVE</span>";
+            }
+            else
+            {
+                if (value.ToUpper() == "INACTIVE")
+                {
+                    return "<span class='badge badge-success'>INACTIVE</span>";
+                }
+                else
+                {
+                    return "<span class='badge badge-info'>" + value + "</span>";
+                }
+            }
 
             if ((value.ToUpper() == "Y") || (value.ToUpper() == "TRUE") || (value.ToUpper() == "YES"))
                 return "<span class='badge badge-success'>Yes</span>";

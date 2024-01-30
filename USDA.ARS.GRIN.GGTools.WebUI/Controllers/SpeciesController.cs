@@ -20,6 +20,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             SpeciesBatchEditViewModel viewModel = new SpeciesBatchEditViewModel();
             return View("~/Views/Taxonomy/Species/Map/Index.cshtml", viewModel);
         }
+
         //public ActionResult Explorer()
         //{
         //    TaxonomyExplorerViewModel viewModel = new TaxonomyExplorerViewModel();
@@ -45,6 +46,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
         //        return RedirectToAction("InternalServerError", "Error");
         //    }
         //}
+
         public PartialViewResult _List(int entityId = 0, int genusId = 0, string formatCode = "", string speciesAuthority = "")
         {
             SpeciesViewModel viewModel = new SpeciesViewModel();
@@ -735,28 +737,28 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             }
         }
         #region Reports
-        public PartialViewResult RenderReportsWidget()
-        {
-            try
-            {
-                SpeciesViewModel viewModel = new SpeciesViewModel();
-                viewModel.GetReportList();
-                return PartialView("~/Views/Taxonomy/Reports/_ListWidget.cshtml", viewModel);
-            }
-            catch (Exception ex)
-            {
-                Log.Error(ex);
-                return PartialView("~/Views/Error/_InternalServerError.cshtml");
-            }
-        }
-        public ViewResult ReportDetail(string reportCode)
-        {
-            SpeciesViewModel viewModel = new SpeciesViewModel();
-            viewModel.PageTitle = reportCode.Replace("_", " ");
-            viewModel.GetReport(reportCode);
-            //TODO Get report
-            return View("~/Views/Taxonomy/Reports/Detail.cshtml", viewModel);
-        }
+        //public PartialViewResult RenderReportsWidget()
+        //{
+        //    try
+        //    {
+        //        SpeciesViewModel viewModel = new SpeciesViewModel();
+        //        viewModel.GetReportList();
+        //        return PartialView("~/Views/Taxonomy/Reports/_ListWidget.cshtml", viewModel);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Log.Error(ex);
+        //        return PartialView("~/Views/Error/_InternalServerError.cshtml");
+        //    }
+        //}
+        //public ViewResult ReportDetail(string reportCode)
+        //{
+        //    SpeciesViewModel viewModel = new SpeciesViewModel();
+        //    viewModel.PageTitle = reportCode.Replace("_", " ");
+        //    viewModel.GetReport(reportCode);
+        //    //TODO Get report
+        //    return View("~/Views/Taxonomy/Reports/Detail.cshtml", viewModel);
+        //}
 
         #endregion
     }

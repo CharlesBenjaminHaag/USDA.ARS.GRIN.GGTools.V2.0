@@ -64,6 +64,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EntityClasses\AccessionSearch.cs" />
+    <Compile Include="EntityClasses\Accession.cs" />
     <Compile Include="EntityClasses\AccessionInventoryAttachment.cs" />
     <Compile Include="EntityClasses\AccessionInventoryAttachmentSearch.cs" />
     <Compile Include="EntityClasses\Address.cs" />
@@ -176,6 +178,7 @@
     <Compile Include="ManagerClasses\AppUserItemListManager.cs" />
     <Compile Include="ManagerClasses\AuthorManager.cs" />
     <Compile Include="ManagerClasses\CooperatorMapManager.cs" />
+    <Compile Include="ManagerClasses\AccessionManager.cs" />
     <Compile Include="ManagerClasses\EconomicUsageTypeManager.cs" />
     <Compile Include="ManagerClasses\AppUserItemFolderManager.cs" />
     <Compile Include="ManagerClasses\GRINGlobalDataManagerBase.cs" />

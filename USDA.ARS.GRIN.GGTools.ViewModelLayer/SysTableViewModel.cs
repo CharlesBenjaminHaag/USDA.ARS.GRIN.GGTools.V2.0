@@ -19,13 +19,28 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
             throw new NotImplementedException();
         }
 
-        //public void GetPermissions()
-        //{
-        //    using (SysPermissionManager mgr = new SysPermissionManager())
-        //    {
-        //        DataCollectionPermissions = new Collection<SysPermission>(mgr.GetSysPermissionsByTable(SearchEntity.SysUserID, SearchEntity.TableName));
-        //    }
-        //}+6666
+        public void GetSysTablesTaxonomy(bool loadChildData = false)
+        {
+            using (SysTableManager mgr = new SysTableManager())
+            {
+                try
+                {
+                    DataCollection = new Collection<SysTable>(mgr.GetSysTablesTaxonomy(loadChildData));
+                    RowsAffected = mgr.RowsAffected;
+
+                    if (RowsAffected == 1)
+                    {
+                        Entity = DataCollection[0];
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    PublishException(ex);
+                    throw ex;
+                }
+            }
+        }
 
         public int Insert()
         {

@@ -39,22 +39,8 @@
             <p>SQL Query</p>
         </a>
     </li>
-    @*<li class="nav-item">
-        <a href="@Url.Action("Map","Species")" class="nav-link">
-            <i class="nav-icon fas fa-tools"></i>
-            <p>Species Batch Edit</p>
-        </a>
-    </li>*@
-    @*<li class="nav-item">
-        <a href="@Url.Action("Add","SpeciesSynonymMap")" class="nav-link">
-            <i class="nav-icon fas fa-tools"></i>
-            <p>Synonym Mapper</p>
-        </a>
-    </li>*@
-
     <li class="nav-header">MANAGE DATA</li>
     @{ Html.RenderAction("_List", "SysTable"); }
-
     <li class="nav-header">SYSADMIN</li>
     <li class="nav-item">
         <a href="@Url.Action("Explorer","CodeValue")" class="nav-link">
@@ -69,48 +55,3 @@
         </a>
     </li>
 </ul>
-</nav>
-<script type="text/javascript">
-    //$(".nav-item").on('click', function (event) {
-    //    var id = $(this).attr('id');
-    //    AddActiveMenu(id);
-    //});
-
-    @*function AddActiveMenu(controlId) {
-        var link = '@Url.Action("SetActiveNavMenu","Home")';
-        var menuItemString = $("#txtDEBUG").val();
-        var menuItemArray = [];
-
-        if (menuItemString.length > 0) {
-            menuItemArray = menuItemString.split(',');
-        }
-        $("#txtDEBUG").val(controlId);
-
-        var formData = new FormData();
-
-        formData.append("MenuItemID", controlId);
-
-        $.ajax({
-            url: link,
-            type: 'POST',
-            cache: false,
-            contentType: false,
-            processData: false,
-            data: formData,
-            success: function (response) {
-                $("#section-lookup-note-search-results").html(response);
-            },
-            error: function () {
-                alert("Error");
-            }
-        });
-    }
-
-    function GetActiveMenu() {
-        var activeMenu = $("#txtDEBUG").val();
-        $(activeMenu).addClass("menu-is-opening menu-open");
-        $(activeMenu + "-submenu").css("display", "block");
-    }*@
-
-
-</script>

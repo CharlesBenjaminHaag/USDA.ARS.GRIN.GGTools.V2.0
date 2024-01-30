@@ -16,5 +16,11 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
         public string IsCited { get; set; }
         public string IsMapped { get; set; }
         public string IsWebPreviewable { get; set; }
+        public List<SysTableField> SysTableFields { get; set; }
+
+        public SysTable()
+        { 
+            SysTableFields = new List<SysTableField>();
+        }
     }
 }

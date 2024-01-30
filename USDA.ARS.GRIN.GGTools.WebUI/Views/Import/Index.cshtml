@@ -14,6 +14,177 @@
 
 @Html.HiddenFor(x => x.RowsAffected)
 
+@*<table class="table table-hover">
+    <tbody>
+        <tr>
+            <td class="border-0">Coffea Benjaminica</td>
+        </tr>
+        <tr data-widget="expandable-table" aria-expanded="false">
+            <td>
+                <i class="expandable-table-caret fas fa-caret-right fa-fw"></i>
+                Synonyms
+            </td>
+        </tr>
+        <tr class="expandable-body">
+            <td>
+                <div class="p-0" style="">
+                    <table class="table table-hover">
+                        <tbody>
+                            <tr data-widget="expandable-table" aria-expanded="true">
+                                <td>
+                                    <i class="expandable-table-caret fas fa-caret-right fa-fw"></i>
+                                    219-1
+                                </td>
+                            </tr>
+                            <tr class="expandable-body">
+                                <td>
+                                    <div class="p-0" style="">
+                                        <table class="table table-hover">
+                                            <tbody>
+                                                <tr>
+                                                    <td>219-1-1</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>219-1-2</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>219-1-3</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr data-widget="expandable-table" aria-expanded="false">
+                                <td>
+                                    <button type="button" class="btn btn-primary p-0">
+                                        <i class="expandable-table-caret fas fa-caret-right fa-fw"></i>
+                                    </button>
+                                    219-2
+                                </td>
+                            </tr>
+                            <tr class="expandable-body d-none">
+                                <td>
+                                    <div class="p-0" style="display: none;">
+                                        <table class="table table-hover">
+                                            <tbody>
+                                                <tr>
+                                                    <td>219-2-1</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>219-2-2</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>219-2-3</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>219-3</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </td>
+        </tr>
+
+        <tr data-widget="expandable-table" aria-expanded="false">
+            <td>
+                <i class="expandable-table-caret fas fa-caret-right fa-fw"></i>
+                Economic Uses
+            </td>
+        </tr>
+        <tr class="expandable-body">
+            <td>
+                <div class="p-0" style="">
+                    <table class="table table-hover">
+                        <tbody>
+                            <tr data-widget="expandable-table" aria-expanded="true">
+                                <td>
+                                    <i class="expandable-table-caret fas fa-caret-right fa-fw"></i>
+                                    219-1
+                                </td>
+                            </tr>
+                            <tr class="expandable-body">
+                                <td>
+                                    <div class="p-0" style="">
+                                        <table class="table table-hover">
+                                            <tbody>
+                                                <tr>
+                                                    <td>219-1-1</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>219-1-2</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>219-1-3</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr data-widget="expandable-table" aria-expanded="false">
+                                <td>
+                                    <button type="button" class="btn btn-primary p-0">
+                                        <i class="expandable-table-caret fas fa-caret-right fa-fw"></i>
+                                    </button>
+                                    219-2
+                                </td>
+                            </tr>
+                            <tr class="expandable-body d-none">
+                                <td>
+                                    <div class="p-0" style="display: none;">
+                                        <table class="table table-hover">
+                                            <tbody>
+                                                <tr>
+                                                    <td>219-2-1</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>219-2-2</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>219-2-3</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>219-3</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </td>
+        </tr>
+
+
+        <tr>
+            <td>657</td>
+        </tr>
+        <tr>
+            <td>175</td>
+        </tr>
+        <tr>
+            <td>134</td>
+        </tr>
+        <tr>
+            <td>494</td>
+        </tr>
+        <tr>
+            <td>832</td>
+        </tr>
+        <tr>
+            <td>982</td>
+        </tr>
+    </tbody>
+</table>*@
+
 @using (Html.BeginForm("Post", "Import", FormMethod.Post, new { id = "frmEdit", enctype = "multipart/form-data" }))
 {
     <div class="card card-primary">
@@ -34,6 +205,12 @@
                     <div class="form-group">
                         <label>Select the file to upload</label>
                         @Html.TextBoxFor(x => x.DocumentUpload, new { @class = "form-control", @type = "file", @value = Model.ImportFileName })
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Select Destination Table</label>
+                        @Html.DropDownListFor(x=>x.SysTableName, Model.SysTables, "Select table into which to import.", new {@class = "form-control"} )
                     </div>
                 </div>
             </div>
@@ -85,4 +262,18 @@
             });
         });
     }
+
+    $("#btnImportSelected").on('click', function (event) {
+        GetSelectedRowData("tblImport");
+    });
+
+    function GetSelectedRowData(tableName) {
+        var table = $('#' + tableName).DataTable();
+        var data = table.rows(['.selected']).data().toArray();
+        var json = JSON.stringify(data);
+        //DEBUG
+        alert(json);
+    }
+
+
 </script>

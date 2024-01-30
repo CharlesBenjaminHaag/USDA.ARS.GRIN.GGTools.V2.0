@@ -166,19 +166,19 @@
                             @Html.HiddenFor(x => x.Entity.NameVerifiedDate)
 
                             <!--
-                            =====================================================
-                            BEGIN REF. FOLDER LOGIC
-                            =====================================================
-                            -->
+        =====================================================
+        BEGIN REF. FOLDER LOGIC
+        =====================================================
+        -->
                             if (Model.AppUserItemFolderID > 0)
                             {
                                 Html.RenderAction("RenderRelatedFoldersWidget", "AppUserItemFolder", new { idNumber = Model.Entity.ID });
                             }
                             <!--
-                            =====================================================
-                            BEGIN REF. FOLDER LOGIC
-                            =====================================================
-                            -->
+        =====================================================
+        BEGIN REF. FOLDER LOGIC
+        =====================================================
+        -->
 
                             <input type="hidden" id="hfModalEventValue" />
                             <div id="section-verification">
@@ -665,6 +665,14 @@
                                 </div>
                             </div>
                         }
+
+                        <!-- ACCESSIONS -->
+                        @if (Model.Entity.ID > 0)
+                        {
+                            { Html.RenderAction("_List", "Accession", new { speciesId = Model.Entity.ID }); }
+                        }
+
+
                         @{Html.RenderAction("RenderLookupModal", "Genus"); }
                         @{Html.RenderAction("RenderLookupModal", "Species"); }
                         @{Html.RenderAction("RenderLookupModal", "Author"); }

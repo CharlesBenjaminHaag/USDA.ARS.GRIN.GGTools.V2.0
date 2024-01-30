@@ -94,7 +94,9 @@
     <Compile Include="CooperatorWizardViewModel.cs" />
     <Compile Include="CooperatorViewModel.cs" />
     <Compile Include="CooperatorViewModelBase.cs" />
+    <Compile Include="AccessionViewModel.cs" />
     <Compile Include="CropForCWRViewModel.cs" />
+    <Compile Include="AccessionViewModelBase.cs" />
     <Compile Include="CropForCWRViewModelBase.cs" />
     <Compile Include="CropGermplasmCommitteeDocumentViewModelBase.cs" />
     <Compile Include="CropGermplasmCommitteeDocumentViewModel.cs" />

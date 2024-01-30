@@ -6,6 +6,9 @@ using System.Text.RegularExpressions;
 using USDA.ARS.GRIN.GGTools.DataLayer;
 using USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer;
 using USDA.ARS.GRIN.GGTools.ViewModelLayer;
+using System.Data.Common;
+using System.Data;
+using Microsoft.Win32;
 
 namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
 {
@@ -275,6 +278,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
             Update();
             Get(Entity.ID);
         }
+        
         public override bool Validate()
         {
             bool validated = true;
@@ -282,6 +286,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
             Entity.IsSpecificHybrid = FromBool(Entity.IsSpecificHybridOption);
             Entity.IsWebVisible = FromBool(Entity.IsWebVisibleOption);
 
+            // Verify that species epithet has been provided.
             switch (Entity.Rank.ToUpper())
                 {
                     case "SPECIES":
@@ -320,12 +325,14 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
                         break;
                 }
 
+            // Verify that genus has been provided.
             if (Entity.GenusID == 0)
             {
                 ValidationMessages.Add(new Common.Library.ValidationMessage { Message = "The genus is required." });
             }
 
-            //If user has designated an accepted name, require a synonym code -- and vice-versa.
+            // Verify that a synonym code has been supplied if an accepted name has been
+            // identified.
             if (Entity.IsAcceptedName == "N")
             {
                 if (Entity.AcceptedID == 0)
@@ -339,11 +346,88 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
                 }
             }
 
+            // TODO Verify that author name(s) exist in author table.
+            if (!String.IsNullOrEmpty(ValidateAuthority()))
+            {
+                ValidationMessages.Add(new Common.Library.ValidationMessage { Message = String.Format("The author {0} does not exist in the Author table.", Entity.SpeciesAuthority) }); ;
+            }
+
             if (ValidationMessages.Count > 0)
             {
                 validated = false;
             }
             return validated;
+        }
+
+        private string GetAuthority()
+        {
+            switch (Entity.Rank)
+            {
+                case "SPECIES":
+                    return Entity.SpeciesAuthority;
+                case "SUBSPECIES":
+                    return Entity.SubspeciesAuthority;
+                case "FORMA":
+                    return Entity.FormaAuthority;
+                default:
+                    return Entity.SpeciesAuthority;
+            }
+        }
+
+        /// <summary>
+        /// Parses the author string and verifies that each author listed exists in the author table.
+        /// </summary>
+        /// <returns></returns>
+        public string ValidateAuthority()
+        {
+            string authority = GetAuthority();
+
+            authority = Regex.Replace(authority, @"\(|\)|,|\?| ex | non |sensu | et al\.", "&");
+            string[] authorityList = authority.Split('&');
+
+            if (authorityList.Length > 0)
+            {
+                foreach (string auth in authorityList)
+                {
+                    string authClean = auth.Trim();
+                    if (!String.IsNullOrEmpty(authClean))
+                    {
+                        // TODO: Look up author
+
+                        AuthorViewModel authorViewModel = new AuthorViewModel();
+                        authorViewModel.SearchEntity.ShortName = authClean;
+                        authorViewModel.SearchEntity.IsShortNameExactMatch = "Y";
+                        authorViewModel.Search();
+                        if (authorViewModel.DataCollection.Count == 0)
+                        {
+                            return authClean;
+                        }
+                    }
+                }
+            }
+            return "";
+        }
+        
+        /// <summary>
+        /// If accepted status changes:
+        /// 1. Look for related accessions
+        /// 2. Add annotations for each
+        /// 3. Point each to new accepted name
+        /// 4. Generate/send email to each accession owner
+        /// </summary>
+        /// <returns></returns>
+        public int ValidateAccessions()
+        {
+            int retVal = 0;
+            try
+            { 
+            
+            }
+            catch (Exception ex)
+            { 
+            
+            }
+            return retVal;
         }
         public void SetSpeciesName()
         {
@@ -443,49 +527,49 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
         }
 
         #region Reports
-        public void GetReportList()
-        {
-            using (SpeciesManager mgr = new SpeciesManager())
-            {
-                DataCollectionReports = new Collection<CodeValue>(mgr.GetReportList());
-            }
-        }
+        //public void GetReportList()
+        //{
+        //    using (SpeciesManager mgr = new SpeciesManager())
+        //    {
+        //        DataCollectionReports = new Collection<CodeValue>(mgr.GetReportList());
+        //    }
+        //}
 
-        public void GetReport(string reportCode)
-        {
-            Report.Title = reportCode.Replace("_", " ");
+        //public void GetReport(string reportCode)
+        //{
+        //    Report.Title = reportCode.Replace("_", " ");
 
-            //DEMO ONLY
-            switch (reportCode.Replace("_",""))
-            {
-                case "MissingAutonymForm":
-                    Report.SQL = "SELECT distinct genus_name, species_name " +
-                                " FROM taxonomy_species ts " +
-                                " JOIN taxonomy_genus tg ON tg.taxonomy_genus_id = ts.taxonomy_genus_id " +
-                                " WHERE ts.taxonomy_species_id = ts.current_taxonomy_species_id " +
-                                " AND forma_name IS NOT NULL " +
-                                " AND NOT EXISTS(SELECT* FROM taxonomy_species ts2 " +
-                                " JOIN taxonomy_genus tg2 ON tg2.taxonomy_genus_id = ts2.taxonomy_genus_id " +
-                                " WHERE genus_name = tg.genus_name AND species_name = ts.species_name AND forma_name = ts.species_name AND taxonomy_species_id = current_taxonomy_species_id) " +
-                                " ORDER BY genus_name, species_name";
+        //    //DEMO ONLY
+        //    switch (reportCode.Replace("_",""))
+        //    {
+        //        case "MissingAutonymForm":
+        //            Report.SQL = "SELECT distinct genus_name, species_name " +
+        //                        " FROM taxonomy_species ts " +
+        //                        " JOIN taxonomy_genus tg ON tg.taxonomy_genus_id = ts.taxonomy_genus_id " +
+        //                        " WHERE ts.taxonomy_species_id = ts.current_taxonomy_species_id " +
+        //                        " AND forma_name IS NOT NULL " +
+        //                        " AND NOT EXISTS(SELECT* FROM taxonomy_species ts2 " +
+        //                        " JOIN taxonomy_genus tg2 ON tg2.taxonomy_genus_id = ts2.taxonomy_genus_id " +
+        //                        " WHERE genus_name = tg.genus_name AND species_name = ts.species_name AND forma_name = ts.species_name AND taxonomy_species_id = current_taxonomy_species_id) " +
+        //                        " ORDER BY genus_name, species_name";
 
-                    break;
-                case "MissingBasionym":
-                    Report.SQL = "select taxonomy_species_id, name, name_authority from taxonomy_species ts where ts.name_authority like '%(%)%' AND ts.taxonomy_species_id = ts.current_taxonomy_species_id AND NOT EXISTS(SELECT * FROM taxonomy_species WHERE current_taxonomy_species_id = ts.taxonomy_species_id AND synonym_code = 'B') ORDER BY name";
-                    break;
-                case "NoSpeciesAuthor":
-                    Report.SQL = "@taxonomy_species.species_authority IS NULL AND ( @taxonomy_species.species_name NOT LIKE  'spp.') AND @taxonomy_species.species_authority IS NULL AND ( @taxonomy_species.species_name NOT LIKE  'hybr.' )";
-                    break;
-                case "UnverifiedNodulation":
-                    Report.SQL = "select distinct t.name from taxonomy_species t join citation c on t.taxonomy_species_id = c.taxonomy_species_id where t.verifier_cooperator_id is null and c.type_code = 'NODULATION'";
-                    break;
-            }
+        //            break;
+        //        case "MissingBasionym":
+        //            Report.SQL = "select taxonomy_species_id, name, name_authority from taxonomy_species ts where ts.name_authority like '%(%)%' AND ts.taxonomy_species_id = ts.current_taxonomy_species_id AND NOT EXISTS(SELECT * FROM taxonomy_species WHERE current_taxonomy_species_id = ts.taxonomy_species_id AND synonym_code = 'B') ORDER BY name";
+        //            break;
+        //        case "NoSpeciesAuthor":
+        //            Report.SQL = "@taxonomy_species.species_authority IS NULL AND ( @taxonomy_species.species_name NOT LIKE  'spp.') AND @taxonomy_species.species_authority IS NULL AND ( @taxonomy_species.species_name NOT LIKE  'hybr.' )";
+        //            break;
+        //        case "UnverifiedNodulation":
+        //            Report.SQL = "select distinct t.name from taxonomy_species t join citation c on t.taxonomy_species_id = c.taxonomy_species_id where t.verifier_cooperator_id is null and c.type_code = 'NODULATION'";
+        //            break;
+        //    }
 
-            using (SpeciesManager mgr = new SpeciesManager())
-            {
-                Report.ResultSet = mgr.GetReport(reportCode);
-            }
-        }
+        //    using (SpeciesManager mgr = new SpeciesManager())
+        //    {
+        //        Report.ResultSet = mgr.GetReport(reportCode);
+        //    }
+        //}
 
         #endregion
     }

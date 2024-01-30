@@ -18,8 +18,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             SysTableViewModel viewModel = new SysTableViewModel();
             try
             {
-                viewModel.SearchEntity.DatabaseAreaCode = "TAXONOMY";
-                viewModel.Search();
+                viewModel.GetSysTablesTaxonomy(false);
                 return PartialView("~/Views/SysTable/_MenuList.cshtml", viewModel);
             }
             catch (Exception ex)

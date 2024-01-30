@@ -90,19 +90,19 @@
                         @Html.HiddenFor(x => x.Entity.IsAcceptedName)
 
                         <!--
-        =====================================================
-        BEGIN REF. FOLDER LOGIC
-        =====================================================
-        -->
-                        @if (Model.AppUserItemFolderID > 0)
+                        =====================================================
+                        BEGIN REF. FOLDER LOGIC
+                        =====================================================
+                        -->
+                        if (Model.AppUserItemFolderID > 0)
                         {
                             Html.RenderAction("RenderRelatedFoldersWidget", "AppUserItemFolder", new { idNumber = Model.Entity.ID });
                         }
                         <!--
-        =====================================================
-        BEGIN REF. FOLDER LOGIC
-        =====================================================
-        -->
+                        =====================================================
+                        BEGIN REF. FOLDER LOGIC
+                        =====================================================
+                        -->
 
                         <div class="card card-default">
                             <div class="card-header">

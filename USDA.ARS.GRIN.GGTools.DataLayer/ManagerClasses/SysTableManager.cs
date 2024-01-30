@@ -32,6 +32,32 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             return sysTable;
         }
 
+        public List<SysTable> GetSysTablesTaxonomy(bool loadChildData = false)
+        {
+            SQL = "usp_GRINGlobal_Sys_Tables_Taxonomy_Select";
+            List<SysTable> sysTables = GetRecords<SysTable>(SQL, CommandType.StoredProcedure);
+
+            if (loadChildData)
+            {
+                foreach(var sysTable in sysTables) 
+                {
+                    sysTable.SysTableFields = GetSysTableFields(sysTable.SysTableName);
+                }
+            }
+
+            return sysTables;
+        }
+
+        public List<SysTableField> GetSysTableFields(string sysTableName)
+        {
+            SQL = "usp_GRINGlobal_Sys_Table_Fields_Select";
+            var parameters = new List<IDbDataParameter> {
+                CreateParameter("@sys_table_name", (object)sysTableName, false)
+            };
+            List<SysTableField> sysTableFields = GetRecords<SysTableField>(SQL, CommandType.StoredProcedure, parameters.ToArray());
+            return sysTableFields;
+        }
+
         public SysTableField GetSysTableField(string sysTableName, string sysFieldName)
         {
             SQL = "usp_GRINGlobal_Sys_Table_Field_Select";

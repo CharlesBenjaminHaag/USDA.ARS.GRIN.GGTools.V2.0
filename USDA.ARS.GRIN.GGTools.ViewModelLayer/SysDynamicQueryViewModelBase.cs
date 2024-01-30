@@ -16,6 +16,7 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
         private SysDynamicQuerySearch _SearchEntity = new SysDynamicQuerySearch();
         private Collection<SysDynamicQuery> _DataCollection = new Collection<SysDynamicQuery>();
         private Collection<AppUserItemFolder> _DataCollectionAppUserItemFolders = new Collection<AppUserItemFolder>();
+        private Collection<SysTable> _DataCollectionSysTables = new Collection<SysTable>();
         private DataTable _DataCollectionDataTable = new DataTable();
         public AppUserItemFolder AppUserItemFolderEntity
         {
@@ -44,6 +45,12 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
         {
             get { return _DataCollectionAppUserItemFolders; }
             set { _DataCollectionAppUserItemFolders = value; }
+        }
+
+        public Collection<SysTable> DataCollectionSysTables
+        {
+            get { return _DataCollectionSysTables; }
+            set { _DataCollectionSysTables = value; }
         }
 
         public DataTable DataCollectionDataTable
