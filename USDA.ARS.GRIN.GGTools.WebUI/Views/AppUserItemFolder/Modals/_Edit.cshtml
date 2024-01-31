@@ -179,7 +179,7 @@ Modal that appears if no record is selected for folder addition.
         UpdateFolder();
     });
 
-    function OpenFolderModal() {
+    function OpenAppUserItemFolderModal() {
         var tableName = $("#TableName").val();
         var dataTableName = "data_table_" + tableName;
         var selectedItemIdList = GetSelectedEntityIDs(dataTableName);
@@ -276,9 +276,6 @@ Modal that appears if no record is selected for folder addition.
         else {
             var selectedItemIdList = GetSelectedEntityIDs("data_table_" + $("#TableName").val());
         }
-
-        //DEBUG
-        alert("DEBUG ID LIST " + selectedItemIdList);
 
         if (selectedItemIdList.length < 1) {
             alert("ERROR: No items selected");
