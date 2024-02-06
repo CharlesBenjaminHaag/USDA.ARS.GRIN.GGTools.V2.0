@@ -48,7 +48,7 @@
                 </div>
             </div>
         </div>
-        <div class="card card-default">
+        <div class="card card-success">
             <div class="card-header">
                 <h3 class="card-title">Why Was This Request Flagged?</h3>
             </div>
@@ -116,7 +116,7 @@
                             @if ((!Model.Entity.IsLocked) && (Model.Entity.IsPreviouslyNRRReviewed == "Y"))
                             {
                                 <div class="btn-group">
-                                    <button id="btnLockAndReopen" type="button" class="btn btn-info margin-r-5" data-toggle="modal" data-target="#modal-reopen">
+                                    <button id="btnLockAndReopen" type="button" class="btn btn-default margin-r-5" data-toggle="modal" data-target="#modal-reopen">
                                         <i class="fa fa-eye margin-r-5"></i>&nbsp;<span class="button-label">Re-Open This Web Request</span>
                                     </button>
                                 </div>
@@ -125,7 +125,7 @@
                             @if ((!Model.Entity.IsLocked) && (Model.Entity.IsPreviouslyNRRReviewed == "N"))
                             {
                                 <div class="btn-group">
-                                    <button type="button" id="btnSubmitBeginReview" class="btn btn-info">
+                                    <button type="button" id="btnSubmitBeginReview" class="btn btn-default">
                                         <i class="fa fa-lock"></i>
                                         Lock and Begin Review
                                     </button>

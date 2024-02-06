@@ -1,6 +1,6 @@
 ﻿@model USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer.SpeciesViewModel
 
-<div id="section-search-results" class="card card-default">
+<div id="section-search-results" class="card card-success">
     <div class="card-header">
         <h3 class="card-title">Species (@Model.DataCollection.Count)</h3>
         <div class="card-tools">
@@ -15,7 +15,7 @@
                 <table id="data_table_taxonomy_species" class="table table-striped ggtools-table" style="width:100%;">
                     <thead>
                         <tr>
-                            <th></th>
+                            
                             <th width="5%">ID</th>
                             <th>Name</th>
                             <th>Synonym</th>
@@ -35,9 +35,7 @@
                                     <td>
                                         @result.ID
                                     </td>
-                                    <td>
-                                        <a href="@Url.Action("Edit", "Species", new { @entityId = result.ID })">[@result.ID]</a>
-                                    </td>
+                                   
                                     <td>@Html.Raw(result.AssembledName)</td>
                                     <td><span class="badge badge-info">@result.SynonymDescription</span></td>
                                     <td>@Html.Raw(Model.FormatBoolean(result.IsAcceptedName))</td>
@@ -94,4 +92,17 @@
     $(document).ready(function () {
         InitDataTable("data_table_taxonomy_species");
     });
+
+    function BatchEdit() {
+        var tableName = $("#TableName").val();
+        var eventAction = $("#EventAction").val();
+        var eventValue = $("#EventValue").val();
+        var batchEditUrl = '@Url.Action("EditBatch", "Species")';
+        var selectedIdList = GetSelectedEntityIDs("data_table_taxonomy_species");
+
+        /* TODO: Ensure at least one selected */
+
+        batchEditUrl = batchEditUrl + "?idList=" + selectedIdList;
+        window.location.href = batchEditUrl;
+    }
 </script>

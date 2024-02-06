@@ -1,7 +1,8 @@
 ﻿@model USDA.ARS.GRIN.GGTools.ViewModelLayer.CooperatorViewModel
-<div class="card card-primary">
+<div class="card card-success">
     <div class="card-header ui-sortable-handle" style="cursor: move;">
-        <h3 class="card-title">My Team</h3>
+        <h3 class="card-title">
+            <i class="fas fa-users"></i> My Team</h3>
         <div class="card-tools">
             <button type="button" class="btn btn-tool" data-card-widget="collapse">
                 <i class="fas fa-minus"></i>
@@ -41,10 +42,10 @@
                         </div>
                         <div class="card-footer">
                             <div class="text-right">
-                                <a href="#" class="btn btn-sm bg-teal">
+                                <a href="#" class="btn btn-sm bg-gray">
                                     <i class="fas fa-table"></i>
                                 </a>
-                                <a href="@Url.Action("Edit","Cooperator", new { @entityId = result.ID })" class="btn btn-sm btn-primary">
+                                <a href="@Url.Action("Edit","Cooperator", new { @entityId = result.ID })" class="btn btn-sm btn-default">
                                     <i class="fas fa-user"></i> View Profile
                                 </a>
                             </div>

@@ -90,6 +90,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             try
             {
                 EconomicUsageTypeViewModel viewModel = new EconomicUsageTypeViewModel();
+                viewModel.PageTitle = "Economic Usage Type";
                 viewModel.TableName = "taxonomy_economic_usage_type";
 
                 if (eventAction == "RUN_SEARCH")

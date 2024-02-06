@@ -1,6 +1,6 @@
 ﻿@model USDA.ARS.GRIN.GGTools.ViewModelLayer.WebUserViewModel
 @{
-    string cssClassCard = "card card-default collapsed-card";
+    string cssClassCard = "card card-success collapsed-card";
     string cssClassCardBody = "display: none;";
     string cssClassExpandCollapseButton = "fas fa-plus";
 
@@ -12,7 +12,7 @@
     }
 }
 
-<div class="card card-default">
+<div class="card card-success">
     <div class="card-header">
         <h3 class="card-title">Web User</h3>
         <div class="card-tools">
@@ -48,7 +48,7 @@
         }
     </div>
     <div class="card-footer">
-        <button id="btnSaveWebUser" type="button" class="btn btn-primary float-right">Save</button>
+        <button id="btnSaveWebUser" type="button" class="btn btn-default float-right">Save</button>
         @if (Model.Entity.ID == 0)
         {
             <button id="btnCopyWebUser" type="button" class="btn btn-default">Create From Sys User</button>

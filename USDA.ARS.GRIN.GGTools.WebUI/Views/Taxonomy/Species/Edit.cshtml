@@ -65,15 +65,6 @@
                     </div>
                     <!-- BEGIN RIGHT-ALIGNED NAV MENU -->
                     <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
-                        @if (Model.Entity.ID > 0)
-                        {
-                            <li id="nav-item-view-website" class="nav-item">
-                                <a class="nav-link" href="#" role="button">
-                                    <i class="far fa-globe"></i>
-                                    View on Website
-                                </a>
-                            </li>
-                        }
                         @Html.Partial("~/Views/Shared/_NavbarRight.cshtml")
                     </ul>
                     <!-- END RIGHT-ALIGNED NAV MENU -->
@@ -86,7 +77,7 @@
                         <div class="row mb-2">
                             <div class="col-sm-6">
                                 <h1 class="m-0">
-
+                                    TITLE HERE
                                     <!-- ================================================================= -->
                                     <!-- BEGIN TITLE LOGIC -->
                                     <!-- ================================================================= -->
@@ -191,7 +182,7 @@
 
                             <div class="row">
                                 <div class="col-md-12">
-                                    <div class="card card-primary card-tabs">
+                                    <div class="card card-success card-tabs">
                                         @if (Model.Entity.ID > 0)
                                         {
                                             <div id="section-web-order-request-tabs" class="card-header p-0 pt-1">
@@ -581,7 +572,7 @@
                                                 </div>
                                                 <!-- WEB VISIBLE -->
                                                 <div class="row">
-                                                    <div class="col-md-3">
+                                                    <div class="col-md-2">
                                                         <br />
                                                         <div class="form-group">
                                                             <div class="input-group">
@@ -592,15 +583,6 @@
                                                                         &nbsp;
                                                                     </span>
                                                                 </div>
-                                                                @if ((Model.Entity.ID > 0) && (Model.Entity.IsWebVisible == "Y"))
-                                                                {
-                                                                    <div class="input-group-append">
-                                                                        <a href="https://npgsweb.ars-grin.gov/gringlobal/taxon/taxonomydetail?id=@Model.Entity.ID" class="btn btn-default float-right" target="_blank">
-                                                                            <i class="fas fa-globe"></i>
-                                                                            View on Public Website
-                                                                        </a>
-                                                                    </div>
-                                                                }
                                                             </div>
                                                         </div>
                                                     </div>
@@ -615,7 +597,23 @@
                                                     Delete
                                                 </button>
                                             }
-                                            <button type="submit" class="btn btn-info float-right">Save</button>
+                                            <button type="submit" class="btn btn-default float-right">Save</button>
+
+                                            @if ((Model.Entity.ID > 0) && (Model.Entity.AccessionCount > 0))
+                                            {
+                                                <a href="@Url.Action("Index","Accession", new { @speciesId = Model.Entity.ID })" class="btn btn-default float-right" target="_blank">
+                                                    <i class="fas fa-tree"></i>
+                                                    View Related Accessions
+                                                </a>
+                                            }
+
+                                            @if ((Model.Entity.ID > 0) && (Model.Entity.IsWebVisible == "Y"))
+                                            {
+                                                <a href="https://npgsweb.ars-grin.gov/gringlobal/taxon/taxonomydetail?id=@Model.Entity.ID" class="btn btn-default float-right" target="_blank">
+                                                    <i class="fas fa-globe"></i>
+                                                    View on Public Website
+                                                </a>
+                                            }
                                         </div>
                                     </div>
                                 </div>
@@ -665,13 +663,6 @@
                                 </div>
                             </div>
                         }
-
-                        <!-- ACCESSIONS -->
-                        @if (Model.Entity.ID > 0)
-                        {
-                            { Html.RenderAction("_List", "Accession", new { speciesId = Model.Entity.ID }); }
-                        }
-
 
                         @{Html.RenderAction("RenderLookupModal", "Genus"); }
                         @{Html.RenderAction("RenderLookupModal", "Species"); }

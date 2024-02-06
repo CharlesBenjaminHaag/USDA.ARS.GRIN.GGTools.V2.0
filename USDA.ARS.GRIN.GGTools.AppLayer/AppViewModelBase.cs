@@ -123,7 +123,7 @@ namespace USDA.ARS.GRIN.GGTools.AppLayer
 
         public string FormatBoolean(string value)
         {
-            
+
             if (String.IsNullOrEmpty(value))
                 return "";
 
@@ -132,32 +132,27 @@ namespace USDA.ARS.GRIN.GGTools.AppLayer
             {
                 return "<span class='badge badge-success'>ACTIVE</span>";
             }
-            else
+
+            if (value.ToUpper() == "INACTIVE")
             {
-                if (value.ToUpper() == "INACTIVE")
-                {
-                    return "<span class='badge badge-success'>INACTIVE</span>";
-                }
-                else
-                {
-                    return "<span class='badge badge-info'>" + value + "</span>";
-                }
+                return "<span class='badge badge-success'>INACTIVE</span>";
             }
 
-            if ((value.ToUpper() == "Y") || (value.ToUpper() == "TRUE") || (value.ToUpper() == "YES"))
+            if ((value.ToUpper() == "Y") || (value.ToUpper() == "TRUE") || (value.ToUpper() == "YES")) {
                 return "<span class='badge badge-success'>Yes</span>";
-            else
-            {
-                if ((value.ToUpper() == "N") || (value.ToUpper() == "FALSE") || (value.ToUpper() == "NO"))
-                    return "<span class='badge badge-danger'>No</span>";
-                else
-                {
-                    if (value.ToUpper() == "X")
-                        return "<span class='label label-default'>Not Verified</span>";
-                    else
-                        return value;
-                }
             }
+
+            if ((value.ToUpper() == "N") || (value.ToUpper() == "FALSE") || (value.ToUpper() == "NO"))
+            { 
+                return "<span class='badge badge-danger'>No</span>";
+            }
+
+            if (value.ToUpper() == "X")
+            {
+                return "<span class='label label-default'>Not Verified</span>";
+            }
+
+            return "<span class='label label-info'>" + value.ToUpper() + "</span>";
         }
         public bool ToBool(string value)
         {

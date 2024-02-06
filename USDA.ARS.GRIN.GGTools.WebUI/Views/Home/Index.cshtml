@@ -3,6 +3,76 @@
     ViewBag.Title = "My GGTools";
     Layout = "~/Views/Shared/_LayoutAdminLTE3.cshtml";
 }
+
+<!-- TEST -->
+<div class="row">
+    <div class="col-lg-3 col-6">
+
+        <div class="small-box bg-info">
+            <div class="inner">
+                <h3>Users</h3>
+                <p>Access Rights Management</p>
+            </div>
+            <div class="icon">
+                <i class="fas fa-users"></i>
+            </div>
+            <a href="#" class="small-box-footer">
+                More info <i class="fas fa-arrow-circle-right"></i>
+            </a>
+        </div>
+    </div>
+
+    <div class="col-lg-3 col-6">
+
+        <div class="small-box bg-success">
+            <div class="inner">
+                <h3>Taxonomy</h3>
+                <p>Taxonomy Editor</p>
+            </div>
+            <div class="icon">
+                <i class="fas fa-tree"></i>
+            </div>
+            <a href="#" class="small-box-footer">
+                More info <i class="fas fa-arrow-circle-right"></i>
+            </a>
+        </div>
+    </div>
+
+    <div class="col-lg-3 col-6">
+
+        <div class="small-box bg-warning">
+            <div class="inner">
+                <h3>Accessions</h3>
+                <p>Accession Explorer</p>
+            </div>
+            <div class="icon">
+                <i class="fas fa-leaf"></i>
+            </div>
+            <a href="#" class="small-box-footer">
+                More info <i class="fas fa-arrow-circle-right"></i>
+            </a>
+        </div>
+    </div>
+
+    <div class="col-lg-3 col-6">
+
+        <div class="small-box bg-danger">
+            <div class="inner">
+                <h3>Orders</h3>
+                <p>Order Manager</p>
+            </div>
+            <div class="icon">
+                <i class="fas fa-shopping-cart"></i>
+            </div>
+            <a href="#" class="small-box-footer">
+                More info <i class="fas fa-arrow-circle-right"></i>
+            </a>
+        </div>
+    </div>
+
+</div>
+<!-- END TEST -->
+
 <div class="row">
     <div class="col-md-3">
         @{Html.RenderAction("RenderWidget", "SysUser", new { sysUserId = Model.SysUserID }); }
@@ -10,7 +80,7 @@
     </div>
     <div class="col-md-9">
         @*@{Html.RenderAction("RenderTrainingRosterWidget","Account");}*@
-        <div class="card card-primary card-tabs">
+        <div class="card card-success card-tabs">
             <div id="section-cooperator-tabs" class="card-header p-0 pt-1">
                 <ul class="nav nav-tabs" id="custom-tabs-two-tab" role="tablist">
                     <li class="pt-2 px-3"><h3 id="placeholder-cooperator-name" class="card-title">My Site</h3></li>

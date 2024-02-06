@@ -10,6 +10,8 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
 {
     public class SpeciesManager : GRINGlobalDataManagerBase, IManager<Species, SpeciesSearch>
     {
+        
+        
         public int Insert(Species entity)
         {
             Reset(CommandType.StoredProcedure);
@@ -134,6 +136,11 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             if (searchEntity.IsNameVerifiedDateOption)
             {
                 SQL += "AND NameVerifiedDate IS NULL";
+            }
+
+            if (searchEntity.IsLinkedToAccessions == "Y")
+            {
+                SQL += " AND AccessionCount > 0";
             }
 
             var parameters = new List<IDbDataParameter> {

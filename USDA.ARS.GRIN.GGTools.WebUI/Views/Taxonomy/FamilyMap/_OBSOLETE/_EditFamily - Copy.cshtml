@@ -1,5 +1,5 @@
 ﻿@model USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer.FamilyMapViewModel
-<div class="card card-default">
+<div class="card card-success">
     <div class="card-header">
         <div class="btn-group">
             <a id="btnSetAcceptedOn" class="btn btn-default btn-sm" href="#" role="button"><i class="fas fa-thumbs-down"></i> Not Accepted</a>
@@ -29,7 +29,7 @@
                 Notes
             </button>
         </div>
-        <a href="https://npgsdev.ars-grin.gov/gringlobal/taxon/taxonomyfamily?id=@Model.Entity.ID" target="_blank" class="btn btn-info btn-sm float-right">
+        <a href="https://npgsdev.ars-grin.gov/gringlobal/taxon/taxonomyfamily?id=@Model.Entity.ID" target="_blank" class="btn btn-default btn-sm float-right">
             <i class="fa fa-globe"></i>
             View Public Website
         </a>
@@ -121,6 +121,6 @@
                 Delete
             </button>
         }
-        <button type="submit" class="btn btn-primary float-right">Save</button>
+        <button type="submit" class="btn btn-default float-right">Save</button>
     </div>
 </div>

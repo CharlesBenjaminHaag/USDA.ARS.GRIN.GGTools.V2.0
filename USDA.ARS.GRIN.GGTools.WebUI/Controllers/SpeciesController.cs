@@ -154,6 +154,8 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             try
             {
                 Session[SessionKeyName] = viewModel;
+                viewModel.EventAction = "Search";
+                viewModel.EventValue = "Species";
                 viewModel.Search();
                 ModelState.Clear();
 
@@ -674,6 +676,21 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 }
 
                 return RedirectToAction("Edit", "Species", new { entityId = viewModel.Entity.ID, parentId = viewModel.Entity.ParentID });
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return RedirectToAction("InternalServerError", "Error");
+            }
+        }
+
+        public ActionResult EditBatch(string idList = "")
+        {
+            try
+            {   SpeciesViewModel viewModel = new SpeciesViewModel();
+                viewModel.SearchEntity.IDList = idList;
+                viewModel.Search();
+                return View("~/Views/Taxonomy/Species/EditMultiple.cshtml", viewModel);
             }
             catch (Exception ex)
             {

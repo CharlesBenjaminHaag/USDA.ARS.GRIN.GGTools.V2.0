@@ -20,5 +20,6 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
         public string LifeHabitCode { get; set; }
         public string LifeSexCode { get; set; }
         public DateTime InitialReceivedDate { get; set; }
+        public int InventoryCount { get; set; }
     }
 }

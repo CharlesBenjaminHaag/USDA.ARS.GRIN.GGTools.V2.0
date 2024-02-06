@@ -62,6 +62,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         public string AlternateName { get; set; }
         public int AccessionCount { get; set; }
         public string IsVerified { get; set; }
+        public string IsLinkedToAccessions { get; set; }
         public string CommonFertilizationCode { get; set; }
         public string LifeFormCode { get; set; }
         public int Priority1SiteID { get; set; }

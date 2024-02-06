@@ -67,6 +67,8 @@
   <ItemGroup>
     <Compile Include="AccessionInventoryAttachmentViewModel.cs" />
     <Compile Include="AccessionInventoryAttachmentViewModelBase.cs" />
+    <Compile Include="InventoryViewModel.cs" />
+    <Compile Include="InventoryViewModelBase.cs" />
     <Compile Include="AppUserItemFolderCooperatorMapViewModel.cs" />
     <Compile Include="AppUserItemFolderCooperatorMapViewModelBase.cs" />
     <Compile Include="AppUserItemFolderViewModelBase.cs" />

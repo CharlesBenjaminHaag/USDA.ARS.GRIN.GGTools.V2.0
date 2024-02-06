@@ -15,7 +15,7 @@
         <hr>
         <strong><i class="fas fa-users mr-1"></i> Site Cooperators</strong>
         <p>
-            <a href="@Url.Action("ExplorerAdd","Cooperator")" class="btn btn-primary btn-block">
+            <a href="@Url.Action("ExplorerAdd","Cooperator")" class="btn btn-default btn-block">
                 <i class="fas fa-plus"></i>
                 Add New Cooperator
             </a>
@@ -26,7 +26,7 @@
     </div>
     <!-- TODO -->
     <div class="card-footer">
-        <a href="@Url.Action("Edit","Site", new { @entityId = Model.Entity.ID })" class="btn btn-primary btn-block">
+        <a href="@Url.Action("Edit","Site", new { @entityId = Model.Entity.ID })" class="btn btn-default btn-block">
             Edit My Site
         </a>
     </div>
@@ -192,7 +192,7 @@
                                 <i class="fa fa-globe"></i>
                                 View Public Website
                             </a>
-                            <button id="btnSaveSite" type="button" class="btn btn-info float-right">Save</button>
+                            <button id="btnSaveSite" type="button" class="btn btn-default float-right">Save</button>
                         </div>
                     </div>
                 }

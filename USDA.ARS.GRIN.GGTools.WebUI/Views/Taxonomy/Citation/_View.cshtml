@@ -1,6 +1,6 @@
 ﻿@model USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer.CitationViewModel
 
-<div class="card card-default">
+<div class="card card-success">
     <div class="card-header">
         <h3 class="card-title">@Model.EventAction @Model.EventValue</h3>
         <div class="card-tools">
@@ -195,7 +195,7 @@
     <div class="card-footer">
         @if (Model.EventAction == "clone")
         {
-            <button id="btnSaveCitation" type="button" class="btn btn-primary float-right">Save Clone</button>
+            <button id="btnSaveCitation" type="button" class="btn btn-default float-right">Save Clone</button>
         }
     </div>
 </div>

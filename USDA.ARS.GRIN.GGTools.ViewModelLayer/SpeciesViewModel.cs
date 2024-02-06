@@ -231,6 +231,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
 
                     SetSpeciesName();
                     SetSpeciesNameAuthority();
+                    HandleAccessions();
                     RowsAffected = mgr.Update(Entity);
                 }
                 catch (Exception ex)
@@ -346,7 +347,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
                 }
             }
 
-            // TODO Verify that author name(s) exist in author table.
+            // Verify that author name(s) exist in author table.
             if (!String.IsNullOrEmpty(ValidateAuthority()))
             {
                 ValidationMessages.Add(new Common.Library.ValidationMessage { Message = String.Format("The author {0} does not exist in the Author table.", Entity.SpeciesAuthority) }); ;
@@ -416,12 +417,25 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
         /// 4. Generate/send email to each accession owner
         /// </summary>
         /// <returns></returns>
-        public int ValidateAccessions()
+        
+        public int HandleAccessions()
         {
             int retVal = 0;
             try
-            { 
-            
+            {
+                if (Entity.ID > 0)
+                {
+                    if (Entity.ID != Entity.AcceptedID)
+                    {
+                        AccessionViewModel accessionViewModel = new AccessionViewModel();
+                        accessionViewModel.SearchEntity.SpeciesID = Entity.SpeciesID;
+                        accessionViewModel.Search();
+                        if (accessionViewModel.DataCollection.Count > 0)
+                        { 
+                        
+                        }
+                    }
+                }
             }
             catch (Exception ex)
             { 
@@ -429,6 +443,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
             }
             return retVal;
         }
+        
         public void SetSpeciesName()
         {
             Entity.Name = Entity.GenusName + " " + Entity.SpeciesName;
@@ -454,6 +469,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
                 Entity.Name = "x " + Entity.FormaName;
             }
         }
+        
         public void SetSpeciesNameAuthority()
         {
             switch (Entity.Rank.ToUpper())
@@ -472,6 +488,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
                     break;
             }
         }
+        
         public int CompareNames(string s, string t)
         {
 

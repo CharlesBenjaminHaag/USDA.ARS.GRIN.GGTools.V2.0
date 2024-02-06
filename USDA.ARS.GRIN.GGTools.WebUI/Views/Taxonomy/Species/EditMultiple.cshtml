@@ -1,0 +1,33 @@
+﻿@model USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer.SpeciesViewModel
+@{
+    ViewBag.Title = Model.PageTitle;
+    ViewBag.ID = Model.ID;
+    Layout = "~/Views/Shared/_LayoutAdminLTE3.cshtml";
+}
+
+<div class="card card-success">
+    <div class="card-header">
+        <h3 class="card-title">Species Batch Edit</h3>
+        <div class="card-tools">
+            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                <i class="fas fa-minus"></i>
+            </button>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="row" style="margin-bottom:0px; padding-bottom:0px;">
+            <div class="col-md-3"><label>Genus</label></div>
+            <div class="col-md-3"><label>Species</label></div>
+            <div class="col-md-3"><label>Protologue</label></div>
+            <div class="col-md-3"><label>Authority</label></div>
+            <div class="col-md-1"><label></label></div>
+        </div>
+        @foreach (var result in Model.DataCollection)
+        {
+            { Html.RenderAction("_Edit", "Species", new { @entityId = result.ID }); }
+        }
+    </div>
+    <div class="card-footer">
+
+    </div>
+</div>

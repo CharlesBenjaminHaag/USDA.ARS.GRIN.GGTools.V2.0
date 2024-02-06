@@ -1,6 +1,6 @@
 ﻿@model USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer.AccessionViewModel
 
-<div id="section-search-results" class="card card-default">
+<div id="section-search-results" class="card card-success">
     <div class="card-header">
         <h3 class="card-title">Accessions (@Model.DataCollection.Count)</h3>
         <div class="card-tools">
@@ -27,6 +27,7 @@
                             <th>Life Habit</th>
                             <th>Life Sex</th>
                             <th>Initially Received</th>
+                            <th>Inventory</th>
                             <th>Owned By</th>
                             <th>As Of</th>
                             <th></th>
@@ -54,6 +55,9 @@
                                     <td>@result.LifeHabitCode</td>
                                     <td>@result.LifeSexCode</td>
                                     <td>@result.InitialReceivedDate.ToShortDateString()</td>
+                                    <td>
+                                        <a href="@Url.Action("Index","Inventory")">@result.InventoryCount</a>
+                                    </td>
                                     <td>
                                         <a href="@Url.Action("Edit", "Cooperator", new { @entityId = result.OwnedByCooperatorID })">
                                             

@@ -1,6 +1,6 @@
 ﻿@model USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer.SpeciesViewModelBase
 
-<div id="section-extended-search-fields" class="card card-default card-outline collapsed-card">
+<div id="section-extended-search-fields" class="card card-success card-outline collapsed-card">
     <div class="card-header">
         <h3 class="card-title"><i class="icon fas fa-search"></i> Extended Fields</h3>
         <div class="card-tools">
@@ -77,6 +77,13 @@
                 <div class="form-group form-horizontal">
                     <label>Has Verified Date</label>
                     @Html.DropDownListFor(x => x.SearchEntity.IsNameVerifiedDateOption, Model.YesNoOptions, "Either", new { @class = "form-control" })
+                </div>
+            </div>
+
+            <div class="col-sm-2">
+                <div class="form-group form-horizontal">
+                    <label>Has Related Accessions</label>
+                    @Html.DropDownListFor(x => x.SearchEntity.IsLinkedToAccessions, Model.YesNoOptions, "Either", new { @class = "form-control" })
                 </div>
             </div>
 

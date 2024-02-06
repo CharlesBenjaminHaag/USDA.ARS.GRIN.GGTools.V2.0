@@ -33,6 +33,31 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             throw new NotImplementedException();
         }
 
+        public int InsertAccessionInvAnnotation(AccessionInvAnnotation entity)
+        {
+            Reset(CommandType.StoredProcedure);
+            Validate<AccessionInvAnnotation>(entity);
+            SQL = "usp_GRINGlobal_Taxonomy_Accession_Inv_Annotation_Insert";
+        
+            AddParameter("taxonomy_species_id", entity.SpeciesID == 0 ? DBNull.Value : (object)entity.SpeciesID, true);
+            AddParameter("current_taxonomy_species_id", entity.AcceptedID == 0 ? DBNull.Value : (object)entity.AcceptedID, true);
+            AddParameter("modified_id", entity.ModifiedByCooperatorID == 0 ? DBNull.Value : (object)entity.ModifiedByCooperatorID, true);
+            AddParameter("note", (object)entity.Note ?? DBNull.Value, true);
+            AddParameter("@out_error_number", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
+            AddParameter("@out_accession_inv_annotation_id", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
+
+            RowsAffected = ExecuteNonQuery();
+
+            entity.ID = GetParameterValue<int>("@out_accession_inv_annotation_id", -1);
+            int errorNumber = GetParameterValue<int>("@out_error_number", -1);
+            if (errorNumber > 0)
+            {
+                throw new Exception(errorNumber.ToString());
+            }
+            RowsAffected = entity.ID;
+            return entity.ID;
+        }
+
         public List<Accession> Search(AccessionSearch searchEntity)
         {
             SQL = "usp_GRINGlobal_Accession_Search";
@@ -48,7 +73,18 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
 
         public int Update(Accession entity)
         {
-            throw new NotImplementedException();
+            //Reset(CommandType.StoredProcedure);
+            //Validate<Species>(entity);
+            //SQL = "usp_GRINGlobal_Accession_Update";
+
+            ////BuildInsertUpdateParameters(entity);
+
+            //AddParameter("@out_error_number", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
+            //int errorNumber = GetParameterValue<int>("@out_error_number", -1);
+
+            //RowsAffected = ExecuteNonQuery();
+
+            return RowsAffected;
         }
     }
 }
