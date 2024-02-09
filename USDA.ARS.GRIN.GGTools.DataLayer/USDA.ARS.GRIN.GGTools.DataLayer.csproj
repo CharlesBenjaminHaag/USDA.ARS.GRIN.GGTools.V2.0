@@ -139,6 +139,7 @@
     <Compile Include="EntityClasses\RegulationSearch.cs" />
     <Compile Include="EntityClasses\Site.cs" />
     <Compile Include="EntityClasses\SiteSearch.cs" />
+    <Compile Include="EntityClasses\SpeciesImport.cs" />
     <Compile Include="EntityClasses\Species.cs" />
     <Compile Include="EntityClasses\SpeciesSearch.cs" />
     <Compile Include="EntityClasses\SpeciesSynonymMap.cs" />

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,6 +10,7 @@ using System.Data;
 using USDA.ARS.GRIN.GGTools.AppLayer;
 using USDA.ARS.GRIN.GGTools.DataLayer;
 using System.Web.Mvc;
+using USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer;
 
 namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
 {
@@ -17,6 +19,7 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
         public string ImportFileName { get; set; }
         public HttpPostedFileBase DocumentUpload { get; set; }
         public DataTable DataCollectionDataTable { get; set; }
+        public Collection<SpeciesImport> DataCollectionSpeciesImport { get; set; }
         public List<SysTable> DataCollectionSysTables { get; set; }
         public string SysTableName { get; set; }
         public SelectList SysTables { get; set; }
@@ -27,6 +30,7 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
             using (SysTableManager sysTableManager = new SysTableManager()) 
             {
                 SysTables = new SelectList(sysTableManager.GetSysTablesTaxonomy(),"SysTableName","SysTableTitle");
+                DataCollectionSpeciesImport = new Collection<SpeciesImport>();
             }
         }
 

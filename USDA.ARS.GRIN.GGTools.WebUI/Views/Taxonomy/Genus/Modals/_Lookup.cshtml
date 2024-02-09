@@ -71,10 +71,20 @@
     $("#btnOpenGenusLookupModal").click(function () {
         var eventAction = $(this).data("ggtools-action");
         var eventValue = $(this).data("ggtools-value");
+
         $("#hfGenusLookupIDFieldName").val(eventAction);
         $("#hfGenusLookupNameFieldName").val(eventValue);
         $("#search-progress-overlay-genus-lookup").hide();
     });
+
+    function GenusLookupModal_Open() {
+       
+        $('#modal-genus-lookup').modal('show');
+
+        $("#hfGenusLookupIDFieldName").val(eventAction);
+        $("#hfGenusLookupNameFieldName").val(eventValue);
+        $("#search-progress-overlay-genus-lookup").hide();
+    }
 
     $("#btnLookupGenus").click(function () {
         SearchGenus();

@@ -31,6 +31,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
         private Species _ParentEntity = new Species();
         private SpeciesSearch _SearchEntity = new SpeciesSearch();
         private Collection<Species> _DataCollection = new Collection<Species>();
+        private Collection<SpeciesImport> _DataCollectionImport = new Collection<SpeciesImport>();
         private Collection<CodeValue> _DataCollectionProtologues = new Collection<CodeValue>();
         private Collection<CodeValue> _DataCollectionReports = new Collection<CodeValue>();
         
@@ -129,6 +130,12 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
         {
             get { return _DataCollection; }
             set { _DataCollection = value; }
+        }
+
+        public Collection<SpeciesImport> DataCollectionImport
+        {
+            get { return _DataCollectionImport; }
+            set { _DataCollectionImport = value; }
         }
 
         public Collection<CodeValue> DataCollectionProtologues

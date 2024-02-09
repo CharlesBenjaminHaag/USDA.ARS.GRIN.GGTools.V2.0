@@ -36,8 +36,10 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
         [HttpPost]
         public ActionResult Post(ImportViewModel viewModel)
         {
+            DataTable dtImported = new DataTable();
             SysTableViewModel sysTableViewModel = new SysTableViewModel();
             SysTableField sysTableField = new SysTableField();
+            SpeciesImport speciesImport = new SpeciesImport();
             int primaryKeyValue = 0;
 
             if (!viewModel.Validate())
@@ -58,16 +60,8 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                             UseHeaderRow = true,
                         }
                     });
-                    viewModel.DataCollectionDataTable = result.Tables[0];
-
-                    // TODO
-                    // Iterate through columns and look for PK field
-                    // Look for value in field
-                    // If present -- update
-                    // If not -- insert
-
-                    /// MAYBE NOT...,
-                    // Based on the table indicated by the user, instantiate the appropriate VM.
+                    dtImported = result.Tables[0];
+                    
                     switch (viewModel.SysTableName)
                     {
                         case "taxonomy_species":
@@ -75,36 +69,36 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
 
                             // REFACTOR once logic makes more sense (CBH, 2/2/24)
 
-                            foreach (DataRow dr in viewModel.DataCollectionDataTable.Rows)
+                            foreach (DataRow dr in dtImported.Rows)
                             {
-                                string SQL = "UPDATE " + viewModel.SysTableName + " SET ";
+                                speciesImport = new SpeciesImport();
 
-                                foreach (DataColumn rowCol in viewModel.DataCollectionDataTable.Columns)
+                                foreach (DataColumn rowCol in dtImported.Columns)
                                 {
                                     sysTableField = viewModel.GetColumnInfo(viewModel.SysTableName, rowCol.ColumnName);
 
-                                    // When we find pri. key, instantiate new Species object to use in update.
-                                    if (sysTableField.FieldPurpose == "PRIMARY_KEY")
+                                    switch (rowCol.ColumnName)
                                     {
-                                        primaryKeyValue = Int32.Parse(dr[rowCol.ColumnName].ToString());
-                                        speciesViewModel.Entity.ID = primaryKeyValue;
-                                    }
-                                    else
-                                    {
-                                        switch(rowCol.ColumnName)
-                                        {
-                                            case "protologue":
-                                                speciesViewModel.Entity.Protologue = dr[rowCol.ColumnName].ToString();
-                                                break;
-                                        }
+                                        case "ID":
+                                            primaryKeyValue = Int32.Parse(dr[rowCol.ColumnName].ToString());
+                                            speciesViewModel.Get(primaryKeyValue);
+                                            speciesImport.ID = speciesViewModel.Entity.ID;
+                                            break;
+                                        case "Name":
+                                            speciesImport.SpeciesName = dr[rowCol.ColumnName].ToString();
+                                            speciesImport.OriginalSpeciesName = speciesViewModel.Entity.SpeciesName;
+                                            break;
+                                        case "Protologue":
+                                            speciesImport.Protologue = dr[rowCol.ColumnName].ToString();
+                                            speciesImport.OriginalProtologue = speciesViewModel.Entity.Protologue;
+                                            break;
 
                                     }
+
+
                                 }
+                                viewModel.DataCollectionSpeciesImport.Add(speciesImport);
                             }
-
-
-
-
                             break;
                         case "citation":
                             CitationViewModel citationViewModel = new CitationViewModel();
@@ -119,30 +113,6 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                             CWRTraitViewModel cWRTraitViewModel = new CWRTraitViewModel();
                             break;
                     }
-
-                    // ALTERNATIVE: Generate SQL per table. May not be needed -- import generally restricted to a
-                    //              select subset of taxon tables.
-                    //
-                    // For each imported row, generate an INSERT or UPDATE statement based on the existence
-                    // of a value for the PK of the table.
-                    // foreach (DataRow dr in viewModel.DataCollectionDataTable.Rows)
-                    // {
-                    //    string SQL = "UPDATE " + viewModel.SysTableName + " SET ";
-
-                    //    foreach (DataColumn rowCol in viewModel.DataCollectionDataTable.Columns)
-                    //    {
-                    //        sysTableField = viewModel.GetColumnInfo(viewModel.SysTableName, rowCol.ColumnName);
-
-                    //        if (sysTableField.FieldPurpose == "PRIMARY_KEY")
-                    //        {
-                    //            primaryKeyValue = Int32.Parse(dr[rowCol.ColumnName].ToString());
-                    //        }
-                    //        else
-                    //        {
-                    //            SQL += sysTableField.FieldName + "= '" + dr[rowCol.ColumnName] + "'";
-                    //        }
-                    //    }
-                    //}
                 }
             }
             return View("~/Views/Import/Index.cshtml", viewModel);

@@ -9,7 +9,7 @@ using USDA.ARS.GRIN.GGTools.AppLayer;
 
 namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
 {
-    public class Species: AppEntityBase
+    public class SpeciesImport: AppEntityBase
     {
         [Column("Taxonomy Species ID")]
         public int SpeciesID { get; set; }
@@ -20,12 +20,19 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         public bool IsSpecificHybridOption { get; set; }
         [Required]
         public string SpeciesName { get; set; }
+        public string OriginalSpeciesName { get; set; }
+
         public string SynonymName { get; set; }
         public string IsAcceptedName { get; set; }
         public string Tags { get; set; }
         public int TagMapID { get; set; }
+
         public string NameAuthority { get; set; }
+        public string OriginalNameAuthority { get; set; }
+
         public string SpeciesAuthority { get; set; }
+        public string OriginalSpeciesAuthority { get; set; }
+
         public string IsSubspecificHybrid { get; set; }
         public bool IsSubSpecificHybridOption { get; set; }
         public string SubspeciesName { get; set; }
@@ -48,7 +55,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         public string InfraspecificType { get; set; }
         [AllowHtml]
         public string Protologue { get; set; }
-        
+        public string OriginalProtologue { get; set; }
         public int GenusID { get; set; }
         
         [AllowHtml]

@@ -45,10 +45,16 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             BuildInsertUpdateParameters(entity);
 
             AddParameter("@out_error_number", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
-            int errorNumber = GetParameterValue<int>("@out_error_number", -1);
 
             RowsAffected = ExecuteNonQuery();
+          
+            int errorNumber = GetParameterValue<int>("@out_error_number", -1);
 
+            if (errorNumber > 0)
+            {
+                throw new Exception(errorNumber.ToString());
+            }
+            RowsAffected = entity.ID;
             return RowsAffected;
         }
 

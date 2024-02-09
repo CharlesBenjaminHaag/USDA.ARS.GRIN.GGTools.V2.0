@@ -922,6 +922,7 @@
     <Content Include="Views\Accession\Edit.cshtml" />
     <Content Include="Views\Inventory\_List.cshtml" />
     <Content Include="Views\Taxonomy\Species\EditMultiple.cshtml" />
+    <Content Include="Views\Import\_List2.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

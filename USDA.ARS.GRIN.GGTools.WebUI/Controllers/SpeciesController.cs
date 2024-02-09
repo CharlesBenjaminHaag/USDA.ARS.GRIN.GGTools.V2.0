@@ -6,6 +6,7 @@ using USDA.ARS.GRIN.GGTools.ViewModelLayer;
 using USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer;
 using USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer;
 using NLog;
+using System.Security.Permissions;
 
 namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
 {
@@ -554,6 +555,65 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
 
         }
 
+        /// <summary>
+        /// Retrieves a single record and returns a batch-edit-formatted partial.
+        /// </summary>
+        /// <param name="entityId"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public PartialViewResult _Get(int speciesId)
+        {
+            try
+            {
+                SpeciesViewModel viewModel = new SpeciesViewModel();
+                viewModel.TableName = "taxonomy_species";
+                viewModel.TableCode = "Species";
+                viewModel.Get(speciesId);
+                viewModel.PageTitle = String.Format("Edit [{0}]: {1}", viewModel.Entity.ID, viewModel.Entity.AssembledName);
+                viewModel.EventValue = viewModel.Entity.Rank.ToLower();
+                viewModel.ID = speciesId;
+                viewModel.SpeciesID = speciesId;
+                return PartialView("~/Views/Taxonomy/Species/_Edit.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
+        }
+
+        /// <summary>
+        /// Submits changes to a species record.
+        /// </summary>
+        /// <param name="entityId"></param>
+        /// <param name="parentId"></param>
+        /// <param name="rank"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public PartialViewResult _Post(SpeciesViewModel viewModel)
+        {
+            SpeciesBatchEditViewModel batchEditViewModel = new SpeciesBatchEditViewModel();
+
+            try
+            {
+                batchEditViewModel.Get(viewModel.Entity.ID);
+                batchEditViewModel.Entity.GenusID = viewModel.Entity.GenusID;
+                batchEditViewModel.Entity.SpeciesName = viewModel.Entity.SpeciesName;
+                batchEditViewModel.Entity.SpeciesAuthority = viewModel.Entity.SpeciesAuthority;
+                batchEditViewModel.Entity.Protologue = viewModel.Entity.Protologue;
+                batchEditViewModel.Entity.ModifiedByCooperatorID = AuthenticatedUser.CooperatorID;
+                batchEditViewModel.Update();
+                batchEditViewModel.Get(viewModel.Entity.ID);
+                //TODO
+                return PartialView("~/Views/Taxonomy/Species/_Edit.cshtml", batchEditViewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
+        }
+
         public ActionResult Edit(int entityId, int parentId = 0, string rank = "")
         {
             try
@@ -688,6 +748,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
         {
             try
             {   SpeciesViewModel viewModel = new SpeciesViewModel();
+                viewModel.PageTitle = "Species Batch Edit";
                 viewModel.SearchEntity.IDList = idList;
                 viewModel.Search();
                 return View("~/Views/Taxonomy/Species/EditMultiple.cshtml", viewModel);

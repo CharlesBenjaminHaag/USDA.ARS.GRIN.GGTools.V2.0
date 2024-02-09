@@ -291,6 +291,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
         public PartialViewResult RenderLookupModal()
         {
             GenusViewModel viewModel = new GenusViewModel();
+            
             return PartialView(BASE_PATH + "/Modals/_Lookup.cshtml", viewModel);
         }
 

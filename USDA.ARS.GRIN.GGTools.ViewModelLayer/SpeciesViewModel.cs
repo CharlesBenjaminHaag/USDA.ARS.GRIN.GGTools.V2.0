@@ -486,6 +486,9 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
                 case "FORMA":
                     Entity.NameAuthority = Entity.FormaAuthority;
                     break;
+                default:
+                    Entity.NameAuthority = Entity.SpeciesAuthority;
+                    break;
             }
         }
         

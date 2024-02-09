@@ -5,6 +5,8 @@
     Layout = "~/Views/Shared/_LayoutAdminLTE3.cshtml";
 }
 
+@Html.HiddenFor(x=>x.EventValue)
+
 <div class="card card-success">
     <div class="card-header">
         <h3 class="card-title">Species Batch Edit</h3>
@@ -14,20 +16,293 @@
             </button>
         </div>
     </div>
-    <div class="card-body">
+    <div class="card-body section-edit">
         <div class="row" style="margin-bottom:0px; padding-bottom:0px;">
-            <div class="col-md-3"><label>Genus</label></div>
+            <div class="col-md-1"><label>ID</label></div>
+            <div class="col-md-2"><label>Genus</label></div>
             <div class="col-md-3"><label>Species</label></div>
             <div class="col-md-3"><label>Protologue</label></div>
-            <div class="col-md-3"><label>Authority</label></div>
+            <div class="col-md-2"><label>Authority</label></div>
             <div class="col-md-1"><label></label></div>
         </div>
         @foreach (var result in Model.DataCollection)
         {
-            { Html.RenderAction("_Edit", "Species", new { @entityId = result.ID }); }
+            string containerId = "section-species-" + result.ID;
+
+            <div id="@containerId">
+                @{Html.RenderAction("_Edit", "Species", new { entityId = result.ID }); }
+            </div>
         }
     </div>
     <div class="card-footer">
-
+        <button id="btnSaveAll" class="btn btn-default float-right">Save All</button>
     </div>
 </div>
+
+<!--
+********************************************************************************************* 
+GENUS LOOKUP MODAL
+*********************************************************************************************
+-->
+<div class="modal fade" id="modal-genus-lookup" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div id="search-progress-overlay-genus-lookup" class="overlay">
+                <i class="fas fa-2x fa-sync fa-spin"></i>
+            </div>
+            <div class="modal-header">
+                <h4 class="modal-title">
+                    <i class="fas fa-search"></i>
+                    Genus Lookup
+                </h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div id=" " class="modal-body">
+                @using (Html.BeginForm("Search", "Genus", FormMethod.Post, new { id = "frmGenusLookup", @class = "ggtools-lookup-form" }))
+                {
+                    <input type="hidden" id="hfGenusLookupIDFieldName" />
+                    <input type="hidden" id="hfGenusLookupNameFieldName" />
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label>Name</label>
+                            @Html.TextBoxFor(x => x.SearchEntity.Name, new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="margin">
+                                <div class="form-group clearfix">
+                                    <div class="icheck-primary d-inline">
+                                        <input class="custom-control-input" type="checkbox" id="cbxLookupIsAcceptedName" value="option1">
+                                        <label for="cbxLookupIsAcceptedName">
+                                            Search accepted names only.
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="margin">
+                            <button id="btnReset" class="btn btn-danger">Reset</button>
+                            <button id="btnLookupGenus" class="btn btn-default float-right">Search</button>
+                        </div>
+                    </div>
+                </div>
+                <div id="section-genus-lookup-search-results">
+                </div>
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button id="btnSaveGenus" type="button" class="btn btn-default" data-dismiss="modal">Use Selected Genus</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    /* TODO CBH 2/7/24
+    1. Handle btn click for all btns with "btnOpenLookupModal" in name
+    2. Based on data attr, determine name of modal to open: modal_<<NAME>>_lookup
+    3. Set hidden var to ID of selected species
+    4. Open modal
+    5. On modal close, set approp. field of species idenfied in 3 to value user selected
+    */
+
+    $('.section-edit').delegate(".btn-lookup", "click", function () {
+        var id = $(this).attr('id');
+        var action = $(this).data("ggtools-action");
+        var activeSpeciesId = $(this).data("ggtools-id");
+
+        //DEBUG
+        /*alert("CLICKED ID " + id + " ACTION " + action + " SPECIES ID " + activeSpeciesId);*/
+
+        $("#EventValue").val(activeSpeciesId);
+
+        switch (action) {
+            case "genus":
+                GenusLookupModal_Open();
+                break;
+            case "protologue":
+                break;
+            case "authority":
+                break;
+        }
+    });
+
+    $('.section-edit').delegate(".btn-undo", "click", function () {
+        var link = '@Url.Action("_Get","Species")';
+        var id = $(this).attr('id');
+        var speciesId = $(this).data("ggtools-id");
+        var sectionId = "#section-species-" + speciesId;
+        var formData = new FormData();
+
+        formData.append("speciesId", speciesId);
+
+        $.ajax({
+            url: link,
+            type: 'POST',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (response) {
+                $(sectionId).html(response);
+            },
+            error: function () {
+                alert("Error");
+            }
+        });
+    });
+
+    $('.section-edit').delegate(".btn-save", "click", function () {
+        var link = '@Url.Action("_Post","Species")';
+        var id = $(this).attr('id');
+        var speciesId = $(this).data("ggtools-id");
+        var hfGenusId = "#hfGenusID" + speciesId;
+        var txtSpeciesName = "#txtSpeciesName" + speciesId;
+        var txtProtologue = "#txtProtologue" + speciesId;
+        var txtAuthority = "#txtAuthority" + speciesId;
+        var formData = new FormData();
+        var sectionId = "#section-species-" + speciesId;
+
+        //DEBUG
+        //alert("ID " + speciesId);
+        //alert("GENUSID " + $(hfGenusId).val());
+        //alert("NAME " + txtSpeciesName + " VAL " + $(txtSpeciesName).val());
+        //alert("PROTO " + txtProtologue + " VAL " + $(txtProtologue).val());
+        /*alert("AUTH " + txtAuthority + " VAL " + $(txtAuthority).val());*/
+
+        formData.append("Entity.ID", speciesId);
+        formData.append("Entity.GenusID", $(hfGenusId).val());
+        formData.append("Entity.SpeciesName", $(txtSpeciesName).val());
+        formData.append("Entity.Protologue", $(txtProtologue).val());
+        formData.append("Entity.SpeciesAuthority", $(txtAuthority).val());
+
+        $.ajax({
+            url: link,
+            type: 'POST',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (response) {
+                $(sectionId).html(response);
+            },
+            error: function () {
+                alert("Error");
+            }
+        });
+    });
+
+    $("#btnSaveAll").click(function () {
+        // TODO
+        // Iterate through all spec IDs
+        // Call a Save func. for each
+        var speciesId = "";
+
+        $.each($('.field-id'), function () {
+            speciesId = this.id;
+            speciesId = speciesId.replace('txtSpeciesID', '');
+
+            SaveSpecies(speciesId);
+
+        });
+
+    });
+
+    function SaveSpecies(speciesId) {
+        var link = '@Url.Action("_Post","Species")';
+        var hfGenusId = "#hfGenusID" + speciesId;
+        var txtSpeciesName = "#txtSpeciesName" + speciesId;
+        var txtProtologue = "#txtProtologue" + speciesId;
+        var txtAuthority = "#txtAuthority" + speciesId;
+        var formData = new FormData();
+        var sectionId = "#section-species-" + speciesId;
+
+        //DEBUG
+        //alert("ID " + speciesId);
+        //alert("GENUSID " + $(hfGenusId).val());
+        //alert("NAME " + txtSpeciesName + " VAL " + $(txtSpeciesName).val());
+        //alert("PROTO " + txtProtologue + " VAL " + $(txtProtologue).val());
+        /*alert("AUTH " + txtAuthority + " VAL " + $(txtAuthority).val());*/
+
+        formData.append("Entity.ID", speciesId);
+        formData.append("Entity.GenusID", $(hfGenusId).val());
+        formData.append("Entity.SpeciesName", $(txtSpeciesName).val());
+        formData.append("Entity.Protologue", $(txtProtologue).val());
+        formData.append("Entity.SpeciesAuthority", $(txtAuthority).val());
+
+        $.ajax({
+            url: link,
+            type: 'POST',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (response) {
+                $(sectionId).html(response);
+            },
+            error: function () {
+                alert("Error");
+            }
+        });
+    }
+
+    // *************************************************************************************
+    // GENUS LOOKUP MODAL
+    // *************************************************************************************
+    function GenusLookupModal_Open() {
+        $("#modal-genus-lookup").modal("show");
+        $("#search-progress-overlay-genus-lookup").hide();
+    }
+
+    $("#btnLookupGenus").click(function () {
+        SearchGenus();
+    });
+
+    function SearchGenus() {
+        var link = '@Url.Action("Lookup","Genus")';
+        var genusName = $("#SearchEntity_Name").val();
+        var formData = new FormData();
+
+        formData.append("SearchEntity.Name", genusName);
+        if ($("#cbxLookupIsAcceptedName").is(":checked")) {
+            formData.append("SearchEntity.IsAcceptedName", "Y");
+        }
+
+        $("#search-progress-overlay-genus-lookup").show();
+
+        $.ajax({
+            url: link,
+            type: 'POST',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (response) {
+                $("#section-genus-lookup-search-results").html(response);
+                $("#search-progress-overlay-genus-lookup").hide();
+            },
+            error: function () {
+                alert("Error");
+                $("#search-progress-overlay-genus-lookup").hide();
+            }
+        });
+    }
+
+    $("#btnSaveGenus").click(function () {
+        var eventValue = $("#EventValue").val();
+        var hfGenusID = "#hfGenusID" + eventValue;
+        var txtGenusName = "#txtGenusName" + eventValue;
+        var idList = GetSelectedEntityIDs("data-table-genus-lookup");
+        var nameList = GetSelectedEntityLabels("data-table-genus-lookup");
+
+        $(hfGenusID).val(idList);
+        $(txtGenusName).val(nameList);
+    });
+</script>
