@@ -1,6 +1,6 @@
 ﻿@model USDA.ARS.GRIN.GGTools.ViewModelLayer.WebOrderRequestViewModel
 <nav class="mt-2">
-    <ul class="nav nav-pills nav-sidebar nav-child-indent flex-column nav-flat sidebar-light-primary" data-widget="treeview" role="menu" data-accordion="false">
+    <ul class="nav nav-pills nav-sidebar nav-child-indent flex-column mt-2" data-widget="treeview" role="menu" data-accordion="false">
         <!-- TODO: Refactor this element into a partial shared across sidebars-->
         <li class="nav-item">
             <a href="@Url.Action("Index","Home")" class="nav-link">
@@ -20,6 +20,12 @@
                 </p>
             </a>
             <ul class="nav nav-treeview">
+                <li class="nav-item">
+                    <a id="ANY" data-ggtools-action="filter-by-time-frame" href="" class="nav-link">
+                        <i class="fas fa-calendar nav-icon"></i>
+                        <p>Any Time Period</p>
+                    </a>
+                </li>
                 <li class="nav-item">
                     <a id="1D" data-ggtools-action="filter-by-time-frame" href="" class="nav-link">
                         <i class="fas fa-calendar nav-icon"></i>
@@ -69,6 +75,12 @@
                 </p>
             </a>
             <ul class="nav nav-treeview">
+                <li class="nav-item">
+                    <a id="ANY" data-ggtools-action="filter-by-status" href="" class="nav-link">
+                        <i class="fas fa-circle nav-icon"></i>
+                        <p>Any Status</p>
+                    </a>
+                </li>
                 <li class="nav-item">
                     <a id="NRR_FLAGGED" data-ggtools-action="filter-by-status" href="" class="nav-link">
                         <i class="fas fa-circle text-red nav-icon"></i>

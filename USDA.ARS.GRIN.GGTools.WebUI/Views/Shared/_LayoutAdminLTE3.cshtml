@@ -171,14 +171,8 @@
             string actionName = ViewContext.RouteData.Values["action"].ToString();
             string sidebarCssClass;
 
-            if (controllerName == "WebOrderRequest")
-            {
-                sidebarCssClass = "sidebar-light-primary";
-            }
-            else
-            {
-                sidebarCssClass = "sidebar-dark-primary";
-            } }
+            sidebarCssClass = "sidebar-dark-primary";
+        }
 
         <aside class="main-sidebar @sidebarCssClass elevation-4">
             <a href="@Url.Action("Index", "Home")" class="brand-link">

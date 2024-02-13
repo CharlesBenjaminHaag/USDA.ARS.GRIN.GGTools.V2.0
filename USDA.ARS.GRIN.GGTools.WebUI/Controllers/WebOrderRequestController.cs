@@ -62,9 +62,12 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             return null;
         }
 
-        public PartialViewResult RenderEmailModal(int entityId, string actionCode, string actionEmailTo)
+        public PartialViewResult RenderEmailModal(int entityId, string actionCode)
         {
             WebOrderRequestViewModel viewModel = new WebOrderRequestViewModel();
+            viewModel.SearchEntity.ID = entityId;
+            viewModel.Search();
+
             EmailTemplate emailTemplate = new EmailTemplate();
 
             switch (actionCode)
@@ -89,7 +92,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
 
             viewModel.EventAction = actionCode;
             viewModel.Entity.ID = entityId;
-            viewModel.ActionEmailTo = actionEmailTo;
+            //viewModel.ActionEmailTo = actionEmailTo;
             viewModel.ActionEmailSubject = emailTemplate.Subject;
             viewModel.ActionEmailFrom = "gringlobal.orders@usda.gov";
             viewModel.ActionEmailBody = emailTemplate.Body;

@@ -77,7 +77,6 @@
                         <div class="row mb-2">
                             <div class="col-sm-6">
                                 <h1 class="m-0">
-                                    TITLE HERE
                                     <!-- ================================================================= -->
                                     <!-- BEGIN TITLE LOGIC -->
                                     <!-- ================================================================= -->
@@ -156,20 +155,10 @@
                             @Html.HiddenFor(x => x.Entity.VerifiedByCooperatorName)
                             @Html.HiddenFor(x => x.Entity.NameVerifiedDate)
 
-                            <!--
-        =====================================================
-        BEGIN REF. FOLDER LOGIC
-        =====================================================
-        -->
                             if (Model.AppUserItemFolderID > 0)
                             {
                                 Html.RenderAction("RenderRelatedFoldersWidget", "AppUserItemFolder", new { idNumber = Model.Entity.ID });
                             }
-                            <!--
-        =====================================================
-        BEGIN REF. FOLDER LOGIC
-        =====================================================
-        -->
 
                             <input type="hidden" id="hfModalEventValue" />
                             <div id="section-verification">

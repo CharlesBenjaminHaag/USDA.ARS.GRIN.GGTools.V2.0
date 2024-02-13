@@ -52,7 +52,7 @@
                             </a>
                             @if (Model.EventAction == "FOLDER")
                             {
-                                <a href="@Url.Action("DeleteItem", "Folder", new { @folderId = result.FolderID, @appUserItemListId = result.AppUserItemListID })"
+                                <a href="@Url.Action("DeleteItem", "AppUserItemFolder", new { @folderId = result.FolderID, @appUserItemListId = result.AppUserItemListID })"
                                    class="btn btn-danger btn-sm float-right row-edit margin-r-5">
                                     <i class="fa fa-trash"></i>
                                 </a>

@@ -14,11 +14,11 @@
 
     @if (Model.DataCollectionDataTable.Rows.Count > 0)
     {
-        <div class="card card-primary">
+        <div class="card card-success">
             <div class="card-header">
                 <h3 class="card-title">
                     <i class="far fas fa-table nav-icon"></i>
-                    Query Results: @Model.DataCollectionDataTable.Rows.Count Records Found in Table <a href="@Url.Action("Edit", "SysTable", new { @entityId = Model.TableID })" style="text-decoration:underline;">@Model.TableTitle</a>
+                    Query Results: @Model.DataCollectionDataTable.Rows.Count Records Found 
                 </h3>
                 <div class="card-tools">
                     <button type="button" class="btn btn-tool" data-card-widget="collapse">

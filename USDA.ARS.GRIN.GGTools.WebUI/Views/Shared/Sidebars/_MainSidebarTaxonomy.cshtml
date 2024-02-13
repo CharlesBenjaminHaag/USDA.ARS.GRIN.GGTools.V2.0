@@ -1,57 +1,60 @@
-﻿    <ul class="nav nav-pills nav-sidebar nav-child-indent flex-column mt-2" data-widget="treeview" role="menu" data-accordion="false">
-    <li class="nav-item">
-        <a href="@Url.Action("Navigate", "Home", new { applicationCode = "GGT-TAX" })" class="nav-link">
-            <i class="nav-icon fas fa-home"></i>
-            <p>Home</p>
-        </a>
-    </li>
-
-    <li class="nav-header">FOLDERS</li>
-    @*<li class="nav-item">
-        <a href="@Url.Action("Explorer", "AppUserItemFolder")" class="nav-link">
-            <i class="nav-icon fas fa-globe"></i>
-            <p>Explorer</p>
-        </a>
-    </li>*@
-    <li class="nav-item">
-        <a href="@Url.Action("Index", "AppUserItemFolder")" class="nav-link">
-            <i class="nav-icon fas fa-search"></i>
-            <p>Search</p>
-        </a>
-    </li>
-    <li class="nav-item">
-        <a href="@Url.Action("Import", "AppUserItemList")" class="nav-link">
-            <i class="nav-icon fas fa-folder"></i>
-            <p>CT Folders</p>
-        </a>
-    </li>
-
-    <li class="nav-header">TOOLS</li>
-    <li class="nav-item">
-        <a href="@Url.Action("Index","Import")" class="nav-link">
-            <i class="nav-icon fas fa-tools"></i>
-            <p>Import</p>
-        </a>
-    </li>
+﻿
+<nav class="mt-2">
+    <ul class="nav nav-pills nav-sidebar nav-child-indent flex-column mt-2" data-widget="treeview" role="menu" data-accordion="false">
         <li class="nav-item">
-        <a href="@Url.Action("Index","SysDynamicQuery")" class="nav-link">
-            <i class="nav-icon fas fa-tools"></i>
-            <p>SQL Query</p>
-        </a>
-    </li>
-    <li class="nav-header">MANAGE DATA</li>
-    @{ Html.RenderAction("_List", "SysTable"); }
-    <li class="nav-header">SYSADMIN</li>
-    <li class="nav-item">
-        <a href="@Url.Action("Explorer","CodeValue")" class="nav-link">
-            <i class="nav-icon fas fa-table"></i>
-            <p>Code Values</p>
-        </a>
-    </li>
-    <li class="nav-item">
-        <a href="@Url.Action("Index","Error")" class="nav-link">
-            <i class="nav-icon fas fa-bug"></i>
-            <p>Error Logs</p>
-        </a>
-    </li>
-</ul>
+            <a href="@Url.Action("Navigate", "Home", new { applicationCode = "GGT-TAX" })" class="nav-link">
+                <i class="nav-icon fas fa-home"></i>
+                <p>Home</p>
+            </a>
+        </li>
+
+        <li class="nav-header">FOLDERS</li>
+        @*<li class="nav-item">
+                <a href="@Url.Action("Explorer", "AppUserItemFolder")" class="nav-link">
+                    <i class="nav-icon fas fa-globe"></i>
+                    <p>Explorer</p>
+                </a>
+            </li>*@
+        <li class="nav-item">
+            <a href="@Url.Action("Index", "AppUserItemFolder")" class="nav-link">
+                <i class="nav-icon fas fa-search"></i>
+                <p>Search</p>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="@Url.Action("Import", "AppUserItemList")" class="nav-link">
+                <i class="nav-icon fas fa-folder"></i>
+                <p>CT Folders</p>
+            </a>
+        </li>
+
+        <li class="nav-header">TOOLS</li>
+        @*<li class="nav-item">
+            <a href="@Url.Action("Index","Import")" class="nav-link">
+                <i class="nav-icon fas fa-tools"></i>
+                <p>Import</p>
+            </a>
+        </li>*@
+        <li class="nav-item">
+            <a href="@Url.Action("Index","SysDynamicQuery")" class="nav-link">
+                <i class="nav-icon fas fa-tools"></i>
+                <p>SQL Query</p>
+            </a>
+        </li>
+        <li class="nav-header">MANAGE DATA</li>
+        @{ Html.RenderAction("_List", "SysTable"); }
+        <li class="nav-header">SYSADMIN</li>
+        <li class="nav-item">
+            <a href="@Url.Action("Explorer","CodeValue")" class="nav-link">
+                <i class="nav-icon fas fa-table"></i>
+                <p>Code Values</p>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="@Url.Action("Index","Error")" class="nav-link">
+                <i class="nav-icon fas fa-bug"></i>
+                <p>Error Logs</p>
+            </a>
+        </li>
+    </ul>
+</nav>

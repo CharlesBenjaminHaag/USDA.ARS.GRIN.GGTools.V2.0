@@ -1,12 +1,6 @@
 ﻿@model USDA.ARS.GRIN.GGTools.ViewModelLayer.WebOrderRequestViewModel
 <div class="row">
-    <div class="col-md-3">
-        <div class="form-group">
-            <label>Submitted By</label>
-            @Model.Entity.WebCooperatorFullName
-        </div>
-    </div>
-    <div class="col-md-3">
+    <div class="col-md-2">
         <div class="form-group">
             <label>Status</label>
 
@@ -15,48 +9,47 @@
                 switch (Model.Entity.StatusCode.ToUpper())
                 {
                     case "SUBMITTED":
-                        statusCssClass = "badge bg-indigo";
+                        statusCssClass = "background-color: purple; color:white;";
                         break;
                     case "ACCEPTED":
-                        statusCssClass = "badge bg-success";
+                        statusCssClass = "background-color: green; color:white;";
                         break;
                     case "CANCELED":
-                        statusCssClass = "badge bg-warning";
+                        statusCssClass = "background-color: yellow; color:black;";
                         break;
                     case "NRR_FLAG":
-                        statusCssClass = "badge bg-danger";
+                        statusCssClass = "background-color: red; color:white;";
                         break;
                 }
             }
-            <span class="@statusCssClass">
-                @Model.Entity.StatusCode
-            </span>
-
+            @Html.TextBoxFor(x => x.Entity.StatusCode, new { @class = "form-control form-control-sm", @readonly = "readonly", disabled = "disabled", @style = statusCssClass })
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="form-group">
+            <label>Submitted By</label>
+            @Html.TextBoxFor(x => x.Entity.WebCooperatorFullName, new { @class = "form-control form-control-sm", @readonly = "readonly", disabled = "disabled" })
         </div>
     </div>
     <div class="col-md-3">
         <label>Email</label>
-        @Model.Entity.WebCooperatorEmail
+        @Html.TextBoxFor(x => x.Entity.WebCooperatorEmail, new { @class = "form-control form-control-sm", @readonly = "readonly", disabled = "disabled" })
     </div>
-</div>
-<div class="row">
     <div class="col-md-2">
         <div class="form-group">
             <label>Submitted</label>
-            <div class="input-group">
-                @Model.Entity.OrderDate.ToShortDateString() at @Model.Entity.OrderDate.ToShortTimeString()
-            </div>
+            @Html.TextBoxFor(x => x.Entity.OrderDate, new { @class = "form-control form-control-sm", @readonly = "readonly", disabled = "disabled" })
         </div>
     </div>
     <div class="col-md-2">
         <div class="form-group">
             <label>Intended Use</label>
             <div class="input-group">
-                @Model.Entity.IntendedUseCode
+                @Html.TextBoxFor(x => x.Entity.IntendedUseCode, new { @class = "form-control form-control-sm", @readonly = "readonly", disabled = "disabled" })
             </div>
         </div>
     </div>
-    <div class="col-md-6">
+    <div class="col-md-12">
         <div class="form-group">
             <label>Intended Use Note</label>
             <p class="text-muted well well-sm no-shadow">

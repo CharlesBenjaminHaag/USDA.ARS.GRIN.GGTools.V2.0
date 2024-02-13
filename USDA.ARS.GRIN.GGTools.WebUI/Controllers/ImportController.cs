@@ -64,7 +64,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                     
                     switch (viewModel.SysTableName)
                     {
-                        case "taxonomy_species":
+                        case "Species":
                             SpeciesViewModel speciesViewModel = new SpeciesViewModel();
 
                             // REFACTOR once logic makes more sense (CBH, 2/2/24)
@@ -85,8 +85,13 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                                             speciesImport.ID = speciesViewModel.Entity.ID;
                                             break;
                                         case "Name":
+                                        case "Epithet":
                                             speciesImport.SpeciesName = dr[rowCol.ColumnName].ToString();
                                             speciesImport.OriginalSpeciesName = speciesViewModel.Entity.SpeciesName;
+                                            break;
+                                        case "Authority":
+                                            speciesImport.SpeciesAuthority = dr[rowCol.ColumnName].ToString();
+                                            speciesImport.OriginalSpeciesAuthority = speciesViewModel.Entity.SpeciesAuthority;
                                             break;
                                         case "Protologue":
                                             speciesImport.Protologue = dr[rowCol.ColumnName].ToString();
@@ -100,16 +105,16 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                                 viewModel.DataCollectionSpeciesImport.Add(speciesImport);
                             }
                             break;
-                        case "citation":
+                        case "Citation":
                             CitationViewModel citationViewModel = new CitationViewModel();
                             break;
-                        case "taxonomy_cwr_crop":
+                        case "Literature":
                             CropForCWRViewModel cropForCWRViewModel = new CropForCWRViewModel();
                             break;
-                        case "taxonomy_cwr_map":
+                        case "CWR Map":
                             CWRMapViewModel cWRMapViewModel = new CWRMapViewModel();
                             break;
-                        case "taxonomy_cwr_trait":
+                        case "CWR Trait":
                             CWRTraitViewModel cWRTraitViewModel = new CWRTraitViewModel();
                             break;
                     }

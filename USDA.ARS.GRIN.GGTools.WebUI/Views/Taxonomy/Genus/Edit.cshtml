@@ -85,7 +85,6 @@
                 <div class="container" style="max-width:1500px;">
                     <div id="section-folder-confirmation"></div>
                     @Html.Partial("~/Views/Taxonomy/Shared/_RevisionHistory.cshtml")
-
                     @Html.Partial("~/Views/Shared/_ValidationMessages.cshtml")
 
                     @using (Html.BeginForm("Edit", "Genus", FormMethod.Post, new { id = "frmEdit" }))
@@ -98,21 +97,11 @@
                         @Html.HiddenFor(x => x.IsTypeGenus)
                         @Html.HiddenFor(x => x.Entity.Rank)
                         @Html.HiddenFor(x => x.Entity.IsAcceptedName)
-
-                        <!--
-                        =====================================================
-                        BEGIN REF. FOLDER LOGIC
-                        =====================================================
-                        -->
+                        
                         if (Model.AppUserItemFolderID > 0)
                         {
                             Html.RenderAction("RenderRelatedFoldersWidget", "AppUserItemFolder", new { idNumber = Model.Entity.ID });
                         }
-                        <!--
-                        =====================================================
-                        BEGIN REF. FOLDER LOGIC
-                        =====================================================
-                        -->
 
                         <input id="hfCurrentAction" type="hidden" />
                         <input id="hfCurrentValue" type="hidden" />
@@ -175,7 +164,7 @@
                                                     </span>
                                                 }
                                                 <span class="input-group-btn">
-                                                    <button id="btnOpenFamilyLookupModal" type="button" data-ggtools-action="FamilyID" data-ggtools-value="FamilyAssembledName" data-toggle="modal" data-target="#modal-family-lookup" class="btn btn-default btn-flat">
+                                                    <button id="btnOpenFamilyLookupModal" type="button" data-ggtools-action="FamilyID" data-ggtools-value="FamilyName" data-toggle="modal" data-target="#modal-family-lookup" class="btn btn-default btn-flat">
                                                         <i class="fa fa-search"></i>
                                                     </button>
                                                 </span>

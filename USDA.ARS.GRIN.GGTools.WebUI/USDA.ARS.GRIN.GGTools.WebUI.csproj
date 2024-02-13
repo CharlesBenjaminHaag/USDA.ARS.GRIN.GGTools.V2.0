@@ -923,6 +923,8 @@
     <Content Include="Views\Inventory\_List.cshtml" />
     <Content Include="Views\Taxonomy\Species\EditMultiple.cshtml" />
     <Content Include="Views\Import\_List2.cshtml" />
+    <Content Include="Views\WebOrderRequest\Explorer\_Approve.cshtml" />
+    <Content Include="Views\WebOrderRequest\Explorer\_Reject.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

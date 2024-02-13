@@ -348,9 +348,12 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
             }
 
             // Verify that author name(s) exist in author table.
-            if (!String.IsNullOrEmpty(ValidateAuthority()))
+            if (!String.IsNullOrEmpty(GetAuthority()))
             {
-                ValidationMessages.Add(new Common.Library.ValidationMessage { Message = String.Format("The author {0} does not exist in the Author table.", Entity.SpeciesAuthority) }); ;
+                if (!String.IsNullOrEmpty(ValidateAuthority()))
+                {
+                    ValidationMessages.Add(new Common.Library.ValidationMessage { Message = String.Format("The author {0} does not exist in the Author table.", Entity.SpeciesAuthority) }); ;
+                }
             }
 
             if (ValidationMessages.Count > 0)

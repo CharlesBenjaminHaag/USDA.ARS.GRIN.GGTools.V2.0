@@ -9,16 +9,23 @@
     @Html.HiddenFor(x => x.PageTitle)
     @Html.HiddenFor(x => x.AuthenticatedUserCooperatorID)
     @Html.HiddenFor(x => x.ItemIDList)
-    <div class="card">
-        <div class="card-header p-2">
-            <ul class="nav nav-pills">
-                <li class="nav-item"><a class="nav-link active" href="#section-search-criteria" data-toggle="tab">Search Criteria</a></li>
-                <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">Saved Searches</a></li>
+
+
+    <div class="card card-success card-tabs">
+        <div class="card-header p-0 pt-1">
+            <ul class="nav nav-tabs" id="custom-tabs-one-tab" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" id="custom-tabs-one-home-tab" data-toggle="pill" href="#custom-tabs-one-home" role="tab" aria-controls="custom-tabs-one-home" aria-selected="true">Search Criteria</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="custom-tabs-one-profile-tab" data-toggle="pill" href="#custom-tabs-one-profile" role="tab" aria-controls="custom-tabs-one-profile" aria-selected="false">Saved Searches</a>
+                </li>
+
             </ul>
         </div>
         <div class="card-body">
-            <div class="tab-content">
-                <div class="tab-pane active" id="section-search-criteria">
+            <div class="tab-content" id="custom-tabs-one-tabContent">
+                <div class="tab-pane fade show active" id="custom-tabs-one-home" role="tabpanel" aria-labelledby="custom-tabs-one-home-tab">
                     <div class="row">
                         <div class="col-md-3">
                             <div class="form-group">
@@ -58,17 +65,28 @@
                             </div>
                         </div>
                     </div>
+
                 </div>
-                <div class="tab-pane" id="timeline">
+                <div class="tab-pane fade" id="custom-tabs-one-profile" role="tabpanel" aria-labelledby="custom-tabs-one-profile-tab">
                     <div class="row">
                         <div class="col-md-12">
-                            @{Html.RenderAction("_ListDynamic", "AppUserItemFolder", new { @cooperatorId = AppInfo.GetAuthenticatedUser().CooperatorID, @dataType = Model.TableName });}
+                            @{Html.RenderAction("_ListDynamic", "AppUserItemFolder", new { @cooperatorId = Model.AuthenticatedUserCooperatorID, @dataType = Model.TableName });}
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+
+
+
+
+
+    
+
+
+
     @Html.Partial("~/Views/AppUserItemFolder/Modals/_EditDynamic.cshtml")
 }
 

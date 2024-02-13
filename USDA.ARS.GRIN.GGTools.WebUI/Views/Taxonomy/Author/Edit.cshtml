@@ -100,7 +100,7 @@
                         =====================================================
                         -->
 
-                    }
+                    
 
                     @Html.Partial("~/Views/Shared/_RevisionHistory.cshtml")
                     
@@ -187,7 +187,7 @@
                         </div>
                     </div>
                     }
-
+                    
                     @if (Model.Entity.ID > 0 && !String.IsNullOrEmpty(Model.Entity.ShortName))
                     {
                         { Html.RenderAction("_ListReferences", "Author", new { @shortName = Model.Entity.ShortName }); }

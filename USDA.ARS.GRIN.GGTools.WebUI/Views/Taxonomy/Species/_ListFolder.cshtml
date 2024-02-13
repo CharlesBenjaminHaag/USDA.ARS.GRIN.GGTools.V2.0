@@ -6,7 +6,6 @@
         <thead>
             <tr>
                 <th></th>
-                <th width="5%">ID</th>
                 <th>Name</th>
                 <th>Synonym</th>
                 <th>Accepted</th>
@@ -24,9 +23,6 @@
                     <tr>
                         <td>
                             @result.ID
-                        </td>
-                        <td>
-                            <a href="@Url.Action("Edit", "Species", new { @entityId = result.ID })">[@result.ID]</a>
                         </td>
                         <td>@Html.Raw(result.AssembledName)</td>
                         <td><span class="badge badge-info">@result.SynonymDescription</span></td>
@@ -46,7 +42,7 @@
                         <td>
                             @if (Model.EventAction == "FOLDER")
                             {
-                                <a href="@Url.Action("DeleteItem", "Folder", new { @folderId = result.FolderID, @appUserItemListId = result.AppUserItemListID })"
+                                <a href="@Url.Action("DeleteItem", "AppUserItemFolder", new { @folderId = result.FolderID, @appUserItemListId = result.AppUserItemListID })"
                                     class="btn btn-danger btn-sm float-right row-edit margin-r-5">
                                     <i class="fa fa-trash"></i>
                                 </a>

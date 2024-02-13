@@ -288,7 +288,7 @@
                         </div>
                     }
                     @{Html.RenderAction("RenderEditModal", "AppUserItemFolder", new { sysTableName = Model.TableName }); }
-                    @{Html.RenderAction("RenderReferenceCountsWidget", "Citation", new { @citationId = Model.Entity.ID });}
+                    @*@{Html.RenderAction("RenderReferenceCountsWidget", "Citation", new { @citationId = Model.Entity.ID });}*@
                     @{Html.RenderAction("RenderLookupModal", "Literature"); }
                     @{Html.RenderAction("RenderLookupModal", "Genus"); }
                     @{Html.RenderAction("RenderLookupModal", "Species"); }

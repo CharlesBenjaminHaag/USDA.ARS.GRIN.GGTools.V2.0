@@ -40,21 +40,11 @@
                         @Html.HiddenFor(x => x.Entity.CreatedByCooperatorID)
                         @Html.HiddenFor(x => x.Entity.ModifiedByCooperatorID)
 
-                        <!--
-        =====================================================
-        BEGIN REF. FOLDER LOGIC
-        =====================================================
-        -->
-                        @if (Model.AppUserItemFolderID > 0)
+                        if (Model.AppUserItemFolderID > 0)
                         {
                             Html.RenderAction("RenderRelatedFoldersWidget", "AppUserItemFolder", new { idNumber = Model.Entity.ID });
                         }
-                        <!--
-        =====================================================
-        BEGIN REF. FOLDER LOGIC
-        =====================================================
-        -->
-
+                   
                         @Html.Partial("~/Views/Shared/_RevisionHistory.cshtml")
 
                         <div class="card card-success">
@@ -181,10 +171,6 @@
     $("#btnOpenGeographyModal").click(function () {
         var geographyDescription = $("#Entity_GeographyDescription").val();
         Modal_Init(geographyDescription);
-
-        //DEBUG
-        alert("GEO MODAL INIT " + geographyDescription);
-
         $("#modal-geography-lookup-simple").modal("show");
     });
 </script>
