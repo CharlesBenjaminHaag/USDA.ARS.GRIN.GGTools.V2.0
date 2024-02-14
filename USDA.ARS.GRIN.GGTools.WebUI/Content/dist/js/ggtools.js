@@ -2,7 +2,7 @@
 * Name         : ggtools.js
 * Description  : Main JS application file for GGTools. This file
 *                should be included in all layout pages. 
-* Last Updated : 2/5/24
+* Last Updated : 2/13/24
 * By           : Benjamin Haag
 */
 
@@ -25,38 +25,75 @@ function AddRecord() {
 /*
  * Datatable utilities
  */
+
+function InitDataTableBase(tableName, isBatchEditable) {
+    if (isBatchEditable == "Y") {
+        InitDataTableWithBatchEdit(tableName);
+    }
+    else {
+        InitDataTable(tableName);
+    }
+}
+
 function InitDataTable(tableName) {
     tableName = "#" + tableName;
 
     $(document).ready(function () {
-        //table = $(tableName).DataTable({
-        //    dom: 'Blfrtip',
-        //    paging: true,
-        //    "pageLength": 10,
-        //    responsive: true,
-        //    buttons: [
-        //        'selectAll',
-        //        'selectNone',
-        //        'csv',
-        //        'excel',
-        //        'pdf',
-        //        {
-        //            text: 'Add to Folder',
-        //            action: function (e, dt, node, config) {
-        //                OpenFolderModal();
-        //            }
-        //        }
-        //    ],
-        //    select: true,
-        //    lengthMenu: [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],
-        //    columnDefs: [
-        //        { targets: [0], visible: false }
-        //    ]
-        //});
-
         table = $(tableName).DataTable({
             dom: 'Bfrtip',
             responsive: true,
+            paging: true,
+            "pageLength": 10,
+            select: true,
+            buttons: [
+                {
+                    extend: 'copyHtml5',
+                    exportOptions: {
+                        columns: [0, ':visible']
+                    }
+                },
+                {
+                    extend: 'excelHtml5',
+                    exportOptions: {
+                        columns: ':visible'
+                    }
+                },
+                {
+                    extend: 'pdfHtml5',
+                    exportOptions: {
+                        columns: [0, 1, 2, 5]
+                    }
+                },
+                'colvis',
+                'selectAll',
+                'selectNone',
+                {
+                    text: 'Add to Folder',
+                    action: function (e, dt, node, config) {
+                        OpenAppUserItemFolderModal();
+                    }
+                }
+            ]
+        });
+
+
+
+        $('table.ggtools').on('click', 'tr', function () {
+            var data = table.row(this).data();
+            /*alert('You clicked on ' + data[0] + "'s row");*/
+        });
+    });
+}
+
+function InitDataTableWithBatchEdit(tableName) {
+    tableName = "#" + tableName;
+
+    $(document).ready(function () {
+        table = $(tableName).DataTable({
+            dom: 'Bfrtip',
+            responsive: true,
+            paging: true,
+            "pageLength": 10,
             select: true,
             buttons: [
                 {
@@ -351,20 +388,6 @@ function InitDataTableDualSelectFormat(tableName) {
         });
     });
 }
-//function SetControlVisibility(tableName) {
-//    //TODO Logic to disable any controls "linked" to this table that depend on its data.
-//    //alert("TABLE " + tableName + "LOADED");
-//    var table = $('#' + tableName).DataTable();
-//    var rowCount = table.data().count();
-
-//    if (rowCount == 0) {
-//        $("#btnOpenFolderModal").addClass("disabled");
-//    }
-//    else {
-//        $("#btnOpenFolderModal").removeClass("disabled");
-//    }
-        
-//}
 
 function GetSelectedEntityIDs(tableName) {
     var table = $('#' + tableName).DataTable();
