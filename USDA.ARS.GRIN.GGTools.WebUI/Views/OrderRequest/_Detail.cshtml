@@ -1,0 +1,67 @@
+﻿@model USDA.ARS.GRIN.GGTools.ViewModelLayer.OrderRequestViewModel
+<div class="row">
+    <div class="col-md-1">
+        <div class="form-group">
+            <label>ID</label>
+            <input type="text" value="@Model.Entity.ID" class="form-control form-control-sm" readonly="readonly" />
+        </div>
+    </div>
+    <div class="col-md-2">
+ 
+    </div>
+    <div class="col-md-3">
+        <div class="form-group">
+            <label>Submitted By</label>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <label>Email</label>
+    </div>
+    <div class="col-md-2">
+        <div class="form-group">
+            <label>Submitted</label>
+        </div>
+    </div>
+    </div>
+<br />
+<div class="row">
+    <div class="col-md-6">
+        <label>Requestor Address</label>
+        <br />
+    </div>
+    <div class="col-md-6">
+        <label>Shipping Address</label>
+        <br />
+    </div>
+</div>
+<br />
+<div class="row">
+    <div class="col-md-12">
+        <div class="form-group">
+            <label>Intended Use Note</label>
+            <p class="text-muted well well-sm no-shadow">
+            </p>
+        </div>
+    </div>
+</div>
+
+@if (!String.IsNullOrEmpty(Model.Entity.Note))
+{
+    <div class="row">
+        <div class="col-md-12">
+            <label>Note</label>
+            <p class="text-muted well well-sm no-shadow">
+                @Model.Entity.Note
+            </p>
+        </div>
+    </div>
+}
+
+@*@foreach (var result in Model.DataCollectionItems)
+{ 
+    <div class="row">
+        <div class="col-md-3">
+            @result.DistributionForm
+        </div>
+    </div>
+}*@

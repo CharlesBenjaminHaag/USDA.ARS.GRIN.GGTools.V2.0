@@ -177,7 +177,7 @@
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\MainController.cs" />
     <Compile Include="Controllers\NoteController.cs" />
-    <Compile Include="Controllers\OrderController.cs" />
+    <Compile Include="Controllers\OrderRequestController.cs" />
     <Compile Include="Controllers\PortalController.cs" />
     <Compile Include="Controllers\RegulationController.cs" />
     <Compile Include="Controllers\RegulationMapController.cs" />
@@ -483,7 +483,7 @@
     <Content Include="Views\AccessionIPR\Index.cshtml" />
     <Content Include="Views\InventoryMaintenancePolicy\Index.cshtml" />
     <Content Include="Views\Inventory\Index.cshtml" />
-    <Content Include="Views\Order\Index.cshtml" />
+    <Content Include="Views\OrderRequest\Index.cshtml" />
     <Content Include="Views\Shared\Partial\_MainSidebarCooperator.cshtml" />
     <Content Include="Views\Reports\Index.cshtml" />
     <Content Include="Views\Reports\Partial\_DynamicList.cshtml" />
@@ -923,8 +923,11 @@
     <Content Include="Views\Inventory\_List.cshtml" />
     <Content Include="Views\Taxonomy\Species\EditMultiple.cshtml" />
     <Content Include="Views\Import\_List2.cshtml" />
-    <Content Include="Views\WebOrderRequest\Explorer\_Approve.cshtml" />
-    <Content Include="Views\WebOrderRequest\Explorer\_Reject.cshtml" />
+    <Content Include="Views\WebOrderRequest\Explorer\_Email.cshtml" />
+    <Content Include="Views\WebOrderRequest\View.cshtml" />
+    <Content Include="Views\OrderRequest\_Detail.cshtml" />
+    <Content Include="Views\WebOrderRequestItem\_List.cshtml" />
+    <Content Include="Views\OrderRequestItem\_List.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -3,9 +3,10 @@
     ViewBag.Title = Model.PageTitle;
     Layout = "~/Views/Shared/_LayoutAdminLTE3.cshtml";
 }
-@*@Html.HiddenFor(x => x.Entity.ID)*@
 
-<!--DEBUG-->
+@Html.HiddenFor(x => x.ActionEmailFrom)
+
+<!-- ********************************************** BEGIN DEBUG FIELDS *************************************************************-->
 <div class="row" style="background-color:yellow;">
     <div class="col-md-2">
         <label>TIME FRAME</label>
@@ -29,18 +30,15 @@
     </div>
 </div>
 <br />
-<!--END DEBUG-->
+<!-- ********************************************** END DEBUG FIELDS *************************************************************-->
 
 <div class="row">
     <div id="section-web-order-request-list" class="col-md-4">
     </div>
     <div class="col-md-8">
-
-
         <div class="card card-success card-tabs">
             <div id="section-web-order-request" class="card-header p-0 pt-1">
                 <ul class="nav nav-tabs" id="tab-web-order-request" role="tablist">
-
                     <li id="tab-web-order-request-detail"
                         class="nav-item"
                         data-ggtools-action="WebOrderRequest"
@@ -73,31 +71,46 @@
                            aria-controls="custom-tabs-two-messages"
                            aria-selected="false"><i class="fa fa-sticky-note"></i> Notes</a>
                     </li>
-                    @*<li id="tab-web-order-request-related-order"
+                    
+                        <li id="tab-web-order-request-order-request"
                             class="nav-item"
-                            data-ggtools-action="WebOrderRequest"
-                            data-ggtools-value="ExplorerRelatedOrder">
+                            data-ggtools-action="OrderRequest"
+                            data-ggtools-value="_Get">
                             <a class="nav-link"
                                data-toggle="pill"
-                               href="#tab-content-web-order-request-related-order"
+                               href="#tab-content-web-order-request-order-request"
                                role="tab"
                                aria-controls="custom-tabs-two-settings"
-                               aria-selected="false">Settings</a>
-                        </li>*@
+                               aria-selected="false"><i class="fa fa-shopping-cart"></i> Order Request</a>
+                        </li>
                 </ul>
             </div>
             <div class="card-body">
                 <div class="tab-content">
                     <div class="row">
-                        <div class="col-md-12">
-                            <button id="btnOpenModalApprove" class="btn btn-default btn-sm float-sm-right">Approve</button>
-                            <button id="btnOpenModalReject" class="btn btn-default btn-sm float-sm-right">Reject</button>
+                        <div class="btn-group">
+                            <button id="btnOpenModalApprove" data-ggtools-value="NRR_APPROVE" type="button" class="btn btn-default">
+                                <i class="fas fa-thumbs-up text-green nav-icon"></i>
+                                Approve
+                            </button>
+                            <button id="btnOpenModalReject" data-ggtools-value="NRR_REJECT" type="button" class="btn btn-default">
+                                <i class="fas fa-thumbs-down text-red nav-icon"></i>
+                                Reject
+                            </button>
+                            <button id="btnOpenModalRequestInfo" data-ggtools-value="NRR_INFO" type="button" class="btn btn-default">
+                                <i class="fas fa-info text-blue nav-icon"></i>
+                                Request Additional Information
+                            </button>
+                            <button id="btnOpenModalRequestInfo" data-ggtools-value="NRR_INFO" type="button" class="btn btn-default">
+                                <i class="fas fa-tree nav-icon"></i>
+                                Email Curator(s)
+                            </button>
                         </div>
                     </div>
                     <hr />
-                    <div id="tab-content-web-order-request"></div>
-
-                    <!-- CONTENT HERE -->
+                    <div id="tab-content-web-order-request">
+                        <!-- CONTENT HERE -->
+                    </div>
                 </div>
             </div>
         </div>
@@ -106,9 +119,91 @@
 
 <div id="section-modal-email"></div>
 
+<!-- ****************************************** BEGIN EMAIL MODAL *******************************************************-->
+<div class="modal fade" id="modal-email" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">
+                    <i class="fas fa-search"></i>
+                    <span id="section-modal-title-event-value"></span> <span id="section-modal-title-web-order-request-id"></span>
+                </h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div id="section-search-criteria" class="modal-body">
+                @using (Html.BeginForm("SendEmail", "WebOrder", FormMethod.Post, new { id = "frmEditEmail" }))
+                {
+                    @Html.HiddenFor(x => x.EventAction)
+                    @Html.HiddenFor(x => x.EventValue)
+                    @Html.HiddenFor(x => x.Entity.ID)
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>From</label>
+                                <input type="text" id="txtEmailFrom" class="form-control" readonly="readonly" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>To</label>
+                                <input type="text" id="txtEmailTo" class="form-control" readonly="readonly" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>BCC</label>
+                                <input type="text" id="txtEmailBCC" class="form-control" readonly="readonly" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>Subject</label>
+                                <input type="text" id="txtEmailSubject" class="form-control" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>Note (Optional)</label>
+                                <input type="text" id="txtEmailNote" , class="form-control" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>Body</label>
+                                <textarea id="txtEmailBody" class="form-control" rows="20"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <button id="btnSubmitReview" type="button" class="btn btn-default" data-ggtools-action="@Model.EventAction" data-dismiss="modal">Continue</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- ****************************************** END EMAIL MODAL *******************************************************-->
+
 <script type="text/javascript">
     $(document).ready(function () {
-        //LoadWebOrderRequestList("1D", "", "");
+        // TODO Determine default WOR list filter.
+        $("#filter-by-time-frame").val("1Y");
+        LoadWebOrderRequestList();
+
         $("#txtSelectedTab").val("tab-web-order-request-detail");
         $("#section-overlay-web-order-request-list").hide();
     });
@@ -136,11 +231,47 @@
         AddNote(webOrderRequestId, note);
     });
 
+    $(document).on("click", "[id='btnSubmitReview']", function () {
+        //TODO
+        //Submit approval or rejection
+        //Send email body and metadata if necessary
+        LoadWebOrderRequestList();
+    });
+
     $(document).on("click", "[id='btnOpenModalApprove']", function () {
         var link = '@Url.Action("RenderEmailModal", "WebOrderRequest")';
         var webOrderRequestId = $("#Entity_ID").val();
-        LoadEmailModal("NRR_APPROVE");
-  });
+        var emailTo = $("#Entity_WebCooperatorEmail").val();
+        var emailFrom = $("#ActionEmailFrom").val();
+
+        $("#section-modal-title-event-value").html("Approve Web Order Request");
+        $("#section-modal-title-web-order-request-id").html(webOrderRequestId);
+
+        $("#txtEmailTo").val(emailTo);
+        $("#txtEmailFrom").val(emailFrom);
+
+        //TODO Get template subj. and body
+
+        $("#modal-email").modal("show");
+
+   });
+
+    $(document).on("click", "[id='btnOpenModalReject']", function () {
+        var link = '@Url.Action("RenderEmailModal", "WebOrderRequest")';
+        var webOrderRequestId = $("#Entity_ID").val();
+        var emailTo = $("#Entity_WebCooperatorEmail").val();
+        var emailFrom = $("#ActionEmailFrom").val();
+
+        $("#section-modal-title-event-value").html("Reject Web Order Request");
+        $("#section-modal-title-web-order-request-id").html(webOrderRequestId);
+
+        $("#txtEmailTo").val(emailTo);
+        $("#txtEmailFrom").val(emailFrom);
+
+        //TODO Get template subj. and body
+
+        $("#modal-email").modal("show");
+    });
 
     function LoadEmailModal(actionCode) {
      link = '@Url.Action("RenderEmailModal", "WebOrder")';
@@ -165,7 +296,6 @@
          }
      });
  }
-
 
     function AddNote(webOrderRequestId, note) {
         var link = '@Url.Action("AddNote", "WebOrderRequest")';
@@ -228,12 +358,16 @@
         });
     }
 
+    // Populate the list of web order requests based on the filters currently
+    // stored in hidden fields.
     function LoadWebOrderRequestList() {
         var link = '@Url.Action("ExplorerList","WebOrderRequest")';
         var timeFrame = GetSelectedFilter("filter-by-time-frame");
         var statusCode = GetSelectedFilter("filter-by-status");
         var assignedTo = GetSelectedFilter("filter-by-assigned-to");
         var formData = new FormData();
+
+
 
         formData.append("SearchEntity.TimeFrame", timeFrame);
         formData.append("SearchEntity.StatusCode", statusCode);
@@ -259,7 +393,7 @@
         var selectedTab = GetSelectedTab();
 
          //DEBUG
-        /*alert("TAB IS " + selectedTab + " AND ID IS " + id);*/
+        alert("TAB IS " + selectedTab + " AND ID IS " + id);
 
         $("#Entity_ID").val(id);
 
@@ -272,6 +406,9 @@
                 break;
             case "tab-web-order-request-notes":
                 LoadWebOrderRequestNotes(id);
+                break;
+            case "tab-web-order-request-order-request":
+                LoadWebOrderRequestOrderRequest(id);
                 break;
         }
     }
@@ -319,6 +456,26 @@
 
     function LoadWebOrderRequestNotes(webOrderRequestId) {
         var link = '@Url.Action("ExplorerNotes","WebOrderRequest", new { webOrderRequestId = "WEB_ORDER_REQUEST_ID" })';
+        link = link.replace("WEB_ORDER_REQUEST_ID", webOrderRequestId);
+
+        var formData = new FormData();
+        formData.append("webOrderRequestId", webOrderRequestId);
+
+        $.ajax({
+            url: link,
+            type: 'POST',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (response) {
+                $("#tab-content-web-order-request").html(response);
+            }
+        });
+    }
+
+    function LoadWebOrderRequestOrderRequest(webOrderRequestId) {
+        var link = '@Url.Action("_Get","OrderRequest", new { webOrderRequestId = "WEB_ORDER_REQUEST_ID" })';
         link = link.replace("WEB_ORDER_REQUEST_ID", webOrderRequestId);
 
         var formData = new FormData();

@@ -1,5 +1,11 @@
 ﻿@model USDA.ARS.GRIN.GGTools.ViewModelLayer.WebOrderRequestViewModel
 <div class="row">
+    <div class="col-md-1">
+        <div class="form-group">
+            <label>ID</label>
+            <input type="text" value="@Model.Entity.ID" class="form-control form-control-sm" readonly="readonly" />
+        </div>
+    </div>
     <div class="col-md-2">
         <div class="form-group">
             <label>Status</label>
@@ -9,16 +15,16 @@
                 switch (Model.Entity.StatusCode.ToUpper())
                 {
                     case "SUBMITTED":
-                        statusCssClass = "background-color: purple; color:white;";
+                        statusCssClass = "background-color: #6f42c1; color:white;";
                         break;
                     case "ACCEPTED":
                         statusCssClass = "background-color: green; color:white;";
                         break;
                     case "CANCELED":
-                        statusCssClass = "background-color: yellow; color:black;";
+                        statusCssClass = "background-color: #6f42c1; color:white;";
                         break;
                     case "NRR_FLAG":
-                        statusCssClass = "background-color: red; color:white;";
+                        statusCssClass = "background-color: #dc3545; color:white;";
                         break;
                 }
             }
@@ -41,19 +47,27 @@
             @Html.TextBoxFor(x => x.Entity.OrderDate, new { @class = "form-control form-control-sm", @readonly = "readonly", disabled = "disabled" })
         </div>
     </div>
-    <div class="col-md-2">
-        <div class="form-group">
-            <label>Intended Use</label>
-            <div class="input-group">
-                @Html.TextBoxFor(x => x.Entity.IntendedUseCode, new { @class = "form-control form-control-sm", @readonly = "readonly", disabled = "disabled" })
-            </div>
-        </div>
     </div>
+<br />
+<div class="row">
+    <div class="col-md-6">
+        <label>Requestor Address</label>
+        <br />
+        @Html.Raw(Model.Entity.WebCooperatorAddressFormatted)
+    </div>
+    <div class="col-md-6">
+        <label>Shipping Address</label>
+        <br />
+        @Html.Raw(Model.Entity.ShippingAddressFormatted)
+    </div>
+</div>
+<br />
+<div class="row">
     <div class="col-md-12">
         <div class="form-group">
             <label>Intended Use Note</label>
             <p class="text-muted well well-sm no-shadow">
-                @Model.Entity.IntendedUseNote
+                @Model.Entity.IntendedUseCode: @Html.Raw(Model.Entity.IntendedUseNote)
             </p>
         </div>
     </div>
@@ -83,11 +97,11 @@
     </div>
 }
 
-@foreach (var result in Model.DataCollectionItems)
+@*@foreach (var result in Model.DataCollectionItems)
 { 
     <div class="row">
         <div class="col-md-3">
             @result.DistributionForm
         </div>
     </div>
-}
+}*@

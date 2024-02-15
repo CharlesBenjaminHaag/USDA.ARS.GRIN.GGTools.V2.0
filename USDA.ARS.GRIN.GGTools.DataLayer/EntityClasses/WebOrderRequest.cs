@@ -34,6 +34,99 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
         public string ShippingAddressCity  { get; set; }
         public string ShippingAddressPostalIndex  { get; set; }
         public string ShippingAddressState  { get; set; }
+
+        public string WebCooperatorAddressFormatted
+        {
+            get 
+            { 
+                StringBuilder sbAddress = new StringBuilder();
+                
+                if (!String.IsNullOrEmpty(WebCooperatorAddress1))
+                {
+                    sbAddress.Append(WebCooperatorAddress1);
+                    sbAddress.Append("<br>");
+                }
+
+                if (!String.IsNullOrEmpty(WebCooperatorAddress2))
+                {
+                    sbAddress.Append(WebCooperatorAddress2);
+                    sbAddress.Append("<br>");
+                }
+
+                if (!String.IsNullOrEmpty(WebCooperatorAddress3))
+                {
+                    sbAddress.Append(WebCooperatorAddress3);
+                    sbAddress.Append("<br>");
+                }
+
+                if (!String.IsNullOrEmpty(WebCooperatorAddressCity))
+                {
+                    sbAddress.Append(WebCooperatorAddressCity);
+                    sbAddress.Append(", ");
+                }
+
+                if (!String.IsNullOrEmpty(WebCooperatorAddressState))
+                {
+                    sbAddress.Append(WebCooperatorAddressState);
+                    sbAddress.Append(" ");
+                }
+
+                if (!String.IsNullOrEmpty(WebCooperatorAddressPostalIndex))
+                {
+                    sbAddress.Append(WebCooperatorAddressPostalIndex);
+                }
+
+
+                return sbAddress.ToString();
+            }
+        }
+
+        public string ShippingAddressFormatted
+        {
+            get
+            {
+                StringBuilder sbAddress = new StringBuilder();
+
+                if (!String.IsNullOrEmpty(ShippingAddress1))
+                {
+                    sbAddress.Append(ShippingAddress1);
+                    sbAddress.Append("<br>");
+                }
+
+                if (!String.IsNullOrEmpty(ShippingAddress2))
+                {
+                    sbAddress.Append(ShippingAddress2);
+                    sbAddress.Append("<br>");
+                }
+
+                if (!String.IsNullOrEmpty(ShippingAddress3))
+                {
+                    sbAddress.Append(ShippingAddress3);
+                    sbAddress.Append("<br>");
+                }
+
+                if (!String.IsNullOrEmpty(ShippingAddressCity))
+                {
+                    sbAddress.Append(ShippingAddressCity);
+                    sbAddress.Append(", ");
+                }
+
+                if (!String.IsNullOrEmpty(ShippingAddressState))
+                {
+                    sbAddress.Append(ShippingAddressState);
+                    sbAddress.Append(" ");
+                }
+
+                if (!String.IsNullOrEmpty(ShippingAddressPostalIndex))
+                {
+                    sbAddress.Append(ShippingAddressPostalIndex);
+                }
+
+
+                return sbAddress.ToString();
+            }
+        }
+
         public DateTime OrderDate { get; set; }
         public string IntendedUseCode { get; set; }
         public string IntendedUseNote { get; set; }

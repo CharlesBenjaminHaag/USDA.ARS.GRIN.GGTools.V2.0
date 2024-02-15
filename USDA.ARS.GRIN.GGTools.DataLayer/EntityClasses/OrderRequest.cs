@@ -19,6 +19,13 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
         public DateTime OrderDate { get; set; }
         public string IntendedUseCode { get; set; }
         public string IntendedUseDescription { get; set; }
+        public List<OrderRequestItem> OrderRequestItems { get; set; }
+        public List<OrderRequestAction> OrderRequestActions { get; set; }
 
+        public OrderRequest()
+        {
+            OrderRequestItems = new List<OrderRequestItem>();
+            OrderRequestActions = new List<OrderRequestAction>();
+        }
     }
 }

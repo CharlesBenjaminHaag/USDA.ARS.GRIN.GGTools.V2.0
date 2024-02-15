@@ -147,19 +147,19 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             {
                 case "NRR_APPROVE":
                     viewModel.EventValue = "Approve Web Order Request";
-                    emailTemplate = viewModel.GetEmailTemplate("CAP");
+                    //emailTemplate = viewModel.GetEmailTemplate("CAP");
                     break;
                 case "NRR_REJECT":
                     viewModel.EventValue = "Reject Web Order Request";
-                    emailTemplate = viewModel.GetEmailTemplate("RRJ");
+                    //emailTemplate = viewModel.GetEmailTemplate("RRJ");
                     break;
                 case "NRR_REQ":
                     viewModel.EventValue = "Request Additional Information";
-                    emailTemplate = viewModel.GetEmailTemplate("RQI");
+                    //emailTemplate = viewModel.GetEmailTemplate("RQI");
                     break;
                 case "NRR_CUR":
                     viewModel.EventValue = "Email Curators";
-                    emailTemplate = viewModel.GetEmailTemplate("CUR");
+                    //emailTemplate = viewModel.GetEmailTemplate("CUR");
                     break;
             }
 
@@ -172,8 +172,8 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
 
             // REFACTOR: Replace placeholder variables with WOR data.
             //viewModel.ActionEmailBody.Replace("@WebCooperatorFullName", viewModel.Entity.WebCooperatorFullName);
-            viewModel.ActionEmailBody = viewModel.ActionEmailBody.Replace("[ID_HERE]", entityId.ToString());
-            viewModel.ActionEmailSubject = viewModel.ActionEmailSubject.Replace("[ID_HERE]", entityId.ToString());
+            //viewModel.ActionEmailBody = viewModel.ActionEmailBody.Replace("[ID_HERE]", entityId.ToString());
+            //viewModel.ActionEmailSubject = viewModel.ActionEmailSubject.Replace("[ID_HERE]", entityId.ToString());
             return PartialView("~/Views/WebOrder/Modals/_Email.cshtml", viewModel);
         }
 

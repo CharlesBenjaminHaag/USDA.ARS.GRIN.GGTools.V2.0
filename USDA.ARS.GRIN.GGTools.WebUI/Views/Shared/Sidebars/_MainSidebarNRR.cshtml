@@ -82,19 +82,57 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a id="NRR_FLAGGED" data-ggtools-action="filter-by-status" href="" class="nav-link">
-                        <i class="fas fa-circle text-red nav-icon"></i>
-                        <p>NRR Flagged</p>
+                    <a id="ACCEPTED" data-ggtools-action="filter-by-status" href="" class="nav-link">
+                        <i class="fas fa-circle text-green nav-icon"></i>
+                        <p>Reviewing</p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a id="SUBMITTED" data-ggtools-action="filter-by-status" href="" class="nav-link">
-                        <i class="fas fa-circle text-green nav-icon"></i>
-                        <p>Submitted</p>
+                    <a id="CANCELED" data-ggtools-action="filter-by-status" href="" class="nav-link">
+                        <i class="fas fa-circle text-purple nav-icon"></i>
+                        <p>Canceled Order</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a id="NRR_FLAG" data-ggtools-action="filter-by-status" href="" class="nav-link">
+                        <i class="fas fa-circle text-red nav-icon"></i>
+                        <p>NRR Flag</p>
                     </a>
                 </li>
             </ul>
         </li>
+
+        <!-- MOST RECENT ACTION-->
+        <li class="nav-item menu-open">
+            <a href="#" class="nav-link ">
+                <i class="nav-icon fas fa-circle"></i>
+                <p>
+                    Last Action
+                    <i class="right fas fa-angle-left"></i>
+                </p>
+            </a>
+            <ul class="nav nav-treeview">
+                <li class="nav-item">
+                    <a id="NRR_REJECT" data-ggtools-action="filter-by-status" href="" class="nav-link">
+                        <i class="fas fa-thumbs-down text-red nav-icon"></i>
+                        <p>Web Order Rejected as NRR</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a id="NRR_APPROVE" data-ggtools-action="filter-by-status" href="" class="nav-link">
+                        <i class="fas fa-thumbs-up text-green nav-icon"></i>
+                        <p>Web Order Approved</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a id="NRR_INFO" data-ggtools-action="filter-by-status" href="" class="nav-link">
+                        <i class="fas fa-info nav-icon"></i>
+                        <p>Request For Additional Information</p>
+                    </a>
+                </li>
+            </ul>
+        </li>
+
 
         <!-- ASSIGNED -->
         <li class="nav-item menu-open">
@@ -107,13 +145,19 @@
             </a>
             <ul class="nav nav-treeview">
                 <li class="nav-item">
-                    <a id="123" data-ggtools-action="filter-by-assigned-to" href="" class="nav-link">
+                    <a id="-9" data-ggtools-action="filter-by-assigned-to" href="" class="nav-link">
                         <i class="fas fas fa-user nav-icon"></i>
-                        <p>Bockelman, Harold</p>
+                        <p>Anyone</p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a id="456" data-ggtools-action="filter-by-assigned-to" href="" class="nav-link">
+                    <a id="33816" data-ggtools-action="filter-by-assigned-to" href="" class="nav-link">
+                        <i class="fas fas fa-user nav-icon"></i>
+                        <p>Kinard, Gary</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a id="10" data-ggtools-action="filter-by-assigned-to" href="" class="nav-link">
                         <i class="fas fas fa-user nav-icon"></i>
                         <p>Reisinger, Marty</p>
                     </a>
@@ -155,6 +199,13 @@
         else {
             //DEBUG
             $("#" + eventAction).val(id);
+
+            //TODO Set visual indicator of filters.
+
+
+            
+
+
             LoadWebOrderRequestList();
         }
     });

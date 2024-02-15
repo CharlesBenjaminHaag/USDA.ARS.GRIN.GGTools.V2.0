@@ -88,6 +88,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             speciesList = GetRecords<Species>(SQL, CommandType.StoredProcedure, parameters.ToArray());
             return speciesList;
         }
+        
         public List<Species> GetInfraspecificAutonym(string genusName, string speciesName, string rank)
         {
             SQL = "usp_GRINGlobal_Taxonomy_Infraspecific_Autonym_Select";
@@ -118,6 +119,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             SQL = "SELECT * FROM vw_GRINGlobal_Taxonomy_Rpt_" + name.Replace("_","").Replace(" ","");
             return GetRecords<Species>(SQL);
         }
+        
         public List<Species> Search(SpeciesSearch searchEntity)
         {
             List<Species> results = new List<Species>();
@@ -201,10 +203,12 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             RowsAffected = results.Count;
             return results;
         }
+        
         public void BuildInsertUpdateParameters()
         {
             throw new NotImplementedException();
         }
+        
         public Dictionary<string, string> GetTableNames()
         {
             return new Dictionary<string, string>
@@ -214,6 +218,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
                 { "taxonomy_species", "Species" }
             };
         }
+        
         protected virtual void BuildInsertUpdateParameters(Species entity)
         {
             if (entity.ID > 0)
@@ -263,6 +268,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
                 AddParameter("created_by", entity.CreatedByCooperatorID == 0 ? DBNull.Value : (object)entity.CreatedByCooperatorID, true);
             }
         }
+        
         public List<CodeValue> GetRanks()
         {
             List<CodeValue> ranks = new List<CodeValue>();
@@ -273,6 +279,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             ranks.Add(new CodeValue { Value = "FORMA", Title = "Forma" });
             return ranks;
         }
+        
         public List<Cooperator> GetVerifiedByCooperators()
         {
             SQL = "usp_GRINGlobal_Taxonomy_Verified_By_Cooperators_Select";

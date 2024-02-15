@@ -10,6 +10,13 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
     public class WebOrderRequestController : BaseController
     {
         private static readonly Logger Log = LogManager.GetCurrentClassLogger();
+
+        public ActionResult Get(int entityId)
+        { 
+            WebOrderRequestViewModel viewModel = new WebOrderRequestViewModel();
+            viewModel.Get(entityId);
+            return View("~/Views/WebOrderRequest/View.cshtml", viewModel);
+        }
        
         public PartialViewResult _ListItems(int webOrderRequestId)
         {
@@ -25,6 +32,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 return PartialView("~/Views/Error/_InternalServerError.cshtml");
             }
         }
+        
         public JsonResult Approve(WebOrderRequestViewModel viewModel)
         {
             viewModel.Get(viewModel.Entity.ID);
@@ -43,6 +51,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
 
             return null;
         }
+        
         public JsonResult Reject(WebOrderRequestViewModel viewModel)
         {
             viewModel.Get(viewModel.Entity.ID);
@@ -134,6 +143,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
 
             return PartialView("~/Views/WebOrder/Modals/_Email.cshtml", viewModel);
         }
+        
         public PartialViewResult RenderNoteModal(int entityId)
         {
             WebOrderRequestViewModel viewModel = new WebOrderRequestViewModel();
@@ -141,6 +151,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             viewModel.GetNotes();
             return PartialView("~/Views/WebOrder/Modals/_Note.cshtml", viewModel);
         }
+        
         [HttpPost]
         public JsonResult AddNote(int webOrderRequestId, string noteText)
         {
@@ -175,23 +186,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             //    return RedirectToAction("InternalServerError", "Error");
             //}
         }
-        //[HttpPost]
-        //public JsonResult BatchEdit(FormCollection formCollection)
-        //{
-        //    try 
-        //    {
-        //        if (!String.IsNullOrEmpty(formCollection["IDList"]))
-        //        {
-        //           var DEBUG = formCollection["IDList"];
-        //        }
-        //        return Json(new { success = true }, JsonRequestBehavior.AllowGet);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Log.Error(ex);
-        //        return Json(new { success = false }, JsonRequestBehavior.AllowGet);
-        //    }
-        //}
+       
         public ActionResult Index()
         {
             try
@@ -303,6 +298,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
         {
             return null;
         }
+        
         public PartialViewResult _RenderNoteWidget(int webOrderRequestId)
         {
             try
@@ -319,21 +315,6 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             }
         }
 
-        //[HttpPost]
-        //public JsonResult AddNote(WebOrderRequestViewModel viewModel)
-        //{
-        //    try
-        //    {
-        //        viewModel.InsertNote(viewModel.Entity.ID, viewModel.Entity.Note, AuthenticatedUser.WebUserID);
-        //        return Json(new { success = true }, JsonRequestBehavior.AllowGet);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Log.Error(ex);
-        //        return Json(new { success = false }, JsonRequestBehavior.AllowGet);
-        //    }
-        //}
-
         public PartialViewResult FolderItems(FormCollection formCollection)
         {
             throw new NotImplementedException();
@@ -343,12 +324,14 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
         {
             throw new NotImplementedException();
         }
+        
         public PartialViewResult RenderSidebar()
         {
             return PartialView("~/Views/Shared/Sidebars/_MainSidebarNRR.cshtml");
         }
 
         #region Explorer
+        
         public ActionResult Explorer()
         {
             try 
@@ -362,6 +345,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 return RedirectToAction("InternalServerError", "Error");
     }
 }
+        
         [HttpPost]
         public PartialViewResult ExplorerList(WebOrderRequestViewModel viewModel)
         {
@@ -376,6 +360,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 return PartialView("~/Views/Error/_InternalServerError.cshtml");
             }
         }
+        
         [HttpPost]
         public PartialViewResult ExplorerDetail(int webOrderRequestId)
         {

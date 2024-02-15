@@ -4,7 +4,6 @@ using System.Web.Mvc;
 using System.Collections.ObjectModel;
 using USDA.ARS.GRIN.GGTools.AppLayer;
 using USDA.ARS.GRIN.GGTools.DataLayer;
-using USDA.ARS.GRIN.GGTools.DataLayer;
 
 namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
 {
@@ -21,7 +20,7 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
         private string _ActionEmailBCC = String.Empty;
         private string _ActionEmailSubject = String.Empty;
         private string _ActionEmailBody = String.Empty;
-
+        
         private WebOrderRequest _Entity = new WebOrderRequest();
         private WebOrderRequestSearch _SearchEntity = new WebOrderRequestSearch();
         private Collection<WebOrderRequest> _DataCollection = new Collection<WebOrderRequest>();
@@ -45,9 +44,10 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
                 Cooperators = new SelectList(mgr.GetWebCooperators(), "ID", "FullName");
                 TimeFrameOptions = new SelectList(mgr.GetTimeFrameOptions(), "Value", "Title");
                 YesNoOptions = new SelectList(mgr.GetYesNoOptions(), "Key", "Value");
-                IntendedUseCodes = new SelectList(mgr.GetCodeValues("WEB_ORDER_INTENDED_USE"),"Value","Title");
+                IntendedUseCodes = new SelectList(mgr.GetCodeValues("WEB_ORDER_INTENDED_USE"), "Value", "Title");
                 Statuses = new SelectList(mgr.GetCodeValues("WEB_ORDER_REQUEST_STATUS"), "Value", "Title");
             }
+            ActionEmailFrom = "gringlobal.orders@usda.gov";           
         }
         public WebOrderRequest Entity
         {
@@ -173,7 +173,7 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
         }
 
         #region Select Lists
-        
+
         public SelectList Statuses { get; set; }
         public SelectList IntendedUseCodes { get; set; }
         

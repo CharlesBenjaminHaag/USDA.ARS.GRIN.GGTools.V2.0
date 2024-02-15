@@ -130,6 +130,8 @@
     <Compile Include="EntityClasses\GeographySearch.cs" />
     <Compile Include="EntityClasses\Literature.cs" />
     <Compile Include="EntityClasses\LiteratureSearch.cs" />
+    <Compile Include="EntityClasses\OrderRequestAction.cs" />
+    <Compile Include="EntityClasses\OrderRequestItem.cs" />
     <Compile Include="EntityClasses\PostalAddress.cs" />
     <Compile Include="EntityClasses\ReferenceSearch.cs" />
     <Compile Include="EntityClasses\Region.cs" />
