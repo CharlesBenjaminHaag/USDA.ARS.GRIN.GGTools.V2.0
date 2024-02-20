@@ -8,7 +8,7 @@ using USDA.ARS.GRIN.GGTools.DataLayer;
 
 namespace USDA.ARS.GRIN.GGTools.DataLayer
 {
-    public class SysDynamicQueryManager: AppDataManagerBase
+    public class SysDynamicQueryManager: GRINGlobalDataManagerBase
     {
         public DataTable Search(SysDynamicQuerySearch searchEntity)
         {

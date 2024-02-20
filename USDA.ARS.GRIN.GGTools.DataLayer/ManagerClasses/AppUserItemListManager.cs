@@ -8,7 +8,7 @@ using USDA.ARS.GRIN.GGTools.AppLayer;
 
 namespace USDA.ARS.GRIN.GGTools.DataLayer 
 {
-    public class AppUserItemListManager : AppDataManagerBase, IManager<AppUserItemList, AppUserItemListSearch>
+    public class AppUserItemListManager : GRINGlobalDataManagerBase, IManager<AppUserItemList, AppUserItemListSearch>
     {
         public void BuildInsertUpdateParameters()
         {

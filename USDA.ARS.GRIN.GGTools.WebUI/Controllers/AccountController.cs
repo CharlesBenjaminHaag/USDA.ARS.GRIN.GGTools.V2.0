@@ -129,10 +129,9 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             string defaultSysUserPassword = String.Empty;
             SMTPManager sMTPManager = new SMTPManager();
             SMTPMailMessage sMTPMailMessage = new SMTPMailMessage();
+            SMTPMailMessage sMTPMailMessageCooperator = new SMTPMailMessage();
             SMTPMailMessage sMTPMailMessageCopy = new SMTPMailMessage();
-
-            defaultSysUserPassword = ConfigurationManager.AppSettings["DefaultSysUserPassword"];
-
+            EmailTemplateViewModel emailTemplateViewModel = new EmailTemplateViewModel();
             CooperatorViewModel sessionCooperatorViewModel = null;
             CooperatorViewModel approvalListCooperatorViewModel = new CooperatorViewModel();
             SysUserViewModel sysUserViewModel = new SysUserViewModel();
@@ -140,6 +139,8 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             SysGroupUserMapViewModel sysGroupUserMapViewModel = new SysGroupUserMapViewModel();
             WebCooperatorViewModel webCooperatorViewModel = new WebCooperatorViewModel();
             WebUserViewModel webUserViewModel = new WebUserViewModel();
+
+            defaultSysUserPassword = ConfigurationManager.AppSettings["DefaultSysUserPassword"];
 
             if (Session["NEW_ACCOUNT"] != null)
             {
@@ -222,9 +223,6 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 }
 
                 // Web user
-
-                //TODO See if exists; if so, log action so that approval process
-                //will see steps needed.
                 webUserViewModel.SearchEntity.WebUserName = sessionCooperatorViewModel.Entity.EmailAddress;
                 webUserViewModel.Search();
                 if (webUserViewModel.DataCollection.Count > 0)
@@ -241,11 +239,13 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                     webUserViewModel.Insert();
                 }
 
+                //************************************ 1. SEND APPROVER EMAILS ******************************************************
+
                 // Send an email to each user in the GGTOOLS_MANAGE_COOPERATOR group.
                 approvalListCooperatorViewModel.SearchEntity.SysGroupTag = SYS_GROUP_TAG_GGTOOLS_MANAGE_COOPERATOR;
                 approvalListCooperatorViewModel.Search();
 
-                EmailTemplateViewModel emailTemplateViewModel = new EmailTemplateViewModel();
+                // Get template.
                 emailTemplateViewModel.SearchEntity.CategoryCode = "CNR";
                 emailTemplateViewModel.Search();
 
@@ -260,7 +260,6 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                     sMTPMailMessage.To = result.EmailAddress;
                     sMTPMailMessage.Subject = emailTemplateViewModel.Entity.Subject;
                     sMTPMailMessage.Body = emailTemplateViewModel.Entity.Body;
-
                     sMTPMailMessage.Body = sMTPMailMessage.Body.Replace("[FIRST_NAME]", sessionCooperatorViewModel.Entity.FirstName);
                     sMTPMailMessage.Body = sMTPMailMessage.Body.Replace("[LAST_NAME]", sessionCooperatorViewModel.Entity.LastName);
                     sMTPMailMessage.Body = sMTPMailMessage.Body.Replace("[EMAIL_ADDRESS]", sessionCooperatorViewModel.Entity.EmailAddress);
@@ -288,6 +287,28 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                     sMTPMailMessageCopy.Body = "You submitted the following GRIN-Global Curator Tool account request on " + DateTime.Today.ToShortDateString() + " at " + DateTime.Now.ToShortTimeString() + ": <br>" + sMTPMailMessageCopy.Body;
                     sMTPManager.SendMessage(sMTPMailMessageCopy);
                 }
+
+                //************************************ 2. SEND REQUESTOR EMAILS ******************************************************
+
+                // Get template.
+                emailTemplateViewModel.SearchEntity.CategoryCode = "CNA";
+                emailTemplateViewModel.Search();
+
+                sMTPMailMessageCooperator.From = emailTemplateViewModel.Entity.EmailFrom;
+                
+                //DEBUG
+                //sMTPMailMessageCooperator.To = sessionCooperatorViewModel.Entity.EmailAddress;
+                sMTPMailMessageCooperator.To = "benjamin.haag@usda.gov";
+
+                sMTPMailMessageCooperator.Subject = emailTemplateViewModel.Entity.Subject;
+                sMTPMailMessageCooperator.Body = emailTemplateViewModel.Entity.Body;
+                sMTPMailMessageCooperator.Body = sMTPMailMessageCooperator.Body.Replace("[FIRST_NAME]", sessionCooperatorViewModel.Entity.FirstName);
+                sMTPMailMessageCooperator.Body = sMTPMailMessageCooperator.Body.Replace("[LAST_NAME]", sessionCooperatorViewModel.Entity.LastName);
+                sMTPMailMessageCooperator.Body = sMTPMailMessageCooperator.Body.Replace("[CURATOR_TOOL_USER_NAME]", sysUserViewModel.Entity.SysUserName);
+                sMTPMailMessageCooperator.Body = sMTPMailMessageCooperator.Body.Replace("[CURATOR_TOOL_PASSWORD]", defaultSysUserPassword);
+                sMTPMailMessageCooperator.Body = sMTPMailMessageCooperator.Body.Replace("[CURATOR_TOOL_PASSWORD_EXPIRATION_DATE]", sysUserViewModel.Entity.SysUserPasswordExpirationDate.ToShortDateString());
+                sMTPMailMessageCooperator.Body = sMTPMailMessageCooperator.Body.Replace("[WEB_USER_NAME]", webUserViewModel.Entity.WebUserName);
+                sMTPManager.SendMessage(sMTPMailMessageCooperator);
             }
             return View("~/Views/Account/Request/ThankYou.cshtml");
         }

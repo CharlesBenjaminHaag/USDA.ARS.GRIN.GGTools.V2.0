@@ -8,7 +8,7 @@ using USDA.ARS.GRIN.GGTools.DataLayer;
 
 namespace USDA.ARS.GRIN.GGTools.DataLayer
 {
-    public class ReportManager: AppDataManagerBase
+    public class ReportManager: GRINGlobalDataManagerBase
     {
         public DataTable GetReport(string code)
         {

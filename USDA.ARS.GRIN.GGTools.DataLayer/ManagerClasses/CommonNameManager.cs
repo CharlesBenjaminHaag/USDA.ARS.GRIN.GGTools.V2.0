@@ -7,7 +7,7 @@ using USDA.ARS.GRIN.GGTools.DataLayer;
 
 namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
 {
-    public class CommonNameManager : AppDataManagerBase, IManager<CommonName, CommonNameSearch>
+    public class CommonNameManager : GRINGlobalDataManagerBase, IManager<CommonName, CommonNameSearch>
     {
         public void BuildInsertUpdateParameters()
         {

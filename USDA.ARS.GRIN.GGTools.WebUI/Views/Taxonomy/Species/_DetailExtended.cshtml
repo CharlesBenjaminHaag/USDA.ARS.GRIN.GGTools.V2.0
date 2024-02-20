@@ -21,6 +21,8 @@
                 <div class="form-group form-horizontal">
                     <label>Created Date</label>
                     @Html.TextBoxFor(x => x.SearchEntity.CreatedDate, new { @class = "form-control" })
+                    @Html.HiddenFor(x => x.SearchEntity.CreatedDateFrom)
+                    @Html.HiddenFor(x => x.SearchEntity.CreatedDateTo)
                 </div>
             </div>
             <div class="col-md-4">
@@ -33,6 +35,8 @@
                 <div class="form-group form-horizontal">
                     <label>Modified Date</label>
                     @Html.TextBoxFor(x => x.SearchEntity.ModifiedDate, new { @class = "form-control" })
+                    @Html.HiddenFor(x => x.SearchEntity.ModifiedDateFrom)
+                    @Html.HiddenFor(x => x.SearchEntity.ModifiedDateTo)
                 </div>
             </div>
             <div class="col-sm-1">
@@ -41,14 +45,6 @@
                     @Html.TextBoxFor(x => x.SearchEntity.ID, new { @class = "form-control" })
                 </div>
             </div>
-            <div class="col-md-11">
-                <div class="form-group form-horizontal">
-                    <label>Note</label>
-                    @Html.TextBoxFor(x => x.SearchEntity.Note, new { @class = "form-control" })
-                </div>
-            </div>
-        </div>
-        <div class="row">
             <div class="col-sm-1">
                 <div class="form-group form-horizontal">
                     <label>Current ID</label>
@@ -61,6 +57,48 @@
                     @Html.TextBoxFor(x => x.SearchEntity.ID, new { @class = "form-control" })
                 </div>
             </div>
+            <div class="col-md-9">
+                <div class="form-group form-horizontal">
+                    <label>Note</label>
+                    @Html.TextBoxFor(x => x.SearchEntity.Note, new { @class = "form-control" })
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-2">
+                <div class="form-group form-horizontal">
+                    <label>Verified</label>
+                    @Html.DropDownListFor(x => x.SearchEntity.IsVerified, Model.YesNoOptions, "Either", new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group form-horizontal">
+                    <label>Verified By</label>
+                    @Html.DropDownListFor(x => x.SearchEntity.VerifiedByCooperatorID, Model.VerifiedByCooperators, "Any Cooperator", new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group form-horizontal">
+                    <label>Verification Date</label>
+                    <div class="input-group mb-3">
+                        @Html.TextBoxFor(x => x.SearchEntity.NameVerifiedDate, new { @class = "form-control" })
+                        <span class="input-group-append">
+                            <button id="btnNameVerifiedDateClear" type="button" class="btn btn-default btn-flat">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </span>
+                    </div>
+                    @Html.HiddenFor(x => x.SearchEntity.NameVerifiedDateFrom)
+                    @Html.HiddenFor(x => x.SearchEntity.NameVerifiedDateTo)
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-group form-horizontal">
+                    <label>Species Authority</label>
+                    @Html.TextBoxFor(x => x.SearchEntity.SpeciesAuthority, new { @class = "form-control" })
+                </div>
+            </div>
+            
             <div class="col-sm-3">
                 <div class="form-group form-horizontal">
                     <label>Epithet</label>
@@ -75,50 +113,35 @@
             </div>
             <div class="col-sm-2">
                 <div class="form-group form-horizontal">
-                    <label>Has Verified Date</label>
-                    @Html.DropDownListFor(x => x.SearchEntity.IsNameVerifiedDateOption, Model.YesNoOptions, "Either", new { @class = "form-control" })
-                </div>
-            </div>
-
-            <div class="col-sm-2">
-                <div class="form-group form-horizontal">
                     <label>Has Related Accessions</label>
                     @Html.DropDownListFor(x => x.SearchEntity.IsLinkedToAccessions, Model.YesNoOptions, "Either", new { @class = "form-control" })
                 </div>
             </div>
-
-            <div class="col-md-4">
+            <div class="col-sm-2">
                 <div class="form-group form-horizontal">
-                    <label>Verified By</label>
-                    @Html.DropDownListFor(x => x.SearchEntity.VerifiedByCooperatorID, Model.VerifiedByCooperators, "Any Cooperator", new { @class = "form-control" })
+                    <label>Is Web Visible</label>
+                    @Html.DropDownListFor(x => x.SearchEntity.IsWebVisible, Model.YesNoOptions, "Either", new { @class = "form-control" })
                 </div>
             </div>
-
-            <div class="col-sm-3">
+            <div class="col-sm-6">
                 <div class="form-group form-horizontal">
                     <label>Protologue</label>
                     @Html.TextBoxFor(x => x.SearchEntity.Protologue, new { @class = "form-control" })
                 </div>
             </div>
-            <div class="col-sm-3">
+            <div class="col-sm-6">
                 <div class="form-group form-horizontal">
                     <label>Protologue Virtual Path</label>
                     @Html.TextBoxFor(x => x.SearchEntity.ProtologueVirtualPath, new { @class = "form-control" })
                 </div>
             </div>
-            <div class="col-sm-3">
-                <div class="form-group form-horizontal">
-                    <label>Species Authority</label>
-                    @Html.TextBoxFor(x => x.SearchEntity.SpeciesAuthority, new { @class = "form-control" })
-                </div>
-            </div>
-            <div class="col-sm-3">
+            <div class="col-sm-4">
                 <div class="form-group form-horizontal">
                     <label>Subspecies Name</label>
                     @Html.TextBoxFor(x => x.SearchEntity.SubspeciesName, new { @class = "form-control" })
                 </div>
             </div>
-            <div class="col-sm-3">
+            <div class="col-sm-4">
                 <div class="form-group form-horizontal">
                     <label>Subspecies Authority</label>
                     @Html.TextBoxFor(x => x.SearchEntity.SubspeciesAuthority, new { @class = "form-control" })
@@ -130,13 +153,13 @@
                     @Html.DropDownListFor(x => x.SearchEntity.IsSubSpecificHybridOption, Model.YesNoOptions, "Either", new { @class = "form-control" })
                 </div>
             </div>
-            <div class="col-sm-3">
+            <div class="col-sm-4">
                 <div class="form-group form-horizontal">
                     <label>Variety Name</label>
                     @Html.TextBoxFor(x => x.SearchEntity.VarietyName, new { @class = "form-control" })
                 </div>
             </div>
-            <div class="col-sm-3">
+            <div class="col-sm-4">
                 <div class="form-group form-horizontal">
                     <label>Variety Authority</label>
                     @Html.TextBoxFor(x => x.SearchEntity.VarietyAuthority, new { @class = "form-control" })
@@ -148,13 +171,13 @@
                     @Html.DropDownListFor(x => x.SearchEntity.IsVarietalHybridOption, Model.YesNoOptions, "Either", new { @class = "form-control" })
                 </div>
             </div>
-            <div class="col-sm-3">
+            <div class="col-sm-4">
                 <div class="form-group form-horizontal">
                     <label>Forma Name</label>
                     @Html.TextBoxFor(x => x.SearchEntity.FormaName, new { @class = "form-control" })
                 </div>
             </div>
-            <div class="col-sm-3">
+            <div class="col-sm-4">
                 <div class="form-group form-horizontal">
                     <label>Forma Authority</label>
                     @Html.TextBoxFor(x => x.SearchEntity.FormaAuthority, new { @class = "form-control" })
@@ -181,4 +204,8 @@
         </div>
     </div>
 </div>
-
+<script type="text/javascript">
+    $("#btnNameVerifiedDateClear").on('click', function (event) {
+        $("#SearchEntity_NameVerifiedDate").val("");
+    });
+</script>

@@ -8,7 +8,7 @@ using USDA.ARS.GRIN.GGTools.DataLayer;
 
 namespace USDA.ARS.GRIN.GGTools.DataLayer
 {
-    public partial class AppUserItemFolderCooperatorMapManager : AppDataManagerBase
+    public partial class AppUserItemFolderCooperatorMapManager : GRINGlobalDataManagerBase
     {
         public List<Cooperator> GetMapped(int appUserItemFolderId)
         {

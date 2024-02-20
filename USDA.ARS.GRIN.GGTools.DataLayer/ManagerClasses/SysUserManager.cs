@@ -5,7 +5,7 @@ using USDA.ARS.GRIN.GGTools.AppLayer;
 
 namespace USDA.ARS.GRIN.GGTools.DataLayer
 {
-    public partial class SysUserManager : AppDataManagerBase
+    public partial class SysUserManager : GRINGlobalDataManagerBase
     {
         public SysUser Get(int entityId)
         {

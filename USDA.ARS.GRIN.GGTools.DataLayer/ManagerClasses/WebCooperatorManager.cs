@@ -9,7 +9,7 @@ using USDA.ARS.GRIN.GGTools.DataLayer;
 
 namespace USDA.ARS.GRIN.GGTools.DataLayer
 {
-    public class WebCooperatorManager : AppDataManagerBase, IManager<WebCooperator, WebCooperatorSearch>
+    public class WebCooperatorManager : GRINGlobalDataManagerBase, IManager<WebCooperator, WebCooperatorSearch>
     {
         public void BuildInsertUpdateParameters()
         {

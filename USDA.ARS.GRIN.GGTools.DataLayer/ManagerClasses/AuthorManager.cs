@@ -8,7 +8,7 @@ using USDA.ARS.GRIN.GGTools.DataLayer;
 
 namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
 {
-    public class AuthorManager : AppDataManagerBase, IManager<Author, AuthorSearch>
+    public class AuthorManager : GRINGlobalDataManagerBase, IManager<Author, AuthorSearch>
     {
         public void BuildInsertUpdateParameters()
         {

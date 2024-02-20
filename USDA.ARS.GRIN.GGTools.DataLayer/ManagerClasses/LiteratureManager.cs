@@ -10,7 +10,7 @@ using USDA.ARS.GRIN.GGTools.DataLayer;
 
 namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
 {
-    public class LiteratureManager : AppDataManagerBase, IManager<Literature, LiteratureSearch>
+    public class LiteratureManager : GRINGlobalDataManagerBase, IManager<Literature, LiteratureSearch>
     {
         public List<Literature> GetFolderItems(LiteratureSearch searchEntity)
         {

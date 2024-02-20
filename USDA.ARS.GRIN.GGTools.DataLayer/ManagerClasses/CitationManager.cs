@@ -10,7 +10,7 @@ using USDA.ARS.GRIN.GGTools.DataLayer;
 
 namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
 {
-    public class CitationManager : AppDataManagerBase, IManager<Citation, CitationSearch>
+    public class CitationManager : GRINGlobalDataManagerBase, IManager<Citation, CitationSearch>
     {
         public int Insert(Citation entity)
         {

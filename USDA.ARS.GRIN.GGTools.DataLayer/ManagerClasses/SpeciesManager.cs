@@ -128,23 +128,29 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             SQL += " WHERE      (@ID                        IS NULL OR  ID = @ID) ";
             SQL += " AND        (@CreatedByCooperatorID     IS NULL OR  CreatedByCooperatorID = @CreatedByCooperatorID)";
             SQL += " AND        (@GenusID                   IS NULL OR  GenusID = @GenusID)";
-            SQL += " AND        ((@SpeciesName              IS NULL OR  REPLACE(Name, ' x ', '')     LIKE    'X ' + @SpeciesName + '%')";
-            SQL += " OR         (@SpeciesName               IS NULL OR  REPLACE(Name, ' x ', '')     LIKE    '+' + @SpeciesName + '%')";
-            SQL += " OR         (@SpeciesName               IS NULL OR  REPLACE(Name, ' x ', '')     LIKE    @SpeciesName + '%'))";
-            SQL += " AND        (@SynonymCode               IS NULL OR  SynonymCode = @SynonymCode)";
-            SQL += " AND        (@IsAcceptedName            IS NULL OR  IsAcceptedName              =       @IsAcceptedName)";
+            SQL += " AND        ((@SpeciesName              IS NULL OR  REPLACE(Name, ' x ', '')        LIKE    'X ' + @SpeciesName + '%')";
+            SQL += " OR         (@SpeciesName               IS NULL OR  REPLACE(Name, ' x ', '')        LIKE    '+' + @SpeciesName + '%')";
+            SQL += " OR         (@SpeciesName               IS NULL OR  REPLACE(Name, ' x ', '')        LIKE    @SpeciesName + '%'))";
+            SQL += " AND        (@SynonymCode               IS NULL OR  SynonymCode                     =       @SynonymCode)";
+            SQL += " AND        (@IsAcceptedName            IS NULL OR  IsAcceptedName                  =       @IsAcceptedName)";
+            SQL += " AND        (@IsWebVisible              IS NULL OR  IsWebVisible                    =       @IsWebVisible)";
             SQL += " AND        (@SpeciesAuthority          IS NULL OR  COALESCE(SpeciesAuthority, SubspeciesAuthority, VarietyAuthority, SubvarietyAuthority, FormaAuthority)            LIKE    '%' + @SpeciesAuthority + '%')";
-            SQL += " AND        (@VerifiedByCooperatorID    IS NULL OR  VerifiedByCooperatorID = @VerifiedByCooperatorID)";
+            SQL += " AND        (@VerifiedByCooperatorID    IS NULL OR  VerifiedByCooperatorID          = @VerifiedByCooperatorID)";
+            SQL += " AND        (@IsVerified                IS NULL OR  IsVerified                      =       @IsVerified)";
 
             if (!String.IsNullOrEmpty(searchEntity.IDList))
             {
                 SQL += " AND (ID IN (" + searchEntity.IDList + "))";
             }
 
-            if (searchEntity.IsNameVerifiedDateOption)
+            // Verification date logic
+            if ((searchEntity.NameVerifiedDateFrom > DateTime.MinValue) && (searchEntity.NameVerifiedDateTo > DateTime.MinValue))
             {
-                SQL += "AND NameVerifiedDate IS NULL";
+                SQL += " AND NameVerifiedDate >= '" + searchEntity.NameVerifiedDateFrom + "' AND NameVerifiedDate <= '" + searchEntity.NameVerifiedDateTo + "'";
             }
+
+            SQL = GetCreatedDateRangeSQL(searchEntity, SQL);
+            SQL = GetModifiedDateRangeSQL(searchEntity, SQL);
 
             if (searchEntity.IsLinkedToAccessions == "Y")
             {
@@ -159,8 +165,10 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
                 CreateParameter("SpeciesName", (object)searchEntity.SpeciesName ?? DBNull.Value, true),
                 CreateParameter("SynonymCode", (object)searchEntity.SynonymCode ?? DBNull.Value, true),
                 CreateParameter("IsAcceptedName", (object)searchEntity.IsAcceptedName ?? DBNull.Value, true),
+                CreateParameter("IsWebVisible", (object)searchEntity.IsWebVisible ?? DBNull.Value, true),
                 CreateParameter("SpeciesAuthority", (object)searchEntity.SpeciesAuthority ?? DBNull.Value, true),
                 CreateParameter("VerifiedByCooperatorID", searchEntity.VerifiedByCooperatorID > 0 ? (object)searchEntity.VerifiedByCooperatorID : DBNull.Value, true),
+                CreateParameter("IsVerified", (object)searchEntity.IsVerified ?? DBNull.Value, true)
             };
 
             results = GetRecords<Species>(SQL, parameters.ToArray());

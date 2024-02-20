@@ -21,10 +21,15 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.4.2/css/buttons.dataTables.min.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/select/1.7.0/css/select.dataTables.min.css">
-
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/autofill/2.6.0/css/autoFill.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/datetime/1.5.1/css/dataTables.dateTime.min.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/dist/css/DataTables/editor.dataTables.css">
 
     <!--jQuery UI-->
     <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+
+    <!-- Date range picker -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 
     <style type="text/css">
         .table-col-align-right {
@@ -93,8 +98,6 @@
             margin-top: 10px;
             margin-bottom: 10px;
         }
-
-        
     </style>
 
     <!-- SummerNote -->
@@ -267,16 +270,6 @@
 <script src="~/dist/js/adminlte.js"></script>
 
 <!-- Datatables -->
-@*<script type="text/javascript" src="~/Content/dist/js/DataTables/jquery.dataTables.min.js"></script>
-    <script type="text/javascript" language="javascript" src="~/Content/dist/js/DataTables/dataTables.select.min.js"></script>
-    <script type="text/javascript" language="javascript" src="~/Content/dist/js/DataTables/dataTables.buttons.min.js"></script>
-    <script type="text/javascript" language="text/javascript" src="~/Content/dist/js/DataTables/pdfMake.js"></script>
-    <script type="text/javascript" src="~/Content/dist/js/DataTables/vfs_fonts.js"></script>
-    <script type="text/javascript" src="~/Content/dist/js/DataTables/buttons.html5.min.js"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/responsive/2.4.0/js/dataTables.responsive.min.js"></script>*@
-
-<!-- DATATABLES TEST -->
-@*<script type="text/javascript" src="https://code.jquery.com/jquery-3.7.0.js"></script>*@
 <script type="text/javascript" src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
@@ -285,9 +278,14 @@
 <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.colVis.min.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/select/1.7.0/js/dataTables.select.min.js"></script>
+<script type="text/javascript" src="~/Content/dist/js/DataTables/dataTables.editor.js"></script>
 
+<!-- Summernote (used in all Note fields)-->
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
-@*<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>*@
+
+<!-- Date range picker -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 
 <script>
     $(document).on({
@@ -304,17 +302,41 @@
     });
 
     $(document).ready(function () {
-        //$('textarea').summernote({
-        //    height: 100,                 // set editor height
-        //    minHeight: null,             // set minimum height of editor
-        //    maxHeight: null,             // set maximum height of editor
-        //    'width': '100%',
-        //    focus: true                  // set focus to editable area after initializing summernote
-        //});
+        ConfigureDatePickerField("#SearchEntity_CreatedDate");
+        ConfigureDatePickerField("#SearchEntity_ModifiedDate");
+        ConfigureDatePickerField("#SearchEntity_NameVerifiedDate");
 
-        $(function () {
-            $("#SearchEntity_CreatedDate").datepicker();
-            $("#SearchEntity_ModifiedDate").datepicker();
+        /* Created Date */
+        $('#SearchEntity_CreatedDate').on('apply.daterangepicker', function (ev, picker) {
+            $("#SearchEntity_CreatedDateFrom").val(picker.startDate.format('YYYY-MM-DD HH:mm'));
+            $("#SearchEntity_CreatedDateTo").val(picker.endDate.format('YYYY-MM-DD HH:mm'));
+            $("#SearchEntity_CreatedDate").val(picker.startDate.format('YYYY-MM-DD HH:mm') + "--" + picker.endDate.format('YYYY-MM-DD HH:mm'));
+        });
+
+        $('input[name="SearchEntity_CreatedDate"]').on('cancel.daterangepicker', function (ev, picker) {
+            $(this).val('');
+        });
+
+        /* Modified Date */
+        $('#SearchEntity_ModifiedDate').on('apply.daterangepicker', function (ev, picker) {
+            $("#SearchEntity_ModifiedDateFrom").val(picker.startDate.format('YYYY-MM-DD HH:mm'));
+            $("#SearchEntity_ModifiedDateTo").val(picker.endDate.format('YYYY-MM-DD HH:mm'));
+            $("#SearchEntity_ModifiedDate").val(picker.startDate.format('YYYY-MM-DD HH:mm') + "--" + picker.endDate.format('YYYY-MM-DD HH:mm'));
+        });
+
+        $('input[name="SearchEntity_ModifiedDate"]').on('cancel.daterangepicker', function (ev, picker) {
+            $(this).val('');
+        });
+
+        /* Name Verified Date */
+        $('#SearchEntity_NameVerifiedDate').on('apply.daterangepicker', function (ev, picker) {
+            $("#SearchEntity_NameVerifiedDateFrom").val(picker.startDate.format('YYYY-MM-DD HH:mm'));
+            $("#SearchEntity_NameVerifiedDateTo").val(picker.endDate.format('YYYY-MM-DD HH:mm'));
+            $("#SearchEntity_NameVerifiedDate").val(picker.startDate.format('YYYY-MM-DD HH:mm') + "--" + picker.endDate.format('YYYY-MM-DD HH:mm'));
+        });
+
+        $('input[name="SearchEntity_NameVerifiedDate"]').on('cancel.daterangepicker', function (ev, picker) {
+            $(this).val('');
         });
 
         /* Set first edit field active in any edit form. */
@@ -330,6 +352,33 @@
         });
     });
 
+    function ConfigureDatePickerField(fieldName) {
+        var start = moment().subtract(29, 'days');
+        var end = moment();
+
+        function cb(start, end) {
+            $( fieldName + ' span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+        }
+
+        $(fieldName).daterangepicker({
+            startDate: start,
+            endDate: end,
+            autoUpdateInput: false,
+            ranges: {
+                'Today': [moment(), moment()],
+                'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+                'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+                'This Month': [moment().startOf('month'), moment().endOf('month')],
+                'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+            },
+            locale: {
+                cancelLabel: 'Clear'
+            }
+        }, cb);
+
+        cb(start, end);
+    }
 </script>
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
 <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>

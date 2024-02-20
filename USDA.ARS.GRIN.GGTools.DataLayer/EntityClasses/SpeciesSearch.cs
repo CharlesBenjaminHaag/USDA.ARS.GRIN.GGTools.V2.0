@@ -55,13 +55,15 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         public string SynonymDescription { get; set; }
         public int VerifiedByCooperatorID { get; set; }
         public string VerifiedByCooperatorName { get; set; }
-        public DateTime NameVerifiedDate { get; set; }
+        public DateTime? NameVerifiedDate { get; set; }
+        public DateTime NameVerifiedDateFrom { get; set; }
+        public DateTime NameVerifiedDateTo { get; set; }
+        public string IsVerified { get; set; }
         public bool IsNameVerifiedDateOption { get; set; }
         public string Name { get; set; }
         public string ProtologueVirtualPath { get; set; }
         public string AlternateName { get; set; }
         public int AccessionCount { get; set; }
-        public string IsVerified { get; set; }
         public string IsLinkedToAccessions { get; set; }
         public string CommonFertilizationCode { get; set; }
         public string LifeFormCode { get; set; }
@@ -69,5 +71,6 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         public int Priority2SiteID { get; set; }
         public string RestrictionCode { get; set; }
         public string HybridParentage { get; set; }
+        public string IsWebVisible { get; set; }
     }
 }

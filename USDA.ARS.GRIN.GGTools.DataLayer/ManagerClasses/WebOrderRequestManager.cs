@@ -8,7 +8,7 @@ using USDA.ARS.GRIN.GGTools.DataLayer;
 
 namespace USDA.ARS.GRIN.GGTools.DataLayer
 {
-    public class WebOrderRequestManager : AppDataManagerBase, IManager<WebOrderRequest, WebOrderRequestSearch>
+    public class WebOrderRequestManager : GRINGlobalDataManagerBase, IManager<WebOrderRequest, WebOrderRequestSearch>
     {
         public void BuildInsertUpdateParameters()
         {

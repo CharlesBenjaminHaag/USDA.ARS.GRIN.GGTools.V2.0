@@ -8,7 +8,7 @@ using USDA.ARS.GRIN.GGTools.AppLayer;
 
 namespace USDA.ARS.GRIN.GGTools.DataLayer
 {
-    public class CodeValueManager : AppDataManagerBase, IManager<CodeValue, CodeValueSearch>
+    public class CodeValueManager : GRINGlobalDataManagerBase, IManager<CodeValue, CodeValueSearch>
     {
         public void BuildInsertUpdateParameters()
         {

@@ -48,6 +48,9 @@
     <Reference Include="Antlr3.Runtime">
       <HintPath>..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
+    <Reference Include="DataTables-Editor-Server, Version=2.2.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\DataTables-Editor-Server.2.2.2\lib\net47\DataTables-Editor-Server.dll</HintPath>
+    </Reference>
     <Reference Include="ExcelDataReader, Version=3.6.0.0, Culture=neutral, PublicKeyToken=93517dbe6a4012fa, processorArchitecture=MSIL">
       <HintPath>..\packages\ExcelDataReader.3.6.0\lib\net45\ExcelDataReader.dll</HintPath>
     </Reference>
@@ -80,6 +83,9 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.IO.Compression" />
     <Reference Include="System.Runtime.Caching" />
+    <Reference Include="System.Text.Encodings.Web, Version=4.0.3.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Text.Encodings.Web.4.5.1\lib\netstandard2.0\System.Text.Encodings.Web.dll</HintPath>
+    </Reference>
     <Reference Include="System.Transactions" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
@@ -87,6 +93,10 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Http, Version=5.2.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\System.Web.Http.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web.Mvc, Version=5.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.Mvc.5.3.0\lib\net45\System.Web.Mvc.dll</HintPath>
     </Reference>
@@ -230,6 +240,7 @@
     <Content Include="Content\dist\css\bootstrap-switch.min.css" />
     <Content Include="Content\dist\css\DataTables\buttons.dataTables.min.css" />
     <Content Include="Content\dist\css\DataTables\datatables.min.css" />
+    <Content Include="Content\dist\css\DataTables\editor.dataTables.css" />
     <Content Include="Content\dist\css\DataTables\select.dataTables.min.css" />
     <Content Include="Content\dist\css\icheck-bootstrap.min.css" />
     <Content Include="Content\dist\css\skins\_all-skins.min.css" />
@@ -240,6 +251,7 @@
     <Content Include="Content\dist\js\bootstrap-switch.min.js" />
     <Content Include="Content\dist\js\DataTables\buttons.html5.min.js" />
     <Content Include="Content\dist\js\DataTables\dataTables.buttons.min.js" />
+    <Content Include="Content\dist\js\DataTables\dataTables.editor.js" />
     <Content Include="Content\dist\js\DataTables\datatables.min.js" />
     <Content Include="Content\dist\js\DataTables\dataTables.select.min.js" />
     <Content Include="Content\dist\js\DataTables\jquery.dataTables.min.js" />
@@ -928,6 +940,7 @@
     <Content Include="Views\OrderRequest\_Detail.cshtml" />
     <Content Include="Views\WebOrderRequestItem\_List.cshtml" />
     <Content Include="Views\OrderRequestItem\_List.cshtml" />
+    <Content Include="Views\Taxonomy\Species\EditMultiple_POC.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -10,7 +10,7 @@ using System.Security.Policy;
 
 namespace USDA.ARS.GRIN.GGTools.DataLayer
 {
-    public class SysTableManager : AppDataManagerBase, IManager<SysTable, SysTableSearch>
+    public class SysTableManager : GRINGlobalDataManagerBase, IManager<SysTable, SysTableSearch>
     {
         public void BuildInsertUpdateParameters()
         {

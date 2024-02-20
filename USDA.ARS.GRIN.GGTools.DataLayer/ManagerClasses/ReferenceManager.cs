@@ -9,7 +9,7 @@ using USDA.ARS.GRIN.GGTools.DataLayer;
 
 namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
 {
-    public class ReferenceManager : AppDataManagerBase
+    public class ReferenceManager : GRINGlobalDataManagerBase
     {
         public List<CodeValue> SearchNotes(ReferenceSearch searchEntity)
         {

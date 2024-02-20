@@ -8,7 +8,7 @@ using USDA.ARS.GRIN.GGTools.DataLayer;
 
 namespace USDA.ARS.GRIN.GGTools.DataLayer 
 {
-    public class SysPermissionManager : AppDataManagerBase, IManager<SysPermission, SysPermissionSearch>
+    public class SysPermissionManager : GRINGlobalDataManagerBase, IManager<SysPermission, SysPermissionSearch>
     {
         public void BuildInsertUpdateParameters()
         {

@@ -8,7 +8,7 @@ using USDA.ARS.GRIN.GGTools.DataLayer;
 
 namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
 {
-    public class GeographyManager : AppDataManagerBase, IManager<Geography, GeographySearch>
+    public class GeographyManager : GRINGlobalDataManagerBase, IManager<Geography, GeographySearch>
     {
         public void BuildInsertUpdateParameters()
         {

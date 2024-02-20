@@ -6,7 +6,7 @@ using USDA.ARS.GRIN.GGTools.DataLayer;
 
 namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
 {
-    public class CWRTraitManager : AppDataManagerBase, IManager<CWRTrait, CWRTraitSearch>
+    public class CWRTraitManager : GRINGlobalDataManagerBase, IManager<CWRTrait, CWRTraitSearch>
     {
         protected virtual void BuildInsertUpdateParameters(CWRTrait entity)
         {

@@ -1,0 +1,86 @@
+﻿@model USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer.SpeciesViewModel
+@{
+    ViewBag.Title = Model.PageTitle;
+    ViewBag.ID = Model.ID;
+    Layout = "~/Views/Shared/_LayoutAdminLTE3.cshtml";
+}
+
+<table id="example" class="display" cellspacing="0" width="100%">
+    <thead>
+        <tr>
+            <th>ID/th>
+            <th>Name</th>
+            <th>Protologue</th>
+            <th>Authority</th>
+        </tr>
+    </thead>
+</table>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        var editor = new DataTable.Editor({
+            ajax: '@Url.Action("EditMultiple","Species")',
+            fields: [
+                {
+                    label: 'ID:',
+                    name: 'taxonomy_species_id'
+                },
+                {
+                    label: 'Name:',
+                    name: 'name'
+                },
+                {
+                    label: 'Protologue:',
+                    name: 'protologue'
+                },
+                {
+                    label: 'Authority:',
+                    name: 'name_authority'
+                }
+            ],
+            table: '#example'
+        });
+
+        var table = $('#example').DataTable({
+            ajax: '@Url.Action("EditMultiple","Species")',
+            autoFill: {
+                editor: editor
+            },
+            buttons: [
+                { extend: 'create', editor: editor },
+                { extend: 'edit', editor: editor },
+                { extend: 'remove', editor: editor }
+            ],
+            columns: [
+                { data: 'taxonomy_species_id' },
+                { data: 'name' },
+                { data: 'protologue' },
+                { data: 'name_authority' }
+            ],
+            layout: {
+                topStart: {
+                    buttons: [
+                        { extend: 'create', editor: editor },
+                        { extend: 'edit', editor: editor },
+                        { extend: 'remove', editor: editor }
+                    ]
+                }
+            },
+            order: [[1, 'asc']],
+            dom: 'Bfrtip',
+            select: {
+                blurable: true,
+                selector: 'td:first-child',
+                style: 'os'
+            }
+        });
+
+        // Activate an inline edit on click of a table cell
+        $('#example').on('click', 'tbody td:not(:first-child)', function (e) {
+            editor.inline(this);
+        });
+
+    });
+</script>

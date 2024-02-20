@@ -10,7 +10,7 @@ using USDA.ARS.GRIN.GGTools.DataLayer;
 
 namespace USDA.ARS.GRIN.GGTools.DataLayer
 {
-    public class CooperatorManager : AppDataManagerBase, IManager<Cooperator, CooperatorSearch>
+    public class CooperatorManager : GRINGlobalDataManagerBase, IManager<Cooperator, CooperatorSearch>
     {
         public void BuildInsertUpdateParameters()
         {

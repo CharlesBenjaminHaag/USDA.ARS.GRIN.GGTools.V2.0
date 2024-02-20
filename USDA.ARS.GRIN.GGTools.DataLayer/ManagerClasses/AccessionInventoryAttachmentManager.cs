@@ -8,7 +8,7 @@ using USDA.ARS.GRIN.GGTools.DataLayer;
 
 namespace USDA.ARS.GRIN.GGTools.DataLayer
 {
-    public class AccessionInventoryAttachmentManager : AppDataManagerBase, IManager<AccessionInventoryAttachment, AccessionInventoryAttachmentSearch>
+    public class AccessionInventoryAttachmentManager : GRINGlobalDataManagerBase, IManager<AccessionInventoryAttachment, AccessionInventoryAttachmentSearch>
     {
         public void BuildInsertUpdateParameters(AccessionInventoryAttachment entity)
         {

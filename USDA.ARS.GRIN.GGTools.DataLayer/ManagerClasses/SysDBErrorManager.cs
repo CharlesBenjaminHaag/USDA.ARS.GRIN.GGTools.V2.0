@@ -9,7 +9,7 @@ using USDA.ARS.GRIN.GGTools.DataLayer;
 
 namespace USDA.ARS.GRIN.GGTools.DataLayer
 {
-    public class  SysDBErrorManager: AppDataManagerBase
+    public class  SysDBErrorManager: GRINGlobalDataManagerBase
     {
         public List<SysDBError> SearchDBErrors(SysDBErrorSearch searchEntity)
         {

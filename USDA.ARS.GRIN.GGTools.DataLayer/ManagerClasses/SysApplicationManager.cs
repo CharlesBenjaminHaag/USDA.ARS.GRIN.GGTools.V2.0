@@ -5,7 +5,7 @@ using USDA.ARS.GRIN.GGTools.AppLayer;
 
 namespace USDA.ARS.GRIN.GGTools.DataLayer
 {
-    public class SysApplicationManager : AppDataManagerBase
+    public class SysApplicationManager : GRINGlobalDataManagerBase
     {
         public List<SysApplication> Search(SysApplicationSearch searchEntity)
         {

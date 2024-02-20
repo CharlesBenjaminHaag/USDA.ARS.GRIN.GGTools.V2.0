@@ -8,7 +8,7 @@ using USDA.ARS.GRIN.GGTools.DataLayer;
 
 namespace USDA.ARS.GRIN.GGTools.DataLayer
 {
-    public class CropGermplasmCommitteeDocumentManager : AppDataManagerBase, IManager<CropGermplasmCommitteeDocument, CropGermplasmCommitteeDocumentSearch>
+    public class CropGermplasmCommitteeDocumentManager : GRINGlobalDataManagerBase, IManager<CropGermplasmCommitteeDocument, CropGermplasmCommitteeDocumentSearch>
     {
         public virtual int Insert(CropGermplasmCommitteeDocument entity)
         {

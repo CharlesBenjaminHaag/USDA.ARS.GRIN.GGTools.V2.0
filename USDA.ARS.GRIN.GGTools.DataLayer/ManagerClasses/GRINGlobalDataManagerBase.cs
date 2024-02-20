@@ -58,5 +58,29 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             }
             return RowsAffected;
         }
+
+        #region SQL Utilities
+
+        protected string GetCreatedDateRangeSQL(SearchEntityBase searchEntity, string sql)
+        {
+            // Verification date logic
+            if ((searchEntity.CreatedDateFrom > DateTime.MinValue) && (searchEntity.CreatedDateTo > DateTime.MinValue))
+            {
+                sql += " AND CreatedDate >= '" + searchEntity.CreatedDateFrom + "' AND CreatedDate <= '" + searchEntity.CreatedDateTo + "'";
+            }
+            return sql;
+        }
+
+        protected string GetModifiedDateRangeSQL(SearchEntityBase searchEntity, string sql)
+        {
+            // Verification date logic
+            if ((searchEntity.ModifiedDateFrom > DateTime.MinValue) && (searchEntity.ModifiedDateTo > DateTime.MinValue))
+            {
+                sql += " AND ModifiedDate >= '" + searchEntity.ModifiedDateFrom + "' AND ModifiedDate <= '" + searchEntity.ModifiedDateTo + "'";
+            }
+            return sql;
+        }
+
+        #endregion SQL Utilities
     }
 }

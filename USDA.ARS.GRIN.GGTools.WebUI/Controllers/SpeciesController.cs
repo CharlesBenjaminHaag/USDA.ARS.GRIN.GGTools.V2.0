@@ -7,6 +7,8 @@ using USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer;
 using USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer;
 using NLog;
 using System.Security.Permissions;
+using DataTables;
+using System.Linq.Expressions;
 
 namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
 {
@@ -744,6 +746,45 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             }
         }
 
+
+        public JsonResult EditMultiple()
+        {
+            var request = System.Web.HttpContext.Current.Request;
+            //var settings = Properties.Settings.Default;
+
+            try {
+
+                using (var db = new Database("sqlserver", "Data Source=localhost;Initial Catalog=gringlobal;User Id=gg_user;Password=Savory*survive8ammonia?;Connection Timeout=30;Connection Lifetime=0;Min Pool Size=0;Max Pool Size=100;Pooling=true;"))
+                {
+                    var response = new Editor(db, "taxonomy_species", "taxonomy_species_id")
+                        .Model<Species_POC>()
+                        .Field(new Field("taxonomy_species_id")
+                            .Validator(Validation.NotEmpty())
+                        )
+                        .Field(new Field("name"))
+                        .Field(new Field("protologue")
+                            
+                        )
+                        .Field(new Field("name_authority")
+                            
+                        )
+                        .Process(request)
+                        .Data();
+
+                    JsonResult jsonResult = new JsonResult();
+                    jsonResult = Json(response);
+                    jsonResult.MaxJsonLength = 2147483644;
+                    jsonResult.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
+                    return jsonResult;
+                }
+                
+            }
+            catch(Exception ex) 
+            {
+                return Json(ex.Message, JsonRequestBehavior.AllowGet);
+            }
+        }
+
         public ActionResult EditBatch(string idList = "")
         {
             try
@@ -751,7 +792,9 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 viewModel.PageTitle = "Species Batch Edit";
                 viewModel.SearchEntity.IDList = idList;
                 viewModel.Search();
-                return View("~/Views/Taxonomy/Species/EditMultiple.cshtml", viewModel);
+
+                //DEBUG
+                return View("~/Views/Taxonomy/Species/EditMultiple_POC.cshtml", viewModel);
             }
             catch (Exception ex)
             {

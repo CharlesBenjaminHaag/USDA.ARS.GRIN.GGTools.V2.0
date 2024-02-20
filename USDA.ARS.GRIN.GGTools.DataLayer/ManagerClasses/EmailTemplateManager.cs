@@ -8,7 +8,7 @@ using USDA.ARS.GRIN.GGTools.DataLayer;
 
 namespace USDA.ARS.GRIN.GGTools.DataLayer
 {
-    public class EmailTemplateManager: AppDataManagerBase, IManager<EmailTemplate, EmailTemplateSearch>
+    public class EmailTemplateManager: GRINGlobalDataManagerBase, IManager<EmailTemplate, EmailTemplateSearch>
     {
         public void BuildInsertUpdateParameters()
         {

@@ -15,9 +15,17 @@ namespace USDA.ARS.GRIN.GGTools.AppLayer
         public string IDList { get; set; }
         public string AssembledName { get; set; }
         public string TableName { get; set; }
+        
         public DateTime? CreatedDate { get; set; }
+        public DateTime CreatedDateFrom { get; set; }
+        public DateTime CreatedDateTo { get; set; }
+
         public int CreatedByCooperatorID { get; set; }
+
         public DateTime? ModifiedDate { get; set; }
+        public DateTime ModifiedDateFrom { get; set; }
+        public DateTime ModifiedDateTo { get; set; }
+
         public int ModifiedByCooperatorID { get; set; }
         public DateTime? OwnedDate { get; set; }
         public int OwnedByCooperatorID { get; set; }

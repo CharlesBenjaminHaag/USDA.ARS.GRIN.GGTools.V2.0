@@ -9,7 +9,7 @@ using USDA.ARS.GRIN.GGTools.DataLayer;
 
 namespace USDA.ARS.GRIN.GGTools.DataLayer 
 {
-    public class SysGroupManager : AppDataManagerBase, IManager<SysGroup, SysGroupSearch>
+    public class SysGroupManager : GRINGlobalDataManagerBase, IManager<SysGroup, SysGroupSearch>
     {
         public void BuildInsertUpdateParameters()
         {
