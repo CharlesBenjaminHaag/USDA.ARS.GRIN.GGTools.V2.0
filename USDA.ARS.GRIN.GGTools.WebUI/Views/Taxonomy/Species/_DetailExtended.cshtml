@@ -19,8 +19,16 @@
             </div>
             <div class="col-md-2">
                 <div class="form-group form-horizontal">
+
                     <label>Created Date</label>
-                    @Html.TextBoxFor(x => x.SearchEntity.CreatedDate, new { @class = "form-control" })
+                    <div class="input-group mb-3">
+                        @Html.TextBoxFor(x => x.SearchEntity.CreatedDate, new { @class = "form-control" })
+                        <span class="input-group-append">
+                            <button id="btnCreatedByDateClear" type="button" class="btn btn-default btn-flat">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </span>
+                    </div>
                     @Html.HiddenFor(x => x.SearchEntity.CreatedDateFrom)
                     @Html.HiddenFor(x => x.SearchEntity.CreatedDateTo)
                 </div>
@@ -34,7 +42,14 @@
             <div class="col-md-2">
                 <div class="form-group form-horizontal">
                     <label>Modified Date</label>
-                    @Html.TextBoxFor(x => x.SearchEntity.ModifiedDate, new { @class = "form-control" })
+                    <div class="input-group mb-3">
+                        @Html.TextBoxFor(x => x.SearchEntity.ModifiedDate, new { @class = "form-control" })
+                        <span class="input-group-append">
+                            <button id="btnModifiedByDateClear" type="button" class="btn btn-default btn-flat">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </span>
+                    </div>
                     @Html.HiddenFor(x => x.SearchEntity.ModifiedDateFrom)
                     @Html.HiddenFor(x => x.SearchEntity.ModifiedDateTo)
                 </div>
@@ -207,5 +222,13 @@
 <script type="text/javascript">
     $("#btnNameVerifiedDateClear").on('click', function (event) {
         $("#SearchEntity_NameVerifiedDate").val("");
+    });
+
+    $("#btnCreatedByDateClear").on('click', function (event) {
+        $("#SearchEntity_CreatedDate").val("");
+    });
+
+    $("#btnModifiedByDateClear").on('click', function (event) {
+        $("#SearchEntity_ModifiedDate").val("");
     });
 </script>
