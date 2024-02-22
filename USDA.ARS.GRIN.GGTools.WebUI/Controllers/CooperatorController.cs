@@ -4,6 +4,7 @@ using System.Configuration;
 using System.Web.Mvc;
 using USDA.ARS.GRIN.Common.Library.Email;
 using USDA.ARS.GRIN.GGTools.DataLayer;
+using USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer;
 using USDA.ARS.GRIN.GGTools.ViewModelLayer;
 
 namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
@@ -13,19 +14,19 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
     {
         private static readonly Logger Log = LogManager.GetCurrentClassLogger();
 
-        public ActionResult Explorer()
-        {
-            CooperatorViewModel viewModel = new CooperatorViewModel();
-            return View("~/Views/Cooperator/Explorer/Index.cshtml", viewModel);
-        }
+        //public ActionResult Explorer()
+        //{
+        //    CooperatorViewModel viewModel = new CooperatorViewModel();
+        //    return View("~/Views/Cooperator/Explorer/Index.cshtml", viewModel);
+        //}
 
-        public ActionResult ExplorerAdd()
-        {
-            CooperatorViewModel viewModel = new CooperatorViewModel();
-            viewModel.AuthenticatedUser = AuthenticatedUser;
-            viewModel.Entity.StatusCode = "PENDING";
-            return View("~/Views/Cooperator/Add.cshtml", viewModel);
-        }
+        //public ActionResult ExplorerAdd()
+        //{
+        //    CooperatorViewModel viewModel = new CooperatorViewModel();
+        //    viewModel.AuthenticatedUser = AuthenticatedUser;
+        //    viewModel.Entity.StatusCode = "PENDING";
+        //    return View("~/Views/Cooperator/Add.cshtml", viewModel);
+        //}
 
         public ActionResult Get(int entityId)
         {
@@ -44,6 +45,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 return RedirectToAction("InternalServerError", "Error");
             }
         }
+        
         public PartialViewResult _Get(int entityId, string environment)
         {
             try
@@ -61,157 +63,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 return PartialView("~/Views/Error/_InternalServerError.cshtml");
             }
         }
-        //public ActionResult Save(CooperatorViewModel viewModel)
-        //{
-        //    const string DEFAULT_PASSWORD = "GRINGl@bal!2023Pa$$";
-
-        //    try
-        //    {
-        //        if (!viewModel.Validate())
-        //        {
-        //            if (viewModel.ValidationMessages.Count > 0) return PartialView("~/Views/Cooperator/_Edit.cshtml", viewModel);
-        //        }
-
-        //        if (viewModel.Entity.ID == 0)
-        //        {
-        //            viewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
-        //            viewModel.Insert();
-
-        //            // SYS USER
-        //            SysUserViewModel sysUserViewModel = new SysUserViewModel();
-        //            sysUserViewModel.Entity.SysUserName = viewModel.Entity.FirstName.ToLower() + "." + viewModel.Entity.LastName.ToLower();
-        //            sysUserViewModel.Entity.UserName = sysUserViewModel.Entity.SysUserName;
-        //            sysUserViewModel.Entity.SysUserPassword = sysUserViewModel.GetSecurePassword(DEFAULT_PASSWORD);
-        //            sysUserViewModel.Entity.CooperatorID = viewModel.Entity.ID;
-        //            sysUserViewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
-        //            sysUserViewModel.Insert();
-
-        //            SysGroupUserMapViewModel sysGroupUserMapViewModel = new SysGroupUserMapViewModel();
-
-        //            // GROUP, ALLUSERS
-        //            sysGroupUserMapViewModel.Entity.SysGroupID = 2;
-        //            sysGroupUserMapViewModel.Entity.SysUserID = sysUserViewModel.Entity.ID;
-        //            sysGroupUserMapViewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
-        //            sysGroupUserMapViewModel.Insert();
-
-        //            // GROUP, CT USERS
-        //            sysGroupUserMapViewModel.Entity.SysGroupID = 3;
-        //            sysGroupUserMapViewModel.Entity.SysUserID = sysUserViewModel.Entity.ID;
-        //            sysGroupUserMapViewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
-        //            sysGroupUserMapViewModel.Insert();
-
-        //            // GROUP, WEB QUERY USERS
-        //            sysGroupUserMapViewModel.Entity.SysGroupID = 6;
-        //            sysGroupUserMapViewModel.Entity.SysUserID = sysUserViewModel.Entity.ID;
-        //            sysGroupUserMapViewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
-        //            sysGroupUserMapViewModel.Insert();
-                    
-        //            // WEB COOPERATOR
-        //            WebCooperatorViewModel webCooperatorViewModel = new WebCooperatorViewModel();
-        //            webCooperatorViewModel.Entity.FirstName = viewModel.Entity.FirstName;
-        //            webCooperatorViewModel.Entity.LastName = viewModel.Entity.LastName;
-        //            webCooperatorViewModel.Entity.EmailAddress = viewModel.Entity.EmailAddress;
-
-        //            webCooperatorViewModel.Entity.Address1 = viewModel.Entity.AddressLine1;
-        //            webCooperatorViewModel.Entity.Address2 = viewModel.Entity.AddressLine2;
-        //            webCooperatorViewModel.Entity.Address3 = viewModel.Entity.AddressLine3;
-        //            webCooperatorViewModel.Entity.City = viewModel.Entity.City;
-        //            webCooperatorViewModel.Entity.PostalCode = viewModel.Entity.PostalIndex;
-        //            webCooperatorViewModel.Entity.GeographyID = viewModel.Entity.GeographyID;
-        //            webCooperatorViewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
-        //            webCooperatorViewModel.Insert();
-
-        //            viewModel.SearchEntity.ID = viewModel.Entity.ID;
-        //            viewModel.Search();
-        //            viewModel.Entity.WebCooperatorID = webCooperatorViewModel.Entity.ID;
-        //            viewModel.Update();
-
-        //            // WEB USER
-        //            WebUserViewModel webUserViewModel = new WebUserViewModel();
-        //            webUserViewModel.Entity.WebUserName = viewModel.Entity.EmailAddress;
-        //            webUserViewModel.Entity.WebUserPassword = DEFAULT_PASSWORD;
-        //            webUserViewModel.Entity.WebCooperatorID = webCooperatorViewModel.Entity.ID;
-        //            webUserViewModel.Insert();
-        //        }
-        //        else
-        //        {
-        //            viewModel.Entity.ModifiedByCooperatorID = AuthenticatedUser.CooperatorID;
-        //            viewModel.Update();
-        //        }
-        //        return RedirectToAction("Index","Home");
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Log.Error(ex);
-        //        return RedirectToAction("InternalServerError", "Error");
-        //    }
-        //}
-        //[HttpPost]
-        //public PartialViewResult _Add(int siteId = 0)
-        //{
-        //    try
-        //    {
-        //        CooperatorViewModel viewModel = new CooperatorViewModel();
-
-        //        SiteViewModel siteViewModel = new SiteViewModel();
-        //        siteViewModel.Get(siteId);
-        //        viewModel.Entity.OrganizationAbbrev = siteViewModel.Entity.OrganizationAbbrev;
-        //        viewModel.Entity.SiteID = siteViewModel.Entity.ID;
-        //        viewModel.Entity.AddressLine1 = siteViewModel.Entity.PrimaryAddress1;
-        //        viewModel.Entity.AddressLine2 = siteViewModel.Entity.PrimaryAddress2;
-        //        viewModel.Entity.City = siteViewModel.Entity.PrimaryCity;
-        //        viewModel.Entity.GeographyID = siteViewModel.Entity.GeographyID;
-        //        viewModel.Entity.StateName = siteViewModel.Entity.StateName;
-        //        viewModel.Entity.PostalIndex = siteViewModel.Entity.PostalIndex;
-        //        return PartialView(viewModel);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Log.Error(ex);
-        //        return PartialView("~/Views/Error/_InternalServerError.cshtml");
-        //    }
-        //}
-        //public PartialViewResult _Edit(int entityId, string environment = "")
-        //{
-        //    try
-        //    {
-        //        CooperatorViewModel viewModel = new CooperatorViewModel();
-        //        viewModel.Get(entityId, environment);
-        //        viewModel.PageTitle = String.Format("Edit Cooperator [{0}]: {1}", entityId, viewModel.Entity.FullName);
-        //        viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
-        //        viewModel.AuthenticatedUser = AuthenticatedUser;
-        //        return PartialView(viewModel);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Log.Error(ex);
-        //        return PartialView("~/Views/Error/_InternalServerError.cshtml");
-        //    }
-        //}
-        //public ActionResult Activate(int cooperatorId)
-        //{
-        //    try
-        //    {
-        //        CooperatorViewModel viewModel = new CooperatorViewModel();
-        //        viewModel.Get(cooperatorId);
-        //        viewModel.Entity.StatusCode = "ACTIVE";
-        //        viewModel.Entity.ModifiedByCooperatorID = AuthenticatedUser.CooperatorID;
-        //        viewModel.Update();
-
-        //        SysUserViewModel sysUserViewModel = new SysUserViewModel();
-        //        sysUserViewModel.Get(viewModel.Entity.SysUserID);
-        //        sysUserViewModel.Entity.IsEnabled = "Y";
-        //        sysUserViewModel.Entity.ModifiedByCooperatorID = AuthenticatedUser.CooperatorID;
-        //        sysUserViewModel.UpdateStatus();
-
-        //        return RedirectToAction("Edit", "Cooperator", new { entityId = cooperatorId });
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Log.Error(ex);
-        //        return RedirectToAction("InternalServerError", "Error");
-        //    }
-        //}
+        
         [HttpPost]
         public ActionResult Edit(CooperatorViewModel viewModel)
         {
@@ -240,6 +92,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 return RedirectToAction("InternalServerError", "Error");
             }
         }
+        
         public ActionResult Edit(int entityId)
         {
             try
@@ -257,27 +110,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 return RedirectToAction("InternalServerError", "Error");
             }
         }
-        
-        //[HttpPost]
-        //public ActionResult EditSysUser(SysUserViewModel viewModel)
-        //{
-        //    try
-        //    {
-        //        viewModel.Validate();
-        //        viewModel.Insert();
 
-        //        CooperatorViewModel cooperatorViewModel = new CooperatorViewModel();
-        //        cooperatorViewModel.Get(viewModel.Entity.CooperatorID);
-
-        //        return View("~/Views/Cooperator/Edit.cshtml", cooperatorViewModel);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Log.Error(ex);
-        //        return RedirectToAction("InternalServerError", "Error");
-        //    }
-        //}
-        
         [HttpPost]
         public JsonResult _Edit(CooperatorViewModel viewModel)
         {
@@ -311,72 +144,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 return Json(new { cooperator = viewModel.Entity }, JsonRequestBehavior.AllowGet);
             }
         }
-        //public JsonResult AddSysUser(FormCollection formCollection)
-        //{
-        //    SysUserViewModel viewModel = new SysUserViewModel();
-        //    viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
-
-        //    try
-        //    {
-        //        if (!String.IsNullOrEmpty(formCollection["CooperatorID"]))
-        //        {
-        //            viewModel.Entity.CooperatorID = Int32.Parse(formCollection["CooperatorID"]);
-        //        }
-
-        //        if (!String.IsNullOrEmpty(formCollection["SysUserName"]))
-        //        {
-        //            viewModel.Entity.UserName = formCollection["SysUserName"];
-        //        }
-
-        //        if (!String.IsNullOrEmpty(formCollection["SysUserPassword"]))
-        //        {
-        //            viewModel.Entity.Password = formCollection["SysUserPassword"];
-        //        }
-
-        //        viewModel.Insert();
-
-        //        return Json(new { success = true }, JsonRequestBehavior.AllowGet);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Log.Error(ex.Message);
-        //        return Json(new { success = false }, JsonRequestBehavior.AllowGet);
-        //    }
-
-        //}
-        //public JsonResult UpdateSysUser(FormCollection formCollection)
-        //{
-        //    SysUserViewModel viewModel = new SysUserViewModel();
-        //    viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
-
-        //    try
-        //    {
-        //        if (!String.IsNullOrEmpty(formCollection["CooperatorID"]))
-        //        {
-        //            viewModel.Entity.CooperatorID = Int32.Parse(formCollection["CooperatorID"]);
-        //        }
-
-        //        if (!String.IsNullOrEmpty(formCollection["SysUserName"]))
-        //        {
-        //            viewModel.Entity.UserName = formCollection["SysUserName"];
-        //        }
-
-        //        if (!String.IsNullOrEmpty(formCollection["SysUserPassword"]))
-        //        {
-        //            viewModel.Entity.Password = formCollection["SysUserPassword"];
-        //        }
-
-        //        viewModel.Insert();
-
-        //        return Json(new { success = true }, JsonRequestBehavior.AllowGet);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Log.Error(ex.Message);
-        //        return Json(new { success = false }, JsonRequestBehavior.AllowGet);
-        //    }
-
-        //}
+        
         [GrinGlobalAuthentication]
         public ActionResult Index()
         {
@@ -387,6 +155,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
             return View(viewModel);
         }
+        
         [HttpPost]
         public ActionResult Search(CooperatorViewModel viewModel)
         {
@@ -402,6 +171,22 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 return RedirectToAction("InternalServerError", "Error");
             }
         }
+
+        [HttpPost]
+        public PartialViewResult Lookup(CooperatorViewModel viewModel)
+        {
+            try
+            {
+                viewModel.Search();
+                return PartialView("~/Views/Cooperator/Modals/_SelectList.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
+        }
+
         [HttpPost]
         public ActionResult SetStatus(CooperatorViewModel viewModel)
         {
@@ -525,6 +310,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 return PartialView("~/Views/Error/_InternalServerError.cshtml");
             }
         }
+        
         public PartialViewResult RenderSiteCuratorListWidget(int siteId)
         {
             try
@@ -541,11 +327,13 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 return PartialView("~/Views/Error/_InternalServerError.cshtml");
             }
         }
+        
         public PartialViewResult RenderLookupModal()
         {
             CooperatorViewModel viewModel = new CooperatorViewModel();
             return PartialView("~/Views/Cooperator/Modals/_Lookup.cshtml",viewModel);
         }
+        
         public PartialViewResult RenderWidget(int cooperatorId)
         {
             CooperatorViewModel viewModel = new CooperatorViewModel();
@@ -562,6 +350,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 return PartialView("~/Views/Error/_InternalServerError.cshtml");
             }
         }
+        
         public PartialViewResult RenderListWidget(int siteId = 0, string sysGroupTag = "")
         {
             CooperatorViewModel viewModel = new CooperatorViewModel();
@@ -578,6 +367,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 return PartialView("~/Views/Error/_InternalServerError.cshtml");
             }
         }
+        
         public PartialViewResult RenderEmailModal(int entityId)
         {
             CooperatorViewModel cooperatorViewModel = new CooperatorViewModel();
@@ -604,10 +394,12 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
 
             return PartialView("~/Views/Cooperator/Modals/_Email.cshtml", cooperatorViewModel);
         }
+       
         public ActionResult Delete(FormCollection formCollection)
         {
             throw new NotImplementedException();
         }
+        
         public ActionResult Add()
         {
             try 
@@ -625,5 +417,47 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 return RedirectToAction("InternalServerError", "Error");
             }
         }
+
+        #region Ownership
+
+        public ActionResult EditOwnership(int cooperatorId = 0)
+        {
+            CooperatorOwnershipViewModel viewModel = new CooperatorOwnershipViewModel();
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        public JsonResult EditOwnership(CooperatorOwnershipViewModel viewModel)
+        {
+            try 
+            {
+                viewModel.Transfer();
+                return Json("OK", JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return Json("ERROR", JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public PartialViewResult _ListOwnership(int cooperatorId)
+        {
+            CooperatorViewModel viewModel = new CooperatorViewModel();
+           
+            try 
+            {
+                viewModel.GetRecordsOwned(cooperatorId);
+                return PartialView("~/Views/Cooperator/Ownership/_List.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+    }
+
+}
+
+        #endregion Ownership
     }
 }

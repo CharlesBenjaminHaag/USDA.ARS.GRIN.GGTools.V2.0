@@ -49,6 +49,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             cooperatorStatus = GetRecord<CooperatorStatus>(SQL, CommandType.StoredProcedure, parameters.ToArray());
             return cooperatorStatus;
         }
+        
         public List<Cooperator> GetSiteCurators(int siteId)
         {
             List<Cooperator> cooperators = new List<Cooperator>();
@@ -65,7 +66,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
         public List<ReportItem> GetRecordsOwned(int cooperatorId)
         {
             List<ReportItem> reportItems = new List<ReportItem>();
-            SQL = "usp_GRINGlobal_Cooperator_Records_Owned_Select";
+            SQL = "usp_GRINGlobal_Cooperator_Ownership_Select";
 
             var parameters = new List<IDbDataParameter> {
                 CreateParameter("cooperator_id", (object)cooperatorId, false)
@@ -214,7 +215,6 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
 
             return entity.ID;
         }
-
         
         public List<CodeValue> GetTimeFrameOptions()
         {
@@ -254,15 +254,17 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             sites = GetRecords<Site>(SQL);
             return sites;
         }
-        public virtual List<CodeValue> GetCodeValues(string groupName)
-        {
-            SQL = "usp_GRINGlobal_Code_Values_Select";
-            var parameters = new List<IDbDataParameter> {
-                CreateParameter("group_name", (object)groupName, false)
-            };
-            List<CodeValue> codeValues = GetRecords<CodeValue>(SQL, CommandType.StoredProcedure, parameters.ToArray());
-            return codeValues;
-        }
+        
+        //public virtual List<CodeValue> GetCodeValues(string groupName)
+        //{
+        //    SQL = "usp_GRINGlobal_Code_Values_Select";
+        //    var parameters = new List<IDbDataParameter> {
+        //        CreateParameter("group_name", (object)groupName, false)
+        //    };
+        //    List<CodeValue> codeValues = GetRecords<CodeValue>(SQL, CommandType.StoredProcedure, parameters.ToArray());
+        //    return codeValues;
+        //}
+        
         public void BuildInsertUpdateParameters(Cooperator entity)
         {
             if (entity.ID > 0)
@@ -315,6 +317,15 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
         public Cooperator Get(int entityId)
         {
             throw new NotImplementedException();
+        }
+
+        public int TransferOwnership(int donorCooperatorId, int recipientCooperatorId, string sysTableName)
+        {
+            Reset(CommandType.Text);
+            
+            SQL = "UPDATE " + sysTableName + " SET owned_by = " + recipientCooperatorId + ", owned_date = GETUTCDATE() WHERE owned_by = " + donorCooperatorId;
+            RowsAffected = ExecuteNonQuery();
+            return RowsAffected;
         }
     }
 }

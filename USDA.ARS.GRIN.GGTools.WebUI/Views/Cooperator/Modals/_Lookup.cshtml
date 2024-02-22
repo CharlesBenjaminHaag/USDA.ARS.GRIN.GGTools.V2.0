@@ -39,7 +39,7 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="margin">
-                            <button id="btnReset" class="btn btn-danger">Reset</button>
+                            <button id="btnReset" class="btn btn-default">Reset</button>
                             <button id="btnLookupCooperator" class="btn btn-default float-right">Search</button>
                         </div>
                     </div>
@@ -49,7 +49,7 @@
             </div>
             <div class="modal-footer justify-content-between">
                 <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-                <button id="btnSaveCooperator" type="button" class="btn btn-default" data-dismiss="modal">Transfer Data to Selected Cooperator</button>
+                <button id="btnTransferOwnership" type="button" class="btn btn-default" data-dismiss="modal">Transfer Data to Selected Cooperator</button>
             </div>
         </div>
     </div>
@@ -57,22 +57,22 @@
 
 <script type="text/javascript">
     $("#btnLookupCooperator").click(function () {
-        SearchCooperator();
+        LookupCooperator();
     });
 
-    $("#btnSaveCooperator").click(function () {
+    $("#btnTransferOwnership").click(function () {
         var idList = GetSelectedEntityIDs("data_table_cooperator");
         $('#modal-cooperator-lookup').modal('hide');
     });
 
-    function SearchCooperator() {
-        var link = '@Url.Action("_Lookup","Cooperator")';
+    function LookupCooperator() {
+        var link = '@Url.Action("Lookup","Cooperator")';
         var speciesName = $("#txtLookupSpeciesName").val();
         var formData = new FormData();
 
-        formData.append("SearchEntity.CooperatorID", $("#frmLookupCooperator #SearchEntity_FirstName").val());
         formData.append("SearchEntity.FirstName", $("#frmLookupCooperator #SearchEntity_FirstName").val());
         formData.append("SearchEntity.LastName", $("#frmLookupCooperator #SearchEntity_LastName").val());
+        formData.append("SearchEntity.EmailAddress", $("#frmLookupCooperator #SearchEntity_EmailAddress").val());
 
         $.ajax({
             url: link,
@@ -88,23 +88,6 @@
                 alert("Error");
             }
         });
-    }
-
-    function SelectSpecies(ID, speciesName) {
-        var eventAction = "";
-        var eventValue = "";
-
-        $('#modal-species-lookup').modal('hide');
-
-
-        eventValue = $("#hfModalEventValue").val();
-        if (eventValue == 'SPECIES') {
-            $("#Entity_SpeciesName").val(speciesName);
-        }
-        else {
-            $("#Entity_AcceptedID").val(ID);
-            $("#Entity_AcceptedName").val(speciesName);
-        }
     }
 </script>
 

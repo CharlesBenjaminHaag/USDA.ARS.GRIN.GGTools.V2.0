@@ -10,6 +10,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
     {
         public string Title { get; set; }
         public string Description { get; set; }
+        public string Label2 { get; set; }
         public int Total { get; set; }
         public decimal ItemPercentage { get; set; }
         public string CSSClass { 

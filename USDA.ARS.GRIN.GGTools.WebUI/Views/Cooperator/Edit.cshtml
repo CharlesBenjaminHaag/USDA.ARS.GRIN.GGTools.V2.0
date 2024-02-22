@@ -15,235 +15,232 @@
 {
     using (Html.BeginForm("SetStatus", "Cooperator", FormMethod.Post, new { eventAction = "ACTIVATE" }))
     {
-        @Html.HiddenFor(x=>x.Entity.ID)
+        @Html.HiddenFor(x => x.Entity.ID)
         <input type="hidden" name="EventAction" value="ACTIVATE" />
         <div class="alert alert-warning alert-dismissible">
             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
             <h5><i class="icon fas fa-exclamation-triangle"></i> Cooperator In Pending Status</h5>
             This cooperator record is currently in <strong>PENDING</strong> status. To complete the approval process and notify the cooperator of their new account, click Approve below.
             <br><br>
-            <button 
-                    type="submit" 
+            <button type="submit"
                     class="btn btn-outline-dark">
                 Activate
             </button>
-            <button 
-                    type="button" 
+            <button type="button"
                     class="btn btn-outline-dark"
                     data-toggle="modal"
                     data-target="#modal-cooperator-email">
                 Preview Email
             </button>
         </div>
-        }
     }
+}
 
-    <div class="row" id="section-input-fields">
-        <div class="col-md-3">
-            <div id="section-sys-user-widget">
-                @{Html.RenderAction("RenderWidget", "SysUser", new { sysUserId = Model.Entity.SysUserID }); }
-            </div>
-            <div id="section-sys-group-widget">
-
-
-
-
-
-                @{Html.RenderAction("RenderSysGroupWidget", "SysUser", new { sysUserId = Model.Entity.SysUserID }); }
-            </div>
+<div class="row" id="section-input-fields">
+    <div class="col-md-3">
+        <div id="section-sys-user-widget">
+            @{Html.RenderAction("RenderWidget", "SysUser", new { sysUserId = Model.Entity.SysUserID }); }
         </div>
-        <div class="col-md-9">
-            
-            <div class="card card-success card-tabs">
-                <div class="card-header p-0 pt-1">
-                    <ul class="nav nav-tabs" id="custom-tabs-one-tab" role="tablist">
-                        <li class="nav-item">
-                            <a class="nav-link active" 
-                               id="custom-tabs-one-home-tab" data-toggle="pill" 
-                               href="#custom-tabs-one-home" role="tab" aria-controls="custom-tabs-one-home" aria-selected="true">Details</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" 
-                               id="custom-tabs-one-profile-tab" data-toggle="pill" 
-                               href="#custom-tabs-one-profile" role="tab" aria-controls="custom-tabs-one-profile" aria-selected="false">Cooperator Groups</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" 
-                               id="custom-tabs-one-messages-tab" data-toggle="pill" 
-                               href="#custom-tabs-one-messages" role="tab" aria-controls="custom-tabs-one-messages" aria-selected="false">Ownership</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" 
-                               id="custom-tabs-one-settings-tab" data-toggle="pill" 
-                               href="#custom-tabs-one-settings" role="tab" aria-controls="custom-tabs-one-settings" aria-selected="false">Settings</a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="card-body">
-                    <div class="tab-content" id="custom-tabs-one-tabContent">
-                        <div class="tab-pane fade show active" id="custom-tabs-one-home" role="tabpanel" aria-labelledby="custom-tabs-one-home-tab">
-                            @using (Html.BeginForm("Edit", "Cooperator", FormMethod.Post, new { id = "frmEditCooperator" }))
-                            {
-                                
-                                        @Html.HiddenFor(x => x.PageTitle)
-                                        @Html.HiddenFor(x => x.IsReadOnly)
-                                        @Html.HiddenFor(x => x.EventAction)
-                                        @Html.HiddenFor(x => x.EventValue)
-                                        @Html.HiddenFor(x => x.TableName)
-                                        @Html.HiddenFor(x => x.TableCode)
-                                        @Html.HiddenFor(x => x.Entity.ID)
-                                        @Html.HiddenFor(x => x.Entity.StatusCode)
-                                        @Html.Partial("~/Views/Shared/_ValidationMessages.cshtml")
-                                        @Html.Partial("~/Views/Shared/_RevisionHistory.cshtml")
-                                        <div class="row">
-                                            <div class="col-md-1">
-                                                <div class="form-group">
-                                                    <label>Status</label>
-                                                    <br />
-                                                    @if (Model.Entity.StatusCode == "ACTIVE")
-                                                    {
-                                                        <span class="badge bg-green">
-                                                            @Model.Entity.StatusCode
-                                                        </span>
-                                                    }
-                                                    else
-                                                    {
-                                                        if (Model.Entity.StatusCode == "PENDING")
-                                                        {
-                                                            <span class="badge bg-warning">
-                                                                @Model.Entity.StatusCode
-                                                            </span>
-                                                        }
-                                                        else
-                                                        {
-                                                            <span class="badge bg-danger">
-                                                                @Model.Entity.StatusCode
-                                                            </span>
-                                                        }
-                                                    }
-
-
-                                                </div>
-                                            </div>
-                                            <div class="col-md-2">
-                                                <div class="form-group">
-                                                    <label>Salutation</label>
-                                                    @Html.DropDownListFor(x => x.Entity.Salutation, Model.Salutations, "Select value", new { @class = "form-control" })
-                                                </div>
-                                            </div>
-                                            <div class="col-md-5">
-                                                <div class="form-group">
-                                                    <label>First Name</label>
-                                                    @Html.TextBoxFor(x => x.Entity.FirstName, new { @class = "form-control" })
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <div class="form-group">
-                                                    <label>Last Name</label>
-                                                    @Html.TextBoxFor(x => x.Entity.LastName, new { @class = "form-control" })
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label>Email</label>
-                                                    @Html.TextBoxFor(x => x.Entity.EmailAddress, new { @class = "form-control" })
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label>Phone</label>
-                                                    @Html.TextBoxFor(x => x.Entity.PrimaryPhone, new { @class = "form-control" })
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label>Job Title</label>
-                                                    @Html.TextBoxFor(x => x.Entity.JobTitle, new { @class = "form-control" })
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label>Category</label>
-                                                    @Html.DropDownListFor(x => x.Entity.CategoryCode, Model.Categories, "Select value", new { @class = "form-control" })
-                                                </div>
-                                            </div>
-                                            <div class="col-md-9">
-                                                <div class="form-group">
-                                                    <label>Organization</label>
-                                                    @Html.TextBoxFor(x => x.Entity.Organization, new { @class = "form-control" })
-                                                </div>
-                                            </div>
-                                            <div class="col-md-3">
-                                                <div class="form-group">
-                                                    <label>Abbrev</label>
-                                                    @Html.TextBoxFor(x => x.Entity.OrganizationAbbrev, new { @class = "form-control" })
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <div class="form-group">
-                                                    <label>Site</label>
-                                                    @Html.DropDownListFor(x => x.Entity.SiteID, Model.Sites, "Select site", new { @class = "form-control" })
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>Address</label>
-                                                    @Html.TextBoxFor(x => x.Entity.AddressLine1, new { @class = "form-control" })
-                                                </div>
-                                                <div class="form-group">
-                                                    @Html.TextBoxFor(x => x.Entity.AddressLine2, new { @class = "form-control" })
-                                                </div>
-                                                <div class="form-group">
-                                                    @Html.TextBoxFor(x => x.Entity.AddressLine3, new { @class = "form-control" })
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label>City</label>
-                                                    @Html.TextBoxFor(x => x.Entity.City, new { @class = "form-control" })
-                                                </div>
-                                            </div>
-                                            <div class="col-md-3">
-                                                <label>State/Geo</label>
-                                                @Html.DropDownListFor(x => x.Entity.GeographyID, Model.States, "Select state", new { @class = "form-control" })
-                                            </div>
-                                            <div class="col-md-3">
-                                                <label>Postal Code</label>
-                                                @Html.TextBoxFor(x => x.Entity.PostalIndex, new { @class = "form-control" })
-                                            </div>
-                                        </div>
-                                    
-                                    if (Model.IsReadOnly == "N")
-                                    {
-                                        
-                                            <button id="btnSaveCooperator" type="submit" class="btn btn-default float-right">Save Changes</button>
-                                        
-                                    }
-                                
-                            }
-                        </div>
-                        <div class="tab-pane fade" id="custom-tabs-one-profile" role="tabpanel" aria-labelledby="custom-tabs-one-profile-tab">
-                        </div>
-                        <div class="tab-pane fade" id="custom-tabs-one-messages" role="tabpanel" aria-labelledby="custom-tabs-one-messages-tab">
-                        </div>
-                        <div class="tab-pane fade" id="custom-tabs-one-settings" role="tabpanel" aria-labelledby="custom-tabs-one-settings-tab">
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-            
-            
-            
-            
-            
-            
+        <div id="section-sys-group-widget">
+            @{Html.RenderAction("RenderSysGroupWidget", "SysUser", new { sysUserId = Model.Entity.SysUserID }); }
         </div>
     </div>
+    <div class="col-md-9">
+        <div class="card card-success card-tabs">
+            <div class="card-header p-0 pt-1">
+                <ul class="nav nav-tabs" id="custom-tabs-one-tab" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active"
+                           id="custom-tabs-one-home-tab" data-toggle="pill"
+                           href="#custom-tabs-one-home" role="tab" aria-controls="custom-tabs-one-home" aria-selected="true">Details</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link"
+                           id="custom-tabs-one-profile-tab" data-toggle="pill"
+                           href="#custom-tabs-one-profile" role="tab" aria-controls="custom-tabs-one-profile" aria-selected="false">Cooperator Groups</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link"
+                           id="custom-tabs-one-messages-tab" data-toggle="pill"
+                           href="#tab-content-ownership" role="tab" aria-controls="custom-tabs-one-messages" aria-selected="false">Ownership</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link"
+                           id="custom-tabs-one-settings-tab" data-toggle="pill"
+                           href="#custom-tabs-one-settings" role="tab" aria-controls="custom-tabs-one-settings" aria-selected="false">Settings</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="card-body">
+                <div class="tab-content" id="custom-tabs-one-tabContent">
+                    <div class="tab-pane fade show active" id="custom-tabs-one-home" role="tabpanel" aria-labelledby="custom-tabs-one-home-tab">
+                        @using (Html.BeginForm("Edit", "Cooperator", FormMethod.Post, new { id = "frmEditCooperator" }))
+                        {
+
+                            @Html.HiddenFor(x => x.PageTitle)
+                            @Html.HiddenFor(x => x.IsReadOnly)
+                            @Html.HiddenFor(x => x.EventAction)
+                            @Html.HiddenFor(x => x.EventValue)
+                            @Html.HiddenFor(x => x.TableName)
+                            @Html.HiddenFor(x => x.TableCode)
+                            @Html.HiddenFor(x => x.Entity.ID)
+                            @Html.HiddenFor(x => x.Entity.StatusCode)
+                            @Html.Partial("~/Views/Shared/_ValidationMessages.cshtml")
+                            @Html.Partial("~/Views/Shared/_RevisionHistory.cshtml")
+                            <div class="row">
+                                <div class="col-md-1">
+                                    <div class="form-group">
+                                        <label>Status</label>
+                                        <br />
+                                        @if (Model.Entity.StatusCode == "ACTIVE")
+                                        {
+                                            <span class="badge bg-green">
+                                                @Model.Entity.StatusCode
+                                            </span>
+                                        }
+                                        else
+                                        {
+                                            if (Model.Entity.StatusCode == "PENDING")
+                                            {
+                                                <span class="badge bg-warning">
+                                                    @Model.Entity.StatusCode
+                                                </span>
+                                            }
+                                            else
+                                            {
+                                                <span class="badge bg-danger">
+                                                    @Model.Entity.StatusCode
+                                                </span>
+                                            }
+                                        }
+
+
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>Salutation</label>
+                                        @Html.DropDownListFor(x => x.Entity.Salutation, Model.Salutations, "Select value", new { @class = "form-control" })
+                                    </div>
+                                </div>
+                                <div class="col-md-5">
+                                    <div class="form-group">
+                                        <label>First Name</label>
+                                        @Html.TextBoxFor(x => x.Entity.FirstName, new { @class = "form-control" })
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Last Name</label>
+                                        @Html.TextBoxFor(x => x.Entity.LastName, new { @class = "form-control" })
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Email</label>
+                                        @Html.TextBoxFor(x => x.Entity.EmailAddress, new { @class = "form-control" })
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Phone</label>
+                                        @Html.TextBoxFor(x => x.Entity.PrimaryPhone, new { @class = "form-control" })
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Job Title</label>
+                                        @Html.TextBoxFor(x => x.Entity.JobTitle, new { @class = "form-control" })
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Category</label>
+                                        @Html.DropDownListFor(x => x.Entity.CategoryCode, Model.Categories, "Select value", new { @class = "form-control" })
+                                    </div>
+                                </div>
+                                <div class="col-md-9">
+                                    <div class="form-group">
+                                        <label>Organization</label>
+                                        @Html.TextBoxFor(x => x.Entity.Organization, new { @class = "form-control" })
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Abbrev</label>
+                                        @Html.TextBoxFor(x => x.Entity.OrganizationAbbrev, new { @class = "form-control" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>Site</label>
+                                        @Html.DropDownListFor(x => x.Entity.SiteID, Model.Sites, "Select site", new { @class = "form-control" })
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Address</label>
+                                        @Html.TextBoxFor(x => x.Entity.AddressLine1, new { @class = "form-control" })
+                                    </div>
+                                    <div class="form-group">
+                                        @Html.TextBoxFor(x => x.Entity.AddressLine2, new { @class = "form-control" })
+                                    </div>
+                                    <div class="form-group">
+                                        @Html.TextBoxFor(x => x.Entity.AddressLine3, new { @class = "form-control" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>City</label>
+                                        @Html.TextBoxFor(x => x.Entity.City, new { @class = "form-control" })
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <label>State/Geo</label>
+                                    @Html.DropDownListFor(x => x.Entity.GeographyID, Model.States, "Select state", new { @class = "form-control" })
+                                </div>
+                                <div class="col-md-3">
+                                    <label>Postal Code</label>
+                                    @Html.TextBoxFor(x => x.Entity.PostalIndex, new { @class = "form-control" })
+                                </div>
+                            </div>
+
+                            if (Model.IsReadOnly == "N")
+                            {
+
+                                <button id="btnSaveCooperator" type="submit" class="btn btn-default float-right">Save Changes</button>
+
+                            }
+
+                        }
+                    </div>
+                    <div class="tab-pane fade" id="custom-tabs-one-profile" role="tabpanel" aria-labelledby="custom-tabs-one-profile-tab">
+                        @*@{Html.RenderAction("_List", "CooperatorGroup", new { @cooperatorId = Model.Entity.ID}); }*@
+                        <h3>COOP GROUP LIST HERE</h3>
+                    </div>
+                    <div class="tab-pane fade" id="tab-content-ownership" role="tabpanel" aria-labelledby="custom-tabs-one-messages-tab">
+                        @{Html.RenderAction("_ListOwnership", "Cooperator", new { @cooperatorId = Model.Entity.ID }); }
+                    </div>
+                    <div class="tab-pane fade" id="custom-tabs-one-settings" role="tabpanel" aria-labelledby="custom-tabs-one-settings-tab">
+                        <h3>COOP CT SETTINGS LIST(S) HERE</h3>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+
+
+
+
+    </div>
+</div>
 
 @{Html.RenderAction("RenderEmailModal", "Cooperator", new { @entityId = Model.Entity.ID }); }
+@{Html.RenderAction("RenderLookupModal", "Cooperator"); }
 @{Html.RenderAction("RenderEditModal", "SysUser"); }
 @{Html.RenderAction("RenderEditModal", "SysGroupUserMap", new { sysUserId = Model.Entity.SysUserID }); }
 
@@ -286,7 +283,7 @@
         // Get edited text from Summernote control.
         var editedEmailBody = $("#EmailMessage_Body").summernote("code");
         formData.append("EmailMessage.Body", editedEmailBody);
-     
+
         $.ajax({
             url: link,
             type: 'POST',
@@ -305,144 +302,33 @@
         $("#modal-folder-edit").modal("hide");
     }
 
+    /************************************************************ OWNERSHIP ******************************************************************/
 
-    //$(document).on("click", "[id*='btnSaveWebCooperator']", function () {
-    //    SaveWebCooperator();
-    //});
+    $(document).on("click", "[id*='btnTransferOwnership']", function () {
+        TransferOwnership();
+    });
 
-    //$(document).on("click", "[id*='btnCopyWebCooperator']", function () {
-    //    CopyWebCooperator();
-    //});
-
-    //$(document).on("click", "[id*='btnSaveSysUser']", function () {
-    //    SaveSysUser();
-    //});
-
-    //$(document).on("click", "[id*='btnSaveWebUser']", function () {
-    //    SaveWebUser();
-    //});
-
-    //$(document).on("click", "[id*='btnCopyWebUser']", function () {
-    //    CopyWebUser();
-    //});
-
-    //function SaveCooperator() {
-    //    var link = $("#frmEditCooperator").attr("action");
-    //    var formData = new FormData();
-
-    //    formData.append("Entity.ID", $("#frmEditCooperator #Entity_ID").val());
-    //    formData.append("Entity.StatusCode", $("#frmEditCooperator #Entity_StatusCode").val());
-    //    formData.append("Entity.Salutation", $("#frmEditCooperator #Entity_Salutation").val());
-    //    formData.append("Entity.FirstName", $("#frmEditCooperator #Entity_FirstName").val());
-    //    formData.append("Entity.LastName", $("#frmEditCooperator #Entity_LastName").val());
-    //    formData.append("Entity.JobTitle", $("#frmEditCooperator #Entity_JobTitle").val());
-    //    formData.append("Entity.Organization", $("#frmEditCooperator #Entity_Organization").val());
-    //    formData.append("Entity.OrganizationAbbrev", $("#frmEditCooperator #Entity_OrganizationAbbrev").val());
-    //    formData.append("Entity.EmailAddress", $("#frmEditCooperator #Entity_EmailAddress").val());
-    //    formData.append("Entity.PrimaryPhone", $("#frmEditCooperator #Entity_PrimaryPhone").val());
-    //    formData.append("Entity.CategoryCode", $("#frmEditCooperator #Entity_CategoryCode").val());
-    //    formData.append("Entity.SiteID", $("#frmEditCooperator #Entity_SiteID").val());
-    //    formData.append("Entity.AddressLine1", $("#frmEditCooperator #Entity_AddressLine1").val());
-    //    formData.append("Entity.AddressLine2", $("#frmEditCooperator #Entity_AddressLine2").val());
-    //    formData.append("Entity.AddressLine3", $("#frmEditCooperator #Entity_AddressLine3").val());
-    //    formData.append("Entity.City", $("#frmEditCooperator #Entity_City").val());
-    //    formData.append("Entity.GeographyID", $("#frmEditCooperator #Entity_GeographyID").val());
-    //    formData.append("Entity.PostalIndex", $("#frmEditCooperator #Entity_PostalIndex").val());
-
-    //    $.ajax({
-    //        url: link,
-    //        type: 'POST',
-    //        cache: false,
-    //        contentType: false,
-    //        processData: false,
-    //        data: formData,
-    //        success: function (response) {
-    //            $("#tab-content-cooperator").html(response);
-    //        },
-    //        error: function () {
-    //            alert("Error");
-    //        }
-    //    });
-    //}
-
-    @*function SaveWebCooperator() {
-        var link = $("#frmEditWebCooperator").attr("action");
-        // DEBUG
-        alert("SAVE WC");
-        $("#section-card-web-cooperator").removeClass("card-danger");
-        $("#section-card-web-cooperator").addClass("card-default");
+    function GetOwnershipList() {
+        /* TODO Make AJAX call to retrieve ownership list */
+        //DEBUG
+        alert("REFRESH OWN LIST");
     }
 
-    function CopyWebCooperator() {
-        var link = '@Url.Action("Copy","WebCooperator")';
-        var formData = new FormData();
+    function TransferOwnership() {
 
-        formData.append("Entity.ID", $("#frmEditWebCooperator #Entity_ID").val());
-        formData.append("CooperatorID", $("#frmEditWebCooperator #CooperatorID").val());
-
-        $.ajax({
-            url: link,
-            type: 'POST',
-            cache: false,
-            contentType: false,
-            processData: false,
-            data: formData,
-            success: function (response) {
-                $("#card-web-cooperator").html(response);
-            },
-            error: function () {
-                alert("Error");
-            }
-        });
-    }
-
-    function SaveSysUser() {
-        var link = $("#frmEditSysUser").attr("action");
-        var formData = new FormData();
-
-        formData.append("Entity.CooperatorID", $("#frmEditSysUser #Entity_CooperatorID").val());
-        formData.append("Entity.SysUserID", $("#frmEditSysUser #Entity_SysUserID").val());
-        formData.append("Entity.SysUserName", $("#frmEditSysUser #Entity_SysUserName").val());
-        formData.append("Entity.SysUserPassword", $("#frmEditSysUser #Entity_SysUserPassword").val());
-        formData.append("Entity.SysUserPasswordConfirm", $("#frmEditSysUser #Entity_SysUserPasswordConfirm").val());
-
-        $.ajax({
-            url: link,
-            type: 'POST',
-            cache: false,
-            contentType: false,
-            processData: false,
-            data: formData,
-            success: function (response) {
-                $("#card-sys-user").html(response);
-            },
-            error: function () {
-                alert("Error");
-            }
-        });
-    }
-
-    function SaveWebUser() {
-        var link = $("#frmEditWebUser").attr("action");
-        // DEBUG
-        alert("SAVE WU " + link);
-        $("#section-card-web-user").removeClass("card-danger");
-        $("#section-card-web-user").addClass("card-default");
-    }
-
-    function CopyWebUser() {
-        var link = '@Url.Action("Copy","WebUser")';
-        var sysUserId = $("#frmEditSysUser #Entity_ID").val();
-        var webCooperatorId = $("#frmEditWebCooperator #Entity_ID").val();
-        var webUserName = $("#frmEditCooperator #Entity_EmailAddress").val();
-        var formData = new FormData();
+        var link = '@Url.Action("EditOwnership","Cooperator")';
+        var donorCooperatorId = $("#Entity_ID").val();
+        var recipientCooperatorId = GetSelectedEntityIDs("data-table-cooperator-lookup");
+        var sysTableNameList = GetSelectedEntityIDs("data-table-cooperator-ownership");
 
         //DEBUG
-        alert("SU IS " + sysUserId + " AND WC IS " + webCooperatorId + " AND USER NAME IS " + webUserName);
+        /*alert("DEBUG TRANSFER " + sysTableNameList + " FROM " + donorCooperatorId + " TO " + recipientCooperatorId);*/
 
-        formData.append("SysUserID", sysUserId);
-        formData.append("Entity.WebCooperatorID", webCooperatorId);
-       /* formData.append("Entity.WebCooperatorID", webCooperatorId);*/
+        var formData = new FormData();
+
+        formData.append("SysTableNameList", sysTableNameList);
+        formData.append("DonorCooperatorID", donorCooperatorId);
+        formData.append("RecipientCooperatorID", recipientCooperatorId);
 
         $.ajax({
             url: link,
@@ -452,110 +338,13 @@
             processData: false,
             data: formData,
             success: function (response) {
-                $("#card-web-user").html(response);
+                GetOwnershipList();
             },
             error: function () {
                 alert("Error");
             }
         });
-    }*@
-    //$('#btnEditGroups').on('click', function () {
-    //    $("#modal_sys_group_user_map_lookup").modal("show");
-    //});
-
-    //$('#btnSaveSysUser').on('click', function () {
-    //    AjaxFormSubmit();
-    //});
-
-    //$('#btnSubmitResetPassword').on('click', function () {
-    //    AjaxFormSubmit();
-    //});
-
-    @*function LoadRecordsOwnedList(cooperatorId) {
-        var link = '@Url.Action("RenderRecordsOwnedList","Cooperator")';
-        var formData = new FormData();
-        var partialViewSectionName = "";
-
-        formData.append("cooperatorId", cooperatorId);
-
-        $.ajax({
-            url: link,
-            type: 'POST',
-            cache: false,
-            contentType: false,
-            processData: false,
-            data: formData,
-            success: function (response) {
-                $("#tab-records-owned").html(response);
-            }
-        });
-    }*@
-
-    @*function RenderSysUserWidget(sysUserId) {
-        var link = '@Url.Action("RenderWidget","SysUser")';
-        var formData = new FormData();
-        formData.append("sysUserId", sysUserId);
-        $.ajax({
-            url: link,
-            type: 'POST',
-            cache: false,
-            contentType: false,
-            processData: false,
-            data: formData,
-            success: function (response) {
-                $("#section-sys-user").html(response);
-            }
-        });
-    }*@
-
-    @*function RenderSysGroupWidget(sysUserId) {
-        var link = '@Url.Action("RenderSysGroupWidget","SysUser")';
-        var formData = new FormData();
-        formData.append("sysUserId", sysUserId);
-        $.ajax({
-            url: link,
-            type: 'POST',
-            cache: false,
-            contentType: false,
-            processData: false,
-            data: formData,
-            success: function (response) {
-                $("#section-sys-group").html(response);
-            }
-        });
-    }*@
-
-    //function AjaxFormSubmit() {
-    //    var link = $("#frmEditSysUser").attr("action");
-    //    var formData = new FormData();
-    //    formData.append("Entity.CooperatorID", $("#frmEditCooperator #Entity_ID").val());
-    //    formData.append("Entity.SysUserID", $("#frmEditSysUser #Entity_SysUserID").val());
-    //    formData.append("Entity.UserName", $("#frmEditSysUser #Entity_UserName").val());
-    //    formData.append("Entity.Password", $("#frmEditSysUser #Entity_Password").val());
-    //    formData.append("Entity.PasswordConfirm", $("#frmEditSysUser #Entity_PasswordConfirm").val());
-
-    //    $.ajax({
-    //        url: link,
-    //        type: 'POST',
-    //        cache: false,
-    //        dataType: 'json',
-    //        contentType: false,
-    //        processData: false,
-    //        data: formData,
-    //        success: function (data) {
-    //            RenderSysUserWidget(data.sysUser.ID);
-    //            RenderSysGroupWidget(data.sysUser.ID);
-    //        },
-    //        error: function (ex) {
-    //            alert("Error");
-    //        }
-    //    });
-    //}
-
-    //function AjaxResetPasswordFormSubmit() {
-    //    var link = $("#frmSysUserResetPassword").attr("action");
-    //    //TODO
-    //}
+    }
 </script>
 
 

@@ -113,6 +113,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 return PartialView("~/Views/Error/_InternalServerError.cshtml");
             }
         }
+        
         public PartialViewResult _ListDynamicFolderItems(int folderId)
         {
             SpeciesViewModel viewModel = new SpeciesViewModel();
@@ -128,6 +129,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 return PartialView("~/Views/Error/_InternalServerError.cshtml");
             }
         }
+       
         public ActionResult Index(string eventAction = "", int folderId = 0)
         {
             SpeciesViewModel viewModel = new SpeciesViewModel();
@@ -159,8 +161,6 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             try
             {
                 Session[SessionKeyName] = viewModel;
-                viewModel.EventAction = "Search";
-                viewModel.EventValue = "Species";
                 viewModel.Search();
                 ModelState.Clear();
 
@@ -185,11 +185,13 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             SpeciesViewModel viewModel = new SpeciesViewModel();
             return PartialView(BASE_PATH + "/Modals/_Lookup.cshtml", viewModel);
         }
+        
         public PartialViewResult RenderParentLookupModal()
         {
             SpeciesViewModel viewModel = new SpeciesViewModel();
             return PartialView(BASE_PATH + "/Modals/_LookupParent.cshtml", viewModel);
         }
+        
         public PartialViewResult RenderInfraspecificAutonymWidget(string genusName, string speciesName, string rank)
         {
             try
@@ -204,6 +206,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 return PartialView("~/Views/Error/_InternalServerError.cshtml");
             }
         }
+        
         [HttpPost]
         public PartialViewResult Lookup(SpeciesViewModel viewModel)
         {
@@ -448,6 +451,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 return RedirectToAction("InternalServerError", "Error");
             }
         }
+        
         public ActionResult AddAutonym(int entityId)
         {
             SpeciesViewModel speciesViewModel = new SpeciesViewModel();
@@ -764,10 +768,14 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
 
             try {
 
-                using (var db = new Database("sqlserver", "Data Source=localhost;Initial Catalog=gringlobal;User Id=gg_user;Password=Savory*survive8ammonia?;Connection Timeout=30;Connection Lifetime=0;Min Pool Size=0;Max Pool Size=100;Pooling=true;"))
+
+
+                using (var db = new Database("sqlserver", "Data Source=199.133.201.116;Initial Catalog=training;User Id=gg_user;Password=Savory*survive8ammonia?;Connection Timeout=30;Connection Lifetime=0;Min Pool Size=0;Max Pool Size=100;Pooling=true;"))
                 {
-                    var editor = new Editor(db, "taxonomy_species", "taxonomy_species_id").Where(q => {
-                        q.Where(r => {
+                    var editor = new Editor(db, "taxonomy_species", "taxonomy_species_id").Where(q =>
+                    {
+                        q.Where(r =>
+                        {
                             foreach (var i in idArray)
                             {
                                 r.OrWhere("taxonomy_species_id", i);

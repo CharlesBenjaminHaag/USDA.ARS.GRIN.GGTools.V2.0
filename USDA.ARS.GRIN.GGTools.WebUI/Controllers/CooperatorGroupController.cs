@@ -10,6 +10,24 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
     {
         private static readonly Logger Log = LogManager.GetCurrentClassLogger();
 
+        public PartialViewResult _List(int cooperatorId)
+        {
+            try 
+            {
+                //TODO
+                CooperatorGroupViewModel viewModel = new CooperatorGroupViewModel();
+                
+
+                return PartialView("~/Views/CooperatorGroup/_List.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
+        }
+
+
         public ActionResult Delete(FormCollection formCollection)
         {
             throw new NotImplementedException();
