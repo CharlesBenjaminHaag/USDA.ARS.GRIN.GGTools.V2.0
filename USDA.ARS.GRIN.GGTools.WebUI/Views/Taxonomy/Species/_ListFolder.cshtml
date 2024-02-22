@@ -63,18 +63,20 @@
 </div>
         
 <script type="text/javascript">
-    $(document).ready(function () {
-        InitDataTable("data_table_taxonomy_species");
-    });
+   $(document).ready(function () {
+    InitDataTableBase("data_table_taxonomy_species","Y");
+});
 
-    function BatchEdit() {
-        var tableName = $("#TableName").val();
-        var eventAction = $("#EventAction").val();
-        var eventValue = $("#EventValue").val();
-        var batchEditUrl = '@Url.Action("EditBatch", "Species")';
-        var selectedIdList = GetSelectedEntityIDs("data_table_taxonomy_species");
+function BatchEdit() {
+    var tableName = $("#TableName").val();
+    var eventAction = $("#EventAction").val();
+    var eventValue = $("#EventValue").val();
+    var batchEditUrl = '@Url.Action("EditBatch", "Species")';
+    var selectedIdList = GetSelectedEntityIDs("data_table_taxonomy_species");
 
-        batchEditUrl = batchEditUrl + "?idList=" + selectedIdList;
-        window.location.href = batchEditUrl;
-    }
+    /* TODO: Ensure at least one selected */
+
+    batchEditUrl = batchEditUrl + "?idList=" + selectedIdList;
+    window.location.href = batchEditUrl;
+}
 </script>

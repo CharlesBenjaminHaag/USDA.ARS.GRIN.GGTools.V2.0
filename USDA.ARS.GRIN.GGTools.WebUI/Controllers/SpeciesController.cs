@@ -9,10 +9,12 @@ using NLog;
 using System.Security.Permissions;
 using DataTables;
 using System.Linq.Expressions;
+using System.Runtime.Remoting.Channels;
 
 namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
 {
     [GrinGlobalAuthentication]
+    [ValidateInput(false)]
     public class SpeciesController : BaseController
     {
         protected static string BASE_PATH = "~/Views/Taxonomy/Species/";
@@ -749,28 +751,45 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
 
         public JsonResult EditMultiple()
         {
+            string idList = String.Empty;
             var request = System.Web.HttpContext.Current.Request;
             //var settings = Properties.Settings.Default;
+
+            if (Session["SPECIES_ID_LIST"] != null)
+            {
+               idList = Session["SPECIES_ID_LIST"].ToString();
+            }
+
+            string[] idArray = idList.Split(','); 
 
             try {
 
                 using (var db = new Database("sqlserver", "Data Source=localhost;Initial Catalog=gringlobal;User Id=gg_user;Password=Savory*survive8ammonia?;Connection Timeout=30;Connection Lifetime=0;Min Pool Size=0;Max Pool Size=100;Pooling=true;"))
                 {
-                    var response = new Editor(db, "taxonomy_species", "taxonomy_species_id")
-                        .Model<Species_POC>()
-                        .Field(new Field("taxonomy_species_id")
-                            .Validator(Validation.NotEmpty())
-                        )
-                        .Field(new Field("name"))
-                        .Field(new Field("protologue")
-                            
-                        )
-                        .Field(new Field("name_authority")
-                            
-                        )
-                        .Process(request)
-                        .Data();
+                    var editor = new Editor(db, "taxonomy_species", "taxonomy_species_id").Where(q => {
+                        q.Where(r => {
+                            foreach (var i in idArray)
+                            {
+                                r.OrWhere("taxonomy_species_id", i);
+                            }
+                        });
+                    })
+                    .Model<Species_POC>();
 
+                    editor.Field(new Field("taxonomy_species_id")
+                        .Validator(Validation.NotEmpty())
+                    );
+                    editor.Field(new Field("name"));
+                    editor.Field(new Field("protologue"));
+                    editor.Field(new Field("name_authority"));
+                    editor.Field(new Field("note"));
+                    editor.Field(new Field("modified_date")
+                        .Set(Field.SetType.Edit));
+                    editor.PreEdit += (sender, e) => editor.Field("modified_date").SetValue(DateTime.Now);
+                    editor.Process(request);
+                   
+                    var response = editor.Data();
+                    
                     JsonResult jsonResult = new JsonResult();
                     jsonResult = Json(response);
                     jsonResult.MaxJsonLength = 2147483644;
@@ -789,11 +808,10 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
         {
             try
             {   SpeciesViewModel viewModel = new SpeciesViewModel();
-                viewModel.PageTitle = "Species Batch Edit";
-                viewModel.SearchEntity.IDList = idList;
-                viewModel.Search();
-
-                //DEBUG
+                viewModel.PageTitle = "Batch Edit";
+                //viewModel.SearchEntity.IDList = idList;
+                //viewModel.Search();
+                Session["SPECIES_ID_LIST"] = idList;
                 return View("~/Views/Taxonomy/Species/EditMultiple_POC.cshtml", viewModel);
             }
             catch (Exception ex)
