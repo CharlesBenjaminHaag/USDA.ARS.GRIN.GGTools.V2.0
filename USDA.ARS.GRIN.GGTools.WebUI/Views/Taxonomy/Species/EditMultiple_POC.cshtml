@@ -20,8 +20,8 @@
                     <thead>
                         <tr>
                             <th>ID</th>
-                             
-                            <th>Name</th>
+                            <th>Genus</th>
+                            <th>Epithet</th>
                             <th>Protologue</th>
                             <th>Authority</th>
                             <th>Note</th>
@@ -45,9 +45,10 @@
                     label: 'ID:',
                     name: 'taxonomy_species.taxonomy_species_id'
                 },
+                
                 {
                     label: 'Name:',
-                    name: 'taxonomy_species.name'
+                    name: 'taxonomy_species.species_name'
                 },
                 {
                     label: 'Protologue:',
@@ -77,12 +78,20 @@
             //],
             columns: [
                 { data: 'taxonomy_species.taxonomy_species_id' },
-                { data: 'taxonomy_species.name' },
+                { data: 'taxonomy_genus.genus_name' },
+                { data: 'taxonomy_species.species_name' },
                 { data: 'taxonomy_species.protologue' },
                 { data: 'taxonomy_species.name_authority' },
                 { data: 'taxonomy_species.note' },
                 { data: 'taxonomy_species.modified_date' }
             ],
+            keys: {
+                /*columns: ':not(:first-child)',*/
+                columns: [2,3,4,5],
+                keys: [9],
+                editor: editor,
+                editOnFocus: true
+            },
             layout: {
                 topStart: {
                     buttons: [

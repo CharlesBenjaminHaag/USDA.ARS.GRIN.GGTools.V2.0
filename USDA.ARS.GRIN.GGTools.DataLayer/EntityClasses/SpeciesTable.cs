@@ -14,7 +14,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
     {
         public int taxonomy_genus_id { get; set; }
         public int taxonomy_species_id { get; set; }
-        public string name { get; set; }
+        public string species_name { get; set; }
         [AllowHtml]
         public string protologue { get; set; }
         public string name_authority { get; set; }
