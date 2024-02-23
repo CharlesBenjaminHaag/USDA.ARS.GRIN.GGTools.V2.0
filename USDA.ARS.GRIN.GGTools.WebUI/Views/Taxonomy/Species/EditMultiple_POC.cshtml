@@ -6,7 +6,7 @@
 }
 <div id="section-search-results" class="card card-success">
     <div class="card-header">
-        <h3 class="card-title">Species</h3>
+        <h3 class="card-title">Species DEBUG</h3>
         <div class="card-tools">
             <button type="button" class="btn btn-tool" data-card-widget="collapse">
                 <i class="fas fa-minus"></i>
@@ -20,6 +20,7 @@
                     <thead>
                         <tr>
                             <th>ID</th>
+                             
                             <th>Name</th>
                             <th>Protologue</th>
                             <th>Authority</th>
@@ -42,23 +43,23 @@
             fields: [
                 {
                     label: 'ID:',
-                    name: 'taxonomy_species_id'
+                    name: 'taxonomy_species.taxonomy_species_id'
                 },
                 {
                     label: 'Name:',
-                    name: 'name'
+                    name: 'taxonomy_species.name'
                 },
                 {
                     label: 'Protologue:',
-                    name: 'protologue'
+                    name: 'taxonomy_species.protologue'
                 },
                 {
                     label: 'Authority:',
-                    name: 'name_authority'
+                    name: 'taxonomy_species.name_authority'
                 },
                 {
                     label: 'Note:',
-                    name: 'note'
+                    name: 'taxonomy_species.note'
                 }
             ],
             table: '#example'
@@ -75,12 +76,12 @@
             //    { extend: 'remove', editor: editor }
             //],
             columns: [
-                { data: 'taxonomy_species_id' },
-                { data: 'name' },
-                { data: 'protologue' },
-                { data: 'name_authority' },
-                { data: 'note' },
-                { data: 'modified_date' }
+                { data: 'taxonomy_species.taxonomy_species_id' },
+                { data: 'taxonomy_species.name' },
+                { data: 'taxonomy_species.protologue' },
+                { data: 'taxonomy_species.name_authority' },
+                { data: 'taxonomy_species.note' },
+                { data: 'taxonomy_species.modified_date' }
             ],
             layout: {
                 topStart: {
@@ -92,7 +93,14 @@
                 }
             },
             order: [[1, 'asc']],
-            dom: 'Bfrtip',
+            scrollX: true,
+            scrollY: 500,
+            pageLength: 10,
+            lengthMenu: [
+                [10, 25, 50, 100, -1],
+                [10, 25, 50, 100, 'All']
+            ],
+            dom: "Bflrtip",
             select: {
                 blurable: true,
                 selector: 'td:first-child',

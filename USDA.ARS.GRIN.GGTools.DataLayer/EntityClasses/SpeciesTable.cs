@@ -10,8 +10,9 @@ using System.Security;
 
 namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
 {
-    public class Species_POC
+    public class SpeciesTable
     {
+        public int taxonomy_genus_id { get; set; }
         public int taxonomy_species_id { get; set; }
         public string name { get; set; }
         [AllowHtml]

@@ -772,28 +772,30 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
 
                 using (var db = new Database("sqlserver", "Data Source=199.133.201.116;Initial Catalog=training;User Id=gg_user;Password=Savory*survive8ammonia?;Connection Timeout=30;Connection Lifetime=0;Min Pool Size=0;Max Pool Size=100;Pooling=true;"))
                 {
-                    var editor = new Editor(db, "taxonomy_species", "taxonomy_species_id").Where(q =>
+                    var editor = new Editor(db, "taxonomy_species", "taxonomy_species.taxonomy_species_id").Where(q =>
                     {
                         q.Where(r =>
                         {
                             foreach (var i in idArray)
                             {
-                                r.OrWhere("taxonomy_species_id", i);
+                                r.OrWhere("taxonomy_species.taxonomy_species_id", i);
                             }
                         });
                     })
-                    .Model<Species_POC>();
+                    .Model<SpeciesTable>("taxonomy_species")
+                    .Model<GenusTable>("taxonomy_genus")
+                    .LeftJoin("taxonomy_genus", "taxonomy_genus.taxonomy_genus_id", "=", "taxonomy_species.taxonomy_genus_id");
 
-                    editor.Field(new Field("taxonomy_species_id")
+                    editor.Field(new Field("taxonomy_species.taxonomy_species_id")
                         .Validator(Validation.NotEmpty())
                     );
-                    editor.Field(new Field("name"));
-                    editor.Field(new Field("protologue"));
-                    editor.Field(new Field("name_authority"));
-                    editor.Field(new Field("note"));
-                    editor.Field(new Field("modified_date")
+                    editor.Field(new Field("taxonomy_species.name"));
+                    editor.Field(new Field("taxonomy_species.protologue"));
+                    editor.Field(new Field("taxonomy_species.name_authority"));
+                    editor.Field(new Field("taxonomy_species.note"));
+                    editor.Field(new Field("taxonomy_species.modified_date")
                         .Set(Field.SetType.Edit));
-                    editor.PreEdit += (sender, e) => editor.Field("modified_date").SetValue(DateTime.Now);
+                    editor.PreEdit += (sender, e) => editor.Field("taxonomy_species.modified_date").SetValue(DateTime.Now);
                     editor.Process(request);
                    
                     var response = editor.Data();

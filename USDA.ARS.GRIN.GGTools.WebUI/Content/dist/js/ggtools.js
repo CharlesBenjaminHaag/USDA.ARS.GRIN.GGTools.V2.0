@@ -2,7 +2,7 @@
 * Name         : ggtools.js
 * Description  : Main JS application file for GGTools. This file
 *                should be included in all layout pages. 
-* Last Updated : 2/13/24
+* Last Updated : 2/23/24
 * By           : Benjamin Haag
 */
 
@@ -40,7 +40,7 @@ function InitDataTable(tableName) {
 
     $(document).ready(function () {
         table = $(tableName).DataTable({
-            dom: 'Bfrtip',
+            dom: "Bflrtip",
             responsive: true,
             paging: true,
             "pageLength": 10,
@@ -90,7 +90,7 @@ function InitDataTableWithBatchEdit(tableName) {
 
     $(document).ready(function () {
         table = $(tableName).DataTable({
-            dom: 'Bfrtip',
+            dom: "Bflrtip",
             responsive: true,
             paging: true,
             "pageLength": 10,
@@ -143,40 +143,46 @@ function InitDataTableWithBatchEdit(tableName) {
 
 function InitDataTableFolderFormat(tableName) {
     tableName = "#" + tableName;
+
     $(document).ready(function () {
         table = $(tableName).DataTable({
-            dom: 'Blfrtip',
+            dom: "Bflrtip",
+            responsive: true,
             paging: true,
             "pageLength": 10,
-            responsive: true,
+            select: true,
             buttons: [
+                {
+                    extend: 'copyHtml5',
+                    exportOptions: {
+                        columns: [0, ':visible']
+                    }
+                },
+                {
+                    extend: 'excelHtml5',
+                    exportOptions: {
+                        columns: ':visible'
+                    }
+                },
+                {
+                    extend: 'pdfHtml5',
+                    exportOptions: {
+                        columns: [0, 1, 2, 5]
+                    }
+                },
+                'colvis',
                 'selectAll',
                 'selectNone',
-                'csv',
-                'excel',
-                'pdfHtml5',
                 {
-                    text: 'Delete From Folder',
+                    text: 'Edit Selected',
                     action: function (e, dt, node, config) {
-                        DeleteBatchPrompt();
+                        BatchEdit();
                     }
                 }
-            ],
-            select: true,
-            lengthMenu: [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],
-            columnDefs: [
-                {
-                    target: 0,
-                    visible: false,
-                    searchable: false,
-                },
-                {
-                    target: 1,
-                    visible: false,
-                    searchable: false,
-                },
             ]
         });
+
+
 
         $('table.ggtools').on('click', 'tr', function () {
             var data = table.row(this).data();
