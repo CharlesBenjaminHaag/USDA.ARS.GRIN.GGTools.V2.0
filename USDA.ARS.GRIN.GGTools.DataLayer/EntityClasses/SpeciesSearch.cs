@@ -19,7 +19,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         public bool IsAccepted { get; set; }
         public string Rank { get; set; }
         public string IsSpecificHybrid { get; set; }
-        public bool IsSpecificHybridOption { get; set; }
+        //public bool IsSpecificHybridOption { get; set; }
         public string SpeciesName { get; set; }
         public string SpeciesEpithet { get; set; }
         public string FullName { get; set; }
@@ -29,7 +29,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         public string NameAuthority { get; set; }
         public string SpeciesAuthority { get; set; }
         public string IsSubspecificHybrid { get; set; }
-        public bool IsSubSpecificHybridOption { get; set; }
+        //public bool IsSubSpecificHybridOption { get; set; }
         public string SubspeciesName { get; set; }
         public string SubspeciesAuthority { get; set; }
         public string IsVarietalHybrid { get; set; }
@@ -37,11 +37,11 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         public string VarietyName { get; set; }
         public string VarietyAuthority { get; set; }
         public string IsSubVarietalHybrid { get; set; }
-        public bool IsSubvarietalHybridOption { get; set; }
+        //public bool IsSubvarietalHybridOption { get; set; }
         public string SubvarietyName { get; set; }
         public string SubvarietyAuthority { get; set; }
         public string IsFormaHybrid { get; set; }
-        public bool IsFormaHybridOption { get; set; }
+        //public bool IsFormaHybridOption { get; set; }
         public string FormaRankType { get; set; }
         public string FormaName { get; set; }
         public string FormaAuthority { get; set; }
@@ -49,6 +49,8 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         public string Protologue { get; set; }
         public int GenusID { get; set; }
         public string GenusName { get; set; }
+        public string GenusHybridCode { get; set; }
+        public string SubGenusName { get; set; }
         public string FamilyName { get; set; }
         public string IsNamePending { get; set; }
         public string SynonymCode { get; set; }

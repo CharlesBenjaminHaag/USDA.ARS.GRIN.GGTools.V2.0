@@ -165,7 +165,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 ModelState.Clear();
 
                 // Save search if attribs supplied.
-                if ((viewModel.EventAction == "SEARCH") && (viewModel.EventValue == "SAVE"))
+                if ((viewModel.EventAction == "Species") && (viewModel.EventValue == "SaveSearch"))
                 {
                     viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
                     viewModel.SaveSearch();
@@ -886,30 +886,6 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 return PartialView("~/Views/Error/_InternalServerError.cshtml");
             }
         }
-        #region Reports
-        //public PartialViewResult RenderReportsWidget()
-        //{
-        //    try
-        //    {
-        //        SpeciesViewModel viewModel = new SpeciesViewModel();
-        //        viewModel.GetReportList();
-        //        return PartialView("~/Views/Taxonomy/Reports/_ListWidget.cshtml", viewModel);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Log.Error(ex);
-        //        return PartialView("~/Views/Error/_InternalServerError.cshtml");
-        //    }
-        //}
-        //public ViewResult ReportDetail(string reportCode)
-        //{
-        //    SpeciesViewModel viewModel = new SpeciesViewModel();
-        //    viewModel.PageTitle = reportCode.Replace("_", " ");
-        //    viewModel.GetReport(reportCode);
-        //    //TODO Get report
-        //    return View("~/Views/Taxonomy/Reports/Detail.cshtml", viewModel);
-        //}
-
-        #endregion
+        
     }
 }

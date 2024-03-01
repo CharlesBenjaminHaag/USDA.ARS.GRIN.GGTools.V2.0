@@ -160,6 +160,9 @@
     <Compile Include="EntityClasses\Report.cs" />
     <Compile Include="EntityClasses\SysDBErrorSearch.cs" />
     <Compile Include="EntityClasses\SysDBError.cs" />
+    <Compile Include="EntityClasses\SysDynamicSearchCriterion.cs" />
+    <Compile Include="EntityClasses\SysDynamicSearch.cs" />
+    <Compile Include="EntityClasses\SysDynamicQueryCriterion.cs" />
     <Compile Include="EntityClasses\SysDynamicQuerySearch.cs" />
     <Compile Include="EntityClasses\SysDynamicQuery.cs" />
     <Compile Include="EntityClasses\SysGroupSearch.cs" />

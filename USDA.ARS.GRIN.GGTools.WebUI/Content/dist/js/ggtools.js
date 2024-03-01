@@ -2,7 +2,7 @@
 * Name         : ggtools.js
 * Description  : Main JS application file for GGTools. This file
 *                should be included in all layout pages. 
-* Last Updated : 2/23/24
+* Last Updated : 3/1/24
 * By           : Benjamin Haag
 */
 
@@ -22,10 +22,9 @@ function AddRecord() {
     window.location.href = addNewRecordUrl;
 }
 
-/*
- * Datatable utilities
- */
-
+/* ========================================================================================
+ * Datatables
+  ======================================================================================== */
 function InitDataTableBase(tableName, isBatchEditable) {
     if (isBatchEditable == "Y") {
         InitDataTableWithBatchEdit(tableName);
@@ -75,8 +74,6 @@ function InitDataTable(tableName) {
                 }
             ]
         });
-
-
 
         $('table.ggtools').on('click', 'tr', function () {
             var data = table.row(this).data();
@@ -174,9 +171,9 @@ function InitDataTableFolderFormat(tableName) {
                 'selectAll',
                 'selectNone',
                 {
-                    text: 'Edit Selected',
+                    text: 'Delete Selected Items From Folder',
                     action: function (e, dt, node, config) {
-                        BatchEdit();
+                        BatchDeleteFolderItems();
                     }
                 }
             ]
@@ -416,7 +413,7 @@ function GetSelectedSpeciesIDs(tableName) {
 function GetSelectedAppUserItemListIDs(tableName) {
     var table = $('#' + tableName).DataTable();
     var ids = $.map(table.rows('.selected').data(), function (item) {
-        return item[1]
+        return item[0]
     });
 
     /*alert(" DEBUG DATATABLE  IS " + tableName + " IDS ARE " + ids);*/
@@ -483,6 +480,13 @@ function SetReadOnly() {
 /* ========================================================================================
  * Search logic
   ======================================================================================== */
+$(document).on("click", "[id='btnSearch']", function () {
+    var eventAction = $(this).data("ggtools-event-action");
+    var eventValue = $(this).data("ggtools-event-value");
+    $("#EventAction").val(eventAction);
+    $("#EventValue").val(eventValue);
+});
+
 $(document).on("click", "[id='btnReset']", function () {
     Reset();
 });
@@ -569,102 +573,6 @@ function GetSelectedNote(tableName) {
 }
 
 /* 
- ========================================================================================
- Family Logic
- ======================================================================================== 
- */
-//function SearchFamily(link) {
-//    var lookupFamilyName = $("#txtLookupFamilyName").val();
-//    var formData = new FormData();
-
-//    formData.append("LookupFamilyName", lookupFamilyName);
-
-//    $.ajax({
-//        url: link,
-//        type: 'POST',
-//        cache: false,
-//        contentType: false,
-//        processData: false,
-//        data: formData,
-//        success: function (response) {
-//            $("#section-family-lookup-search-results").html(response);
-//        }
-//    });
-//}
-
-//function SaveFamily() {
-//    var selectedItemIdList = GetSelectedEntityIDs("data-table-family-lookup");
-//    var selectedItemNameList = GetSelectedEntityLabels("data-table-family-lookup");
-
-//    $("#Entity_FamilyID").val(selectedItemIdList);
-//    $("#Entity_FamilyName").val(selectedItemNameList);
-//}
-
-
-/* 
- ========================================================================================
- Genus Logic
- ======================================================================================== 
- */
-//function SearchGenus(link) {
-//    var lookupGenusName = $("#txtLookupGenusName").val();
-//    var formData = new FormData();
-
-//    formData.append("LookupGenusName", lookupGenusName);
-
-//    $.ajax({
-//        url: link,
-//        type: 'POST',
-//        cache: false,
-//        contentType: false,
-//        processData: false,
-//        data: formData,
-//        success: function (response) {
-//            $("#section-genus-lookup-search-results").html(response);
-//        }
-//    });
-//}
-
-//function SaveGenus() {
-//    var selectedItemIdList = GetSelectedEntityIDs("data-table-genus-lookup");
-//    var selectedGenusNameList = GetSelectedEntityLabels("data-table-genus-lookup");
-
-//    $("#Entity_GenusID").val(selectedItemIdList);
-//    $("#Entity_GenusName").val(selectedGenusNameList);
-//}
-
-/* 
-========================================================================================
-Species Logic
-======================================================================================== 
- */
-//function SearchSpecies(link) {
-//    var lookupSpeciesName = $("#txtLookupSpeciesName").val();
-//    var formData = new FormData();
-
-//    formData.append("SpeciesName", lookupSpeciesName);
-
-//    $.ajax({
-//        url: link,
-//        type: 'POST',
-//        cache: false,
-//        contentType: false,
-//        processData: false,
-//        data: formData,
-//        success: function (response) {
-//            $("#section-species-lookup-search-results").html(response);
-//        }
-//    });
-//}
-
-//function SaveSpecies() {
-//    var selectedItemIdList = GetSelectedEntityIDs("data-table-species-lookup");
-//    var selectedSpeciesNameList = GetSelectedEntityLabels("data-table-species-lookup");
-//    $("#Entity_SpeciesID").val(selectedItemIdList);
-//    $("#Entity_SpeciesName").val(selectedSpeciesNameList);
-//}
-
-/* 
 ========================================================================================
 Accepted-Name Control Logic
 ======================================================================================== 
@@ -726,7 +634,3 @@ function SetAcceptedNameControls(selectorControlId) {
         $(".accepted").show();
     }
 }
-
-/*
- * Search utilities
- */

@@ -104,44 +104,49 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             return speciesList;
         }
 
-        public List<CodeValue> GetReportList()
-        {
-            SQL = "SELECT * FROM vw_GRINGlobal_Taxonomy_Rpt_List";
+        //public List<CodeValue> GetReportList()
+        //{
+        //    SQL = "SELECT * FROM vw_GRINGlobal_Taxonomy_Rpt_List";
 
-            List<CodeValue> reportList = new List<CodeValue>();
+        //    List<CodeValue> reportList = new List<CodeValue>();
 
-            reportList = GetRecords<CodeValue>(SQL);
-            return reportList;
-        }
+        //    reportList = GetRecords<CodeValue>(SQL);
+        //    return reportList;
+        //}
 
-        public List<Species> GetReport(string name)
-        {
-            SQL = "SELECT * FROM vw_GRINGlobal_Taxonomy_Rpt_" + name.Replace("_","").Replace(" ","");
-            return GetRecords<Species>(SQL);
-        }
+        //public List<Species> GetReport(string name)
+        //{
+        //    SQL = "SELECT * FROM vw_GRINGlobal_Taxonomy_Rpt_" + name.Replace("_","").Replace(" ","");
+        //    return GetRecords<Species>(SQL);
+        //}
         
         public List<Species> Search(SpeciesSearch searchEntity)
         {
             List<Species> results = new List<Species>();
 
             SQL = " SELECT * FROM vw_GRINGlobal_Taxonomy_Species ";
-            SQL += " WHERE      (@ID                        IS NULL OR  ID = @ID) ";
-            SQL += " AND        (@CreatedByCooperatorID     IS NULL OR  CreatedByCooperatorID = @CreatedByCooperatorID)";
-            SQL += " AND        (@GenusID                   IS NULL OR  GenusID = @GenusID)";
-            SQL += " AND        ((@SpeciesName              IS NULL OR  REPLACE(Name, ' x ', '')        LIKE    'X ' + @SpeciesName + '%')";
-            SQL += " OR         (@SpeciesName               IS NULL OR  REPLACE(Name, ' x ', '')        LIKE    '+' + @SpeciesName + '%')";
-            SQL += " OR         (@SpeciesName               IS NULL OR  REPLACE(Name, ' x ', '')        LIKE    @SpeciesName + '%'))";
-            SQL += " AND        (@SynonymCode               IS NULL OR  SynonymCode                     =       @SynonymCode)";
-            SQL += " AND        (@IsAcceptedName            IS NULL OR  IsAcceptedName                  =       @IsAcceptedName)";
-            SQL += " AND        (@IsWebVisible              IS NULL OR  IsWebVisible                    =       @IsWebVisible)";
-            SQL += " AND        (@SpeciesAuthority          IS NULL OR  COALESCE(SpeciesAuthority, SubspeciesAuthority, VarietyAuthority, SubvarietyAuthority, FormaAuthority)            LIKE    '%' + @SpeciesAuthority + '%')";
-            SQL += " AND        (@VerifiedByCooperatorID    IS NULL OR  VerifiedByCooperatorID          = @VerifiedByCooperatorID)";
-            SQL += " AND        (@IsVerified                IS NULL OR  IsVerified                      =       @IsVerified)";
 
-            if (!String.IsNullOrEmpty(searchEntity.IDList))
-            {
-                SQL += " AND (ID IN (" + searchEntity.IDList + "))";
-            }
+            // PRIMARY
+            SQL += " WHERE      ((@Name                 IS NULL OR  REPLACE(Name, ' x ', '')        LIKE    'X ' + @Name + '%')";
+            SQL += " OR         (@Name                  IS NULL OR  REPLACE(Name, ' x ', '')        LIKE    '+' + @Name + '%')";
+            SQL += " OR         (@Name                  IS NULL OR  REPLACE(Name, ' x ', '')        LIKE    @Name + '%')";
+            SQL += " OR         (@Name                  IS NULL OR  Name                            LIKE    '%' + @Name + '%'))";
+            
+            SQL += " AND        (@IsAcceptedName        IS NULL OR  IsAcceptedName                  =       @IsAcceptedName)";
+            SQL += " AND        (@SynonymCode           IS NULL OR  SynonymCode                     =       @SynonymCode)";
+
+            // EXTENDED
+            SQL += " AND        (@CreatedByCooperatorID     IS NULL OR  CreatedByCooperatorID = @CreatedByCooperatorID)";
+            // TODO CR DATE
+            SQL += " AND        (@ModifiedByCooperatorID    IS NULL OR  ModifiedByCooperatorID = @ModifiedByCooperatorID)";
+            // TODO MOD DATE
+
+            SQL += " AND        (@ID                        IS NULL OR  ID = @ID) ";
+            SQL += " AND        (@AcceptedID                IS NULL OR  AcceptedID = @AcceptedID) ";
+            SQL += " AND        (@NomenNumber               IS NULL OR  NomenNumber = @NomenNumber) ";
+            SQL += " AND        (@Note                      IS NULL OR  Note                            LIKE    '%' + @Note + '%')";
+            SQL += " AND        (@IsVerified                IS NULL OR  IsVerified                      =       @IsVerified)";
+            SQL += " AND        (@VerifiedByCooperatorID    IS NULL OR  VerifiedByCooperatorID          = @VerifiedByCooperatorID)";
 
             // Verification date logic
             if ((searchEntity.NameVerifiedDateFrom > DateTime.MinValue) && (searchEntity.NameVerifiedDateTo > DateTime.MinValue))
@@ -149,26 +154,92 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
                 SQL += " AND NameVerifiedDate >= '" + searchEntity.NameVerifiedDateFrom + "' AND NameVerifiedDate <= '" + searchEntity.NameVerifiedDateTo + "'";
             }
 
-            SQL = GetCreatedDateRangeSQL(searchEntity, SQL);
-            SQL = GetModifiedDateRangeSQL(searchEntity, SQL);
+            SQL += " AND        (@SpeciesName               IS NULL OR  SpeciesName                     LIKE    '%' + @SpeciesName + '%')";
+            SQL += " AND        (@SpeciesAuthority          IS NULL OR  SpeciesAuthority                LIKE    '%' + @SpeciesAuthority + '%')";
+            SQL += " AND        (@NameAuthority             IS NULL OR  NameAuthority                   LIKE    '%' + @NameAuthority + '%')";
+            SQL += " AND        (@IsSpecificHybrid          IS NULL OR  IsSpecificHybrid                =       @IsSpecificHybrid)";
+            SQL += " AND        (@HybridParentage           IS NULL OR  HybridParentage                 LIKE    '%' + @HybridParentage + '%')";
+            SQL += " And        (@AlternateName             IS NULL OR  AlternateName                   LIKE    '%' + @AlternateName + '%')";
 
             if (searchEntity.IsLinkedToAccessions == "Y")
             {
                 SQL += " AND AccessionCount > 0";
             }
 
+            SQL += " AND        (@IsWebVisible              IS NULL OR  IsWebVisible                    =       @IsWebVisible)";
+            SQL += " AND        (@Protologue                IS NULL OR  Protologue                      LIKE    '%' + @Protologue + '%')";
+            SQL += " AND        (@ProtologueVirtualPath     IS NULL OR  ProtologueVirtualPath           LIKE    '%' + @ProtologueVirtualPath + '%')";
+            SQL += " AND        (@SubspeciesName            IS NULL OR  SubspeciesName                  LIKE    '%' + @SubspeciesName + '%')";
+            SQL += " AND        (@SubspeciesAuthority       IS NULL OR  SubspeciesAuthority             LIKE    '%' + @SubspeciesAuthority + '%')";
+            SQL += " AND        (@IsSubspecificHybrid       IS NULL OR  IsSubspecificHybrid             =       @IsSubspecificHybrid)";
+            SQL += " AND        (@VarietyName               IS NULL OR  VarietyName                     LIKE    '%' + @VarietyName + '%')";
+            SQL += " AND        (@VarietyAuthority          IS NULL OR  VarietyAuthority                LIKE    '%' + @VarietyAuthority + '%')";
+            SQL += " AND        (@IsVarietalHybrid          IS NULL OR  IsVarietalHybrid                =       @IsVarietalHybrid)";
+            SQL += " AND        (@SubvarietyName            IS NULL OR  SubvarietyName                  LIKE    '%' + @SubvarietyName + '%')";
+            SQL += " AND        (@SubvarietyAuthority       IS NULL OR  SubvarietyAuthority             LIKE    '%' + @SubvarietyAuthority + '%')";
+            SQL += " AND        (@IsSubvarietalHybrid       IS NULL OR  IsSubvarietalHybrid             =       @IsSubvarietalHybrid)";
+            SQL += " AND        (@FormaName                 IS NULL OR  FormaName                       LIKE    '%' + @FormaName + '%')";
+            SQL += " AND        (@FormaAuthority            IS NULL OR  FormaAuthority                  LIKE    '%' + @FormaAuthority + '%')";
+            SQL += " AND        (@IsFormaHybrid             IS NULL OR  IsFormaHybrid                   =       @IsFormaHybrid)";
+            SQL += " AND        (@FormaRankType             IS NULL OR  FormaRankType                   =       @FormaRankType)";
+            SQL += " AND        (@GenusName                 IS NULL OR  GenusName                       LIKE    '%' + @GenusName + '%')";
+            SQL += " AND        (@GenusHybridCode           IS NULL OR  GenusHybridCode                 =       @GenusHybridCode)";
+            SQL += " AND        (@SubGenusName              IS NULL OR  SubGenusName                    LIKE    '%' + @SubGenusName + '%')";
+            SQL += " AND        (@CommonFertilizationCode   IS NULL OR  CommonFertilizationCode         =       @CommonFertilizationCode)";
+            SQL += " AND        (@RestrictionCode           IS NULL OR  RestrictionCode                 =       @RestrictionCode)";
+         
+            if (!String.IsNullOrEmpty(searchEntity.IDList))
+            {
+                SQL += " AND (ID IN (" + searchEntity.IDList + "))";
+            }
+
+            
+
+            SQL = GetCreatedDateRangeSQL(searchEntity, SQL);
+            SQL = GetModifiedDateRangeSQL(searchEntity, SQL);
+
+           
+
             var parameters = new List<IDbDataParameter> {
-                CreateParameter("ID", searchEntity.ID > 0 ? (object)searchEntity.ID : DBNull.Value, true),
-                CreateParameter("CreatedByCooperatorID", searchEntity.CreatedByCooperatorID > 0 ? (object)searchEntity.CreatedByCooperatorID : DBNull.Value, true),
-                CreateParameter("GenusID", searchEntity.GenusID > 0 ? (object)searchEntity.GenusID : DBNull.Value, true),
-                CreateParameter("Rank", (object)searchEntity.Rank ?? DBNull.Value, true),
                 CreateParameter("SpeciesName", (object)searchEntity.SpeciesName ?? DBNull.Value, true),
-                CreateParameter("SynonymCode", (object)searchEntity.SynonymCode ?? DBNull.Value, true),
+                CreateParameter("Name", (object)searchEntity.Name ?? DBNull.Value, true),
                 CreateParameter("IsAcceptedName", (object)searchEntity.IsAcceptedName ?? DBNull.Value, true),
-                CreateParameter("IsWebVisible", (object)searchEntity.IsWebVisible ?? DBNull.Value, true),
-                CreateParameter("SpeciesAuthority", (object)searchEntity.SpeciesAuthority ?? DBNull.Value, true),
+                CreateParameter("SynonymCode", (object)searchEntity.SynonymCode ?? DBNull.Value, true),
+                CreateParameter("CreatedByCooperatorID", searchEntity.CreatedByCooperatorID > 0 ? (object)searchEntity.CreatedByCooperatorID : DBNull.Value, true),
+                CreateParameter("ModifiedByCooperatorID", searchEntity.ModifiedByCooperatorID > 0 ? (object)searchEntity.ModifiedByCooperatorID : DBNull.Value, true),
+                CreateParameter("ID", searchEntity.ID > 0 ? (object)searchEntity.ID : DBNull.Value, true),
+                CreateParameter("AcceptedID", searchEntity.AcceptedNameID > 0 ? (object)searchEntity.AcceptedNameID : DBNull.Value, true),
+                CreateParameter("NomenNumber", searchEntity.NomenNumber > 0 ? (object)searchEntity.NomenNumber : DBNull.Value, true),
+                CreateParameter("Note", (object)searchEntity.Note ?? DBNull.Value, true),
+                CreateParameter("IsVerified", (object)searchEntity.IsVerified ?? DBNull.Value, true),
                 CreateParameter("VerifiedByCooperatorID", searchEntity.VerifiedByCooperatorID > 0 ? (object)searchEntity.VerifiedByCooperatorID : DBNull.Value, true),
-                CreateParameter("IsVerified", (object)searchEntity.IsVerified ?? DBNull.Value, true)
+                CreateParameter("SpeciesAuthority", (object)searchEntity.SpeciesAuthority ?? DBNull.Value, true),
+                CreateParameter("NameAuthority", (object)searchEntity.NameAuthority ?? DBNull.Value, true),
+                CreateParameter("IsSpecificHybrid", (object)searchEntity.IsSpecificHybrid ?? DBNull.Value, true),
+                CreateParameter("HybridParentage", (object)searchEntity.HybridParentage ?? DBNull.Value, true),
+                CreateParameter("AlternateName", (object)searchEntity.AlternateName ?? DBNull.Value, true),
+                CreateParameter("IsWebVisible", (object)searchEntity.IsWebVisible ?? DBNull.Value, true),
+                CreateParameter("Protologue", (object)searchEntity.Protologue ?? DBNull.Value, true),
+                CreateParameter("ProtologueVirtualPath", (object)searchEntity.ProtologueVirtualPath ?? DBNull.Value, true),
+                CreateParameter("SubSpeciesName", (object)searchEntity.SubspeciesName ?? DBNull.Value, true),
+                CreateParameter("SubSpeciesAuthority", (object)searchEntity.SubspeciesAuthority ?? DBNull.Value, true),
+                CreateParameter("IsSubSpecificHybrid", (object)searchEntity.IsSubspecificHybrid ?? DBNull.Value, true),
+                CreateParameter("VarietyName", (object)searchEntity.VarietyName ?? DBNull.Value, true),
+                CreateParameter("VarietyAuthority", (object)searchEntity.VarietyAuthority ?? DBNull.Value, true),
+                CreateParameter("IsVarietalHybrid", (object)searchEntity.IsVarietalHybrid ?? DBNull.Value, true),
+                CreateParameter("SubvarietyName", (object)searchEntity.SubvarietyName ?? DBNull.Value, true),
+                CreateParameter("SubvarietyAuthority", (object)searchEntity.SubvarietyAuthority ?? DBNull.Value, true),
+                CreateParameter("IsSubvarietalHybrid", (object)searchEntity.IsSubVarietalHybrid ?? DBNull.Value, true),
+                CreateParameter("FormaName", (object)searchEntity.FormaName ?? DBNull.Value, true),
+                CreateParameter("FormaAuthority", (object)searchEntity.FormaAuthority ?? DBNull.Value, true),
+                CreateParameter("IsFormaHybrid", (object)searchEntity.IsFormaHybrid ?? DBNull.Value, true),
+                CreateParameter("FormaRankType", (object)searchEntity.FormaRankType ?? DBNull.Value, true),
+                CreateParameter("GenusName", (object)searchEntity.GenusName ?? DBNull.Value, true),
+                CreateParameter("GenusHybridCode", (object)searchEntity.GenusHybridCode ?? DBNull.Value, true),
+                CreateParameter("SubGenusName", (object)searchEntity.SubGenusName ?? DBNull.Value, true),
+                CreateParameter("CommonFertilizationCode", (object)searchEntity.CommonFertilizationCode ?? DBNull.Value, true),
+                CreateParameter("RestrictionCode", (object)searchEntity.RestrictionCode ?? DBNull.Value, true),
+                
             };
 
             results = GetRecords<Species>(SQL, parameters.ToArray());

@@ -147,6 +147,7 @@
     <Compile Include="SynonymMapViewModelBase.cs" />
     <Compile Include="SysApplicationViewModel.cs" />
     <Compile Include="SysApplicationViewModelBase.cs" />
+    <Compile Include="SysDynamicSearchViewModel.cs" />
     <Compile Include="SysDynamicQueryViewModelBase.cs" />
     <Compile Include="SysDynamicQueryViewModel.cs" />
     <Compile Include="SysErrorViewModel.cs" />

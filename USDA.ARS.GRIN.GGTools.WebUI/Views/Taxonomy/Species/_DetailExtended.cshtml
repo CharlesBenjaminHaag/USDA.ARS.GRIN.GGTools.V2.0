@@ -69,7 +69,7 @@
             <div class="col-sm-1">
                 <div class="form-group form-horizontal">
                     <label>Nomen Number</label>
-                    @Html.TextBoxFor(x => x.SearchEntity.ID, new { @class = "form-control" })
+                    @Html.TextBoxFor(x => x.SearchEntity.NomenNumber, new { @class = "form-control" })
                 </div>
             </div>
             <div class="col-md-9">
@@ -107,19 +107,27 @@
                     @Html.HiddenFor(x => x.SearchEntity.NameVerifiedDateTo)
                 </div>
             </div>
+
+
+            <div class="col-sm-3">
+                <div class="form-group form-horizontal">
+                    <label>Species Name (Epithet)</label>
+                    @Html.TextBoxFor(x => x.SearchEntity.SpeciesName, new { @class = "form-control" })
+                </div>
+            </div>
             <div class="col-sm-4">
                 <div class="form-group form-horizontal">
                     <label>Species Authority</label>
                     @Html.TextBoxFor(x => x.SearchEntity.SpeciesAuthority, new { @class = "form-control" })
                 </div>
             </div>
-            
-            <div class="col-sm-3">
+            <div class="col-sm-2">
                 <div class="form-group form-horizontal">
-                    <label>Epithet</label>
-                    @Html.TextBoxFor(x => x.SearchEntity.SpeciesName, new { @class = "form-control" })
+                    <label>Is Specific Hybrid</label>
+                    @Html.DropDownListFor(x => x.SearchEntity.IsSpecificHybrid, Model.YesNoOptions, "Either", new { @class = "form-control" })
                 </div>
             </div>
+
             <div class="col-sm-3">
                 <div class="form-group form-horizontal">
                     <label>Alternate Name</label>
@@ -128,7 +136,7 @@
             </div>
             <div class="col-sm-2">
                 <div class="form-group form-horizontal">
-                    <label>Has Related Accessions</label>
+                    <label>Has Related Isions</label>
                     @Html.DropDownListFor(x => x.SearchEntity.IsLinkedToAccessions, Model.YesNoOptions, "Either", new { @class = "form-control" })
                 </div>
             </div>
@@ -165,7 +173,7 @@
             <div class="col-sm-2">
                 <div class="form-group form-horizontal">
                     <label>Is Subsp. Hybrid</label>
-                    @Html.DropDownListFor(x => x.SearchEntity.IsSubSpecificHybridOption, Model.YesNoOptions, "Either", new { @class = "form-control" })
+                    @Html.DropDownListFor(x => x.SearchEntity.IsSubspecificHybrid, Model.YesNoOptions, "Either", new { @class = "form-control" })
                 </div>
             </div>
             <div class="col-sm-4">
@@ -183,9 +191,29 @@
             <div class="col-sm-2">
                 <div class="form-group form-horizontal">
                     <label>Is Var. Hybrid</label>
-                    @Html.DropDownListFor(x => x.SearchEntity.IsVarietalHybridOption, Model.YesNoOptions, "Either", new { @class = "form-control" })
+                    @Html.DropDownListFor(x => x.SearchEntity.IsVarietalHybrid, Model.YesNoOptions, "Either", new { @class = "form-control" })
                 </div>
             </div>
+
+            <div class="col-sm-4">
+                <div class="form-group form-horizontal">
+                    <label>Subvariety Name</label>
+                    @Html.TextBoxFor(x => x.SearchEntity.SubvarietyName, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-group form-horizontal">
+                    <label>Subvariety Authority</label>
+                    @Html.TextBoxFor(x => x.SearchEntity.SubvarietyAuthority, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="col-sm-2">
+                <div class="form-group form-horizontal">
+                    <label>Is Subvar. Hybrid</label>
+                    @Html.DropDownListFor(x => x.SearchEntity.IsSubVarietalHybrid, Model.YesNoOptions, "Either", new { @class = "form-control" })
+                </div>
+            </div>
+
             <div class="col-sm-4">
                 <div class="form-group form-horizontal">
                     <label>Forma Name</label>
@@ -201,7 +229,7 @@
             <div class="col-sm-2">
                 <div class="form-group form-horizontal">
                     <label>Is Forma Hybrid</label>
-                    @Html.DropDownListFor(x => x.SearchEntity.IsVarietalHybridOption, Model.YesNoOptions, "Either", new { @class = "form-control" })
+                    @Html.DropDownListFor(x => x.SearchEntity.IsVarietalHybrid, Model.YesNoOptions, "Either", new { @class = "form-control" })
                 </div>
             </div>
             <div class="col-sm-2">
