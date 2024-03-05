@@ -2,7 +2,7 @@
 * Name         : ggtools.js
 * Description  : Main JS application file for GGTools. This file
 *                should be included in all layout pages. 
-* Last Updated : 3/1/24
+* Last Updated : 3/4/24
 * By           : Benjamin Haag
 */
 
@@ -100,15 +100,15 @@ function InitDataTableWithBatchEdit(tableName) {
                     }
                 },
                 {
-                    extend: 'excelHtml5',
-                    exportOptions: {
-                        columns: ':visible'
-                    }
+                    extend: 'excelHtml5'
+                    //exportOptions: {
+                    //    columns: [0]
+                    //}
                 },
                 {
                     extend: 'pdfHtml5',
                     exportOptions: {
-                        columns: [0, 1, 2, 5]
+                        columns: [0, ':visible']
                     }
                 },
                 'colvis',
@@ -432,7 +432,7 @@ function GetSelectedEntityStringIDs(tableName) {
 function GetSelectedEntityLabels(tableName) {
     var table = $('#' + tableName).DataTable();
     var ids = $.map(table.rows('.selected').data(), function (item) {
-        return item[1]
+        return item[3]
     });
     console.log(ids)
     return ids;

@@ -11,6 +11,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
 {
     public class Citation : AppEntityBase
     {
+        [AllowHtml]
         public string CitationTitle { get; set; }
         public string AuthorName { get; set; }
         public int? CitationYear { get; set; }
@@ -28,6 +29,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         public int GenusID { get; set; }
         public string GenusName { get; set; }
         public int SpeciesID { get; set; }
+        [AllowHtml]
         public string SpeciesName { get; set; }
         public string TaxonName { get; set; }
         public int AccessionIPRID { get; set; }
@@ -40,14 +42,5 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         public bool IsAcceptedNameOption { get; set; }
         public int LiteratureID { get; set; }
         public string Abbreviation { get; set; }
-        //public string StandardAbbreviation { get; set; }
-        //public string EditorAuthorName { get; set; }
-        //public string ReferenceTitle { get; set; }
-        //public string LiteratureTypeCode { get; set; }
-        //public string PublicationYear { get; set; }
-        //public string PublisherName { get; set; }
-        //public string PublisherLocation { get; set; }
-        [AllowHtml]
-        public string Note { get; set; }
     }
 }

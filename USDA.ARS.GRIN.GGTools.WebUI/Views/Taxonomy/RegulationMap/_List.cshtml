@@ -40,22 +40,22 @@
                             </td>
                             <td>
                                 <a href="@Url.Action("Edit", "FamilyMap", new { entityId = result.FamilyID })">
-                                    @result.FamilyName
+                                    @Html.Raw(result.FamilyName)
                                 </a>
                             </td>
                             <td>
                                 <a href="@Url.Action("Edit", "Genus", new { entityId = result.GenusID })">
-                                    @result.GenusName
+                                    @Html.Raw(result.GenusName)
                                 </a>
                             </td>
                             <td>
                                 <a href="@Url.Action("Edit", "Species", new { entityId = result.SpeciesID })">
-                                    @result.SpeciesName
+                                    @Html.Raw(result.SpeciesName)
                                 </a>
                             </td>
                             <td>
                                 <a href="@Url.Action("Edit", "Regulation", new { entityId = result.RegulationID })">
-                                    @result.AssembledName
+                                    @Html.Raw(result.AssembledName)
                                 </a>
                             </td>
                             <td>

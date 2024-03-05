@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Web.Mvc;
 using USDA.ARS.GRIN.GGTools.AppLayer;
 
 namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
@@ -16,8 +17,8 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         public int SpeciesID { get; set; }
         public int RegulationID { get; set; }
         public string RegulationText { get; set; }
-
         public int GeographyID { get; set; }
+        [AllowHtml]
         public string SpeciesName { get; set; }
         public string TaxonName { get; set; }
         public string RegulationTypeCode { get; set; }

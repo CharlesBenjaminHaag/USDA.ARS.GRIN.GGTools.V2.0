@@ -13,7 +13,6 @@
             <table id="data_table_citation" class="table table-striped">
                 <thead>
                     <tr>
-                        <th></th>
                         <th width="5%">ID</th>
                         <th>Type</th>
                         <th>Species Name</th>
@@ -27,9 +26,6 @@
                     @foreach (var result in Model.DataCollection)
                     {
                     <tr>
-                        <td>
-                            @result.ID
-                        </td>
                         <td>
                             @result.ID
                         </td>
@@ -85,6 +81,6 @@
 </div>
 <script type="text/javascript">
     $(document).ready(function () {
-        InitDataTable("data_table_citation");
+        InitDataTableBase("data_table_citation", "Y");
     });
 </script>

@@ -13,7 +13,6 @@
             <table id="data_table_taxonomy_use" class="table table-striped" style="width:100%;">
                 <thead>
                     <tr>
-                        <th></th>
                         <th width="5%">ID</th>
                         <th>Species Name</th>
                         <th>Economic Use</th>
@@ -28,9 +27,6 @@
                         <tr>
                             <td>
                                 @result.ID
-                            </td>
-                            <td>
-                                <a href="@Url.Action("Edit", "EconomicUse", new { @entityId = result.ID })">[@result.ID]</a>
                             </td>
                             <td>
                                 <a href="@Url.Action("Edit","Species", new { @entityId = result.SpeciesID })">

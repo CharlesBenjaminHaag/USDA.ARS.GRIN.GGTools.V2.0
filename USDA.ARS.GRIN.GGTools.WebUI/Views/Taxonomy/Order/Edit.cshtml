@@ -60,7 +60,7 @@
             <div class="content">
                 <div class="container" style="max-width:1500px;">
                     <div id="section-folder-confirmation"></div>
-                    @using (Html.BeginForm("Edit", "Classification", FormMethod.Post, new { id = "frmMain" }))
+                    @using (Html.BeginForm("Edit", "Classification", FormMethod.Post, new { id = "frmEdit" }))
                     {
                         @Html.HiddenFor(x => x.PageTitle)
                         @Html.HiddenFor(x => x.EventAction)
@@ -75,9 +75,9 @@
         =====================================================
         -->
                         @*@if (Model.AppUserItemFolderID > 0)
-                        {
-                            Html.RenderAction("RenderRelatedFoldersWidget", "AppUserItemFolder", new { idNumber = Model.Entity.ID });
-                        }*@
+            {
+                Html.RenderAction("RenderRelatedFoldersWidget", "AppUserItemFolder", new { idNumber = Model.Entity.ID });
+            }*@
                         <!--
         =====================================================
         BEGIN REF. FOLDER LOGIC
@@ -141,22 +141,9 @@
                     {
                         { Html.RenderAction("_List", "FamilyMap", new { orderId = Model.Entity.ID, @rank = "FAMILY" }); }
                     }
-
                     @Html.Partial("~/Views/Shared/Modals/_NoteLookup.cshtml")
                     @Html.Partial("~/Views/Taxonomy/Shared/Modals/_Delete.cshtml")
-                    @{Html.RenderAction("RenderEditModal", "AppUserItemFolder", new { @sysTableName = Model.TableName }); }
-
-                    <script type="text/javascript">
-                        $(document).ready(function () {
-                            Init();
-                            /*InitializeCKEditor();*/
-                        });
-
-                        function Init() {
-
-                        }
-                    </script>
-                    <br />
+                    @{Html.RenderAction("RenderEditModal", "AppUserItemFolder", new { sysTableName = Model.TableName, parentEntityId = Model.Entity.ID }); }
                 </div>
             </div>
 
@@ -169,3 +156,13 @@
 </body>
 </html>
 @Html.Partial("~/Views/Shared/_Scripts.cshtml")
+<script type="text/javascript">
+    $(document).ready(function () {
+        Init();
+        /*InitializeCKEditor();*/
+    });
+
+    function Init() {
+
+    }
+</script>

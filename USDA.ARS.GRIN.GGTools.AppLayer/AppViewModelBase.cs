@@ -19,6 +19,7 @@ namespace USDA.ARS.GRIN.GGTools.AppLayer
   /// </summary>
   public class AppViewModelBase : ViewModelBase
   {
+        
         private string _PageTitle;
         private string _ResultText;
         private string _UserMessage;
@@ -35,7 +36,7 @@ namespace USDA.ARS.GRIN.GGTools.AppLayer
                 return publicWebsiteUrl;
             }
         }
-
+        [AllowHtml]
         public string PageTitle
         {
             get
