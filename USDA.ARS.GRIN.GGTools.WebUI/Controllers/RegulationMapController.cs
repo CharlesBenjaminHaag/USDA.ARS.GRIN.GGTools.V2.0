@@ -137,7 +137,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                     speciesViewModel.SearchEntity = new SpeciesSearch { ID = speciesId };
                     speciesViewModel.Search();
                     viewModel.Entity.SpeciesID = speciesViewModel.Entity.ID;
-                    viewModel.Entity.SpeciesName = speciesViewModel.Entity.Name;
+                    viewModel.Entity.SpeciesName = speciesViewModel.Entity.AssembledName;
                 }
                 else
                 {
@@ -145,7 +145,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                     genusViewModel.SearchEntity = new GenusSearch { ID = genusId };
                     genusViewModel.Search();
                     viewModel.Entity.GenusID = genusViewModel.Entity.ID;
-                    viewModel.Entity.GenusName = genusViewModel.Entity.Name;
+                    viewModel.Entity.GenusName = genusViewModel.Entity.AssembledName;
                 }
 
                 return View( BASE_PATH + "Edit.cshtml", viewModel);

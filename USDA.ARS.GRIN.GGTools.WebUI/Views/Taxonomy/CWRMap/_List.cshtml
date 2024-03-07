@@ -13,7 +13,6 @@
         <table id="data_table_taxonomy_cwr_map" class="table table-striped" style=" width:100%;">
             <thead>
                 <tr>
-                    <th></th>
                     <th width="5%">ID</th>
                     <th>Crop Name</th>
                     <th>Species Name</th>
@@ -39,16 +38,13 @@
                                     @result.ID
                                 </td>
                                 <td>
-                                    <a href="@Url.Action("Edit", "CWRMap", new { @entityId = result.ID })">[@result.ID]</a>
-                                </td>
-                                <td>
                                     <a href="@Url.Action("Edit", "CropForCWR", new { entityId = result.CropForCWRID })">
                                         @result.CropForCWRName
                                     </a>
                                 </td>
                                 <td>
                                     <a href="@Url.Action("Edit", "Species", new { entityId = result.SpeciesID })">
-                                        @result.SpeciesName
+                                        @Html.Raw(result.SpeciesName)
                                     </a>
                                 </td>
                                 <td>@result.CropCommonName</td>

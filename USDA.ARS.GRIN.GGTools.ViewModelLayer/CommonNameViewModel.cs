@@ -213,13 +213,13 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
             }
 
             //TODO CHECK DUPES
-            SearchEntity.Name = Entity.Name;
-            SearchEntity.IsNameExactMatch = "Y";
-            SearchEntity.ExcludeID = Entity.ID;
-            Search();
-            if (DataCollection.Count > 0)
-            {
-                ValidationMessages.Add(new Common.Library.ValidationMessage { Message = "The name " + Entity.Name + " already exists." });            }
+            //SearchEntity.Name = Entity.Name;
+            //SearchEntity.IsNameExactMatch = "Y";
+            //SearchEntity.ExcludeID = Entity.ID;
+            //Search();
+            //if (DataCollection.Count > 0)
+            //{
+            //    ValidationMessages.Add(new Common.Library.ValidationMessage { Message = "The name " + Entity.Name + " already exists." });            }
 
             if (ValidationMessages.Count > 0)
             {

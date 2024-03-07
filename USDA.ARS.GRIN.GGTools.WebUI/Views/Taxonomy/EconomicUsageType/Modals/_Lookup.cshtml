@@ -55,14 +55,14 @@
     </div>
 </div>
 <script type="text/javascript">
-    $('#modal-economic-usage-type-lookup').on('keypress', function (event) {
-        var keycode = (event.keyCode ? event.keyCode : event.which);
-        if (keycode == '13') {
-            /*alert("ENTER clicked");*/
-            EconomicUsageType_Search();
-            event.preventDefault();
-        }
-    });
+    //$('#modal-economic-usage-type-lookup').on('keypress', function (event) {
+    //    var keycode = (event.keyCode ? event.keyCode : event.which);
+    //    if (keycode == '13') {
+    //        /*alert("ENTER clicked");*/
+    //        EconomicUsageType_Search();
+    //        event.preventDefault();
+    //    }
+    //});
 
     $("#btnOpenEconomicUsageTypeLookupModal").click(function () {
         var eventAction = $(this).data("ggtools-action");

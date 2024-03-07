@@ -15,36 +15,25 @@
                     </button>
                 </div>
             </div>
-            <div class="card-body">
+            <div id="section-code-groups" class="card-body">
 
-                <table id="data-table-groups" class="display responsive" style="width:100%">
-                    <thead>
-                        <tr>
-                            <th>Group</th>
-                        </tr>
-                    </thead>
+                <table class="table table-hover text-nowrap">
+                    
                     <tbody>
-                        @if (Model.DataCollectionGroups.Count() > 0)
-                        {
-                            foreach (var result in Model.DataCollectionGroups)
-                            {
-                                <tr>
-                                    <td>@result.Value</td>
-                                </tr>
-                            }
-                        }
-                        else
+                        @foreach (var result in Model.DataCollectionGroups)
                         {
                             <tr>
-                                <td colspan="3">
-                                    <div class="callout callout-info" style="vertical-align:middle; margin-top:5px;">
-                                        Your search returned no matches.
-                                    </div>
-                                </td>
+                                <td>@result.Value</td>
+
                             </tr>
                         }
-                    </tbody>
+                        </tbody>
                 </table>
+
+               
+
+
+
 
 
             </div>
@@ -75,33 +64,70 @@
 <script type="text/javascript">
 
     $(document).ready(function () {
-        InitSelectorDataTable("data-table-groups");
+        InitCodeGroupDataTable("data-table-code-groups");
     });
 
-    function InitSelectorDataTable(tableName) {
-        tableName = "#" + tableName ;
-        table = $(tableName).DataTable({
-            paging: false,
-            responsive: true,
-            select: {
-                style: 'single'
-            },
-            searching: true,
-            //columnDefs: [
-            //    { targets: [0], visible: false }
-            //]
-        });
+    //function InitSelectorDataTable(tableName) {
+    //    tableName = "#" + tableName;
 
-        //Select first row by default; load related data.
-        table.row(':eq(0)', { page: 'current' }).select();
-        var firstRowData = table.row(':eq(0)', { page: 'current' }).data();
+    //    var tableNameString = tableName + " tbody";
 
-        LoadCodeValues(firstRowData[0]);
+    //    table = $(tableName).DataTable({
+    //        paging: false,
+    //        select: {
+    //            style: 'single'
+    //        },
+    //        searching: true,
+    //        //columnDefs: [
+    //        //    { targets: [0], visible: false }
+    //        //]
+    //    });
 
-        var tableNameSelector = tableName + " tbody";
-        $(tableNameSelector).on('click', 'tr', function () {
-            var data = table.row(this).data();
-            LoadCodeValues(data);
+    //    //Select first row by default; load related data.
+    //    table.row(':eq(0)', { page: 'current' }).select();
+    //    var firstRowData = table.row(':eq(0)', { page: 'current' }).data();
+    //    LoadCodeValues(firstRowData[0]);
+    //}
+
+    function InitCodeGroupDataTable(tableName) {
+        tableName = "#" + tableName;
+        $(document).ready(function () {
+            table = $(tableName).DataTable({
+                //dom: 'Blfrtip',
+                paging: false,
+                //"pageLength": 10,
+                responsive: true,
+                //buttons: [
+                //    'selectAll',
+                //    'selectNone',
+                //    'csv',
+                //    'excel',
+                //    'pdf',
+                //    {
+                //        text: 'Edit Batch',
+                //        action: function (e, dt, node, config) {
+                //            EditBatch();
+                //        }
+                //    }
+                //],
+                search: false,
+                select: true,
+                lengthMenu: [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],
+                //columnDefs: [
+                //    { targets: [0], visible: false }
+                //]
+            });
+
+            // Select the first visible row, and call relate method.
+            table.row(':eq(0)', { page: 'current' }).select();
+            LoadCodeValues(table.row(':eq(0)', { page: 'current' }).data()[0]);
+
+            // Call select method when user clicks a given row.
+            $("#data-table-code-groups tbody").on('click', 'tr', function () {
+                var selRowdata = table.row(this).data();
+                alert("DEBUG " + selRowdata);
+                /*LoadCodeValues(data[0]);*/
+            });
         });
     }
 

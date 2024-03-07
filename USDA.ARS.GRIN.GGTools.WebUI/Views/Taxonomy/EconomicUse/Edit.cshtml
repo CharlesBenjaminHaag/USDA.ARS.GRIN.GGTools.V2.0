@@ -105,22 +105,22 @@
                         @Html.HiddenFor(x => x.Entity.CitationID)
 
                         <!--
-    =====================================================
-    BEGIN REF. FOLDER LOGIC
-    =====================================================
-    -->
+                        =====================================================
+                        BEGIN REF. FOLDER LOGIC
+                        =====================================================
+                        -->
                         @if (Model.AppUserItemFolderID > 0)
                         {
                             Html.RenderAction("RenderRelatedFoldersWidget", "AppUserItemFolder", new { idNumber = Model.Entity.ID });
                         }
                         <!--
-    =====================================================
-    BEGIN REF. FOLDER LOGIC
-    =====================================================
-    -->
+                        =====================================================
+                        BEGIN REF. FOLDER LOGIC
+                        =====================================================
+                        -->
 
                         <div class="row">
-                            <div class="col-md-3">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Species</label>
                                     <div class="input-group">

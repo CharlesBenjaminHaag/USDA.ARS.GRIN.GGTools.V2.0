@@ -48,14 +48,14 @@
         $("#search-progress-overlay-protologue").hide();
     });
 
-    $('#modal-protologue-lookup').on('keypress', function (event) {
-        var keycode = (event.keyCode ? event.keyCode : event.which);
-        if (keycode == '13') {
-            /*alert("ENTER clicked");*/
-            SearchProtologues();
-            event.preventDefault();
-        }
-    });
+    //$('#modal-protologue-lookup').on('keypress', function (event) {
+    //    var keycode = (event.keyCode ? event.keyCode : event.which);
+    //    if (keycode == '13') {
+    //        /*alert("ENTER clicked");*/
+    //        SearchProtologues();
+    //        event.preventDefault();
+    //    }
+    //});
 
     $("#btnLookupProtologue").click(function () {
         SearchProtologues();

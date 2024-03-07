@@ -40,16 +40,6 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
                 {
                     SearchEntity.ID = entityId;
                     Search();
-
-                    
-
-                    //DataCollectionConspecificTaxa = new Collection<Species>(mgr.GetConspecificTaxa(entityId));
-                    //DataCollectionSynonyms = new Collection<Species>(mgr.GetSynonyms(entityId));
-                    //DataCollectionCitations = new Collection<Citation>(mgr.GetCitations(entityId));
-                    //DataCollectionCommonNames = new Collection<CommonName>(mgr.GetCommonNames(entityId));
-                    //DataCollectionEconomicUses = new Collection<EconomicUse>(mgr.GetEconomicUses(entityId));
-                    //DataCollectionGeographyMaps = new Collection<GeographyMap>(mgr.GetGeographyMaps(entityId));
-                    //DataCollectionRegulationMaps = new Collection<RegulationMap>(mgr.GetRegulationMaps(entityId));
                 }
                 catch (Exception ex)
                 {
@@ -91,13 +81,11 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
             {
                 try
                 {
-                    //Entity.IsSpecificHybrid = FromBool(Entity.IsSpecificHybridOption);
-                    //Entity.IsSubspecificHybrid = FromBool(Entity.IsSubSpecificHybridOption);
-                    //Entity.IsVarietalHybrid = FromBool(Entity.IsVarietalHybridOption);
-                    //Entity.IsSubVarietalHybrid = FromBool(Entity.IsSubvarietalHybridOption);
-                    //Entity.IsFormaHybrid = FromBool(Entity.IsFormaHybridOption);
-                    //Entity.IsWebVisible = FromBool(Entity.IsWebVisibleOption);
-                    
+                    Entity.IsSpecificHybrid = FromBool(Entity.IsSpecificHybridOption);
+                    Entity.IsSubspecificHybrid = FromBool(Entity.IsSubSpecificHybridOption);
+                    Entity.IsVarietalHybrid = FromBool(Entity.IsVarietalHybridOption);
+                    Entity.IsSubVarietalHybrid = FromBool(Entity.IsSubvarietalHybridOption);
+                    Entity.IsFormaHybrid = FromBool(Entity.IsFormaHybridOption);
                     SetSpeciesName();
                     SetSpeciesNameAuthority();
                     RowsAffected = mgr.Insert(Entity);
@@ -127,10 +115,6 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
                     }
 
                     Entity.IsSpecificHybridOption = ToBool(Entity.IsSpecificHybrid);
-                    //Entity.IsSubSpecificHybridOption = ToBool(Entity.IsSubspecificHybrid);
-                    //Entity.IsVarietalHybridOption = ToBool(Entity.IsVarietalHybrid);
-                    //Entity.IsSubvarietalHybridOption = ToBool(Entity.IsSubVarietalHybrid);
-                    //Entity.IsFormaHybridOption = ToBool(Entity.IsFormaHybrid);
                     Entity.IsAccepted = ToBool(Entity.IsAcceptedName);
                     Entity.IsWebVisibleOption = ToBool(Entity.IsWebVisible);
                 }
@@ -141,6 +125,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
                 }
             }
         }
+
         public void RunSearch(int appUserItemFolderId)
         {
             AppUserItemListViewModel appUserItemListViewModel = new AppUserItemListViewModel();
@@ -149,6 +134,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
             SearchEntity = Deserialize<SpeciesSearch>(appUserItemListViewModel.Entity.Properties);
             Search();
         }
+
         public void SaveSearch()
         {
             AppUserItemFolderViewModel appUserItemFolderViewModel = new AppUserItemFolderViewModel();
@@ -223,13 +209,11 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
             {
                 try
                 {
-                    //Entity.IsSpecificHybrid = FromBool(Entity.IsSpecificHybridOption);
-                    //Entity.IsSubspecificHybrid = FromBool(Entity.IsSubSpecificHybridOption);
-                    //Entity.IsVarietalHybrid = FromBool(Entity.IsVarietalHybridOption);
-                    //Entity.IsSubVarietalHybrid = FromBool(Entity.IsSubvarietalHybridOption);
-                    //Entity.IsFormaHybrid = FromBool(Entity.IsFormaHybridOption);
-                    //Entity.IsWebVisible = FromBool(Entity.IsWebVisibleOption);
-
+                    Entity.IsSpecificHybrid = FromBool(Entity.IsSpecificHybridOption);
+                    Entity.IsSubspecificHybrid = FromBool(Entity.IsSubSpecificHybridOption);
+                    Entity.IsVarietalHybrid = FromBool(Entity.IsVarietalHybridOption);
+                    Entity.IsSubVarietalHybrid = FromBool(Entity.IsSubvarietalHybridOption);
+                    Entity.IsFormaHybrid = FromBool(Entity.IsFormaHybridOption);
                     SetSpeciesName();
                     SetSpeciesNameAuthority();
                     HandleAccessions();
@@ -241,25 +225,6 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
                     throw ex;
                 }
             }
-
-            //if ((EventAction == "DEMT") && (DemoteCreateFolder == true))
-            //{
-            //    FolderViewModel folderVm = new FolderViewModel();
-            //    folderVm.Entity.TableName = TableName;
-            //    folderVm.Entity.Title = "TO DO: Species Subtaxa Pending Re-Assignment";
-            //    folderVm.Entity.Description = "** AUTO-GENERATED ** Contains taxa linked to " + Entity.SpeciesName + ".";
-            //    folderVm.Entity.Category = "Priority";
-            //    folderVm.Entity.IsFavorite = true;
-            //    folderVm.Entity.ItemIDList = DemoteInfo;
-            //    folderVm.Entity.CreatedByCooperatorID = Entity.ModifiedByCooperatorID;
-
-            //    //TODO Get comma-sep list of species ID's to add.
-
-            //    using (FolderManager folderMgr = new FolderManager())
-            //    {
-            //        folderMgr.Insert(folderVm.Entity);
-            //    }
-            //}
             return RowsAffected;
         }
 

@@ -15,7 +15,6 @@
             <table id="data_table_taxonomy_geography_map" class="table table-striped ggtools-table" style="width:100%;">
                 <thead>
                     <tr>
-                        <th></th>
                         <th width="5%">ID</th>
                         <th>Species ID</th>
                         <th>Species Name</th>
@@ -36,9 +35,6 @@
                             <tr>
                                 <td>
                                     @result.ID
-                                </td>
-                                <td>
-                                    <a href="@Url.Action("Edit", "GeographyMap", new { @entityId = result.ID })">[@result.ID]</a>
                                 </td>
                                 <td>@result.SpeciesID</td>
                                 <td>

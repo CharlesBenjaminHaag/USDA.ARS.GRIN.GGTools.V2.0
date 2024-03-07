@@ -71,19 +71,19 @@
                         @Html.HiddenFor(x => x.Entity.CategoryCode)
 
                         <!--
-        =====================================================
-        BEGIN REF. FOLDER LOGIC
-        =====================================================
-        -->
+                        =====================================================
+                        BEGIN REF. FOLDER LOGIC
+                        =====================================================
+                        -->
                         if (Model.AppUserItemFolderID > 0)
                         {
                             Html.RenderAction("RenderRelatedFoldersWidget", "AppUserItemFolder", new { idNumber = Model.Entity.ID });
                         }
                         <!--
-        =====================================================
-        BEGIN REF. FOLDER LOGIC
-        =====================================================
-        -->
+                        =====================================================
+                        BEGIN REF. FOLDER LOGIC
+                        =====================================================
+                        -->
 
                         @Html.Partial("~/Views/Shared/_ValidationMessages.cshtml")
                         @Html.Partial("~/Views/Taxonomy/Shared/_RevisionHistory.cshtml")
@@ -304,11 +304,11 @@
         <!-- Main Footer -->
         @Html.Partial("~/Views/Shared/_Footer.cshtml")
     </div>
-
+    @Html.Partial("~/Views/Shared/_Scripts.cshtml")
     <script type="text/javascript">
         $(document).ready(function () {
             Init();
-            /*InitializeCKEditor();*/
+            
         });
 
         function Init() {
@@ -359,7 +359,13 @@
             $('[id*="section-fields"]').hide();
             $("#section-fields-" + taxonType).show();
         }
+
+        $("#frmEdit").dirty({
+            
+  leavingMessage: "There are unsaved changes on this page which will be discarded if you continue."
+
+        });
+
     </script>
 </body>
 </html>
-@Html.Partial("~/Views/Shared/_Scripts.cshtml")

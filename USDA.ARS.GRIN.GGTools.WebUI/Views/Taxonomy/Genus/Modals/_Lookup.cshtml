@@ -60,13 +60,13 @@
 </div>
 <script type="text/javascript">
 
-    $('#modal-genus-lookup').on('keypress', function (event) {
-        var keycode = (event.keyCode ? event.keyCode : event.which);
-        if (keycode == '13') {
-            SearchGenus();
-            event.preventDefault();
-        }
-    });
+    //$('#modal-genus-lookup').on('keypress', function (event) {
+    //    var keycode = (event.keyCode ? event.keyCode : event.which);
+    //    if (keycode == '13') {
+    //        SearchGenus();
+    //        event.preventDefault();
+    //    }
+    //});
 
     $("#btnOpenGenusLookupModal").click(function () {
         var eventAction = $(this).data("ggtools-action");

@@ -409,7 +409,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                     familyMapViewModel.SearchEntity.ID = familyMapId;
                     familyMapViewModel.Search();
                     viewModel.Entity.FamilyID = familyMapViewModel.Entity.ID;
-                    viewModel.Entity.FamilyName = familyMapViewModel.Entity.FamilyName;
+                    viewModel.Entity.FamilyName = familyMapViewModel.Entity.AssembledName;
                 }
 
                 if (genusId > 0)
@@ -418,7 +418,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                     genusViewModel.SearchEntity.ID = genusId;
                     genusViewModel.Search();
                     viewModel.Entity.GenusID = genusViewModel.Entity.ID;
-                    viewModel.Entity.GenusName = genusViewModel.Entity.Name;
+                    viewModel.Entity.GenusName = genusViewModel.Entity.AssembledName;
                 }
 
                 if (speciesId > 0)
@@ -427,7 +427,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                     speciesViewModel.SearchEntity.ID = speciesId;
                     speciesViewModel.Search();
                     viewModel.Entity.SpeciesID = speciesViewModel.Entity.ID;
-                    viewModel.Entity.SpeciesName = speciesViewModel.Entity.Name;
+                    viewModel.Entity.SpeciesName = speciesViewModel.Entity.AssembledName;
                 }
 
 

@@ -13,12 +13,8 @@
             <table id="data_table_taxonomy_common_name" class="table table-striped ggtools-table" style="width:100%;">
                 <thead>
                     <tr>
-                        <th></th>
-                        @if (Model.EventAction == "FOLDER")
-                        { 
-                            <th></th>
-                        }
-                        <th width="5%">ID</th>
+                        <th>ID</th>
+                       
                         <th>Name</th>
                         <th>Genus</th>
                         <th>Species</th>
@@ -39,15 +35,7 @@
                                 <td>
                                     @result.ID
                                 </td>
-                                @if (Model.EventAction == "FOLDER")
-                                {
-                                    <td>@result.AppUserItemListID</td>
-                                }
-                                <td>
-                                    <span class="label label-default">
-                                        @result.ID
-                                    </span>
-                                </td>
+                               
                                 <td>@result.Name</td>
                                 <td>
                                     <a href="@Url.Action("Edit", "Genus", new { entityId = result.GenusID })">@Html.Raw(result.GenusName)</a>

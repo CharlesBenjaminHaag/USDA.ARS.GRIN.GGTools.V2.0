@@ -10,6 +10,8 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-ajax-unobtrusive/3.2.6/jquery.unobtrusive-ajax.min.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/responsive/2.4.0/js/dataTables.responsive.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha512-mhbv5DqBMgrWL+32MmsDOt/OAvqr/cHimk6B8y/bx/xS88MVkYGPiVv2ixKVrkywF2qHplNRUvFsAHUdxZ3Krg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script type="text/javascript" src="~/dist/js/jquery.dirty.js"></script> 
+@*<script type="text/javascript" src="//cdn.jsdelivr.net/jquery.dirtyforms/2.0.0/jquery.dirtyforms.min.js"></script>*@
 
 <script type="text/javascript">
     $(document).ready(function () {
@@ -53,7 +55,15 @@
          *                   otherwise.
          */
         function formIsDirty(form) {
-          for (var i = 0; i < form.elements.length; i++) {
+
+            var eventAction = $("#EventAction").val();
+            var eventValue = $("#EventValue").val();
+
+            alert("DEBUG ACT " + eventAction + " VAL " + eventValue);
+
+
+
+            for (var i = 0; i < form.elements.length; i++) {
             var element = form.elements[i];
             var type = element.type;
             if (type == "checkbox" || type == "radio") {
@@ -79,16 +89,99 @@
           return false;
         }
 
-        window.onbeforeunload = function (e) {
-            e = e || window.event;
+        //window.onbeforeunload = function (e) {
+        //    e = e || window.event;
+
+        //    if (formIsDirty(document.forms["frmEdit"])) {
+        //        // For IE and Firefox
+        //        if (e) {
+        //            e.returnValue = "DEBUG You have unsaved changes.";
+        //        }
+        //        // For Safari
+        //        return "You have unsaved changes.";
+        //    }
+        //};
+
+        addEventListener('beforeunload', (event) => {
+
+            event.preventDefault(); /*✔️ To show a dialog we need this preventDefault() */
+
             if (formIsDirty(document.forms["frmEdit"])) {
                 // For IE and Firefox
-                if (e) {
-                    e.returnValue = "DEBUG You have unsaved changes.";
+                if (event) {
+                    event.returnValue = "DEBUG You have unsaved changes.";
                 }
                 // For Safari
                 return "You have unsaved changes.";
             }
-        };
+
+            return event.returnValue = ''; /*✔️ Need to return a value */
+
+        });
+
+
+        //$(function () {
+
+        //    // Enable for all forms.
+        //    $('#frmEdit').dirtyForms();
+
+        //    // Enable for just forms of class 'sodirty'.
+        //    $('form.sodirty').dirtyForms();
+
+        //    // Customize the title and message.
+        //    // Note that title is not supported by browser dialogs, so you should 
+        //    // only set it if you are using a custom dialog or dialog module.
+        //    $('form').dirtyForms({
+        //        dialog: { title: 'Wait!' },
+        //        message: 'You forgot to save your details. If you leave now, they will be lost forever.'
+        //    });
+
+        //    // Enable Debugging (non-minified file only).
+        //    $('form').dirtyForms({ debug: true });
+
+        //    // Check if anything inside a div with CSS class watch is dirty.
+        //    if ($('div.watch').dirtyForms('isDirty')) {
+        //        // There was something dirty inside of the div
+        //    }
+
+        //    // Select all forms that are dirty, and set them clean.
+        //    // This will make them forget the current dirty state and any changes
+        //    // after this call will make the form dirty again.
+        //    $('form:dirty').dirtyForms('setClean');
+
+        //    // Rescan to sync the dirty state with any dynamically added forms/fields
+        //    // or changes to the ignore state. This comes in handy when styling fields
+        //    // with CSS that are dirty.
+        //    $('form').dirtyForms('rescan');
+
+        //    // Select all forms that are listening for changes.
+        //    $('form:dirtylistening');
+
+        //    // Enable/disable the reset and submit buttons when the state transitions
+        //    // between dirty and clean. You will need to first set the initial button
+        //    // state to disabled (either in JavaScript or by setting the attributes in HTML).
+        //    $('form').find('[type="reset"],[type="submit"]').attr('disabled', 'disabled');
+        //    $('form').on('dirty.dirtyforms clean.dirtyforms', function (ev) {
+        //        var $form = $(ev.target);
+        //        var $submitResetButtons = $form.find('[type="reset"],[type="submit"]');
+        //        if (ev.type === 'dirty') {
+        //            $submitResetButtons.removeAttr('disabled');
+        //        } else {
+        //            $submitResetButtons.attr('disabled', 'disabled');
+        //        }
+        //    });
+
+        //    // Add a form dynamically and begin tracking it.
+        //    var $form = $('<form action="/" id="watched-form" method="post">' +
+        //        '<input id="inputa" type="text" />' +
+        //        '<button id="submita" type="submit" value="Submit">Submit</button>' +
+        //        '</form>');
+        //    $('body').append($form);
+        //    $form.dirtyForms();
+
+        //});
+
+
+
     });
 </script>

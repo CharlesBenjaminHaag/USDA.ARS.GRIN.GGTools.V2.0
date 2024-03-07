@@ -141,38 +141,38 @@
 </html>
 <script type="text/javascript">
     $(document).ready(function () {
-        var formSubmitting = false;
-        var setFormSubmitting = function () { formSubmitting = true; };
+        //var formSubmitting = false;
+        //var setFormSubmitting = function () { formSubmitting = true; };
 
-        var dirty = false;
-        $(document).on('change', 'input:not(.noWarning),textarea:not(.noWarning),select:not(.noWarning)', function () {
-            dirty = true;
-        });
+        //var dirty = false;
+        //$(document).on('change', 'input:not(.noWarning),textarea:not(.noWarning),select:not(.noWarning)', function () {
+        //    dirty = true;
+        //});
 
-        function checkDirty() {
-            if (dirty) {
-                alert('You have unsaved changes');
-                return false;
-            }
-            return true;
-        }
-        // for non-AJAX pages
-        window.onbeforeunload = function (e) {
-            if (!formSubmitting) {
-                return checkDirty();
-            }
-        };
-        // for AJAX pages
-        $('.ajax_navigation_tab').on('click', function () {
-            if (!checkDirty()) {
-                // do the ajax thing
-                dirty = false;
-            }
-        });
+        //function checkDirty() {
+        //    if (dirty) {
+        //        alert('You have unsaved changes');
+        //        return false;
+        //    }
+        //    return true;
+        //}
+        //// for non-AJAX pages
+        //window.onbeforeunload = function (e) {
+        //    if (!formSubmitting) {
+        //        return checkDirty();
+        //    }
+        //};
+        //// for AJAX pages
+        //$('.ajax_navigation_tab').on('click', function () {
+        //    if (!checkDirty()) {
+        //        // do the ajax thing
+        //        dirty = false;
+        //    }
+        //});
 
-        $("#frmEdit").on("submit", function (event) {
-            setFormSubmitting();
-        });
+        //$("#frmEdit").on("submit", function (event) {
+        //    setFormSubmitting();
+        //});
 
     });
 

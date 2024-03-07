@@ -12,7 +12,6 @@
         <table id="data_table_taxonomy_regulation_map" class="table table-striped ggtools-table" style=" width:100%;">
             <thead>
                 <tr>
-                    <th></th>
                     <th width="5%">ID</th>
                     <th>Family</th>
                     <th>Genus</th>
@@ -34,9 +33,6 @@
                         <tr>
                             <td>
                                 @result.ID
-                            </td>
-                            <td>
-                                <a href="@Url.Action("Edit", "RegulationMap", new { @entityId = result.ID })">[@result.ID]</a>
                             </td>
                             <td>
                                 <a href="@Url.Action("Edit", "FamilyMap", new { entityId = result.FamilyID })">

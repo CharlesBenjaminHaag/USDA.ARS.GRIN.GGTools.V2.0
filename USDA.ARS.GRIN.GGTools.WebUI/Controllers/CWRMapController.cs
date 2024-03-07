@@ -279,7 +279,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             return PartialView("~/Views/Taxonomy/CWRMap/_ListBatch.cshtml", viewModel);
         }
 
-        public ActionResult Add(int cropForCwrId = 0)
+        public ActionResult Add(int cropForCwrId = 0, int speciesId = 0)
         {
             try
             {
@@ -288,6 +288,16 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 viewModel.PageTitle = "Add CWR Map";
                 viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
                 viewModel.Entity.CropForCWRID = cropForCwrId;
+
+                if (speciesId > 0)
+                {
+                    SpeciesViewModel speciesViewModel = new SpeciesViewModel();
+                    speciesViewModel.SearchEntity = new SpeciesSearch { ID = speciesId };
+                    speciesViewModel.Search();
+                    viewModel.Entity.SpeciesID = speciesViewModel.Entity.ID;
+                    viewModel.Entity.SpeciesName = speciesViewModel.Entity.AssembledName;
+                }
+
                 return View(BASE_PATH + "Edit.cshtml", viewModel);
             }
             catch (Exception ex)

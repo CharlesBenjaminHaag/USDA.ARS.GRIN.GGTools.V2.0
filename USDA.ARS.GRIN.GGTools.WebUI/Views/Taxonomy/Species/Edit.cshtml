@@ -39,7 +39,7 @@
                                     <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Add Related Data</a>
                                     <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow">
                                         <li><a href="@Url.Action("Add", "Citation", new { @eventAction = "Species", @eventValue = "AddDependentData", @speciesId = Model.Entity.ID })" class="dropdown-item">Citation </a></li>
-                                        <li><a href="@Url.Action("Add", "CommonName", new { @speciesId = Model.Entity.ID })" class="dropdown-item">Common Name</a></li>
+                                        <li><a id="btnAddCommonName" href="@Url.Action("Add", "CommonName", new { @speciesId = Model.Entity.ID })" class="dropdown-item">Common Name</a></li>
                                         <li>
                                             <button id="btnOpenGeographyLookupModal"
                                                     type="button"
@@ -50,7 +50,7 @@
                                                 Distribution
                                             </button>
                                         </li>
-                                        <li><a href="@Url.Action("Add", "EconomicUse", new { @speciesId = Model.Entity.ID })" class="dropdown-item">Economic Use</a></li>
+                                        <li><a id="btnAddEconomicUse" href="@Url.Action("Add", "EconomicUse", new { @speciesId = Model.Entity.ID })" class="dropdown-item">Economic Use</a></li>
                                         <li><a href="@Url.Action("Add", "RegulationMap", new { @speciesId = Model.Entity.ID })" class="dropdown-item">Regulation</a></li>
                                         <li><a href="@Url.Action("Add", "CWRMap", new { @speciesId = Model.Entity.ID })" class="dropdown-item">CWR Map</a></li>
                                        @*<div class="dropdown-divider"></div>
@@ -96,15 +96,6 @@
                                             <span>of <a href="@Url.Action("Edit", "Species", new { @entityId = Model.Entity.ParentID })">@Html.Raw(Model.Entity.ParentName)</a></span>
                                         }
                                         <span>Species</span>
-
-                                        @*if (Model.Entity.Rank.ToLower() != "species")
-                                        {
-                                            <span>DEBUG  @Model.ToTitleCase(Model.Entity.Rank) of <a href="@Url.Action("Edit", "Species", new { @entityId = Model.Entity.ParentID })">@Html.Raw(Model.Entity.ParentName)</a></span>
-                                        }
-                                        else
-                                        {
-
-                                        }*@
                                     }
                                     else
                                     {
@@ -321,7 +312,25 @@
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            <div class="col-md-12">
+                                                            <div class="col-md-6">
+                                                                <div class="form-group">
+                                                                    <label>Authority</label>
+                                                                    <div class="input-group">
+                                                                        @Html.TextBoxFor(x => x.Entity.SpeciesAuthority, new { @class = "form-control" })
+                                                                        <span class="input-group-append">
+                                                                            <button id="btnOpenAuthorityLookupModal"
+                                                                                    type="button"
+                                                                                    data-toggle="modal"
+                                                                                    data-target="#modal-author-lookup"
+                                                                                    data-ggtools-value="Entity_SpeciesAuthority"
+                                                                                    class="btn btn-default btn-flat">
+                                                                                <i class="fa fa-search"></i>
+                                                                            </button>
+                                                                        </span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-6">
                                                                 <div class="form-group">
                                                                     <label>Subspecies Authority</label>
                                                                     <div class="input-group">
@@ -349,7 +358,7 @@
                                                                     @Html.TextBoxFor(x => x.Entity.SubspeciesName, new { @class = "form-control" })
                                                                 </div>
                                                             </div>
-                                                            <div class="col-md-4">
+                                                            <div class="col-md-6">
                                                                 <div class="form-group">
                                                                     <label>Variety Name</label>
                                                                     <div class="input-group">
@@ -361,7 +370,25 @@
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            <div class="col-md-12">
+                                                            <div class="col-md-6">
+                                                                <div class="form-group">
+                                                                    <label>Authority</label>
+                                                                    <div class="input-group">
+                                                                        @Html.TextBoxFor(x => x.Entity.SpeciesAuthority, new { @class = "form-control" })
+                                                                        <span class="input-group-append">
+                                                                            <button id="btnOpenAuthorityLookupModal"
+                                                                                    type="button"
+                                                                                    data-toggle="modal"
+                                                                                    data-target="#modal-author-lookup"
+                                                                                    data-ggtools-value="Entity_SpeciesAuthority"
+                                                                                    class="btn btn-default btn-flat">
+                                                                                <i class="fa fa-search"></i>
+                                                                            </button>
+                                                                        </span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-6">
                                                                 <div class="form-group">
                                                                     <label>Variety Authority</label>
                                                                     <div class="input-group">
@@ -389,13 +416,13 @@
                                                                     @Html.TextBoxFor(x => x.Entity.SubspeciesName, new { @class = "form-control" })
                                                                 </div>
                                                             </div>
-                                                            <div class="col-md-4">
+                                                            <div class="col-md-6">
                                                                 <div class="form-group">
                                                                     <label>Variety Name</label>
                                                                     @Html.TextBoxFor(x => x.Entity.VarietyName, new { @class = "form-control" })
                                                                 </div>
                                                             </div>
-                                                            <div class="col-md-4">
+                                                            <div class="col-md-6">
                                                                 <div class="form-group">
                                                                     <label>Subvariety Name</label>
                                                                     <div class="input-group">
@@ -407,7 +434,25 @@
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            <div class="col-md-12">
+                                                            <div class="col-md-6">
+                                                                <div class="form-group">
+                                                                    <label>Authority</label>
+                                                                    <div class="input-group">
+                                                                        @Html.TextBoxFor(x => x.Entity.SpeciesAuthority, new { @class = "form-control" })
+                                                                        <span class="input-group-append">
+                                                                            <button id="btnOpenAuthorityLookupModal"
+                                                                                    type="button"
+                                                                                    data-toggle="modal"
+                                                                                    data-target="#modal-author-lookup"
+                                                                                    data-ggtools-value="Entity_SpeciesAuthority"
+                                                                                    class="btn btn-default btn-flat">
+                                                                                <i class="fa fa-search"></i>
+                                                                            </button>
+                                                                        </span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-6">
                                                                 <div class="form-group">
                                                                     <label>Subvariety Authority</label>
                                                                     <div class="input-group">
@@ -435,13 +480,13 @@
                                                                     @Html.TextBoxFor(x => x.Entity.SubspeciesName, new { @class = "form-control" })
                                                                 </div>
                                                             </div>
-                                                            <div class="col-md-4">
+                                                            <div class="col-md-6">
                                                                 <div class="form-group">
                                                                     <label>Variety Name</label>
                                                                     @Html.TextBoxFor(x => x.Entity.VarietyName, new { @class = "form-control" })
                                                                 </div>
                                                             </div>
-                                                            <div class="col-md-4">
+                                                            <div class="col-md-6">
                                                                 <div class="form-group">
                                                                     <label>Subvariety Name</label>
                                                                     @Html.TextBoxFor(x => x.Entity.SubvarietyName, new { @class = "form-control" })
@@ -459,13 +504,25 @@
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            <div class="col-md-3">
+                                                            <div class="col-md-6">
                                                                 <div class="form-group">
-                                                                    <label>Rank Type</label>
-                                                                    @Html.DropDownListFor(x => x.Entity.FormaRankType, Model.FormaRankTypes, "Select value", new { @class = "form-control" })
+                                                                    <label>Authority</label>
+                                                                    <div class="input-group">
+                                                                        @Html.TextBoxFor(x => x.Entity.SpeciesAuthority, new { @class = "form-control" })
+                                                                        <span class="input-group-append">
+                                                                            <button id="btnOpenAuthorityLookupModal"
+                                                                                    type="button"
+                                                                                    data-toggle="modal"
+                                                                                    data-target="#modal-author-lookup"
+                                                                                    data-ggtools-value="Entity_SpeciesAuthority"
+                                                                                    class="btn btn-default btn-flat">
+                                                                                <i class="fa fa-search"></i>
+                                                                            </button>
+                                                                        </span>
+                                                                    </div>
                                                                 </div>
                                                             </div>
-                                                            <div class="col-md-12">
+                                                            <div class="col-md-6">
                                                                 <div class="form-group">
                                                                     <label>Forma Authority</label>
                                                                     <div class="input-group">
@@ -481,6 +538,12 @@
                                                                             </button>
                                                                         </span>
                                                                     </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-3">
+                                                                <div class="form-group">
+                                                                    <label>Rank Type</label>
+                                                                    @Html.DropDownListFor(x => x.Entity.FormaRankType, Model.FormaRankTypes, "Select value", new { @class = "form-control" })
                                                                 </div>
                                                             </div>
                                                             break;
@@ -533,16 +596,70 @@
                                                             @Html.TextBoxFor(x => x.Entity.HybridParentage, new { @class = "form-control" })
                                                         </div>
                                                     </div>
-                                                    <div class="col-md-2">
-                                                        <div class="form-group clearfix section-checkbox" style=" margin-top:38px;">
-                                                            <div class="icheck-primary d-inline">
-                                                                @Html.CheckBoxFor(x => x.Entity.IsSpecificHybridOption, new { id = "cbxIsSpecificHybrid" })
-                                                                <label for="cbxIsSpecificHybrid">
-                                                                    Specific Hybrid
-                                                                </label>
+
+                                                    @switch (Model.Entity.Rank.ToUpper())
+                                                    {
+                                                        case "SUBSPECIES":
+                                                            <div class="col-md-2">
+                                                                <div class="form-group clearfix section-checkbox" style=" margin-top:38px;">
+                                                                    <div class="icheck-primary d-inline">
+                                                                        @Html.CheckBoxFor(x => x.Entity.IsSubSpecificHybridOption, new { id = "cbxIsSubSpecificHybrid" })
+                                                                        <label for="cbxIsSubSpecificHybrid">
+                                                                            Subspecific Hybrid
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
                                                             </div>
-                                                        </div>
-                                                    </div>
+                                                            break;
+                                                        case "VARIETY":
+                                                            <div class="col-md-2">
+                                                                <div class="form-group clearfix section-checkbox" style=" margin-top:38px;">
+                                                                    <div class="icheck-primary d-inline">
+                                                                        @Html.CheckBoxFor(x => x.Entity.IsVarietalHybridOption, new { id = "cbxIsVarietalHybrid" })
+                                                                        <label for="cbxIsVarietalHybrid">
+                                                                            Varietal Hybrid
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            break;
+                                                        case "SUBVARIETY":
+                                                            <div class="col-md-2">
+                                                                <div class="form-group clearfix section-checkbox" style=" margin-top:38px;">
+                                                                    <div class="icheck-primary d-inline">
+                                                                        @Html.CheckBoxFor(x => x.Entity.IsSubvarietalHybridOption, new { id = "cbxIsSubVarietalHybrid" })
+                                                                        <label for="cbxIsSubVarietalHybrid">
+                                                                            Subvarietal Hybrid
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            break;
+                                                        case "FORM":
+                                                            <div class="col-md-2">
+                                                                <div class="form-group clearfix section-checkbox" style=" margin-top:38px;">
+                                                                    <div class="icheck-primary d-inline">
+                                                                        @Html.CheckBoxFor(x => x.Entity.IsFormaHybridOption, new { id = "cbxIsFormaHybrid" })
+                                                                        <label for="cbxIsFormaHybrid">
+                                                                            Forma Hybrid
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            break;
+                                                        default:
+                                                            <div class="col-md-2">
+                                                                <div class="form-group clearfix section-checkbox" style=" margin-top:38px;">
+                                                                    <div class="icheck-primary d-inline">
+                                                                        @Html.CheckBoxFor(x => x.Entity.IsSpecificHybridOption, new { id = "cbxIsSpecificHybrid" })
+                                                                        <label for="cbxIsSpecificHybrid">
+                                                                            Specific Hybrid
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            break;
+                                                    }
                                                 </div>
                                                 <div class="row">
                                                     <!-- BEGIN NOTE FIELD -->
@@ -581,11 +698,11 @@
                                         <div class="card-footer">
                                             <a href="@Url.Action("Refresh")" class="btn btn-default">Reset</a>
                                             @if (Model.Entity.ID > 0)
-                                            {
+                                                        {
                                                 <button id="btnDelete" type="button" class="btn btn-danger">
                                                     Delete
                                                 </button>
-                                            }
+                                                    }
                                             <button type="submit" class="btn btn-default float-right">Save</button>
 
                                             @if ((Model.Entity.ID > 0) && (Model.Entity.AccessionCount > 0))
@@ -658,15 +775,15 @@
                         @{Html.RenderAction("RenderLookupModal", "Species"); }
                         @{Html.RenderAction("RenderLookupModal", "Author"); }
                         @{Html.RenderAction("RenderEditModal", "AppUserItemFolder", new { @sysTableName = Model.TableName }); }
-                        @Html.Partial("~/Views/Taxonomy/Species/Modals/_LookupProtologue.cshtml")
+                                                    @Html.Partial("~/Views/Taxonomy/Species/Modals/_LookupProtologue.cshtml")
                         @Html.Partial("~/Views/Shared/Modals/_NoteLookup.cshtml")
                         @Html.Partial("~/Views/Taxonomy/Shared/Modals/_Delete.cshtml")
 
                         @if (Model.Entity.ID > 0)
                         {
-                            { Html.RenderAction("RenderLookupModal", "Geography", new { @isLookupFormat = "N" }); }
-                            { Html.RenderAction("RenderLookupModal", "Citation", new { @tableName = Model.TableName, @isMultiSelect = "Y" }); }
-                        }
+                                                        { Html.RenderAction("RenderLookupModal", "Geography", new { @isLookupFormat = "N" }); }
+                                                        { Html.RenderAction("RenderLookupModal", "Citation", new { @tableName = Model.TableName, @isMultiSelect = "Y" }); }
+                                                    }
 
                     </div>
                 </div>
@@ -680,46 +797,54 @@
 @Html.Partial("~/Views/Taxonomy/Species/Modals/_EditSynonymOptions.cshtml")
 <script type="text/javascript">
     $(document).ready(function () {
-        Init();
-    });
+                                                        Init();
+                                                        /*$('#frmEdit').dirtyForms();*/
+                                                    });
 
-    function Init() {
+                                                    function Init() {
         // Ensure that the overlays in each modal are hidden by default
         $(".overlay").hide();
 
-        SetControlVisibility();
+                                                        SetControlVisibility();
 
-        // Load default-visible tab of dependent data.
-        var defaultId = $('ul#list-dependent-data li:first').attr("id");
-        var action = $('ul#list-dependent-data li:first').data("ggtools-action");
-        var value = $('ul#list-dependent-data li:first').data("ggtools-value");
-        LoadDependentData(defaultId, action, value);
-    }
+                                                        // Load default-visible tab of dependent data.
+                                                        var defaultId = $('ul#list-dependent-data li:first').attr("id");
+                                                        var action = $('ul#list-dependent-data li:first').data("ggtools-action");
+                                                        var value = $('ul#list-dependent-data li:first').data("ggtools-value");
+                                                        LoadDependentData(defaultId, action, value);
+
+                                                        // Disable relevant child-record controls based on accepted status.
+                                                        var IsAcceptedName = $("#Entity_IsAcceptedName").val();
+                                                        if (IsAcceptedName == "N") {
+            $("#btnAddCommonName").addClass("disabled");
+            $("#btnAddEconomicUse").addClass("disabled");
+                                                        }
+                                                    }
     
     $(".synonym-link").on('click', function (event) {
-        //event.stopPropagation();
-        //event.stopImmediatePropagation();
-        var parentSpeciesId = $("#Entity_ID").val();
-        var synonymName = $(this).attr("id").replace("btnAddSyn", "");
-        var synonymTypeCode = $(this).data("ggtools-synonym-code");
+                                                        //event.stopPropagation();
+                                                        //event.stopImmediatePropagation();
+                                                        var parentSpeciesId = $("#Entity_ID").val();
+                                                        var synonymName = $(this).attr("id").replace("btnAddSyn", "");
+                                                        var synonymTypeCode = $(this).data("ggtools-synonym-code");
         
         $("#frmEditSynonymOptions #Entity_SynonymCode").val(synonymTypeCode);
         $("#frmEditSynonymOptions #Entity_SynonymName").val(synonymName);
         $("#frmEditSynonymOptions #Entity_ParentID").val(parentSpeciesId);
-       
-        // Refactor onto server.
-        switch (synonymName.toLowerCase()) {
-            case "basionym":
+
+                                                        // Refactor onto server.
+                                                        switch (synonymName.toLowerCase()) {
+                                                            case "basionym":
                 $("#Entity_IsCopySpeciesRequired").val(true);
                 $("#cbxIsCopySpeciesRequired").attr("checked", true);
-                break;
-            case "heterotypic":
-                break;
-            case "homotypic":
+                                                                break;
+                                                            case "heterotypic":
+                                                                break;
+                                                            case "homotypic":
                 $("#Entity_IsCopySpeciesRequired").val(true);
                 $("#cbxIsCopySpeciesRequired").attr("checked", true);
-                break;
-        }
+                                                                break;
+                                                        }
 
         $("#modal-edit-syononym-options").modal("show");
     });
@@ -782,6 +907,21 @@
         LoadDependentData(selectedId, action, value);
     });
 
+    /* Disable common-name and econ. use controls if species is 
+       1) not accepted on load
+       2) set to not-accepted
+    */
+
+    //$('#btnSetAcceptedOn').on('click', function () {
+    //    $("#btnAddCommonName").removeClass("disabled");
+    //    $("#btnAddEconomicUse").removeClass("disabled");
+    //});
+
+    //$('#btnSetAcceptedOff').on('click', function () {
+    //    $("#btnAddCommonName").addClass("disabled");
+    //    $("#btnAddEconomicUse").addClass("disabled");
+    //});
+
     function LoadDependentData(controlId, eventAction, eventValue) {
         var link = '@Url.Action("EVENT_VALUE","EVENT_ACTION", new { speciesId = "SPECIES_ID" })';
         var entityId = $("#Entity_ID").val();
@@ -814,7 +954,6 @@
             }
         });
     }
-
     
 </script>
 @Html.Partial("~/Views/Shared/_Scripts.cshtml")
