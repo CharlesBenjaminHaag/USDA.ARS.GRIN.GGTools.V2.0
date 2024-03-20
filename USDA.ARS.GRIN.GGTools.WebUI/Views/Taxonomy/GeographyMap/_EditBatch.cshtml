@@ -1,0 +1,126 @@
+﻿@model USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer.GeographyMapViewModel
+
+@using (Ajax.BeginForm("BatchEdit", "GeographyMap", new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "tab-content-taxonomy-geography-map", InsertionMode = InsertionMode.Replace }, new { id="frmTaxonomyGeographyMapBatchEdit" }))
+{
+
+    <div class="card card-primary collapsed-card">
+        <div class="card-header">
+            <h3 class="card-title"><i class="fas fa-globe"></i> Geography Map</h3>
+            <div class="card-tools">
+                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                    <i class="fas fa-plus"></i>
+                </button>
+            </div>
+        </div>
+        <div class="card-body">
+            @Html.HiddenFor(x => Model.EventAction)
+            @Html.HiddenFor(x => Model.EventValue)@Html.HiddenFor(x => Model.SpeciesIDList)
+            @Html.Partial("~/Views/Shared/_ValidationMessages.cshtml")
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label>Geography</label>
+                        <div class="input-group">
+                            @Html.TextBoxFor(x => x.Entity.GeographyDescription, new { @class = "form-control", @readonly = "readonly" })
+                            @Html.HiddenFor(x => x.Entity.GeographyID)
+                            <span class="input-group-append">
+                                <button type="button" data-toggle="modal" data-target="#modal-geography-lookup" class="btn btn-default btn-flat">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group form-horizontal">
+                        <label>Geography Status</label>
+                        @Html.DropDownListFor(x => x.Entity.GeographyStatusCode, Model.GeographyStatusCodes, "NULL", new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="col-md-7">
+                    <div class="form-group">
+                        <label>Note</label>
+                        @Html.TextBoxFor(x => x.Entity.Note, new { @class = "form-control" })
+                    </div>
+                </div>
+            </div>
+            <table id="data_table_taxonomy_geography_map" class="table table-striped ggtools-table" style="width:100%;">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th width="5%">ID</th>
+                        <th>Species Name</th>
+                        <th>Status</th>
+                        <th>Country</th>
+                        <th>Note</th>
+                        <th>Citation</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.DataCollection.Count() > 0)
+                    {
+                        foreach (var result in Model.DataCollection)
+                        {
+                            <tr>
+                                <td>
+                                    @result.ID
+                                </td>
+                                <td>
+                                    @result.ID
+                                </td>
+                                <td>
+                                    <a href="@Url.Action("Edit","Species", new { @entityId = result.SpeciesID })">
+                                        @result.SpeciesName
+                                    </a>
+                                </td>
+                                <td>
+                                    @result.GeographyStatusDescription
+                                </td>
+                                <td>@result.CountryName</td>
+                                <td>@Html.Raw(result.Note)</td>
+                                <td>@Html.Raw(result.CitationText)</td>
+                                <td style="text-align:right;">
+                                    <a href="@Url.Action("Edit", "GeographyMap", new { entityId = result.ID })" class="btn btn-default btn-sm pull-right row-edit">
+                                        <i class="fa fa-edit"></i>
+                                    </a>
+                                    @if (Model.EventAction == "FOLDER")
+                                    {
+                                        <a href="@Url.Action("DeleteItem", "Folder", new { @folderId = result.FolderID, @appUserItemListId = result.AppUserItemListID })"
+                                           class="btn btn-danger btn-sm float-right row-edit margin-r-5">
+                                            <i class="fa fa-trash"></i>
+                                        </a>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    }
+
+                </tbody>
+            </table>
+
+        </div>
+        <div class="card-footer">
+            <button id="btnGenerateGeographyMaps" class="btn btn-default btn-flat btn-block float-right">Generate For Selected Species <i class="fas fa-fast-forward"></i></button>
+        </div>
+    </div>
+
+}
+<script type="text/javascript">
+    $(document).ready(function () {
+        InitDataTable("data_table_taxonomy_geography_map");
+    });
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+

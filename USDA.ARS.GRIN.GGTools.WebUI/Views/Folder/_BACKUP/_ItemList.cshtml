@@ -1,0 +1,54 @@
+﻿@model USDA.ARS.GRIN.GGTools.ViewModelLayer.FolderViewModel
+<table id="data-table-folder-items" class="table table-responsive table-striped search-results" style=" width:100%;">
+    <thead>
+        <tr>
+            <th>Type</th>
+            <th>Title</th>
+            <th>Created</th>
+            <th>Last Modified</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.DataCollectionFolderItems != null)
+        {
+            if (Model.DataCollectionFolderItems.Count() > 0)
+            {
+                foreach (var result in Model.DataCollectionFolderItems)
+                {
+                    <tr>
+                        <td>
+                            @result.IDType
+                        </td>
+                        <td>@result.Title</td>
+                        <td>
+                            @result.CreatedDate.ToShortDateString() at @result.CreatedDate.ToShortTimeString()
+                        </td>
+                        <td>
+                            @if (result.ModifiedDate > DateTime.MinValue)
+                            {
+                                @result.ModifiedDate.ToShortDateString()
+                            }
+                        </td>
+                        <td>
+                            <a href="@Url.Action("DeleteItem", "Folder", new { entityId = result.IDNumber })" class="btn btn-danger btn-sm pull-right row-edit" style="margin-left:5px;">
+                                <i class="fa fa-trash"></i> Remove
+                            </a>
+                            <a href="@Url.Action("Edit", result.IDType, new { entityId = result.IDNumber })" class="btn btn-default btn-sm pull-right row-edit">
+                                <i class="fa fa-edit"></i>Edit
+                            </a>
+                        </td>
+                    </tr>
+                }
+            }
+        }
+    </tbody>
+</table>
+
+
+
+@foreach (var folderItem in Model.DataCollectionFolderItems)
+{
+
+
+}

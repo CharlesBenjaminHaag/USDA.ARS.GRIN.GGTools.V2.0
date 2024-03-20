@@ -1,4 +1,6 @@
 ﻿@model USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer.AuthorViewModel
+<hr />
+<button id="btnSaveAuthor1" type="button" class="btn btn-default float-right" data-dismiss="modal">Add Selected Author</button>
 <table id="data-table-author-lookup" class="table table-striped ggtools" style="width:100%">
     <thead>
         <tr>
@@ -33,6 +35,7 @@
         }
     </tbody>
 </table>
+<button id="btnSaveAuthor2" type="button" class="btn btn-default  float-right" data-dismiss="modal">Add Selected Author</button>
 <script type="text/javascript">
     $(document).ready(function () {
         InitDataTableLookupFormat("data-table-author-lookup");

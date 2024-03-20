@@ -65,7 +65,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
 
         public Species Get(int id)
         {
-            SQL = "usp_TaxonomySpecies_Select";
+            SQL = "usp_GRINGlobal_Taxonomy_Species_Select";
             Species species = new Species();
 
             var parameters = new List<IDbDataParameter> {

@@ -23,7 +23,7 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/select/1.7.0/css/select.dataTables.min.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/autofill/2.7.0/css/autoFill.dataTables.min.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/datetime/1.5.1/css/dataTables.dateTime.min.css">
-    @*<link rel="stylesheet" type="text/css" href="~/Content/dist/css/DataTables/editor.dataTables.css">*@
+    <link rel="stylesheet" type="text/css" href="~/Content/dist/css/DataTables/editor.dataTables.css">
 
     <!--jQuery UI-->
     <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
@@ -241,7 +241,7 @@
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-9">
-                            <h1 class="m-0">@Html.Raw(ViewBag.Title)</h1>
+                            <h1 class="m-0">@eventValue @eventAction</h1>
                         </div><!-- /.col -->
                         <div class="col-sm-3">
                             @Html.Partial("~/Views/Taxonomy/Shared/_Breadcrumbs.cshtml")
@@ -278,7 +278,7 @@
 <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.colVis.min.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/select/1.7.0/js/dataTables.select.min.js"></script>
-@*<script type="text/javascript" src="~/Content/dist/js/DataTables/dataTables.editor.js"></script>*@
+<script type="text/javascript" src="~/Content/dist/js/DataTables/dataTables.editor.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/keytable/2.12.0/js/dataTables.keyTable.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/keytable/2.12.0/js/keyTable.dataTables.js"></script>
 

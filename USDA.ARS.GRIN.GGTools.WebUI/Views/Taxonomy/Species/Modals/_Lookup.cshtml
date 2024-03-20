@@ -54,7 +54,6 @@
             </div>
             <div class="modal-footer justify-content-between">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                <button id="btnSaveSpecies" type="button" class="btn btn-default" data-dismiss="modal">Add Selected Species</button>
             </div>
         </div>
     </div>
@@ -126,7 +125,7 @@
         });
     }
 
-    $("#btnSaveSpecies").click(function () {
+    $(document).on("click", "[id*='btnSaveSpecies']", function () {
         var idField = $("#hfSpeciesLookupIDFieldName").val();
         var nameField = $("#hfSpeciesLookupNameFieldName").val();
         var isAcceptedName = "";
@@ -134,28 +133,35 @@
         var nameList = GetSelectedEntityLabels("data-table-species-lookup");
 
         //DEBUG
-        //alert("DEBUG SET SPECIES ID FLD " + idField + " NAME FLD " + nameField);
+        /*alert("DEBUG ID IS " + idList + " AND NAME IS " + nameList);*/
 
         $("#Entity_" + idField).val(idList);
         $("#Entity_" + nameField).val(nameList);
+
+        if ($.trim(nameField) == "AcceptedName") {
+            $("#placeholder-accepted-name").html(nameList);
+        }
+
         $('#modal-species-lookup').modal('hide');
     });
 
 
-    function SelectSpecies(ID, speciesName) {
-        var eventAction = "";
-        var eventValue = "";
+    //function SelectSpecies(ID, speciesName) {
+    //    var eventAction = "";
+    //    var eventValue = "";
 
-        $('#modal-species-lookup').modal('hide');
+    //    $('#modal-species-lookup').modal('hide');
 
 
-        eventValue = $("#hfModalEventValue").val();
-        if (eventValue == 'SPECIES') {
-            $("#Entity_SpeciesName").val(speciesName);
-        }
-        else {
-            $("#Entity_AcceptedID").val(ID);
-            $("#Entity_AcceptedName").val(speciesName);
-        }
-    }
+    //    eventValue = $("#hfModalEventValue").val();
+    //    if (eventValue == 'SPECIES') {
+    //        $("#Entity_SpeciesName").val(speciesName);
+    //    }
+    //    else {
+    //        $("#Entity_AcceptedID").val(ID);
+    //        $("#placeholder-accepted-name").html(speciesName);
+    //    }
+    //    //DEBUG
+    //    alert("ACCEPT NAME IS " + speciesName);
+    //}
 </script>

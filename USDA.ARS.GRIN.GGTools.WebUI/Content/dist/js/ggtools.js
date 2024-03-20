@@ -2,7 +2,7 @@
 * Name         : ggtools.js
 * Description  : Main JS application file for GGTools. This file
 *                should be included in all layout pages. 
-* Last Updated : 3/4/24
+* Last Updated : 3/20/24
 * By           : Benjamin Haag
 */
 
@@ -175,6 +175,12 @@ function InitDataTableFolderFormat(tableName) {
                     action: function (e, dt, node, config) {
                         BatchDeleteFolderItems();
                     }
+                },
+                {
+                    text: 'Edit Selected',
+                    action: function (e, dt, node, config) {
+                        BatchEdit();
+                    }
                 }
             ]
         });
@@ -224,7 +230,7 @@ function InitDataTableLookupFormat(tableName) {
                 { targets: [0], visible: false }
             ]
         });
-        /*table.row(':eq(0)', { page: 'current' }).select();*/
+        table.row(':eq(0)', { page: 'current' }).select();
     });
 }
 

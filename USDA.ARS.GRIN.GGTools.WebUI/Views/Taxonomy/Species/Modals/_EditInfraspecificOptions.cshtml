@@ -1,0 +1,105 @@
+﻿ @model USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer.SpeciesViewModelBase
+<div class="modal fade" id="modal-edit-infraspecific-options" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">
+                    <i class="fas fa-search"></i>
+                    Infraspecific Field Copy Options
+                </h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div id="section-search-criteria" class="modal-body">
+                @using (Html.BeginForm("Add", "Species", FormMethod.Post, new { id = "frmEditInfraspecificOptions" }))
+                {
+                    @Html.HiddenFor(x => x.Entity.ParentID)
+                    @Html.HiddenFor(x => x.Entity.IsAccepted)
+                    @Html.HiddenFor(x => x.Entity.IsAcceptedName)
+                    @Html.HiddenFor(x => x.Entity.SynonymCode)
+                    @Html.HiddenFor(x => x.EventInfo)
+                    
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label>Rank to Create</label>
+                            <input type="text" id="txtRank" class="form-control" readonly="readonly" value="Copy genus" />
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label>Select Field(s) to Copy</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" value="Copy genus" />
+                                <div class="input-group-append">
+                                    <span class="input-group-text">
+                                        @Html.CheckBoxFor(x => x.IsCopyGenusRequired)
+                                        &nbsp;
+                                    </span>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="input-group">
+                                <input type="text" class="form-control" value="Copy species" />
+                                <div class="input-group-append">
+                                    <span class="input-group-text">
+                                        @Html.CheckBoxFor(x => x.IsCopySpeciesRequired)
+                                        &nbsp;
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="input-group">
+                                <input type="text" class="form-control" value="Copy protologue" />
+                                <div class="input-group-append">
+                                    <span class="input-group-text">
+                                        @Html.CheckBoxFor(x => x.IsCopyProtologueRequired)
+                                        &nbsp;
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="input-group">
+                                <input type="text" class="form-control" value="Copy authority" />
+                                <div class="input-group-append">
+                                    <span class="input-group-text">
+                                        @Html.CheckBoxFor(x => x.IsCopyAuthorityRequired)
+                                        &nbsp;
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="input-group">
+                                <input type="text" class="form-control" value="Copy note" />
+                                <div class="input-group-append">
+                                    <span class="input-group-text">
+                                        @Html.CheckBoxFor(x => x.IsCopyNoteRequired)
+                                        &nbsp;
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <button id="btnGenerateInfraspecific" type="button" class="btn btn-default" data-dismiss="modal">Continue Infraspecific Name Creation</button>
+            </div>
+        </div>
+    </div>
+</div>

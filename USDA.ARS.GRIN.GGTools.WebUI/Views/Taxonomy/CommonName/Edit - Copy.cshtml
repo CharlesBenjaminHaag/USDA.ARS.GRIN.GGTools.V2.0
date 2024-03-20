@@ -1,0 +1,315 @@
+﻿@model USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer.CommonNameViewModel
+@{
+    ViewBag.Title = Model.PageTitle;
+    Layout = "~/Views/Shared/_LayoutAdminLTE3.cshtml";
+}
+
+@using (Html.BeginForm("Edit", "CommonName", FormMethod.Post, new { id = "frmEdit" }))
+{
+    @Html.HiddenFor(x => x.PageTitle)
+    @Html.HiddenFor(x => x.EventAction)
+    @Html.HiddenFor(x => x.EventValue)
+    @Html.HiddenFor(x => x.TableName)
+    @Html.HiddenFor(x => x.TableCode)
+    @Html.HiddenFor(x => x.Entity.ID)
+
+    <div id="section-taxon-tabs" class="card card-primary card-outline card-outline-tabs">
+        <div class="card-header p-0 border-bottom-0">
+            <ul class="nav nav-tabs" id="custom-tabs-four-tab" role="tablist">
+                <li id="taxonomy-genus" class="nav-item">
+                    <a class="nav-link active" id="taxonomy-genus-tab" data-toggle="pill" href="#custom-tabs-four-profile" role="tab" aria-controls="custom-tabs-four-profile" aria-selected="false">Genus</a>
+                </li>
+                <li id="taxonomy-species" class="nav-item">
+                    <a class="nav-link" id="taxonomy-species-tab" data-toggle="pill" href="#custom-tabs-four-messages" role="tab" aria-controls="custom-tabs-four-messages" aria-selected="false">Species</a>
+                </li>
+            </ul>
+        </div>
+        <div class="card-body">
+            <div class="tab-content" id="custom-tabs-four-tabContent">
+                @Html.Partial("~/Views/Shared/_ValidationMessages.cshtml")
+                <div class="row">
+                    
+                        <div id="section-genus" class="col-md-3">
+                            <div class="form-group">
+                                <label>Genus</label>
+                                <div class="input-group">
+                                    @Html.TextBoxFor(x => x.Entity.GenusName, new { @class = "form-control", @readonly = "readonly" })
+                                    @Html.HiddenFor(x => x.Entity.GenusID)
+                                    <span class="input-group-btn">
+                                        <a href="@Url.Action("Edit", "Genus", new { @entityId = Model.Entity.GenusID })" class="btn btn-default btn-flat">
+                                            <i class="fa fa-link"></i>
+                                        </a>
+                                    </span>
+                                    <span class="input-group-btn">
+                                        <button type="button" class="btn btn-default btn-flat" data-toggle="modal" data-target="#modal-genus-lookup">
+                                            <i class="fa fa-search"></i>
+                                        </button>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    
+                        <div id="section-species" class="col-md-3">
+                            <div class="form-group">
+                                <label>Species</label>
+                                <div class="input-group mb-3">
+                                    @Html.TextBoxFor(x => x.Entity.SpeciesName, new { @class = "form-control", @readonly = "readonly" })
+                                    @Html.HiddenFor(x => x.Entity.SpeciesID)
+                                    @if (Model.Entity.SpeciesID > 0)
+                                    {
+                                        <span class="input-group-append">
+                                            <a href="@Url.Action("Edit", "Species", new { @entityId = Model.Entity.SpeciesID })" class="btn btn-default btn-flat">
+                                                <i class="fa fa-link"></i>
+                                            </a>
+                                        </span>
+                                    }
+                                    <span class="input-group-append">
+                                        <button type="button" class="btn btn-default btn-flat" data-toggle="modal" data-target="#modal-species-lookup">
+                                            <i class="fa fa-search"></i>
+                                        </button>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Name</label>
+                            @Html.TextBoxFor(x => x.Entity.Name, new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Simplified Name</label>
+                            @Html.TextBoxFor(x => x.Entity.SimplifiedName, new { @class = "form-control", @readonly = "readonly", @style = "background-color:#ebebeb" })
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Transcription</label>
+                            @Html.TextBoxFor(x => x.Entity.AlternateTranscription, new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Language Description</label>
+                            @Html.TextBoxFor(x => x.Entity.LanguageDescription, new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Language</label>
+                            @Html.DropDownListFor(x => x.Entity.LanguageID, Model.CommonNameLanguages, "Select language", new { @class = "form-control" })
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+
+                    <!-- BEGIN NOTE FIELD -->
+                    <div class="col-md-12">
+                        <label>Note</label>
+                        <div class="input-group">
+
+                            @Html.TextAreaFor(x => x.Entity.Note, new { @id = "txtNote", @class = "form-control", })
+                            <span class="input-group-append">
+                                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#modal-note-lookup">
+                                    <i class="fa fa-search margin-r-5"></i>
+                                </button>
+                            </span>
+                        </div>
+                    </div>
+                    <!-- END NOTE FIELD-->
+
+                </div>
+                @if (Model.Entity.ID > 0)
+                {
+                    Html.RenderAction("RenderWidget", "Citation", new { @entityId = Model.Entity.CitationID });
+                }
+
+                <div class="margin">
+                    <a href="@Url.Action("Refresh")" class="btn btn-default">Reset</a>
+                    @if (Model.Entity.ID > 0)
+                    {
+                        <button id="btnDelete" type="button" class="btn btn-danger">
+                            Delete
+                        </button>
+                    }
+                    <button type="submit" class="btn btn-primary float-right">Save</button>
+                </div>
+
+                @Html.Partial("~/Views/Taxonomy/Shared/_RevisionHistory.cshtml")
+            </div>
+        </div>
+    </div>
+}
+
+@{Html.RenderAction("RenderLookupModal", "Genus"); }
+@{Html.RenderAction("RenderLookupModal", "Species"); }
+@Html.Partial("~/Views/Shared/Modals/_NoteLookup2.cshtml")
+
+@if (Model.Entity.ID > 0)
+{
+    Html.RenderAction("RenderLookupModal", "Citation", new { @tableName = Model.TableName, @speciesId = Model.Entity.SpeciesID });
+}
+
+@Html.Partial("~/Views/Taxonomy/Shared/Modals/_Delete.cshtml")
+
+<script>
+    $(document).ready(function () {
+        Init();
+    });
+
+    function Init() {
+        $('[id*="section-fields"]').hide();
+        // If adding a new record, show Family by default; otherwise, show section that corresponds to the 
+        // citation taxon.
+        var entityId = $("#Entity_ID").val();
+        if (entityId == 0) {
+            $('[id*="section-fields"]').hide();
+            $("#section-fields-taxonomy-genus").show();
+
+        }
+        else {
+            var categoryTab = $("#Entity_CategoryCode").val() + "-tab";
+            var categoryCode = "#section-fields-" + $("#Entity_CategoryCode").val();
+            $('[id*="section-fields"]').hide();
+            $('.nav-link').removeClass("active");
+            $(categoryCode).show();
+            $("#" + categoryTab).addClass("active");
+        }
+    }
+
+    $('#section-taxon-tabs ul.nav li').on('click', function () {
+        var selectedCitationTaxonTab = $(this).attr('id');
+        var sectionFields = "section-fields-" + selectedCitationTaxonTab;
+        $('[id*="section-fields"]').hide();
+        $("#" + sectionFields).show();
+
+        //DEBUG
+        //alert("CLICK " + sectionFields);
+
+        //switch (selectedWebOrderRequestTab) {
+        //    case "section-web-order-request-tabs-detail":
+        //        LoadWebOrderRequestDetail(entityID);
+        //        break;
+        //    case "section-web-order-request-tabs-timeline":
+        //        LoadWebOrderRequestTimeLine(entityID);
+        //        break;
+        //    case "section-web-order-request-tabs-order-request-history":
+        //        LoadWebOrderRequestOrderRequestHistory(entityID);
+        //        break;
+        //}
+    });
+
+    $('select').on('change', function () {
+        var selectedText = $(this).find("option:selected").text();
+        $("#Entity_LanguageDescription").val(selectedText);
+    });
+
+    /*
+    * ===================================================================================================
+    * GENUS LOOKUP MODAL
+    * ===================================================================================================
+    */
+    $("#btnOpenGenusLookupModal").click(function () {
+        $("#lblGenusLookupTitle").html("Type Genus Search");
+        $('#hfCurrentAction').val($(this).data("ggtools-action"));
+        $('#hfCurrentValue').val($(this).data("ggtools-value"));
+        $('#modal-genus-lookup').modal('show');
+    });
+
+    $("#btnLookupGenus").click(function () {
+        var genusName = $("#txtLookupGenusName").val();
+        var isAcceptedName = "";
+
+        if ($("#cbxLookupGenusAcceptedNames").prop("checked") == true) {
+            isAcceptedName = "Y";
+        }
+
+        var actionUrl = '@Url.Action("Lookup","Genus")';
+        SearchGenus(actionUrl, genusName, isAcceptedName, "Y");
+    });
+
+    function SearchGenus(actionUrl, genusName, isAcceptedName, isSingleSelect) {
+        var formData = new FormData();
+        formData.append("LookupGenusName", genusName);
+        formData.append("IsAcceptedName", isAcceptedName);
+        formData.append("IsSingleSelect", isSingleSelect);
+
+        $.ajax({
+            url: actionUrl,
+            type: 'POST',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (response) {
+                $("#section-genus-lookup-search-results").html(response);
+            }
+        });
+    }
+
+    function SelectGenus(ID, genusText) {
+        $('#modal-genus-lookup').modal('hide');
+        $("#Entity_GenusName").val(genusText);
+        $("#Entity_GenusID").val(ID);
+    }
+
+    $("#btnAddGenus").click(function () {
+        var link = '@Url.Action("Add","Genus", new { familyId = Model.Entity.ID })';
+        var typeGenusId = $("#Entity_TypeGenusID").val();
+        if (typeGenusId == 0) {
+            $("#modal-type-genus-prompt").modal("show");
+        }
+        else {
+            window.location.href = link;
+        }
+    });
+
+    /*
+    * ===================================================================================================
+    * SPECIES MODAL
+    * ===================================================================================================
+    */
+
+    $(document).on("click", "[id='btnLookupSpecies']", function () {
+        SearchSpecies();
+    });
+
+    function SearchSpecies() {
+        var link = '@Url.Action("Lookup","Species")';
+        var lookupSpeciesName = $("#txtLookupSpeciesName").val();
+        var formData = new FormData();
+
+        formData.append("SpeciesName", lookupSpeciesName);
+
+        $.ajax({
+            url: link,
+            type: 'POST',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (response) {
+                $("#section-species-lookup-search-results").html(response);
+            }
+        });
+    }
+
+    $(document).on("click", "[id='btnSaveSpecies']", function () {
+        SaveSpecies();
+    });
+
+    function SaveSpecies() {
+        var selectedItemIdList = GetSelectedEntityIDs("data-table-species-lookup");
+        var selectedSpeciesNameList = GetSelectedEntityLabels("data-table-species-lookup");
+        //DEBUG
+        /*alert("DEBUG SPECIES ID " + selectedItemIdList + " AND NAME " + selectedSpeciesNameList);*/
+        $("#Entity_SpeciesID").val(selectedItemIdList);
+        $("#Entity_SpeciesName").val(selectedSpeciesNameList);
+
+        /*$("#modal-species-lookup").modal("hide");*/
+    }
+</script>
+
+

@@ -1,0 +1,358 @@
+﻿@model USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer.FamilyMapViewModel
+@{
+    ViewBag.Title = Model.PageTitle;
+    Layout = "~/Views/Shared/_LayoutAdminLTE3.cshtml";
+}
+@Html.Partial("~/Views/Shared/_RevisionHistory.cshtml")
+@using (Html.BeginForm("Edit", "Family", FormMethod.Post, new { id = "frmEdit" }))
+{
+    @Html.HiddenFor(x => x.PageTitle)
+    @Html.HiddenFor(x => x.EventAction)
+    @Html.HiddenFor(x => x.EventValue)
+    @Html.HiddenFor(x => x.TableName)
+    @Html.HiddenFor(x => x.TableCode)
+    @Html.HiddenFor(x => x.Entity.ID)
+    @Html.HiddenFor(x => x.Entity.ParentID)
+    @Html.HiddenFor(x => x.Entity.TribeID)
+    @Html.HiddenFor(x => x.Entity.SubtribeID)
+    @Html.HiddenFor(x => x.Entity.FamilyRank)
+    @Html.HiddenFor(x => x.Entity.IsAcceptedName)
+    <div class="card card-default">
+        <div class="card-header">
+            <div class="btn-group">
+                <a id="btnSetAcceptedOn" class="btn btn-default btn-sm" href="#" role="button"><i class="fas fa-thumbs-down"></i> Not Accepted</a>
+                <a id="btnSetAcceptedOff" class="btn btn-default btn-sm" href="#" role="button"><i class="fas fa-thumbs-up"></i> Accepted</a>
+            </div>
+            
+            @if (Model.Entity.ID > 0)
+            {
+                <div class="btn-group">
+                    <a id="btnAddGenus" class="btn btn-default btn-sm" href="#">Add Genus</a>
+                </div>
+                <div class="btn-group">
+                    <a class="btn btn-default btn-sm" href="@Url.Action("Add", "Family", new { @familyMapId = Model.Entity.ID, rank = "subfamily" })">Add Subfamily</a>
+                    <button type="button" class="btn btn-default btn-sm dropdown-toggle dropdown-icon" data-toggle="dropdown" aria-expanded="false">
+                        <span class="sr-only">Toggle Dropdown</span>
+                    </button>
+                    <div class="dropdown-menu" role="menu" style="">
+                        <a class="dropdown-item btn-sm" href="@Url.Action("Add", "Family", new { @familyMapId = Model.Entity.ID, rank = "tribe" })">Add Tribe</a>
+                        <a class="dropdown-item btn-sm" href="@Url.Action("Add", "Family", new { @familyMapId = Model.Entity.ID, rank = "subtribe" })">Add Subtribe</a>
+                    </div>
+                </div>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#modal-citation-lookup">
+                        <i class="fa fa-book"></i>
+                    </button>
+                </div>
+            }
+
+            <div class="btn-group">
+                <button type="button" class="btn btn-default btn-sm pull-right" data-toggle="modal" data-target="#modal-note-lookup">
+                    <i class="fa fa-search margin-r-5"></i>
+                    Notes
+                </button>
+            </div>
+            <a href="https://npgsdev.ars-grin.gov/gringlobal/taxon/taxonomyfamily?id=@Model.Entity.ID" target="_blank" class="btn btn-info btn-sm float-right">
+                <i class="fa fa-globe"></i>
+                View Public Website
+            </a>
+        </div>
+        <div class="card-body">
+            @Html.Partial("~/Views/Shared/_ValidationMessages.cshtml")
+            <div class="row accepted">
+                <div id="section-accepted-name" class="col-md-3 accepted">
+                    <div class="form-group">
+                        <label>Accepted Name</label>
+                        <div class="input-group">
+                            @Html.TextBoxFor(x => x.Entity.AcceptedName, new { @class = "form-control" })
+                            @Html.HiddenFor(x => x.Entity.AcceptedID)
+                            <span class="input-group-btn">
+                                <button id="btnFamilyNameLookup" type="button" class="btn btn-default btn-flat" data-ggtools-action="AcceptedID" data-ggtools-value="AcceptedName" data-toggle="modal" data-target="#modal-family-lookup">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <!-- If the record being edited is infrafamilial, show the family selector; otherwise, use the family name
+                edit field. -->
+                @if (Model.Entity.FamilyRank.ToUpper() == "FAMILY")
+                {
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Family Name</label>
+                            @Html.TextBoxFor(x => x.Entity.FamilyName, new { @class = "form-control" })
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Family</label>
+                            @Html.DropDownListFor(x => x.Entity.FamilyID, Model.Families, "Select value", new { @class = "form-control" })
+                        </div>
+                    </div>
+                }
+
+                <!-- 
+                Only show the Order (Classification) select list if the record being edited is a family, vs.
+                an infrafamilial record. -->
+                @if (Model.Entity.FamilyRank.ToUpper() == "FAMILY")
+                {
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Order</label>
+                            @Html.DropDownListFor(x => x.Entity.OrderID, Model.Orders, "Select order", new { id = "ddlSelectOrder", @class = "form-control" })
+                        </div>
+                    </div>
+                }
+
+                @switch (Model.Entity.FamilyRank.ToUpper())
+                {
+                    case "SUBFAMILY":
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>Subfamily Name</label>
+                                @Html.TextBoxFor(x => x.Entity.SubfamilyName, new { @class = "form-control" })
+                            </div>
+                        </div>
+                        break;
+                    case "TRIBE":
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>Subfamily</label>
+                                @Html.DropDownListFor(x => x.Entity.SubfamilyID, Model.Subfamilies, "Select value", new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>Tribe Name</label>
+                                @Html.TextBoxFor(x => x.Entity.TribeName, new { @class = "form-control" })
+                            </div>
+                        </div>
+                        break;
+                    case "SUBTRIBE":
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>Subfamily</label>
+                                @Html.DropDownListFor(x => x.Entity.SubfamilyID, Model.Subfamilies, "Select value", new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>Tribe</label>
+                                @Html.DropDownListFor(x => x.Entity.TribeID, Model.Tribes, "Select value", new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>Subtribe Name</label>
+                                @Html.TextBoxFor(x => x.Entity.SubtribeName, new { @class = "form-control" })
+                            </div>
+                        </div>
+                        break;
+                }
+
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label>Type Genus</label>
+                        <div class="input-group">
+                            @Html.TextBoxFor(x => x.Entity.TypeGenusName, new { @class = "form-control" })
+                            @Html.HiddenFor(x => x.Entity.TypeGenusID)
+
+                            @if (Model.Entity.TypeGenusID > 0)
+                            {
+                                <span class="input-group-btn">
+                                    <a href="@Url.Action("Edit", "Genus", new { @entityId = Model.Entity.TypeGenusID })" class="btn btn-default btn-flat">
+                                        <i class="fa fa-link"></i>
+                                    </a>
+                                </span>
+                            }
+                            <span class="input-group-btn">
+                                <button id="btnGenusNameLookup" type="button" class="btn btn-default btn-flat" data-ggtools-action="TypeGenusID" data-ggtools-value="TypeGenusName" data-toggle="modal" data-target="#modal-genus-lookup">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label>Alternate Name</label>
+                        @Html.TextBoxFor(x => x.Entity.AlternateName, new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label>Authority</label>
+                        <div class="input-group">
+                            @Html.TextBoxFor(x => x.Entity.Authority, new { @class = "form-control" })
+                            <span class="input-group-btn">
+                                <button type="button" data-toggle="modal" data-target="#modal-author-lookup" class="btn btn-default btn-flat">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                @if (Model.Entity.FamilyRank.ToUpper() == "FAMILY")
+                {
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Type</label>
+                            @Html.DropDownListFor(x => x.Entity.FamilyTypeCode, Model.FamilyTypes, "Select type", new { @class = "form-control" })
+                        </div>
+                    </div>
+                }
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <label>Note</label>
+                    @Html.TextAreaFor(x => x.Entity.Note, new { @id = "txtNote", @class = "form-control" })
+                </div>
+            </div>
+        </div>
+        <div class="card-footer">
+            <a href="@Url.Action("Refresh")" class="btn btn-default">Cancel</a>
+            @if (Model.Entity.ID > 0)
+            {
+                <button id="btnDelete" type="button" class="btn btn-danger">
+                    Delete
+                </button>
+            }
+            <button type="submit" class="btn btn-primary float-right">Save</button>
+        </div>
+    </div>
+}
+
+@if (Model.Entity.ID > 0)
+{
+    <div class="card">
+        <div id="section-dependent-data" class="card-header p-2">
+            <ul id="list-dependent-data" class="nav nav-pills">
+                <li id="tab_selector_citations" data-ggtools-event-action="Citation" data-ggtools-event-value="_List" class="nav-item"><a class="nav-link active" href="#tab_content_citations" data-toggle="tab">Citations</a></li>
+                <li id="tab_selector_genera" data-ggtools-event-action="Family" data-ggtools-event-value="_ListGenera" class="nav-item"><a class="nav-link" href="#tab_content_genera" data-toggle="tab">Genera</a></li>
+                <li id="tab_selector_synonyms" data-ggtools-event-action="Family" data-ggtools-event-value="_ListSynonyms" class="nav-item"><a class="nav-link" href="#tab_content_synonyms" data-toggle="tab">Synonyms</a></li>
+                <li id="tab_selector_subdivisions" data-ggtools-event-action="Family" data-ggtools-event-value="_ListSubdivisions" class="nav-item"><a class="nav-link" href="#tab_content_subdivisions" data-toggle="tab">Subdivisions</a></li>
+            </ul>
+        </div>
+        <div class="card-body">
+            <div class="tab-content">
+                <div class="tab-pane active" id="tab_content_citations">
+                    <div id="section-citations">
+
+                    </div>
+                </div>
+                <div class="tab-pane" id="tab_content_genera">
+                    <!--TODO-->
+                </div>
+                <div class="tab-pane" id="tab_content_synonyms">
+                    <!--TODO-->
+                </div>
+                <div class="tab-pane" id="tab_content_subdivisions">
+                    <!--TODO-->
+                </div>
+
+            </div>
+        </div>
+    </div>
+}
+
+@Html.Partial("~/Views/Taxonomy/Family/Modals/_Lookup.cshtml")
+@Html.Partial("~/Views/Taxonomy/Family/Modals/_TypeGenusPrompt.cshtml")
+@Html.Partial("~/Views/Taxonomy/Genus/Modals/_Lookup.cshtml")
+@Html.Partial("~/Views/Taxonomy/Author/Modals/_Lookup.cshtml")
+@{Html.RenderAction("RenderLookupModal", "Citation", new { tableName = Model.TableName, entityId = Model.Entity.ID }); }
+@Html.Partial("~/Views/Shared/Modals/_NoteLookup2.cshtml")
+@Html.Partial("~/Views/Taxonomy/Shared/Modals/_Delete.cshtml")
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        Init();
+    });
+
+    function Init() {
+        SetControlVisibility();
+        var defaultId = $('ul#list-dependent-data li:first').attr("id");
+        var eventAction = $('ul#list-dependent-data li:first').data("ggtools-event-action");
+        var eventValue = $('ul#list-dependent-data li:first').data("ggtools-event-value");
+        LoadDependentData(defaultId, eventAction, eventValue);
+    }
+
+    $('#section-dependent-data ul.nav li').on('click', function () {
+        var selectedId = $(this).attr('id');
+        var eventAction = $(this).data("ggtools-event-action");
+        var eventValue = $(this).data("ggtools-event-value");
+        LoadDependentData(selectedId, eventAction, eventValue);
+    });
+
+    function LoadDependentData(sectionId, eventAction, eventValue) {
+        var link = "";
+        var entityId = $("#Entity_ID").val();
+        var familyId = $("#Entity_FamilyID").val();
+        var formData = new FormData();
+        var sectionData = sectionId.replace("tab_selector", "tab_content");
+
+        // Load data in selected section content area based on id.
+        switch (sectionId) {
+            case "tab_selector_citations":
+                link = '@Url.Action("_List","Citation")';
+                break;
+            case "tab_selector_genera":
+                link = '@Url.Action("_ListGenera","Family")';
+                break;
+            case "tab_selector_synonyms":
+                link = '@Url.Action("_ListSynonyms","Family")';
+                break;
+            case "tab_selector_subdivisions":
+                link = '@Url.Action("_ListSubdivisions", "Family", new { familyId = "FAMILY_ID" })';
+                link = link.replace("FAMILY_ID", familyId);
+                break;
+            default:
+                // code block
+        }
+
+    formData.append("FamilyID", entityId);
+
+    $.ajax({
+        url: link,
+        type: 'POST',
+        cache: false,
+        contentType: false,
+        processData: false,
+        data: formData,
+        success: function (response) {
+            $("#" + sectionData).html(response);
+        }
+    });
+    }
+
+    /*
+    * ===================================================================================================
+    * TYPE GENUS
+    * ===================================================================================================
+    */
+
+    $("#btnAddGenus").click(function () {
+        var typeGenusId = 0;
+        typeGenusId = $("#Entity_TypeGenusID").val();
+        if (typeGenusId == 0) {
+            $("#modal-type-genus").modal("show");
+        }
+        else {
+            var link = '@Html.Raw(Url.Action("Add","Genus", new { @eventValue = "genus", @familyId = Model.Entity.ID, @rank="genus" }))';
+            window.location.href = link;
+
+        }
+    });
+
+    $("#btnSetTypeGenus").click(function () {
+        var link = '@Html.Raw(Url.Action("Add","Genus", new { @eventValue = "genus", @familyId = Model.Entity.ID, @rank="genus", @isType = "Y" }))';
+        window.location.href = link;
+    });
+   
+</script>
+

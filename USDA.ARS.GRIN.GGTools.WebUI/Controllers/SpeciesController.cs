@@ -792,6 +792,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                     editor.Field(new Field("taxonomy_genus.genus_name"));
                     editor.Field(new Field("taxonomy_species.species_name"));
                     editor.Field(new Field("taxonomy_species.protologue"));
+                    editor.Field(new Field("taxonomy_species.protologue_virtual_path"));
                     editor.Field(new Field("taxonomy_species.name_authority"));
                     editor.Field(new Field("taxonomy_species.note"));
                     editor.Field(new Field("taxonomy_species.modified_date")

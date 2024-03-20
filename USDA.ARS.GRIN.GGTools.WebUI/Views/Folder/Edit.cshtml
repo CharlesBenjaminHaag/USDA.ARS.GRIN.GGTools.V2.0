@@ -1,0 +1,246 @@
+﻿@model USDA.ARS.GRIN.GGTools.ViewModelLayer.FolderViewModel
+@{
+    ViewBag.Title = Model.PageTitle;
+    Layout = "~/Views/Shared/_LayoutAdminLTE3.cshtml";
+}
+<div class="card">
+    <div id="section-folder-options" class="card-header p-2">
+        <ul class="nav nav-pills">
+            <li id="tab-folder-detail" class="nav-item"><a class="nav-link active" href="#detail" data-toggle="tab">Items</a></li>
+            <li id="tab-folder-sharing" class="nav-item"><a class="nav-link" href="#sharing" data-toggle="tab">Details</a></li>
+            <li id="tab-folder-sharing" class="nav-item"><a class="nav-link" href="#tab_3" data-toggle="tab">Sharing</a></li>
+        </ul>
+    </div>
+    <div class="card-body" id="section-search-criteria">
+        <div class="tab-content">
+            <div class="tab-pane active" id="detail">
+                @{Html.RenderAction("_ListFolderItems", Model.Entity.FolderTypeDescription, new { @folderId = Model.Entity.ID, displayFormat = "" });}
+            </div>
+            <div class="tab-pane" id="sharing">
+                @Html.Partial("~/Views/Taxonomy/Shared/_RevisionHistory.cshtml")
+                @using (Html.BeginForm("Edit", "Folder", FormMethod.Post, new { id = "frmEdit" }))
+                {
+                    @Html.HiddenFor(x => x.PageTitle)
+                    @Html.HiddenFor(x => x.EventAction)
+                    @Html.HiddenFor(x => x.EventValue)
+                    @Html.HiddenFor(x => x.TableName)
+                    @Html.HiddenFor(x => x.TableCode)
+                    @Html.HiddenFor(x => x.Entity.ID)
+                    @Html.HiddenFor(x => x.Entity.FolderType)
+                    @Html.HiddenFor(x => x.Entity.RelatedItemCount)
+                    <div class="row">
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label>Type</label>
+                                @Html.TextBoxFor(x => x.Entity.FolderTypeDescription, new { @class = "form-control", @readonly = "readonly" })
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Name</label>
+                                @Html.TextBoxFor(x => x.Entity.FolderName, new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label>Category</label>
+                                @Html.DropDownListFor(x => x.Entity.Category, Model.Categories, "Select value", new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label>Add Category</label>
+                                @Html.TextBoxFor(x => x.Entity.AlternateCategory, new { @class = "form-control" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>Description</label>
+                                @Html.TextAreaFor(x => x.Entity.Description, new { @class = "form-control" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group clearfix">
+                                <div class="icheck-primary d-inline">
+                                    @Html.CheckBoxFor(x => x.Entity.IsFavoriteOption, new { id = "cbxIsFavorite", @type = "checkbox", @class = "custom-control-input" })
+                                    <label for="cbxIsFavorite">
+                                        Add this folder to my Favorites list.
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="margin">
+                                <a href="@Url.Action("Refresh")" class="btn btn-default">Reset</a>
+                                @if (Model.Entity.ID > 0)
+                                {
+                                    <button id="btnDelete" type="button" class="btn btn-danger">
+                                        Delete
+                                    </button>
+                                }
+                                <button type="submit" class="btn btn-info float-right">Save</button>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+            <div class="tab-pane" id="tab_3">
+                <div class="row">
+                    <div class="col-md-12">
+                        <button id="btnAddCooperator" class="btn btn-default float-right" data-toggle="modal" data-target="#modal-folder-edit-cooperators">
+                            <i class="fas fa-users"></i>
+                            Edit Sharing Options
+                        </button>
+                    </div>
+                </div>
+                <br />
+                <div id="section_folder_cooperator_widget">
+                    @{Html.RenderAction("RenderFolderCooperatorWidget", "Folder", new { @folderId = Model.Entity.ID });}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@Html.Partial("~/Views/Taxonomy/Shared/Modals/_Delete.cshtml")
+@{Html.RenderAction("RenderFolderCooperatorEditModal", "Folder", new { @entityId = Model.Entity.ID });}
+@{Html.RenderAction("RenderFolderItemDeleteModal", "Folder", new { @entityId = Model.Entity.ID });}
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        Init();
+    });
+
+    function Init() {
+        var isReadOnly = $("#IsReadOnly").val();
+        if (isReadOnly == "Y") {
+            SetReadOnly();
+        }
+    }
+
+    /*
+    * ***********************************************************
+    * Deletion logic
+    * ***********************************************************
+    */
+    $(document).on("click", "[id*='btnDeleteBatch']", function () {
+        DeleteBatch();
+    });
+
+    //$("#btnDelete").click(function () {
+    //    var action = $(this).data("ggtools-action");
+    //    $("#EventAction").val(action);
+    //    $("#EventValue").val(
+    //        $(this).data("ggtools-value"));
+    //});
+
+    @*$(document).on("click", "[id*='btnDeleteItem']", function () {
+        var id = $(this).attr("id");
+        var eventValue = $(this).data("ggtools-value");
+        DeleteItem(eventValue);
+    });
+
+    function DeleteItem(id) {
+        var link = '@Url.Action("DeleteItem","Folder")';
+        var formData = new FormData();
+
+        formData.append("appUserItemListId", id);
+
+        $.ajax({
+            url: link,
+            type: 'POST',
+            cache: false,
+            dataType: 'json',
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (data) {
+                /*console.log(data);*/
+                /*ConfirmFolderSave(data.folder.FolderName);*/
+            },
+            error: function (ex) {
+            }
+        });
+    }*@
+
+    function DeleteBatchPrompt() {
+        var selectedFolderItems = GetSelectedAppUserItemListIDs("data_table_taxonomy_author");
+        $("#section-item-count").html(selectedFolderItems.length);
+        $("#modal-batch-delete-confirm").modal("show");
+    }
+
+    function DeleteBatch() {
+        var link = '@Url.Action("DeleteItems","Folder")';
+        var folderId = $("#Entity_ID").val();
+        var selectedFolderItems = GetSelectedAppUserItemListIDs("data_table_taxonomy_author");
+        var formData = new FormData();
+
+        $("#ItemIDList").val(selectedFolderItems);
+
+        formData.append("FolderID", folderId);
+        formData.append("ItemIDList", selectedFolderItems);
+
+        $("#section-item-count").html(selectedFolderItems.length);
+        $("#modal-batch-delete-confirm").modal("show");
+
+        $.ajax({
+            url: link,
+            type: 'POST',
+            cache: false,
+            dataType: 'json',
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (data) {
+                var refresh = window.location.href;
+                window.location.href = refresh;
+            },
+            error: function (ex) {
+            }
+        });
+    }
+
+    /*
+    * ***********************************************************
+    * Sharing logic
+    * ***********************************************************
+    */
+    $('#section-folder-options ul.nav li').on('click', function () {
+        var id = $(this).attr('id');
+        if (id == "tab-folder-sharing") {
+            var folderId = $("#Entity_ID").val();
+            //LoadAvailableCollaborators(folderId);
+            //LoadCurrentCollaborators(folderId);
+        }
+    });
+
+    function RenderFolderCooperatorWidget() {
+        var link = '@Url.Action("RenderFolderCooperatorWidget", "Folder")';
+        var folderId = $("#Entity_ID").val();
+        var formData = new FormData();
+
+        formData.append("folderId", folderId);
+
+        $.ajax({
+            url: link,
+            type: 'POST',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (response) {
+                $("#section_folder_cooperator_widget").html(response);
+            },
+            error: function () {
+                alert("Error loading current cooperators");
+            }
+        });
+    }
+</script>
+

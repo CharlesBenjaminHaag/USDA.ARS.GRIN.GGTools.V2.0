@@ -5,8 +5,8 @@
     <table id="data_table_app_user_item_list" class="table table-striped ggtools-table" style="width:100%;">
         <thead>
             <tr>
-                <th></th>
-                <th></th>
+                <th>ID</th>
+                <th>Item</th>
                 <th>Name</th>
                 <th>Synonym</th>
                 <th>Accepted</th>
@@ -22,10 +22,10 @@
                 foreach (var result in Model.DataCollection)
                 {
                     <tr>
-                        <td>@result.AppUserItemListID</td>
                         <td>
                             @result.ID
                         </td>
+                        <td>@result.AppUserItemListID</td>
                         <td>@Html.Raw(result.AssembledName)</td>
                         <td><span class="badge badge-info">@result.SynonymDescription</span></td>
                         <td>@Html.Raw(Model.FormatBoolean(result.IsAcceptedName))</td>
@@ -65,7 +65,7 @@ function BatchEdit() {
     var eventAction = $("#EventAction").val();
     var eventValue = $("#EventValue").val();
     var batchEditUrl = '@Url.Action("EditBatch", "Species")';
-    var selectedIdList = GetSelectedEntityIDs("data_table_taxonomy_species");
+    var selectedIdList = GetSelectedEntityIDs("data_table_app_user_item_list");
 
     /* TODO: Ensure at least one selected */
 

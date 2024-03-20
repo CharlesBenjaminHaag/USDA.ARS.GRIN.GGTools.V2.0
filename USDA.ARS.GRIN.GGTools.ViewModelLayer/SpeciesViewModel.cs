@@ -38,8 +38,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
             {
                 try
                 {
-                    SearchEntity.ID = entityId;
-                    Search();
+                    Entity = mgr.Get(entityId);
                 }
                 catch (Exception ex)
                 {

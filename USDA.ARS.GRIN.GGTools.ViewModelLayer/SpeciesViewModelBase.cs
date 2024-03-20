@@ -61,7 +61,9 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
         public bool IsCopyGenusRequired { get; set; }
         public bool IsCopySpeciesRequired { get; set; }
         public bool IsCopyProtologueRequired { get; set; }
+        public bool IsCopyAuthorityRequired { get; set; }
         public bool IsCopyNoteRequired { get; set; }
+        
         #endregion
 
         public int SpeciesID

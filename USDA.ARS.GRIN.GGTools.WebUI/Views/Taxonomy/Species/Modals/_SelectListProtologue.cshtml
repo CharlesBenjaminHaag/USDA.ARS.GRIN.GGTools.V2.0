@@ -1,4 +1,6 @@
 ﻿@model USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer.SpeciesViewModel
+<hr />
+<button id="btnSaveProtologue1" type="button" class="btn btn-default float-right" data-dismiss="modal">Add Selected Protologue</button>
 <table id="data-table-protologue-lookup" class="table table-striped ggtools" style="width:100%">
     <thead>
         <tr>
@@ -34,6 +36,7 @@
         }
     </tbody>
 </table>
+<button id="btnSaveProtologue2" type="button" class="btn btn-default float-right" data-dismiss="modal">Add Selected Protologue</button>
 <script type="text/javascript">
     $(document).ready(function () {
         InitDataTableLookupFormat("data-table-protologue-lookup");

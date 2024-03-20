@@ -73,6 +73,7 @@ namespace USDA.ARS.GRIN.GGTools.AppLayer
         }
         public string EventAction { get; set; }
         public string EventValue { get; set; }
+        public string EventInfo { get; set; }
         public string EventNote { get; set; }
         public string ParentTableName { get; set; }
         public int TableID { get; set; }
