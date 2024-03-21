@@ -138,6 +138,8 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             viewModel.TableCode = "Species";
             viewModel.SearchEntity.SQLStatement = "SELECT * FROM vw_gringlobal_" + viewModel.TableName;
 
+            ViewBag.PageTitle = "Search Species";
+
             string targetKey = this.ControllerContext.RouteData.Values["controller"].ToString().ToUpper() + "_SEARCH";
             if (Session[targetKey] != null)
             {
@@ -163,6 +165,8 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 Session[SessionKeyName] = viewModel;
                 viewModel.Search();
                 ModelState.Clear();
+
+                ViewBag.PageTitle = "Species Search";
 
                 // Save search if attribs supplied.
                 if ((viewModel.EventAction == "Species") && (viewModel.EventValue == "SaveSearch"))
@@ -360,6 +364,8 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 viewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
                 viewModel.Entity.CreatedByCooperatorName = AuthenticatedUser.FullName;
                 viewModel.Entity.CreatedDate = System.DateTime.Now;
+
+                ViewBag.PageTitle = "Add " + viewModel.ToTitleCase(viewModel.Entity.Rank);
 
                 if (genusId > 0)
                 {
@@ -635,6 +641,8 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 viewModel.PageTitle = String.Format("Edit {0} [{1}]: {2}", viewModel.Entity.ID, viewModel.ToTitleCase(viewModel.Entity.Rank), viewModel.Entity.AssembledName);
                 viewModel.EventValue = viewModel.Entity.Rank.ToUpper();
                 viewModel.ID = entityId;
+
+                ViewBag.PageTitle = "Edit " + viewModel.ToTitleCase(viewModel.Entity.Rank);
 
                 // If there is a rank specified, this is a change-rank operation; reload
                 // page with newly-set rank to enable necessary fields.

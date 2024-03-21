@@ -944,6 +944,9 @@
     <Content Include="Views\Cooperator\EditOwnership.cshtml" />
     <Content Include="Views\SysDynamicSearch\Index.cshtml" />
     <Content Include="Views\Taxonomy\Species\Edit_BACKUP.cshtml" />
+    <Content Include="Views\Taxonomy\Species\Components\_HybridSelector.cshtml" />
+    <Content Include="Views\Taxonomy\Species\Components\_InfraSpecificEditor.cshtml" />
+    <Content Include="Views\Taxonomy\Species\Components\_AcceptedNameEditor.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

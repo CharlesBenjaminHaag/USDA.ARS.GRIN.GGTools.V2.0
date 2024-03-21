@@ -16,7 +16,6 @@
         <link rel="stylesheet" type="text/css" href="~/Content/dist/css/bootstrap-switch.min.css" />
         <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.4.0/css/responsive.dataTables.min.css" />*@
 
-
     <!-- DATATABLES TEST -->
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.4.2/css/buttons.dataTables.min.css">
@@ -241,7 +240,7 @@
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-9">
-                            <h1 class="m-0">@eventValue @eventAction</h1>
+                            <h1 class="m-0">@ViewBag.PageTitle</h1>
                         </div><!-- /.col -->
                         <div class="col-sm-3">
                             @Html.Partial("~/Views/Taxonomy/Shared/_Breadcrumbs.cshtml")
@@ -265,6 +264,7 @@
     </div>
 </body>
 </html>
+
 <script src="~/plugins/jquery/jquery.min.js"></script>
 <script src="~/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <script src="~/dist/js/adminlte.js"></script>

@@ -64,6 +64,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EntityClasses\AccessionInvAnnotationSearch.cs" />
     <Compile Include="EntityClasses\AccessionInvAnnotation.cs" />
     <Compile Include="EntityClasses\AccessionSearch.cs" />
     <Compile Include="EntityClasses\Accession.cs" />

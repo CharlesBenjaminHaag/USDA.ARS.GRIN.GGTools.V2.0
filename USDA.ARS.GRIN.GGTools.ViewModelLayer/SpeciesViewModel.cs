@@ -39,6 +39,12 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
                 try
                 {
                     Entity = mgr.Get(entityId);
+                    Entity.IsSpecificHybridOption = ToBool(Entity.IsSpecificHybrid);
+                    Entity.IsSubSpecificHybridOption = ToBool(Entity.IsSubspecificHybrid);
+                    Entity.IsVarietalHybridOption = ToBool(Entity.IsVarietalHybrid);
+                    Entity.IsSubvarietalHybridOption = ToBool(Entity.IsSubVarietalHybrid);
+                    Entity.IsFormaHybridOption = ToBool(Entity.IsFormaHybrid);
+                    Entity.IsWebVisibleOption = ToBool(Entity.IsWebVisible);
                 }
                 catch (Exception ex)
                 {
@@ -85,8 +91,12 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
                     Entity.IsVarietalHybrid = FromBool(Entity.IsVarietalHybridOption);
                     Entity.IsSubVarietalHybrid = FromBool(Entity.IsSubvarietalHybridOption);
                     Entity.IsFormaHybrid = FromBool(Entity.IsFormaHybridOption);
+                    Entity.IsWebVisible = FromBool(Entity.IsWebVisibleOption);
+
                     SetSpeciesName();
                     SetSpeciesNameAuthority();
+                    HandleAccessions();
+
                     RowsAffected = mgr.Insert(Entity);
                     
                 }
@@ -164,6 +174,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
             appUserItemListViewModel.Entity.Properties = SerializeToXml(SearchEntity);
             appUserItemListViewModel.Insert();
         }
+        
         public void GetFolderItems()
         {
             using (SpeciesManager mgr = new SpeciesManager())
@@ -213,9 +224,12 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
                     Entity.IsVarietalHybrid = FromBool(Entity.IsVarietalHybridOption);
                     Entity.IsSubVarietalHybrid = FromBool(Entity.IsSubvarietalHybridOption);
                     Entity.IsFormaHybrid = FromBool(Entity.IsFormaHybridOption);
+                    Entity.IsWebVisible = FromBool(Entity.IsWebVisibleOption);
+
                     SetSpeciesName();
                     SetSpeciesNameAuthority();
                     HandleAccessions();
+
                     RowsAffected = mgr.Update(Entity);
                 }
                 catch (Exception ex)
@@ -391,16 +405,20 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
             int retVal = 0;
             try
             {
-                if (Entity.ID > 0)
+                if ((Entity.ID > 0) && (Entity.AccessionCount > 0))
                 {
                     if (Entity.ID != Entity.AcceptedID)
                     {
                         AccessionViewModel accessionViewModel = new AccessionViewModel();
-                        accessionViewModel.SearchEntity.SpeciesID = Entity.SpeciesID;
+                        accessionViewModel.SearchEntity.SpeciesID = Entity.ID;
                         accessionViewModel.Search();
                         if (accessionViewModel.DataCollection.Count > 0)
                         { 
-                        
+                            // TODO
+                            // Add annotations
+                            // Re-assign accessions to accepted name
+                            // Send notification email to accession owners
+
                         }
                     }
                 }
@@ -414,28 +432,93 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
         
         public void SetSpeciesName()
         {
-            Entity.Name = Entity.GenusName + " " + Entity.SpeciesName;
+            GenusViewModel genusViewModel = new GenusViewModel();
+            genusViewModel.Get(Entity.GenusID);
+            if (genusViewModel.Entity == null)
+            {
+                throw new Exception("Genus not found.");
+            }
 
-            if (Entity.IsSpecificHybrid == "Y")
+            if (genusViewModel.Entity.HybridCode == "+")
+                Entity.GenusName = "+ " + Entity.GenusName;
+
+            if (genusViewModel.Entity.HybridCode == "X")
+                Entity.GenusName = "X " + Entity.GenusName;
+
+            // TODO SPEC NAME
+            //Entity.Name = Entity.GenusName + " " + Entity.SpeciesName;
+
+            //if (Entity.IsSpecificHybrid == "Y")
+            //{
+            //    Entity.Name = "x " + Entity.SpeciesName;
+            //}
+            //if (Entity.IsSubspecificHybrid == "Y")
+            //{
+            //    Entity.Name = "x " + Entity.SubspeciesName;
+            //}
+            //if (Entity.IsVarietalHybrid == "Y")
+            //{
+            //    Entity.Name = "x " + Entity.VarietyName;
+            //}
+            //if (Entity.IsSubVarietalHybrid == "Y")
+            //{
+            //    Entity.Name = "x " + Entity.SubvarietyName;
+            //}
+            //if (Entity.IsFormaHybrid == "Y")
+            //{
+            //    Entity.Name = "x " + Entity.FormaName;
+            //}
+
+            // Handle infraspecific names.
+            if (!String.IsNullOrEmpty(Entity.FormaName))
             {
-                Entity.Name = "x " + Entity.SpeciesName;
+                Entity.Name += Entity.FormaRankType + " " + Entity.FormaName;
             }
-            if (Entity.IsSubspecificHybrid == "Y")
+            else
             {
-                Entity.Name = "x " + Entity.SubspeciesName;
+                if (!String.IsNullOrEmpty(Entity.SubvarietyName))
+                {
+                    Entity.Name += " subvar. " + Entity.SubvarietyName;
+                    Entity.NameAuthority = Entity.SubvarietyAuthority;
+                }
+                else
+                {
+                    if (!String.IsNullOrEmpty(Entity.VarietyName))
+                    {
+                        if (Entity.IsVarietalHybrid == "Y")
+                        {
+                            Entity.Name += " nothovar. " + Entity.VarietyName;
+                        }
+                        else
+                        {
+                            Entity.Name += " var. " + Entity.VarietyName;
+                        }
+                        Entity.NameAuthority = Entity.VarietyAuthority;
+                    }
+                    else 
+                    {
+                        if (!String.IsNullOrEmpty(Entity.SubspeciesName))
+                        {
+                            if (Entity.IsSubspecificHybrid == "Y")
+                            {
+                                Entity.Name += " nothosubsp. " + Entity.VarietyName;
+                            }
+                            else
+                            {
+                                Entity.Name += " subsp. " + Entity.VarietyName;
+                            }
+                            Entity.NameAuthority = Entity.SubspeciesAuthority;
+                        }
+                        else
+                        {
+                            Entity.NameAuthority = Entity.SpeciesAuthority;
+                        }
+                    }
+                }
             }
-            if (Entity.IsVarietalHybrid == "Y")
-            {
-                Entity.Name = "x " + Entity.VarietyName;
-            }
-            if (Entity.IsSubVarietalHybrid == "Y")
-            {
-                Entity.Name = "x " + Entity.SubvarietyName;
-            }
-            if (Entity.IsFormaHybrid == "Y")
-            {
-                Entity.Name = "x " + Entity.FormaName;
-            }
+
+
+
         }
         
         public void SetSpeciesNameAuthority()
