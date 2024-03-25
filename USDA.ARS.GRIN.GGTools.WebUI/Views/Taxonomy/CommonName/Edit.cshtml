@@ -89,15 +89,15 @@
                                 <div class="tab-content" id="custom-tabs-four-tabContent">
                                     @Html.Partial("~/Views/Shared/_ValidationMessages.cshtml")
                                     <div class="row">
-                                        <!--<div id="section-taxon-select" class="col-md-3">-->
-                                            @*<div class="form-group">
+                                        <div id="section-taxon-select" class="col-md-3">
+                                            <div class="form-group">
                                                 <label>Taxon Type</label>
                                                 <select id="ddlTaxonType" class="form-control">
                                                     <option value="taxonomy-genus">Genus</option>
                                                     <option value="taxonomy-species">Species</option>
                                                 </select>
-                                            </div>*@
-                                        <!--</div>-->
+                                            </div>
+                                        </div>
                                         <div class="col-md-6">
                                             <div id="section-fields-taxonomy-genus" class="form-group">
                                                 <label>Genus</label>
@@ -118,22 +118,13 @@
                                                             <i class="fa fa-search"></i>
                                                         </button>
                                                     </span>
-                                                    <span class="input-group-btn">
-                                                        <select id="ddlTaxonType" class="form-control">
-                                                            <option value="taxonomy-genus">Genus</option>
-                                                            <option value="taxonomy-species">Species</option>
-                                                        </select>
-                                                    </span>
                                                 </div>
                                             </div>
                                             <div id="section-fields-taxonomy-species" class="form-group">
                                                 <label>Species</label>
                                                 <div class="input-group">
-                                                    @Html.TextBoxFor(x => x.Entity.SpeciesName, new { @class = "form-control", @readonly = "readonly", @style = "background-color:#ecf0f5;" })
+                                                    <span id="placeholder-accepted-name" style="background-color: #ecf0f5; border: 1px solid #ced4da; width: 100%; position: relative; -ms-flex: 1 1 auto; flex: 1 1 auto; width: 1%; min-width: 0; margin-bottom: 0; padding: 0.375rem 0.75rem; height: calc(2.25rem + 2px);">@Html.Raw(Model.Entity.SpeciesName) </span>
                                                     @Html.HiddenFor(x => x.Entity.SpeciesID)
-                                                    
-                                                   
-                                                    
                                                     @if (Model.Entity.SpeciesID > 0)
                                                     {
                                                         <span class="input-group-btn">

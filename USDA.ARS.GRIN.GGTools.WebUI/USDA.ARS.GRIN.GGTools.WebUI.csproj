@@ -947,6 +947,8 @@
     <Content Include="Views\Taxonomy\Species\Components\_HybridSelector.cshtml" />
     <Content Include="Views\Taxonomy\Species\Components\_InfraSpecificEditor.cshtml" />
     <Content Include="Views\Taxonomy\Species\Components\_AcceptedNameEditor.cshtml" />
+    <Content Include="Views\Taxonomy\Species\Components\_GenusEditor.cshtml" />
+    <Content Include="Views\Taxonomy\FamilyMap\Components\_GenusEditor.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -963,6 +965,7 @@
     <Folder Include="Views\Shared\Layout\" />
     <Folder Include="Views\SysTable\Explorer\" />
     <Folder Include="Views\Taxonomy\CropForCWR\Map\" />
+    <Folder Include="Views\Taxonomy\Genus\Components\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

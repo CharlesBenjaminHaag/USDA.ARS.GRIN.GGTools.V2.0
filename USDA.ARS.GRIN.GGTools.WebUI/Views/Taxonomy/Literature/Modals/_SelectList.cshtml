@@ -1,5 +1,6 @@
 ﻿@model USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer.LiteratureViewModel
-
+<hr />
+<button id="btnSaveLiterature1" type="button" class="btn btn-default float-right ggtools-lookup" data-dismiss="modal">Add Selected Literature</button>
 <table id="data-table-literature-lookup" class="table table-striped">
     <thead>
         <tr>
@@ -35,9 +36,10 @@
         }
     </tbody>
 </table>
+<button id="btnSaveLiterature2" type="button" class="btn btn-default float-right ggtools-lookup" data-dismiss="modal">Add Selected Literature</button>
 
 <script type="text/javascript">
     $(document).ready(function () {
-        InitDataTableLight("data-table-literature-lookup");
+        InitDataTableLookupFormat("data-table-literature-lookup");
     });
 </script>

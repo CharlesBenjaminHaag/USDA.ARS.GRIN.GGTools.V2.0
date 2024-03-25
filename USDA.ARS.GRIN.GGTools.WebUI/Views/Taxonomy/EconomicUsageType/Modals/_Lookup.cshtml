@@ -49,20 +49,19 @@
             </div>
             <div class="modal-footer justify-content-between">
                 <button type="button" class="btn btn-danger pull-left" data-dismiss="modal">Close</button>
-                <button type="button" id="btnSaveEconomicUsageType" class="btn btn-default btn-flat" data-dismiss="modal">Use Selected Value</button>
             </div>
         </div>
     </div>
 </div>
 <script type="text/javascript">
-    //$('#modal-economic-usage-type-lookup').on('keypress', function (event) {
-    //    var keycode = (event.keyCode ? event.keyCode : event.which);
-    //    if (keycode == '13') {
-    //        /*alert("ENTER clicked");*/
-    //        EconomicUsageType_Search();
-    //        event.preventDefault();
-    //    }
-    //});
+    $('#modal-economic-usage-type-lookup').on('keypress', function (event) {
+        var keycode = (event.keyCode ? event.keyCode : event.which);
+        if (keycode == '13') {
+            /*alert("ENTER clicked");*/
+            EconomicUsageType_Search();
+            event.preventDefault();
+        }
+    });
 
     $("#btnOpenEconomicUsageTypeLookupModal").click(function () {
         var eventAction = $(this).data("ggtools-action");
@@ -99,11 +98,14 @@
         });
     }
 
-    $("#btnSaveEconomicUsageType").click(function () {
+    $(document).on("click", "[id*='btnSaveEconomicUsageType']", function () {
         var idField = $("#hfEconomicUsageTypeLookupIDFieldName").val();
         var nameField = $("#hfEconomicUsageTypeLookupNameFieldName").val();
         var idList = GetSelectedEntityIDs("data-table-economic-usage-type-lookup");
         var nameList = GetSelectedEntityLabels("data-table-economic-usage-type-lookup");
+
+        //DEBUG
+        alert("ID FLD IS " + idField + " AND NAME FLD IS " + nameField + " GETS VAL " + nameList);
 
         $("#Entity_" + idField).val(idList);
         $("#Entity_" + nameField).val(nameList);
