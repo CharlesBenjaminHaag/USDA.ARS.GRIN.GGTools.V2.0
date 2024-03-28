@@ -51,5 +51,13 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
         {
             throw new NotImplementedException();
         }
+
+        public int UpdateBySpecies()
+        {
+            using (AccessionManager mgr = new AccessionManager())
+            {
+                return mgr.UpdateBySpecies(Entity);
+            }
+        }
     }
 }

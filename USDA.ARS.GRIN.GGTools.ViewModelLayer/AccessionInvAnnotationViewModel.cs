@@ -22,7 +22,19 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
 
         public int Insert()
         {
-            throw new NotImplementedException();
+            using (AccessionInvAnnotationManager mgr = new AccessionInvAnnotationManager())
+            {
+                try
+                {
+                    RowsAffected = mgr.Insert(Entity);
+                }
+                catch (Exception ex)
+                {
+                    PublishException(ex);
+                    throw ex;
+                }
+                return RowsAffected;
+            }
         }
 
         public void Search()

@@ -167,7 +167,16 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             }
 
             SQL += " AND        (@IsWebVisible              IS NULL OR  IsWebVisible                    =       @IsWebVisible)";
-            SQL += " AND        (@Protologue                IS NULL OR  Protologue                      LIKE    '%' + @Protologue + '%')";
+
+            if (searchEntity.ProtologueVirtualPathIsNull == true)
+            {
+                SQL += "AND ProtologueVirtualPath IS NULL ";
+            }
+            else
+            {
+                SQL += " AND        (@Protologue                IS NULL OR  Protologue                      LIKE    '%' + @Protologue + '%')";
+            }
+            
             SQL += " AND        (@ProtologueVirtualPath     IS NULL OR  ProtologueVirtualPath           LIKE    '%' + @ProtologueVirtualPath + '%')";
             SQL += " AND        (@SubspeciesName            IS NULL OR  SubspeciesName                  LIKE    '%' + @SubspeciesName + '%')";
             SQL += " AND        (@SubspeciesAuthority       IS NULL OR  SubspeciesAuthority             LIKE    '%' + @SubspeciesAuthority + '%')";

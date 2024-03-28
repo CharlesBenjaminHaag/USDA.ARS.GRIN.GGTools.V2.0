@@ -40,21 +40,15 @@
     <div id="section-verification">
         @Html.Partial("~/Views/Taxonomy/Species/_RevisionHistory.cshtml")
     </div>
-
-    //if ((Model.Entity.Rank != "SPECIES") && (Model.Entity.ID > 0))
-    //{
-    //    Html.RenderAction("RenderInfraspecificAutonymWidget", "Species", new { genusName = Model.Entity.GenusName, speciesName = Model.Entity.SpeciesName, rank = Model.Entity.Rank }); ;
-    //}
-
     <div class="row">
         <div class="col-md-12">
             <div class="card card-success card-tabs">
                 @if (Model.Entity.ID > 0)
                 {
-                    <div id="section-web-order-request-tabs" class="card-header p-0 pt-1">
+                    <div id="section-infraspecific-select" class="card-header p-0 pt-1">
                         <ul class="nav nav-tabs" id="custom-tabs-two-tab" role="tablist">
                             <li class="pt-2 px-3"><h3 id="section-title" class="card-title">Species</h3></li>
-                            <li id="section-subspecies" class="nav-item">
+                            <li id="section-subspecies" data-ggtools-rank="subspecies" class="nav-item">
                                 <a id="tab-subspecies"
                                    class="nav-link"
                                    href="@Model.SubspeciesUrl"
@@ -64,7 +58,7 @@
                                     <i class="fas fa-plus"></i>&nbsp;Subspecies
                                 </a>
                             </li>
-                            <li id="section-variety" class="nav-item">
+                            <li id="section-variety" data-ggtools-rank="variety" class="nav-item">
                                 <a id="tab-variety"
                                    class="nav-link"
                                    href="@Model.VarietyUrl"
@@ -75,7 +69,7 @@
                                     Variety
                                 </a>
                             </li>
-                            <li id="section-subvariety" class="nav-item">
+                            <li id="section-subvariety" data-ggtools-rank="subvariety" class="nav-item">
                                 <a id="tab-subvariety"
                                    class="nav-link"
                                    href="@Model.SubvarietyUrl"
@@ -86,7 +80,7 @@
                                     Subvariety
                                 </a>
                             </li>
-                            <li id="section-form" class="nav-item">
+                            <li id="section-form" data-ggtools-rank="form" class="nav-item">
                                 <a id="tab-form"
                                    class="nav-link"
                                    href="@Model.FormUrl"
@@ -104,7 +98,7 @@
                     <div class="tab-content">
                         @Html.Partial("~/Views/Shared/_ValidationMessages.cshtml")
                         @Html.Partial("~/Views/Taxonomy/Species/Components/_AcceptedNameEditor.cshtml")
-                        
+
                         @if (Model.Entity.ID > 0)
                         {
                             <div class="row">
@@ -116,12 +110,12 @@
                                         </div>
                                     </div>
                                 </div>
-                                </div>
+                            </div>
                         }
 
                         <div class="row">
                             <div class="col-md-4">
-                                @Html.Partial("~/Views/Taxonomy/Species/Components/_GenusEditor.cshtml") 
+                                @Html.Partial("~/Views/Taxonomy/Species/Components/_GenusEditor.cshtml")
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
@@ -236,46 +230,8 @@
 
 @if (Model.Entity.ID > 0)
 {
-    <div class="card">
-        <div id="section-dependent-data" class="card-header p-2">
-            <ul id="list-dependent-data" class="nav nav-pills">
-                <li id="tab_selector_conspecific" data-ggtools-action="Species" data-ggtools-value="_ListConspecific" class="nav-item"><a class="nav-link active" href="#tab_content_conspecific" data-toggle="tab">Conspecific</a></li>
-                <li id="tab_selector_citation" data-ggtools-action="Citation" data-ggtools-value="_List" class="nav-item"><a class="nav-link" href="#tab_content_citation" data-toggle="tab">Citations</a></li>
-                <li id="tab_selector_taxonomy_common_name" data-ggtools-action="CommonName" data-ggtools-value="_List" class="nav-item"><a class="nav-link" href="#tab_content_taxonomy_common_name" data-toggle="tab">Common Names</a></li>
-                <li id="tab_selector_taxonomy_species_synonym_map_b" data-ggtools-action="SpeciesSynonymMap" data-ggtools-value="_ListSynonymsB" class="nav-item"><a class="nav-link" href="#tab_content_taxonomy_species_synonym_map_b" data-toggle="tab">Synonym Of</a></li>
-                <li id="tab_selector_taxonomy_species_synonym_map_a" data-ggtools-action="SpeciesSynonymMap" data-ggtools-value="_ListSynonymsA" class="nav-item"><a class="nav-link" href="#tab_content_taxonomy_species_synonym_map_a" data-toggle="tab">Synonyms</a></li>
-                <li id="tab_selector_taxonomy_geography_map" data-ggtools-action="GeographyMap" data-ggtools-value="_List" class="nav-item"><a class="nav-link" href="#tab_content_taxonomy_geography_map" data-toggle="tab">Distributions</a></li>
-                <li id="tab_selector_taxonomy_regulation_map" data-ggtools-action="RegulationMap" data-ggtools-value="_List" class="nav-item"><a class="nav-link" href="#tab_content_taxonomy_regulation_map" data-toggle="tab">Regulations</a></li>
-                <li id="tab_selector_taxonomy_use" data-ggtools-action="EconomicUse" data-ggtools-value="_List" class="nav-item"><a class="nav-link" href="#tab_content_taxonomy_use" data-toggle="tab">Economic Uses</a></li>
-                <li id="tab_selector_taxonomy_cwr_map" data-ggtools-action="CWRMap" data-ggtools-value="_List" class="nav-item"><a class="nav-link" href="#tab_content_taxonomy_cwr_map" data-toggle="tab">CWR Maps</a></li>
-            </ul>
-        </div>
-        <div class="card-body">
-            <div class="tab-content">
-                <div class="tab-pane active" id="tab_content_conspecific">
-                </div>
-                <div class="tab-pane" id="tab_content_citation">
-                </div>
-                <div class="tab-pane" id="tab_content_taxonomy_common_name">
-                </div>
-                <div class="tab-pane" id="tab_content_taxonomy_species_synonym_map_a">
-                </div>
-                <div class="tab-pane" id="tab_content_taxonomy_species_synonym_map_b">
-                </div>
-                <div class="tab-pane" id="tab_content_taxonomy_geography_map">
-                </div>
-                <div class="tab-pane" id="tab_content_taxonomy_regulation_map">
-                </div>
-                <div class="tab-pane" id="tab_content_taxonomy_use">
-                </div>
-                <div class="tab-pane" id="tab_content_taxonomy_cwr_map">
-                </div>
-            </div>
-        </div>
-        <div id="progress_overlay" class="overlay">
-            <i class="fas fa-2x fa-sync-alt fa-spin"></i>
-        </div>
-    </div>
+    @Html.Partial("~/Views/Taxonomy/Species/Modals/_EditInfraspecificOptions.cshtml")
+    @Html.Partial("~/Views/Taxonomy/Species/Components/_RelatedDataViewer.cshtml")
 }
 
 @{Html.RenderAction("RenderLookupModal", "Genus"); }
@@ -293,57 +249,57 @@
 }
 
 @Html.Partial("~/Views/Taxonomy/Species/Modals/_EditSynonymOptions.cshtml")
+
 <script type="text/javascript">
     $(document).ready(function () {
-                                                        Init();
-                                                        /*$('#frmEdit').dirtyForms();*/
-                                                    });
+        Init();
+        /*$('#frmEdit').dirtyForms();*/
+    });
 
-                                                    function Init() {
+    function Init() {
         // Ensure that the overlays in each modal are hidden by default
         $(".overlay").hide();
 
-                                                        SetControlVisibility();
+        SetControlVisibility();
 
-                                                        // Load default-visible tab of dependent data.
-                                                        var defaultId = $('ul#list-dependent-data li:first').attr("id");
-                                                        var action = $('ul#list-dependent-data li:first').data("ggtools-action");
-                                                        var value = $('ul#list-dependent-data li:first').data("ggtools-value");
-                                                        LoadDependentData(defaultId, action, value);
+        // Load default-visible tab of dependent data.
+        var defaultId = $('ul#list-dependent-data li:first').attr("id");
+        var action = $('ul#list-dependent-data li:first').data("ggtools-action");
+        var value = $('ul#list-dependent-data li:first').data("ggtools-value");
+        LoadDependentData(defaultId, action, value);
 
-                                                        // Disable relevant child-record controls based on accepted status.
-                                                        var IsAcceptedName = $("#Entity_IsAcceptedName").val();
-                                                        if (IsAcceptedName == "N") {
+        // Disable relevant child-record controls based on accepted status.
+        var IsAcceptedName = $("#Entity_IsAcceptedName").val();
+        if (IsAcceptedName == "N") {
             $("#btnAddCommonName").addClass("disabled");
             $("#btnAddEconomicUse").addClass("disabled");
-                                                        }
-                                                    }
+        }
+    }
 
     $(".synonym-link").on('click', function (event) {
-                                                        //event.stopPropagation();
-                                                        //event.stopImmediatePropagation();
-                                                        var parentSpeciesId = $("#Entity_ID").val();
-                                                        var synonymName = $(this).attr("id").replace("btnAddSyn", "");
-                                                        var synonymTypeCode = $(this).data("ggtools-synonym-code");
+        //event.stopPropagation();
+        //event.stopImmediatePropagation();
+        var parentSpeciesId = $("#Entity_ID").val();
+        var synonymName = $(this).attr("id").replace("btnAddSyn", "");
+        var synonymTypeCode = $(this).data("ggtools-synonym-code");
 
         $("#frmEditSynonymOptions #Entity_SynonymCode").val(synonymTypeCode);
         $("#frmEditSynonymOptions #Entity_SynonymName").val(synonymName);
         $("#frmEditSynonymOptions #Entity_ParentID").val(parentSpeciesId);
 
-                                                        // Refactor onto server.
-                                                        switch (synonymName.toLowerCase()) {
-                                                            case "basionym":
+        // Refactor onto server.
+        switch (synonymName.toLowerCase()) {
+            case "basionym":
                 $("#Entity_IsCopySpeciesRequired").val(true);
                 $("#cbxIsCopySpeciesRequired").attr("checked", true);
-                                                                break;
-                                                            case "heterotypic":
-                                                                break;
-                                                            case "homotypic":
+            break;
+            case "heterotypic":
+                break;
+            case "homotypic":
                 $("#Entity_IsCopySpeciesRequired").val(true);
                 $("#cbxIsCopySpeciesRequired").attr("checked", true);
-                                                                break;
-                                                        }
-
+                break;
+        }
         $("#modal-edit-syononym-options").modal("show");
     });
 
@@ -361,6 +317,31 @@
         var link = '@Url.Action("AddAutonym","Species")';
         var entityId = $("#Entity_ID").val();
         link = link + "?entityId=" + entityId;
+        window.location.href = link;
+    });
+
+    $(document).on("click", "[id*='btnAddInfraspecificRank']", function () {
+        var link = '@Url.Action("Add","Species")';
+        var rank = $("#EventValue").val();
+        var entityId = $("#Entity_ID").val();
+
+        link = link + "?entityId=" + entityId + "&rank=" + rank;
+
+        if ($("#IsCopyGenusRequired").prop("checked") == true) {
+            link += "&copyGenus=true";
+        }
+
+        if ($("#IsCopyProtologueRequired").prop("checked") == true) {
+            link += "&copyProtologue=true";
+        }
+
+        if ($("#IsCopyAuthorityRequired").prop("checked") == true) {
+            link += "&copyAuthority=true";
+        }
+
+        if ($("#IsCopyNoteRequired").prop("checked") == true) {
+            link += "&copyNote=true";
+        }
         window.location.href = link;
     });
 
@@ -397,61 +378,14 @@
         });
     }
 
-    $('#section-dependent-data ul.nav li').on('click', function () {
+    $('#section-infraspecific-select ul.nav li').on('click', function () {
+        event.preventDefault();
         var selectedId = $(this).attr('id');
-        var action =  $(this).data("ggtools-action");
-        var value = $(this).data("ggtools-value");
+        var rank = ToTitleCase($(this).data("ggtools-rank"));
 
-        LoadDependentData(selectedId, action, value);
+        $("#placeholder-rank-name").html(rank);
+        $("#EventValue").val(rank);
+        $("#modal-edit-infraspecific-options").modal("show");
     });
-
-    /* Disable common-name and econ. use controls if species is
-       1) not accepted on load
-       2) set to not-accepted
-    */
-
-    //$('#btnSetAcceptedOn').on('click', function () {
-    //    $("#btnAddCommonName").removeClass("disabled");
-    //    $("#btnAddEconomicUse").removeClass("disabled");
-    //});
-
-    //$('#btnSetAcceptedOff').on('click', function () {
-    //    $("#btnAddCommonName").addClass("disabled");
-    //    $("#btnAddEconomicUse").addClass("disabled");
-    //});
-
-    function LoadDependentData(controlId, eventAction, eventValue) {
-        var link = '@Url.Action("EVENT_VALUE","EVENT_ACTION", new { speciesId = "SPECIES_ID" })';
-        var entityId = $("#Entity_ID").val();
-        var genusId = $("#Entity_GenusID").val();
-        var genusName = $("#Entity_Name").val();
-        var formData = new FormData();
-        var sectionData = controlId.replace("tab_selector", "tab_content");
-
-        //DEBUG
-        //alert("PARAMS CTRL ID " + controlId + " EVENT_ACTION " + eventAction + " EVENT VALUE " + eventValue + " SECTION " + sectionData);
-
-        link = link.replace("SPECIES_ID", entityId);
-        link = link.replace("EVENT_ACTION", eventAction);
-        link = link.replace("EVENT_VALUE", eventValue);
-
-        formData.append("SpeciesID", entityId);
-
-        $("#progress_overlay").show();
-
-        $.ajax({
-            url: link,
-            type: 'POST',
-            cache: false,
-            contentType: false,
-            processData: false,
-            data: formData,
-            success: function (response) {
-                $("#" + sectionData).html(response);
-                $("#progress_overlay").hide();
-            }
-        });
-    }
-
 </script>
 @Html.Partial("~/Views/Shared/_Scripts.cshtml")

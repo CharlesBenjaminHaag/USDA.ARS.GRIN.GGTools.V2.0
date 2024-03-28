@@ -47,6 +47,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         public string FormaAuthority { get; set; }
         public string InfraspecificType { get; set; }
         public string Protologue { get; set; }
+        public bool ProtologueIsNull { get; set; }
         public int GenusID { get; set; }
         public string GenusName { get; set; }
         public string GenusHybridCode { get; set; }
@@ -64,6 +65,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         public bool IsNameVerifiedDateOption { get; set; }
         public string Name { get; set; }
         public string ProtologueVirtualPath { get; set; }
+        public bool ProtologueVirtualPathIsNull { get; set; }
         public string AlternateName { get; set; }
         public int AccessionCount { get; set; }
         public string IsLinkedToAccessions { get; set; }

@@ -15,7 +15,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
         {
             try
             {
-                SysErrorViewModel viewModel = new SysErrorViewModel();
+                ErrorLogViewModel viewModel = new ErrorLogViewModel();
                 viewModel.PageTitle = "Error Logs";
                 viewModel.TableCode = "sys_db_error";
                 viewModel.Search();

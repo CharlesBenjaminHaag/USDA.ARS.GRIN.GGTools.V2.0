@@ -452,8 +452,7 @@
     <Content Include="Views\Error\Index.cshtml" />
     <Content Include="Views\Error\InternalServerError.cshtml" />
     <Content Include="Views\Error\NotFound.cshtml" />
-    <Content Include="Views\Error\_AppErrorList.cshtml" />
-    <Content Include="Views\Error\_DBErrorList.cshtml" />
+    <Content Include="Views\Error\_ErrorLogList.cshtml" />
     <Content Include="Views\Error\_Detail.cshtml" />
     <Content Include="Views\Error\_InternalServerError.cshtml" />
     <Content Include="Views\Taxonomy\FamilyMap\Edit.cshtml" />
@@ -949,6 +948,8 @@
     <Content Include="Views\Taxonomy\Species\Components\_AcceptedNameEditor.cshtml" />
     <Content Include="Views\Taxonomy\Species\Components\_GenusEditor.cshtml" />
     <Content Include="Views\Taxonomy\FamilyMap\Components\_GenusEditor.cshtml" />
+    <Content Include="Views\Taxonomy\Species\Components\_RelatedDataViewer.cshtml" />
+    <Content Include="Views\Taxonomy\Species\Modals\_EditInfraspecificOptions.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

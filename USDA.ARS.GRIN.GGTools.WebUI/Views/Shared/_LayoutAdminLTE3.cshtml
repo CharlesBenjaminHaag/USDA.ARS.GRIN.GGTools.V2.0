@@ -234,13 +234,14 @@
                 }
             </div>
         </aside> <!-- Content Wrapper. Contains page content -->
+        
         <div class="content-wrapper text-sm">
             <!-- Content Header (Page header) -->
             <div class="content-header">
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-9">
-                            <h1 class="m-0">@eventAction @eventValue</h1>
+                            <h1 class="m-0">@ViewBag.PageTitle</h1>
                         </div><!-- /.col -->
                         <div class="col-sm-3">
                             @Html.Partial("~/Views/Taxonomy/Shared/_Breadcrumbs.cshtml")
@@ -292,7 +293,6 @@
 <!-- Date range picker -->
 <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-
 <script>
     $(document).on({
         ajaxStart: function () {
@@ -384,6 +384,36 @@
         }, cb);
 
         cb(start, end);
+    }
+
+    function ToTitleCase(str) {
+        return str.replace(
+            /\w\S*/g,
+            function (txt) {
+                return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+            }
+        );
+    }
+
+    $(document).ready(function () {
+
+        //DEBUG
+        findDivById()
+
+        // Replace 'your_div_id' with the ID of your specific div
+        var firstTableID = $('#section-search-results').find('table:first').attr('id');
+        InitDataTable(firstTableID);
+    });
+
+    function findDivById() {
+        var specificDiv = document.getElementById('section-search-results');
+
+        if (specificDiv) {
+            console.log("Found div with ID 'specific-id'");
+            // Do something with the div if needed
+        } else {
+            console.log("Div with ID 'specific-id' not found");
+        }
     }
 
     // Detect unsaved changes.

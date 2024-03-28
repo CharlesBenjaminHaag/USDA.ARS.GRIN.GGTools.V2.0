@@ -347,7 +347,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             return View(BASE_PATH + "Edit.cshtml", viewModel);
         }
 
-        public ActionResult Add(int genusId = 0, int entityId = 0, string rank = "species", string synonymTypeCode = "")
+        public ActionResult Add(int genusId = 0, int entityId = 0, string rank = "", string synonymTypeCode = "", string copyProtologue="false", string copyAuthority="false", string copyNote="false")
         {
             try
             {
@@ -358,8 +358,6 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 viewModel.Entity.IsAcceptedName = "Y";
                 viewModel.Entity.IsAccepted = true;
                 viewModel.Entity.IsWebVisibleOption = true;
-                //viewModel.IsAutonymNeededOption = true;
-                //viewModel.IsBasionymNeededOption = true;
                 viewModel.Entity.Rank = String.IsNullOrEmpty(rank) ? "species" : rank;
                 viewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
                 viewModel.Entity.CreatedByCooperatorName = AuthenticatedUser.FullName;
@@ -396,7 +394,39 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                     viewModel.Entity.SubvarietyName = parentViewModel.Entity.SubvarietyName;
                     viewModel.Entity.GenusID = parentViewModel.Entity.GenusID;
                     viewModel.Entity.GenusName = parentViewModel.Entity.GenusName;
-                    //viewModel.Entity.Protologue = parentViewModel.Entity.Protologue;
+
+                    // Determine which parent species attributes to copy based on parameters.
+                    if (copyProtologue == "true")
+                    {
+                        viewModel.Entity.Protologue = parentViewModel.Entity.Protologue;
+                    }
+
+                    viewModel.Entity.SpeciesAuthority = parentViewModel.Entity.SpeciesAuthority;
+                    if (copyAuthority == "true")
+                    {
+                        switch (rank.ToLower())
+                        {
+                            case "subspecies":
+                                viewModel.Entity.SubspeciesAuthority = viewModel.ParentEntity.SpeciesAuthority;
+                                break;
+                            case "variety":
+                                viewModel.Entity.VarietyAuthority = viewModel.ParentEntity.SpeciesAuthority;
+                                break;
+                            case "subvariety":
+                                viewModel.Entity.SubvarietyAuthority = viewModel.ParentEntity.SpeciesAuthority;
+                                break;
+                            case "form":
+                                viewModel.Entity.FormaAuthority = viewModel.ParentEntity.SpeciesAuthority;
+                                break;
+                        }
+
+                        viewModel.Entity.SubspeciesAuthority = parentViewModel.Entity.SpeciesAuthority;
+                    }
+
+                    if (copyNote == "true")
+                    {
+                        viewModel.Entity.Note = parentViewModel.Entity.Note;
+                    }
 
                     // Store parent entity in session.
                     Session["PARENT-SPECIES"] = viewModel.ParentEntity;

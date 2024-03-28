@@ -9,15 +9,15 @@ using USDA.ARS.GRIN.GGTools.DataLayer;
 
 namespace USDA.ARS.GRIN.GGTools.DataLayer
 {
-    public class SysAppErrorManager : GRINGlobalDataManagerBase
+    public class ErrorLogManager : GRINGlobalDataManagerBase
     {
-        public List<SysAppError> SearchAppErrors(SysAppErrorSearch searchEntity)
+        public List<ErrorLog> Search(ErrorLogSearch searchEntity)
         {
-            List<SysAppError> results = new List<SysAppError>();
+            List<ErrorLog> results = new List<ErrorLog>();
 
-            SQL = "SELECT * FROM sys_app_error_log WHERE CONVERT(DATE, CreateDate) = CONVERT(DATE, GETDATE()) ORDER BY ID DESC";
+            SQL = "SELECT Source,Application,ID,Code,ErrorMessage,ErrorDetail,ErrorDetail2,ErrorDetail3,ErrorDetail4,CreateDate FROM gringlobal.dbo.vw_GRINGlobal_Error_Log";
 
-            results = GetRecords<SysAppError>(SQL);
+            results = GetRecords<ErrorLog>(SQL);
             RowsAffected = results.Count;
 
             return results;

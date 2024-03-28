@@ -53,16 +53,28 @@
     </div>
 </div>
 <script type="text/javascript">
-    function Modal_Init(searchText) {
-        InitDataTableGeo("data-table-geography-lookup", searchText);
-    }
+    $(document).ready(function () {
+        table = $("#data-table-geography-lookup").DataTable({
+            stateSave: true,
+            paging: true,
+            responsive: true,
+            select: {
+                style: 'single'
+            },
+            searching: true,
+            "bInfo": false,
+            columnDefs: [
+                { targets: [0], visible: false }
+            ]
+        });
+    });
 
     $("#btnSaveGeography").click(function () {
         var idList = GetSelectedEntityIDs("data-table-geography-lookup");
-        var nameList = GetSelectedEntityLabels("data-table-geography-lookup");
+        var nameList = GetSelectedGeographyName("data-table-geography-lookup");
 
         //DEBUG
-        /*alert("DEBUG ID FLD " + idList + " NAME FLD " + nameList);*/
+        alert("DEBUG ID FLD " + idList + " NAME FLD " + nameList);
 
         $("#Entity_GeographyID").val(idList);
         $("#Entity_GeographyDescription").val(nameList);
@@ -92,5 +104,14 @@
 
             /*table.row(':eq(0)', { page: 'current' }).select();*/
         });
+    }
+
+    function GetSelectedGeographyName(tableName) {
+        var table = $('#' + tableName).DataTable();
+        var ids = $.map(table.rows('.selected').data(), function (item) {
+            return item[1]
+        });
+        console.log(ids)
+        return ids;
     }
 </script>

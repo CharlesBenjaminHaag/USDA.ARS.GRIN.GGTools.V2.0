@@ -152,100 +152,115 @@
                     @Html.TextBoxFor(x => x.SearchEntity.Protologue, new { @class = "form-control" })
                 </div>
             </div>
+
+            <!--DEBUG-->
             <div class="col-sm-6">
-                <div class="form-group form-horizontal">
-                    <label>Protologue Virtual Path</label>
+                <label>Protologue Virtual Path</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">
+                            @Html.CheckBoxFor(x => x.SearchEntity.ProtologueVirtualPathIsNull, new { @id = "cbxNull_SearchEntity_ProtologueVirt" })
+                            &nbsp;Find NULL
+                        </span>
+                    </div>
                     @Html.TextBoxFor(x => x.SearchEntity.ProtologueVirtualPath, new { @class = "form-control" })
-                </div>
-            </div>
-            <div class="col-sm-4">
-                <div class="form-group form-horizontal">
-                    <label>Subspecies Name</label>
-                    @Html.TextBoxFor(x => x.SearchEntity.SubspeciesName, new { @class = "form-control" })
-                </div>
-            </div>
-            <div class="col-sm-4">
-                <div class="form-group form-horizontal">
-                    <label>Subspecies Authority</label>
-                    @Html.TextBoxFor(x => x.SearchEntity.SubspeciesAuthority, new { @class = "form-control" })
-                </div>
-            </div>
-            <div class="col-sm-2">
-                <div class="form-group form-horizontal">
-                    <label>Is Subsp. Hybrid</label>
-                    @Html.DropDownListFor(x => x.SearchEntity.IsSubspecificHybrid, Model.YesNoOptions, "Either", new { @class = "form-control" })
-                </div>
-            </div>
-            <div class="col-sm-4">
-                <div class="form-group form-horizontal">
-                    <label>Variety Name</label>
-                    @Html.TextBoxFor(x => x.SearchEntity.VarietyName, new { @class = "form-control" })
-                </div>
-            </div>
-            <div class="col-sm-4">
-                <div class="form-group form-horizontal">
-                    <label>Variety Authority</label>
-                    @Html.TextBoxFor(x => x.SearchEntity.VarietyAuthority, new { @class = "form-control" })
-                </div>
-            </div>
-            <div class="col-sm-2">
-                <div class="form-group form-horizontal">
-                    <label>Is Var. Hybrid</label>
-                    @Html.DropDownListFor(x => x.SearchEntity.IsVarietalHybrid, Model.YesNoOptions, "Either", new { @class = "form-control" })
-                </div>
-            </div>
 
-            <div class="col-sm-4">
-                <div class="form-group form-horizontal">
-                    <label>Subvariety Name</label>
-                    @Html.TextBoxFor(x => x.SearchEntity.SubvarietyName, new { @class = "form-control" })
                 </div>
             </div>
-            <div class="col-sm-4">
-                <div class="form-group form-horizontal">
-                    <label>Subvariety Authority</label>
-                    @Html.TextBoxFor(x => x.SearchEntity.SubvarietyAuthority, new { @class = "form-control" })
+                
+            <div class="col-sm-6">
+                    <div class="form-group form-horizontal">
+                        
+                    </div>
                 </div>
-            </div>
-            <div class="col-sm-2">
-                <div class="form-group form-horizontal">
-                    <label>Is Subvar. Hybrid</label>
-                    @Html.DropDownListFor(x => x.SearchEntity.IsSubVarietalHybrid, Model.YesNoOptions, "Either", new { @class = "form-control" })
+                <div class="col-sm-4">
+                    <div class="form-group form-horizontal">
+                        <label>Subspecies Name</label>
+                        @Html.TextBoxFor(x => x.SearchEntity.SubspeciesName, new { @class = "form-control" })
+                    </div>
                 </div>
-            </div>
+                <div class="col-sm-4">
+                    <div class="form-group form-horizontal">
+                        <label>Subspecies Authority</label>
+                        @Html.TextBoxFor(x => x.SearchEntity.SubspeciesAuthority, new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <div class="form-group form-horizontal">
+                        <label>Is Subsp. Hybrid</label>
+                        @Html.DropDownListFor(x => x.SearchEntity.IsSubspecificHybrid, Model.YesNoOptions, "Either", new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group form-horizontal">
+                        <label>Variety Name</label>
+                        @Html.TextBoxFor(x => x.SearchEntity.VarietyName, new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group form-horizontal">
+                        <label>Variety Authority</label>
+                        @Html.TextBoxFor(x => x.SearchEntity.VarietyAuthority, new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <div class="form-group form-horizontal">
+                        <label>Is Var. Hybrid</label>
+                        @Html.DropDownListFor(x => x.SearchEntity.IsVarietalHybrid, Model.YesNoOptions, "Either", new { @class = "form-control" })
+                    </div>
+                </div>
 
-            <div class="col-sm-4">
-                <div class="form-group form-horizontal">
-                    <label>Forma Name</label>
-                    @Html.TextBoxFor(x => x.SearchEntity.FormaName, new { @class = "form-control" })
+                <div class="col-sm-4">
+                    <div class="form-group form-horizontal">
+                        <label>Subvariety Name</label>
+                        @Html.TextBoxFor(x => x.SearchEntity.SubvarietyName, new { @class = "form-control" })
+                    </div>
                 </div>
-            </div>
-            <div class="col-sm-4">
-                <div class="form-group form-horizontal">
-                    <label>Forma Authority</label>
-                    @Html.TextBoxFor(x => x.SearchEntity.FormaAuthority, new { @class = "form-control" })
+                <div class="col-sm-4">
+                    <div class="form-group form-horizontal">
+                        <label>Subvariety Authority</label>
+                        @Html.TextBoxFor(x => x.SearchEntity.SubvarietyAuthority, new { @class = "form-control" })
+                    </div>
                 </div>
-            </div>
-            <div class="col-sm-2">
-                <div class="form-group form-horizontal">
-                    <label>Is Forma Hybrid</label>
-                    @Html.DropDownListFor(x => x.SearchEntity.IsVarietalHybrid, Model.YesNoOptions, "Either", new { @class = "form-control" })
+                <div class="col-sm-2">
+                    <div class="form-group form-horizontal">
+                        <label>Is Subvar. Hybrid</label>
+                        @Html.DropDownListFor(x => x.SearchEntity.IsSubVarietalHybrid, Model.YesNoOptions, "Either", new { @class = "form-control" })
+                    </div>
                 </div>
-            </div>
-            <div class="col-sm-2">
-                <div class="form-group form-horizontal">
-                    <label>Forma Rank Type</label>
-                    @Html.DropDownListFor(x => x.SearchEntity.FormaRankType, Model.FormaRankTypes, "All types", new { @class = "form-control" })
+
+                <div class="col-sm-4">
+                    <div class="form-group form-horizontal">
+                        <label>Forma Name</label>
+                        @Html.TextBoxFor(x => x.SearchEntity.FormaName, new { @class = "form-control" })
+                    </div>
                 </div>
-            </div>
-            <div class="col-sm-3">
-                <div class="form-group form-horizontal">
-                    <label>Hybrid Parentage</label>
-                    @Html.TextBoxFor(x => x.SearchEntity.HybridParentage, new { @class = "form-control" })
+                <div class="col-sm-4">
+                    <div class="form-group form-horizontal">
+                        <label>Forma Authority</label>
+                        @Html.TextBoxFor(x => x.SearchEntity.FormaAuthority, new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <div class="form-group form-horizontal">
+                        <label>Is Forma Hybrid</label>
+                        @Html.DropDownListFor(x => x.SearchEntity.IsVarietalHybrid, Model.YesNoOptions, "Either", new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <div class="form-group form-horizontal">
+                        <label>Forma Rank Type</label>
+                        @Html.DropDownListFor(x => x.SearchEntity.FormaRankType, Model.FormaRankTypes, "All types", new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="form-group form-horizontal">
+                        <label>Hybrid Parentage</label>
+                        @Html.TextBoxFor(x => x.SearchEntity.HybridParentage, new { @class = "form-control" })
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 </div>
 <script type="text/javascript">
     $("#btnNameVerifiedDateClear").on('click', function (event) {

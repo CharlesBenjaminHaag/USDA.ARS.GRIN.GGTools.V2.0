@@ -15,20 +15,15 @@ using USDA.ARS.GRIN.GGTools.ViewModelLayer;
 
 namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
 {
-    public class SysErrorViewModel: SysErrorViewModelBase
+    public class ErrorLogViewModel: ErrorLogViewModelBase
     {
         public void Search()
         {
             try
             {
-                using (SysAppErrorManager sysAppErrorManager = new SysAppErrorManager())
+                using (ErrorLogManager mgr = new ErrorLogManager())
                 {
-                    DataCollectionSysAppErrors = new Collection<SysAppError>(sysAppErrorManager.SearchAppErrors(new SysAppErrorSearch()));
-                }
-
-                using (SysDBErrorManager mgr = new SysDBErrorManager())
-                {
-                    DataCollectionSysDBErrors = new Collection<SysDBError>(mgr.SearchDBErrors(SearchEntity));
+                    DataCollection = new Collection<ErrorLog>(mgr.Search(SearchEntity));
                 }
             }
             catch (Exception ex)

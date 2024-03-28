@@ -11,6 +11,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
         public int AccessionNumber { get; set; }
         public string AccessionSuffix { get; set; }
         public int SpeciesID { get; set; }
+        public int NewSpeciesID { get; set; }
         public string StatusCode { get; set; }
         public string LifeFormCode { get; set; }
         public string ImprovementStatusCode { get; set; }

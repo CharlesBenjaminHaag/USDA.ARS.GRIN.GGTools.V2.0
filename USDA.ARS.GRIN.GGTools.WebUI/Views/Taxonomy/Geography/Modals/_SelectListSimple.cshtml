@@ -31,31 +31,3 @@
         }
     </tbody>
 </table>
-<script type="text/javascript">
-    InitDataTableGeo("data-table-geography-lookup");
-
-    function InitDataTableGeo(tableName) {
-        $(document).ready(function () {
-            tableName = "#" + tableName;
-            table = $(tableName).DataTable({
-                stateSave: true,
-                paging: true,
-                responsive: true,
-                select: {
-                    style: 'single'
-                },
-                searching: true,
-                "bInfo": false,
-                columnDefs: [
-                    { targets: [0], visible: false }
-                ]
-            });
-
-            //table.row(':contains("Afghanistan, Farāh")').select();
-
-            table.search("Afghanistan, Farāh").draw();
-
-            /*table.row(':eq(0)', { page: 'current' }).select();*/
-        });
-    }
-</script>

@@ -1,62 +1,61 @@
-﻿@model USDA.ARS.GRIN.GGTools.ViewModelLayer.SysErrorViewModel
+﻿@model USDA.ARS.GRIN.GGTools.ViewModelLayer.ErrorLogViewModel
 @{
     ViewBag.Title = Model.PageTitle;
     Layout = "~/Views/Shared/_LayoutAdminLTE3.cshtml";
 }
 
-<div class="card">
-    <div class="card-header p-2">
-        <ul class="nav nav-pills">
-            <li class="nav-item"><a class="nav-link active" href="#tab-errors-db" data-toggle="tab">DB Errors</a></li>
-            <li class="nav-item"><a class="nav-link" href="#tab-errors-app" data-toggle="tab">Application Errors</a></li>
-        </ul>
+<div id="section-search-results" class="card card-success">
+    <div class="card-header">
+        <h3 class="card-title">Accessions (@Model.DataCollection.Count)</h3>
+        <div class="card-tools">
+            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                <i class="fas fa-minus"></i>
+            </button>
+        </div>
     </div>
     <div class="card-body">
-        <div class="tab-content">
-            <div class="tab-pane active" id="tab-errors-db">
-                @Html.Partial("~/Views/Error/_DBErrorList.cshtml")
-            </div>
-            <div class="tab-pane" id="tab-errors-app">
-                @Html.Partial("~/Views/Error/_AppErrorList.cshtml")
+        <div id="section-search-results">
+            <div id="section-search-results">
+                <table id="data-table-sys-app-error" class="table table-striped ggtools-table table-responsive" style="width:100%;">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>ID</th>
+                            <th>Source</th>
+                            <td>Application</td>
+                            <th>Code</th>
+                            <th>Error Message</th>
+                            <th>ErrorDetail</th>
+                            <th>ErrorDetail2</th>
+                            <th>ErrorDetail3</th>
+                            <th>ErrorDetail4</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var result in Model.DataCollection)
+                        {
+                            <tr>
+                                <td>
+                                    @result.CreateDate.ToString("yyyy'-'MM'-'dd'T'HH':'mm':'ss")
+                                </td>
+                                <td>@result.ID</td>
+                                <td>@result.Source</td>
+                                <td>@result.Application</td>
+                                <td>@result.Code</td>
+                                <td>@result.ErrorMessage</td>
+                                <td>@result.ErrorDetail</td>
+                                <td>@result.ErrorDetail2</td>
+                                <td>@result.ErrorDetail3</td>
+                                <td>@result.ErrorDetail4</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
+
             </div>
         </div>
     </div>
 </div>
 
 
-@using (Html.BeginForm("Search", "Error", FormMethod.Post, new { id = "frmMain" }))
-{
-    @Html.HiddenFor(x => x.EventAction)
-    @Html.HiddenFor(x => x.TableName)
-    @Html.HiddenFor(x => x.TableCode)
-    @Html.HiddenFor(x => x.PageTitle)
-    @Html.HiddenFor(x => x.AuthenticatedUserCooperatorID)
-    @Html.HiddenFor(x => x.ItemIDList)
-    
-    
-}
-
-<script type="text/javascript">
-
-    $(document).ready(function () {
-        Init();
-        InitDataTable("data-table-sys-app-error");
-        InitDataTable("data-table-sys-db-error");
-    });
-
-    function Init() {
-    }
-
-    $(document).on("click", "[id='btnReset']", function () {
-        Reset();
-    });
-
-    function GetSelectedEntityIDs(tableName) {
-        var table = $('#' + tableName).DataTable();
-        var ids = $.map(table.rows('.selected').data(), function (item) {
-            return item[0]
-        });
-        console.log(ids)
-        return ids;
-    }
-</script>

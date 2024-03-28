@@ -16,6 +16,15 @@ namespace USDA.ARS.GRIN.GGTools.WebUI
             {
                 filterContext.Result = new RedirectToRouteResult(new System.Web.Routing.RouteValueDictionary(new { controller = "Login", action = "Index" }));
             }
+
+            var descriptor = filterContext.ActionDescriptor;
+            var actionName = descriptor.ActionName;
+            var controllerName = descriptor.ControllerDescriptor.ControllerName;
+
+            var viewBag = filterContext.Controller.ViewBag;
+            viewBag.PageTitle = controllerName + " " + actionName;
+            
+
             base.OnActionExecuting(filterContext);
         }
     }

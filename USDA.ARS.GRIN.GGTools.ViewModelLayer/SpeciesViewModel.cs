@@ -361,6 +361,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
         /// Parses the author string and verifies that each author listed exists in the author table.
         /// </summary>
         /// <returns></returns>
+        
         public string ValidateAuthority()
         {
             string authority = GetAuthority();
@@ -413,10 +414,22 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
                         accessionViewModel.SearchEntity.SpeciesID = Entity.ID;
                         accessionViewModel.Search();
                         if (accessionViewModel.DataCollection.Count > 0)
-                        { 
+                        {
+                            // Add annotation record(s)
+                            AccessionInvAnnotationViewModel accessionInvAnnotationViewModel = new AccessionInvAnnotationViewModel();
+                            accessionInvAnnotationViewModel.Entity.SpeciesID = Entity.AcceptedID;
+                            accessionInvAnnotationViewModel.Entity.OldSpeciesID = Entity.ID;
+                            accessionInvAnnotationViewModel.Entity.ModifiedByCooperatorID = Entity.ModifiedByCooperatorID;
+                            accessionInvAnnotationViewModel.Insert();
+
                             // TODO
-                            // Add annotations
                             // Re-assign accessions to accepted name
+                            AccessionViewModel accessionViewModel1 = new AccessionViewModel();
+                            accessionViewModel1.Entity.SpeciesID = Entity.ID;
+                            accessionViewModel1.Entity.NewSpeciesID = Entity.AcceptedID;
+                            accessionViewModel1.Entity.ModifiedByCooperatorID = Entity.ModifiedByCooperatorID;
+                            accessionViewModel1.UpdateBySpecies();
+
                             // Send notification email to accession owners
 
                         }
@@ -424,8 +437,8 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
                 }
             }
             catch (Exception ex)
-            { 
-            
+            {
+                throw ex;
             }
             return retVal;
         }

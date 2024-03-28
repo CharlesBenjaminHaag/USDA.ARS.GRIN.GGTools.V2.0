@@ -290,6 +290,22 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             viewModel.GetAdministrativeUnits();
             return PartialView("~/Views/Taxonomy/Geography/Modals/_SelectListAdministrativeUnits.cshtml", viewModel);
         }
+        
+        public JsonResult GetCountryAdmins(string countryCode)
+        {
+            try 
+            {
+                GeographyViewModel viewModel = new GeographyViewModel();
+                viewModel.SearchEntity.CountryCode = countryCode;
+                viewModel.Search();
+                return Json(viewModel.DataCollection, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                
+                return Json("ERROR: " + ex.Message, JsonRequestBehavior.AllowGet);
+            }
+        }
 
         [HttpPost]
         public PartialViewResult SearchGeographies(FormCollection formCollection)

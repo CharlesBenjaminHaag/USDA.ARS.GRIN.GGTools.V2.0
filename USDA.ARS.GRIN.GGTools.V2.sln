@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.8.34408.163
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.34601.136
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "USDA.ARS.GRIN.Common.DataLayer", "USDA.ARS.GRIN.Common.DataLayer\USDA.ARS.GRIN.Common.DataLayer.csproj", "{4D384F7B-0650-4D28-824C-963AAD902DCD}"
 EndProject
@@ -17,7 +17,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "USDA.ARS.GRIN.GGTools.ViewM
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "USDA.ARS.GRIN.GGTools.WebUI", "USDA.ARS.GRIN.GGTools.WebUI\USDA.ARS.GRIN.GGTools.WebUI.csproj", "{BE0916C1-1F82-4CDE-A60A-A14D893DD196}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "USDA.ARS.GRIN.GGTools.WebUI.V2", "USDA.ARS.GRIN.GGTools.WebUI.V2\USDA.ARS.GRIN.GGTools.WebUI.V2.csproj", "{38DFE0F8-C3DC-4B5A-8286-7E7A36D54035}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "USDA.ARS.GRIN.GGTools.AccessRigntsManagement.WebUI", "USDA.ARS.GRIN.GGTools.WebUI.V2\USDA.ARS.GRIN.GGTools.AccessRigntsManagement.WebUI.csproj", "{38DFE0F8-C3DC-4B5A-8286-7E7A36D54035}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "USDA.ARS.GRIN.Common.StringHandling", "USDA.ARS.GRIN.Common.StringHandling\USDA.ARS.GRIN.Common.StringHandling.csproj", "{D2E05DF8-CF2F-4E3B-952E-69B3189CC526}"
 EndProject

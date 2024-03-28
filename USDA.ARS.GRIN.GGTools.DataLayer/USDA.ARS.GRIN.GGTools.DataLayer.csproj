@@ -154,8 +154,8 @@
     <Compile Include="EntityClasses\SubfamilySearch.cs" />
     <Compile Include="EntityClasses\Subtribe.cs" />
     <Compile Include="EntityClasses\SubtribeSearch.cs" />
-    <Compile Include="EntityClasses\SysAppError.cs" />
-    <Compile Include="EntityClasses\SysAppErrorSearch.cs" />
+    <Compile Include="EntityClasses\ErrorLog.cs" />
+    <Compile Include="EntityClasses\ErrorLogSearch.cs" />
     <Compile Include="EntityClasses\SysApplication.cs" />
     <Compile Include="EntityClasses\SysApplicationSearch.cs" />
     <Compile Include="EntityClasses\Report.cs" />
@@ -184,6 +184,7 @@
     <Compile Include="EntityClasses\Tribe.cs" />
     <Compile Include="EntityClasses\TribeSearch.cs" />
     <Compile Include="ManagerClasses\AccessionInventoryAttachmentManager.cs" />
+    <Compile Include="ManagerClasses\AccessionInvAnnotationManager.cs" />
     <Compile Include="ManagerClasses\AppUserItemFolderCooperatorMapManager.cs" />
     <Compile Include="ManagerClasses\AppUserItemListManager.cs" />
     <Compile Include="ManagerClasses\AuthorManager.cs" />
@@ -220,9 +221,8 @@
     <Compile Include="ManagerClasses\SiteManager.cs" />
     <Compile Include="ManagerClasses\SpeciesManager.cs" />
     <Compile Include="ManagerClasses\SpeciesSynonymMapManager.cs" />
-    <Compile Include="ManagerClasses\SysAppErrorManager.cs" />
+    <Compile Include="ManagerClasses\ErrorLogManager.cs" />
     <Compile Include="ManagerClasses\SysApplicationManager.cs" />
-    <Compile Include="ManagerClasses\SysDBErrorManager.cs" />
     <Compile Include="ManagerClasses\SysGroupManager.cs" />
     <Compile Include="ManagerClasses\SysGroupUserMapManager.cs" />
     <Compile Include="ManagerClasses\SysPermissionManager.cs" />

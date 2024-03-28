@@ -33,31 +33,6 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             throw new NotImplementedException();
         }
 
-        public int InsertAccessionInvAnnotation(AccessionInvAnnotation entity)
-        {
-            Reset(CommandType.StoredProcedure);
-            Validate<AccessionInvAnnotation>(entity);
-            SQL = "usp_GRINGlobal_Taxonomy_Accession_Inv_Annotation_Insert";
-        
-            AddParameter("taxonomy_species_id", entity.SpeciesID == 0 ? DBNull.Value : (object)entity.SpeciesID, true);
-            AddParameter("current_taxonomy_species_id", entity.AcceptedID == 0 ? DBNull.Value : (object)entity.AcceptedID, true);
-            AddParameter("modified_id", entity.ModifiedByCooperatorID == 0 ? DBNull.Value : (object)entity.ModifiedByCooperatorID, true);
-            AddParameter("note", (object)entity.Note ?? DBNull.Value, true);
-            AddParameter("@out_error_number", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
-            AddParameter("@out_accession_inv_annotation_id", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
-
-            RowsAffected = ExecuteNonQuery();
-
-            entity.ID = GetParameterValue<int>("@out_accession_inv_annotation_id", -1);
-            int errorNumber = GetParameterValue<int>("@out_error_number", -1);
-            if (errorNumber > 0)
-            {
-                throw new Exception(errorNumber.ToString());
-            }
-            RowsAffected = entity.ID;
-            return entity.ID;
-        }
-
         public List<Accession> Search(AccessionSearch searchEntity)
         {
             SQL = "usp_GRINGlobal_Accession_Search";
@@ -85,6 +60,29 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             //RowsAffected = ExecuteNonQuery();
 
             return RowsAffected;
+        }
+
+        public int UpdateBySpecies(Accession entity)
+        {
+            Reset(CommandType.StoredProcedure);
+            Validate<Accession>(entity);
+            SQL = "usp_GRINGlobal_Taxonomy_Accession_By_Species_Update";
+
+            AddParameter("@out_error_number", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
+            AddParameter("taxonomy_species_id", entity.SpeciesID == 0 ? DBNull.Value : (object)entity.SpeciesID, true);
+            AddParameter("new_taxonomy_species_id", entity.NewSpeciesID == 0 ? DBNull.Value : (object)entity.NewSpeciesID, true);
+            AddParameter("modified_by", entity.ModifiedByCooperatorID == 0 ? DBNull.Value : (object)entity.ModifiedByCooperatorID, true);
+
+            RowsAffected = ExecuteNonQuery();
+
+            entity.ID = GetParameterValue<int>("@out_accession_inv_annotation_id", -1);
+            int errorNumber = GetParameterValue<int>("@out_error_number", -1);
+            if (errorNumber > 0)
+            {
+                throw new Exception(errorNumber.ToString());
+            }
+            RowsAffected = entity.ID;
+            return entity.ID;
         }
     }
 }

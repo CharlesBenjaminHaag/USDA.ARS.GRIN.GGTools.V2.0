@@ -24,6 +24,21 @@
         }
     }
 
-    
+    $(document).ready(function () {
+        $('#cbxNull_SearchEntity_ProtologueVirt').change(function () {
+            if ($(this).is(':checked')) {
+                $('#SearchEntity_ProtologueVirtualPath').attr('disabled', 'disabled');
+                $('#SearchEntity_ProtologueVirtualPath').removeAttr('placeholder');
+                $('#SearchEntity_ProtologueVirtualPath').removeAttr('maxlength'); // remove maxlength attribute when checkbox is unchecked
+            } else {
+                $('#SearchEntity_ProtologueVirtualPath').removeAttr('disabled');
+                $('#SearchEntity_ProtologueVirtualPath').attr('placeholder', 'Enter text');
+                $('#SearchEntity_ProtologueVirtualPath').attr('maxlength', '50'); // example of setting maxlength attribute
+
+
+                
+            }
+        });
+    });
 
 </script>

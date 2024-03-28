@@ -170,9 +170,13 @@
 
     $("#btnOpenGeographyModal").click(function () {
         var geographyDescription = $("#Entity_GeographyDescription").val();
-        Modal_Init(geographyDescription);
+        GetCountryAdmins(geographyDescription);
         $("#modal-geography-lookup-simple").modal("show");
     });
+
+    function GetCountryAdmins() {
+
+    }
 </script>
 
 @Html.Partial("~/Views/Shared/_Scripts.cshtml")
