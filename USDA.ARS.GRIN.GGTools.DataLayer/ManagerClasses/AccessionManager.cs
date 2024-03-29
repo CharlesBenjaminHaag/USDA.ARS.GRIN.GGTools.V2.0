@@ -66,16 +66,15 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
         {
             Reset(CommandType.StoredProcedure);
             Validate<Accession>(entity);
-            SQL = "usp_GRINGlobal_Taxonomy_Accession_By_Species_Update";
+            SQL = "usp_GRINGlobal_Accession_Taxonomy_Update";
 
             AddParameter("@out_error_number", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
             AddParameter("taxonomy_species_id", entity.SpeciesID == 0 ? DBNull.Value : (object)entity.SpeciesID, true);
-            AddParameter("new_taxonomy_species_id", entity.NewSpeciesID == 0 ? DBNull.Value : (object)entity.NewSpeciesID, true);
+            AddParameter("current_taxonomy_species_id", entity.NewSpeciesID == 0 ? DBNull.Value : (object)entity.NewSpeciesID, true);
             AddParameter("modified_by", entity.ModifiedByCooperatorID == 0 ? DBNull.Value : (object)entity.ModifiedByCooperatorID, true);
 
             RowsAffected = ExecuteNonQuery();
-
-            entity.ID = GetParameterValue<int>("@out_accession_inv_annotation_id", -1);
+            
             int errorNumber = GetParameterValue<int>("@out_error_number", -1);
             if (errorNumber > 0)
             {

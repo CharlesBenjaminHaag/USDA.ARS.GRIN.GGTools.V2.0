@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Web.Mvc;
+//using System.Linq;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text.RegularExpressions;
@@ -404,12 +405,15 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
         public int HandleAccessions()
         {
             int retVal = 0;
+            List<string> accessionOwnerEmailAddresses = new List<string>();
+
             try
             {
                 if ((Entity.ID > 0) && (Entity.AccessionCount > 0))
                 {
                     if (Entity.ID != Entity.AcceptedID)
                     {
+                        // Get all accessions linked to the new species name.
                         AccessionViewModel accessionViewModel = new AccessionViewModel();
                         accessionViewModel.SearchEntity.SpeciesID = Entity.ID;
                         accessionViewModel.Search();
@@ -430,8 +434,14 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
                             accessionViewModel1.Entity.ModifiedByCooperatorID = Entity.ModifiedByCooperatorID;
                             accessionViewModel1.UpdateBySpecies();
 
-                            // Send notification email to accession owners
-
+                            //TODO Get email list
+                            foreach (var accession in accessionViewModel.DataCollection)
+                            {
+                                if (FindString(accessionOwnerEmailAddresses, accession.OwnedByCooperatorEmailAddress) == -1)
+                                {
+                                    accessionOwnerEmailAddresses.Add(accession.OwnedByCooperatorEmailAddress);
+                                }
+                            }
                         }
                     }
                 }
@@ -442,7 +452,24 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
             }
             return retVal;
         }
-        
+
+        static int FindString(List<string> stringList, string searchString)
+        {
+            // Loop through each string in the list
+            for (int i = 0; i < stringList.Count; i++)
+            {
+                // Check if the current string matches the search string
+                if (stringList[i] == searchString)
+                {
+                    // Return the index where the string was found
+                    return i;
+                }
+            }
+
+            // Return -1 if the string was not found
+            return -1;
+        }
+
         public void SetSpeciesName()
         {
             GenusViewModel genusViewModel = new GenusViewModel();

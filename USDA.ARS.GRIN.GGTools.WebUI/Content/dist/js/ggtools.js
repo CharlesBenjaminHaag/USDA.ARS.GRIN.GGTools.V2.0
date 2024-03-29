@@ -2,7 +2,7 @@
 * Name         : ggtools.js
 * Description  : Main JS application file for GGTools. This file
 *                should be included in all layout pages. 
-* Last Updated : 3/20/24
+* Last Updated : 3/29/24
 * By           : Benjamin Haag
 */
 
@@ -70,6 +70,18 @@ function InitDataTable(tableName) {
                     text: 'Add to Folder',
                     action: function (e, dt, node, config) {
                         OpenAppUserItemFolderModal();
+                    }
+                },
+                {
+                    text: 'Edit Selected',
+                    action: function (e, dt, node, config) {
+                        BatchEdit();
+                    }
+                },
+                {
+                    text: 'Edit Filtered',
+                    action: function (e, dt, node, config) {
+                        BatchEditFiltered();
                     }
                 }
             ]
@@ -180,6 +192,12 @@ function InitDataTableFolderFormat(tableName) {
                     text: 'Edit Selected',
                     action: function (e, dt, node, config) {
                         BatchEdit();
+                    }
+                },
+                {
+                    text: 'Edit Filtered',
+                    action: function (e, dt, node, config) {
+                        BatchEditFiltered();
                     }
                 }
             ]
@@ -405,6 +423,24 @@ function GetSelectedEntityIDs(tableName) {
     });
     console.log(ids)
     return ids;
+}
+
+function GetFilteredEntityIDs(tableName) {
+    // Assuming you have initialized your DataTable with an id 'example'
+    var table = $('#' + tableName).DataTable();
+
+    // Array to store values from the first column of filtered rows
+    var firstColumnValues = [];
+
+    // Get values from the first column of filtered rows
+    table.column(0, { filter: 'applied' }).data().each(function (value) {
+        // Add value to the firstColumnValues array
+        firstColumnValues.push(value);
+    });
+
+    // Now you have the values from the first column of only the filtered rows in the firstColumnValues array
+    console.log(firstColumnValues);
+    return firstColumnValues;
 }
 
 function GetSelectedSpeciesIDs(tableName) {

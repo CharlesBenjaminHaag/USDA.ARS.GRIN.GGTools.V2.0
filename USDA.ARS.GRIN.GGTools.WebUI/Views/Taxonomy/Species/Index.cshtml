@@ -4,6 +4,13 @@
     ViewBag.ID = Model.ID;
     Layout = "~/Views/Shared/_LayoutAdminLTE3.cshtml";
 }
+
+<style>
+    .hidden-text {
+        color: #e9ecef;
+    }
+</style>
+
 @Html.Partial("~/Views/Taxonomy/Species/_Detail.cshtml")
 @Html.Partial("~/Views/Taxonomy/Species/_List.cshtml")
 @{Html.RenderAction("RenderEditModal", "AppUserItemFolder", new { @sysTableName = Model.TableName }); }
@@ -28,17 +35,39 @@
         $('#cbxNull_SearchEntity_ProtologueVirt').change(function () {
             if ($(this).is(':checked')) {
                 $('#SearchEntity_ProtologueVirtualPath').attr('disabled', 'disabled');
-                $('#SearchEntity_ProtologueVirtualPath').removeAttr('placeholder');
-                $('#SearchEntity_ProtologueVirtualPath').removeAttr('maxlength'); // remove maxlength attribute when checkbox is unchecked
+                $('#SearchEntity_ProtologueVirtualPath').addClass('hidden-text');
+                $('#SearchEntity_ProtologueVirtualPath').removeAttr('maxlength');
             } else {
                 $('#SearchEntity_ProtologueVirtualPath').removeAttr('disabled');
-                $('#SearchEntity_ProtologueVirtualPath').attr('placeholder', 'Enter text');
-                $('#SearchEntity_ProtologueVirtualPath').attr('maxlength', '50'); // example of setting maxlength attribute
-
-
-                
+                $('#SearchEntity_ProtologueVirtualPath').removeClass('hidden-text');
+                $('#SearchEntity_ProtologueVirtualPath').attr('maxlength', '50');
             }
         });
     });
 
+    function BatchEdit() {
+        var tableName = $("#TableName").val();
+        var eventAction = $("#EventAction").val();
+        var eventValue = $("#EventValue").val();
+        var batchEditUrl = '@Url.Action("EditBatch", "Species")';
+        var selectedIdList = GetSelectedEntityIDs("data_table_taxonomy_species");
+
+        /* TODO: Ensure at least one selected */
+
+        batchEditUrl = batchEditUrl + "?idList=" + selectedIdList;
+        window.location.href = batchEditUrl;
+    }
+
+    function BatchEditFiltered() {
+        var tableName = $("#TableName").val();
+        var eventAction = $("#EventAction").val();
+        var eventValue = $("#EventValue").val();
+        var batchEditUrl = '@Url.Action("EditBatch", "Species")';
+        var selectedIdList = GetFilteredEntityIDs("data_table_taxonomy_species");
+
+        /* TODO: Ensure at least one selected */
+
+        batchEditUrl = batchEditUrl + "?idList=" + selectedIdList;
+        window.location.href = batchEditUrl;
+    }
 </script>

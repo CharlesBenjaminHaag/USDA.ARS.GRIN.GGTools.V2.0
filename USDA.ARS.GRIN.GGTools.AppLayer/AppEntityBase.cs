@@ -37,6 +37,7 @@ namespace USDA.ARS.GRIN.GGTools.AppLayer
         public DateTime OwnedDate { get; set; }
         public int OwnedByCooperatorID { get; set; }
         public string OwnedByCooperatorName { get; set; }
+        public string OwnedByCooperatorEmailAddress { get; set; }
         public int RelatedItemCount { get; set; }
         public string RevisionHistoryText
         {

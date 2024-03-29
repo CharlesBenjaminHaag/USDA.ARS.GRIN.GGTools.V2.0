@@ -62,18 +62,7 @@
 <script type="text/javascript">
    $(document).ready(function () {
        InitDataTableFolderFormat("data_table_app_user_item_list");
-});
+    });
 
-function BatchEdit() {
-    var tableName = $("#TableName").val();
-    var eventAction = $("#EventAction").val();
-    var eventValue = $("#EventValue").val();
-    var batchEditUrl = '@Url.Action("EditBatch", "Species")';
-    var selectedIdList = GetSelectedEntityIDs("data_table_app_user_item_list");
 
-    /* TODO: Ensure at least one selected */
-
-    batchEditUrl = batchEditUrl + "?idList=" + selectedIdList;
-    window.location.href = batchEditUrl;
-}
 </script>

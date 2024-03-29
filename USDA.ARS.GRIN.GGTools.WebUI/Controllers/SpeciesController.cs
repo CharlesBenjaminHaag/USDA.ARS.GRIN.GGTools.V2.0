@@ -795,8 +795,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
         {
             string idList = String.Empty;
             var request = System.Web.HttpContext.Current.Request;
-            //var settings = Properties.Settings.Default;
-
+            
             if (Session["SPECIES_ID_LIST"] != null)
             {
                idList = Session["SPECIES_ID_LIST"].ToString();
@@ -805,48 +804,47 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             string[] idArray = idList.Split(','); 
 
             try {
-
-
-
-                using (var db = new Database("sqlserver", "Data Source=199.133.201.116;Initial Catalog=training;User Id=gg_user;Password=Savory*survive8ammonia?;Connection Timeout=30;Connection Lifetime=0;Min Pool Size=0;Max Pool Size=100;Pooling=true;"))
+                using (SpeciesManager mgr = new SpeciesManager())
                 {
-                    var editor = new Editor(db, "taxonomy_species", "taxonomy_species.taxonomy_species_id").Where(q =>
+                    using (var db = new Database("sqlserver", mgr.ConnectionString))
                     {
-                        q.Where(r =>
+                        var editor = new Editor(db, "taxonomy_species", "taxonomy_species.taxonomy_species_id").Where(q =>
                         {
-                            foreach (var i in idArray)
+                            q.Where(r =>
                             {
-                                r.OrWhere("taxonomy_species.taxonomy_species_id", i);
-                            }
-                        });
-                    })
-                    .Model<SpeciesTable>("taxonomy_species")
-                    .Model<GenusTable>("taxonomy_genus")
-                    .LeftJoin("taxonomy_genus", "taxonomy_genus.taxonomy_genus_id", "=", "taxonomy_species.taxonomy_genus_id");
+                                foreach (var i in idArray)
+                                {
+                                    r.OrWhere("taxonomy_species.taxonomy_species_id", i);
+                                }
+                            });
+                        })
+                        .Model<SpeciesTable>("taxonomy_species")
+                        .Model<GenusTable>("taxonomy_genus")
+                        .LeftJoin("taxonomy_genus", "taxonomy_genus.taxonomy_genus_id", "=", "taxonomy_species.taxonomy_genus_id");
 
-                    editor.Field(new Field("taxonomy_species.taxonomy_species_id")
-                        .Validator(Validation.NotEmpty())
-                    );
-                    editor.Field(new Field("taxonomy_genus.genus_name"));
-                    editor.Field(new Field("taxonomy_species.species_name"));
-                    editor.Field(new Field("taxonomy_species.protologue"));
-                    editor.Field(new Field("taxonomy_species.protologue_virtual_path"));
-                    editor.Field(new Field("taxonomy_species.name_authority"));
-                    editor.Field(new Field("taxonomy_species.note"));
-                    editor.Field(new Field("taxonomy_species.modified_date")
-                        .Set(Field.SetType.Edit));
-                    editor.PreEdit += (sender, e) => editor.Field("taxonomy_species.modified_date").SetValue(DateTime.Now);
-                    editor.Process(request);
-                   
-                    var response = editor.Data();
-                    
-                    JsonResult jsonResult = new JsonResult();
-                    jsonResult = Json(response);
-                    jsonResult.MaxJsonLength = 2147483644;
-                    jsonResult.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
-                    return jsonResult;
+                        editor.Field(new Field("taxonomy_species.taxonomy_species_id")
+                            .Validator(Validation.NotEmpty())
+                        );
+                        editor.Field(new Field("taxonomy_genus.genus_name"));
+                        editor.Field(new Field("taxonomy_species.species_name"));
+                        editor.Field(new Field("taxonomy_species.protologue"));
+                        editor.Field(new Field("taxonomy_species.protologue_virtual_path"));
+                        editor.Field(new Field("taxonomy_species.name_authority"));
+                        editor.Field(new Field("taxonomy_species.note"));
+                        editor.Field(new Field("taxonomy_species.modified_date")
+                            .Set(Field.SetType.Edit));
+                        editor.PreEdit += (sender, e) => editor.Field("taxonomy_species.modified_date").SetValue(DateTime.Now);
+                        editor.Process(request);
+
+                        var response = editor.Data();
+
+                        JsonResult jsonResult = new JsonResult();
+                        jsonResult = Json(response);
+                        jsonResult.MaxJsonLength = 2147483644;
+                        jsonResult.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
+                        return jsonResult;
+                    }
                 }
-                
             }
             catch(Exception ex) 
             {
