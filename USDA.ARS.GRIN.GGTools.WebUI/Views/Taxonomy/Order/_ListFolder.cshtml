@@ -2,9 +2,9 @@
 <table id="data_table_taxonomy_classification" class="table table-striped ggtools-table" style=" width:100%;">
     <thead>
         <tr>
-            <th width="5%"></th>
-            <th></th>
-            <th width="5%">ID</th>
+            <th>ID</th>
+            <th>Item</th>
+            <th>Key</th>
             <th>Order Name</th>
             <th style="text-align:center;">Families</th>
             <th>Created</th>
@@ -23,8 +23,8 @@
                     <td>
                         @result.ID
                     </td>
+                    <td>@result.AppUserItemListID</td>
                     <td>@result.EntityKey</td>
-                    <td>@result.ID</td>
                     <td>
                         @result.OrderName
                     </td>

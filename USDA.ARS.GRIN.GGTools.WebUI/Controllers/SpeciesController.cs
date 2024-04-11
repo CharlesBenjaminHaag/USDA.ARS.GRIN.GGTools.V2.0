@@ -26,32 +26,6 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             return View("~/Views/Taxonomy/Species/Map/Index.cshtml", viewModel);
         }
 
-        //public ActionResult Explorer()
-        //{
-        //    TaxonomyExplorerViewModel viewModel = new TaxonomyExplorerViewModel();
-        //    GenusViewModel viewModelGenus = new GenusViewModel();
-        //    FamilyMapViewModel viewModelFamily = new FamilyMapViewModel();
-        //    SpeciesViewModel viewModelSpecies = new SpeciesViewModel();
-
-        //    try
-        //    {
-        //        viewModelFamily.SearchEntity.FamilyName = "Poa";
-        //        viewModelFamily.Search();
-        //        viewModel.DataCollectionFamily = viewModelFamily.DataCollection;
-
-        //        viewModelGenus.SearchEntity.FullName = "Poa";
-        //        viewModelGenus.Search();
-        //        viewModel.DataCollectionGenus = viewModelGenus.DataCollection;
-        //        viewModel.SpeciesViewModel = viewModelSpecies;
-        //        return View(BASE_PATH + "Explorer/Index.cshtml", viewModel);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Log.Error(ex);
-        //        return RedirectToAction("InternalServerError", "Error");
-        //    }
-        //}
-
         public PartialViewResult _List(int entityId = 0, int genusId = 0, string formatCode = "", string speciesAuthority = "")
         {
             SpeciesViewModel viewModel = new SpeciesViewModel();
@@ -60,6 +34,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 viewModel.SearchEntity.GenusID = genusId;
                 viewModel.SearchEntity.SpeciesAuthority = speciesAuthority;
                 viewModel.Search();
+                viewModel.TableName = "taxonomy_species";
                 viewModel.Entity.GenusID = genusId;
 
                 if (formatCode == "S")
@@ -102,6 +77,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             try
             {
                 viewModel.EventAction = "FOLDER";
+                viewModel.EventNote = "taxonomy_species";
                 viewModel.SearchEntity.FolderID = appUserItemFolderId;
                 viewModel.GetFolderItems();
 
@@ -174,7 +150,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                     viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
                     viewModel.SaveSearch();
                 }
-
+                viewModel.TableName = "taxonomy_species";
                 return View(BASE_PATH + "Index.cshtml", viewModel);
             }
             catch (Exception ex)
@@ -790,7 +766,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             }
         }
 
-
+        [ValidateInput(false)]
         public JsonResult EditMultiple()
         {
             string idList = String.Empty;
@@ -860,6 +836,21 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 //viewModel.SearchEntity.IDList = idList;
                 //viewModel.Search();
                 Session["SPECIES_ID_LIST"] = idList;
+                return View("~/Views/Taxonomy/Species/EditMultiple_POC.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return RedirectToAction("InternalServerError", "Error");
+            }
+        }
+
+        [HttpPost]
+        public ActionResult GetBatchEditor(SpeciesViewModel viewModel)
+        {
+            try
+            {
+                Session["SPECIES_ID_LIST"] = viewModel.ItemIDList;
                 return View("~/Views/Taxonomy/Species/EditMultiple_POC.cshtml", viewModel);
             }
             catch (Exception ex)

@@ -72,6 +72,22 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
         {
             throw new NotImplementedException();
         }
+        
+        [HttpPost]
+        public JsonResult TransferOwnership(string idList, string sysTableName, int ownedByCooperatorId)
+        {
+            try 
+            {
+                SysTableViewModel viewModel = new SysTableViewModel();
+                viewModel.TransferOwnership(idList, sysTableName, ownedByCooperatorId);
+                return Json("SUCCESS", JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return Json("ERROR", JsonRequestBehavior.AllowGet);
+            }
+        }
 
         public PartialViewResult FolderItems(FormCollection formCollection)
         {

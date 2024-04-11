@@ -226,7 +226,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                     viewModel.ItemIDList = coll["ItemIDList"].ToString();
                 }
 
-                viewModel.Get();
+                //viewModel.Get();
                 viewModel.DeleteItems();
 
                 return Json(new { success = true }, JsonRequestBehavior.AllowGet);
@@ -387,8 +387,8 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
         public PartialViewResult RenderRelatedFoldersWidget(int idNumber)
         {
             AppUserItemFolderViewModel viewModel = new AppUserItemFolderViewModel();
-            try 
-            { 
+            try
+            {
                 viewModel.SearchEntity.EntityID = idNumber;
                 viewModel.Search();
                 return PartialView("~/Views/AppUserItemFolder/_RelatedFoldersWidget.cshtml", viewModel);

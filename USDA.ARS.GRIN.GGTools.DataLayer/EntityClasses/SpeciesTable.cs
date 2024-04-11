@@ -18,6 +18,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         [AllowHtml]
         public string protologue { get; set; }
         public string name_authority { get; set; }
+        [AllowHtml]
         public string note { get;set; }
     }
 }

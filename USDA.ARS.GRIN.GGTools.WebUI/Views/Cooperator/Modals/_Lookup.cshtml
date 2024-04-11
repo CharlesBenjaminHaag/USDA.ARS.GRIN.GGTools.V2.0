@@ -6,7 +6,7 @@
             <div class="modal-header">
                 <h4 class="modal-title">
                     <i class="fas fa-search"></i>
-                    Cooperator Lookup
+                    Batch-Assign Ownership
                 </h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">×</span>
@@ -60,11 +60,6 @@
         LookupCooperator();
     });
 
-    $("#btnTransferOwnership").click(function () {
-        var idList = GetSelectedEntityIDs("data_table_cooperator");
-        $('#modal-cooperator-lookup').modal('hide');
-    });
-
     function LookupCooperator() {
         var link = '@Url.Action("Lookup","Cooperator")';
         var speciesName = $("#txtLookupSpeciesName").val();
@@ -88,6 +83,46 @@
                 alert("Error");
             }
         });
+    }
+
+    $("#btnTransferOwnership").click(function () {
+        var sysTableName = $("#TableName").val();
+        var dataTableId = $('#section-search-results').find('table:first').attr('id');
+        var idList = GetSelectedEntityIDs(dataTableId);
+        var ownedByCooperatorId = GetSelectedEntityIDs("data-table-cooperator-lookup");
+
+        TransferOwnership(idList, dataTableId.replace("data_table_", ""), ownedByCooperatorId);
+        $('#modal-cooperator-lookup').modal('hide');
+    });
+
+    function TransferOwnership(idList, sysTableName, ownedByCooperatorId) {
+     
+        link = '@Url.Action("TransferOwnership","SysTable")';
+       
+        var formData = new FormData();
+
+        formData.append("idList", idList);
+        formData.append("sysTableName", sysTableName);
+        formData.append("ownedByCooperatorId", ownedByCooperatorId);
+
+        $.ajax({
+            url: link,
+            type: 'POST',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (response) {
+                //DEBUG
+                alert("DEBUG " + response);
+            },
+            error: function () {
+                alert("Error calling " + link);
+                
+            }
+        });
+   
+
     }
 </script>
 

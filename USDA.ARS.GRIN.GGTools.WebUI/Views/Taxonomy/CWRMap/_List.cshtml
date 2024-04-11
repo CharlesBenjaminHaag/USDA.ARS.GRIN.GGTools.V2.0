@@ -27,55 +27,49 @@
                 </tr>
             </thead>
             <tbody>
-                @if (Model.DataCollection != null)
+                @foreach (var result in Model.DataCollection)
                 {
-                    if (Model.DataCollection.Count() > 0)
-                    {
-                        foreach (var result in Model.DataCollection)
+                <tr>
+                    <td>
+                        @result.ID
+                    </td>
+                    <td>
+                        <a href="@Url.Action("Edit", "CropForCWR", new { entityId = result.CropForCWRID })">
+                            @result.CropForCWRName
+                        </a>
+                    </td>
+                    <td>
+                        <a href="@Url.Action("Edit", "Species", new { entityId = result.SpeciesID })">
+                            @Html.Raw(result.SpeciesName)
+                        </a>
+                    </td>
+                    <td>@result.CropCommonName</td>
+                    <td align="center">@Html.Raw(Model.FormatBoolean(result.IsCrop))</td>
+                    <td align="center">@Html.Raw(Model.FormatBoolean(result.IsPotential))</td>
+                    <td align="center">@Html.Raw(Model.FormatBoolean(result.IsGraftstock))</td>
+                    <td>@result.GenepoolCode</td>
+                    <td>@result.CitationText</td>
+                    <td align="center">
+                        <a href="@Url.Action("Index", "CWRTrait", new { cwrMapId = result.ID })">
+                            [@result.RelatedItemCount]
+                        </a>
+                    </td>
+                    <td>
+                        @if (Model.EventAction == "FOLDER")
                         {
-                            <tr>
-                                <td>
-                                    @result.ID
-                                </td>
-                                <td>
-                                    <a href="@Url.Action("Edit", "CropForCWR", new { entityId = result.CropForCWRID })">
-                                        @result.CropForCWRName
-                                    </a>
-                                </td>
-                                <td>
-                                    <a href="@Url.Action("Edit", "Species", new { entityId = result.SpeciesID })">
-                                        @Html.Raw(result.SpeciesName)
-                                    </a>
-                                </td>
-                                <td>@result.CropCommonName</td>
-                                <td align="center">@Html.Raw(Model.FormatBoolean(result.IsCrop))</td>
-                                <td align="center">@Html.Raw(Model.FormatBoolean(result.IsPotential))</td>
-                                <td align="center">@Html.Raw(Model.FormatBoolean(result.IsGraftstock))</td>
-                                <td>@result.GenepoolCode</td>
-                                <td>@result.CitationText</td>
-                                <td align="center">
-                                    <a href="@Url.Action("Index", "CWRTrait", new { cwrMapId = result.ID })">
-                                        [@result.RelatedItemCount]
-                                    </a>
-                                </td>
-                                <td>
-                                    @if (Model.EventAction == "FOLDER")
-                                    {
-                                        <a href="@Url.Action("DeleteItem", "AppUserItemFolder", new { @folderId = result.FolderID, @appUserItemListId = result.AppUserItemListID })"
-                                           class="btn btn-danger btn-sm float-right row-edit margin-r-5">
-                                            <i class="fa fa-trash"></i>
-                                        </a>
-                                    }
-                                    else
-                                    {
-                                        <a href="@Url.Action("Edit", "CWRMap", new { entityId = result.ID })" class="btn btn-default btn-sm float-right row-edit">
-                                            <i class="fa fa-edit"></i>
-                                        </a>
-                                    }
-                                </td>
-                            </tr>
+                            <a href="@Url.Action("DeleteItem", "AppUserItemFolder", new { @folderId = result.FolderID, @appUserItemListId = result.AppUserItemListID })"
+                               class="btn btn-danger btn-sm float-right row-edit margin-r-5">
+                                <i class="fa fa-trash"></i>
+                            </a>
                         }
-                    }
+                        else
+                        {
+                            <a href="@Url.Action("Edit", "CWRMap", new { entityId = result.ID })" class="btn btn-default btn-sm float-right row-edit">
+                                <i class="fa fa-edit"></i>
+                            </a>
+                        }
+                    </td>
+                </tr>
                 }
             </tbody>
         </table>
@@ -84,10 +78,6 @@
     </div>
 </div>
 <script type="text/javascript">
-    $(document).ready(function () {
-        InitDataTable("data_table_taxonomy_cwr_map");
-    });
-
      function EditBatch() {
          var selectedIdList = GetSelectedEntityIDs("data_table_taxonomy_cwr_map");
         var link = '@Url.Action("RenderBatchEditModal","CWRMap", new { entityIdList = "SELECTED_ID_LIST" })';

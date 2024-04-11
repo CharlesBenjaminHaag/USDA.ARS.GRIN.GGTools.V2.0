@@ -109,6 +109,12 @@
 </head>
 <body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed text-sm">
     <div class="wrapper">
+        @{
+            string eventAction = @ViewContext.RouteData.Values["controller"].ToString();
+            string eventValue = @ViewContext.RouteData.Values["action"].ToString(); }
+
+        @Html.Hidden("hfController", eventAction)
+        @Html.Hidden("hfAction", eventValue)
 
         <!-- Preloader -->
         <div class="preloader flex-column justify-content-center align-items-center">
@@ -116,12 +122,6 @@
         </div>
 
         <nav class="main-header navbar navbar-expand navbar-white navbar-light text-sm">
-
-            <!-- TODO: Refactor. Show context-sensitive menu. -->
-            @{
-                string eventAction = @ViewContext.RouteData.Values["controller"].ToString();
-                string eventValue = @ViewContext.RouteData.Values["action"].ToString(); }
-
             @if (eventAction == "Cooperator")
             {
                 if ((eventValue == "Get") || (eventValue == "Edit"))
@@ -209,6 +209,9 @@
                     case "Home":
                         Html.RenderAction("RenderSidebar", "Home");
                         break;
+                    case "SysDataView":
+                        Html.RenderAction("GetSidebar", "SysDataView");
+                        break;
                     case "WebOrderRequest":
                         Html.RenderAction("RenderSidebar", "WebOrderRequest");
                         break;
@@ -234,14 +237,14 @@
                 }
             </div>
         </aside> <!-- Content Wrapper. Contains page content -->
-        
+
         <div class="content-wrapper text-sm">
             <!-- Content Header (Page header) -->
             <div class="content-header">
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-9">
-                            <h1 class="m-0">@ViewBag.PageTitle</h1>
+                            <h1 id="placeholder-page-title" class="m-0">@ViewBag.PageTitle</h1>
                         </div><!-- /.col -->
                         <div class="col-sm-3">
                             @Html.Partial("~/Views/Taxonomy/Shared/_Breadcrumbs.cshtml")
@@ -263,6 +266,7 @@
         <!-- Main Footer -->
         @Html.Partial("~/Views/Shared/_Footer.cshtml")
     </div>
+    @{Html.RenderAction("RenderLookupModal", "Cooperator");}
 </body>
 </html>
 
@@ -282,10 +286,8 @@
 <script type="text/javascript" src="~/Content/dist/js/DataTables/dataTables.editor.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/keytable/2.12.0/js/dataTables.keyTable.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/keytable/2.12.0/js/keyTable.dataTables.js"></script>
-
 <script type="text/javascript" src="https://cdn.datatables.net/autofill/2.7.0/js/dataTables.autoFill.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/autofill/2.7.0/js/autoFill.dataTables.js"></script>
-
 
 <!-- Summernote (used in all Note fields)-->
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
@@ -297,8 +299,8 @@
     $(document).on({
         ajaxStart: function () {
             $("body").addClass("loading");
-        },
-        ajaxStop: function () {
+            },
+            ajaxStop: function () {
             $("body").removeClass("loading");
         }
     });
@@ -353,7 +355,7 @@
 
         /* When user begins typing, hide error message block. */
         $(document).on('keypress', function (event) {
-            var keycode = (event.keyCode ? event.keyCode : event.which);
+                    var keycode = (event.keyCode ? event.keyCode : event.which);
             $("#section-input-error").hide();
         });
     });
@@ -363,69 +365,81 @@
         var end = moment();
 
         function cb(start, end) {
-            $(fieldName + ' span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+        $(fieldName + ' span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+    }
+
+    $(fieldName).daterangepicker({
+        startDate: start,
+        endDate: end,
+        autoUpdateInput: false,
+        ranges: {
+            'Today': [moment(), moment()],
+            'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+            'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+            'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+            'This Month': [moment().startOf('month'), moment().endOf('month')],
+            'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+        },
+        locale: {
+        cancelLabel: 'Clear'
         }
-
-        $(fieldName).daterangepicker({
-            startDate: start,
-            endDate: end,
-            autoUpdateInput: false,
-            ranges: {
-                'Today': [moment(), moment()],
-                'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-                'Last 7 Days': [moment().subtract(6, 'days'), moment()],
-                'Last 30 Days': [moment().subtract(29, 'days'), moment()],
-                'This Month': [moment().startOf('month'), moment().endOf('month')],
-                'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
-            },
-            locale: {
-                cancelLabel: 'Clear'
-            }
-        }, cb);
-
-        cb(start, end);
+    }, cb);
+    cb(start, end);
     }
 
     function ToTitleCase(str) {
         return str.replace(
+    
             /\w\S*/g,
             function (txt) {
-                return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
-            }
+            return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+        }
         );
     }
 
     $(document).ready(function () {
-
-        //DEBUG
         findDivById()
-
-        // Replace 'your_div_id' with the ID of your specific div
-        var firstTableID = $('#section-search-results').find('table:first').attr('id');
-        InitDataTable(firstTableID);
     });
 
     function findDivById() {
         var specificDiv = document.getElementById('section-search-results');
 
         if (specificDiv) {
-            console.log("Found div with ID 'specific-id'");
-            // Do something with the div if needed
+            var dataTableId = $('#section-search-results').find('table:first').attr('id');
+            InitDataTable(dataTableId);
         } else {
-            console.log("Div with ID 'specific-id' not found");
+            //TODO
         }
     }
 
-    // Detect unsaved changes.
-    //$('#body').on('change keyup keydown', 'input, textarea, select', function (e) {
-    //    $(this).addClass('changed-input');
-    //});
+    function BatchEdit() {
+            var controller = $("#hfController").val();
+            var action = $("#hfAction").val();
+            var dataTableId = $('#section-search-results').find('table:first').attr('id');
+             
+            //DEBUG
+            //Determine what kind of batch operation to initiate
+            //alert("CTRL IS " + controller + " ACT IS " + action + " TABLE IS " + dataTableId);
+            dataTableId = dataTableId.replace("data_table_","");
 
-    //$(window).on('beforeunload', function () {
-    //    if ($('.changed-input').length) {
-    //        return 'DEBUG UNSAVED CHANGES FOUND You haven\'t saved your changes.';
-    //    }
-    //});
+        alert("DEBUG " + dataTableId);
+
+        if (dataTableId == "taxonomy_species") {
+
+            //TODO get list of ID's
+            var idList = GetSelectedEntityIDs("data_table_taxonomy_species");
+
+            //DEBUG
+            alert("ID LIST IS " + idList);
+            $("#ItemIDList").val(idList);
+
+            $("#frmGetBatchEditor").submit();
+        }
+        else {
+            $("#modal-cooperator-lookup").modal("show");
+        }
+        }
+
 </script>
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
 <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>

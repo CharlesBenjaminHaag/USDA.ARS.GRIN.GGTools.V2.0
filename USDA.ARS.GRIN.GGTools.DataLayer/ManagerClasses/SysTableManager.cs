@@ -126,6 +126,26 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             return RowsAffected;
         }
 
+        public int TransferOwnership(int id, string sysTableName, int ownedByCooperatorId)
+        {
+            Reset(CommandType.StoredProcedure);
+            SQL = "usp_GRINGlobal_Sys_Table_Ownership_Transfer";
+
+            AddParameter("table_name", (object)sysTableName ?? DBNull.Value, true);
+            AddParameter("owned_by", ownedByCooperatorId == 0 ? ownedByCooperatorId : (object)ownedByCooperatorId, true);
+            AddParameter("id", id == 0 ? id : (object)id, true);
+            AddParameter("@out_error_number", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
+
+            RowsAffected = ExecuteNonQuery();
+
+            int errorNumber = GetParameterValue<int>("@out_error_number", -1);
+            if (errorNumber > 0)
+            {
+                throw new Exception(errorNumber.ToString());
+            }
+            return RowsAffected;
+        }
+
         public virtual List<CodeValue> GetCodeValues(string groupName)
         {
             SQL = "usp_GRINGlobal_Code_Values_Select";

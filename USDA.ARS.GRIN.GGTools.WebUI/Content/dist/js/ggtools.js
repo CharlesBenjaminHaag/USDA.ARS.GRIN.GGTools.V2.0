@@ -2,7 +2,7 @@
 * Name         : ggtools.js
 * Description  : Main JS application file for GGTools. This file
 *                should be included in all layout pages. 
-* Last Updated : 3/29/24
+* Last Updated : 4/10/24
 * By           : Benjamin Haag
 */
 
@@ -455,7 +455,7 @@ function GetSelectedSpeciesIDs(tableName) {
 function GetSelectedAppUserItemListIDs(tableName) {
     var table = $('#' + tableName).DataTable();
     var ids = $.map(table.rows('.selected').data(), function (item) {
-        return item[0]
+        return item[2]
     });
 
     /*alert(" DEBUG DATATABLE  IS " + tableName + " IDS ARE " + ids);*/

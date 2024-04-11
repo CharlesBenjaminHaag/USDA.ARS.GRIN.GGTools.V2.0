@@ -1,7 +1,7 @@
 ﻿@model USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer.EconomicUsageTypeViewModel
 <div class="card card-success">
     <div class="card-header">
-        <h3 class="card-title">@Model.TableName (@Model.DataCollection.Count)</h3>
+        <h3 class="card-title">@Model.TableTitle (@Model.DataCollection.Count)</h3>
         <div class="card-tools">
             <button type="button" class="btn btn-tool" data-card-widget="collapse">
                 <i class="fas fa-minus"></i>
@@ -13,7 +13,6 @@
             <table id="data_table_taxonomy_economic_usage_type" class="table table-striped ggtools-table">
                 <thead>
                     <tr>
-                        <th></th>
                         <th width="5%">ID</th>
                         <th>Usage Code</th>
                         <th>Usage Type</th>
@@ -27,9 +26,6 @@
                         <tr>
                             <td>
                                 @result.ID
-                            </td>
-                            <td>
-                                <a href="@Url.Action("Edit", "EconomicUsageType", new { @entityId = result.ID })">[@result.ID]</a>
                             </td>
                             <td>
                                 @result.EconomicUsageCode
@@ -60,8 +56,4 @@
         </div>
     </div>
 </div>
-<script type="text/javascript">
-    $(document).ready(function () {
-        InitDataTable("data_table_taxonomy_economic_usage_type");
-    });
-</script>
+

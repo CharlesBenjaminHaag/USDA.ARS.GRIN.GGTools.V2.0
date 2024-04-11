@@ -77,5 +77,25 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
         {
             throw new NotImplementedException();
         }
+
+        public void TransferOwnership(string idList, string sysTableName, int recipientCooperatorId)
+        {
+            try
+            {
+                using (SysTableManager mgr = new SysTableManager())
+                {
+                    string[] idArray = idList.Split(',');
+
+                    foreach (var idToken in idArray)
+                    {
+                        mgr.TransferOwnership(Int32.Parse(idToken), sysTableName, recipientCooperatorId);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }

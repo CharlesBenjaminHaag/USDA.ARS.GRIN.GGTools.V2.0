@@ -45,6 +45,24 @@
         });
     });
 
+    function GetBatchEditor() {
+        var link = '@Url.Action("GetBatchEditor", "Species")';
+        var formData = new FormData();
+
+        $.ajax({
+            url: link,
+            type: 'POST',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (response) {
+                $("#section-modal-email").html(response);
+                $("#modal-email").modal("show");
+            }
+        });
+    }
+
     function BatchEdit() {
         var tableName = $("#TableName").val();
         var eventAction = $("#EventAction").val();

@@ -54,10 +54,19 @@ namespace USDA.ARS.GRIN.GGTools.WebUI
             if (mgr.ConnectionString.Contains("gringlobal"))
             {
                 databaseName = "PRODUCTION";
+                if (mgr.ConnectionString.Contains("localhost"))
+                {
+                    databaseName += " (LOCAL)";
+                }
+                
             }
             else
             {
                 databaseName = "TRAINING";
+                if (mgr.ConnectionString.Contains("localhost"))
+                {
+                    databaseName += " (LOCAL)";
+                }
             }
            
             return databaseName.ToUpper();

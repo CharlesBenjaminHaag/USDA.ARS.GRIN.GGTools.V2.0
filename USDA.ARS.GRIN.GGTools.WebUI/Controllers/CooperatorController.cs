@@ -63,7 +63,23 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 return PartialView("~/Views/Error/_InternalServerError.cshtml");
             }
         }
-        
+
+        public JsonResult GetSelectListData()
+        {
+            try
+            {
+                CooperatorViewModel viewModel = new CooperatorViewModel();
+                viewModel.SearchEntity.StatusCode = "ACTIVE";
+                viewModel.Search();
+                return Json(viewModel.DataCollection, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return Json(ex.Message, JsonRequestBehavior.AllowGet);
+            }
+        }
+
         [HttpPost]
         public ActionResult Edit(CooperatorViewModel viewModel)
         {

@@ -154,23 +154,25 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             // AccessionIPRID
             // AccessionPedigreeID
             // GeneticMarkerID
-            SQL += " AND        (@TypeCode                      IS NULL OR TypeCode         =       @TypeCode)";
-            SQL += " AND        (@UniqueKey                     IS NULL OR UniqueKey        =       @UniqueKey)";
-            SQL += " AND        (@IsAcceptedName                IS NULL OR IsAcceptedName   =       @IsAcceptedName)";
-            SQL += " AND        (@LiteratureID                  IS NULL OR LiteratureID     =       @LiteratureID)";
-            SQL += " AND        (@Abbreviation                  IS NULL OR Abbreviation     LIKE    '%' + @Abbreviation + '%')";
-            //SQL += " AND        (@StandardAbbreviation          IS NULL OR StandardAbbreviation     =       @StandardAbbreviation)";
-            //SQL += " AND        (@EditorAuthorName              IS NULL OR EditorAuthorName         LIKE    '%' + @EditorAuthorName + '%')";
-            //SQL += " AND        (@ReferenceTitle                IS NULL OR ReferenceTitle           LIKE    '%' + @ReferenceTitle + '%')";
-            //SQL += " AND        (@LiteratureTypeCode            IS NULL OR LiteratureTypeCode       =       @LiteratureTypeCode)";
-            //SQL += " AND        (@PublicationYear               IS NULL OR PublicationYear          =       @PublicationYear)";
-            //SQL += " AND        (@PublisherName                 IS NULL OR PublisherName            LIKE    '%' + @PublisherName + '%')";
-            //SQL += " AND        (@PublisherLocation             IS NULL OR PublisherLocation        LIKE    '%' + @PublisherLocation + '%')";
+            SQL += " AND        (@TypeCode                      IS NULL OR TypeCode         =               @TypeCode)";
+            SQL += " AND        (@UniqueKey                     IS NULL OR UniqueKey        =               @UniqueKey)";
+            SQL += " AND        (@IsAcceptedName                IS NULL OR IsAcceptedName   =               @IsAcceptedName)";
+            SQL += " AND        (@LiteratureID                  IS NULL OR LiteratureID     =               @LiteratureID)";
+            SQL += " AND        (@Abbreviation                  IS NULL OR Abbreviation     LIKE            '%' + @Abbreviation + '%')";
+            //SQL += " AND        (@StandardAbbreviation        IS NULL OR StandardAbbreviation     =       @StandardAbbreviation)";
+            //SQL += " AND        (@EditorAuthorName            IS NULL OR EditorAuthorName         LIKE    '%' + @EditorAuthorName + '%')";
+            //SQL += " AND        (@ReferenceTitle              IS NULL OR ReferenceTitle           LIKE    '%' + @ReferenceTitle + '%')";
+            //SQL += " AND        (@LiteratureTypeCode          IS NULL OR LiteratureTypeCode       =       @LiteratureTypeCode)";
+            //SQL += " AND        (@PublicationYear             IS NULL OR PublicationYear          =       @PublicationYear)";
+            //SQL += " AND        (@PublisherName               IS NULL OR PublisherName            LIKE    '%' + @PublisherName + '%')";
+            //SQL += " AND        (@PublisherLocation           IS NULL OR PublisherLocation        LIKE    '%' + @PublisherLocation + '%')";
             SQL += " AND        (@Note                          IS NULL OR Note                     LIKE    '%' + @Note + '%')";
             SQL += " AND        (@ModifiedByCooperatorID        IS NULL OR ModifiedByCooperatorID   =       @ModifiedByCooperatorID)";
             SQL += " AND        (@CreatedByCooperatorID         IS NULL OR CreatedByCooperatorID    =       @CreatedByCooperatorID)";
             SQL += " AND        (@ModifiedDate                  IS NULL OR ModifiedDate             =       @ModifiedDate)";
             SQL += " AND        (@ModifiedByCooperatorID        IS NULL OR ModifiedByCooperatorID   =       @ModifiedByCooperatorID)";
+            SQL += " AND        (@OwnedDate                     IS NULL OR OwnedDate                =       @OwnedDate)";
+            SQL += " AND        (@OwnedByCooperatorID           IS NULL OR OwnedByCooperatorID      =       @OwnedByCooperatorID)";
 
             if (!String.IsNullOrEmpty(searchEntity.SpeciesIDList))
             {
@@ -227,6 +229,8 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
                 CreateParameter("CreatedDate", searchEntity.CreatedDate > DateTime.MinValue ? (object)searchEntity.CreatedDate : DBNull.Value, true),
                 CreateParameter("ModifiedByCooperatorID", searchEntity.ModifiedByCooperatorID > 0 ? (object)searchEntity.ModifiedByCooperatorID : DBNull.Value, true),
                 CreateParameter("ModifiedDate", searchEntity.ModifiedDate > DateTime.MinValue ? (object)searchEntity.ModifiedDate : DBNull.Value, true),
+                CreateParameter("OwnedByCooperatorID", searchEntity.OwnedByCooperatorID > 0 ? (object)searchEntity.OwnedByCooperatorID : DBNull.Value, true),
+                CreateParameter("OwnedDate", searchEntity.OwnedDate > DateTime.MinValue ? (object)searchEntity.OwnedDate : DBNull.Value, true),
             };
 
             results = GetRecords<Citation>(SQL, parameters.ToArray());
@@ -300,6 +304,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
                 AddParameter("created_by", entity.CreatedByCooperatorID == 0 ? DBNull.Value : (object)entity.CreatedByCooperatorID, true);
             }
         }
+        
         public virtual List<Cooperator> GetCooperators(string tableName)
         {
             SQL = "usp_GRINGlobal_Cooperators_Select";
@@ -310,16 +315,18 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             RowsAffected = cooperators.Count;
             return cooperators;
         }
-        public virtual List<CodeValue> GetCodeValues(string groupName)
+
+        public virtual List<Cooperator> GetOwnedByCooperators(string tableName)
         {
-            SQL = "usp_GRINGlobal_Code_Values_Select";
+            SQL = "usp_GRINGlobal_Cooperators_Owned_By_Select";
             var parameters = new List<IDbDataParameter> {
-                CreateParameter("group_name", (object)groupName, false)
+                CreateParameter("table_name", (object)tableName, false)
             };
-            List<CodeValue> codeValues = GetRecords<CodeValue>(SQL, CommandType.StoredProcedure, parameters.ToArray());
-            RowsAffected = codeValues.Count;
-            return codeValues;
+            List<Cooperator> cooperators = GetRecords<Cooperator>(SQL, CommandType.StoredProcedure, parameters.ToArray());
+            RowsAffected = cooperators.Count;
+            return cooperators;
         }
+
         public Dictionary<string, string> GetTableNames()
         {
             return new Dictionary<string, string>

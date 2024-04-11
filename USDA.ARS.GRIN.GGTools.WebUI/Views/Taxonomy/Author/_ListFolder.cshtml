@@ -1,11 +1,11 @@
 ﻿@model USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer.AuthorViewModel
+@Html.HiddenFor(x => x.TableName)
 <table id="data_table_taxonomy_author" class="table table-striped ggtools">
     <thead>
         <tr>
-            <th></th>
-            <th></th>
             <th>ID</th>
-            <th>DEBUG</th>
+            <th>Item</th>
+            <th>Key</th>
             <th>Short Name</th>
             <th>Full Name</th>
             <th>Note</th>
@@ -15,20 +15,19 @@
     <tbody>
         @foreach (var result in Model.DataCollection)
         {
-            <tr>
-                <td>@result.ID</td>
-                <td>@result.EntityKey</td>
-                <td>@result.ID</td>
-                <td>@result.EntityKey</td>
-                <td>@result.ShortName</td>
-                <td>@Html.Raw(result.FullName)</td>
-                <td>@Html.Raw(result.Note)</td>
-                <td style="text-align:right;">
-                    <a href="@Url.Action("Edit", "Author", new { entityId = result.ID, appUserItemFolderId = Model.SearchEntity.FolderID })" class="btn btn-default btn-sm pull-right row-edit">
-                        <i class="fa fa-edit"></i>
-                    </a>
-                </td>
-            </tr>
+        <tr>
+            <td>@result.ID</td>
+            <td>@result.AppUserItemListID</td>
+            <td>@result.EntityKey</td>
+            <td>@result.ShortName</td>
+            <td>@Html.Raw(result.FullName)</td>
+            <td>@Html.Raw(result.Note)</td>
+            <td style="text-align:right;">
+                <a href="@Url.Action("Edit", "Author", new { entityId = result.ID, appUserItemFolderId = Model.SearchEntity.FolderID })" class="btn btn-default btn-sm pull-right row-edit">
+                    <i class="fa fa-edit"></i>
+                </a>
+            </td>
+        </tr>
         }
     </tbody>
 </table>
@@ -37,6 +36,4 @@
     $(document).ready(function () {
         InitDataTableFolderFormat("data_table_taxonomy_author");
     });
-
-
 </script>

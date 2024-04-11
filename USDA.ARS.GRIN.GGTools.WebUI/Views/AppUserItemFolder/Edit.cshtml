@@ -5,7 +5,7 @@
 }
 @Html.HiddenFor(x => x.EventAction)
 @Html.HiddenFor(x => x.EventValue)
-@Html.HiddenFor(x => x.EventNote)
+
 <div class="card">
     <div id="section-folder-options" class="card-header p-2">
         <ul class="nav nav-pills">
@@ -14,10 +14,10 @@
             <li id="tab-folder-sharing" class="nav-item"><a class="nav-link" href="#tab_3" data-toggle="tab">Sharing</a></li>
         </ul>
     </div>
-    <div class="card-body" id="section-search-criteria">
+    <div class="card-body">
         <div class="tab-content">
             <div class="tab-pane active" id="detail">
-                <div class="overlay-wrapper">
+                 
                     @if (Model.Entity.FolderType == "DYNAMIC")
                     {
                         @*<div id="section-tab-overlay" class="overlay"><i class="fas fa-3x fa-sync-alt fa-spin"></i><div class="text-bold pt-2">Loading...</div></div>*@
@@ -27,15 +27,16 @@
                     {
                         if (Model.Entity.FolderType == "STATIC")
                         {
-                            <div id="section-tab-overlay" class="overlay"><i class="fas fa-3x fa-sync-alt fa-spin"></i><div class="text-bold pt-2">Loading...</div></div>
-                            { Html.RenderAction("_ListByFolder", "AppUserItemList", new { @appUserItemFolderId = Model.Entity.ID }); }
+                            <div id="section-search-results">
+                                @{ Html.RenderAction("_ListByFolder", "AppUserItemList", new { @appUserItemFolderId = Model.Entity.ID }); }
+                            </div>
                         }
                         else
                         {
                             <h3>@Model.Entity.FolderType</h3>
                         }
                     }
-                </div>
+                 
             </div>
             <div class="tab-pane" id="sharing">
                 @Html.Partial("~/Views/Taxonomy/Shared/_RevisionHistory.cshtml")
@@ -179,15 +180,9 @@
         var id = $("#Entity_ID").val();
         var link = '@Url.Action("EVENT_VALUE", "EVENT_ACTION")';
 
-
-
         link = link.replace("EVENT_VALUE", eventValue);
         link = link.replace("EVENT_ACTION", eventAction);
-        //tableName = tableName.replace("link-","");
-
-        //DEBUG
-        /*alert("DEBUG TAB " + tableName + " ACT " + eventAction + " VAL " + eventValue);*/
-
+       
         $("#EventAction").val(eventAction);
         $("#EventValue").val(eventValue);
         $("#EventNote").val(tableName);
@@ -195,11 +190,7 @@
         var formData = new FormData();
 
         formData.append("appUserItemFolderId", id);
-        //DEBUG
-        //alert("ID IS " + id + " EVENT VALUE IS " + eventValue + " EVENT ACTION IS " + eventAction);
-
-        /*$("#section-tab-overlay").show();*/
-
+     
         $.ajax({
             url: link,
             type: 'POST',
@@ -238,7 +229,8 @@
         var refreshLink = '@Url.Action("Index","Taxonomy")';
         var folderId = $("#Entity_ID").val();
         var tableName = $("#EventNote").val();
-        var selectedFolderItems = GetSelectedAppUserItemListIDs("data_table_app_user_item_list");
+        var dataTableId = $('#section-search-results').find('table:first').attr('id');
+        var selectedFolderItems = GetSelectedAppUserItemListIDs(dataTableId);
         var formData = new FormData();
 
         $("#ItemIDList").val(selectedFolderItems);
@@ -267,8 +259,6 @@
             }
         });
     }
-
-
 
     /*
     * ***********************************************************
@@ -306,32 +296,5 @@
             }
         });
     }
-
-    function BatchEdit() {
-    var tableName = $("#TableName").val();
-    var eventAction = $("#EventAction").val();
-    var eventValue = $("#EventValue").val();
-    var batchEditUrl = '@Url.Action("EditBatch", "Species")';
-    var selectedIdList = GetSelectedEntityIDs("data_table_app_user_item_list");
-
-    /* TODO: Ensure at least one selected */
-
-    batchEditUrl = batchEditUrl + "?idList=" + selectedIdList;
-    window.location.href = batchEditUrl;
-}
-
-    function BatchEditFiltered() {
-        var tableName = $("#TableName").val();
-        var eventAction = $("#EventAction").val();
-        var eventValue = $("#EventValue").val();
-        var batchEditUrl = '@Url.Action("EditBatch", "Species")';
-        var selectedIdList = GetFilteredEntityIDs("data_table_app_user_item_list");
-
-        /* TODO: Ensure at least one selected */
-
-        batchEditUrl = batchEditUrl + "?idList=" + selectedIdList;
-        window.location.href = batchEditUrl;
-    }
-
 </script>
 

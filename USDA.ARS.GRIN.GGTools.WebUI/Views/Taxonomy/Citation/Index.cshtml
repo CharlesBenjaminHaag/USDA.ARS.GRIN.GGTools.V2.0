@@ -18,11 +18,3 @@
 
 @Html.Partial("~/Views/Taxonomy/Citation/_List.cshtml")
 @{Html.RenderAction("RenderEditModal", "AppUserItemFolder", new { @sysTableName = "taxonomy_cwr_crop" }); }
-
-<script type="text/javascript">
-
-    $(document).ready(function () {
-        Init();
-        SetExtendedFields();
-    });
-</script>

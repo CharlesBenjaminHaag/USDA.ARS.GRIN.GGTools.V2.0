@@ -3,7 +3,6 @@
     ViewBag.Title = Model.PageTitle;
     Layout = "~/Views/Shared/_LayoutAdminLTE3.cshtml";
 }
-
 @Html.Partial("~/Views/Taxonomy/Author/_Detail.cshtml")
 @Html.Partial("~/Views/Taxonomy/Author/_List.cshtml")
 @{Html.RenderAction("RenderEditModal", "AppUserItemFolder", new { @sysTableName = Model.TableName }); }

@@ -149,6 +149,7 @@
     <Compile Include="SynonymMapViewModelBase.cs" />
     <Compile Include="SysApplicationViewModel.cs" />
     <Compile Include="SysApplicationViewModelBase.cs" />
+    <Compile Include="SysDataViewViewModelBase.cs" />
     <Compile Include="SysDynamicSearchViewModel.cs" />
     <Compile Include="SysDynamicQueryViewModelBase.cs" />
     <Compile Include="SysDynamicQueryViewModel.cs" />
@@ -160,6 +161,7 @@
     <Compile Include="SysGroupUserMapViewModelBase.cs" />
     <Compile Include="SysPermissionViewModelBase.cs" />
     <Compile Include="SysPermissionViewModel.cs" />
+    <Compile Include="SysDataViewViewModel.cs" />
     <Compile Include="SysTableViewModel.cs" />
     <Compile Include="SysTableViewModelBase.cs" />
     <Compile Include="TaxonomyExplorerViewModel.cs" />

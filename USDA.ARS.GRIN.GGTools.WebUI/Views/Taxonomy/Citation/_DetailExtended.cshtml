@@ -37,6 +37,18 @@
                     @Html.TextBoxFor(x => x.SearchEntity.ModifiedDate, new { @class = "form-control" })
                 </div>
             </div>
+            <div class="col-md-4">
+                <div class="form-group form-horizontal">
+                    <label>Owned By</label>
+                    @Html.DropDownListFor(x => x.SearchEntity.OwnedByCooperatorID, Model.OwnedByCooperators, "All Cooperators", new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group form-horizontal">
+                    <label>Owned Date</label>
+                    @Html.TextBoxFor(x => x.SearchEntity.OwnedDate, new { @class = "form-control" })
+                </div>
+            </div>
             <div class="col-sm-1">
                 <div class="form-group form-horizontal">
                     <label>ID</label>

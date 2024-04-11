@@ -112,7 +112,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             SQL += " AND (@StatusCode               IS NULL     OR StatusCode               =       @StatusCode)";
             SQL += " AND (@SiteID                   IS NULL     OR SiteID                   =       @SiteID)";
             SQL += " AND (@SysUserIsEnabled         IS NULL     OR SysUserIsEnabled         =       @SysUserIsEnabled)";
-        
+ 
             // Search by pre-defined time frame
             switch (searchEntity.CreatedTimeFrame)
             {

@@ -4,12 +4,12 @@
     Layout = "~/Views/Shared/_LayoutAdminLTE3.cshtml";
 }
 
-<div class="row">
+@*<div class="row">
     <div class="col-md-3">
         @{Html.RenderAction("GetListsByTab", "AppUserItemList", new { @tabName = "Tab 1" });}
     </div>
     <div class="col-md-9"></div>
-</div>
+</div>*@
 
 
 @using (Html.BeginForm("Search", "AppUserItemFolder", FormMethod.Post, new { id = "frmMain" }))

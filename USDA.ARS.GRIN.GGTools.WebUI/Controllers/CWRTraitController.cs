@@ -5,6 +5,7 @@ using USDA.ARS.GRIN.GGTools.WebUI;
 using USDA.ARS.GRIN.GGTools.ViewModelLayer;
 using USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer;
 using USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer;
+using DataTables;
 using NLog;
 
 
@@ -378,6 +379,86 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI
             {
                 Log.Error(ex);
                 return PartialView("~/Views/Error/_InternalServerError.cshtml", "Error");
+            }
+        }
+
+        public JsonResult GetBatchEditor()
+        {
+            string idList = String.Empty;
+            var request = System.Web.HttpContext.Current.Request;
+
+            if (Session["CWR_TRAIT_ID_LIST"] != null)
+            {
+                idList = Session["CWR_TRAIT_ID_LIST"].ToString();
+            }
+
+            string[] idArray = idList.Split(',');
+
+            try
+            {
+                using (SpeciesManager mgr = new SpeciesManager())
+                {
+                    using (var db = new Database("sqlserver", mgr.ConnectionString))
+                    {
+                        var editor = new Editor(db, "taxonomy_cwr_trait", "taxonomy_cwr_trait.taxonomy_cwr_trait_id").Where(q =>
+                        {
+                            q.Where(r =>
+                            {
+                                foreach (var i in idArray)
+                                {
+                                    r.OrWhere("taxonomy_cwr_trait.taxonomy_cwr_trait_id", i);
+                                }
+                            });
+                        })
+                        .Model<SpeciesTable>("taxonomy_cwr_trait")
+                        .Model<GenusTable>("taxonomy_cwr_map")
+                        .LeftJoin("taxonomy_cwr_map", "taxonomy_cwr_map.taxonomy_cwr_map_id", "=", "taxonomy_cwr_trait.taxonomy_cwr_map_id");
+
+                        editor.Field(new Field("taxonomy_cwr_trait.taxonomy_cwr_trait_id")
+                            .Validator(Validation.NotEmpty())
+                        );
+                         
+                        editor.Field(new Field("taxonomy_cwr_trait.trait_class_code"));
+                        editor.Field(new Field("taxonomy_cwr_trait.is_potential"));
+                        editor.Field(new Field("taxonomy_cwr_trait.breeding_type_code"));
+                        editor.Field(new Field("taxonomy_cwr_trait.breeding_usage_note"));
+                        editor.Field(new Field("taxonomy_cwr_trait.ontology_trait_identifier"));
+                        editor.Field(new Field("taxonomy_cwr_trait.modified_date")
+                            .Set(Field.SetType.Edit));
+                        editor.PreEdit += (sender, e) => editor.Field("taxonomy_cwr_trait.modified_date").SetValue(DateTime.Now);
+                        editor.Process(request);
+
+                        var response = editor.Data();
+
+                        JsonResult jsonResult = new JsonResult();
+                        jsonResult = Json(response);
+                        jsonResult.MaxJsonLength = 2147483644;
+                        jsonResult.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
+                        return jsonResult;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                return Json(ex.Message, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public ActionResult PostBatchEdits(string idList = "")
+        {
+            try
+            {
+                SpeciesViewModel viewModel = new SpeciesViewModel();
+                viewModel.PageTitle = "Batch Edit";
+                //viewModel.SearchEntity.IDList = idList;
+                //viewModel.Search();
+                Session["SPECIES_ID_LIST"] = idList;
+                return View("~/Views/Taxonomy/Species/EditMultiple_POC.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return RedirectToAction("InternalServerError", "Error");
             }
         }
     }

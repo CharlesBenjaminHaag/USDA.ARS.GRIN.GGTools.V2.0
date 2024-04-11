@@ -151,6 +151,7 @@
     <Compile Include="Controllers\AppUserItemFolderController.cs" />
     <Compile Include="Controllers\AppUserItemFolderCooperatorMapController.cs" />
     <Compile Include="Controllers\AppUserItemListController.cs" />
+    <Compile Include="Controllers\GOBSController.cs" />
     <Compile Include="Controllers\ImportController.cs" />
     <Compile Include="Controllers\AuthorController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
@@ -168,6 +169,7 @@
     <Compile Include="Controllers\CWRMapController.cs" />
     <Compile Include="Controllers\CWRTraitController.cs" />
     <Compile Include="Controllers\DemoController.cs" />
+    <Compile Include="Controllers\SysDataviewController.cs" />
     <Compile Include="Controllers\SysDynamicSearchController.cs" />
     <Compile Include="Controllers\SysDynamicQueryController.cs" />
     <Compile Include="Controllers\EconomicUsageTypeController.cs" />
@@ -950,6 +952,15 @@
     <Content Include="Views\Taxonomy\FamilyMap\Components\_GenusEditor.cshtml" />
     <Content Include="Views\Taxonomy\Species\Components\_RelatedDataViewer.cshtml" />
     <Content Include="Views\Taxonomy\Species\Modals\_EditInfraspecificOptions.cshtml" />
+    <Content Include="Views\SysDataview\Index.cshtml" />
+    <Content Include="Views\Shared\Sidebars\_MainSidebarSysDataView.cshtml" />
+    <Content Include="Views\SysDataview\Components\_MenuList.cshtml" />
+    <Content Include="Views\SysDataview\Components\_ParameterList.cshtml" />
+    <Content Include="Views\SysDataview\Components\_FieldList.cshtml" />
+    <Content Include="Views\SysDataview\Components\_SQLEditor.cshtml" />
+    <Content Include="Views\Shared\Components\_BatchEdit.cshtml" />
+    <Content Include="Views\GOBS\Index.cshtml" />
+    <Content Include="Views\Shared\_LayoutAdminLTE3GOBS.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

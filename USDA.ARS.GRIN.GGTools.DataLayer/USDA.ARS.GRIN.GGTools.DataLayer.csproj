@@ -90,6 +90,8 @@
     <Compile Include="EntityClasses\Classification.cs" />
     <Compile Include="EntityClasses\ClassificationSearch.cs" />
     <Compile Include="EntityClasses\AppEntityRecord.cs" />
+    <Compile Include="EntityClasses\CWRTraitTable.cs" />
+    <Compile Include="EntityClasses\SysDataViewSQL.cs" />
     <Compile Include="EntityClasses\EconomicUsageTypeSearch.cs" />
     <Compile Include="EntityClasses\EconomicUsageType.cs" />
     <Compile Include="EntityClasses\CodeValue.cs" />
@@ -159,6 +161,9 @@
     <Compile Include="EntityClasses\SysApplication.cs" />
     <Compile Include="EntityClasses\SysApplicationSearch.cs" />
     <Compile Include="EntityClasses\Report.cs" />
+    <Compile Include="EntityClasses\SysDataViewParameter.cs" />
+    <Compile Include="EntityClasses\SysDataViewSearch.cs" />
+    <Compile Include="EntityClasses\SysDataViewFieldSearch.cs" />
     <Compile Include="EntityClasses\SysDBErrorSearch.cs" />
     <Compile Include="EntityClasses\SysDBError.cs" />
     <Compile Include="EntityClasses\SysDynamicSearchCriterion.cs" />
@@ -173,6 +178,8 @@
     <Compile Include="EntityClasses\SysPermissionSearch.cs" />
     <Compile Include="EntityClasses\SysPermission.cs" />
     <Compile Include="EntityClasses\SysPermissionField.cs" />
+    <Compile Include="EntityClasses\SysDataView.cs" />
+    <Compile Include="EntityClasses\SysDataViewField.cs" />
     <Compile Include="EntityClasses\SysTableField.cs" />
     <Compile Include="EntityClasses\SysTableSearch.cs" />
     <Compile Include="EntityClasses\SysTable.cs" />
@@ -217,6 +224,7 @@
     <Compile Include="ManagerClasses\RegulationMapManager.cs" />
     <Compile Include="ManagerClasses\ReportManager.cs" />
     <Compile Include="ManagerClasses\SysDynamicQueryManager.cs" />
+    <Compile Include="ManagerClasses\SysDataViewManager.cs" />
     <Compile Include="ManagerClasses\SysTableManager.cs" />
     <Compile Include="ManagerClasses\SiteManager.cs" />
     <Compile Include="ManagerClasses\SpeciesManager.cs" />

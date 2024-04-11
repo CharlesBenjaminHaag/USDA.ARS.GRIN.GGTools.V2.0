@@ -82,7 +82,13 @@
             //    { extend: 'remove', editor: editor }
             //],
             columns: [
-                { data: 'taxonomy_species.taxonomy_species_id' },
+                {
+                    data: 'taxonomy_species.taxonomy_species_id',
+                    render: function (data, type, row, meta) {
+                        var url = '@Url.Action("Edit","Species")' + '?entityId=' + row.taxonomy_species.taxonomy_species_id;
+                        return '<a href="' + url + '">' + data + '</a>';
+                    }
+                },
                 { data: 'taxonomy_genus.genus_name' },
                 { data: 'taxonomy_species.species_name' },
                 { data: 'taxonomy_species.name_authority' },
@@ -93,7 +99,7 @@
             ],
             keys: {
                 /*columns: ':not(:first-child)',*/
-                columns: [2,3,4,5],
+                columns: [2,3,4,5,6],
                 keys: [9],
                 editor: editor,
                 editOnFocus: true

@@ -83,26 +83,20 @@ namespace USDA.ARS.GRIN.GGTools.AppLayer
         public int AuthenticatedUserCooperatorID { get; set; }
         public string ItemIDList { get; set; }
         public string EntityIDList { get; set; }
-         
-        //public string IsMultiSelectable 
-        //{ 
-        //    get { return _IsMultiSelectable; }
-        //    set { _IsMultiSelectable = value; }
-        //}
+                
         public int AppUserItemFolderID
         {
             get { return _AppUserItemFolderId; }
             set { _AppUserItemFolderId = value; }
         }
-        #region Init Method
+        
         public override void Init()
             {
             base.Init();
 
             ResultText = string.Empty;
             }
-            #endregion
-
+        
         public string SerializeToXml<T>(T value)
         {
             StringWriter writer = new StringWriter(CultureInfo.InvariantCulture);
@@ -120,8 +114,6 @@ namespace USDA.ARS.GRIN.GGTools.AppLayer
                 return (T)ser.Deserialize(sr);
             }
         }
-
-        #region Utilities
 
         public string FormatBoolean(string value)
         {
@@ -156,6 +148,7 @@ namespace USDA.ARS.GRIN.GGTools.AppLayer
 
             return "<span class='label label-info'>" + value.ToUpper() + "</span>";
         }
+        
         public bool ToBool(string value)
         {
             bool convertedValue = false;
@@ -181,14 +174,13 @@ namespace USDA.ARS.GRIN.GGTools.AppLayer
             return value;
         }
 
-        #endregion
-
-        #region Select Lists
-
         public SelectList TimeFrameOptions { get; set; }
+        
         public SelectList Cooperators { get; set; }
+        
+        public SelectList OwnedByCooperators { get; set; }
+        
         public SelectList YesNoOptions { get; set; }
 
-        #endregion
     }
 }

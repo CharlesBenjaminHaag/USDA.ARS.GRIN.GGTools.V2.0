@@ -1,4 +1,8 @@
 ﻿@model USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer.SpeciesViewModel
+@using (Html.BeginForm("GetBatchEditor", "Species", FormMethod.Post, new { id = "frmGetBatchEditor" }))
+{
+    @Html.HiddenFor(x => x.ItemIDList)
+}
 
 <div id="section-search-results" class="card card-success">
     <div class="card-header">
@@ -15,7 +19,7 @@
                 <table id="data_table_taxonomy_species" class="table table-striped ggtools-table" style="width:100%;">
                     <thead>
                         <tr>
-                            
+
                             <th width="5%">ID</th>
                             <th>Assembled Name</th>
                             <th>Epithet</th>
@@ -38,7 +42,7 @@
                                     <td>
                                         @result.ID
                                     </td>
-                                   
+
                                     <td>@Html.Raw(result.AssembledName)</td>
                                     <td>@result.SpeciesName</td>
                                     <td><span class="badge badge-info">@result.SynonymDescription</span></td>
@@ -88,20 +92,20 @@
 </div>
 
 
-@*<iframe width="100%" 
-        height="380" 
-        frameborder="0" 
-        scrolling="no" 
-        marginheight="0" 
-        marginwidth="0" 
-        src="https://www.ipni.org/?q=abies">
+@*<iframe width="100%"
+            height="380"
+            frameborder="0"
+            scrolling="no"
+            marginheight="0"
+            marginwidth="0"
+            src="https://www.ipni.org/?q=abies">
 
-</iframe>*@
+    </iframe>*@
 
 <script type="text/javascript">
     //$(document).ready(function () {
     //    InitDataTableBase("data_table_taxonomy_species","Y");
     //});
 
-    
+
 </script>
