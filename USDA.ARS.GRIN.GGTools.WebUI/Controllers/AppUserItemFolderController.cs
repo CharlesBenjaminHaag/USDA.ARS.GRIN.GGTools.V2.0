@@ -93,6 +93,9 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 {
                     viewModel.PageTitle = String.Format("Add Folder");
                 }
+
+                ViewBag.PageTitle = viewModel.PageTitle;
+
                 return View(viewModel);
             }
             catch (Exception ex)

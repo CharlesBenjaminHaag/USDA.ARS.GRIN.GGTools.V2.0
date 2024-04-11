@@ -14,7 +14,6 @@
                 <thead>
                     <tr>
                         <th></th>
-                        <th width="5%">ID</th>
                         <th>Order Name</th>
                         <th>Family Name</th>
                         <th>Subfamily Name</th>
@@ -30,31 +29,6 @@
                         <tr>
                             <td>
                                 @result.ID
-                            </td>
-                            <td>
-                                @switch (result.Rank)
-                                {
-                                    case "SUBFAMILY":
-                                        <a href="@Url.Action("Edit", "FamilyMap", new { entityId = result.ID })">
-                                            [@result.ID]
-                                        </a>
-                                        break;
-                                    case "TRIBE":
-                                        <a href="@Url.Action("Edit", "FamilyMap", new { entityId = result.ID })">
-                                            [@result.ID]
-                                        </a>
-                                        break;
-                                    case "SUBTRIBE":
-                                        <a href="@Url.Action("Edit", "FamilyMap", new { entityId = result.ID })">
-                                            [@result.ID]
-                                        </a>
-                                        break;
-                                    default:
-                                        <a href="@Url.Action("Edit", "FamilyMap", new { entityId = result.ID })">
-                                            [@result.ID]
-                                        </a>
-                                        break;
-                                }
                             </td>
                             <td>
                                 <a href="@Url.Action("Edit", "Classification", new { @entityId = result.OrderID })">
@@ -98,8 +72,4 @@
         </div>
     </div>
 </div>
-<script type="text/javascript">
-    $(document).ready(function () {
-        InitDataTable("data_table_taxonomy_family_map");
-    });
-</script>
+

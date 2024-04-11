@@ -238,11 +238,7 @@
         formData.append("FolderID", folderId);
         formData.append("ItemIDList", selectedFolderItems);
 
-        //DEBUG
-        alert("DEBUG FLDR ID IS " + folderId + " ID LIST " + selectedFolderItems);
-
         $("#section-item-count").html(selectedFolderItems.length);
-        /*$("#modal-batch-delete-confirm").modal("show");*/
 
         $.ajax({
             url: link,
