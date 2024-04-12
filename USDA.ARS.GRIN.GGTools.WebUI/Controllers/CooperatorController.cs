@@ -347,7 +347,15 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
         public PartialViewResult RenderLookupModal()
         {
             CooperatorViewModel viewModel = new CooperatorViewModel();
-            return PartialView("~/Views/Cooperator/Modals/_Lookup.cshtml",viewModel);
+            try
+            {
+                return PartialView("~/Views/Cooperator/Modals/_Lookup.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
         }
         
         public PartialViewResult RenderWidget(int cooperatorId)

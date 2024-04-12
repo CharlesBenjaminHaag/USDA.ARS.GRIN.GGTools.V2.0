@@ -91,6 +91,10 @@
     <Compile Include="EntityClasses\ClassificationSearch.cs" />
     <Compile Include="EntityClasses\AppEntityRecord.cs" />
     <Compile Include="EntityClasses\CWRTraitTable.cs" />
+    <Compile Include="EntityClasses\GOBS\GOBSDatasetField.cs" />
+    <Compile Include="EntityClasses\GOBS\GOBSDatasetSearch.cs" />
+    <Compile Include="EntityClasses\GOBS\GOBSType.cs" />
+    <Compile Include="EntityClasses\GOBS\GOBSDataset.cs" />
     <Compile Include="EntityClasses\SysDataViewSQL.cs" />
     <Compile Include="EntityClasses\EconomicUsageTypeSearch.cs" />
     <Compile Include="EntityClasses\EconomicUsageType.cs" />
@@ -192,6 +196,7 @@
     <Compile Include="EntityClasses\TribeSearch.cs" />
     <Compile Include="ManagerClasses\AccessionInventoryAttachmentManager.cs" />
     <Compile Include="ManagerClasses\AccessionInvAnnotationManager.cs" />
+    <Compile Include="ManagerClasses\GOBSManager.cs" />
     <Compile Include="ManagerClasses\AppUserItemFolderCooperatorMapManager.cs" />
     <Compile Include="ManagerClasses\AppUserItemListManager.cs" />
     <Compile Include="ManagerClasses\AuthorManager.cs" />

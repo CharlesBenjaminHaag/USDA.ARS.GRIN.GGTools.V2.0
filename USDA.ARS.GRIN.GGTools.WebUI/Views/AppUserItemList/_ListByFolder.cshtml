@@ -1,4 +1,6 @@
 ﻿@model USDA.ARS.GRIN.GGTools.ViewModelLayer.AppUserItemListViewModel
+@Html.HiddenFor(x => x.DataCollectionSysTables.Count)
+
 <div class="card card-success card-tabs">
     <div class="card-header p-0 pt-1">
         <ul class="nav nav-tabs" id="tab-sys-tables" role="tablist">
@@ -19,17 +21,16 @@
                     navLinkCssClass = "nav-link";
                 }
 
-                <li 
-                    id="@result.TableName" 
+                <li id="@result.TableName"
                     class="nav-item"
                     data-ggtools-event-action="@result.SysTableTitle.Replace(" ","")"
                     data-ggtools-event-value="_ListFolderItems">
-                    <a class="@navLinkCssClass" 
-                       id="link-@result.TableName" 
-                       data-toggle="pill" 
-                       href="" 
-                       role="tab" 
-                       aria-controls="" 
+                    <a class="@navLinkCssClass"
+                       id="link-@result.TableName"
+                       data-toggle="pill"
+                       href=""
+                       role="tab"
+                       aria-controls=""
                        aria-selected="true"
                        data-ggtools-event-action="@result.SysTableTitle.Replace(" ","")"
                        data-ggtools-event-value="_ListFolderItems">@result.SysTableTitle</a>
@@ -40,8 +41,10 @@
     </div>
     <div class="card-body">
         <div class="tab-content" id="tab-sys-tables-content">
-            
-
+            @if (Model.DataCollectionSysTables.Count == 0)
+            { 
+                <h3>NO ITEMS FOUND</h3>
+            }
         </div>
     </div>
 
@@ -51,8 +54,12 @@
         var defaultTab = $("#tab-sys-tables li:first").attr('id');
         var eventAction = $("#tab-sys-tables li:first").data("ggtools-event-action");
         var eventValue = $("#tab-sys-tables li:first").data("ggtools-event-value");
-        LoadFolderItems(defaultTab, eventAction, eventValue);
-        InitDataTableFolderFormat("data_table_app_user_item_list");
+        var folderItemGroupCount = $("#DataCollectionSysTables_Count").val();
+
+        if (folderItemGroupCount > 0) {
+            LoadFolderItems(defaultTab, eventAction, eventValue);
+            InitDataTableFolderFormat("data_table_app_user_item_list");
+        }
     });
 
     $('#tab-sys-tables li a').click(function (event) {

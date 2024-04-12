@@ -33,7 +33,7 @@
 
     if (Model.AppUserItemFolderID > 0)
     {
-        Html.RenderAction("RenderRelatedFoldersWidget", "AppUserItemFolder", new { idNumber = Model.Entity.ID });
+        Html.RenderAction("GetWidget", "AppUserItemFolder", new { idNumber = Model.Entity.ID });
     }
 
     <input type="hidden" id="hfModalEventValue" />

@@ -634,7 +634,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             }
         }
 
-        public ActionResult Edit(int entityId, int parentId = 0, string rank = "")
+        public ActionResult Edit(int entityId, int parentId = 0, string rank = "", int appUserItemFolderId = 0)
         {
             try
             {
@@ -678,6 +678,8 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                     viewModel.SubvarietyUrl += "&synonymCode=" + Request.QueryString["synonymCode"];
                     viewModel.FormUrl += "&synonymCode=" + Request.QueryString["synonymCode"];
                 }
+
+                viewModel.AppUserItemFolderID = appUserItemFolderId;
 
                 return View(BASE_PATH + "Edit.cshtml", viewModel);
             }

@@ -206,6 +206,9 @@
                 </div>
                 @switch (controllerName)
                 {
+                    case "GOBS":
+                        Html.RenderAction("RenderSidebar", "GOBS");
+                        break;
                     case "Home":
                         Html.RenderAction("RenderSidebar", "Home");
                         break;
@@ -266,7 +269,7 @@
         <!-- Main Footer -->
         @Html.Partial("~/Views/Shared/_Footer.cshtml")
     </div>
-    @{Html.RenderAction("RenderLookupModal", "Cooperator");}
+     
 </body>
 </html>
 

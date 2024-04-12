@@ -1,0 +1,120 @@
+﻿@model USDA.ARS.GRIN.GGTools.GOBS.ViewModelLayer.GOBSViewModel
+@using System.Data;
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_LayoutAdminLTE3GOBS.cshtml";
+}
+<div class="row">
+    <div class="col-md-3">
+        <div class="card card-default">
+            <div class="card-header">
+                <h3 class="card-title">Datasets</h3>
+                <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                        <i class="fas fa-minus"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="card-body">
+                <table id="data-table-select-list" class="table table-striped">
+                    <thead>
+                        <tr>
+                            @foreach (DataColumn col in Model.DataCollectionDataTable.Columns)
+                            {
+                                if ((col.ColumnName == "ID") || (col.ColumnName == "DataSetName"))
+                                {
+                                    <th>
+                                        @col.ColumnName
+                                    </th>
+                                }
+                            }
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (DataRow dr in Model.DataCollectionDataTable.Rows)
+                        {
+                            <tr>
+                                @foreach (DataColumn rowCol in Model.DataCollectionDataTable.Columns)
+                                {
+                                    if ((rowCol.ColumnName == "ID") || (rowCol.ColumnName == "DataSetName"))
+                                    {
+                                        <td>
+                                            @dr[rowCol.ColumnName]
+                                        </td>
+                                    }
+                                }
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+    </div>
+    <div class="col-md-9">
+        <div id="section-gobs-dataset-detail"></div>
+        <div id="section-gobs-dataset_marker"></div>
+        <div id="section-gobs-dataset_attachment"></div>
+        <div id="section-gobs-dataset_cooperator"></div>
+        <div id="section-gobs-dataset_value"></div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        InitGOBSDataTable("data-table-select-list");
+
+        function InitGOBSDataTable(tableName) {
+            $(document).ready(function () {
+                var table = $("#" + tableName).DataTable({
+                    paging: false,
+                    responsive: true,
+                    /*scrollY: '300px',*/
+                    select: true,
+                    searching: true
+                });
+
+                $('table').on('click', 'tr', function () {
+                    var data = table.row(this).data();
+                    GetDatasetDetailEditor(data);
+                    GetDependentData(data, "marker");
+                    GetDependentData(data, "attachment");
+                    GetDependentData(data, "cooperator");
+                    GetDependentData(data, "value");
+                });
+            });
+        }
+
+        function GetDatasetDetailEditor(dataSetId) {
+            var link = '@Url.Action("GetDatasetDetailEditor", "GOBS")';
+
+            //DEBUG
+            alert("DEBUG LINK " + link);
+
+            var formData = new FormData();
+            formData.append("entityId", dataSetId);
+
+            $.ajax({
+                url: link,
+                type: 'POST',
+                cache: false,
+                contentType: false,
+                processData: false,
+                data: formData,
+                success: function (response) {
+                    //DEBUG
+                    alert(response);
+                }
+            });
+        }
+
+        function GetDependentData(dataSetId, objectType) {
+
+            var sectionName = "#section-gobs-dataset_" + objectType;
+
+            
+            //TODO
+            $(sectionName).html("DATASET " + dataSetId + " " + objectType);
+        }
+    });
+</script>

@@ -10,26 +10,19 @@
         </div>
     </div>
     <div class="card-body">
-
-       
-
         <div id="section-search-results">
             <table id="data_table_app_user_item_folder" class="table table-striped folder-table" style="width:100%;">
                 <thead>
                     <tr>
-                        <th></th>
                         <th>ID</th>
                         <th>
                             <i class="fa fa-star"></i>
                         </th>
-                        <th><i class="fa fa-users"></i></th>
                         <th>Name</th>
+                        <th>Type</th>
                         <th>Description</th>
                         <th>Created</th>
                         <th>By</th>
-                        @*<th>Modified</th>
-                        <th>By</th>*@
-                        @*<th style="text-align:center;">Items</th>*@
                         <th></th>
                     </tr>
                 </thead>
@@ -40,9 +33,6 @@
                             <td>
                                 @folder.ID
                             </td>
-                            <td>
-                                @folder.ID
-                            </td>
                             <td class="mailbox-star">
                                 @if (folder.IsFavorite == "Y")
                                 {
@@ -50,14 +40,9 @@
                                 }
                             </td>
                             <td>
-                                @if (folder.IsShared == "Y")
-                                {
-                                    <a href="#"><i class="fa fa-users text-blue"></i></a>
-                                }
-                            </td>
-                            <td>
                                 @folder.FolderName
                             </td>
+                            <td>@folder.FolderType</td>
                             <td>@folder.Description</td>
                             <td>@folder.CreatedDate.ToShortDateString()</td>
                             <td>@folder.CreatedByCooperatorName</td>

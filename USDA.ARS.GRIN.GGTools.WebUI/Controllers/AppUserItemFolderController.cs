@@ -387,6 +387,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
         /// <param name="appUserItemFolderId"></param>
         /// <returns></returns>
         /// <remarks>Used on edit page.</remarks>
+        
         public PartialViewResult RenderRelatedFoldersWidget(int idNumber)
         {
             AppUserItemFolderViewModel viewModel = new AppUserItemFolderViewModel();
@@ -395,6 +396,23 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 viewModel.SearchEntity.EntityID = idNumber;
                 viewModel.Search();
                 return PartialView("~/Views/AppUserItemFolder/_RelatedFoldersWidget.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
+        }
+        
+     
+        public PartialViewResult GetWidget(int appUserItemFolderId)
+        {
+            AppUserItemFolderViewModel viewModel = new AppUserItemFolderViewModel();
+            try
+            {
+                viewModel.SearchEntity.EntityID = appUserItemFolderId;
+                viewModel.Search();
+                return PartialView("~/Views/AppUserItemFolder/_Widget.cshtml", viewModel);
             }
             catch (Exception ex)
             {

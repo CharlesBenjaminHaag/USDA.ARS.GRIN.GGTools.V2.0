@@ -49,7 +49,7 @@
                         @result.VerifiedByCooperatorName
                     </td>
                     <td>
-                        <a href="@Url.Action("Edit", "Species", new { @entityId = result.ID })"
+                        <a href="@Url.Action("Edit", "Species", new { @entityId = result.ID, @appUserItemFolderId = result.FolderID })"
                            class="btn btn-default btn-sm float-right row-edit margin-r-5">
                             <i class="fa fa-edit"></i>
                         </a>

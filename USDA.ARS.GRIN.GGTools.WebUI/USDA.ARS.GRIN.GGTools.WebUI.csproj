@@ -950,6 +950,11 @@
     <Content Include="Views\Shared\Components\_BatchEdit.cshtml" />
     <Content Include="Views\GOBS\Index.cshtml" />
     <Content Include="Views\Shared\_LayoutAdminLTE3GOBS.cshtml" />
+    <Content Include="Views\AppUserItemFolder\_Widget.cshtml" />
+    <Content Include="Views\Shared\Sidebars\_MainSidebarGOBS.cshtml" />
+    <Content Include="Views\GOBS\Edit.cshtml" />
+    <Content Include="Views\GOBS\_EditDataset.cshtml" />
+    <Content Include="Views\GOBS\_List.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
