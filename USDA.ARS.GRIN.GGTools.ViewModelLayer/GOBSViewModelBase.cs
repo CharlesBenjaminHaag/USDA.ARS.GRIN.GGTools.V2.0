@@ -18,10 +18,10 @@ namespace USDA.ARS.GRIN.GGTools.GOBS.ViewModelLayer
 
         public GOBSViewModelBase()
         {
-            using (GOBSManager mgr = new GOBSManager())
-            {
-                Cooperators = new SelectList(mgr.GetCooperators("taxonomy_GOBS"), "ID", "FullName");
-            }
+            //using (GOBSManager mgr = new GOBSManager())
+            //{
+            //    Cooperators = new SelectList(mgr.GetCooperators("taxonomy_GOBS"), "ID", "FullName");
+            //}
         }
        
         public GOBSDataset Entity

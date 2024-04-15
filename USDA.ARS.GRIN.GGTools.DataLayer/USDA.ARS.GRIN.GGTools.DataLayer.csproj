@@ -95,6 +95,7 @@
     <Compile Include="EntityClasses\GOBS\GOBSDatasetSearch.cs" />
     <Compile Include="EntityClasses\GOBS\GOBSType.cs" />
     <Compile Include="EntityClasses\GOBS\GOBSDataset.cs" />
+    <Compile Include="EntityClasses\Method.cs" />
     <Compile Include="EntityClasses\SysDataViewSQL.cs" />
     <Compile Include="EntityClasses\EconomicUsageTypeSearch.cs" />
     <Compile Include="EntityClasses\EconomicUsageType.cs" />

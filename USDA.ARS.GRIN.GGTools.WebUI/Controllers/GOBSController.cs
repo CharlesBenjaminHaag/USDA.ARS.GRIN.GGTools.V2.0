@@ -12,9 +12,11 @@ using System.Runtime.Remoting.Channels;
 
 namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
 {
-    public class GOBSController : Controller
+    [GrinGlobalAuthentication]
+    public class GOBSController : BaseController
     {
-        // GET: GOBS
+        private static readonly Logger Log = LogManager.GetCurrentClassLogger();
+
         public ActionResult Index()
         {
             return View();
@@ -31,14 +33,26 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             return View("~/Views/GOBS/Edit.cshtml", viewModel);
         }
 
-        public PartialViewResult GetDatasetDetailEditor(int entityId)
+        public ViewResult GetAll(string objectType)
         {
             GOBSViewModel viewModel = new GOBSViewModel();
-            viewModel.Get(entityId);
+            SysDynamicQueryViewModel sysDynamicQueryViewModel = new SysDynamicQueryViewModel();
+            sysDynamicQueryViewModel.SearchEntity.SQLStatement = "SELECT * FROM get_gobs_" + objectType;
+            sysDynamicQueryViewModel.Search();
+
+            viewModel.DataCollectionDataTable = sysDynamicQueryViewModel.DataCollectionDataTable;
+            return View("~/Views/GOBS/EditDependentData.cshtml", viewModel);
+        }
+
+        public PartialViewResult GetDatasetDetailEditor(int dataSetId)
+        {
+            GOBSViewModel viewModel = new GOBSViewModel();
+            viewModel.Get(dataSetId);
+            viewModel.TableTitle = "GOBS Dataset";
             return PartialView("~/Views/GOBS/_EditDataset.cshtml", viewModel);
         }
 
-        public PartialViewResult GetDatasetFieldEditor(int entityId)
+        public PartialViewResult GetDetailEditor(int entityId, string objectType)
         {
             //TODO
             return null;
@@ -74,14 +88,22 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             return null;
         }
 
-        
-
         public PartialViewResult GetDependentData(int entityId, string objectType)
         {
             SysDynamicQueryViewModel viewModel = new SysDynamicQueryViewModel();
-            viewModel.SearchEntity.SQLStatement = "SELECT * FROM get_gobs_" + objectType + " WHERE gobs_dataset_id = " + entityId.ToString();
-            viewModel.Search();
-            return PartialView("~/Views/SysDynamicQuery/_SearchResultsList.cshtml", viewModel);
+
+            try
+            {
+                viewModel.SearchEntity.SQLStatement = "SELECT * FROM get_gobs_" + objectType + " WHERE gobs_dataset_id = " + entityId.ToString();
+                viewModel.Search();
+                viewModel.TableName = objectType;
+                return PartialView("~/Views/GOBS/_DependentDataList.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
         }
 
         public PartialViewResult GetDatasets()

@@ -55,9 +55,9 @@
     <div class="col-md-9">
         <div id="section-gobs-dataset-detail"></div>
         <div id="section-gobs-dataset_marker"></div>
-        <div id="section-gobs-dataset_attachment"></div>
-        <div id="section-gobs-dataset_cooperator"></div>
+        <div id="section-gobs-dataset_attach"></div>
         <div id="section-gobs-dataset_value"></div>
+        <div id="section-gobs-dataset_inventory"></div>
     </div>
 </div>
 <script>
@@ -75,24 +75,24 @@
                 });
 
                 $('table').on('click', 'tr', function () {
-                    var data = table.row(this).data();
+                    var data = table.row(this).data()[0];
+
                     GetDatasetDetailEditor(data);
-                    GetDependentData(data, "marker");
-                    GetDependentData(data, "attachment");
-                    GetDependentData(data, "cooperator");
-                    GetDependentData(data, "value");
+                    GetDependentData(data, "dataset_marker");
+                    GetDependentData(data, "dataset_attachment");
+                    GetDependentData(data, "dataset_value");
+                    GetDependentData(data, "dataset_inventory");
                 });
             });
         }
 
         function GetDatasetDetailEditor(dataSetId) {
             var link = '@Url.Action("GetDatasetDetailEditor", "GOBS")';
-
-            //DEBUG
-            alert("DEBUG LINK " + link);
+            var link = '@Url.Action("GetDatasetDetailEditor", "GOBS", new { dataSetId = "ENTITY_ID" })';
+            link = link.replace("ENTITY_ID", dataSetId);
 
             var formData = new FormData();
-            formData.append("entityId", dataSetId);
+            formData.append("dataSetId", dataSetId);
 
             $.ajax({
                 url: link,
@@ -102,19 +102,35 @@
                 processData: false,
                 data: formData,
                 success: function (response) {
-                    //DEBUG
-                    alert(response);
+                    $("#section-gobs-dataset-detail").html(response);
                 }
             });
         }
 
         function GetDependentData(dataSetId, objectType) {
-
-            var sectionName = "#section-gobs-dataset_" + objectType;
-
+            var sectionName = "#section-gobs-" + objectType;
+            var link = '@Url.Action("GetDependentData", "GOBS")';
+            var link = '@Url.Action("GetDependentData", "GOBS", new { entityId = "ENTITY_ID", objectType = "OBJECT_TYPE" })';
+            link = link.replace("ENTITY_ID", dataSetId);
+            link = link.replace("OBJECT_TYPE", objectType);
             
-            //TODO
-            $(sectionName).html("DATASET " + dataSetId + " " + objectType);
+            var formData = new FormData();
+            formData.append("entityId", dataSetId);
+            formData.append("objectType", objectType);
+
+            $.ajax({
+                url: link,
+                type: 'POST',
+                cache: false,
+                contentType: false,
+                processData: false,
+                data: formData,
+                success: function (response) {
+                    
+
+                    $(sectionName).html(response);
+                }
+            });
         }
     });
 </script>

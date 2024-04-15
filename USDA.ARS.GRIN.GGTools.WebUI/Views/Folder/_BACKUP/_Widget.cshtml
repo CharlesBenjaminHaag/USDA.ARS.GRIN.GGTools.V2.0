@@ -1,9 +1,0 @@
-﻿@model USDA.ARS.GRIN.GGTools.ViewModelLayer.FolderViewModel
-<div class="info-box">
-    <span class="info-box-icon bg-gray"><i class="fa fa-folder"></i></span>
-    <div class="info-box-content">
-        <span class="info-box-number"><a href="">@Model.Entity.FolderName</a></span>
-        @Html.HiddenFor(x => x.Entity.ID, new { ID="FolderID" })
-        <span class="info-box-text">@Model.Entity.Description</span>
-    </div>
-</div>

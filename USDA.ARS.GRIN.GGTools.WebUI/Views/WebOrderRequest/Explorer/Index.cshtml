@@ -6,6 +6,27 @@
 
 @Html.HiddenFor(x => x.ActionEmailFrom)
 
+<style>
+    .tag {
+        display: inline-block;
+        padding: 5px 10px;
+        background-color: #007bff;
+        color: white;
+        border-radius: 20px;
+        margin-right: 5px;
+        cursor: pointer;
+    }
+
+        .tag:hover {
+            background-color: #0056b3;
+        }
+</style>
+
+<div id="tagContainer">
+    <!-- Tags will be dynamically added here -->
+</div>
+
+
 <!-- ********************************************** BEGIN DEBUG FIELDS *************************************************************-->
 <div class="row" style="background-color:yellow;">
     <div class="col-md-2">
@@ -71,18 +92,18 @@
                            aria-controls="custom-tabs-two-messages"
                            aria-selected="false"><i class="fa fa-sticky-note"></i> Notes</a>
                     </li>
-                    
-                        <li id="tab-web-order-request-order-request"
-                            class="nav-item"
-                            data-ggtools-action="OrderRequest"
-                            data-ggtools-value="_Get">
-                            <a class="nav-link"
-                               data-toggle="pill"
-                               href="#tab-content-web-order-request-order-request"
-                               role="tab"
-                               aria-controls="custom-tabs-two-settings"
-                               aria-selected="false"><i class="fa fa-shopping-cart"></i> Order Request</a>
-                        </li>
+
+                    <li id="tab-web-order-request-order-request"
+                        class="nav-item"
+                        data-ggtools-action="OrderRequest"
+                        data-ggtools-value="_Get">
+                        <a class="nav-link"
+                           data-toggle="pill"
+                           href="#tab-content-web-order-request-order-request"
+                           role="tab"
+                           aria-controls="custom-tabs-two-settings"
+                           aria-selected="false"><i class="fa fa-shopping-cart"></i> Order Request</a>
+                    </li>
                 </ul>
             </div>
             <div class="card-body">
@@ -344,11 +365,19 @@
                 //columnDefs: [
                 //    { targets: [0], visible: false }
                 //]
+                
             });
 
-            // Select the first visible row, and call relate method.
-            table.row(':eq(0)', { page: 'current' }).select();
-            LoadWebOrderRequest(table.row(':eq(0)', { page: 'current' }).data()[0]);
+            // If the table contains at least one row, select that row by default, and load the WOR data
+            // related to it.
+            if (table.rows().count() > 0) {
+                // Select the first visible row
+                var firstVisibleRow = table.rows({ search: 'applied' }).indexes()[0];
+                if (firstVisibleRow !== undefined) {
+                    table.row(firstVisibleRow).select();
+                    LoadWebOrderRequest(table.row(':eq(0)', { page: 'current' }).data()[0]);
+                }
+            }
 
             // Call select method when user clicks a given row.
             $('table.ggtools').on('click', 'tr', function () {
@@ -366,8 +395,6 @@
         var statusCode = GetSelectedFilter("filter-by-status");
         var assignedTo = GetSelectedFilter("filter-by-assigned-to");
         var formData = new FormData();
-
-
 
         formData.append("SearchEntity.TimeFrame", timeFrame);
         formData.append("SearchEntity.StatusCode", statusCode);
@@ -391,9 +418,6 @@
 
     function LoadWebOrderRequest(id) {
         var selectedTab = GetSelectedTab();
-
-         //DEBUG
-        alert("TAB IS " + selectedTab + " AND ID IS " + id);
 
         $("#Entity_ID").val(id);
 
@@ -493,4 +517,38 @@
             }
         });
     }
+
+    // BEGIN TAG LOGIC
+
+
+
+
+    $(document).ready(function () {
+        // Click event handler for dynamically created tags
+        $('#tagContainer').on('click', '.tag', function () {
+            $(this).remove(); // Remove the clicked tag
+        });
+
+        // Function to add a new tag
+        function addTag(tagName) {
+            var tag = $('<div class="tag">' + tagName + '<span class="delete"> X</span></div>');
+            $('#tagContainer').append(tag);
+        }
+
+        // Example: adding tags dynamically
+        addTag('Tag 1');
+        addTag('Tag 2');
+        addTag('Tag 3');
+
+        // Click event handler for delete button within tags
+        $('#tagContainer').on('click', '.delete', function (e) {
+            e.stopPropagation(); // Prevent tag click event from firing
+            $(this).parent().remove(); // Remove the tag containing the delete button
+        });
+    });
+
+
+
+    // END TAG LOGIC
+
 </script>

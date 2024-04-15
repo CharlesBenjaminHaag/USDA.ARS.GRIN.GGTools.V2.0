@@ -169,6 +169,7 @@
     <Compile Include="Controllers\CWRMapController.cs" />
     <Compile Include="Controllers\CWRTraitController.cs" />
     <Compile Include="Controllers\DemoController.cs" />
+    <Compile Include="Controllers\MethodController.cs" />
     <Compile Include="Controllers\SysDataviewController.cs" />
     <Compile Include="Controllers\SysDynamicSearchController.cs" />
     <Compile Include="Controllers\SysDynamicQueryController.cs" />
@@ -955,6 +956,13 @@
     <Content Include="Views\GOBS\Edit.cshtml" />
     <Content Include="Views\GOBS\_EditDataset.cshtml" />
     <Content Include="Views\GOBS\_List.cshtml" />
+    <Content Include="Views\Shared\Sidebars\Components\_MenuWorkspaces.cshtml" />
+    <Content Include="Views\GOBS\Modals\_Lookup.cshtml" />
+    <Content Include="Views\GOBS\Modals\_SelectList.cshtml" />
+    <Content Include="Views\Method\Modals\_Lookup.cshtml" />
+    <Content Include="Views\Method\Modals\_SelectList.cshtml" />
+    <Content Include="Views\GOBS\_DependentDataList.cshtml" />
+    <Content Include="Views\GOBS\EditDependentData.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -967,6 +975,7 @@
     <Folder Include="Views\Cooperator\_OBSOLETE\" />
     <Folder Include="Views\Demo\" />
     <Folder Include="Views\Main\" />
+    <Folder Include="Views\Method\Components\" />
     <Folder Include="Views\Search\" />
     <Folder Include="Views\Shared\Layout\" />
     <Folder Include="Views\SysTable\Explorer\" />
