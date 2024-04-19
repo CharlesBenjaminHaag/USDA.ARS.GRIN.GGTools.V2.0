@@ -138,20 +138,29 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
         {
             try
             {
-                Session[SessionKeyName] = viewModel;
-                viewModel.Search();
-                ModelState.Clear();
-
-                ViewBag.PageTitle = "Species Search";
-
-                // Save search if attribs supplied.
-                if ((viewModel.EventAction == "Species") && (viewModel.EventValue == "SaveSearch"))
+                // CHECK FOR RESET
+                if (viewModel.EventAction == "RESET")
                 {
-                    viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
-                    viewModel.SaveSearch();
+                    Session.Remove(SessionKeyName);
+                    return View(BASE_PATH + "Index.cshtml", viewModel);
                 }
-                viewModel.TableName = "taxonomy_species";
-                return View(BASE_PATH + "Index.cshtml", viewModel);
+                else
+                {
+                    Session[SessionKeyName] = viewModel;
+                    viewModel.Search();
+                    ModelState.Clear();
+
+                    ViewBag.PageTitle = "Species Search";
+
+                    // Save search if attribs supplied.
+                    if ((viewModel.EventAction == "Species") && (viewModel.EventValue == "SaveSearch"))
+                    {
+                        viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
+                        viewModel.SaveSearch();
+                    }
+                    viewModel.TableName = "taxonomy_species";
+                    return View(BASE_PATH + "Index.cshtml", viewModel);
+                }
             }
             catch (Exception ex)
             {
@@ -242,6 +251,23 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             viewModel.SearchProtologues(viewModel.SearchEntity.Protologue);
             return PartialView(partialViewName, viewModel);
         }
+
+        [HttpPost]
+        public PartialViewResult LookupProtologuePaths(FormCollection formCollection)
+        {
+            string partialViewName = BASE_PATH + "/Modals/_SelectListProtologueVirtualPath.cshtml";
+            SpeciesViewModel viewModel = new SpeciesViewModel();
+
+            if (!String.IsNullOrEmpty(formCollection["ProtologueVirtualPath"]))
+            {
+                viewModel.SearchEntity.ProtologueVirtualPath = formCollection["ProtologueVirtualPath"];
+            }
+
+            viewModel.SearchProtologues(viewModel.SearchEntity.Protologue);
+            return PartialView(partialViewName, viewModel);
+        }
+
+
 
         /// <summary>
         /// Called when adding a synonym. Assumes a UI element that allows the user to 

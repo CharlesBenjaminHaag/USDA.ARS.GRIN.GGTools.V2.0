@@ -1,6 +1,8 @@
 ﻿@model USDA.ARS.GRIN.GGTools.GOBS.ViewModelLayer.GOBSViewModel
 @using System.Data;
 
+@Html.HiddenFor(x=>x.TableName)
+
 @{
     ViewBag.Title = "Edit";
     Layout = "~/Views/Shared/_LayoutAdminLTE3GOBS.cshtml";
@@ -44,8 +46,8 @@
         </div>
         
     </div>
-    <div class="col-md-8">
-        <h3>TODO: DETAIL</h3>
+    <div id="section-gobs-detail" class="col-md-8">
+         
     </div>
 </div>
 <script>
@@ -66,23 +68,21 @@
 
                 $('table').on('click', 'tr', function () {
                     var data = table.row(this).data()[0];
-
-                    GetDatasetDetailEditor(data);
-                    GetDependentData(data, "dataset_marker");
-                    GetDependentData(data, "dataset_attachment");
-                    GetDependentData(data, "dataset_value");
-                    GetDependentData(data, "dataset_inventory");
+                    GetDetailEditor(data);
                 });
             });
         }
 
-        function GetDatasetDetailEditor(dataSetId) {
-            var link = '@Url.Action("GetDatasetDetailEditor", "GOBS")';
-            var link = '@Url.Action("GetDatasetDetailEditor", "GOBS", new { dataSetId = "ENTITY_ID" })';
-            link = link.replace("ENTITY_ID", dataSetId);
+        function GetDetailEditor(entityId) {
+            var objectType = $("#TableName").val();
+            var link = '@Url.Action("GetDetailEditor", "GOBS")';
+            var link = '@Url.Action("GetDetailEditor", "GOBS", new { entityId = "ENTITY_ID", objectType = "OBJECT_TYPE" })';
+            link = link.replace("ENTITY_ID", entityId);
+            link = link.replace("OBJECT_TYPE", objectType);
 
             var formData = new FormData();
-            formData.append("dataSetId", dataSetId);
+            formData.append("entityId", entityId);
+            formData.append("objectType", objectType);
 
             $.ajax({
                 url: link,
@@ -92,7 +92,7 @@
                 processData: false,
                 data: formData,
                 success: function (response) {
-                    $("#section-gobs-dataset-detail").html(response);
+                    $("#section-gobs-detail").html(response);
                 }
             });
         }

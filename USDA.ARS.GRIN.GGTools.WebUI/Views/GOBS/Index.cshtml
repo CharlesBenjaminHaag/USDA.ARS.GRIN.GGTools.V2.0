@@ -1,139 +1,67 @@
-﻿@model USDA.ARS.GRIN.GGTools.ViewModelLayer.HomeViewModel
+﻿@model USDA.ARS.GRIN.GGTools.GOBS.ViewModelLayer.GOBSViewModel
 @{
     ViewBag.Title = "My GGTools";
     Layout = "~/Views/Shared/_LayoutAdminLTE3GOBS.cshtml";
 }
 
-<h3>GOBS Dashboard</h3>
+<style>
+    p {
+        width: 350px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+</style>
+
 <div class="row">
-    <div class="col-lg-3 col-6">
-        <div class="small-box bg-info">
-            <div class="inner">
-                <h3>Dataset</h3>
-                <p>1</p>
-            </div>
-            <div class="icon">
-                <i class="fa fa-table"></i>
-            </div>
-            <a href="@Url.Action("Get","GOBS", new { @objectType = "dataset" })" class="small-box-footer">Load <i class="fas fa-arrow-circle-right"></i></a>
-        </div>
-    </div>
+    @foreach (var sysTable in Model.DataCollectionSysTables)
+    {
+        <!-- TODO For each table, determine the user's level of access. -->
+        if (sysTable.IsAuthorized == 0)
+        {
+            <div class="col-lg-4 col-6">
+                <div class="small-box bg-danger">
+                    <div class="inner">
+                        <h3>@sysTable.SysTableTitle</h3>
+                        <p>@sysTable.Description</p>
+                    </div>
+                    <div class="icon">
+                        <i class="fa fa-lock"></i>
+                    </div>
 
-    <div class="col-lg-3 col-6">
-        <div class="small-box bg-info">
-            <div class="inner">
-                <h3>Field</h3>
-                <p>1</p>
+                    @if (sysTable.SysTableName == "gobs_dataset")
+                    {
+                        <a href="@Url.Action("Get", "GOBS", new { @objectType = sysTable.TableName })" class="small-box-footer">View <i class="fas fa-arrow-circle-right"></i></a>
+                    }
+                    else
+                    {
+                        <a href="@Url.Action("GetAll", "GOBS", new { @objectType = sysTable.TableName, @objectTitle = sysTable.SysTableTitle })" class="small-box-footer">View <i class="fas fa-arrow-circle-right"></i></a>
+                    }
+                </div>
             </div>
-            <div class="icon">
-                <i class="fa fa-table"></i>
-            </div>
-            <a href="@Url.Action("GetAll","GOBS", new { @objectType = "dataset_field" })" class="small-box-footer">Load <i class="fas fa-arrow-circle-right"></i></a>
-        </div>
-    </div>
+        }
+        else
+        {
+            <div class="col-lg-4 col-6">
+                <div class="small-box bg-info">
+                    <div class="inner">
+                        <h3>@sysTable.SysTableTitle</h3>
+                        <p>@sysTable.Description</p>
+                    </div>
+                    <div class="icon">
+                        <i class="fa fa-table"></i>
+                    </div>
 
-    <div class="col-lg-3 col-6">
-        <div class="small-box bg-info">
-            <div class="inner">
-                <h3>Inventory</h3>
-                <p>1</p>
+                    @if (sysTable.SysTableName == "gobs_dataset")
+                    {
+                        <a href="@Url.Action("Get", "GOBS", new { @objectType = sysTable.TableName })" class="small-box-footer">Load <i class="fas fa-arrow-circle-right"></i></a>
+                    }
+                    else
+                    {
+                        <a href="@Url.Action("GetAll", "GOBS", new { @objectType = sysTable.TableName, @objectTitle = sysTable.SysTableTitle })" class="small-box-footer">Edit <i class="fas fa-arrow-circle-right"></i></a>
+                    }
+                </div>
             </div>
-            <div class="icon">
-                <i class="fa fa-table"></i>
-            </div>
-            <a href="@Url.Action("GetAll","GOBS", new { @objectType = "dataset_inventory" })" class="small-box-footer">Load <i class="fas fa-arrow-circle-right"></i></a>
-        </div>
-    </div>
-
-    <div class="col-lg-3 col-6">
-        <div class="small-box bg-info">
-            <div class="inner">
-                <h3>Attach</h3>
-                <p>1</p>
-            </div>
-            <div class="icon">
-                <i class="fa fa-table"></i>
-            </div>
-            <a href="@Url.Action("GetAll","GOBS", new { @objectType = "dataset_attach" })" class="small-box-footer">Load <i class="fas fa-arrow-circle-right"></i></a>
-        </div>
-    </div>
-
-    <div class="col-lg-3 col-6">
-        <div class="small-box bg-info">
-            <div class="inner">
-                <h3>Marker</h3>
-                <p>1</p>
-            </div>
-            <div class="icon">
-                <i class="fa fa-table"></i>
-            </div>
-            <a href="@Url.Action("GetAll","GOBS", new { @objectType = "dataset_marker" })" class="small-box-footer">Load <i class="fas fa-arrow-circle-right"></i></a>
-        </div>
-    </div>
-
-    <div class="col-lg-3 col-6">
-        <div class="small-box bg-info">
-            <div class="inner">
-                <h3>Marker Field</h3>
-                <p>1</p>
-            </div>
-            <div class="icon">
-                <i class="fa fa-table"></i>
-            </div>
-            <a href="@Url.Action("GetAll","GOBS", new { @objectType = "dataset_marker_field" })" class="small-box-footer">Load <i class="fas fa-arrow-circle-right"></i></a>
-        </div>
-    </div>
-
-    <div class="col-lg-3 col-6">
-        <div class="small-box bg-info">
-            <div class="inner">
-                <h3>Marker Value</h3>
-                <p>1</p>
-            </div>
-            <div class="icon">
-                <i class="fa fa-table"></i>
-            </div>
-            <a href="@Url.Action("GetAll","GOBS", new { @objectType = "dataset_marker_value" })" class="small-box-footer">Load <i class="fas fa-arrow-circle-right"></i></a>
-        </div>
-    </div>
-
-    <div class="col-lg-3 col-6">
-        <div class="small-box bg-info">
-            <div class="inner">
-                <h3>Report Trait</h3>
-                <p>1</p>
-            </div>
-            <div class="icon">
-                <i class="fa fa-table"></i>
-            </div>
-            <a href="@Url.Action("GetAll","GOBS", new { @objectType = "report_trait" })" class="small-box-footer">Load <i class="fas fa-arrow-circle-right"></i></a>
-        </div>
-    </div>
-
-    <div class="col-lg-3 col-6">
-        <div class="small-box bg-info">
-            <div class="inner">
-                <h3>Report Value</h3>
-                <p>1</p>
-            </div>
-            <div class="icon">
-                <i class="fa fa-table"></i>
-            </div>
-            <a href="@Url.Action("GetAll","GOBS", new { @objectType = "report_value" })" class="small-box-footer">Load <i class="fas fa-arrow-circle-right"></i></a>
-        </div>
-    </div>
-
-    <div class="col-lg-3 col-6">
-        <div class="small-box bg-danger">
-            <div class="inner">
-                <h3>Type</h3>
-                <p>1</p>
-            </div>
-            <div class="icon">
-                <i class="fa fa-lock"></i>
-            </div>
-            <a href="#" class="small-box-footer">Type <i class="fas fa-arrow-circle-right"></i></a>
-        </div>
-    </div>
-
+        }
+    }
 </div>

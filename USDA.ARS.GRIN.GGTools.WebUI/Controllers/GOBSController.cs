@@ -19,43 +19,78 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
 
         public ActionResult Index()
         {
-            return View();
+            GOBSViewModel viewModel = new GOBSViewModel();
+            viewModel.GetSysTables(AuthenticatedUser.SysUserID, "GOBS");
+            return View(viewModel);
         }
 
         public ViewResult Get(string objectType)
         {
             GOBSViewModel viewModel = new GOBSViewModel();
             SysDynamicQueryViewModel sysDynamicQueryViewModel = new SysDynamicQueryViewModel();
-            sysDynamicQueryViewModel.SearchEntity.SQLStatement = "SELECT * FROM get_gobs_" + objectType;
+            sysDynamicQueryViewModel.SearchEntity.SQLStatement = "SELECT * FROM get_" + objectType;
             sysDynamicQueryViewModel.Search();
 
             viewModel.DataCollectionDataTable = sysDynamicQueryViewModel.DataCollectionDataTable;
             return View("~/Views/GOBS/Edit.cshtml", viewModel);
         }
 
-        public ViewResult GetAll(string objectType)
+        public ViewResult GetAll(string objectType, string objectTitle)
         {
             GOBSViewModel viewModel = new GOBSViewModel();
             SysDynamicQueryViewModel sysDynamicQueryViewModel = new SysDynamicQueryViewModel();
-            sysDynamicQueryViewModel.SearchEntity.SQLStatement = "SELECT * FROM get_gobs_" + objectType;
+            sysDynamicQueryViewModel.SearchEntity.SQLStatement = "SELECT * FROM get_" + objectType;
             sysDynamicQueryViewModel.Search();
 
             viewModel.DataCollectionDataTable = sysDynamicQueryViewModel.DataCollectionDataTable;
+            viewModel.TableName = objectTitle;
             return View("~/Views/GOBS/EditDependentData.cshtml", viewModel);
         }
 
         public PartialViewResult GetDatasetDetailEditor(int dataSetId)
         {
             GOBSViewModel viewModel = new GOBSViewModel();
-            viewModel.Get(dataSetId);
+            viewModel.GetDataset(dataSetId);
             viewModel.TableTitle = "GOBS Dataset";
             return PartialView("~/Views/GOBS/_EditDataset.cshtml", viewModel);
         }
 
         public PartialViewResult GetDetailEditor(int entityId, string objectType)
         {
-            //TODO
-            return null;
+            string partialViewName = String.Empty;
+            GOBSViewModel viewModel = new GOBSViewModel();
+            viewModel.GetDataset(entityId);
+
+            switch(objectType)
+            {
+                case "admin":
+                    break;
+                case "dataset_attach":
+                    partialViewName = "~/Views/GOBS/_EditDatasetAttach.cshtml";
+                    break;
+                case "dataset_cooperator":
+                    partialViewName = "~/Views/GOBS/_EditDatasetCooperator.cshtml";
+                    break;
+                case "dataset_field":
+                    partialViewName = "~/Views/GOBS/_EditDatasetField.cshtml";
+                    break;
+                case "dataset_inventory":
+                    partialViewName = "~/Views/GOBS/_EditDatasetInventory.cshtml";
+                    break;
+                case "dataset_marker":
+                    partialViewName = "~/Views/GOBS/_EditDatasetMarker.cshtml";
+                    break;
+                case "dataset_marker_field":
+                    partialViewName = "~/Views/GOBS/_EditDatasetMarkerField.cshtml";
+                    break;
+                case "dataset_marker_value":
+                    partialViewName = "~/Views/GOBS/_EditDatasetMarkerValue.cshtml";
+                    break;
+                case "dataset_value":
+                    partialViewName = "~/Views/GOBS/_EditDatasetValue.cshtml";
+                    break;
+            }
+            return PartialView(partialViewName, viewModel);
         }
 
         public PartialViewResult GetDatasetInventoryEditor(int entityId)

@@ -2,9 +2,42 @@
 * Name         : ggtools.js
 * Description  : Main JS application file for GGTools. This file
 *                should be included in all layout pages. 
-* Last Updated : 4/10/24
+* Last Updated : 4/19/24 2:34 AM
 * By           : Benjamin Haag
 */
+
+/* ========================================================================================
+ * Modals
+  ======================================================================================== */
+function OpenLookupModal(type) {
+    type = type.toLowerCase();
+    var modalName = "#modal-" + type + "-lookup";
+    var overlayName = "#search-progress-overlay-" + type;
+    var searchResultsSectionName = "#section-" + type + "-lookup-search-results";
+
+    $(modalName).modal("show");
+    $(overlayName).hide();
+
+    // Clear modal
+    $("#section-search-criteria input[type=text]").val("");
+    $(searchResultsSectionName).html("");
+}
+
+// Toggle show/hide of standard help widget.
+$(".fa-info-circle").on('click', function (event) {
+    event.stopPropagation();
+    event.stopImmediatePropagation();
+    /*alert("CLICK");*/
+    if ($("#section-panel-help").is(":visible")) {
+        //
+    } else {
+        $("#section-panel-help").show();
+    }
+});
+
+$(".close").on('click', function (event) {
+    $("#section-panel-help").hide();
+});
 
 /* ========================================================================================
  * General Utilities
@@ -544,6 +577,25 @@ function Reset() {
     $("#EventValue").val("");
     $('input:checkbox').removeAttr('checked');
 
+    // Clear hidden fields used to support date-range searches./
+    $("#SearchEntity_CreatedDateText").val("");
+    $("#SearchEntity_CreatedDateFrom").val("");
+    $("#SearchEntity_CreatedDateTo").val("");
+
+    $("#SearchEntity_ModifiedDateText").val("");
+    $("#SearchEntity_ModifiedDateFrom").val("");
+    $("#SearchEntity_ModifiedDateTo").val("");
+
+    // Set action to "RESET" and re-submit the form -- instructing the application to also clear any cached data.
+    $("#EventAction").val("RESET");
+    $("#frmMain").submit();
+}
+
+$("#btnModifiedByDateClear").on('click', function (event) {
+    $("#SearchEntity_ModifiedDate").val("");
+    $("#SearchEntity_ModifiedDateFrom").val("");
+    $("#SearchEntity_ModifiedDateTo").val("");
+
     // NOTE: With the addition of saved-search list on each page, the main data table will be
     // the second one on the page.
     //var table = $('#' + $.fn.dataTable.tables()[1].id).DataTable();
@@ -553,7 +605,7 @@ function Reset() {
         .tables({ visible: true, api: true })
         .clear()
         .draw();
-}
+});
 
 $(document).on("click", "[id='btnShowHideExtendedFields']", function () {
     var eventValue = $("#EventValue").val();

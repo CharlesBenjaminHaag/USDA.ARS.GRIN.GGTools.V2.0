@@ -29,7 +29,7 @@ namespace USDA.ARS.GRIN.GGTools.GOBS.ViewModelLayer
             }
         }
 
-        public GOBSDataset Get(int entityId)
+        public GOBSDataset GetDataset(int entityId)
         {
             try
             {
@@ -37,8 +37,8 @@ namespace USDA.ARS.GRIN.GGTools.GOBS.ViewModelLayer
                 {
                     try
                     {
-                        SearchEntity.ID = entityId;
-                        Search();
+                        Entity = mgr.Get(entityId);
+
                     }
                     catch (Exception ex)
                     {
@@ -55,7 +55,71 @@ namespace USDA.ARS.GRIN.GGTools.GOBS.ViewModelLayer
             return Entity;
         }
 
-     
+        public GOBSDatasetAttachment GetGOBSDatasetAttachment(int entityId)
+        {
+            return null;
+        }
+
+        public GOBSDatasetAttachment GetGOBSDatasetField(int entityId)
+        {
+            return null;
+        }
+
+        public GOBSDatasetAttachment GetGOBSDatasetInventory(int entityId)
+        {
+            return null;
+        }
+
+        public GOBSDatasetAttachment GetGOBSDatasetMarker(int entityId)
+        {
+            return null;
+        }
+
+        public GOBSDatasetAttachment GetGOBSDatasetMarkerField(int entityId)
+        {
+            return null;
+        }
+
+        public GOBSDatasetAttachment GetGOBSDatasetMarkerValue(int entityId)
+        {
+            return null;
+        }
+
+        public GOBSDatasetAttachment GetGOBSDatasetValue(int entityId)
+        {
+            return null;
+        }
+
+        public GOBSDatasetAttachment GetGOBSMarker(int entityId)
+        {
+            return null;
+        }
+
+        public GOBSDatasetAttachment GetGOBSMarkerField(int entityId)
+        {
+            return null;
+        }
+
+        public GOBSDatasetAttachment GetGOBSMarkerValue(int entityId)
+        {
+            return null;
+        }
+
+        public GOBSDatasetAttachment GetGOBSReportTrait(int entityId)
+        {
+            return null;
+        }
+
+        public GOBSDatasetAttachment GetGOBSReportValue(int entityId)
+        {
+            return null;
+        }
+
+        public GOBSDatasetAttachment GetGOBSType(int entityId)
+        {
+            return null;
+        }
+
         public void HandleRequest()
         {
             throw new NotImplementedException();
@@ -128,6 +192,14 @@ namespace USDA.ARS.GRIN.GGTools.GOBS.ViewModelLayer
         public List<GOBSViewModel> SearchNotes(string searchText)
         {
             throw new NotImplementedException();
+        }
+
+        public void GetSysTables(int sysUserId, string databaseAreaCode)
+        {
+            using (SysTableManager mgr = new SysTableManager())
+            {
+                DataCollectionSysTables = new Collection<SysTable>(mgr.GetSysTables(sysUserId, databaseAreaCode));
+            }
         }
     }
 }

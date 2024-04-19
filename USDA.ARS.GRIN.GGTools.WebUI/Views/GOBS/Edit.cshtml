@@ -50,7 +50,6 @@
                 </table>
             </div>
         </div>
-        
     </div>
     <div class="col-md-9">
         <div id="section-gobs-dataset-detail"></div>
@@ -60,6 +59,11 @@
         <div id="section-gobs-dataset_inventory"></div>
     </div>
 </div>
+
+@Html.Partial("~/Views/GOBS/Modals/_InventoryLookup.cshtml")
+@Html.Partial("~/Views/GOBS/Modals/_MethodLookup.cshtml")
+@Html.Partial("~/Views/GOBS/Modals/_TypeLookup.cshtml")
+
 <script>
     $(document).ready(function () {
         InitGOBSDataTable("data-table-select-list");
@@ -73,6 +77,25 @@
                     select: true,
                     searching: true
                 });
+
+                // If the table contains at least one row, select that row by default, and load the WOR data
+                // related to it.
+                if (table.rows().count() > 0) {
+                    // Select the first visible row
+                    var firstVisibleRow = table.rows({ search: 'applied' }).indexes()[0];
+                    if (firstVisibleRow !== undefined) {
+                        table.row(firstVisibleRow).select();
+
+                        var data = table.row(firstVisibleRow).data()[0];
+
+                        GetDatasetDetailEditor(data);
+                        GetDependentData(data, "dataset_marker");
+                        GetDependentData(data, "dataset_attachment");
+                        GetDependentData(data, "dataset_value");
+                        GetDependentData(data, "dataset_inventory");
+                    }
+                }
+
 
                 $('table').on('click', 'tr', function () {
                     var data = table.row(this).data()[0];
@@ -113,7 +136,7 @@
             var link = '@Url.Action("GetDependentData", "GOBS", new { entityId = "ENTITY_ID", objectType = "OBJECT_TYPE" })';
             link = link.replace("ENTITY_ID", dataSetId);
             link = link.replace("OBJECT_TYPE", objectType);
-            
+
             var formData = new FormData();
             formData.append("entityId", dataSetId);
             formData.append("objectType", objectType);
@@ -126,7 +149,7 @@
                 processData: false,
                 data: formData,
                 success: function (response) {
-                    
+
 
                     $(sectionName).html(response);
                 }

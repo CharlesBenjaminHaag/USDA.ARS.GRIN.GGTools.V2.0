@@ -13,11 +13,12 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
     public class SysTableController : BaseController, IController<SysTableViewModel>
     {
         private static readonly Logger Log = LogManager.GetCurrentClassLogger();
-        public PartialViewResult _List()
+        public PartialViewResult _List(string databaseAreaCode = "")
         {
             SysTableViewModel viewModel = new SysTableViewModel();
             try
             {
+                viewModel.SearchEntity.DatabaseAreaCode = databaseAreaCode;
                 viewModel.GetSysTablesTaxonomy(false);
                 return PartialView("~/Views/SysTable/_MenuList.cshtml", viewModel);
             }

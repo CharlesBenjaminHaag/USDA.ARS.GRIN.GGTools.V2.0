@@ -63,9 +63,9 @@
                     <span class="input-group-append">
                         <button id="btnOpenAuthorityLookupModalSpecies"
                                 type="button"
-                                data-toggle="modal"
+                                @*data-toggle="modal"
                                 data-target="#modal-author-lookup"
-                                data-ggtools-value="Entity_SpeciesAuthority"
+                                data-ggtools-value="Entity_SpeciesAuthority"*@
                                 class="btn btn-default btn-flat">
                             <i class="fa fa-search"></i>
                         </button>
@@ -396,5 +396,6 @@
         var selectedId = $(this).attr('id');
         var value = $(this).data("ggtools-value");
         $("#hfAuthorLookupNameFieldName").val(value);
+        OpenLookupModal("author");
     });
 </script>

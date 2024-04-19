@@ -214,6 +214,23 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
             }
         }
 
+        public void SearchProtologueVirtualPaths(string protologueVirtualPath)
+        {
+            using (SpeciesManager mgr = new SpeciesManager())
+            {
+                try
+                {
+                    DataCollectionProtologues = new Collection<CodeValue>(mgr.SearchProtologues(protologueVirtualPath));
+                    RowsAffected = mgr.RowsAffected;
+                }
+                catch (Exception ex)
+                {
+                    PublishException(ex);
+                    throw ex;
+                }
+            }
+        }
+
         public int Update()
         {
             using (SpeciesManager mgr = new SpeciesManager())

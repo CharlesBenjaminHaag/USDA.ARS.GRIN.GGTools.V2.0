@@ -43,8 +43,7 @@
 <script type="text/javascript">
 
     $("#btnOpenProtologueLookupModal").click(function () {
-        $('#modal-protologue-lookup').modal("show");
-        $("#search-progress-overlay-protologue").hide();
+        OpenLookupModal("protologue");
     });
 
     $('#modal-protologue-lookup').on('keypress', function (event) {

@@ -311,30 +311,33 @@
         $.fn.dataTable.tables({ visible: true, api: true }).columns.adjust();
     });
 
+    /************************************************************************************************
+     * Date range logic
+     ************************************************************************************************/
     $(document).ready(function () {
-        ConfigureDatePickerField("#SearchEntity_CreatedDate");
-        ConfigureDatePickerField("#SearchEntity_ModifiedDate");
+        ConfigureDatePickerField("#SearchEntity_CreatedDateText");
+        ConfigureDatePickerField("#SearchEntity_ModifiedDateText");
         ConfigureDatePickerField("#SearchEntity_NameVerifiedDate");
 
         /* Created Date */
-        $('#SearchEntity_CreatedDate').on('apply.daterangepicker', function (ev, picker) {
+        $('#SearchEntity_CreatedDateText').on('apply.daterangepicker', function (ev, picker) {
             $("#SearchEntity_CreatedDateFrom").val(picker.startDate.format('YYYY-MM-DD HH:mm'));
             $("#SearchEntity_CreatedDateTo").val(picker.endDate.format('YYYY-MM-DD HH:mm'));
-            $("#SearchEntity_CreatedDate").val(picker.startDate.format('YYYY-MM-DD HH:mm') + "--" + picker.endDate.format('YYYY-MM-DD HH:mm'));
+            $("#SearchEntity_CreatedDateText").val(picker.startDate.format('YYYY-MM-DD HH:mm') + "--" + picker.endDate.format('YYYY-MM-DD HH:mm'));
         });
 
-        $('input[name="SearchEntity_CreatedDate"]').on('cancel.daterangepicker', function (ev, picker) {
+        $('input[name="SearchEntity_CreatedDateFrom"]').on('cancel.daterangepicker', function (ev, picker) {
             $(this).val('');
         });
 
         /* Modified Date */
-        $('#SearchEntity_ModifiedDate').on('apply.daterangepicker', function (ev, picker) {
+        $('#SearchEntity_ModifiedDateText').on('apply.daterangepicker', function (ev, picker) {
             $("#SearchEntity_ModifiedDateFrom").val(picker.startDate.format('YYYY-MM-DD HH:mm'));
             $("#SearchEntity_ModifiedDateTo").val(picker.endDate.format('YYYY-MM-DD HH:mm'));
-            $("#SearchEntity_ModifiedDate").val(picker.startDate.format('YYYY-MM-DD HH:mm') + "--" + picker.endDate.format('YYYY-MM-DD HH:mm'));
+            $("#SearchEntity_ModifiedDateText").val(picker.startDate.format('YYYY-MM-DD HH:mm') + "--" + picker.endDate.format('YYYY-MM-DD HH:mm'));
         });
 
-        $('input[name="SearchEntity_ModifiedDate"]').on('cancel.daterangepicker', function (ev, picker) {
+        $('input[name="SearchEntity_ModifiedDateText"]').on('cancel.daterangepicker', function (ev, picker) {
             $(this).val('');
         });
 
@@ -389,6 +392,18 @@
     cb(start, end);
     }
 
+    $("#btnCreatedByDateClear").on('click', function (event) {
+        $("#SearchEntity_CreatedDateText").val("");
+        $("#SearchEntity_CreatedDateFrom").val("");
+        $("#SearchEntity_CreatedDateTo").val("");
+    });
+
+    $("#btnModifiedByDateClear").on('click', function (event) {
+        $("#SearchEntity_ModifiedDate").val("");
+        $("#SearchEntity_ModifiedDateFrom").val("");
+        $("#SearchEntity_ModifiedDateTo").val("");
+    });
+
     function ToTitleCase(str) {
         return str.replace(
     
@@ -415,31 +430,27 @@
     }
 
     function BatchEdit() {
-            var controller = $("#hfController").val();
-            var action = $("#hfAction").val();
-            var dataTableId = $('#section-search-results').find('table:first').attr('id');
+        var controller = $("#hfController").val();
+        var action = $("#hfAction").val();
+        var dataTableId = $('#section-search-results').find('table:first').attr('id');
              
-            //DEBUG
-            //Determine what kind of batch operation to initiate
-            //alert("CTRL IS " + controller + " ACT IS " + action + " TABLE IS " + dataTableId);
-            dataTableId = dataTableId.replace("data_table_","");
-
-        alert("DEBUG " + dataTableId);
-
+        //DEBUG
+        //Determine what kind of batch operation to initiate
+        //alert("CTRL IS " + controller + " ACT IS " + action + " TABLE IS " + dataTableId);
+        dataTableId = dataTableId.replace("data_table_","");
+        
         if (dataTableId == "taxonomy_species") {
-
-            //TODO get list of ID's
             var idList = GetSelectedEntityIDs("data_table_taxonomy_species");
+            $("#ItemIDList").val(idList);
 
             //DEBUG
-            alert("ID LIST IS " + idList);
-            $("#ItemIDList").val(idList);
+            alert("BATCH EDITING ID LIST " + $("#ItemIDList").val());
 
             $("#frmGetBatchEditor").submit();
         }
         else {
             $("#modal-cooperator-lookup").modal("show");
-        }
+            }
         }
 
 </script>

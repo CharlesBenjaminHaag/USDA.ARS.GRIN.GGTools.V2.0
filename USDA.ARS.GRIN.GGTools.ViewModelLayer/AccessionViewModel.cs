@@ -6,7 +6,7 @@ using USDA.ARS.GRIN.GGTools.DataLayer;
 using USDA.ARS.GRIN.GGTools.ViewModelLayer;
 using USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer;
 
-namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
+namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
 {
     public class AccessionViewModel : AccessionViewModelBase, IViewModel<AccessionViewModel>
     {

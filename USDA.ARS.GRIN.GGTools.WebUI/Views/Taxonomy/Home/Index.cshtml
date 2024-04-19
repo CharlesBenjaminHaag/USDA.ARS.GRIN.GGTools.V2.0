@@ -4,7 +4,13 @@
     Layout = "~/Views/Shared/_LayoutAdminLTE3.cshtml";
 }
 
-<div class="card card-success card-tabs">
+<div class="alert alert-warning alert-dismissible">
+    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+    <h5><i class="icon fas fa-exclamation-triangle"></i> Please Note</h5>
+    Folder logic has been temporarily disabled.
+</div>
+
+<!--<div class="card card-success card-tabs">
     <div id="section-cooperator-tabs" class="card-header p-0 pt-1">
         <ul class="nav nav-tabs" id="custom-tabs-two-tab" role="tablist">
             <li class="pt-2 px-3">
@@ -29,11 +35,11 @@
                     <i class="fas fa-users"></i>
                     Shared With Me
                 </a>
-            </li>
+            </li>-->
             @*<li id="tab-sys-user" class="nav-item">
                 <a class="nav-link" id="tab-selector-dynamic" data-toggle="pill" href="#tab-content-dynamic" role="tab" aria-controls="custom-tabs-two-profile" aria-selected="false">Dynamic Folders</a>
             </li>*@
-        </ul>
+        <!--</ul>
     </div>
     <div class="card-body web-order-request">
         <div class="tab-content">
@@ -45,13 +51,13 @@
             </div>
             <div class="tab-pane fade" id="tab-content-shared-with-me" role="tabpanel" aria-labelledby="custom-tabs-two-home-tab">
                 @{Html.RenderAction("_List", "AppUserItemFolder", new { @cooperatorId = Model.AuthenticatedUser.CooperatorID, @isShared = "Y" }); }
-            </div>
+            </div>-->
             @*<div class="tab-pane fade" id="tab-content-dynamic" role="tabpanel" aria-labelledby="custom-tabs-two-home-tab">
                 @{Html.RenderAction("_List", "AppUserItemFolder", new { @cooperatorId = Model.AuthenticatedUser.CooperatorID, @folderType = "DYNAMIC" }); }
             </div>*@
-        </div>
+        <!--</div>
     </div>
-</div>
+</div>-->
 
 @{Html.RenderAction("RenderListWidget", "Cooperator", new { sysGroupTag = "MANAGE_TAXONOMY" });}
 

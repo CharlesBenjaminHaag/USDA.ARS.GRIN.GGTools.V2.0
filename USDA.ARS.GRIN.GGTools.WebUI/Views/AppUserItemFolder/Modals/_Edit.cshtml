@@ -24,12 +24,12 @@
                             <div class="tab-pane active" id="folder-create">
                                 @using (Html.BeginForm("Edit", "AppUserItemFolder", FormMethod.Post, new { id = "frmAppUserItemFolder" }))
                                 {
-                                    @Html.HiddenFor(x=> x.Entity.ParentID)
-                                   <div class="row">
+                                    @Html.HiddenFor(x => x.Entity.ParentID)
+                                    <div class="row">
                                         <div class="col-md-12">
                                             <div class="form-group">
                                                 <label>Name</label>
-                                                @Html.TextBoxFor(x=>x.Entity.FolderName, new { @class = "form-control" })
+                                                @Html.TextBoxFor(x => x.Entity.FolderName, new { @class = "form-control" })
                                             </div>
                                             <div class="form-group">
                                                 <div class="row">
@@ -41,13 +41,13 @@
                                                     </div>
                                                     <div class="col-md-6">
                                                         <label>Add Category</label>
-                                                        @Html.TextBoxFor(x=>x.Entity.NewCategory, new { @class="form-control" })
+                                                        @Html.TextBoxFor(x => x.Entity.NewCategory, new { @class = "form-control" })
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <label>Description</label>
-                                                @Html.TextBoxFor(x => x.Entity.Description, new { @class = "form-control"})
+                                                @Html.TextBoxFor(x => x.Entity.Description, new { @class = "form-control" })
                                             </div>
                                             <div class="form-group">
                                                 <div class="margin">
@@ -73,7 +73,7 @@
                                         </div>
                                     </div>
                                 }
-                                </div>
+                            </div>
                             <div class="tab-pane" id="folder-select">
                                 <div class="row">
                                     <div id="section-folder-list" class="col-md-12">
@@ -131,6 +131,30 @@
 
 <!--
 *************************************************************************************************
+TEMP FOLDER-DISABLED WARNING
+*************************************************************************************************
+-->
+<div class="modal fade" id="modal-folder-disabled-warning">
+    <div class="modal-dialog">
+        <div class="modal-content bg-warning">
+            <div class="modal-header">
+                <h4 class="modal-title">Please Note</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Folder logic has been temporarily disabled.</p>
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-outline-dark" data-dismiss="modal">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--
+*************************************************************************************************
 Modal that appears if no record is selected for folder addition.
 *************************************************************************************************
 -->
@@ -158,12 +182,8 @@ Modal that appears if no record is selected for folder addition.
         InitDataTableLookupFormat("data_table_app_user_item_folder_list");
     });
 
-    $("#btnOpenFolderModal").click(function () {
-        OpenFolderModal();
-    });
-
     $("#btnOpenFolderModalInSingleMode").click(function () {
-         
+
         event.preventDefault();
         $("#EventAction").val("FOLDER");
         $("#EventValue").val("SINGLE");
@@ -184,12 +204,14 @@ Modal that appears if no record is selected for folder addition.
         var dataTableName = "data_table_" + tableName;
         var selectedItemIdList = GetSelectedEntityIDs(dataTableName);
 
-        if (selectedItemIdList.length < 1) {
-            $("#modal-validation-warning").modal("show");
-        }
-        else {
-            $("#modal-folder-edit").modal("show");
-        }
+        $("#modal-folder-disabled-warning").modal("show");
+
+        //if (selectedItemIdList.length < 1) {
+        //    $("#modal-validation-warning").modal("show");
+        //}
+        //else {
+        //    $("#modal-folder-edit").modal("show");
+        //}
     }
 
     /*
@@ -255,7 +277,7 @@ Modal that appears if no record is selected for folder addition.
         var eventValue = $("#EventValue").val();
         var entityId = $("#frmAppUserItemFolder #Entity_ParentID").val();
         var formData = new FormData();
-      
+
         if ($('#cbxIsFavorite').prop('checked') == true) {
             formData.append("Entity.IsFavorite", "Y");
         }
@@ -269,7 +291,7 @@ Modal that appears if no record is selected for folder addition.
 
         //DEBUG
         /*alert("EVENT VAL " + eventValue + " PARENT ENTITY " + entityId);*/
-       
+
         if (eventValue == "SINGLE") {
             var selectedItemIdList = entityId;
         }

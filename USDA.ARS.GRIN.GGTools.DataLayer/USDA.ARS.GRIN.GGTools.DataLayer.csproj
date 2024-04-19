@@ -66,6 +66,10 @@
   <ItemGroup>
     <Compile Include="EntityClasses\AccessionInvAnnotationSearch.cs" />
     <Compile Include="EntityClasses\AccessionInvAnnotation.cs" />
+    <Compile Include="EntityClasses\GOBS\GOBSMarker.cs" />
+    <Compile Include="EntityClasses\GOBS\GOBSDatasetMarker.cs" />
+    <Compile Include="EntityClasses\GOBS\GOBSDatasetInventory.cs" />
+    <Compile Include="EntityClasses\GOBS\GOBSDatasetAttachment.cs" />
     <Compile Include="EntityClasses\AccessionSearch.cs" />
     <Compile Include="EntityClasses\Accession.cs" />
     <Compile Include="EntityClasses\AccessionInventoryAttachment.cs" />

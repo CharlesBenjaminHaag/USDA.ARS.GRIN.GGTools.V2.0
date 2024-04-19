@@ -22,7 +22,8 @@
 
                     <label>Created Date</label>
                     <div class="input-group mb-3">
-                        @Html.TextBoxFor(x => x.SearchEntity.CreatedDate, new { @class = "form-control" })
+                        @Html.TextBoxFor(x => x.SearchEntity.CreatedDateText, new { @class = "form-control" })
+                        @*@Html.TextBoxFor(x => x.SearchEntity.CreatedDate, new { @class = "form-control" })*@
                         <span class="input-group-append">
                             <button id="btnCreatedByDateClear" type="button" class="btn btn-default btn-flat">
                                 <i class="fas fa-trash"></i>
@@ -43,7 +44,7 @@
                 <div class="form-group form-horizontal">
                     <label>Modified Date</label>
                     <div class="input-group mb-3">
-                        @Html.TextBoxFor(x => x.SearchEntity.ModifiedDate, new { @class = "form-control" })
+                        @Html.TextBoxFor(x => x.SearchEntity.ModifiedDateText, new { @class = "form-control" })
                         <span class="input-group-append">
                             <button id="btnModifiedByDateClear" type="button" class="btn btn-default btn-flat">
                                 <i class="fas fa-trash"></i>
@@ -267,11 +268,5 @@
         $("#SearchEntity_NameVerifiedDate").val("");
     });
 
-    $("#btnCreatedByDateClear").on('click', function (event) {
-        $("#SearchEntity_CreatedDate").val("");
-    });
-
-    $("#btnModifiedByDateClear").on('click', function (event) {
-        $("#SearchEntity_ModifiedDate").val("");
-    });
+    
 </script>

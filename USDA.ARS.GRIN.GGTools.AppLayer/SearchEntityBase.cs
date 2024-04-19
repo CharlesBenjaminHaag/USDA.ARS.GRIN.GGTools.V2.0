@@ -19,12 +19,14 @@ namespace USDA.ARS.GRIN.GGTools.AppLayer
         public DateTime? CreatedDate { get; set; }
         public DateTime CreatedDateFrom { get; set; }
         public DateTime CreatedDateTo { get; set; }
+        public string CreatedDateText { get; set; }
 
         public int CreatedByCooperatorID { get; set; }
 
         public DateTime? ModifiedDate { get; set; }
         public DateTime ModifiedDateFrom { get; set; }
         public DateTime ModifiedDateTo { get; set; }
+        public string ModifiedDateText { get; set; }
 
         public int ModifiedByCooperatorID { get; set; }
         public DateTime? OwnedDate { get; set; }

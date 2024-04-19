@@ -25,7 +25,16 @@ namespace USDA.ARS.GRIN.GGTools.GOBS.DataLayer
 
         public GOBSDataset Get(int entityId)
         {
-            throw new NotImplementedException();
+            GOBSDataset gobsDataset = new GOBSDataset();
+            SQL = "SELECT * FROM get_gobs_dataset WHERE ID = @EntityID" ;
+
+            var parameters = new List<IDbDataParameter> {
+                CreateParameter("EntityID", (object)entityId, false)
+            };
+
+            gobsDataset = GetRecord<GOBSDataset>(SQL, CommandType.Text, parameters.ToArray());
+
+            return gobsDataset;
         }
 
         public int Insert(GOBSDataset entity)

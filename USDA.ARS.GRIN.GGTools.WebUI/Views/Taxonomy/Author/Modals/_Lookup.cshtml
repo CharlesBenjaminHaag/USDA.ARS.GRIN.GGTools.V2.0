@@ -104,11 +104,7 @@
     });
 
     $("#btnOpenAuthorityLookupModal").click(function () {
-        var eventAction = $(this).data("ggtools-action");
-        var eventValue = $(this).data("ggtools-value");
-        $("#hfAuthorLookupIDFieldName").val(eventAction);
-        $("#hfAuthorLookupNameFieldName").val(eventValue);
-        $('#modal-authority-lookup').modal('show');
+        OpenLookupModal("author");
     });
 
     function SearchAuthor() {

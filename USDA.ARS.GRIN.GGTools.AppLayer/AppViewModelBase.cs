@@ -181,6 +181,6 @@ namespace USDA.ARS.GRIN.GGTools.AppLayer
         public SelectList OwnedByCooperators { get; set; }
         
         public SelectList YesNoOptions { get; set; }
-
+        
     }
 }

@@ -47,6 +47,20 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
 
             return sysTables;
         }
+        
+        public List<SysTable> GetSysTables(int sysUserId, string databaseAreaCode)
+        {
+            SQL = "usp_GRINGlobal_Sys_Tables_Select";
+           
+            var parameters = new List<IDbDataParameter> {
+                CreateParameter("@sys_user_id", (object)sysUserId, false),
+                CreateParameter("@database_area_code", (object)databaseAreaCode, false),
+            };
+
+            List<SysTable> sysTables = GetRecords<SysTable>(SQL, CommandType.StoredProcedure, parameters.ToArray());
+
+            return sysTables;
+        }
 
         public List<SysTableField> GetSysTableFields(string sysTableName)
         {
