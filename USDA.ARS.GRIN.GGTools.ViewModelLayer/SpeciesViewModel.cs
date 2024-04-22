@@ -353,6 +353,23 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
                 }
             }
 
+            // Ensure that species does not validate uniqueness constraint.
+            SetSpeciesName();
+            SetSpeciesNameAuthority();
+            SpeciesViewModel speciesValidationViewModel = new SpeciesViewModel();
+            speciesValidationViewModel.SearchEntity.GenusID = Entity.GenusID;
+            speciesValidationViewModel.SearchEntity.Name = Entity.Name;
+            speciesValidationViewModel.SearchEntity.NameAuthority= Entity.NameAuthority;
+            speciesValidationViewModel.SearchEntity.Protologue = Entity.Protologue;
+            speciesValidationViewModel.SearchEntity.SynonymCode = Entity.SynonymCode;
+            speciesValidationViewModel.Search();
+
+            if (speciesValidationViewModel.DataCollection.Count > 0)
+            {
+                ValidationMessages.Add(new Common.Library.ValidationMessage { Message = String.Format("The species that you've attempted to create currently exists.", Entity.SpeciesAuthority) }); ;
+            }
+
+
             if (ValidationMessages.Count > 0)
             {
                 validated = false;
@@ -495,6 +512,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
             {
                 throw new Exception("Genus not found.");
             }
+            Entity.GenusName = genusViewModel.Entity.Name;
 
             if (genusViewModel.Entity.HybridCode == "+")
                 Entity.GenusName = "+ " + Entity.GenusName;
@@ -568,7 +586,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
                         }
                         else
                         {
-                            Entity.NameAuthority = Entity.SpeciesAuthority;
+                            Entity.Name = Entity.GenusName + " " + Entity.SpeciesName;
                         }
                     }
                 }

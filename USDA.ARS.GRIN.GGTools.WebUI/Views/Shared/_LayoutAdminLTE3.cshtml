@@ -406,7 +406,7 @@
 
     function ToTitleCase(str) {
         return str.replace(
-    
+
             /\w\S*/g,
             function (txt) {
             return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
@@ -433,25 +433,34 @@
         var controller = $("#hfController").val();
         var action = $("#hfAction").val();
         var dataTableId = $('#section-search-results').find('table:first').attr('id');
-             
-        //DEBUG
-        //Determine what kind of batch operation to initiate
-        //alert("CTRL IS " + controller + " ACT IS " + action + " TABLE IS " + dataTableId);
         dataTableId = dataTableId.replace("data_table_","");
-        
+
         if (dataTableId == "taxonomy_species") {
             var idList = GetSelectedEntityIDs("data_table_taxonomy_species");
             $("#ItemIDList").val(idList);
-
-            //DEBUG
-            alert("BATCH EDITING ID LIST " + $("#ItemIDList").val());
-
             $("#frmGetBatchEditor").submit();
         }
         else {
             $("#modal-cooperator-lookup").modal("show");
-            }
         }
+    }
+
+    function BatchEditFiltered() {
+        var controller = $("#hfController").val();
+        var action = $("#hfAction").val();
+        var dataTableId = $('#section-search-results').find('table:first').attr('id');
+        dataTableId = dataTableId.replace("data_table_","");
+
+        if (dataTableId == "taxonomy_species") {
+            var idList = GetFilteredEntityIDs("data_table_taxonomy_species");
+            $("#ItemIDList").val(idList);
+            $("#frmGetBatchEditor").submit();
+        }
+        else {
+            $("#modal-cooperator-lookup").modal("show");
+        }
+    }
+
 
 </script>
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>

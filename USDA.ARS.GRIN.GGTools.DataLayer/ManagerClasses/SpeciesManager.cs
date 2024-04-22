@@ -131,7 +131,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             SQL += " OR         (@Name                  IS NULL OR  REPLACE(Name, ' x ', '')        LIKE    '+' + @Name + '%')";
             SQL += " OR         (@Name                  IS NULL OR  REPLACE(Name, ' x ', '')        LIKE    @Name + '%')";
             SQL += " OR         (@Name                  IS NULL OR  Name                            LIKE    '%' + @Name + '%'))";
-            
+
             SQL += " AND        (@IsAcceptedName        IS NULL OR  IsAcceptedName                  =       @IsAcceptedName)";
             SQL += " AND        (@SynonymCode           IS NULL OR  SynonymCode                     =       @SynonymCode)";
 

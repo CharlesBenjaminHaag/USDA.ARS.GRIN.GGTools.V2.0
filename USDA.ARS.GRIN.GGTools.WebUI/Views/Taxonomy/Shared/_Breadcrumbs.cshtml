@@ -15,7 +15,7 @@
         <a href="@Url.Action("Index", controllerName)">@controllerName</a>   
     </li>
 
-    @if ((actionName == "Add") || (actionName == "Edit"))
+    @if ((actionName == "Add") || (actionName == "Edit") || (actionName == "GetBatchEditor"))
     {
         if (Session[controllerName + "_SEARCH"] != null)
         {
