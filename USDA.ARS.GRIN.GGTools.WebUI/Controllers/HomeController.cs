@@ -39,7 +39,10 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 }
             }
         }
-
+        public ActionResult ReleaseNotes()
+        {
+            return View();
+        }
         public ActionResult Navigate(string applicationCode)
         {
             Session["APP_CONTEXT"] = applicationCode;

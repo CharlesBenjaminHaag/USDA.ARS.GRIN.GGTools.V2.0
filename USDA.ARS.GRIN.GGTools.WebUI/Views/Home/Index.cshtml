@@ -58,33 +58,6 @@
                 Launch <i class="fas fa-arrow-circle-right"></i>
             </a>
         </div>
-
-
-        <!-- OLD CODE -->
-        @*@{Html.RenderAction("RenderTrainingRosterWidget","Account");}*@
-        @*<div class="card card-success card-tabs">
-            <div id="section-cooperator-tabs" class="card-header p-0 pt-1">
-                <ul class="nav nav-tabs" id="custom-tabs-two-tab" role="tablist">
-                    <li class="pt-2 px-3"><h3 id="placeholder-cooperator-name" class="card-title">My Site</h3></li>
-                    <li id="tab-cooperator" class="nav-item">
-                        <a class="nav-link active" id="custom-tabs-two-home-tab" data-toggle="pill" href="#tab-content-cooperator" role="tab" aria-controls="custom-tabs-two-home" aria-selected="true">Cooperators</a>
-                    </li>
-                    <li id="tab-sys-user" class="nav-item">
-                        <a class="nav-link" id="custom-tabs-two-profile-tab" data-toggle="pill" href="#tab-content-sys-user" role="tab" aria-controls="custom-tabs-two-profile" aria-selected="false">Site Detail</a>
-                    </li>
-                </ul>
-            </div>
-            <div class="card-body web-order-request">
-                <div class="tab-content">
-                    <div class="tab-pane fade show active" id="tab-content-cooperator" role="tabpanel" aria-labelledby="custom-tabs-two-home-tab">
-                        @{Html.RenderAction("RenderSiteCuratorListWidget", "Cooperator", new { siteId = Model.SiteID }); }
-                    </div>
-                    <div class="tab-pane fade" id="tab-content-sys-user" role="tabpanel" aria-labelledby="custom-tabs-two-home-tab">
-                        @{Html.RenderAction("RenderWidget", "Site", new { @siteId = Model.AuthenticatedUser.SiteID }); }
-                    </div>
-                </div>
-            </div>
-        </div>*@
     </div>
     <div class="col-md-3">
         @{Html.RenderAction("RenderListWidget", "Site", new { @siteId = Model.AuthenticatedUser.SiteID }); }

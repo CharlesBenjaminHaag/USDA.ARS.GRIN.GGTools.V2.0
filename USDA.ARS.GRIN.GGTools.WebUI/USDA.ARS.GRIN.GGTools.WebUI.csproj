@@ -387,6 +387,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Views\ReleaseNotes.html" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -990,6 +991,7 @@
     <Content Include="Views\GOBS\Components\_TableWidgetLocked.cshtml" />
     <Content Include="Views\Taxonomy\Species\Modals\_LookupProtologueVirtualPath.cshtml" />
     <Content Include="Views\Taxonomy\Species\Modals\_SelectListProtologueVirtualPath.cshtml" />
+    <Content Include="Views\Home\ReleaseNotes.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
