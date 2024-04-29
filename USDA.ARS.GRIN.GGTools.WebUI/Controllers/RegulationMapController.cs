@@ -5,6 +5,7 @@ using USDA.ARS.GRIN.GGTools.WebUI;
 using USDA.ARS.GRIN.GGTools.ViewModelLayer;
 using USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer;
 using USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer;
+using DataTables;
 using NLog;
     
 namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
@@ -195,6 +196,94 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                     viewModel.Update();
                 }
                 return RedirectToAction("Edit", "RegulationMap", new { entityId = viewModel.Entity.ID });
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return RedirectToAction("InternalServerError", "Error");
+            }
+        }
+
+        [ValidateInput(false)]
+        public JsonResult EditBatch()
+        {
+            string idList = String.Empty;
+            var request = System.Web.HttpContext.Current.Request;
+
+            if (Session["REGULATION_MAP_ID_LIST"] != null)
+            {
+                idList = Session["REGULATION_MAP_ID_LIST"].ToString();
+            }
+
+            string[] idArray = idList.Split(',');
+
+            try
+            {
+                using (RegulationMapManager mgr = new RegulationMapManager())
+                {
+                    using (var db = new Database("sqlserver", mgr.ConnectionString))
+                    {
+                        var editor = new Editor(db, "taxonomy_regulation_map", "taxonomy_regulation_map.taxonomy_regulation_map_id").Where(q =>
+                        {
+                            q.Where(r =>
+                            {
+                                foreach (var i in idArray)
+                                {
+                                    r.OrWhere("taxonomy_regulation_map.taxonomy_regulation_map_id", i);
+                                }
+                            });
+                        })
+                        .Model<RegulationMapTable>("taxonomy_regulation_map")
+                        .Model<RegulationTable>("taxonomy_regulation")
+                        .Model<SpeciesTable>("taxonomy_species")
+                        .Model<GenusTable>("taxonomy_genus")
+                        .Model<FamilyTable>("taxonomy_family2")
+                        .LeftJoin("taxonomy_regulation", "taxonomy_regulation.taxonomy_regulation_id", "=", "taxonomy_regulation_map.taxonomy_regulation_id")
+                        .LeftJoin("taxonomy_family2", "taxonomy_family2.taxonomy_family2_id", "=", "taxonomy_regulation_map.taxonomy_family_id")
+                        .LeftJoin("taxonomy_genus", "taxonomy_genus.taxonomy_genus_id", "=", "taxonomy_regulation_map.taxonomy_genus_id")
+                        .LeftJoin("taxonomy_species", "taxonomy_species.taxonomy_species_id", "=", "taxonomy_regulation_map.taxonomy_species_id");
+
+                        editor.Field(new Field("taxonomy_regulation_map.taxonomy_regulation_map_id")
+                            .Validator(Validation.NotEmpty())
+                        );
+                        editor.Field(new Field("taxonomy_species.name"));
+                        editor.Field(new Field("taxonomy_genus.genus_name"));
+                        editor.Field(new Field("taxonomy_family2.family_name"));
+                        editor.Field(new Field("taxonomy_regulation_map.taxonomy_family_id"));
+                        editor.Field(new Field("taxonomy_regulation_map.taxonomy_genus_id"));
+                        editor.Field(new Field("taxonomy_regulation_map.taxonomy_species_id"));
+                        editor.Field(new Field("taxonomy_regulation_map.taxonomy_regulation_id"));
+                        editor.Field(new Field("taxonomy_regulation.regulation_type_code"));
+                        editor.Field(new Field("taxonomy_regulation_map.is_exempt"));
+                        editor.Field(new Field("taxonomy_regulation_map.note"));
+                        editor.Field(new Field("taxonomy_regulation_map.modified_date")
+                            .Set(Field.SetType.Edit));
+                        editor.PreEdit += (sender, e) => editor.Field("taxonomy_regulation_map.modified_date").SetValue(DateTime.Now);
+                        editor.Process(request);
+
+                        var response = editor.Data();
+
+                        JsonResult jsonResult = new JsonResult();
+                        jsonResult = Json(response);
+                        jsonResult.MaxJsonLength = 2147483644;
+                        jsonResult.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
+                        return jsonResult;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                return Json(ex.Message, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        [HttpPost]
+        public ActionResult GetBatchEditor(RegulationMapViewModel viewModel)
+        {
+            try
+            {
+                Session["REGULATION_MAP_ID_LIST"] = viewModel.ItemIDList;
+                return View("~/Views/Taxonomy/RegulationMap/EditBatch.cshtml", viewModel);
             }
             catch (Exception ex)
             {

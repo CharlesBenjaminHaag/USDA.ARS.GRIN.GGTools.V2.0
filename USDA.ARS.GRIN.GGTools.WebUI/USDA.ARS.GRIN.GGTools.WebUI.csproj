@@ -925,17 +925,16 @@
     <Content Include="Views\Accession\_Detail.cshtml" />
     <Content Include="Views\Accession\Edit.cshtml" />
     <Content Include="Views\Inventory\_List.cshtml" />
-    <Content Include="Views\Taxonomy\Species\EditMultiple.cshtml" />
+    <Content Include="Views\Taxonomy\Species\_OBSOLETE\EditMultiple.cshtml" />
     <Content Include="Views\Import\_List2.cshtml" />
     <Content Include="Views\WebOrderRequest\Explorer\_Email.cshtml" />
     <Content Include="Views\WebOrderRequest\View.cshtml" />
     <Content Include="Views\OrderRequest\_Detail.cshtml" />
     <Content Include="Views\WebOrderRequestItem\_List.cshtml" />
     <Content Include="Views\OrderRequestItem\_List.cshtml" />
-    <Content Include="Views\Taxonomy\Species\EditMultiple_POC.cshtml" />
+    <Content Include="Views\Taxonomy\Species\EditBatch.cshtml" />
     <Content Include="Views\Cooperator\EditOwnership.cshtml" />
     <Content Include="Views\SysDynamicSearch\Index.cshtml" />
-    <Content Include="Views\Taxonomy\Species\Edit_BACKUP.cshtml" />
     <Content Include="Views\Taxonomy\Species\Components\_HybridSelector.cshtml" />
     <Content Include="Views\Taxonomy\Species\Components\_InfraSpecificEditor.cshtml" />
     <Content Include="Views\Taxonomy\Species\Components\_AcceptedNameEditor.cshtml" />
@@ -992,6 +991,7 @@
     <Content Include="Views\Taxonomy\Species\Modals\_LookupProtologueVirtualPath.cshtml" />
     <Content Include="Views\Taxonomy\Species\Modals\_SelectListProtologueVirtualPath.cshtml" />
     <Content Include="Views\Home\ReleaseNotes.cshtml" />
+    <Content Include="Views\Taxonomy\RegulationMap\EditBatch.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

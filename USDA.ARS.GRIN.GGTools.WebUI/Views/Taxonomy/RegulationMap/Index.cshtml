@@ -7,6 +7,11 @@
 @Html.Partial("~/Views/Taxonomy/RegulationMap/_List.cshtml")
 @{Html.RenderAction("RenderEditModal", "AppUserItemFolder", new { sysTableName = Model.TableName }); }
 
+@using (Html.BeginForm("GetBatchEditor", "RegulationMap", FormMethod.Post, new { id = "frmGetBatchEditor" }))
+{
+    @Html.HiddenFor(x => x.ItemIDList)
+}
+
 <script type="text/javascript">
     $(document).ready(function () {
         Init();

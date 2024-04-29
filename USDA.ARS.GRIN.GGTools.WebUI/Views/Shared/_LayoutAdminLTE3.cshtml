@@ -435,14 +435,20 @@
         var dataTableId = $('#section-search-results').find('table:first').attr('id');
         dataTableId = dataTableId.replace("data_table_","");
 
-        if (dataTableId == "taxonomy_species") {
-            var idList = GetSelectedEntityIDs("data_table_taxonomy_species");
-            $("#ItemIDList").val(idList);
-            $("#frmGetBatchEditor").submit();
-        }
-        else {
-            $("#modal-cooperator-lookup").modal("show");
-        }
+        var idList = GetSelectedEntityIDs("data_table_" + dataTableId);
+
+        //DEBUG
+        alert("ID LIST IS " + idList + " TABLE " + dataTableId);
+
+        $("#ItemIDList").val(idList);
+        $("#frmGetBatchEditor").submit();
+
+        //if (dataTableId == "taxonomy_species") {
+            
+        //}
+        //else {
+        //    $("#modal-cooperator-lookup").modal("show");
+        //}
     }
 
     function BatchEditFiltered() {

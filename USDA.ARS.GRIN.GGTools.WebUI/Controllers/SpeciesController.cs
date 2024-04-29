@@ -795,7 +795,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
         }
 
         [ValidateInput(false)]
-        public JsonResult EditMultiple()
+        public JsonResult EditBatch()
         {
             string idList = String.Empty;
             var request = System.Web.HttpContext.Current.Request;
@@ -856,22 +856,22 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             }
         }
 
-        public ActionResult EditBatch(string idList = "")
-        {
-            try
-            {   SpeciesViewModel viewModel = new SpeciesViewModel();
-                viewModel.PageTitle = "Batch Edit";
-                //viewModel.SearchEntity.IDList = idList;
-                //viewModel.Search();
-                Session["SPECIES_ID_LIST"] = idList;
-                return View("~/Views/Taxonomy/Species/EditMultiple_POC.cshtml", viewModel);
-            }
-            catch (Exception ex)
-            {
-                Log.Error(ex);
-                return RedirectToAction("InternalServerError", "Error");
-            }
-        }
+        //public ActionResult EditBatch(string idList = "")
+        //{
+        //    try
+        //    {   SpeciesViewModel viewModel = new SpeciesViewModel();
+        //        viewModel.PageTitle = "Batch Edit";
+        //        //viewModel.SearchEntity.IDList = idList;
+        //        //viewModel.Search();
+        //        Session["SPECIES_ID_LIST"] = idList;
+        //        return View("~/Views/Taxonomy/Species/EditMultiple_POC.cshtml", viewModel);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Log.Error(ex);
+        //        return RedirectToAction("InternalServerError", "Error");
+        //    }
+        //}
 
         [HttpPost]
         public ActionResult GetBatchEditor(SpeciesViewModel viewModel)
@@ -879,7 +879,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             try
             {
                 Session["SPECIES_ID_LIST"] = viewModel.ItemIDList;
-                return View("~/Views/Taxonomy/Species/EditMultiple_POC.cshtml", viewModel);
+                return View("~/Views/Taxonomy/Species/EditBatch.cshtml", viewModel);
             }
             catch (Exception ex)
             {
