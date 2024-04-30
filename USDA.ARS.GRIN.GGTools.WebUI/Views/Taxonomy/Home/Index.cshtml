@@ -224,4 +224,22 @@
         });
     }
 
+    // Handle form submission
+    $('#tagForm').submit(function (event) {
+        event.preventDefault();
+        let existingTag = $('#existingTag').val();
+        let newTag = $('#newTag').val();
+        let tagColor = $('#tagColor').val();
+
+        if (newTag) {
+            // Add code to handle creation of a new tag
+            console.log("Creating new tag:", newTag, "with color:", tagColor);
+        } else if (existingTag) {
+            // Add code to handle selection of an existing tag
+            console.log("Selected existing tag:", existingTag);
+        } else {
+            alert("Please select an existing tag or enter a new one.");
+        }
+    });
+
 </script>

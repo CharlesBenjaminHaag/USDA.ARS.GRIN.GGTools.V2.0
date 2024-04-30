@@ -201,6 +201,7 @@
     <Compile Include="Controllers\SpeciesController.cs" />
     <Compile Include="Controllers\SynchController.cs" />
     <Compile Include="Controllers\SpeciesSynonymMapController.cs" />
+    <Compile Include="Controllers\SysFolderController.cs" />
     <Compile Include="Controllers\SysPermissionController.cs" />
     <Compile Include="Controllers\SysGroupController.cs" />
     <Compile Include="Controllers\SysGroupUserMapController.cs" />
@@ -992,6 +993,8 @@
     <Content Include="Views\Taxonomy\Species\Modals\_SelectListProtologueVirtualPath.cshtml" />
     <Content Include="Views\Home\ReleaseNotes.cshtml" />
     <Content Include="Views\Taxonomy\RegulationMap\EditBatch.cshtml" />
+    <Content Include="Views\SysFolder\Components\_ListWithIcons.cshtml" />
+    <Content Include="Views\SysFolder\Modals\_Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

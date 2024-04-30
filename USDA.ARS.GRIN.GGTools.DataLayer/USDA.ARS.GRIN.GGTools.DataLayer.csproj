@@ -183,6 +183,11 @@
     <Compile Include="EntityClasses\SysDynamicQueryCriterion.cs" />
     <Compile Include="EntityClasses\SysDynamicQuerySearch.cs" />
     <Compile Include="EntityClasses\SysDynamicQuery.cs" />
+    <Compile Include="EntityClasses\SysFolderSearch.cs" />
+    <Compile Include="EntityClasses\SysFolder.cs" />
+    <Compile Include="EntityClasses\SysFolderCooperatorMap.cs" />
+    <Compile Include="EntityClasses\SysFolderItemMap.cs" />
+    <Compile Include="EntityClasses\SysFolderProperties.cs" />
     <Compile Include="EntityClasses\SysGroupSearch.cs" />
     <Compile Include="EntityClasses\SysGroup.cs" />
     <Compile Include="EntityClasses\SysGroupUserMap.cs" />
@@ -195,6 +200,7 @@
     <Compile Include="EntityClasses\SysTableField.cs" />
     <Compile Include="EntityClasses\SysTableSearch.cs" />
     <Compile Include="EntityClasses\SysTable.cs" />
+    <Compile Include="EntityClasses\SysTag.cs" />
     <Compile Include="EntityClasses\WebUserSearch.cs" />
     <Compile Include="EntityClasses\WebUser.cs" />
     <Compile Include="EntityClasses\SysUser.cs" />
