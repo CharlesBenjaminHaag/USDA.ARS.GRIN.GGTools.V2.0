@@ -19,6 +19,7 @@
                 <table id="example" class="table table-striped" cellspacing="0" width="100%">
                     <thead>
                         <tr>
+
                             <th>ID</th>
                             <th>Family</th>
                             <th>Genus</th>
@@ -27,6 +28,7 @@
                             <th>Exempt?</th>
                             <th>Note</th>
                             <th>Last Modified</th>
+                            <th>DEBUG</th>
                         </tr>
                     </thead>
                 </table>
@@ -47,6 +49,9 @@
             </div>
             <div class="modal-body">
                 <h3 id="placeholder-value"></h3>
+                <input id="txtDEBUGCellIndex" type="text" class="form-control", readonly="readonly" />
+                <input id="txtDEBUGRow" type="text" class="form-control", readonly="readonly" />
+                <input id="txtDEBUGCol" type="text" class="form-control", readonly="readonly" />
                 <input id="txtDEBUG" type="text" class="form-control" />
             </div>
             <div class="modal-footer justify-content-between">
@@ -66,6 +71,7 @@
         var editor = new DataTable.Editor({
             ajax: '@Url.Action("EditBatch","RegulationMap")',
             fields: [
+                
                 {
                     label: 'ID:',
                     name: 'taxonomy_regulation_map.taxonomy_regulation_map_id'
@@ -93,6 +99,10 @@
                 {
                     label: 'Note:',
                     name: 'taxonomy_regulation_map.note'
+                },
+                {
+                    label: 'ID:',
+                    name: 'taxonomy_regulation_map.taxonomy_regulation_map_id2'
                 }
             ],
             table: '#example'
@@ -109,20 +119,21 @@
             //    { extend: 'remove', editor: editor }
             //],
             columns: [
-                {
-                    data: 'taxonomy_regulation_map.taxonomy_regulation_map_id',
-                    render: function (data, type, row, meta) {
-                        var url = '@Url.Action("Edit","RegulationMap")' + '?entityId=' + row.taxonomy_regulation_map.taxonomy_regulation_map_id;
-                        return '<a href="' + url + '">' + data + '</a>';
-                    }
-                },
+                { data: 'taxonomy_regulation_map.taxonomy_regulation_map_id' },
                 { data: 'taxonomy_species.name' },
                 { data: 'taxonomy_genus.genus_name' },
                 { data: 'taxonomy_family2.family_name' },
                 { data: 'taxonomy_regulation.regulation_type_code' },
                 { data: 'taxonomy_regulation_map.is_exempt' },
                 { data: 'taxonomy_regulation_map.note' },
-                { data: 'taxonomy_regulation_map.modified_date' }
+                { data: 'taxonomy_regulation_map.modified_date' },
+                {
+                    data: 'taxonomy_regulation_map.taxonomy_regulation_map_id',
+                    render: function (data, type, row, meta) {
+                        var url = '@Url.Action("Edit","RegulationMap")' + '?entityId=' + row.taxonomy_regulation_map.taxonomy_regulation_map_id;
+                        return '<a href="' + url + '">[Edit]</a>';
+                    }
+                }
             ],
             keys: {
                 /*columns: ':not(:first-child)',*/
@@ -172,26 +183,117 @@
         //    $('#modal-test-species').modal("show");
         //});
 
+        // When the user clicks the following columns, open the corresponding lookup modal:
+        // Family
+        // Genus
+        // Species
+        // Regulation
+        // MODAL LOGIC
+        // When the user selects an item and clicks "Save,"
+        // 1. Get the reg map id of the parent record.
+        // 2. Call method that updates that parent record with the relevant data (family, genus, species, reg)
+        // 3. Refresh table to reflect change to user.
+
         $('#example tbody').on('click', 'td', function () {
+            // BEGIN OLD
+            //var cellIndex = table.cell(this).index();
+
+            //console.log('Row index: ' + cellIndex.row);
+            //console.log('Column index: ' + cellIndex.column);
+            //console.log('Column visible index: ' + cellIndex.columnVisible);
+            //var rowData = table.row(cellIndex.row).data();
+
+            //if (rowData) {
+            //    if (Array.isArray(rowData)) {
+            //        rowData.forEach(function (value, index) {
+            //            console.log("Value of column " + index + ": " + value);
+            //        });
+            //    } else {
+            //        if (typeof rowData === 'object') {
+
+            //            //DEBUG
+            //            var DEBUGrowID = rowData["DT_RowId"];
+            //            console.log("ROW ID " + DEBUGrowID);
+
+            //            for (var key in rowData) {
+            //                if (rowData.hasOwnProperty(key)) {
+            //                    var value = rowData[key];
+            //                    console.log("Property:", key, "Value:", value);
+            //                }
+            //            }
+            //        }
+            //        else {
+            //            console.log("Row data is not an array.");
+            //        }
+            //    }
+            //} else {
+            //    console.log("Row data is undefined or empty.");
+            //}
+            // END OLD
+
             var cellIndex = table.cell(this).index();
-            if (cellIndex) {
-                //console.log('Row index: ' + cellIndex.row);
-                //console.log('Column index: ' + cellIndex.column);
-                //console.log('Column visible index: ' + cellIndex.columnVisible);
-                $('#modal-test-species').modal("show");
+
+            console.log('Row index: ' + cellIndex.row);
+            console.log('Column index: ' + cellIndex.column);
+            console.log('Column visible index: ' + cellIndex.columnVisible);
+
+            var rowData = table.row(cellIndex.row).data();
+
+            if (rowData) {
+                // Check if rowData is an object
+                if (typeof rowData === 'object' && rowData !== null) {
+                    // Iterate through the properties of the object
+                    for (var key in rowData) {
+                        if (rowData.hasOwnProperty(key)) {
+                            // Check if the property value is also an object
+                            if (typeof rowData[key] === 'object' && rowData[key] !== null) {
+                                /*console.log("Property:", key, "is an object.");*/
+                                // Iterate through the properties of the nested object
+                                for (var nestedKey in rowData[key]) {
+                                    if (rowData[key].hasOwnProperty(nestedKey)) {
+                                        var nestedValue = rowData[key][nestedKey];
+                                        console.log("Nested Property:", nestedKey, "Nested Value:", nestedValue);
+                                    }
+                                }
+                            } else {
+                                var value = rowData[key];
+                                console.log("Property:", key, "Value:", value);
+                            }
+                        }
+                    }
+                } else {
+                    console.log("Row data is not an object.");
+                }
+            } else {
+                console.log("Row data is undefined or empty.");
             }
+
         });
 
         // Handle update button click
         $('#updateButton').on('click', function () {
-            var newValue = $('#txtDEBUG').val();
-            var cell = table.cell(':focus');
+            console.log('DEBUG ENTERED: ' + $("#txtDEBUG").val());
+            //  TODO
+            // 1. Get ID from first col of current row
+            // 2. Get
 
-            //DEBUG
-            alert("VAL IS " + newValue + " CELL IS " + cell.index());
 
-            editor.edit(cell.index(), false).set('taxonomy_species.name', newValue).submit();
-            
+            // Assuming you have initialized your DataTable with Editor
+            var table = $('#example').DataTable();
+
+            // Get the data for the first row (index 0) - Adjust the index as needed
+            var rowData = table.row(2).data();
+
+            console.log("ROWDATA " + rowData);
+
+            // Alternatively, if you know the column index, you can use the column index
+            var columnIndex = 1; // Adjust the column index as needed
+            var specificValue = rowData[columnIndex];
+
+            console.log("DEBUG ID IS " + specificValue);
+
+            var table = $('#example').DataTable();
+            table.ajax.reload(); // This redraws the table
         });
 
     });
