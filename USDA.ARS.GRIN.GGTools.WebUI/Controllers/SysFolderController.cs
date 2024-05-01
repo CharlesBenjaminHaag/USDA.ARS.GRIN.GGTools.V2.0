@@ -10,7 +10,7 @@ using NLog;
 
 namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
 {
-    public class SysFolderController : Controller
+    public class SysFolderController : BaseController
     {
         private static readonly Logger Log = LogManager.GetCurrentClassLogger();
         // GET: SysFolder
@@ -18,6 +18,35 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
         {
             return View();
         }
+
+        [HttpPost]
+        public PartialViewResult Add(SysFolderViewModel viewModel)
+        {
+            try
+            {
+                if (viewModel.Entity.ID == 0)
+                {
+                    viewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
+                    viewModel.Insert();
+                }
+                else
+                {
+                    viewModel.Entity.ModifiedByCooperatorID = AuthenticatedUser.CooperatorID;
+                    viewModel.Update();
+                }
+                viewModel.SearchEntity.ID = viewModel.Entity.ID;
+                viewModel.Get();
+                viewModel.EventAction = "ADD";
+                return PartialView("~/Views/AppUserItemFolder/_Confirmation.cshtml", viewModel);
+
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
+        }
+
 
         public PartialViewResult GetEditModal()
         {

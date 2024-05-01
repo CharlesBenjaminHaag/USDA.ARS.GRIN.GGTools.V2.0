@@ -210,6 +210,7 @@
     <Compile Include="EntityClasses\TribeSearch.cs" />
     <Compile Include="ManagerClasses\AccessionInventoryAttachmentManager.cs" />
     <Compile Include="ManagerClasses\AccessionInvAnnotationManager.cs" />
+    <Compile Include="ManagerClasses\SysFolderManager.cs" />
     <Compile Include="ManagerClasses\GOBSManager.cs" />
     <Compile Include="ManagerClasses\AppUserItemFolderCooperatorMapManager.cs" />
     <Compile Include="ManagerClasses\AppUserItemListManager.cs" />

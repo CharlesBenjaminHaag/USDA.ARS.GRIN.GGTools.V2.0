@@ -9,6 +9,8 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
 {
     public class SysTag: AppEntityBase
     {
+        public string TagText { get; set; }
+        public string TagFormatString { get; set; }
         public string TableName { get; set; }
         public string PrimaryKeyFieldName { get; set; }
         public int IDNumber { get; set; }

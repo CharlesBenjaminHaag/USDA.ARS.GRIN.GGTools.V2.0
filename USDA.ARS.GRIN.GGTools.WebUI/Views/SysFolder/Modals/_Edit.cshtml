@@ -14,10 +14,9 @@
             <div class="modal-body">
                 <div class="card">
                     <div class="card-header p-2">
-                        <ul class="nav nav-pills">
-                            <li id="btnSelectCreateFolder" class="nav-item"><a class="nav-link active" href="#folder-create" data-toggle="tab">Create A New Folder</a></li>
-                            <li id="btnSelectUpdateFolder" class="nav-item"><a class="nav-link" href="#folder-select" data-toggle="tab">Update An Existing Folder</a></li>
-                            <li id="btnTags" class="nav-item"><a class="nav-link" href="#folder-tags" data-toggle="tab">Tags</a></li>
+                        <ul id="section-folder-options" class="nav nav-pills">
+                            <li id="btnSelectCreateFolder" class="nav-item"><a id="create" class="nav-link active" href="#folder-create" data-toggle="tab">Create A New Folder</a></li>
+                            <li id="btnSelectUpdateFolder" class="nav-item"><a id="update" class="nav-link" href="#folder-select" data-toggle="tab">Update An Existing Folder</a></li>
                         </ul>
                     </div>
                     <div class="card-body">
@@ -25,7 +24,7 @@
                             <div class="tab-pane active" id="folder-create">
                                 @using (Html.BeginForm("Edit", "SysFolder", FormMethod.Post, new { id = "frmAppUserItemFolder" }))
                                 {
-                                    @Html.HiddenFor(x => x.Entity.ParentID)
+                                    @Html.HiddenFor(x => x.EventInfo)
                                     <div class="row">
                                         <div class="col-md-12">
                                             <div class="form-group">
@@ -36,16 +35,33 @@
                                                 <label>Description</label>
                                                 @Html.TextBoxFor(x => x.Entity.Description, new { @class = "form-control" })
                                             </div>
-                                            
-                                        </div>
-                                        <div class="col-md-6">
-
                                         </div>
                                     </div>
+                                    <h5>Tags</h5>
                                     <div class="row">
-                                        <div class="col-md-12">
-                                            <button id="btnSaveNewFolder" type="button" class="btn btn-default float-right" data-dismiss="modal">Save</button>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="newTag">Enter a New Tag</label>
+                                                @Html.TextBoxFor(x=>x.TagEntity.TagText, new { @id = "newTag", @class = "form-control" })
+                                                @*<input type="text" id="newTag" class="form-control" placeholder="Enter new tag">*@
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="tagColor">Tag Color</label>
+                                                <input type="color" class="form-control" id="tagColor">
+                                            </div>
                                         </div>
+                                        <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="existingTag">Select an Existing Tag</label>
+                                                    <select id="existingTag" class="form-control">
+                                                        <option value="">Select a Tag</option>
+                                                        <!-- Existing tags options -->
+                                                    </select>
+                                                </div>
+                                                
+                                                @*<button type="submit">Save Tag</button>*@
+
+                                            </div>
                                     </div>
                                 }
                             </div>
@@ -74,33 +90,15 @@
                                     </div>
                                 </div>
                             </div>
-                            <div id="folder-tags" class="tab-pane">
-                                <div class="form-group">
-                                    <div class="form-group">
-                                        <label for="existingTag">Existing Tags:</label>
-                                        <select id="existingTag">
-                                            <option value="">Select a Tag</option>
-                                            <!-- Existing tags options -->
-                                        </select>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="newTag">New Tag:</label>
-                                        <input type="text" id="newTag" placeholder="Enter new tag">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="tagColor">Tag Color:</label>
-                                        <input type="color" id="tagColor">
-                                    </div>
-                                    <button type="submit">Save Tag</button>
-
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="modal-footer justify-content-between">
                 <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                <div class="col-md-12">
+                    <button id="btnSave" type="button" class="btn btn-default float-right" data-dismiss="modal">Save</button>
+                </div>
             </div>
         </div>
     </div>
@@ -135,22 +133,35 @@ Modal that appears if no record is selected for folder addition.
         InitDataTableLookupFormat("data_table_app_user_item_folder_list");
     });
 
-    $("#btnOpenFolderModalInSingleMode").click(function () {
+    //$("#btnOpenFolderModalInSingleMode").click(function () {
 
-        event.preventDefault();
-        $("#EventAction").val("FOLDER");
-        $("#EventValue").val("SINGLE");
+    //    event.preventDefault();
+    //    $("#EventAction").val("FOLDER");
+    //    $("#EventValue").val("SINGLE");
 
-        $("#modal-folder-edit").modal("show");
+    //    $("#modal-folder-edit").modal("show");
+    //});
+
+    $("#btnSave").click(function () {
+        var activeLink = $('#section-folder-options a.active');
+        console.log(activeLink.attr('id')); // Outputs the href of the active link
+
+        // If the "new folder" tab is active -- create a new folder. Otherwise, add selected items to the existing
+        // folder (after first verifying that the user has selected one).
+        switch (activeLink.attr('id')) {
+            case "create":
+                CreateFolder();
+                break;
+            case "update":
+                break;
+        }
+
+        /*SaveNewFolder();*/
     });
 
-    $("#btnSaveNewFolder").click(function () {
-        SaveNewFolder();
-    });
-
-    $("#btnUpdateSelectedFolder").click(function () {
-        UpdateFolder();
-    });
+    //$("#btnUpdateSelectedFolder").click(function () {
+    //    UpdateFolder();
+    //});
 
     function OpenAppUserItemFolderModal() {
         var tableName = $("#TableName").val();
@@ -161,6 +172,7 @@ Modal that appears if no record is selected for folder addition.
             $("#modal-validation-warning").modal("show");
         }
         else {
+            $("#EventInfo").val(selectedItemIdList);
             $("#modal-sys-folder-edit").modal("show");
         }
     }
@@ -223,41 +235,42 @@ Modal that appears if no record is selected for folder addition.
     /*
      * Adds a batch of items to a newly-created folder
     */
-    function SaveNewFolder() {
-        var link = '@Url.Action("Add", "AppUserItemFolder")';
-        var eventValue = $("#EventValue").val();
-        var entityId = $("#frmAppUserItemFolder #Entity_ParentID").val();
-        var formData = new FormData();
+    function CreateFolder() {
+        var link = '@Url.Action("Add", "SysFolder")';
 
-        if ($('#cbxIsFavorite').prop('checked') == true) {
-            formData.append("Entity.IsFavorite", "Y");
-        }
+        //TO DO
+        //Get title and description
+        //Get selected items
+        //Get tag name and color, if supplied
 
-        formData.append("Entity.TableName", $("#TableName").val());
-        formData.append("Entity.FolderName", $("#Entity_FolderName").val());
-        formData.append("Entity.FolderType", "STATIC");
-        formData.append("Entity.Category", $("#Entity_Category").val());
-        formData.append("Entity.NewCategory", $("#Entity_NewCategory").val());
-        formData.append("Entity.Description", $("#Entity_Description").val());
+        var tableName = $("#TableName").val();
+        var title = $("#Entity_Title").val();
+        var description = $("#Entity_Description").val();
+        var itemIdList = $("#EventInfo").val();
 
-        //DEBUG
-        /*alert("EVENT VAL " + eventValue + " PARENT ENTITY " + entityId);*/
+        var tagText = $("#newTag").val();
+        var tagFormatString = $("#tagColor").val();
 
-        if (eventValue == "SINGLE") {
-            var selectedItemIdList = entityId;
-        }
-        else {
-            var selectedItemIdList = GetSelectedEntityIDs("data_table_" + $("#TableName").val());
-        }
+        console.log("Table: " + tableName + " Title: " + title + " Desc: " + description + " ID list: " + itemIdList + " Tag: " + tagText);
 
-        if (selectedItemIdList.length < 1) {
+        if (itemIdList.length < 1) {
             alert("ERROR: No items selected");
         }
 
-        if (typeof selectedItemIdList == 'undefined') {
-            alert("ERROR: Item ID list undefined");
-        }
-        formData.append("EntityIDList", selectedItemIdList);
+        var formData = new FormData();
+
+        //if ($('#cbxIsFavorite').prop('checked') == true) {
+        //    formData.append("Entity.IsFavorite", "Y");
+        //}
+
+        formData.append("Entity.TableName", $("#TableName").val());
+        formData.append("Entity.Title", title);
+        formData.append("Entity.Description", description);
+        formData.append("ItemIDList", itemIdList);
+
+        // Tag
+        formData.append("TagEntity.TagText", tagText);
+        formData.append("TagEntity.TagFormatString", tagFormatString);
 
         $.ajax({
             url: link,
