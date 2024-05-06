@@ -10,7 +10,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
     public partial class AppUserItemDynamicFolder : AppUserItemFolder
     {
         public string TableCode { get; set; }
-        public string TableName { get; set; }
+        
         public string TableTitle { get; set; }
     }
 }

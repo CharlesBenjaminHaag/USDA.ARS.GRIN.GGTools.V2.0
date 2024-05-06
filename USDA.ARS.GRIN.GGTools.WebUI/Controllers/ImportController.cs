@@ -40,8 +40,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             SysTableViewModel sysTableViewModel = new SysTableViewModel();
             SysTableField sysTableField = new SysTableField();
             SpeciesImport speciesImport = new SpeciesImport();
-            int primaryKeyValue = 0;
-
+            
             if (!viewModel.Validate())
             {
                 if (viewModel.ValidationMessages.Count > 0) return View("~/Views/Import/Index.cshtml", viewModel);
@@ -60,64 +59,66 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                             UseHeaderRow = true,
                         }
                     });
-                    dtImported = result.Tables[0];
+                    viewModel.DataCollectionDataTable = result.Tables[0];
+
+                    dtImported.Columns.Add(new DataColumn());
                     
-                    switch (viewModel.SysTableName)
-                    {
-                        case "Species":
-                            SpeciesViewModel speciesViewModel = new SpeciesViewModel();
+                    //switch (viewModel.SysTableName)
+                    //{
+                    //    case "Species":
+                    //        SpeciesViewModel speciesViewModel = new SpeciesViewModel();
 
-                            // REFACTOR once logic makes more sense (CBH, 2/2/24)
+                    //        // REFACTOR once logic makes more sense (CBH, 2/2/24)
 
-                            foreach (DataRow dr in dtImported.Rows)
-                            {
-                                speciesImport = new SpeciesImport();
+                    //        foreach (DataRow dr in dtImported.Rows)
+                    //        {
+                    //            //speciesImport = new SpeciesImport();
 
-                                foreach (DataColumn rowCol in dtImported.Columns)
-                                {
-                                    sysTableField = viewModel.GetColumnInfo(viewModel.SysTableName, rowCol.ColumnName);
+                    //            foreach (DataColumn rowCol in dtImported.Columns)
+                    //            {
+                    //                //sysTableField = viewModel.GetColumnInfo(viewModel.SysTableName, rowCol.ColumnName);
 
-                                    switch (rowCol.ColumnName)
-                                    {
-                                        case "ID":
-                                            primaryKeyValue = Int32.Parse(dr[rowCol.ColumnName].ToString());
-                                            speciesViewModel.Get(primaryKeyValue);
-                                            speciesImport.ID = speciesViewModel.Entity.ID;
-                                            break;
-                                        case "Name":
-                                        case "Epithet":
-                                            speciesImport.SpeciesName = dr[rowCol.ColumnName].ToString();
-                                            speciesImport.OriginalSpeciesName = speciesViewModel.Entity.SpeciesName;
-                                            break;
-                                        case "Authority":
-                                            speciesImport.SpeciesAuthority = dr[rowCol.ColumnName].ToString();
-                                            speciesImport.OriginalSpeciesAuthority = speciesViewModel.Entity.SpeciesAuthority;
-                                            break;
-                                        case "Protologue":
-                                            speciesImport.Protologue = dr[rowCol.ColumnName].ToString();
-                                            speciesImport.OriginalProtologue = speciesViewModel.Entity.Protologue;
-                                            break;
+                    //                //switch (rowCol.ColumnName)
+                    //                //{
+                    //                //    case "ID":
+                    //                //        primaryKeyValue = Int32.Parse(dr[rowCol.ColumnName].ToString());
+                    //                //        speciesViewModel.Get(primaryKeyValue);
+                    //                //        speciesImport.ID = speciesViewModel.Entity.ID;
+                    //                //        break;
+                    //                //    case "Name":
+                    //                //    case "Epithet":
+                    //                //        speciesImport.SpeciesName = dr[rowCol.ColumnName].ToString();
+                    //                //        speciesImport.OriginalSpeciesName = speciesViewModel.Entity.SpeciesName;
+                    //                //        break;
+                    //                //    case "Authority":
+                    //                //        speciesImport.SpeciesAuthority = dr[rowCol.ColumnName].ToString();
+                    //                //        speciesImport.OriginalSpeciesAuthority = speciesViewModel.Entity.SpeciesAuthority;
+                    //                //        break;
+                    //                //    case "Protologue":
+                    //                //        speciesImport.Protologue = dr[rowCol.ColumnName].ToString();
+                    //                //        speciesImport.OriginalProtologue = speciesViewModel.Entity.Protologue;
+                    //                //        break;
 
-                                    }
+                    //                //}
 
 
-                                }
-                                viewModel.DataCollectionSpeciesImport.Add(speciesImport);
-                            }
-                            break;
-                        case "Citation":
-                            CitationViewModel citationViewModel = new CitationViewModel();
-                            break;
-                        case "Literature":
-                            CropForCWRViewModel cropForCWRViewModel = new CropForCWRViewModel();
-                            break;
-                        case "CWR Map":
-                            CWRMapViewModel cWRMapViewModel = new CWRMapViewModel();
-                            break;
-                        case "CWR Trait":
-                            CWRTraitViewModel cWRTraitViewModel = new CWRTraitViewModel();
-                            break;
-                    }
+                    //            }
+                    //            //viewModel.DataCollectionSpeciesImport.Add(speciesImport);
+                    //        }
+                    //        break;
+                    //    case "Citation":
+                    //        CitationViewModel citationViewModel = new CitationViewModel();
+                    //        break;
+                    //    case "Literature":
+                    //        CropForCWRViewModel cropForCWRViewModel = new CropForCWRViewModel();
+                    //        break;
+                    //    case "CWR Map":
+                    //        CWRMapViewModel cWRMapViewModel = new CWRMapViewModel();
+                    //        break;
+                    //    case "CWR Trait":
+                    //        CWRTraitViewModel cWRTraitViewModel = new CWRTraitViewModel();
+                    //        break;
+                    //}
                 }
             }
             return View("~/Views/Import/Index.cshtml", viewModel);

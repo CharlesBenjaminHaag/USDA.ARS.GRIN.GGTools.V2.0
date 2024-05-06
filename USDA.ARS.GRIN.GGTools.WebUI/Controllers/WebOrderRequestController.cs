@@ -163,6 +163,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             }
             catch (Exception ex)
             {
+                Log.Error(ex);
                 return Json(new { success = false }, JsonRequestBehavior.AllowGet);
             }
         }

@@ -20,6 +20,6 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         public string IsNameExactMatch { get; set; }
         public string SimplifiedName { get; set; }
         public string AlternateTranscription { get; set; }
-        public string Note { get; set; }
+        
     }
 }

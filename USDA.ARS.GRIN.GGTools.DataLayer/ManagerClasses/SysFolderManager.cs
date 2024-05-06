@@ -29,62 +29,17 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
         {
             List<SysFolder> results = new List<SysFolder>();
 
-            SQL = " SELECT * FROM vw_GRINGlobal_App_User_Item_Folder";
-            SQL += " WHERE  (@FolderName                IS NULL OR   FolderName             LIKE    '%' + @FolderName + '%')";
-            SQL += " AND    (@Category                  IS NULL OR   Category               =       @Category)";
+            SQL = " SELECT * FROM vw_GRINGlobal_Sys_Folder";
+            SQL += " WHERE  (@Title                     IS NULL OR   Title                  LIKE    '%' + @Title + '%')";
+            SQL += " AND    (@Description               IS NULL OR   Description            LIKE    '%' + @Description + '%')";
+            SQL += " AND    (@TypeCode                  IS NULL OR   TypeCode               =       @TypeCode)";
             SQL += " AND    (@CreatedByCooperatorID     IS NULL OR   CreatedByCooperatorID  =       @CreatedByCooperatorID)";
-            SQL += " AND    (@SysFolderID       IS NULL OR   ID                     =       @SysFolderID)";
-            SQL += " AND    (@IsFavorite                IS NULL OR   IsFavorite             =       @IsFavorite)";
-           SQL += " AND    (@FolderType                IS NULL OR   FolderType             =       @FolderType)";
-
-            //if (searchEntity.IsShared == "Y")
-            //{
-            //    SQL += " AND ID IN (SELECT FolderID " +
-            //            " FROM vw_GRINGlobal_App_User_Item_Folder_Cooperator_Map " +
-            //            " WHERE CooperatorID = @SharedWithCooperatorID) ";
-            //}
-
-            //if (searchEntity.EntityID > 0)
-            //{
-            //    SQL += " AND ID IN (SELECT SysFolderID " +
-            //            " FROM vw_GRINGlobal_App_User_Item_List " +
-            //            " WHERE IDNumber = @EntityID) ";
-            //}
-
-            //switch (searchEntity.TimeFrame)
-            //{
-            //    case "1D":
-            //        SQL += " AND (CONVERT(date, CreatedDate) = CONVERT(date, GETDATE()))";
-            //        break;
-            //    case "3D":
-            //        SQL += " AND  CreatedDate >= DATEADD(day,-3, GETDATE())";
-            //        break;
-            //    case "7D":
-            //        SQL += " AND  CreatedDate >= DATEADD(day,-7, GETDATE())";
-            //        break;
-            //    case "30D":
-            //        SQL += " AND  CreatedDate >= DATEADD(day,-30, GETDATE())";
-            //        break;
-            //    case "60D":
-            //        SQL += " AND  CreatedDate >= DATEADD(day,-60, GETDATE())";
-            //        break;
-            //    case "90D":
-            //        SQL += " AND  CreatedDate >= DATEADD(day,-90, GETDATE())";
-            //        break;
-            //    case "YEAR":
-            //        SQL += " AND  DATEPART(year, CreatedDate) = DATEPART(year, GETDATE())";
-            //        break;
-            //}
-
+           
             var parameters = new List<IDbDataParameter> {
-            //    CreateParameter("FolderName", !String.IsNullOrEmpty(searchEntity.FolderName) ? (object)searchEntity.FolderName : DBNull.Value, true),
-            //    CreateParameter("Category", !String.IsNullOrEmpty(searchEntity.Category) ? (object)searchEntity.Category : DBNull.Value, true),
-            //    CreateParameter("CreatedByCooperatorID", searchEntity.CreatedByCooperatorID > 0 ? (object)searchEntity.CreatedByCooperatorID : DBNull.Value, true),
-            //    CreateParameter("SharedWithCooperatorID", searchEntity.SharedWithCooperatorID > 0 ? (object)searchEntity.SharedWithCooperatorID : DBNull.Value, true),
-            //    CreateParameter("IsFavorite", !String.IsNullOrEmpty(searchEntity.IsFavorite) ? (object)searchEntity.IsFavorite : DBNull.Value, true),
-            //    CreateParameter("FolderType", !String.IsNullOrEmpty(searchEntity.FolderType) ? (object)searchEntity.FolderType : DBNull.Value, true),
-            //    CreateParameter("SysFolderID", searchEntity.ID > 0 ? (object)searchEntity.ID : DBNull.Value, true),
-            //    CreateParameter("EntityID", searchEntity.EntityID > 0 ? (object)searchEntity.EntityID : DBNull.Value, true),
+                CreateParameter("Title", !String.IsNullOrEmpty(searchEntity.Title) ? (object)searchEntity.Title : DBNull.Value, true),
+                CreateParameter("Description", !String.IsNullOrEmpty(searchEntity.Description) ? (object)searchEntity.Description : DBNull.Value, true),
+                CreateParameter("TypeCode", !String.IsNullOrEmpty(searchEntity.TypeCode) ? (object)searchEntity.TypeCode : DBNull.Value, true),
+                CreateParameter("CreatedByCooperatorID", searchEntity.CreatedByCooperatorID > 0 ? (object)searchEntity.CreatedByCooperatorID : DBNull.Value, true),
             };
 
             results = GetRecords<SysFolder>(SQL, parameters.ToArray());
@@ -98,12 +53,12 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
 
             Reset(CommandType.StoredProcedure);
             Validate<SysFolder>(entity);
-            SQL = "usp_GRINGlobal_SysFolder_Insert";
+            SQL = "usp_GRINGlobal_Sys_Folder_Insert";
             
             BuildInsertUpdateParameters(entity);
 
             AddParameter("@out_error_number", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
-            AddParameter("@out_app_user_item_folder_id", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
+            AddParameter("@out_sys_folder_id", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
 
             RowsAffected = ExecuteNonQuery();
 
@@ -113,10 +68,37 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
                 throw new Exception(errorNumber.ToString());
             }
 
-            entity.ID = GetParameterValue<int>("@out_app_user_item_folder_id", -1);
+            entity.ID = GetParameterValue<int>("@out_sys_folder_id", -1);
             return entity.ID;
         }
-        
+
+        public virtual int InsertItem(SysFolderItemMap sysFolderItemMap)
+        {
+            int errorNumber = 0;
+
+            Reset(CommandType.StoredProcedure);
+            Validate<SysFolderItemMap>(sysFolderItemMap);
+            SQL = "usp_GRINGlobal_Sys_Folder_Item_Map_Insert";
+
+            AddParameter("@out_error_number", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
+            AddParameter("@out_sys_folder_item_map_id", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
+            AddParameter("@sys_folder_id", (object)sysFolderItemMap.FolderID ?? DBNull.Value, true);
+            AddParameter("@table_name", (object)sysFolderItemMap.TableName ?? DBNull.Value, true);
+            AddParameter("@id_number", (object)sysFolderItemMap.IDNumber ?? DBNull.Value, true);
+            AddParameter("created_by", (object)sysFolderItemMap.CreatedByCooperatorID ?? DBNull.Value, true);
+
+            RowsAffected = ExecuteNonQuery();
+
+            errorNumber = GetParameterValue<int>("@out_error_number", -1);
+            if (errorNumber > 0)
+            {
+                throw new Exception(errorNumber.ToString());
+            }
+
+            sysFolderItemMap.ID = GetParameterValue<int>("@out_sys_folder_item_map_id", -1);
+            return sysFolderItemMap.ID;
+        }
+
         public int Update(SysFolder entity)
         {
             Reset(CommandType.StoredProcedure);
@@ -194,7 +176,8 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
 
             AddParameter("title", (object)entity.Title, false);
             AddParameter("description", (object)entity.Description ?? DBNull.Value, true);
-           
+            AddParameter("type_code", (object)entity.TypeCode ?? DBNull.Value, true);
+
             if (entity.ID > 0)
             {
                 AddParameter("modified_by", (object)entity.ModifiedByCooperatorID ?? DBNull.Value, true);

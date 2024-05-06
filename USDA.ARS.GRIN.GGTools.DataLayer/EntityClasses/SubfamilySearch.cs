@@ -11,7 +11,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
 {
     public class SubfamilySearch : SearchEntityBase
     {
-        public int ID { get; set; }
+        
         public string Name { get; set; }
         public string SubfamilyName { get; set; }
         public int FamilyID { get; set; }

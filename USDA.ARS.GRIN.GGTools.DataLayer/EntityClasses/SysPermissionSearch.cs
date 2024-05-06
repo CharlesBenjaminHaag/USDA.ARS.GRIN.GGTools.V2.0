@@ -18,7 +18,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
         public int SysDataViewID { get; set; }
         public int SysTableID { get; set; }
         public int SysUserID { get; set; }
-        public string TableName { get; set; }
+        
         public string TableTitle { get; set; }
         public string IsEnabled { get; set; }
         public string CreatePermission { get; set; }

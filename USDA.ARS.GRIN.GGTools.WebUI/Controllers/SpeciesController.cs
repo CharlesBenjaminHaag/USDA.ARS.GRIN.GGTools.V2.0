@@ -20,11 +20,11 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
         protected static string BASE_PATH = "~/Views/Taxonomy/Species/";
         private static readonly Logger Log = LogManager.GetCurrentClassLogger();
 
-        public ActionResult Map()
-        {
-            SpeciesBatchEditViewModel viewModel = new SpeciesBatchEditViewModel();
-            return View("~/Views/Taxonomy/Species/Map/Index.cshtml", viewModel);
-        }
+        //public ActionResult Map()
+        //{
+        //    SpeciesBatchEditViewModel viewModel = new SpeciesBatchEditViewModel();
+        //    return View("~/Views/Taxonomy/Species/Map/Index.cshtml", viewModel);
+        //}
 
         public PartialViewResult _List(int entityId = 0, int genusId = 0, string formatCode = "", string speciesAuthority = "")
         {

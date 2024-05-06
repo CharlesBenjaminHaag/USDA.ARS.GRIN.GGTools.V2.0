@@ -160,16 +160,6 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             return RowsAffected;
         }
 
-        public virtual List<CodeValue> GetCodeValues(string groupName)
-        {
-            SQL = "usp_GRINGlobal_Code_Values_Select";
-            var parameters = new List<IDbDataParameter> {
-                CreateParameter("group_name", (object)groupName, false)
-            };
-            List<CodeValue> codeValues = GetRecords<CodeValue>(SQL, CommandType.StoredProcedure, parameters.ToArray());
-            return codeValues;
-        }
-
         protected virtual void BuildInsertUpdateParameters(SysTable entity)
         {
             if (entity.ID > 0)

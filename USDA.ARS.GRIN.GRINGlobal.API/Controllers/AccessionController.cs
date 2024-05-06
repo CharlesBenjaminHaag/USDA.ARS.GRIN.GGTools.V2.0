@@ -12,20 +12,20 @@ namespace USDA.ARS.GRIN.GRINGlobal.API.Controllers
 {
     public class AccessionController : ApiController
     {
-        
+
         public async Task<IHttpActionResult> Get(string piNumber = "")
         {
             try
             {
                 AccessionViewModel viewModel = new AccessionViewModel();
                 viewModel.Search();
-                return Ok(viewModel.DataCollection.Where(x=>x.ID < 1000));
+                return Ok(viewModel.DataCollection.Where(x => x.ID < 10000));
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
-            
+
         }
 
     }

@@ -22,6 +22,6 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         public string BreedingTypeCode { get; set; }
         public string BreedingUsageNote { get; set; }
         public string OntologyTraitIdentifier { get; set; }
-        public string CitationText { get; set; }
+        
     }
 }

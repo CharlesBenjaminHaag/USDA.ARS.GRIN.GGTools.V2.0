@@ -11,7 +11,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
     {
         public string ShortName { get; set; }
         public string LongName { get; set; }
-        public string AssembledName { get; set; }
+        
         public string ProviderIdentifier { get; set; }
         public string OrganizationAbbrev { get; set; }
         public string IsInternal { get; set; }

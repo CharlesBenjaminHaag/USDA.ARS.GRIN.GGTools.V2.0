@@ -30,6 +30,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             }
             catch (Exception ex)
             {
+                Log.Error(ex);
                 return Json("error", JsonRequestBehavior.AllowGet);
             }
         }
@@ -45,6 +46,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             }
             catch (Exception ex)
             {
+                Log.Error(ex);
                 return Json("error", JsonRequestBehavior.AllowGet);
             }
         }

@@ -110,16 +110,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
 
             return entity.ID;
         }
-        public virtual List<Cooperator> GetCooperators(string tableName)
-        {
-            SQL = "usp_GRINGlobal_Cooperators_Select";
-            var parameters = new List<IDbDataParameter> {
-                CreateParameter("table_name", (object)tableName, false)
-            };
-            List<Cooperator> cooperators = GetRecords<Cooperator>(SQL, CommandType.StoredProcedure, parameters.ToArray());
-            RowsAffected = cooperators.Count;
-            return cooperators;
-        }
+       
         public void BuildInsertUpdateParameters(CodeValue entity)
         {
             if (entity.ID > 0)

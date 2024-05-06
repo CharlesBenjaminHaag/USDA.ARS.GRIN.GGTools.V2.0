@@ -305,16 +305,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             }
         }
         
-        public virtual List<Cooperator> GetCooperators(string tableName)
-        {
-            SQL = "usp_GRINGlobal_Cooperators_Select";
-            var parameters = new List<IDbDataParameter> {
-                CreateParameter("table_name", (object)tableName, false)
-            };
-            List<Cooperator> cooperators = GetRecords<Cooperator>(SQL, CommandType.StoredProcedure, parameters.ToArray());
-            RowsAffected = cooperators.Count;
-            return cooperators;
-        }
+       
 
         public virtual List<Cooperator> GetOwnedByCooperators(string tableName)
         {

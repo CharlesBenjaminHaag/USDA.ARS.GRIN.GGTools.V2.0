@@ -2,7 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Web.Mvc;
 using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace USDA.ARS.GRIN.GGTools.AppLayer
 {
@@ -35,7 +38,11 @@ namespace USDA.ARS.GRIN.GGTools.AppLayer
         public string DateRangeFilter { get; set; }
         public string Note { get; set; }
         public int CitationID { get; set; }
+
+        [AllowHtml]
         public string CitationText { get; set; }
+        
+        [AllowHtml]
         public string SQLStatement { get; set; }
         public string SQLWhere { get; set; }
         public string SearchTitle

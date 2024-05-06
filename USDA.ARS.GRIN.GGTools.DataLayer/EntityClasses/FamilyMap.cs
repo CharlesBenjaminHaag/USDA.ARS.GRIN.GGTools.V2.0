@@ -32,6 +32,6 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         public string TribeName { get; set; }
         public int SubtribeID { get; set; }
         public string SubtribeName { get; set; }
-        public string IsWebVisible { get; set; }
+        
     }
 }

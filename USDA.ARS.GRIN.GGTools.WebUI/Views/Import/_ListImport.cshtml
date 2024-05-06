@@ -2,3 +2,52 @@
 @using USDA.ARS.GRIN.GGTools.DataLayer;
 @model USDA.ARS.GRIN.GGTools.ViewModelLayer.ImportViewModel
 
+@if (Model.DataCollectionDataTable.Rows.Count > 0)
+{
+    <div class="card card-success">
+        <div class="card-header">
+            <h3 class="card-title">
+                <i class="far fas fa-table nav-icon"></i>
+                Query Results: @Model.DataCollectionDataTable.Rows.Count Records Found
+            </h3>
+            <div class="card-tools">
+                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                    <i class="fas fa-minus"></i>
+                </button>
+            </div>
+        </div>
+        <div class="card-body">
+            <table id="data_table_import" class="table table-striped" style="width:100%;">
+                <thead>
+                    <tr>
+                        @foreach (DataColumn col in Model.DataCollectionDataTable.Columns)
+                        {
+                            if (col.ColumnName == "ID" || col.ColumnName == "TAXONOMY_GENUS" || col.ColumnName == "TAXONOMY_SPECIES" || col.ColumnName == "AUTHOR")
+                            {
+                                <th>
+                                    @col.ColumnName
+                                </th>
+                            }
+                        }
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (DataRow dr in Model.DataCollectionDataTable.Rows)
+                    {
+                        <tr>
+                            @foreach (DataColumn rowCol in Model.DataCollectionDataTable.Columns)
+                            {
+                                if (rowCol.ColumnName == "ID" || rowCol.ColumnName == "TAXONOMY_GENUS" || rowCol.ColumnName == "TAXONOMY_SPECIES" || rowCol.ColumnName == "AUTHOR")
+                                {
+                                    <td>
+                                        @dr[rowCol.ColumnName]
+                                    </td>
+                                }
+                            }
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+}

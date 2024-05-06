@@ -9,7 +9,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
 {
     public class AppUserItemFolderCooperatorMapSearch : SearchEntityBase
     {
-        public int FolderID { get; set; }
+        
         public int CooperatorID { get; set; }
     }
 }

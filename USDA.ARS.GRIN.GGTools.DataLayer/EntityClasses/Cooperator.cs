@@ -24,7 +24,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
         public string PreferredPronouns { get; set; }
         public string FirstName { get; set; }
         public string FullName { get; set; }
-        public string AssembledName { get; set; }
+        
         public string JobTitle { get; set; }
         public string Organization { get; set; }
         public string OrganizationAbbrev { get; set; }

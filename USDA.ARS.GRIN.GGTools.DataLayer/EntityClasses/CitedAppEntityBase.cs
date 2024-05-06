@@ -11,7 +11,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
 {
     public class CitedAppEntityBase: AppEntityBase
     {
-        public int CitationID { get; set; }
+        
         public string CitationText { get; set; }
     }
 }

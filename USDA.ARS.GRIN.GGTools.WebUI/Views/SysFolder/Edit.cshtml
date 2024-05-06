@@ -1,0 +1,176 @@
+﻿@model USDA.ARS.GRIN.GGTools.ViewModelLayer.SysFolderViewModel
+@{
+    ViewBag.Title = Model.PageTitle;
+    Layout = "~/Views/Shared/_LayoutAdminLTE3.cshtml";
+}
+@Html.HiddenFor(x => x.EventAction)
+@Html.HiddenFor(x => x.EventValue)
+
+@{ Html.RenderAction("ComponentSysTagsByTable", "SysTag", new { @tableName = "sys_folder", @idNumber = Model.Entity.ID }); }
+
+<!-- BEGIN FOLDER ITEM DEL CONFIRM -->
+<div class="modal fade" id="modal-folder-item-delete-confirm">
+    <div class="modal-dialog">
+        <div class="modal-content bg-danger">
+            <div class="modal-header">
+                <h4 class="modal-title">Confirm Deletion</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>This will permanently delete the selected items from this folder. Are you sure?</p>
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-outline-light" data-dismiss="modal">Close</button>
+                <button id="btnDeleteSelectedItems" type="button" class="btn btn-outline-light" data-dismiss="modal">Delete Selected Records</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- END FOLDER ITEM DEL CONFIRM -->
+
+@Html.Partial("~/Views/Taxonomy/Shared/Modals/_Delete.cshtml")
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        Init();
+    });
+
+    function Init() {
+        var isReadOnly = $("#IsReadOnly").val();
+        if (isReadOnly == "Y") {
+            SetReadOnly();
+        }
+    }
+
+    /*
+    * ***********************************************************
+    * Folder item logic
+    * ***********************************************************
+    */
+    function Load() {
+        var eventAction = $("#EventAction").val();
+        var eventValue = $("#EventValue").val();
+        var tableName = $("#EventNote").val();
+        LoadFolderItems(tableName, eventAction, eventValue);
+    }
+
+    function LoadFolderItems(tableName, eventAction, eventValue) {
+        var id = $("#Entity_ID").val();
+        var link = '@Url.Action("EVENT_VALUE", "EVENT_ACTION")';
+
+        link = link.replace("EVENT_VALUE", eventValue);
+        link = link.replace("EVENT_ACTION", eventAction);
+       
+        $("#EventAction").val(eventAction);
+        $("#EventValue").val(eventValue);
+        $("#EventNote").val(tableName);
+
+        var formData = new FormData();
+
+        formData.append("appUserItemFolderId", id);
+     
+        $.ajax({
+            url: link,
+            type: 'POST',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (response) {
+                $("#tab-sys-tables-content").html(response);
+                $("#section-tab-overlay").hide();
+            },
+            error: function () {
+                alert("Error calling " + link);
+                $("#section-tab-overlay").hide();
+            }
+        });
+    }
+
+    /*
+    * ***********************************************************
+    * Deletion logic
+    * ***********************************************************
+    */
+    $(document).on("click", "[id='btnDeleteSelectedItems']", function () {
+        BatchDeleteFolderItemsFinal();
+    });
+
+    function BatchDeleteFolderItems() {
+        var selectedFolderItems = GetSelectedAppUserItemListIDs("data_table_app_user_item_list");
+        $("#section-item-count").html(selectedFolderItems.length);
+        $("#modal-folder-item-delete-confirm").modal("show");
+    }
+
+    function BatchDeleteFolderItemsFinal() {
+        var link = '@Url.Action("DeleteItems","AppUserItemFolder")';
+        var refreshLink = '@Url.Action("Index","Taxonomy")';
+        var folderId = $("#Entity_ID").val();
+        var tableName = $("#EventNote").val();
+        var dataTableId = $('#section-search-results').find('table:first').attr('id');
+        var selectedFolderItems = GetSelectedAppUserItemListIDs(dataTableId);
+        var formData = new FormData();
+
+        $("#ItemIDList").val(selectedFolderItems);
+
+        formData.append("FolderID", folderId);
+        formData.append("ItemIDList", selectedFolderItems);
+
+        $("#section-item-count").html(selectedFolderItems.length);
+
+        $.ajax({
+            url: link,
+            type: 'POST',
+            cache: false,
+            dataType: 'json',
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (data) {
+                Load();
+            },
+            error: function (ex) {
+            }
+        });
+    }
+
+    /*
+    * ***********************************************************
+    * Sharing logic
+    * ***********************************************************
+    */
+    $('#section-folder-options ul.nav li').on('click', function () {
+        var id = $(this).attr('id');
+        if (id == "tab-folder-sharing") {
+            var folderId = $("#Entity_ID").val();
+            //LoadAvailableCollaborators(folderId);
+            //LoadCurrentCollaborators(folderId);
+        }
+    });
+
+    function RenderFolderCooperatorWidget() {
+        var link = '@Url.Action("RenderWidget", "AppUserItemFolderCooperatorMap")';
+        var folderId = $("#Entity_ID").val();
+        var formData = new FormData();
+
+        formData.append("appUserItemFolderId", folderId);
+
+        $.ajax({
+            url: link,
+            type: 'POST',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (response) {
+                $("#section_folder_cooperator_widget").html(response);
+            },
+            error: function () {
+                alert("Error loading folder-sharing widget");
+            }
+        });
+    }
+</script>
+

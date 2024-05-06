@@ -165,7 +165,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
         }
 
         #region Select Lists
-        public SelectList Cooperators { get; set; }
+        
         public SelectList Folders { get; set; }
         public SelectList QualifyingCodes { get; set; }
         public SelectList HybridCodes { get; set; }

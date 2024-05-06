@@ -14,6 +14,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
     {
         protected static string BASE_PATH = "~/Views/Taxonomy/Genus/";
         private static readonly Logger Log = LogManager.GetCurrentClassLogger();
+        
         public PartialViewResult _ListFolderItems(int appUserItemFolderId)
         {
             GenusViewModel viewModel = new GenusViewModel();
@@ -30,6 +31,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 return PartialView("~/Views/Error/_InternalServerError.cshtml");
             }
         }
+        
         public PartialViewResult _ListDynamicFolderItems(int folderId)
         {
             GenusViewModel viewModel = new GenusViewModel();
@@ -45,6 +47,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 return PartialView("~/Views/Error/_InternalServerError.cshtml");
             }
         }
+        
         [HttpPost]
         public JsonResult Add(FormCollection formCollection)
         {

@@ -13,7 +13,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
     public class SysFolderController : BaseController
     {
         private static readonly Logger Log = LogManager.GetCurrentClassLogger();
-        // GET: SysFolder
+        
         public ActionResult Index()
         {
             return View();
@@ -28,16 +28,30 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 {
                     viewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
                     viewModel.Insert();
+
+                    // If there are tag attributes, add specified tag.
+                    if (!String.IsNullOrEmpty(viewModel.TagEntity.TagText))
+                    {
+                        SysTagViewModel sysTagViewModel = new SysTagViewModel();
+                        sysTagViewModel.Entity.TagText = viewModel.TagEntity.TagText;
+                        sysTagViewModel.Entity.TagFormatString = viewModel.TagEntity.TagFormatString;
+                        sysTagViewModel.Entity.TableName = "sys_folder";
+                        sysTagViewModel.Entity.IDNumber = viewModel.Entity.ID;
+                        sysTagViewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
+                        sysTagViewModel.Insert();
+                    }
                 }
                 else
                 {
                     viewModel.Entity.ModifiedByCooperatorID = AuthenticatedUser.CooperatorID;
                     viewModel.Update();
                 }
+
+                // Re-retrieve new folder to verify existence.
                 viewModel.SearchEntity.ID = viewModel.Entity.ID;
                 viewModel.Get();
                 viewModel.EventAction = "ADD";
-                return PartialView("~/Views/AppUserItemFolder/_Confirmation.cshtml", viewModel);
+                return PartialView("~/Views/SysFolder/Components/_Confirmation.cshtml", viewModel);
 
             }
             catch (Exception ex)
@@ -47,6 +61,22 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             }
         }
 
+        public ActionResult Edit(int entityId)
+        {
+            try
+            {
+                SysFolderViewModel viewModel = new SysFolderViewModel();
+
+                //TODO
+
+                return View(viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
+        }
 
         public PartialViewResult GetEditModal()
         {
@@ -57,8 +87,33 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             }
             catch (Exception ex)
             {
+                Log.Error(ex);
                 return null;
             }
         }
+
+        #region Components
+
+        /// <summary>
+        /// Retrieves an icon-formatted list of folders. Defaults to folders owned by the logged-in user.
+        /// </summary>
+        /// <returns></returns>
+        public PartialViewResult ComponentListWithIcons()
+        {
+            try
+            {
+                SysFolderViewModel viewModel = new SysFolderViewModel();
+                viewModel.SearchEntity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
+                viewModel.Search();
+                return PartialView("~/Views/SysFolder/Components/_ListWithIcons.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
+        }
+        
+        #endregion
     }
 }

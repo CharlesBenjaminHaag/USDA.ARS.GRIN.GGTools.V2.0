@@ -127,6 +127,18 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
                     Entity.IsSpecificHybridOption = ToBool(Entity.IsSpecificHybrid);
                     Entity.IsAccepted = ToBool(Entity.IsAcceptedName);
                     Entity.IsWebVisibleOption = ToBool(Entity.IsWebVisible);
+
+                    if (SearchEntity.GetCommonNames == "Y")
+                    {
+                        foreach (var species in DataCollection)
+                        {
+                            using (CommonNameManager commonNameMgr = new CommonNameManager())
+                            {
+                                species.CommonNames = new Collection<CommonName>(commonNameMgr.Search(new CommonNameSearch { SpeciesID = species.ID }));
+                            }
+                        }
+                    }
+
                 }
                 catch (Exception ex)
                 {

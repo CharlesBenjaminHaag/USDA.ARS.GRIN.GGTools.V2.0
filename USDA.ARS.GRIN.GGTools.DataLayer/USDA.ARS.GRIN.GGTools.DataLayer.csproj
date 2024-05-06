@@ -200,6 +200,7 @@
     <Compile Include="EntityClasses\SysTableField.cs" />
     <Compile Include="EntityClasses\SysTableSearch.cs" />
     <Compile Include="EntityClasses\SysTable.cs" />
+    <Compile Include="EntityClasses\SysTagSearch.cs" />
     <Compile Include="EntityClasses\SysTag.cs" />
     <Compile Include="EntityClasses\WebUserSearch.cs" />
     <Compile Include="EntityClasses\WebUser.cs" />
@@ -210,6 +211,7 @@
     <Compile Include="EntityClasses\TribeSearch.cs" />
     <Compile Include="ManagerClasses\AccessionInventoryAttachmentManager.cs" />
     <Compile Include="ManagerClasses\AccessionInvAnnotationManager.cs" />
+    <Compile Include="ManagerClasses\SysTagManager.cs" />
     <Compile Include="ManagerClasses\SysFolderManager.cs" />
     <Compile Include="ManagerClasses\GOBSManager.cs" />
     <Compile Include="ManagerClasses\AppUserItemFolderCooperatorMapManager.cs" />

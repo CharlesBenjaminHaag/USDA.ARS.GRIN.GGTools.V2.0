@@ -74,6 +74,9 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         public int AccessionCount { get; set; }
         public string IsVerified { get; set; } 
 
+        public Species AcceptedSpecies { get; set;}
+        public Genus Genus { get; set; }
+
         public string VerificationText
         {
             get
@@ -92,6 +95,10 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
                 return sbVerificationText.ToString();
             }
         }
-        public List<Citation> Citations { get; set; }
+        public Collection<Citation> Citations { get; set; }
+        public Collection<CommonName> CommonNames { get; set; }
+        public Collection<GeographyMap> GeographyMaps { get; set; }
+        public Collection<Species> Synonyms { get; set; }
+        public Collection<Species> InfraspecificSpecies { get; set; }
     }
 }

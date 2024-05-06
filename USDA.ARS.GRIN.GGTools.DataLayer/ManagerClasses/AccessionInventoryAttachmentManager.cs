@@ -208,25 +208,8 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             RowsAffected = ExecuteNonQuery();
             return RowsAffected;
         }
-        public virtual List<Cooperator> GetCooperators(string tableName)
-        {
-            //SQL = "SELECT * FROM vw_GGTools_GRINGlobal_Cooperators WHERE siteshortname = 'NC7' " +
-            //        " AND SysUserID IS NOT NULL ORDER BY LastName, FirstName";
-            var parameters = new List<IDbDataParameter> {
-            //    CreateParameter("table_name", (object)tableName, false)
-            };
-            List<Cooperator> cooperators = GetRecords<Cooperator>(SQL);
-            return cooperators;
-        }
-        public virtual List<CodeValue> GetCodeValues(string groupName)
-        {
-            SQL = "usp_GRINGlobal_Code_Values_Select";
-            var parameters = new List<IDbDataParameter> {
-                CreateParameter("group_name", (object)groupName, false)
-            };
-            List<CodeValue> codeValues = GetRecords<CodeValue>(SQL, CommandType.StoredProcedure, parameters.ToArray());
-            return codeValues;
-        }
+        
+       
         public List<AccessionInventoryAttachment> SearchFolderItems(AccessionInventoryAttachmentSearch searchEntity)
         {
             List<AccessionInventoryAttachment> results = new List<AccessionInventoryAttachment>();

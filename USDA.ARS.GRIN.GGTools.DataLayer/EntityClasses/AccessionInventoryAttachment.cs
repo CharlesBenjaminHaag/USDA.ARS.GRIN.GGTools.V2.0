@@ -19,7 +19,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
         public string CategoryCode { get; set; }
         public string CopyrightInformation { get; set; }
         public int CooperatorID { get; set; }
-        public string IsWebVisible { get; set; }
+        
         public DateTime AttachDate { get; set; }
         public string AttachDateCode { get; set; }
         public string IsVirtualPathValid { get; set; }

@@ -90,7 +90,9 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
                 }
             }
             catch (Exception ex)
-            { }
+            {
+                throw ex;
+            }
         }
 
         public void GetNotes()

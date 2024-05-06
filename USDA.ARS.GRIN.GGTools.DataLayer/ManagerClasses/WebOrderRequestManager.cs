@@ -240,14 +240,5 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             return webCooperators;
         }
 
-        public virtual List<CodeValue> GetCodeValues(string groupName)
-        {
-            SQL = "usp_GRINGlobal_Code_Values_Select";
-            var parameters = new List<IDbDataParameter> {
-                CreateParameter("group_name", (object)groupName, false)
-            };
-            List<CodeValue> codeValues = GetRecords<CodeValue>(SQL, CommandType.StoredProcedure, parameters.ToArray());
-            return codeValues;
-        }
     }
 }

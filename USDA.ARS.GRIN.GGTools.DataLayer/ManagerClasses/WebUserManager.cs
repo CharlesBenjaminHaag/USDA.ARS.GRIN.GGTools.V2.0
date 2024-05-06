@@ -89,7 +89,6 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
                 throw new Exception(errorNumber.ToString());
 
             return entity.ID;
-            return RowsAffected;
         }
         public int Copy(int sysUserId, int webCooperatorId)
         {

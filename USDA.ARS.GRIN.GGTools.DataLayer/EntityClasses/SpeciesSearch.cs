@@ -77,5 +77,10 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         public string RestrictionCode { get; set; }
         public string HybridParentage { get; set; }
         public string IsWebVisible { get; set; }
+
+        public string GetSynonyms { get; set; }
+        public string GetConspecific { get; set; }
+        public string GetCommonNames { get; set; }
+        public string GetCitations { get; set; }
     }
 }

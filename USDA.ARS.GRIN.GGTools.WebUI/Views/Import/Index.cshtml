@@ -76,11 +76,11 @@
         </div>
     </div>
 }
-@Html.Partial("~/Views/Import/_List.cshtml")
+@Html.Partial("~/Views/Import/_ListImport.cshtml")
 
 <script type="text/javascript">
     $(document).ready(function () {
-        InitDataTableDynamicQuery("tblImport");
+        InitDataTableDynamicQuery("data_table_import");
     });
 
     function InitDataTableDynamicQuery(tableName) {
@@ -91,6 +91,7 @@
                 paging: true,
                 "pageLength": 10,
                 scrollX: true,
+                
                 responsive: true,
                 buttons: [
                     'selectAll',
