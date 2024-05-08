@@ -22,29 +22,33 @@
                     <tr>
                         @foreach (DataColumn col in Model.DataCollectionDataTable.Columns)
                         {
-                            if (col.ColumnName == "ID" || col.ColumnName == "TAXONOMY_GENUS" || col.ColumnName == "TAXONOMY_SPECIES" || col.ColumnName == "AUTHOR")
-                            {
-                                <th>
-                                    @col.ColumnName
-                                </th>
-                            }
+                            <th>
+                                @col.ColumnName
+                            </th>
                         }
                     </tr>
                 </thead>
                 <tbody>
                     @foreach (DataRow dr in Model.DataCollectionDataTable.Rows)
                     {
-                        <tr>
-                            @foreach (DataColumn rowCol in Model.DataCollectionDataTable.Columns)
+                    <tr>
+                        @foreach (DataColumn rowCol in Model.DataCollectionDataTable.Columns)
+                        {
+                            if (rowCol.ColumnName == "SPECIES_MATCH")
                             {
-                                if (rowCol.ColumnName == "ID" || rowCol.ColumnName == "TAXONOMY_GENUS" || rowCol.ColumnName == "TAXONOMY_SPECIES" || rowCol.ColumnName == "AUTHOR")
-                                {
-                                    <td>
-                                        @dr[rowCol.ColumnName]
-                                    </td>
-                                }
+                                var matchCount = dr["SPECIES_MATCH"];
+                                <td>
+                                     @dr[rowCol.ColumnName]
+                                </td>
                             }
-                        </tr>
+                            else
+                            {
+                                <td>
+                                    @dr[rowCol.ColumnName]
+                                </td>
+                            }
+                        }
+                    </tr>
                     }
                 </tbody>
             </table>

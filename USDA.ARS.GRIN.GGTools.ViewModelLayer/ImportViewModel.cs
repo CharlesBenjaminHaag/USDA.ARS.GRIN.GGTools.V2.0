@@ -23,7 +23,9 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
         public List<SysTable> DataCollectionSysTables { get; set; }
         public string SysTableName { get; set; }
         public SelectList SysTables { get; set; }
-
+        
+        public bool LoadSpeciesOnly { get; set; }
+        
         public ImportViewModel()
         {
             DataCollectionDataTable = new DataTable();
@@ -52,11 +54,6 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
             if (DocumentUpload == null)
             {
                 ValidationMessages.Add(new Common.Library.ValidationMessage { Message = "Please select a correctly-formatted Excel (.xls, .xlx) file to upload." });
-            }
-
-            if (String.IsNullOrEmpty(SysTableName))
-            {
-                ValidationMessages.Add(new Common.Library.ValidationMessage { Message = "Please specify the table into which to import the spreadsheet." });
             }
 
             if (ValidationMessages.Count > 0)
