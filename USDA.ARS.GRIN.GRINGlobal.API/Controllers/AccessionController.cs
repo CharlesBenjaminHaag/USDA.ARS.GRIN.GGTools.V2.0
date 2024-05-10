@@ -13,13 +13,15 @@ namespace USDA.ARS.GRIN.GRINGlobal.API.Controllers
     public class AccessionController : ApiController
     {
 
-        public async Task<IHttpActionResult> Get(string piNumber = "")
+        public async Task<IHttpActionResult> Get(string piNumber = "", string instCode = "", int offset = 0, int limit = 0, string mcpdFormat = "Y")
         {
             try
             {
                 AccessionViewModel viewModel = new AccessionViewModel();
+                viewModel.SearchEntity.AccessionNumber = piNumber;
+                viewModel.SearchEntity.InstCode = instCode;
                 viewModel.Search();
-                return Ok(viewModel.DataCollection.Where(x => x.ID < 10000));
+                return Ok(viewModel.DataCollection);
             }
             catch (Exception ex)
             {

@@ -22,5 +22,27 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
         public string LifeSexCode { get; set; }
         public DateTime InitialReceivedDate { get; set; }
         public int InventoryCount { get; set; }
+        public int INTERNAL_ID { get; set; }
+        public string CREATED_DATE { get; set; }
+        public string INSTCODE { get; set; }
+        public string DOI { get; set; }
+        public string ACCENUMB { get; set; }
+        public string SPECIES_FULL { get; set; }
+        public string GENUS { get; set; }
+        public string SPECIES { get; set; }
+        public string SPAUTHOR { get; set; }
+        public string SUBTAXA { get; set; }
+        public string SUBTAUTHOR { get; set; }
+        public string ACCEURL { get; set; }
+        public string SAMPSTAT { get; set; }
+        public string REMARKS { get; set; }
+        public string ACQDATE { get; set; }
+        public string HISTORIC { get; set; }
+        public string COLLSITE { get; set; }
+        public string GEOREFMETH { get; set; }
+        public int COORDUNCERT { get; set; }
+        public decimal DECLATITUDE { get; set; }
+        public decimal DECLONGITUDE { get; set; }
+        public string ORIGCTY { get; set; }
     }
 }

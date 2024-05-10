@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace USDA.ARS.GRIN.Common.Library
 {
-    public static class StringComparison
+    public static class StringMatching
     {
         /// <summary>
         ///     Calculate the difference between 2 strings using the Levenshtein distance algorithm

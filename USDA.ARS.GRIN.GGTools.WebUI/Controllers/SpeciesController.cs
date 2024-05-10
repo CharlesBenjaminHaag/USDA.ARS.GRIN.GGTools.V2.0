@@ -1,6 +1,8 @@
 ﻿using System.Web.Mvc;
 using System;
+ 
 using System.Collections.Generic;
+using USDA.ARS.GRIN.Common.Library;
 using USDA.ARS.GRIN.GGTools.WebUI;
 using USDA.ARS.GRIN.GGTools.ViewModelLayer;
 using USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer;
@@ -25,6 +27,20 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
         //    SpeciesBatchEditViewModel viewModel = new SpeciesBatchEditViewModel();
         //    return View("~/Views/Taxonomy/Species/Map/Index.cshtml", viewModel);
         //}
+
+        public PartialViewResult GetNameMatches(string genusName, string speciesName)
+        {
+            try
+            {
+                var DEBUG = StringMatching.CalculateLevenshteinDistance(speciesName, "spp.");
+                return null;
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
+        }
 
         public PartialViewResult _List(int entityId = 0, int genusId = 0, string formatCode = "", string speciesAuthority = "")
         {

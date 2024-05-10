@@ -12,5 +12,6 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
         public string AccessionSuffix { get; set; }
         public int SpeciesID { get; set; }
         public string StatusCode { get; set;}
+        public string InstCode { get; set; }
     }
 }

@@ -35,7 +35,31 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
 
         public List<Accession> Search(AccessionSearch searchEntity)
         {
-            SQL = "usp_GRINGlobal_Accession_Search";
+            List<Accession> results = new List<Accession>();
+
+            SQL = " SELECT [INTERNAL_ID], [INSTCODE],[DOI],[ACCENUMB],[SPECIES_FULL],[GENUS],[SPECIES],[SPAUTHOR] ";
+            SQL += ",[SUBTAXA],[SUBTAUTHOR],[ACCEURL],[SAMPSTAT],[REMARKS],[initial_received_date],[ACQDATE],[HISTORIC] ";
+            SQL += ",[COLLSITE],[GEOREFMETH],[COORDUNCERT],[DECLATITUDE],[DECLONGITUDE],[ORIGCTY],[DUPLSITE1],[DUPLSITE2] ";
+            SQL += " FROM vw_GRINGlobal_Accession_MCPD ";
+
+            // PRIMARY
+            SQL += " WHERE      (@AccessionNumber      IS NULL OR  ACCENUMB        LIKE    '%' + @AccessionNumber + '%')";
+            SQL += " AND         (@InstCode              IS NULL OR  INSTCODE        LIKE    '%' + @InstCode + '%')";
+
+            var parameters = new List<IDbDataParameter> {
+                CreateParameter("AccessionNumber", (object)searchEntity.AccessionNumber ?? DBNull.Value, true),
+                CreateParameter("InstCode", (object)searchEntity.InstCode ?? DBNull.Value, true),
+            };
+
+            results = GetRecords<Accession>(SQL, parameters.ToArray());
+            RowsAffected = results.Count;
+
+            return results;
+        }
+
+        public List<Accession> Export(AccessionSearch searchEntity)
+        {
+            SQL = "usp GRINGlobal_Accessions_MCPD_Export";
             List<Accession> accessions = new List<Accession>();
 
             var parameters = new List<IDbDataParameter> {

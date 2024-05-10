@@ -4,6 +4,8 @@
 
 @if (Model.DataCollectionDataTable.Rows.Count > 0)
 {
+    string columnStyleMatchFoundIndicator = "";
+    
     <div class="card card-success">
         <div class="card-header">
             <h3 class="card-title">
@@ -34,19 +36,33 @@
                     <tr>
                         @foreach (DataColumn rowCol in Model.DataCollectionDataTable.Columns)
                         {
-                            if (rowCol.ColumnName == "SPECIES_MATCH")
+                            if (rowCol.ColumnName == "MATCH_FOUND")
                             {
-                                var matchCount = dr["SPECIES_MATCH"];
-                                <td>
-                                     @dr[rowCol.ColumnName]
-                                </td>
+                                if (dr[rowCol.ColumnName].ToString() == "YES")
+                                {
+                                    columnStyleMatchFoundIndicator = "text-align:center;background-color:green;color:white;";
+                                }
+                                else
+                                {
+                                    if (dr[rowCol.ColumnName].ToString().Contains("similar"))
+
+                                    {
+                                        columnStyleMatchFoundIndicator = "text-align:center;background-color:red;color:white;";
+                                    }
+                                }
+
                             }
                             else
                             {
-                                <td>
-                                    @dr[rowCol.ColumnName]
-                                </td>
+                                columnStyleMatchFoundIndicator = "";
                             }
+
+
+
+
+                            <td style="@columnStyleMatchFoundIndicator">
+                                @dr[rowCol.ColumnName]
+                            </td>
                         }
                     </tr>
                     }

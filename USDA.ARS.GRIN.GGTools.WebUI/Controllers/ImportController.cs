@@ -41,6 +41,8 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             SysTableViewModel sysTableViewModel = new SysTableViewModel();
             SysTableField sysTableField = new SysTableField();
             SpeciesImport speciesImport = new SpeciesImport();
+            bool genusMatch = false;
+            bool speciesMatch = true;
             
             if (!viewModel.Validate())
             {
@@ -75,23 +77,15 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                     //sourceTable.Rows.Add(2, "Alice", 25);
 
                     // Define the subset of columns to copy
-                    string[] columnsToCopy = { "ID", "TAXONOMY_GENUS", "TAXONOMY_SPECIES", "AUTHOR" };
-                    
+                    string[] columnsToCopy = {"ID", "TAXONOMY_GENUS", "TAXONOMY_SPECIES", "AUTHOR" };
+
                     // Add columns to the destination DataTable based on the subset
                     foreach (string column in columnsToCopy)
                     {
                         destinationTable.Columns.Add(column, sourceTable.Columns[column].DataType);
-
-                        //if (column == "TAXONOMY_GENUS")
-                        //{
-                        //    DataColumn taxonomyGenusResultColumn = new DataColumn();
-                        //    taxonomyGenusResultColumn.ColumnName = "GENUS_MATCH";
-                        //    destinationTable.Columns.Add(taxonomyGenusResultColumn.ColumnName, sourceTable.Columns[column].DataType);
-                        //}
-
-                      
                     }
 
+                    // Add columns that will show matching species data (if any).
                     DataColumn taxonomySpeciesResultColumn = new DataColumn();
                     taxonomySpeciesResultColumn.ColumnName = "MATCH_GENUS";
                     destinationTable.Columns.Add(taxonomySpeciesResultColumn.ColumnName, sourceTable.Columns["TAXONOMY_GENUS"].DataType);
@@ -104,7 +98,13 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                     taxonomySpeciesResultColumn.ColumnName = "MATCH_AUTHOR";
                     destinationTable.Columns.Add(taxonomySpeciesResultColumn.ColumnName, sourceTable.Columns["AUTHOR"].DataType);
 
-                    // Add columns to hold matching species record(s)
+                    DataColumn matchFoundColumn = new DataColumn();
+                    matchFoundColumn.ColumnName = "MATCH_FOUND";
+                    destinationTable.Columns.Add(matchFoundColumn.ColumnName);
+
+                    DataColumn matchNoteColumn = new DataColumn();
+                    matchNoteColumn.ColumnName = "MATCH_NOTE";
+                    destinationTable.Columns.Add(matchNoteColumn.ColumnName);
 
                     // Copy data from source to destination
                     foreach (DataRow sourceRow in sourceTable.Rows)
@@ -114,24 +114,24 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                         {
                             destRow[column] = sourceRow[column];
 
-                            // If col is genus, species: search for match and display results in new adjacent column.
-                            //if (column == "TAXONOMY_GENUS")
-                            //{
-                            //    string sourceGenusName = sourceRow[column].ToString();
-
-                            //    if (!String.IsNullOrEmpty(sourceGenusName))
-                            //    {
-                            //        GenusViewModel genusViewModel = new GenusViewModel();
-                            //        genusViewModel.SearchEntity.Name = sourceGenusName;
-                            //        genusViewModel.Search();
-                            //        destRow["GENUS_MATCH"] = genusViewModel.DataCollection.Count;
-                            //    }
-                            //}
-
                             if (column == "TAXONOMY_SPECIES")
                             {
                                 string sourceGenusName = sourceRow["TAXONOMY_GENUS"].ToString();
                                 string sourceSpeciesName = sourceRow[column].ToString();
+
+                                // Check genus
+                                GenusViewModel genusViewModel = new GenusViewModel();
+                                genusViewModel.SearchEntity.Name = sourceGenusName;
+                                genusViewModel.Search();
+
+                                if (genusViewModel.DataCollection.Count > 0)
+                                {
+                                    genusMatch = true;
+                                }
+                                else
+                                {
+                                    genusMatch = false;
+                                }
 
                                 if (!String.IsNullOrEmpty(sourceSpeciesName))
                                 {
@@ -141,10 +141,28 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
 
                                     if (speciesViewModel.DataCollection.Count > 0)
                                     {
-
                                         destRow["MATCH_GENUS"] = speciesViewModel.DataCollection[0].GenusName;
                                         destRow["MATCH_SPECIES"] = speciesViewModel.DataCollection[0].Name;
                                         destRow["MATCH_AUTHOR"] = speciesViewModel.DataCollection[0].SpeciesAuthority;
+                                        destRow["MATCH_FOUND"] = "YES";
+                                        speciesMatch = true;
+                                    }
+                                    else
+                                    {
+                                        // TODO If no match on species, but on genus, retrieve all species for said genus
+                                        // and apply string-similarity logic to each.
+
+                                        if (genusMatch == true)
+                                        {
+                                            SpeciesViewModel speciesViewModel1 = new SpeciesViewModel();
+                                            speciesViewModel1.SearchEntity.GenusName = sourceGenusName;
+                                            speciesViewModel1.Search();
+                                            if (speciesViewModel1.DataCollection.Count > 0)
+                                            {
+                                                destRow["MATCH_FOUND"] = speciesViewModel1.DataCollection.Count + " similar";
+                                            }
+                                        }
+                                        speciesMatch = false;
                                     }
                                 }
                             }

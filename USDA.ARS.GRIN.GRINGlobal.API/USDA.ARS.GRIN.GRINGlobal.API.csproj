@@ -227,6 +227,21 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Shared\_LayoutBACKUP.cshtml" />
+    <Content Include="Views\Shared\_LayoutInterior.cshtml" />
+    <Content Include="Views\Shared\_LayoutInteriorAdmin.cshtml" />
+    <Content Include="Views\Shared\_LayoutLogin.cshtml" />
+    <Content Include="Views\Shared\_LayoutUSWDS.cshtml" />
+    <Content Include="Views\Shared\_LayoutUSWDSInterior.cshtml" />
+    <Content Include="Views\Shared\_LayoutUSWDSInteriorAdmin.cshtml" />
+    <Content Include="Views\Shared\_USAIdentifier.cshtml" />
+    <Content Include="Views\Shared\_USANavAdmin.cshtml" />
+    <Content Include="Views\Shared\_USANavPrimary.cshtml" />
+    <Content Include="Views\Shared\Components\_USABanner.cshtml" />
+    <Content Include="Views\Shared\Components\_USAFooter.cshtml" />
+    <Content Include="Views\Shared\Components\_USAHero.cshtml" />
+    <Content Include="Views\Shared\Components\_USANavAdmin.cshtml" />
+    <Content Include="Views\Shared\Components\_USANavExtendedHeaderWithMegamenu.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
