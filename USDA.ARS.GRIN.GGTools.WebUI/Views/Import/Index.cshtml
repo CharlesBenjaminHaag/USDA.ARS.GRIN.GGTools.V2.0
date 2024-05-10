@@ -75,6 +75,9 @@
                         <input type="text" id="txtSpeciesName" class="form-control" />
                     </div>
                 </div>
+                <div id="section-species-name-matching-results">
+
+                </div>
             </div>
             <div class="modal-footer justify-content-between">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -143,10 +146,10 @@
             //    return '<div>The extra details for ' + d.name + '</div>'; // Sample format
             //}
 
-            $(tableName).on('click', 'tr', function () {
-                var data = table.row(this).data();
-                ShowResultsModal(data[1], data[2]);
-            });
+            //$(tableName).on('click', 'tr', function () {
+            //    var data = table.row(this).data();
+            //    ShowResultsModal(data[1], data[2]);
+            //});
         });
     }
 
@@ -185,12 +188,21 @@
             processData: false,
             data: formData,
             success: function (response) {
-                $("#section-verification").html(response);
+                $("#section-species-name-matching-results").html(response);
             },
             error: function () {
                 alert("Error");
             }
         });
     }
+
+    $(document).on("click", "[id*='species-selector-']", function () {
+        event.preventDefault();
+        var selectedGenusName = $(this).data("ggtools-genus");
+        var selectedSpeciesName = $(this).data("ggtools-species");
+        // get genus name
+        // get species name
+        ShowResultsModal(selectedGenusName, selectedSpeciesName);
+    });
 
 </script>

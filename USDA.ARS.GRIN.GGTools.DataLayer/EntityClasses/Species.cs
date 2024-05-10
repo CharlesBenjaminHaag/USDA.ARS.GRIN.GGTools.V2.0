@@ -48,9 +48,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         public string InfraspecificType { get; set; }
         [AllowHtml]
         public string Protologue { get; set; }
-        
         public int GenusID { get; set; }
-        
         [AllowHtml]
         public string GenusName { get; set; }
         public string SubgenusName { get; set; }
@@ -60,7 +58,6 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         public string SubfamilyName { get; set; }
         public string TribeName { get; set; }
         public string SubtribeName { get; set; }
-
         public string IsNamePending { get; set; }
         public string SynonymCode { get; set; }
         public string SynonymDescription { get; set; }
@@ -68,14 +65,15 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         public string VerifiedByCooperatorName { get; set; }
         public DateTime NameVerifiedDate { get; set; }
         public string Name { get; set; }
-        
         public string ProtologueVirtualPath { get; set; }
         public string AlternateName { get; set; }
         public int AccessionCount { get; set; }
         public string IsVerified { get; set; } 
-
         public Species AcceptedSpecies { get; set;}
         public Genus Genus { get; set; }
+        public int MatchRankingLevenshtein { get; set; }
+        public double MatchRankingDice { get; set; }
+        public int MatchRankingHamming { get; set; }
 
         public string VerificationText
         {

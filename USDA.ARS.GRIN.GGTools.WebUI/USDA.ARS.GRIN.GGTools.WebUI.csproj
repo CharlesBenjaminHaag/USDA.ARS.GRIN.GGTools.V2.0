@@ -1013,6 +1013,7 @@
     <Content Include="Views\SysTag\Components\_SysTagsByTable.cshtml" />
     <Content Include="Views\Import\_List3.cshtml" />
     <Content Include="Views\Import\_SearchResultsList.cshtml" />
+    <Content Include="Views\Taxonomy\Species\Components\_NameMatchingSelectList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

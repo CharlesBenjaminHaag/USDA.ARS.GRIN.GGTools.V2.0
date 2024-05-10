@@ -32,8 +32,17 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
         {
             try
             {
-                var DEBUG = StringMatching.CalculateLevenshteinDistance(speciesName, "spp.");
-                return null;
+                SpeciesViewModel viewModel = new SpeciesViewModel();
+                viewModel.SearchEntity.GenusName = genusName;
+                viewModel.Search();
+
+                foreach (var result in viewModel.DataCollection)
+                {
+                    result.MatchRankingLevenshtein = StringMatching.CalculateLevenshteinDistance(speciesName, result.SpeciesName);
+                    result.MatchRankingDice = StringMatching.CalculateDiceCoefficient(speciesName, result.SpeciesName);
+                    //result.MatchRankingHamming = StringMatching.CalculateHammingDistance(speciesName, result.SpeciesName);
+                }
+                return PartialView("~/Views/Taxonomy/Species/Components/_NameMatchingSelectList.cshtml",viewModel);
             }
             catch (Exception ex)
             {

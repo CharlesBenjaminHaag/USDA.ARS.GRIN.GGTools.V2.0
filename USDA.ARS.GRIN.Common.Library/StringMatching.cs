@@ -47,5 +47,49 @@ namespace USDA.ARS.GRIN.Common.Library
             // return result
             return matrix[source1Length, source2Length];
         }
+
+        public static double CalculateDiceCoefficient(string str1, string str2)
+        {
+            // Convert strings to sets of characters
+            var set1 = new HashSet<char>(str1);
+            var set2 = new HashSet<char>(str2);
+
+            // Calculate intersection size
+            int intersectionSize = 0;
+            foreach (char c in set1)
+            {
+                if (set2.Contains(c))
+                {
+                    intersectionSize++;
+                }
+            }
+
+            // Calculate Dice Coefficient
+            double diceCoefficient = (2.0 * intersectionSize) / (set1.Count + set2.Count);
+
+            return diceCoefficient;
+        }
+
+        public static int CalculateHammingDistance(string str1, string str2)
+        {
+            // Check if the strings have the same length
+            if (str1.Length != str2.Length)
+            {
+                throw new ArgumentException("Strings must be of equal length");
+            }
+
+            int hammingDistance = 0;
+
+            // Iterate through each character and compare
+            for (int i = 0; i < str1.Length; i++)
+            {
+                if (str1[i] != str2[i])
+                {
+                    hammingDistance++;
+                }
+            }
+
+            return hammingDistance;
+        }
     }
 }

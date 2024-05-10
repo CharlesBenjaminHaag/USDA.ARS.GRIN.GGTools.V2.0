@@ -5,6 +5,7 @@
 @if (Model.DataCollectionDataTable.Rows.Count > 0)
 {
     string columnStyleMatchFoundIndicator = "";
+    string speciesDetailLink = "";
     
     <div class="card card-success">
         <div class="card-header">
@@ -33,14 +34,17 @@
                 <tbody>
                     @foreach (DataRow dr in Model.DataCollectionDataTable.Rows)
                     {
+                        
                     <tr>
                         @foreach (DataColumn rowCol in Model.DataCollectionDataTable.Columns)
                         {
+                            speciesDetailLink = dr[rowCol.ColumnName].ToString();
                             if (rowCol.ColumnName == "MATCH_FOUND")
                             {
                                 if (dr[rowCol.ColumnName].ToString() == "YES")
                                 {
                                     columnStyleMatchFoundIndicator = "text-align:center;background-color:green;color:white;";
+                                    speciesDetailLink = dr[rowCol.ColumnName].ToString();
                                 }
                                 else
                                 {
@@ -48,20 +52,16 @@
 
                                     {
                                         columnStyleMatchFoundIndicator = "text-align:center;background-color:red;color:white;";
+                                        speciesDetailLink = "<a id=species-selector-" + dr["ID"].ToString() +" href=# data-ggtools-genus='" + dr["TAXONOMY_GENUS"].ToString() + "' data-ggtools-species='" + dr["TAXONOMY_SPECIES"].ToString() + "' class='species-name-selector' style='color:white;'>" + dr[rowCol.ColumnName].ToString() + "</a>";
                                     }
                                 }
-
                             }
                             else
                             {
                                 columnStyleMatchFoundIndicator = "";
                             }
-
-
-
-
                             <td style="@columnStyleMatchFoundIndicator">
-                                @dr[rowCol.ColumnName]
+                                @Html.Raw(speciesDetailLink)
                             </td>
                         }
                     </tr>
