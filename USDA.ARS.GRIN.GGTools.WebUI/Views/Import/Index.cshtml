@@ -7,8 +7,47 @@
 }
 
 @Html.HiddenFor(x => x.RowsAffected)
+
+<div class="row">
+    <div class="col-md-3">
+        <div class="card card-primary">
+            <div class="card-header">
+                <h3 class="card-title">Primary</h3>
+                <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                        <i class="fas fa-minus"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="form-group">
+                    <label>Select Source File (.xls)</label>
+                    @Html.TextBoxFor(x => x.DocumentUpload, new { @class = "form-control", @type = "file", @value = Model.ImportFileName })
+                </div>
+                <button id="btnLoadFileDefinition" class="btn btn-default btn-block btn-flat">Load File Definition</button>
+                
+                <div id="section-file-definition">
+                    
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="col-md-9"></div>
+</div>
+
 @using (Html.BeginForm("Post", "Import", FormMethod.Post, new { id = "frmEdit", enctype = "multipart/form-data" }))
 {
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="card card-primary card-tabs">
         <div class="card-header p-0 pt-1">
             <ul class="nav nav-tabs" id="custom-tabs-two-tab" role="tablist">
@@ -27,10 +66,7 @@
                 <div class="tab-pane fade show active" id="custom-tabs-two-home" role="tabpanel" aria-labelledby="custom-tabs-two-home-tab">
                     <div class="row">
                         <div class="col-md-6">
-                            <div class="form-group">
-                                <label>Select Source File (.xls)</label>
-                                @Html.TextBoxFor(x => x.DocumentUpload, new { @class = "form-control", @type = "file", @value = Model.ImportFileName })
-                            </div>
+                           
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
@@ -90,6 +126,10 @@
 </div>
 
 <script type="text/javascript">
+    $("#btnLoadFileDefinition").on('click', function (event) {
+       
+    });
+
     $(document).ready(function () {
         InitDataTableDynamicQuery("data_table_import");
     });

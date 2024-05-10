@@ -34,6 +34,19 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
         }
 
         [HttpPost]
+        public PartialViewResult LoadFileDefinition()
+        {
+            try
+            { 
+            
+            }
+            catch (Exception ex)
+            { 
+            
+            }
+        }
+
+        [HttpPost]
         public ActionResult Post(ImportViewModel viewModel)
         {
             DataTable sourceTable = new DataTable();
@@ -43,7 +56,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             SpeciesImport speciesImport = new SpeciesImport();
             bool genusMatch = false;
             bool speciesMatch = true;
-            
+
             if (!viewModel.Validate())
             {
                 if (viewModel.ValidationMessages.Count > 0) return View("~/Views/Import/Index.cshtml", viewModel);
@@ -55,184 +68,238 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             {
                 using (var reader = ExcelReaderFactory.CreateReader(stream))
                 {
-                    DataSet result = reader.AsDataSet(new ExcelDataSetConfiguration()
+                    bool isHeaderRow = true;
+                    do
                     {
-                        ConfigureDataTable = (_) => new ExcelDataTableConfiguration()
+                        // Iterate through each row in the current sheet
+                        while (reader.Read())
                         {
-                            UseHeaderRow = true,
-                        }
-                    });
-                    sourceTable = result.Tables[0];
-
-                    // May need to refactor: create new DT consisting of a subset of those imported from
-                    // the spreadsheet, and comparison columns to indicate the results of name searches.
-
-                    // Create source DataTable
-                    
-                    //sourceTable.Columns.Add("ID", typeof(int));
-                    //sourceTable.Columns.Add("Name", typeof(string));
-                    //sourceTable.Columns.Add("Age", typeof(int));
-                    //// Add some sample data
-                    //sourceTable.Rows.Add(1, "John", 30);
-                    //sourceTable.Rows.Add(2, "Alice", 25);
-
-                    // Define the subset of columns to copy
-                    string[] columnsToCopy = {"ID", "TAXONOMY_GENUS", "TAXONOMY_SPECIES", "AUTHOR" };
-
-                    // Add columns to the destination DataTable based on the subset
-                    foreach (string column in columnsToCopy)
-                    {
-                        destinationTable.Columns.Add(column, sourceTable.Columns[column].DataType);
-                    }
-
-                    // Add columns that will show matching species data (if any).
-                    DataColumn taxonomySpeciesResultColumn = new DataColumn();
-                    taxonomySpeciesResultColumn.ColumnName = "MATCH_GENUS";
-                    destinationTable.Columns.Add(taxonomySpeciesResultColumn.ColumnName, sourceTable.Columns["TAXONOMY_GENUS"].DataType);
-
-                    DataColumn taxonomySpeciesResultColumn2 = new DataColumn();
-                    taxonomySpeciesResultColumn.ColumnName = "MATCH_SPECIES";
-                    destinationTable.Columns.Add(taxonomySpeciesResultColumn.ColumnName, sourceTable.Columns["TAXONOMY_SPECIES"].DataType);
-
-                    DataColumn taxonomySpeciesResultColumn3 = new DataColumn();
-                    taxonomySpeciesResultColumn.ColumnName = "MATCH_AUTHOR";
-                    destinationTable.Columns.Add(taxonomySpeciesResultColumn.ColumnName, sourceTable.Columns["AUTHOR"].DataType);
-
-                    DataColumn matchFoundColumn = new DataColumn();
-                    matchFoundColumn.ColumnName = "MATCH_FOUND";
-                    destinationTable.Columns.Add(matchFoundColumn.ColumnName);
-
-                    DataColumn matchNoteColumn = new DataColumn();
-                    matchNoteColumn.ColumnName = "MATCH_NOTE";
-                    destinationTable.Columns.Add(matchNoteColumn.ColumnName);
-
-                    // Copy data from source to destination
-                    foreach (DataRow sourceRow in sourceTable.Rows)
-                    {
-                        DataRow destRow = destinationTable.NewRow();
-                        foreach (string column in columnsToCopy)
-                        {
-                            destRow[column] = sourceRow[column];
-
-                            if (column == "TAXONOMY_SPECIES")
+                            // Check if the current row is a header row
+                            if (isHeaderRow)
                             {
-                                string sourceGenusName = sourceRow["TAXONOMY_GENUS"].ToString();
-                                string sourceSpeciesName = sourceRow[column].ToString();
-
-                                // Check genus
-                                GenusViewModel genusViewModel = new GenusViewModel();
-                                genusViewModel.SearchEntity.Name = sourceGenusName;
-                                genusViewModel.Search();
-
-                                if (genusViewModel.DataCollection.Count > 0)
+                                // Process header row (you can store or validate headers here)
+                                for (int i = 0; i < reader.FieldCount; i++)
                                 {
-                                    genusMatch = true;
+                                    Console.Write(reader.GetValue(i) + "\t");
                                 }
-                                else
-                                {
-                                    genusMatch = false;
-                                }
+                                Console.WriteLine(); // Move to the next line for the next row
 
-                                if (!String.IsNullOrEmpty(sourceSpeciesName))
-                                {
-                                    SpeciesViewModel speciesViewModel = new SpeciesViewModel();
-                                    speciesViewModel.SearchEntity.Name = sourceGenusName + " " + sourceSpeciesName;
-                                    speciesViewModel.Search();
-
-                                    if (speciesViewModel.DataCollection.Count > 0)
-                                    {
-                                        destRow["MATCH_GENUS"] = speciesViewModel.DataCollection[0].GenusName;
-                                        destRow["MATCH_SPECIES"] = speciesViewModel.DataCollection[0].Name;
-                                        destRow["MATCH_AUTHOR"] = speciesViewModel.DataCollection[0].SpeciesAuthority;
-                                        destRow["MATCH_FOUND"] = "YES";
-                                        speciesMatch = true;
-                                    }
-                                    else
-                                    {
-                                        // TODO If no match on species, but on genus, retrieve all species for said genus
-                                        // and apply string-similarity logic to each.
-
-                                        if (genusMatch == true)
-                                        {
-                                            SpeciesViewModel speciesViewModel1 = new SpeciesViewModel();
-                                            speciesViewModel1.SearchEntity.GenusName = sourceGenusName;
-                                            speciesViewModel1.Search();
-                                            if (speciesViewModel1.DataCollection.Count > 0)
-                                            {
-                                                destRow["MATCH_FOUND"] = speciesViewModel1.DataCollection.Count + " similar";
-                                            }
-                                        }
-                                        speciesMatch = false;
-                                    }
-                                }
+                                // Set the flag to false since we've processed the header row
+                                isHeaderRow = false;
                             }
-
+                            else
+                            {
+                                // Process data rows
+                                for (int i = 0; i < reader.FieldCount; i++)
+                                {
+                                    Console.Write(reader.GetValue(i) + "\t");
+                                }
+                                Console.WriteLine(); // Move to the next line for the next row
+                            }
                         }
-                        destinationTable.Rows.Add(destRow);
-                    }
-
-                    viewModel.DataCollectionDataTable = destinationTable.Copy();
-
-                    //switch (viewModel.SysTableName)
-                    //{
-                    //    case "Species":
-                    //        SpeciesViewModel speciesViewModel = new SpeciesViewModel();
-
-                    //        // REFACTOR once logic makes more sense (CBH, 2/2/24)
-
-                    //        foreach (DataRow dr in dtImported.Rows)
-                    //        {
-                    //            //speciesImport = new SpeciesImport();
-
-                    //            foreach (DataColumn rowCol in dtImported.Columns)
-                    //            {
-                    //                //sysTableField = viewModel.GetColumnInfo(viewModel.SysTableName, rowCol.ColumnName);
-
-                    //                //switch (rowCol.ColumnName)
-                    //                //{
-                    //                //    case "ID":
-                    //                //        primaryKeyValue = Int32.Parse(dr[rowCol.ColumnName].ToString());
-                    //                //        speciesViewModel.Get(primaryKeyValue);
-                    //                //        speciesImport.ID = speciesViewModel.Entity.ID;
-                    //                //        break;
-                    //                //    case "Name":
-                    //                //    case "Epithet":
-                    //                //        speciesImport.SpeciesName = dr[rowCol.ColumnName].ToString();
-                    //                //        speciesImport.OriginalSpeciesName = speciesViewModel.Entity.SpeciesName;
-                    //                //        break;
-                    //                //    case "Authority":
-                    //                //        speciesImport.SpeciesAuthority = dr[rowCol.ColumnName].ToString();
-                    //                //        speciesImport.OriginalSpeciesAuthority = speciesViewModel.Entity.SpeciesAuthority;
-                    //                //        break;
-                    //                //    case "Protologue":
-                    //                //        speciesImport.Protologue = dr[rowCol.ColumnName].ToString();
-                    //                //        speciesImport.OriginalProtologue = speciesViewModel.Entity.Protologue;
-                    //                //        break;
-
-                    //                //}
-
-
-                    //            }
-                    //            //viewModel.DataCollectionSpeciesImport.Add(speciesImport);
-                    //        }
-                    //        break;
-                    //    case "Citation":
-                    //        CitationViewModel citationViewModel = new CitationViewModel();
-                    //        break;
-                    //    case "Literature":
-                    //        CropForCWRViewModel cropForCWRViewModel = new CropForCWRViewModel();
-                    //        break;
-                    //    case "CWR Map":
-                    //        CWRMapViewModel cWRMapViewModel = new CWRMapViewModel();
-                    //        break;
-                    //    case "CWR Trait":
-                    //        CWRTraitViewModel cWRTraitViewModel = new CWRTraitViewModel();
-                    //        break;
-                    //}
+                    } while (reader.NextResult()); // Move to next sheet, if available
                 }
             }
             return View("~/Views/Import/Index.cshtml", viewModel);
         }
+
+
+        //[HttpPost]
+        //public ActionResult Post(ImportViewModel viewModel)
+        //{
+        //    DataTable sourceTable = new DataTable();
+        //    DataTable destinationTable = new DataTable();
+        //    SysTableViewModel sysTableViewModel = new SysTableViewModel();
+        //    SysTableField sysTableField = new SysTableField();
+        //    SpeciesImport speciesImport = new SpeciesImport();
+        //    bool genusMatch = false;
+        //    bool speciesMatch = true;
+
+        //    if (!viewModel.Validate())
+        //    {
+        //        if (viewModel.ValidationMessages.Count > 0) return View("~/Views/Import/Index.cshtml", viewModel);
+        //    }
+
+        //    viewModel.ImportFileName = viewModel.DocumentUpload.FileName;
+
+        //    using (var stream = viewModel.DocumentUpload.InputStream)
+        //    {
+        //        using (var reader = ExcelReaderFactory.CreateReader(stream))
+        //        {
+        //            DataSet result = reader.AsDataSet(new ExcelDataSetConfiguration()
+        //            {
+        //                ConfigureDataTable = (_) => new ExcelDataTableConfiguration()
+        //                {
+        //                    UseHeaderRow = true,
+        //                }
+        //            });
+        //            sourceTable = result.Tables[0];
+
+        //            List<string> columnsToCopy = new List<string>();
+
+        //            foreach (DataColumn col in sourceTable.Columns)
+        //            {
+        //                columnsToCopy.Add(col.ColumnName);
+        //            }
+
+
+        //            // Define the subset of columns to copy
+        //            //string[] columnsToCopy = {"ID", "TAXONOMY_GENUS", "TAXONOMY_SPECIES", "AUTHOR" };
+
+        //            // Add columns to the destination DataTable based on the subset
+        //            foreach (string column in columnsToCopy)
+        //            {
+        //                destinationTable.Columns.Add(column, sourceTable.Columns[column].DataType);
+        //            }
+
+        //            // Add columns that will show matching species data (if any).
+        //            DataColumn taxonomySpeciesResultColumn = new DataColumn();
+        //            taxonomySpeciesResultColumn.ColumnName = "MATCH_GENUS";
+        //            destinationTable.Columns.Add(taxonomySpeciesResultColumn.ColumnName, sourceTable.Columns["TAXONOMY_GENUS"].DataType);
+
+        //            DataColumn taxonomySpeciesResultColumn2 = new DataColumn();
+        //            taxonomySpeciesResultColumn.ColumnName = "MATCH_SPECIES";
+        //            destinationTable.Columns.Add(taxonomySpeciesResultColumn.ColumnName, sourceTable.Columns["TAXONOMY_SPECIES"].DataType);
+
+        //            DataColumn taxonomySpeciesResultColumn3 = new DataColumn();
+        //            taxonomySpeciesResultColumn.ColumnName = "MATCH_AUTHOR";
+        //            destinationTable.Columns.Add(taxonomySpeciesResultColumn.ColumnName, sourceTable.Columns["AUTHOR"].DataType);
+
+        //            DataColumn matchFoundColumn = new DataColumn();
+        //            matchFoundColumn.ColumnName = "MATCH_FOUND";
+        //            destinationTable.Columns.Add(matchFoundColumn.ColumnName);
+
+        //            DataColumn matchNoteColumn = new DataColumn();
+        //            matchNoteColumn.ColumnName = "MATCH_NOTE";
+        //            destinationTable.Columns.Add(matchNoteColumn.ColumnName);
+
+        //            // Copy data from source to destination
+        //            foreach (DataRow sourceRow in sourceTable.Rows)
+        //            {
+        //                DataRow destRow = destinationTable.NewRow();
+        //                foreach (string column in columnsToCopy)
+        //                {
+        //                    destRow[column] = sourceRow[column];
+
+        //                    //if (column == "TAXONOMY_SPECIES")
+        //                    //{
+        //                    //    string sourceGenusName = sourceRow["TAXONOMY_GENUS"].ToString();
+        //                    //    string sourceSpeciesName = sourceRow[column].ToString();
+
+        //                    //    // Check genus
+        //                    //    GenusViewModel genusViewModel = new GenusViewModel();
+        //                    //    genusViewModel.SearchEntity.Name = sourceGenusName;
+        //                    //    genusViewModel.Search();
+
+        //                    //    if (genusViewModel.DataCollection.Count > 0)
+        //                    //    {
+        //                    //        genusMatch = true;
+        //                    //    }
+        //                    //    else
+        //                    //    {
+        //                    //        genusMatch = false;
+        //                    //    }
+
+        //                    //    if (!String.IsNullOrEmpty(sourceSpeciesName))
+        //                    //    {
+        //                    //        SpeciesViewModel speciesViewModel = new SpeciesViewModel();
+        //                    //        speciesViewModel.SearchEntity.Name = sourceGenusName + " " + sourceSpeciesName;
+        //                    //        speciesViewModel.Search();
+
+        //                    //        if (speciesViewModel.DataCollection.Count > 0)
+        //                    //        {
+        //                    //            destRow["MATCH_GENUS"] = speciesViewModel.DataCollection[0].GenusName;
+        //                    //            destRow["MATCH_SPECIES"] = speciesViewModel.DataCollection[0].Name;
+        //                    //            destRow["MATCH_AUTHOR"] = speciesViewModel.DataCollection[0].SpeciesAuthority;
+        //                    //            destRow["MATCH_FOUND"] = "YES";
+        //                    //            speciesMatch = true;
+        //                    //        }
+        //                    //        else
+        //                    //        {
+        //                    //            // TODO If no match on species, but on genus, retrieve all species for said genus
+        //                    //            // and apply string-similarity logic to each.
+
+        //                    //            if (genusMatch == true)
+        //                    //            {
+        //                    //                SpeciesViewModel speciesViewModel1 = new SpeciesViewModel();
+        //                    //                speciesViewModel1.SearchEntity.GenusName = sourceGenusName;
+        //                    //                speciesViewModel1.Search();
+        //                    //                if (speciesViewModel1.DataCollection.Count > 0)
+        //                    //                {
+        //                    //                    destRow["MATCH_FOUND"] = speciesViewModel1.DataCollection.Count + " similar";
+        //                    //                }
+        //                    //            }
+        //                    //            speciesMatch = false;
+        //                    //        }
+        //                    //    }
+        //                    //}
+
+        //                }
+        //                destinationTable.Rows.Add(destRow);
+        //            }
+
+        //            viewModel.DataCollectionDataTable = destinationTable.Copy();
+
+        //            //switch (viewModel.SysTableName)
+        //            //{
+        //            //    case "Species":
+        //            //        SpeciesViewModel speciesViewModel = new SpeciesViewModel();
+
+        //            //        // REFACTOR once logic makes more sense (CBH, 2/2/24)
+
+        //            //        foreach (DataRow dr in dtImported.Rows)
+        //            //        {
+        //            //            //speciesImport = new SpeciesImport();
+
+        //            //            foreach (DataColumn rowCol in dtImported.Columns)
+        //            //            {
+        //            //                //sysTableField = viewModel.GetColumnInfo(viewModel.SysTableName, rowCol.ColumnName);
+
+        //            //                //switch (rowCol.ColumnName)
+        //            //                //{
+        //            //                //    case "ID":
+        //            //                //        primaryKeyValue = Int32.Parse(dr[rowCol.ColumnName].ToString());
+        //            //                //        speciesViewModel.Get(primaryKeyValue);
+        //            //                //        speciesImport.ID = speciesViewModel.Entity.ID;
+        //            //                //        break;
+        //            //                //    case "Name":
+        //            //                //    case "Epithet":
+        //            //                //        speciesImport.SpeciesName = dr[rowCol.ColumnName].ToString();
+        //            //                //        speciesImport.OriginalSpeciesName = speciesViewModel.Entity.SpeciesName;
+        //            //                //        break;
+        //            //                //    case "Authority":
+        //            //                //        speciesImport.SpeciesAuthority = dr[rowCol.ColumnName].ToString();
+        //            //                //        speciesImport.OriginalSpeciesAuthority = speciesViewModel.Entity.SpeciesAuthority;
+        //            //                //        break;
+        //            //                //    case "Protologue":
+        //            //                //        speciesImport.Protologue = dr[rowCol.ColumnName].ToString();
+        //            //                //        speciesImport.OriginalProtologue = speciesViewModel.Entity.Protologue;
+        //            //                //        break;
+
+        //            //                //}
+
+
+        //            //            }
+        //            //            //viewModel.DataCollectionSpeciesImport.Add(speciesImport);
+        //            //        }
+        //            //        break;
+        //            //    case "Citation":
+        //            //        CitationViewModel citationViewModel = new CitationViewModel();
+        //            //        break;
+        //            //    case "Literature":
+        //            //        CropForCWRViewModel cropForCWRViewModel = new CropForCWRViewModel();
+        //            //        break;
+        //            //    case "CWR Map":
+        //            //        CWRMapViewModel cWRMapViewModel = new CWRMapViewModel();
+        //            //        break;
+        //            //    case "CWR Trait":
+        //            //        CWRTraitViewModel cWRTraitViewModel = new CWRTraitViewModel();
+        //            //        break;
+        //            //}
+        //        }
+        //    }
+        //    return View("~/Views/Import/Index.cshtml", viewModel);
+        //}
 
         [HttpPost]
         public PartialViewResult PostImport()
