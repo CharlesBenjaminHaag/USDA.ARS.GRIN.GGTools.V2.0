@@ -64,6 +64,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EntityClasses\AccessionMCPD.cs" />
     <Compile Include="EntityClasses\AccessionInvAnnotationSearch.cs" />
     <Compile Include="EntityClasses\AccessionInvAnnotation.cs" />
     <Compile Include="EntityClasses\SpeciesMatch.cs" />
@@ -292,6 +293,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

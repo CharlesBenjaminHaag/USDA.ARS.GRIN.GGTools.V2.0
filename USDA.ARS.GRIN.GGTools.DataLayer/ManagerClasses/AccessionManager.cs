@@ -57,16 +57,16 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             return results;
         }
 
-        public List<Accession> Export(AccessionSearch searchEntity)
+        public List<AccessionMCPD> Export(int offset = 0, int limit = 0)
         {
-            SQL = "usp GRINGlobal_Accessions_MCPD_Export";
-            List<Accession> accessions = new List<Accession>();
+            SQL = "usp_GRINGlobal_Accessions_MCPD_Export";
+            List<AccessionMCPD> accessions = new List<AccessionMCPD>();
 
             var parameters = new List<IDbDataParameter> {
-                CreateParameter("@CreatedByCooperatorID", searchEntity.CreatedByCooperatorID > 0 ? (object)searchEntity.CreatedByCooperatorID : DBNull.Value, true),
-                CreateParameter("@SpeciesID", searchEntity.SpeciesID > 0 ? (object)searchEntity.SpeciesID : DBNull.Value, true),
+                CreateParameter("@offset", offset, true),
+                CreateParameter("@limit", limit, true),
             };
-            accessions = GetRecords<Accession>(SQL, CommandType.StoredProcedure, parameters.ToArray());
+            accessions = GetRecords<AccessionMCPD>(SQL, CommandType.StoredProcedure, parameters.ToArray());
             return accessions;
         }
 

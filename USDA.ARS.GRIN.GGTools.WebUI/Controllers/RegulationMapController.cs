@@ -254,6 +254,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                         editor.Field(new Field("taxonomy_regulation_map.taxonomy_species_id"));
                         editor.Field(new Field("taxonomy_regulation_map.taxonomy_regulation_id"));
                         editor.Field(new Field("taxonomy_regulation.regulation_type_code"));
+                        editor.Field(new Field("taxonomy_regulation.regulation_level_code"));
                         editor.Field(new Field("taxonomy_regulation_map.is_exempt"));
                         editor.Field(new Field("taxonomy_regulation_map.note"));
                         editor.Field(new Field("taxonomy_regulation_map.modified_date")
@@ -270,6 +271,30 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                         return jsonResult;
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+                return Json(ex.Message, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        [HttpPost]
+        public JsonResult SaveBatch(int regulationMapId = 0, int familyId = 0, int genusId = 0, int speciesId = 0, int regulationId = 0)
+        {
+            try
+            {
+                RegulationMapViewModel viewModel = new RegulationMapViewModel();
+                viewModel.Get(regulationMapId);
+                if (viewModel.DataCollection.Count == 0)
+                {
+                    throw new IndexOutOfRangeException("No regulation found for id " + regulationMapId);
+                }
+                viewModel.Entity.FamilyID = familyId;
+                viewModel.Entity.GenusID = genusId;
+                viewModel.Entity.SpeciesID = speciesId;
+                viewModel.Entity.ModifiedByCooperatorID = AuthenticatedUser.CooperatorID;
+                viewModel.Update();
+                return Json("OK", JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {

@@ -1,56 +1,70 @@
-﻿<div class="jumbotron">
-    <h1>Taxonomy API</h1>
-    <p class="lead">Version 1.0.0 Beta</p>
-    <p><a href="https://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
+﻿@{ ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutUSWDSInterior.cshtml"; 
+}
+
+<div class="usa-section">
+    <div class="grid-container">
+        <div class="grid-row grid-gap">
+            <div class="usa-layout-docs__sidenav desktop:grid-col-2">
+                <nav aria-label="Secondary navigation">
+                    <ul class="usa-sidenav">
+                        <li class="usa-sidenav__item"><a href="">Home</a></li>
+                        @*<li class="usa-sidenav__item">
+                                <a href="" class="usa-current">CGC</a>
+                                <ul class="usa-sidenav__sublist">
+                                    <li class="usa-sidenav__item"><a href="#section-overview">Overview</a></li>
+                                    <li class="usa-sidenav__item"><a href="#section-directory">Committees</a></li>
+                                    <li class="usa-sidenav__item"><a href="#section-briefings">Chair Briefings</a></li>
+
+                                </ul>
+                            </li>*@
+
+                    </ul>
+                </nav>
+            </div>
+            <main class="usa-layout-docs__main desktop:grid-col-10 usa-prose usa-layout-docs" id="main-content">
+                @*<h1>National Genetic Resources Advisory Council (NGRAC)</h1>*@
+                <h2 id="bkmk-6">API Endpoints</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <td>URL</td>
+                            <td>Verb</td>
+                            <td>Purpose</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>/food/{fdcId}</td>
+                            <td><a href="https://app.swaggerhub.com/apis/fdcnal/food-data_central_api/1.0.1#/FDC/getFood" target="_blank" class="usa-external_link">GET</a></td>
+                            <td>Fetches details for one food item by FDC ID</td>
+                        </tr>
+                        <tr>
+                            <td>/foods</td>
+                            <td>
+                                <a href="https://app.swaggerhub.com/apis/fdcnal/food-data_central_api/1.0.1#/FDC/getFoods" target="_blank" class="usa-external_link">GET</a> | <a href="https://app.swaggerhub.com/apis/fdcnal/food-data_central_api/1.0.1#/FDC/postFoods" target="_blank" class="usa-external_link">POST</a>
+                            </td>
+                            <td>Fetches details for multiple food items using input FDC IDs</td>
+                        </tr>
+                        <tr>
+                            <td>/foods/list</td>
+                            <td>
+                                <a href="https://app.swaggerhub.com/apis/fdcnal/food-data_central_api/1.0.1#/FDC/getFoodsList" target="_blank" class="usa-external_link">GET</a> | <a href="https://app.swaggerhub.com/apis/fdcnal/food-data_central_api/1.0.1#/FDC/postFoodsList" target="_blank" class="usa-external_link">POST</a>
+                            </td>
+                            <td>Returns a paged list of foods, in the 'abridged' format</td>
+                        </tr>
+                        <tr>
+                            <td>/foods/search</td>
+                            <td>
+                                <a href="https://app.swaggerhub.com/apis/fdcnal/food-data_central_api/1.0.1#/FDC/getFoodsSearch" target="_blank" class="usa-external_link">GET</a> | <a href="https://app.swaggerhub.com/apis/fdcnal/food-data_central_api/1.0.1#/FDC/postFoodsSearch" target="_blank" class="usa-external_link">POST</a>
+                            </td>
+                            <td>Returns a list of foods that matched search (query) keywords</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </main>
+        </div>
+    </div>
 </div>
-<div class="row">
-    <div class="col-md-4">
-        <table>
-            <thead>
-                <tr>
-                    <td>URL</td>
-                    <td>Verb</td>
-                    <td>Purpose</td>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>/food/{fdcId}</td>
-                    <td><a href="https://app.swaggerhub.com/apis/fdcnal/food-data_central_api/1.0.1#/FDC/getFood" target="_blank" class="usa-external_link">GET</a></td>
-                    <td>Fetches details for one food item by FDC ID</td>
-                </tr>
-                <tr>
-                    <td>/foods</td>
-                    <td>
-                        <a href="https://app.swaggerhub.com/apis/fdcnal/food-data_central_api/1.0.1#/FDC/getFoods" target="_blank" class="usa-external_link">GET</a> | <a href="https://app.swaggerhub.com/apis/fdcnal/food-data_central_api/1.0.1#/FDC/postFoods" target="_blank" class="usa-external_link">POST</a>
-                    </td>
-                    <td>Fetches details for multiple food items using input FDC IDs</td>
-                </tr>
-                <tr>
-                    <td>/foods/list</td>
-                    <td>
-                        <a href="https://app.swaggerhub.com/apis/fdcnal/food-data_central_api/1.0.1#/FDC/getFoodsList" target="_blank" class="usa-external_link">GET</a> | <a href="https://app.swaggerhub.com/apis/fdcnal/food-data_central_api/1.0.1#/FDC/postFoodsList" target="_blank" class="usa-external_link">POST</a>
-                    </td>
-                    <td>Returns a paged list of foods, in the 'abridged' format</td>
-                </tr>
-                <tr>
-                    <td>/foods/search</td>
-                    <td>
-                        <a href="https://app.swaggerhub.com/apis/fdcnal/food-data_central_api/1.0.1#/FDC/getFoodsSearch" target="_blank" class="usa-external_link">GET</a> | <a href="https://app.swaggerhub.com/apis/fdcnal/food-data_central_api/1.0.1#/FDC/postFoodsSearch" target="_blank" class="usa-external_link">POST</a>
-                    </td>
-                    <td>Returns a list of foods that matched search (query) keywords</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-    <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301871">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301872">Learn more &raquo;</a></p>
-    </div>
-</div>
+

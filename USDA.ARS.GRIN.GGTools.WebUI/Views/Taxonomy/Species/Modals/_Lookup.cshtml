@@ -94,6 +94,11 @@
         GetSpecies();
     });
 
+    function OpenSpeciesModal() {
+        $("#search-progress-overlay").hide();
+        $("#modal-species-lookup").modal("show");
+    }
+
     function GetSpecies() {
         var link = '@Url.Action("Lookup","Species")';
         var speciesName = $("#txtLookupSpeciesName").val();
@@ -126,6 +131,19 @@
     }
 
     $(document).on("click", "[id*='btnSaveSpecies']", function () {
+        var eventAction = $("#EventAction").val();
+        var eventValue = $("#EventValue").val();
+        var eventInfo = $("#EventInfo").val();
+        var idList = GetSelectedEntityIDs("data-table-species-lookup");
+        //DEBUG
+        alert("EV ACT " + eventAction + " EV VAL " + eventValue + " EV INF " + eventInfo);
+
+        if (eventValue == "EditBatch") {
+            SaveSpeciesToBatch(eventInfo, idList);
+        }
+    });
+
+    function SaveSpecies() {
         var idField = $("#hfSpeciesLookupIDFieldName").val();
         var nameField = $("#hfSpeciesLookupNameFieldName").val();
         var isAcceptedName = "";
@@ -138,30 +156,12 @@
         $("#Entity_" + idField).val(idList);
         $("#Entity_" + nameField).val(nameList);
 
-         
-            $("#placeholder-accepted-name").html(nameList);
-        
-
+        $("#placeholder-accepted-name").html(nameList);
         $('#modal-species-lookup').modal('hide');
-    });
+    }
 
+    function SaveSpeciesToBatch() {
+        ('#modal-species-lookup').modal('hide');
+    }
 
-    //function SelectSpecies(ID, speciesName) {
-    //    var eventAction = "";
-    //    var eventValue = "";
-
-    //    $('#modal-species-lookup').modal('hide');
-
-
-    //    eventValue = $("#hfModalEventValue").val();
-    //    if (eventValue == 'SPECIES') {
-    //        $("#Entity_SpeciesName").val(speciesName);
-    //    }
-    //    else {
-    //        $("#Entity_AcceptedID").val(ID);
-    //        $("#placeholder-accepted-name").html(speciesName);
-    //    }
-    //    //DEBUG
-    //    alert("ACCEPT NAME IS " + speciesName);
-    //}
 </script>

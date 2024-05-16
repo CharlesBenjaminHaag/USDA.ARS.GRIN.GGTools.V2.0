@@ -47,6 +47,28 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
             }
         }
 
+        public void Export(int offset = 0, int limit = 0)
+        {
+            using(AccessionManager mgr = new AccessionManager())
+            {
+                try
+                {
+                    DataCollectionMCPD = new Collection<AccessionMCPD>(mgr.Export(offset, limit));
+
+                    if (DataCollection.Count == 1)
+                    {
+                        Entity = DataCollection[0];
+                    }
+                    RowsAffected = mgr.RowsAffected;
+                }
+                catch (Exception ex)
+                {
+                    PublishException(ex);
+                    throw (ex);
+                }
+            }
+        }
+
         public int Update()
         {
             throw new NotImplementedException();

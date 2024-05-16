@@ -19,7 +19,7 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
         public string ImportFileName { get; set; }
         public HttpPostedFileBase DocumentUpload { get; set; }
         public DataTable DataCollectionDataTable { get; set; }
-         
+        public Collection<CodeValue> DataCollectionFields { get; set; }
          
         public string SysTableName { get; set; }
         public SelectList SysTables { get; set; }
@@ -29,7 +29,7 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
         public ImportViewModel()
         {
             DataCollectionDataTable = new DataTable();
-            
+            DataCollectionFields = new Collection<CodeValue>();
         }
 
         public SysTableField GetColumnInfo(string sysTableName, string sysTableFieldName)

@@ -20,79 +20,81 @@
                 </div>
             </div>
             <div class="card-body">
-                <div class="form-group">
-                    <label>Select Source File (.xls)</label>
-                    @Html.TextBoxFor(x => x.DocumentUpload, new { @class = "form-control", @type = "file", @value = Model.ImportFileName })
-                </div>
-                <button id="btnLoadFileDefinition" class="btn btn-default btn-block btn-flat">Load File Definition</button>
-                
-                <div id="section-file-definition">
-                    
-                </div>
-            </div>
-
-        </div>
-    </div>
-    <div class="col-md-9"></div>
-</div>
-
-@using (Html.BeginForm("Post", "Import", FormMethod.Post, new { id = "frmEdit", enctype = "multipart/form-data" }))
-{
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    <div class="card card-primary card-tabs">
-        <div class="card-header p-0 pt-1">
-            <ul class="nav nav-tabs" id="custom-tabs-two-tab" role="tablist">
-                <li class="pt-2 px-3"><h3 class="card-title">Import</h3></li>
-                <li class="nav-item">
-                    <a class="nav-link active" id="custom-tabs-two-home-tab" data-toggle="pill" href="#custom-tabs-two-home" role="tab" aria-controls="custom-tabs-two-home" aria-selected="true">APHIS</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" id="custom-tabs-two-profile-tab" data-toggle="pill" href="#custom-tabs-two-profile" role="tab" aria-controls="custom-tabs-two-profile" aria-selected="false">Passport Validation</a>
-                </li>
-            
-            </ul>
-        </div>
-        <div class="card-body">
-            <div class="tab-content" id="custom-tabs-two-tabContent">
-                <div class="tab-pane fade show active" id="custom-tabs-two-home" role="tabpanel" aria-labelledby="custom-tabs-two-home-tab">
-                    <div class="row">
-                        <div class="col-md-6">
-                           
-                        </div>
-                        <div class="col-md-3">
+                @using (Html.BeginForm("LoadFileDefinition", "Import", FormMethod.Post, new { id = "frmEdit", enctype = "multipart/form-data" }))
+                {
+                    <div class="form-group">
+                        <label>Select Source File (.xls)</label>
+                        @Html.TextBoxFor(x => x.DocumentUpload, new { @class = "form-control", @type = "file", @value = Model.ImportFileName })
+                    </div>
+                    <button id="btnLoadFileDefinition" class="btn btn-default btn-block btn-flat">Load File Definition</button>
+                    <div id="section-file-definition">
+                        @foreach (var result in Model.DataCollectionFields)
+                        {
                             <div class="form-group">
-                                <label>Import Options</label>
                                 <div class="input-group">
-                                    <input type="text" class="form-control" value="Load Species Only" readonly="readonly" />
+                                    <input type="text" class="form-control" value="@result.Value" readonly="readonly" />
                                     <div class="input-group-append">
                                         <span class="input-group-text" style="background-color:white;">
-                                            @Html.CheckBoxFor(x => x.LoadSpeciesOnly)
+                                            <input type="checkbox" capture checked="checked" />
                                             &nbsp;
                                         </span>
                                     </div>
                                 </div>
                             </div>
+                        }
+                    </div>
+                }
+                </div>
+        </div>
+    </div>
+    <div class="col-md-9">
+            <div class="card card-primary card-tabs">
+                <div class="card-header p-0 pt-1">
+                    <ul class="nav nav-tabs" id="custom-tabs-two-tab" role="tablist">
+                        <li class="pt-2 px-3"><h3 class="card-title">Import</h3></li>
+                        <li class="nav-item">
+                            <a class="nav-link active" id="custom-tabs-two-home-tab" data-toggle="pill" href="#custom-tabs-two-home" role="tab" aria-controls="custom-tabs-two-home" aria-selected="true">APHIS</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="custom-tabs-two-profile-tab" data-toggle="pill" href="#custom-tabs-two-profile" role="tab" aria-controls="custom-tabs-two-profile" aria-selected="false">Passport Validation</a>
+                        </li>
+
+                    </ul>
+                </div>
+                <div class="card-body">
+                    <div class="tab-content" id="custom-tabs-two-tabContent">
+                        <div class="tab-pane fade show active" id="custom-tabs-two-home" role="tabpanel" aria-labelledby="custom-tabs-two-home-tab">
+                            <div class="row">
+                                <div class="col-md-6">
+
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Import Options</label>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" value="Load Species Only" readonly="readonly" />
+                                            <div class="input-group-append">
+                                                <span class="input-group-text" style="background-color:white;">
+                                                    @Html.CheckBoxFor(x => x.LoadSpeciesOnly)
+                                                    &nbsp;
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="custom-tabs-two-profile" role="tabpanel" aria-labelledby="custom-tabs-two-profile-tab">
                         </div>
                     </div>
                 </div>
-                <div class="tab-pane fade" id="custom-tabs-two-profile" role="tabpanel" aria-labelledby="custom-tabs-two-profile-tab">
+                <div class="card-footer">
+                    <button type="submit" class="btn btn-default">Begin Import</button>
                 </div>
             </div>
-        </div>
-        <div class="card-footer">
-            <button type="submit" class="btn btn-default">Begin Import</button>
-        </div>
     </div>
-}
+</div>
+
 @Html.Partial("~/Views/Import/_ListImport.cshtml")
 
 <div class="modal fade" id="modal-search-matches" style="display: none;" aria-hidden="true">
@@ -126,12 +128,21 @@
 </div>
 
 <script type="text/javascript">
-    $("#btnLoadFileDefinition").on('click', function (event) {
-       
-    });
-
     $(document).ready(function () {
         InitDataTableDynamicQuery("data_table_import");
+    });
+
+    $("#btnLoadFileDefinition").on('click', function (event) {
+
+    });
+
+    $(document).on("click", "[id*='species-selector-']", function () {
+        event.preventDefault();
+        var selectedGenusName = $(this).data("ggtools-genus");
+        var selectedSpeciesName = $(this).data("ggtools-species");
+        // get genus name
+        // get species name
+        ShowResultsModal(selectedGenusName, selectedSpeciesName);
     });
 
     function InitDataTableDynamicQuery(tableName) {
@@ -192,19 +203,7 @@
             //});
         });
     }
-
-    //$("#btnImportSelected").on('click', function (event) {
-    //    GetSelectedRowData("tblImport");
-    //});
-
-    //function GetSelectedRowData(tableName) {
-    //    var table = $('#' + tableName).DataTable();
-    //    var data = table.rows(['.selected']).data().toArray();
-    //    var json = JSON.stringify(data);
-    //    //DEBUG
-    //    alert(json);
-    //}
-
+      
     function ShowResultsModal(genusName, speciesName) {
         $("#section-modal-title").html(genusName);
         $("#txtSpeciesName").val(speciesName);
@@ -236,13 +235,26 @@
         });
     }
 
-    $(document).on("click", "[id*='species-selector-']", function () {
-        event.preventDefault();
-        var selectedGenusName = $(this).data("ggtools-genus");
-        var selectedSpeciesName = $(this).data("ggtools-species");
-        // get genus name
-        // get species name
-        ShowResultsModal(selectedGenusName, selectedSpeciesName);
-    });
+    function LoadFileDefinition() {
+        var link = '@Url.Action("LoadFileDefinition","Import")';
+        var formData = new FormData();
 
+        formData.append("genusName", genusName);
+        formData.append("speciesName", speciesName);
+
+        $.ajax({
+            url: link,
+            type: 'POST',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (response) {
+                $("#section-species-name-matching-results").html(response);
+            },
+            error: function () {
+                alert("Error");
+            }
+        });
+    }
 </script>

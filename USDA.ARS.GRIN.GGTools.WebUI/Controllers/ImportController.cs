@@ -34,29 +34,14 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
         }
 
         [HttpPost]
-        public PartialViewResult LoadFileDefinition()
-        {
-            try
-            { 
-            
-            }
-            catch (Exception ex)
-            { 
-            
-            }
-        }
-
-        [HttpPost]
-        public ActionResult Post(ImportViewModel viewModel)
+        public ActionResult LoadFileDefinition(ImportViewModel viewModel)
         {
             DataTable sourceTable = new DataTable();
             DataTable destinationTable = new DataTable();
             SysTableViewModel sysTableViewModel = new SysTableViewModel();
             SysTableField sysTableField = new SysTableField();
             SpeciesImport speciesImport = new SpeciesImport();
-            bool genusMatch = false;
-            bool speciesMatch = true;
-
+           
             if (!viewModel.Validate())
             {
                 if (viewModel.ValidationMessages.Count > 0) return View("~/Views/Import/Index.cshtml", viewModel);
@@ -80,22 +65,23 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                                 // Process header row (you can store or validate headers here)
                                 for (int i = 0; i < reader.FieldCount; i++)
                                 {
-                                    Console.Write(reader.GetValue(i) + "\t");
+                                    //Console.Write(reader.GetValue(i) + "\t");
+                                    viewModel.DataCollectionFields.Add(new CodeValue { ID=i, Value = reader.GetValue(i).ToString(), Title = reader.GetValue(i).ToString() });
                                 }
                                 Console.WriteLine(); // Move to the next line for the next row
 
                                 // Set the flag to false since we've processed the header row
                                 isHeaderRow = false;
                             }
-                            else
-                            {
-                                // Process data rows
-                                for (int i = 0; i < reader.FieldCount; i++)
-                                {
-                                    Console.Write(reader.GetValue(i) + "\t");
-                                }
-                                Console.WriteLine(); // Move to the next line for the next row
-                            }
+                            //else
+                            //{
+                            //    // Process data rows
+                            //    for (int i = 0; i < reader.FieldCount; i++)
+                            //    {
+                            //        Console.Write(reader.GetValue(i) + "\t");
+                            //    }
+                            //    Console.WriteLine(); // Move to the next line for the next row
+                            //}
                         }
                     } while (reader.NextResult()); // Move to next sheet, if available
                 }

@@ -15,6 +15,7 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
         private Accession _Entity = new Accession();
         private AccessionSearch _SearchEntity = new AccessionSearch();
         private Collection<Accession> _DataCollection = new Collection<Accession>();
+        private Collection<AccessionMCPD> _DataCollectionMCPD = new Collection<AccessionMCPD>();
         private Collection<CodeValue> _DataCollectionNotes = new Collection<CodeValue>();
 
         public AccessionViewModelBase()
@@ -38,6 +39,12 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
         {
             get { return _DataCollection; }
             set { _DataCollection = value; }
+        }
+
+        public Collection<AccessionMCPD> DataCollectionMCPD
+        {
+            get { return _DataCollectionMCPD; }
+            set { _DataCollectionMCPD = value; }
         }
     }
 }
