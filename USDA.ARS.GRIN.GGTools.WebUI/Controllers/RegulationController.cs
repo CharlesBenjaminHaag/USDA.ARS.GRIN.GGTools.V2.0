@@ -223,41 +223,22 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
         public ActionResult RenderLookupModal()
         {
             RegulationViewModel viewModel = new RegulationViewModel();
-            return PartialView("~/Views/Regulation/Modals/_Lookup.cshtml", viewModel);
+            return PartialView("~/Views/Taxonomy/Regulation/Modals/_Lookup.cshtml", viewModel);
         }
 
         [HttpPost]
-        public PartialViewResult Lookup(FormCollection coll)
+        public PartialViewResult Lookup(RegulationViewModel viewModel)
         {
-            RegulationViewModel viewModel = new RegulationViewModel();
-
-            if (!String.IsNullOrEmpty(coll["GeographyID"]))
+            try
             {
-                viewModel.SearchEntity.GeographyID = Int32.Parse(coll["GeographyID"]);
+                viewModel.Search();
+                return PartialView("~/Views/Taxonomy/Regulation/Modals/_SelectList.cshtml", viewModel);
             }
-
-            if (!String.IsNullOrEmpty(coll["TypeCode"]))
+            catch (Exception ex)
             {
-                viewModel.SearchEntity.RegulationTypeCode = coll["TypeCode"];
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
             }
-
-            if (!String.IsNullOrEmpty(coll["LevelCode"]))
-            {
-                viewModel.SearchEntity.RegulationLevelCode = coll["LevelCode"];
-            }
-
-            if (!String.IsNullOrEmpty(coll["LevelCode"]))
-            {
-                viewModel.SearchEntity.RegulationLevelCode = coll["LevelCode"];
-            }
-
-            //if (!String.IsNullOrEmpty(coll["IsMultiSelect"]))
-            //{
-            //    viewModel.IsMultiSelectable = coll["IsMultiSelect"];
-            //}
-
-            viewModel.Search();
-            return PartialView("~/Views/Regulation/Modals/_SelectList.cshtml", viewModel);
         }
 
         public PartialViewResult FolderItems(FormCollection formCollection)

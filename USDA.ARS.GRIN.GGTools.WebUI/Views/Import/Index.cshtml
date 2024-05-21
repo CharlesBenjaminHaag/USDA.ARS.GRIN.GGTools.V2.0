@@ -12,7 +12,7 @@
     <div class="col-md-3">
         <div class="card card-primary">
             <div class="card-header">
-                <h3 class="card-title">Primary</h3>
+                <h3 class="card-title">1. Load Import File</h3>
                 <div class="card-tools">
                     <button type="button" class="btn btn-tool" data-card-widget="collapse">
                         <i class="fas fa-minus"></i>
@@ -27,24 +27,32 @@
                         @Html.TextBoxFor(x => x.DocumentUpload, new { @class = "form-control", @type = "file", @value = Model.ImportFileName })
                     </div>
                     <button id="btnLoadFileDefinition" class="btn btn-default btn-block btn-flat">Load File Definition</button>
-                    <div id="section-file-definition">
-                        @foreach (var result in Model.DataCollectionFields)
-                        {
-                            <div class="form-group">
-                                <div class="input-group">
-                                    <input type="text" class="form-control" value="@result.Value" readonly="readonly" />
-                                    <div class="input-group-append">
-                                        <span class="input-group-text" style="background-color:white;">
-                                            <input type="checkbox" capture checked="checked" />
-                                            &nbsp;
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                        }
-                    </div>
+                    
                 }
                 </div>
+        </div>
+        <div class="card card-primary">
+            <div class="card-header">
+                <h3 class="card-title">2. Select Fields</h3>
+            </div>
+            <div class="card-body">
+                <div id="section-file-definition">
+                    @foreach (var result in Model.DataCollectionFields)
+                    {
+                        <div class="form-group">
+                            <div class="input-group">
+                                <input type="text" class="form-control" value="@result.Value" readonly="readonly" />
+                                <div class="input-group-append">
+                                    <span class="input-group-text" style="background-color:white;">
+                                        <input type="checkbox" capture checked="checked" />
+                                        &nbsp;
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
         </div>
     </div>
     <div class="col-md-9">

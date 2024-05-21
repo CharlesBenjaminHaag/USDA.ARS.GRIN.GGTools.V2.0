@@ -29,8 +29,7 @@
                             <th>Family</th>
                             <th>Genus</th>
                             <th>Species</th>
-                            <th>Reg. Type</th>
-                            <th>Reg. Level</th>
+                            <th>Regulation</th>
                             <th>Exempt?</th>
                             <th>Note</th>
                             <th>Last Modified</th>
@@ -44,7 +43,10 @@
     </div>
 </div>
 
+@{Html.RenderAction("RenderLookupModal", "FamilyMap"); }
+@{Html.RenderAction("RenderLookupModal", "Genus"); }
 @{Html.RenderAction("RenderLookupModal", "Species"); }
+@{Html.RenderAction("RenderLookupModal", "Regulation"); }
 
 <script type="text/javascript">
 
@@ -79,8 +81,14 @@
                     name: 'taxonomy_regulation.regulation_level_code'
                 },
                 {
-                    label: 'Protologue:',
-                    name: 'taxonomy_regulation_map.is_exempt'
+                    label: "Exempt",
+                    name: "taxonomy_regulation_map.is_exempt",
+                    type: "select", // Specify the type as 'select' for drop-down
+                    options: [
+                        { label: "Yes", value: "Y" },
+                        { label: "No", value: "N" },
+                        { label: "NULL", value: "" }
+                    ]
                 },
                 {
                     label: 'Note:',
@@ -140,8 +148,17 @@
                     }
 
                 },
-                { data: 'taxonomy_regulation.regulation_type_code' },
-                { data: 'taxonomy_regulation.regulation_level_code' },
+                {
+                    data: 'taxonomy_regulation.regulation_lookup',
+                    render: function (data, type, row, meta) {
+                        if (row.taxonomy_regulation.regulation_lookup != null) {
+                            return '<a id=button_modal-regulation-lookup_' + row.taxonomy_regulation_map.taxonomy_regulation_map_id + ' href="#">' + row.taxonomy_regulation.regulation_lookup + '</a>';
+                        }
+                        else {
+                            return '';
+                        }
+                    }
+                },
                 { data: 'taxonomy_regulation_map.is_exempt' },
                 { data: 'taxonomy_regulation_map.note' },
                 { data: 'taxonomy_regulation_map.modified_date' },
@@ -155,7 +172,7 @@
             ],
             keys: {
                 /*columns: ':not(:first-child)',*/
-                columns: [5,6],
+                columns: [5,6,7],
                 keys: [9],
                 editor: editor,
                 editOnFocus: true
@@ -331,12 +348,12 @@
             var regulationMapId = controlIdArray[2];
 
             //DEBUG
-            /*alert("OPEN MODAL " + modalId + " FOR REG MAP ID " + regulationMapId);*/
+            alert("OPEN MODAL " + modalId + " FOR REG MAP ID " + regulationMapId);
 
             $("#EventAction").val("RegulationMap");
             $("#EventValue").val("EditBatch");
             $("#EventInfo").val(regulationMapId);
-            OpenSpeciesModal();
+            OpenModal(modalId);
         });
     });
 
@@ -369,5 +386,38 @@
                 $("#search-progress-overlay").hide();
             }
         });
+    }
+
+    function SaveRegulationToBatch(regulationMapId, regulationId) {
+        //TODO
+        // Ajax call to save change(s) to selected reg map
+        // Redraw grid
+        var link = '@Url.Action("SaveBatch","RegulationMap")';
+        var formData = new FormData();
+
+        formData.append("regulationMapId", regulationMapId);
+        formData.append("regulationId", regulationId);
+
+        $.ajax({
+            url: link,
+            type: 'POST',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (response) {
+                RefreshTable();            },
+            error: function (ex) {
+                alert("Error");
+                $("#search-progress-overlay-regulation-lookup").hide();
+            }
+        });
+    }
+
+    function OpenModal(modalId) {
+        var overlayId = "#search-progress-overlay-" + modalId.replace("#modal-", "");
+
+        $(overlayId).hide();
+        $(modalId).modal("show");
     }
 </script>

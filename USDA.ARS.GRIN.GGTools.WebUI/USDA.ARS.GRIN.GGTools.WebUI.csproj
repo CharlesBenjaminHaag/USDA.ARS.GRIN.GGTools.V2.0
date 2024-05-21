@@ -1014,6 +1014,8 @@
     <Content Include="Views\Import\_List3.cshtml" />
     <Content Include="Views\Import\_SearchResultsList.cshtml" />
     <Content Include="Views\Taxonomy\Species\Components\_NameMatchingSelectList.cshtml" />
+    <Content Include="Views\Taxonomy\Regulation\Modals\_Lookup.cshtml" />
+    <Content Include="Views\Taxonomy\Regulation\Modals\_SelectList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1032,6 +1034,7 @@
     <Folder Include="Views\SysTable\Explorer\" />
     <Folder Include="Views\Taxonomy\CropForCWR\Map\" />
     <Folder Include="Views\Taxonomy\Genus\Components\" />
+    <Folder Include="Views\Taxonomy\RegulationMap\Modals\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
