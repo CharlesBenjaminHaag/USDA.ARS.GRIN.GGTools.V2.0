@@ -24,6 +24,10 @@
             </div>
             <main class="usa-layout-docs__main desktop:grid-col-10 usa-prose usa-layout-docs" id="main-content">
                 @*<h1>National Genetic Resources Advisory Council (NGRAC)</h1>*@
+                
+                <h2 id="bkmk-6">Overview</h2>
+                <p>This API provides programmatic access to all GRIN-Global accessions. All data is returned in <a href="https://ggce.genesys-pgr.org/docs/manual/accession/mcpd/" target="_blank">MCPD format.</a></p>
+
                 <h2 id="bkmk-6">API Endpoints</h2>
                 <table>
                     <thead>
@@ -35,31 +39,21 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td>/food/{fdcId}</td>
-                            <td><a href="https://app.swaggerhub.com/apis/fdcnal/food-data_central_api/1.0.1#/FDC/getFood" target="_blank" class="usa-external_link">GET</a></td>
-                            <td>Fetches details for one food item by FDC ID</td>
+                            <td>/api/accession/get/{offset}{limit}</td>
+                            <td>GET</td>
+                            <td>Fetches a batch of MCPD-formatted accession records, beginning at the offset, and returning a batch size based on the specified limit.</td>
                         </tr>
                         <tr>
-                            <td>/foods</td>
-                            <td>
-                                <a href="https://app.swaggerhub.com/apis/fdcnal/food-data_central_api/1.0.1#/FDC/getFoods" target="_blank" class="usa-external_link">GET</a> | <a href="https://app.swaggerhub.com/apis/fdcnal/food-data_central_api/1.0.1#/FDC/postFoods" target="_blank" class="usa-external_link">POST</a>
-                            </td>
-                            <td>Fetches details for multiple food items using input FDC IDs</td>
+                            <td>/api/accession/get/{piNumber}</td>
+                            <td>GET</td>
+                            <td>Fetches all accessions that match all or part of a specified PI number.</td>
                         </tr>
                         <tr>
-                            <td>/foods/list</td>
-                            <td>
-                                <a href="https://app.swaggerhub.com/apis/fdcnal/food-data_central_api/1.0.1#/FDC/getFoodsList" target="_blank" class="usa-external_link">GET</a> | <a href="https://app.swaggerhub.com/apis/fdcnal/food-data_central_api/1.0.1#/FDC/postFoodsList" target="_blank" class="usa-external_link">POST</a>
-                            </td>
-                            <td>Returns a paged list of foods, in the 'abridged' format</td>
+                            <td>/api/accession/get/{instCode}</td>
+                            <td>GET</td>
+                            <td>Fetches all accessions linked to a specified institution code.</td>
                         </tr>
-                        <tr>
-                            <td>/foods/search</td>
-                            <td>
-                                <a href="https://app.swaggerhub.com/apis/fdcnal/food-data_central_api/1.0.1#/FDC/getFoodsSearch" target="_blank" class="usa-external_link">GET</a> | <a href="https://app.swaggerhub.com/apis/fdcnal/food-data_central_api/1.0.1#/FDC/postFoodsSearch" target="_blank" class="usa-external_link">POST</a>
-                            </td>
-                            <td>Returns a list of foods that matched search (query) keywords</td>
-                        </tr>
+                       
                     </tbody>
                 </table>
 

@@ -8,6 +8,56 @@
 
 @{ Html.RenderAction("ComponentSysTagsByTable", "SysTag", new { @tableName = "sys_folder", @idNumber = Model.Entity.ID }); }
 
+<div class="card">
+    <div id="section-folder-options" class="card-header p-2">
+        <ul class="nav nav-pills">
+            <li id="tab-folder-detail" class="nav-item">
+                <a class="nav-link active" href="#items" data-toggle="tab">
+                    <i class="fas fa-table"></i> Items
+                </a>
+                </li>
+            <li id="tab-folder-sharing" class="nav-item">
+                <a class="nav-link" href="#details" data-toggle="tab">
+                    <i class="fas fa-book"></i> Details
+                </a>
+            </li>
+            <li id="tab-folder-sharing" class="nav-item">
+                <a class="nav-link" href="#sharing" data-toggle="tab">
+                    <i class="fas fa-users"></i> Sharing
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div class="card-body">
+        <div class="tab-content">
+            <div class="tab-pane active" id="itemsl">
+                
+
+
+            </div>
+            <div class="tab-pane" id="details">
+                @Html.Partial("~/Views/SysFolder/_Edit.cshtml")
+            </div>
+            <div class="tab-pane" id="sharing">
+                
+            </div>
+        </div>
+    </div>
+    <div class="card-footer">
+        @if (Model.Entity.ID > 0)
+        {
+            <button id="btnDelete" type="button" class="btn btn-danger">
+                Delete
+            </button>
+        }
+        <button id="btnAddCooperator" class="btn btn-default float-right" data-toggle="modal" data-target="#modal-folder-edit-cooperators">
+            <i class="fas fa-users"></i>
+            Edit Sharing Options
+        </button>
+    </div>
+</div>
+
+
 <!-- BEGIN FOLDER ITEM DEL CONFIRM -->
 <div class="modal fade" id="modal-folder-item-delete-confirm">
     <div class="modal-dialog">

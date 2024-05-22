@@ -10,8 +10,8 @@ namespace USDA.ARS.GRIN.GRINGlobal.API.Controllers
     {
         public ActionResult Index()
         {
-            ViewBag.Title = "Home Page";
-
+            ViewBag.Title = "GRIN-Global API (Beta)";
+            @TempData["PAGE_CONTEXT"] = "API (Beta)";
             return View();
         }
     }

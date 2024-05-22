@@ -10,14 +10,14 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
 {
     public partial class SysFolderManager : GRINGlobalDataManagerBase
     {
-        public SysFolder Get(SysFolderSearch searchEntity)
+        public SysFolder Get(int entityId)
         {
             SysFolder appUserItemFolder = new SysFolder();
 
-            SQL = "usp_GRINGlobal_SysFolder_Select";
+            SQL = "usp_GRINGlobal_Sys_Folder_Select";
 
             var parameters = new List<IDbDataParameter> {
-                CreateParameter("app_user_item_folder_id", (object)searchEntity.ID, false)
+                CreateParameter("sys_folder_id", (object)entityId, false)
             };
 
             appUserItemFolder = GetRecord<SysFolder>(SQL, CommandType.StoredProcedure, parameters.ToArray());

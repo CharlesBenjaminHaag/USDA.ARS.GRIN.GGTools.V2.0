@@ -27,24 +27,24 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
 
         public void Search()
         {
-            using (AccessionManager mgr = new AccessionManager())
-            {
-                try
-                {
-                    DataCollection = new Collection<Accession>(mgr.Search(SearchEntity));
+            //using (AccessionManager mgr = new AccessionManager())
+            //{
+            //    try
+            //    {
+            //        DataCollection = new Collection<AccessionMCPD>(mgr.Search(SearchEntity));
 
-                    if (DataCollection.Count == 1)
-                    {
-                        Entity = DataCollection[0];
-                    }
-                    RowsAffected = mgr.RowsAffected;
-                }
-                catch (Exception ex)
-                {
-                    PublishException(ex);
-                    throw (ex);
-                }
-            }
+            //        if (DataCollection.Count == 1)
+            //        {
+            //            Entity = DataCollection[0];
+            //        }
+            //        RowsAffected = mgr.RowsAffected;
+            //    }
+            //    catch (Exception ex)
+            //    {
+            //        PublishException(ex);
+            //        throw (ex);
+            //    }
+            //}
         }
 
         public int Update()

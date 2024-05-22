@@ -19,6 +19,21 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             return View();
         }
 
+        
+        public JsonResult Delete(int sysTagId)
+        {
+            try
+            {
+                //TODO
+                return Json("OK", JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return Json("ERROR", JsonRequestBehavior.AllowGet);
+            }
+        }
+
         #region Components
         
         public PartialViewResult ComponentSysTagsByTable(string tableName, int idNumber)

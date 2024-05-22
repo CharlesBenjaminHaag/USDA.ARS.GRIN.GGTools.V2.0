@@ -33,9 +33,9 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             throw new NotImplementedException();
         }
 
-        public List<Accession> Search(AccessionSearch searchEntity)
+        public List<AccessionMCPD> Search(AccessionSearch searchEntity)
         {
-            List<Accession> results = new List<Accession>();
+            List<AccessionMCPD> results = new List<AccessionMCPD>();
 
             SQL = " SELECT [INTERNAL_ID], [INSTCODE],[DOI],[ACCENUMB],[SPECIES_FULL],[GENUS],[SPECIES],[SPAUTHOR] ";
             SQL += ",[SUBTAXA],[SUBTAUTHOR],[ACCEURL],[SAMPSTAT],[REMARKS],[initial_received_date],[ACQDATE],[HISTORIC] ";
@@ -51,7 +51,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
                 CreateParameter("InstCode", (object)searchEntity.InstCode ?? DBNull.Value, true),
             };
 
-            results = GetRecords<Accession>(SQL, parameters.ToArray());
+            results = GetRecords<AccessionMCPD>(SQL, parameters.ToArray());
             RowsAffected = results.Count;
 
             return results;

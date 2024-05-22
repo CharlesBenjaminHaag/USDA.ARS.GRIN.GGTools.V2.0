@@ -31,7 +31,7 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
             {
                 try
                 {
-                    DataCollection = new Collection<Accession>(mgr.Search(SearchEntity));
+                    DataCollectionMCPD = new Collection<AccessionMCPD>(mgr.Search(SearchEntity));
 
                     if (DataCollection.Count == 1)
                     {

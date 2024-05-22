@@ -1016,6 +1016,8 @@
     <Content Include="Views\Taxonomy\Species\Components\_NameMatchingSelectList.cshtml" />
     <Content Include="Views\Taxonomy\Regulation\Modals\_Lookup.cshtml" />
     <Content Include="Views\Taxonomy\Regulation\Modals\_SelectList.cshtml" />
+    <Content Include="Views\SysFolder\_Edit.cshtml" />
+    <Content Include="Views\SysFolderItemMap\_List.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

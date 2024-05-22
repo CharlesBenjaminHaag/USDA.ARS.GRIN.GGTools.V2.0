@@ -15,7 +15,7 @@ namespace USDA.ARS.GRIN.GRINGlobal.API.Controllers
     {
         private static readonly Logger Log = LogManager.GetCurrentClassLogger();
 
-        public async Task<IHttpActionResult> Get(string piNumber = "", string instCode = "", int offset = 0, int limit = 0, string mcpdFormat = "Y")
+        public async Task<IHttpActionResult> Get(string piNumber = "", string instCode = "", int offset = 0, int limit = 0, string mcpdFormat = "")
         {
             try
             {
@@ -29,6 +29,10 @@ namespace USDA.ARS.GRIN.GRINGlobal.API.Controllers
                 if (mcpdFormat.ToUpper() == "Y")
                 {
                     viewModel.Export(offset, limit);
+                    if (viewModel.DataCollectionMCPD.Count == 0)
+                    {
+                        return NotFound();
+                    }
                     return Ok(viewModel.DataCollectionMCPD);
                 }
                 else
@@ -36,7 +40,11 @@ namespace USDA.ARS.GRIN.GRINGlobal.API.Controllers
                     viewModel.SearchEntity.AccessionNumber = piNumber;
                     viewModel.SearchEntity.InstCode = instCode;
                     viewModel.Search();
-                    return Ok(viewModel.DataCollection);
+                    if (viewModel.DataCollectionMCPD.Count == 0)
+                    {
+                        return NotFound();
+                    }
+                    return  Ok(viewModel.DataCollectionMCPD);
                 }
             }
             catch (Exception ex)

@@ -49,7 +49,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
 
                 // Re-retrieve new folder to verify existence.
                 viewModel.SearchEntity.ID = viewModel.Entity.ID;
-                viewModel.Get();
+                viewModel.Get(viewModel.Entity.ID);
                 viewModel.EventAction = "ADD";
                 return PartialView("~/Views/SysFolder/Components/_Confirmation.cshtml", viewModel);
 
@@ -66,9 +66,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             try
             {
                 SysFolderViewModel viewModel = new SysFolderViewModel();
-
-                //TODO
-
+                viewModel.Get(entityId);
                 return View(viewModel);
             }
             catch (Exception ex)
@@ -77,6 +75,12 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 return PartialView("~/Views/Error/_InternalServerError.cshtml");
             }
         }
+
+        //public PartialViewResult GetList()
+        //{ }
+
+        //public PartialViewResult GetItemList()
+        //{ }
 
         public PartialViewResult GetEditModal()
         {
@@ -98,6 +102,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
         /// Retrieves an icon-formatted list of folders. Defaults to folders owned by the logged-in user.
         /// </summary>
         /// <returns></returns>
+        
         public PartialViewResult ComponentListWithIcons()
         {
             try

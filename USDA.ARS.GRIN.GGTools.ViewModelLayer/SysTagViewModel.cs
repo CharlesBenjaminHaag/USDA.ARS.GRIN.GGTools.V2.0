@@ -28,7 +28,7 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
         {
             using (SysTagManager mgr = new SysTagManager())
             {
-                mgr.Search(SearchEntity);
+                DataCollection = new Collection<SysTag>(mgr.Search(SearchEntity));
             }
         }
         public void Insert()

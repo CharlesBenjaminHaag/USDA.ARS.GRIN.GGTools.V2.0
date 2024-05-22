@@ -22,10 +22,13 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
         {
         
         }
-        
-        public void Get()
+
+        public void Get(int entityId)
         {
-            
+            using (SysFolderManager mgr = new SysFolderManager())
+            {
+                Entity = mgr.Get(entityId);
+            }
         }
               
         public void Search()
