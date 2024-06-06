@@ -2,20 +2,25 @@
 * Name         : ggtools.js
 * Description  : Main JS application file for GGTools. This file
 *                should be included in all layout pages. 
-* Last Updated : 4/19/24 2:34 AM
+* Last Updated : 6/6/24  
 * By           : Benjamin Haag
 */
 
 /* ========================================================================================
  * Modals
   ======================================================================================== */
-function OpenLookupModal(type) {
+function OpenLookupModal(type, value_field, display_field) {
     type = type.toLowerCase();
     var modalName = "#modal-" + type + "-lookup";
     var overlayName = "#search-progress-overlay-" + type;
     var searchResultsSectionName = "#section-" + type + "-lookup-search-results";
+    var valueHiddenFieldName = modalName + "-value-field";
+    var displayHiddenFieldName = modalName + "-display_field";
 
     $(modalName).modal("show");
+    $(valueHiddenFieldName).val(value_field);
+    $(displayHiddenFieldName).val(display_field);
+
     $(overlayName).hide();
 
     // Clear modal

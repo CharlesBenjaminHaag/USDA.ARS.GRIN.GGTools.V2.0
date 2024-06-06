@@ -15,6 +15,9 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
         private SysTag _TagEntity = new SysTag();
         private SysFolderSearch _SearchEntity = new SysFolderSearch();
         private Collection<SysFolder> _DataCollection = new Collection<SysFolder>();
+        private Collection<SysFolderItemMap> _DataCollectionSysFolderItemMaps = new Collection<SysFolderItemMap>();
+        private Collection<SysFolderCooperatorMap> _DataCollectionSysFolderCooperatorMaps = new Collection<SysFolderCooperatorMap>();
+        private Collection<SysTag> _DataCollectionSysTags = new Collection<SysTag>();
 
         public SysFolderViewModelBase()
         {
@@ -49,6 +52,24 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
             get { return _DataCollection; }
             set { _DataCollection = value; }
         }
-      
+
+        public Collection<SysFolderItemMap> DataCollectionSysFolderItemMaps
+        {
+            get { return _DataCollectionSysFolderItemMaps; }
+            set { _DataCollectionSysFolderItemMaps = value; }
+        }
+
+        public Collection<SysFolderCooperatorMap> DataCollectionCooperatorMaps
+        {
+            get { return _DataCollectionSysFolderCooperatorMaps; }
+            set { _DataCollectionSysFolderCooperatorMaps = value; }
+        }
+
+        public Collection<SysTag> DataCollectionSysTags
+        {
+            get { return _DataCollectionSysTags; }
+            set { _DataCollectionSysTags = value; }
+        }
+
     }
 }

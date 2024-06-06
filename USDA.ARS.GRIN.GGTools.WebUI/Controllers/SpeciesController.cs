@@ -1,6 +1,8 @@
 ﻿using System.Web.Mvc;
 using System;
- 
+using System.Security.Permissions;
+using System.Linq.Expressions;
+using System.Runtime.Remoting.Channels;
 using System.Collections.Generic;
 using USDA.ARS.GRIN.Common.Library;
 using USDA.ARS.GRIN.GGTools.WebUI;
@@ -8,10 +10,7 @@ using USDA.ARS.GRIN.GGTools.ViewModelLayer;
 using USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer;
 using USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer;
 using NLog;
-using System.Security.Permissions;
 using DataTables;
-using System.Linq.Expressions;
-using System.Runtime.Remoting.Channels;
 
 namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
 {
@@ -819,100 +818,6 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             }
         }
 
-        [ValidateInput(false)]
-        public JsonResult EditBatch()
-        {
-            string idList = String.Empty;
-            var request = System.Web.HttpContext.Current.Request;
-            
-            if (Session["SPECIES_ID_LIST"] != null)
-            {
-               idList = Session["SPECIES_ID_LIST"].ToString();
-            }
-
-            string[] idArray = idList.Split(','); 
-
-            try {
-                using (SpeciesManager mgr = new SpeciesManager())
-                {
-                    using (var db = new Database("sqlserver", mgr.ConnectionString))
-                    {
-                        var editor = new Editor(db, "taxonomy_species", "taxonomy_species.taxonomy_species_id").Where(q =>
-                        {
-                            q.Where(r =>
-                            {
-                                foreach (var i in idArray)
-                                {
-                                    r.OrWhere("taxonomy_species.taxonomy_species_id", i);
-                                }
-                            });
-                        })
-                        .Model<SpeciesTable>("taxonomy_species")
-                        .Model<GenusTable>("taxonomy_genus")
-                        .LeftJoin("taxonomy_genus", "taxonomy_genus.taxonomy_genus_id", "=", "taxonomy_species.taxonomy_genus_id");
-
-                        editor.Field(new Field("taxonomy_species.taxonomy_species_id")
-                            .Validator(Validation.NotEmpty())
-                        );
-                        editor.Field(new Field("taxonomy_genus.genus_name"));
-                        editor.Field(new Field("taxonomy_species.species_name"));
-                        editor.Field(new Field("taxonomy_species.protologue"));
-                        editor.Field(new Field("taxonomy_species.protologue_virtual_path"));
-                        editor.Field(new Field("taxonomy_species.name_authority"));
-                        editor.Field(new Field("taxonomy_species.note"));
-                        editor.Field(new Field("taxonomy_species.modified_date")
-                            .Set(Field.SetType.Edit));
-                        editor.PreEdit += (sender, e) => editor.Field("taxonomy_species.modified_date").SetValue(DateTime.Now);
-                        editor.Process(request);
-
-                        var response = editor.Data();
-
-                        JsonResult jsonResult = new JsonResult();
-                        jsonResult = Json(response);
-                        jsonResult.MaxJsonLength = 2147483644;
-                        jsonResult.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
-                        return jsonResult;
-                    }
-                }
-            }
-            catch(Exception ex) 
-            {
-                return Json(ex.Message, JsonRequestBehavior.AllowGet);
-            }
-        }
-
-        //public ActionResult EditBatch(string idList = "")
-        //{
-        //    try
-        //    {   SpeciesViewModel viewModel = new SpeciesViewModel();
-        //        viewModel.PageTitle = "Batch Edit";
-        //        //viewModel.SearchEntity.IDList = idList;
-        //        //viewModel.Search();
-        //        Session["SPECIES_ID_LIST"] = idList;
-        //        return View("~/Views/Taxonomy/Species/EditMultiple_POC.cshtml", viewModel);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Log.Error(ex);
-        //        return RedirectToAction("InternalServerError", "Error");
-        //    }
-        //}
-
-        [HttpPost]
-        public ActionResult GetBatchEditor(SpeciesViewModel viewModel)
-        {
-            try
-            {
-                Session["SPECIES_ID_LIST"] = viewModel.ItemIDList;
-                return View("~/Views/Taxonomy/Species/EditBatch.cshtml", viewModel);
-            }
-            catch (Exception ex)
-            {
-                Log.Error(ex);
-                return RedirectToAction("InternalServerError", "Error");
-            }
-        }
-
         public ActionResult Delete(int entityId)
         {
             throw new NotImplementedException();
@@ -967,6 +872,87 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 return PartialView("~/Views/Error/_InternalServerError.cshtml");
             }
         }
+
+        #region Batch Edit
         
+        [HttpPost]
+        public ActionResult GetBatchEditor(SpeciesViewModel viewModel)
+        {
+            try
+            {
+                Session["SPECIES_ID_LIST"] = viewModel.ItemIDList;
+                return View("~/Views/Taxonomy/Species/EditBatch.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return RedirectToAction("InternalServerError", "Error");
+            }
+        }
+
+        [ValidateInput(false)]
+        public JsonResult EditBatch()
+        {
+            string idList = String.Empty;
+            var request = System.Web.HttpContext.Current.Request;
+
+            if (Session["SPECIES_ID_LIST"] != null)
+            {
+                idList = Session["SPECIES_ID_LIST"].ToString();
+            }
+
+            string[] idArray = idList.Split(',');
+
+            try
+            {
+                using (SpeciesManager mgr = new SpeciesManager())
+                {
+                    using (var db = new Database("sqlserver", mgr.ConnectionString))
+                    {
+                        var editor = new Editor(db, "taxonomy_species", "taxonomy_species.taxonomy_species_id").Where(q =>
+                        {
+                            q.Where(r =>
+                            {
+                                foreach (var i in idArray)
+                                {
+                                    r.OrWhere("taxonomy_species.taxonomy_species_id", i);
+                                }
+                            });
+                        })
+                        .Model<SpeciesTable>("taxonomy_species")
+                        .Model<GenusTable>("taxonomy_genus")
+                        .LeftJoin("taxonomy_genus", "taxonomy_genus.taxonomy_genus_id", "=", "taxonomy_species.taxonomy_genus_id");
+
+                        editor.Field(new Field("taxonomy_species.taxonomy_species_id")
+                            .Validator(Validation.NotEmpty())
+                        );
+                        editor.Field(new Field("taxonomy_genus.genus_name"));
+                        editor.Field(new Field("taxonomy_species.species_name"));
+                        editor.Field(new Field("taxonomy_species.protologue"));
+                        editor.Field(new Field("taxonomy_species.protologue_virtual_path"));
+                        editor.Field(new Field("taxonomy_species.name_authority"));
+                        editor.Field(new Field("taxonomy_species.note"));
+                        editor.Field(new Field("taxonomy_species.modified_date")
+                            .Set(Field.SetType.Edit));
+                        editor.PreEdit += (sender, e) => editor.Field("taxonomy_species.modified_date").SetValue(DateTime.Now);
+                        editor.Process(request);
+
+                        var response = editor.Data();
+
+                        JsonResult jsonResult = new JsonResult();
+                        jsonResult = Json(response);
+                        jsonResult.MaxJsonLength = 2147483644;
+                        jsonResult.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
+                        return jsonResult;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                return Json(ex.Message, JsonRequestBehavior.AllowGet);
+            }
+        }
+        
+        #endregion
     }
 }

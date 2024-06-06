@@ -67,6 +67,9 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             {
                 SysFolderViewModel viewModel = new SysFolderViewModel();
                 viewModel.Get(entityId);
+                viewModel.GetItems(entityId);
+                viewModel.GetCooperators(entityId);
+                viewModel.GetTags("sys_folder", entityId);
                 return View(viewModel);
             }
             catch (Exception ex)

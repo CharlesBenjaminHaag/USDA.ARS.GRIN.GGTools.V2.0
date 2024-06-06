@@ -90,6 +90,20 @@
     });
 
     $(document).on("click", "[id*='btnSaveGenus']", function () {
+        var eventAction = $("#EventAction").val();
+        var eventValue = $("#EventValue").val();
+        var eventInfo = $("#EventInfo").val();
+        var idList = GetSelectedEntityIDs("data-table-genus-lookup");
+
+        if (eventValue == "EditBatch") {
+            SaveGenusToBatch(eventInfo, idList);
+        }
+        else {
+            SaveGenus();
+        }
+    });
+
+    function SaveGenus() {
         var idField = $("#hfGenusLookupIDFieldName").val();
         var nameField = $("#hfGenusLookupNameFieldName").val();
         var idList = GetSelectedEntityIDs("data-table-genus-lookup");
@@ -99,7 +113,7 @@
         $("#Entity_" + nameField).val(nameList);
         $("#placeholder-genus-name").html(nameList);
         $('#modal-genus-lookup').modal('hide');
-    });
+    }
 
     function SearchGenus() {
         var link = '@Url.Action("Lookup","Genus")';

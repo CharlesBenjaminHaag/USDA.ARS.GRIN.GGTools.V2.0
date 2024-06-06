@@ -69,6 +69,8 @@
     <Compile Include="AccessionInventoryAttachmentViewModelBase.cs" />
     <Compile Include="AccessionInvAnnotationViewModel.cs" />
     <Compile Include="AccessionInvAnnotationViewModelBase.cs" />
+    <Compile Include="FamilyViewModelBase.cs" />
+    <Compile Include="FamilyViewModel.cs" />
     <Compile Include="SysTagViewModelBase.cs" />
     <Compile Include="SysTagViewModel.cs" />
     <Compile Include="SysFolderViewModel.cs" />

@@ -163,6 +163,7 @@
     <Compile Include="Controllers\AppUserItemFolderController.cs" />
     <Compile Include="Controllers\AppUserItemFolderCooperatorMapController.cs" />
     <Compile Include="Controllers\AppUserItemListController.cs" />
+    <Compile Include="Controllers\FamilyController.cs" />
     <Compile Include="Controllers\GOBSController.cs" />
     <Compile Include="Controllers\ImportController.cs" />
     <Compile Include="Controllers\AuthorController.cs" />
@@ -1018,6 +1019,22 @@
     <Content Include="Views\Taxonomy\Regulation\Modals\_SelectList.cshtml" />
     <Content Include="Views\SysFolder\_Edit.cshtml" />
     <Content Include="Views\SysFolderItemMap\_List.cshtml" />
+    <Content Include="Views\Taxonomy\Family\Edit.cshtml" />
+    <Content Include="Views\Taxonomy\Family\Index.cshtml" />
+    <Content Include="Views\Taxonomy\Family\Modals\_InfrafamilialTaxonEdit.cshtml" />
+    <Content Include="Views\Taxonomy\Family\Modals\_InfrafamilialTaxonEditGrid.cshtml" />
+    <Content Include="Views\Taxonomy\Family\Modals\_Lookup.cshtml" />
+    <Content Include="Views\Taxonomy\Family\Modals\_SelectList.cshtml" />
+    <Content Include="Views\Taxonomy\Family\Modals\_TypeGenusPrompt.cshtml" />
+    <Content Include="Views\Taxonomy\Family\_Detail.cshtml" />
+    <Content Include="Views\Taxonomy\Family\_DetailExtended.cshtml" />
+    <Content Include="Views\Taxonomy\Family\_List.cshtml" />
+    <Content Include="Views\Taxonomy\Family\_ListGenera.cshtml" />
+    <Content Include="Views\Taxonomy\Family\_ListSubdivisions.cshtml" />
+    <Content Include="Views\Taxonomy\Family\_ListSynonyms.cshtml" />
+    <Content Include="Views\Taxonomy\Family\Components\_GenusEditor.cshtml" />
+    <Content Include="Views\Taxonomy\Shared\_PageTitle.cshtml" />
+    <Content Include="Views\Taxonomy\Family\EditBatch.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

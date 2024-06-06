@@ -1,0 +1,15 @@
+﻿@{
+    string eventAction = @ViewContext.RouteData.Values["controller"].ToString();
+    string eventValue = @ViewContext.RouteData.Values["action"].ToString();
+    var param = @Request.QueryString["entityId"];
+}
+
+<div class="col-sm-9">
+    <h1 class="m-0">
+        @if (!String.IsNullOrEmpty(param))
+        {
+            param = "[" + param + "]";
+        }
+        @eventAction @eventValue @param
+    </h1>
+</div>

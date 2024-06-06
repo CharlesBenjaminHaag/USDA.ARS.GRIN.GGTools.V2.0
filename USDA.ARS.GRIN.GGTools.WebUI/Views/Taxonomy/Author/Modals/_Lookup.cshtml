@@ -25,6 +25,9 @@
                     @Html.HiddenFor(x => x.AuthenticatedUserCooperatorID)
                     @Html.HiddenFor(x => x.ItemIDList)
 
+                    <input type="hidden" id="modal-author-lookup-value-field" />
+                    <input type="hidden" id="modal-author-lookup-display-field" />
+
                     <div id="section-panel-help" class="alert alert-info alert-dismissible" style="display: none;">
                         <button type="button" class="close" aria-hidden="true">×</button>
                         <h5><i class="icon fas fa-info"></i> Text Search</h5>
@@ -104,7 +107,7 @@
     });
 
     $("#btnOpenAuthorityLookupModal").click(function () {
-        OpenLookupModal("author");
+        OpenLookupModal("author", "Entity_FamilyAuthority","Entity_FamilyAuthority");
     });
 
     function SearchAuthor() {
@@ -157,15 +160,19 @@
         });
     }
 
-    
     $(document).on("click", "[id*='btnSaveAuthor']", function () {
-        var nameField = $("#hfAuthorLookupNameFieldName").val();
-        var tableName = $("#TableName").val();
+        var valueField = $("#modal-author-lookup-value-field").val();
+        var displayField = $("#modal-author-lookup-display-field").val();
+
         $('#modal-author-lookup').modal('hide');
         var selectedAuthor = GetSelectedEntityText("data-table-author-lookup");
-        $("#" + nameField).val(selectedAuthor);
-    });
 
+        console.log("DEBUG Setting " + valueField + " to " + selectedAuthor);
+        console.log("DEBUG Setting " + displayField + " to " + selectedAuthor);
+
+        $("#" + valueField).val(selectedAuthor);
+        $("#" + displayField).val(selectedAuthor);
+    });
    
     $(".fa-info-circle").on('click', function (event) {
         event.stopPropagation();

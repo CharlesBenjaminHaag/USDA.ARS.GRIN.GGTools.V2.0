@@ -118,7 +118,7 @@
                     data: 'taxonomy_family2.family_name',
                     render: function (data, type, row, meta) {
                         if (row.taxonomy_family2.family_name != null) {
-                            return '<a id=button_open-modal-family-lookup_' + row.taxonomy_regulation_map.taxonomy_regulation_map_id + ' href="#">' + row.taxonomy_species.name + '</a>';
+                            return '<a id=button_modal-family-lookup_' + row.taxonomy_regulation_map.taxonomy_regulation_map_id + ' href="#">' + row.taxonomy_family2.family_name + '</a>';
                         }
                         else {
                             return '';
@@ -129,7 +129,7 @@
                     data: 'taxonomy_genus.genus_name',
                     render: function (data, type, row, meta) {
                         if (row.taxonomy_genus.genus_name != null) {
-                            return '<a id=button_modal-genus-lookup_' + row.taxonomy_regulation_map.taxonomy_regulation_map_id + ' href="#">' + row.taxonomy_species.name + '</a>';
+                            return '<a id=button_modal-genus-lookup_' + row.taxonomy_regulation_map.taxonomy_regulation_map_id + ' href="#">' + row.taxonomy_genus.genus_name + '</a>';
                         }
                         else {
                             return '';
@@ -348,7 +348,7 @@
             var regulationMapId = controlIdArray[2];
 
             //DEBUG
-            alert("OPEN MODAL " + modalId + " FOR REG MAP ID " + regulationMapId);
+            /*alert("OPEN MODAL " + modalId + " FOR REG MAP ID " + regulationMapId);*/
 
             $("#EventAction").val("RegulationMap");
             $("#EventValue").val("EditBatch");
@@ -360,6 +360,60 @@
     function RefreshTable() {
         var table = $("#example").DataTable();
         table.ajax.reload(null, false);
+    }
+
+    function SaveFamilyToBatch(regulationMapId, familyId) {
+        //TODO
+        // Ajax call to save change(s) to selected reg map
+        // Redraw grid
+        var link = '@Url.Action("SaveBatch","RegulationMap")';
+        var formData = new FormData();
+
+        formData.append("regulationMapId", regulationMapId);
+        formData.append("familyId", familyId);
+
+
+
+        $.ajax({
+            url: link,
+            type: 'POST',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (response) {
+                RefreshTable();            },
+            error: function (ex) {
+                alert("Error");
+                $("#search-progress-overlay").hide();
+            }
+        });
+    }
+
+    function SaveGenusToBatch(regulationMapId, genusId) {
+        //TODO
+        // Ajax call to save change(s) to selected reg map
+        // Redraw grid
+        var link = '@Url.Action("SaveBatch","RegulationMap")';
+        var formData = new FormData();
+
+        formData.append("regulationMapId", regulationMapId);
+        formData.append("genusId", genusId);
+
+        $.ajax({
+            url: link,
+            type: 'POST',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (response) {
+                RefreshTable();            },
+            error: function (ex) {
+                alert("Error");
+                $("#search-progress-overlay").hide();
+            }
+        });
     }
 
     function SaveSpeciesToBatch(regulationMapId, speciesId) {

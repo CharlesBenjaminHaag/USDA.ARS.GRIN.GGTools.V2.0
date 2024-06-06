@@ -67,6 +67,8 @@
     <Compile Include="EntityClasses\AccessionMCPD.cs" />
     <Compile Include="EntityClasses\AccessionInvAnnotationSearch.cs" />
     <Compile Include="EntityClasses\AccessionInvAnnotation.cs" />
+    <Compile Include="EntityClasses\FamilySearch.cs" />
+    <Compile Include="EntityClasses\Family.cs" />
     <Compile Include="EntityClasses\SpeciesMatch.cs" />
     <Compile Include="EntityClasses\GOBS\GOBSMarker.cs" />
     <Compile Include="EntityClasses\GOBS\GOBSDatasetMarker.cs" />
@@ -213,6 +215,7 @@
     <Compile Include="EntityClasses\TribeSearch.cs" />
     <Compile Include="ManagerClasses\AccessionInventoryAttachmentManager.cs" />
     <Compile Include="ManagerClasses\AccessionInvAnnotationManager.cs" />
+    <Compile Include="ManagerClasses\FamilyManager.cs" />
     <Compile Include="ManagerClasses\SysTagManager.cs" />
     <Compile Include="ManagerClasses\SysFolderManager.cs" />
     <Compile Include="ManagerClasses\GOBSManager.cs" />

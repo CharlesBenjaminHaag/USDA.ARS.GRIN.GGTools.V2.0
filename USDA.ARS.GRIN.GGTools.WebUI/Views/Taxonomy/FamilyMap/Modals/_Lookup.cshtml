@@ -73,6 +73,20 @@
     });
 
     $(document).on("click", "[id*='btnSaveFamily']", function () {
+        var eventAction = $("#EventAction").val();
+        var eventValue = $("#EventValue").val();
+        var eventInfo = $("#EventInfo").val();
+        var idList = GetSelectedEntityIDs("data-table-family-lookup");
+
+        if (eventValue == "EditBatch") {
+            SaveFamilyToBatch(eventInfo, idList);
+        }
+        else {
+            SaveFamily();
+        }
+    });
+
+    function SaveFamily() {
         var idField = $("#hfFamilyLookupIDFieldName").val();
         var nameField = $("#hfFamilyLookupNameFieldName").val();
         var idList = GetSelectedEntityIDs("data-table-family-lookup");
@@ -88,7 +102,7 @@
         $("#Entity_" + nameField).trigger('change');
 
         $('#modal-family-lookup').modal('hide');
-    });
+    }
 
     function SearchFamily() {
         var link = '@Url.Action("Lookup", "FamilyMap")';

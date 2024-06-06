@@ -24,7 +24,53 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             
             return appUserItemFolder;
         }
-      
+
+        public List<SysFolderItemMap> GetSysFolderItemMaps(int sysFolderId)
+        {
+            List<SysFolderItemMap> sysFolderItemMaps = new List<SysFolderItemMap>();
+
+            SQL = "usp_GRINGlobal_Sys_Folder_Item_Maps_Select";
+
+            var parameters = new List<IDbDataParameter> {
+                CreateParameter("sys_folder_id", (object)sysFolderId, false)
+            };
+
+            sysFolderItemMaps = GetRecords<SysFolderItemMap>(SQL, CommandType.StoredProcedure, parameters.ToArray());
+
+            return sysFolderItemMaps;
+        }
+
+        public List<SysFolderCooperatorMap> GetSysFolderCooperatorMaps(int sysFolderId)
+        {
+            List<SysFolderCooperatorMap> sysFolderCooperatorMaps = new List<SysFolderCooperatorMap>();
+
+            SQL = "usp_GRINGlobal_Sys_Folder_Cooperator_Maps_Select";
+
+            var parameters = new List<IDbDataParameter> {
+                CreateParameter("sys_folder_id", (object)sysFolderId, false)
+            };
+
+            sysFolderCooperatorMaps = GetRecords<SysFolderCooperatorMap>(SQL, CommandType.StoredProcedure, parameters.ToArray());
+
+            return sysFolderCooperatorMaps;
+        }
+
+        public List<SysTag> GetSysTags(string tableName, int sysFolderId)
+        {
+            List<SysTag> sysTags = new List<SysTag>();
+
+            SQL = "usp_GRINGlobal_Sys_Tags_Select";
+
+            var parameters = new List<IDbDataParameter> {
+                CreateParameter("table_name", (object)tableName, false),
+                CreateParameter("id_number", (object)sysFolderId, false)
+            };
+
+            sysTags = GetRecords<SysTag>(SQL, CommandType.StoredProcedure, parameters.ToArray());
+
+            return sysTags;
+        }
+
         public virtual List<SysFolder> Search(SysFolderSearch searchEntity)
         {
             List<SysFolder> results = new List<SysFolder>();

@@ -456,7 +456,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
         {
             try
             {
-                FamilyMapViewModel viewModel = new FamilyMapViewModel();
+                FamilyViewModel viewModel = new FamilyViewModel();
                 viewModel.Entity.ID = Int32.Parse(GetFormFieldValue(formCollection, "EntityID"));
                 viewModel.TableName = GetFormFieldValue(formCollection, "TableName");
                 viewModel.Delete();

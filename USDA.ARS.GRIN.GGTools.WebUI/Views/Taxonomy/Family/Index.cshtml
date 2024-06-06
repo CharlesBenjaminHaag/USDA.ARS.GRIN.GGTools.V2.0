@@ -1,38 +1,43 @@
-﻿@model USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer.FamilyMapViewModel
+﻿@model USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer.FamilyViewModel
 @{
     ViewBag.Title = Model.PageTitle;
     Layout = "~/Views/Shared/_LayoutAdminLTE3.cshtml";
 }
 
-@using (Html.BeginForm("Search", "Family", FormMethod.Post, new { id = "frmMain" }))
-{
-    @Html.HiddenFor(x => x.EventAction)
-    @Html.HiddenFor(x => x.EventValue)
-    @Html.HiddenFor(x => x.TableName)
-    @Html.HiddenFor(x => x.TableCode)
-    @Html.HiddenFor(x => x.PageTitle)
-    @Html.HiddenFor(x => x.AuthenticatedUserCooperatorID)
-    @Html.HiddenFor(x => x.ItemIDList)
-    @Html.HiddenFor(x => x.DetailPartialViewName)
-    @Html.HiddenFor(x => x.ListPartialViewName)
-    @Html.Partial("~/Views/Taxonomy/Family/_Detail.cshtml")
-}
+@Html.Partial("~/Views/Taxonomy/Family/_Detail.cshtml")
 @Html.Partial("~/Views/Taxonomy/Family/_List.cshtml")
-@{Html.RenderAction("_Edit", "Folder"); }
+
+@{Html.RenderAction("GetEditModal", "SysFolder", new { @sysTableName = Model.TableName }); }
+
+@using (Html.BeginForm("GetBatchEditor", "Family", FormMethod.Post, new { id = "frmGetBatchEditor" }))
+{
+    @Html.HiddenFor(x => x.ItemIDList)
+}
 
 <script type="text/javascript">
-    $(document).ready(function () {
-        Init();
-        SetExtendedFields();
-    });
-
-    $(document).keypress(function (event) {
-        var keycode = (event.keyCode ? event.keyCode : event.which);
-        if (keycode == '13') {
-            $("#btnSearch").click();
+    $(document).on("click", "[id='btnSubmitSearch']", function () {
+        event.preventDefault();
+        if ($("#section-search-criteria").is(":visible")) {
+            $("#EventAction").val("SHOW-SEARCH");
         }
+        $("#frmMain").submit();
     });
 
-    function Init() {
+    function GetBatchEditor() {
+        var link = '@Url.Action("GetBatchEditor", "Family")';
+        var formData = new FormData();
+
+        $.ajax({
+            url: link,
+            type: 'POST',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (response) {
+                $("#section-modal-email").html(response);
+                $("#modal-email").modal("show");
+            }
+        });
     }
 </script>

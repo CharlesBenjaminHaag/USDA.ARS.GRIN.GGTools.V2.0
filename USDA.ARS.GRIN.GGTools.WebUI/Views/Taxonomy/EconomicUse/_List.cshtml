@@ -70,10 +70,7 @@
     @Html.Partial("~/Views/Shared/Modals/_ValidationSelectRecords.cshtml")
 </div>
 <script type="text/javascript">
-    $(document).ready(function () {
-        InitDataTable("data_table_taxonomy_use");
-    });
-
+   
     function EditBatch() {
         var selectedIdList = GetSelectedEntityIDs("data_table_taxonomy_use");
         var link = '@Url.Action("RenderBatchEditModal","EconomicUse", new { entityIdList = "SELECTED_ID_LIST" })';

@@ -30,7 +30,31 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
                 Entity = mgr.Get(entityId);
             }
         }
-              
+
+        public void GetItems(int entityId)
+        {
+            using (SysFolderManager mgr = new SysFolderManager())
+            {
+                DataCollectionSysFolderItemMaps = new Collection<SysFolderItemMap>(mgr.GetSysFolderItemMaps(entityId));
+            }
+        }
+
+        public void GetCooperators(int entityId)
+        {
+            using (SysFolderManager mgr = new SysFolderManager())
+            {
+                DataCollectionCooperatorMaps = new Collection<SysFolderCooperatorMap>(mgr.GetSysFolderCooperatorMaps(entityId));
+            }
+        }
+
+        public void GetTags(string tableName, int entityId)
+        {
+            using (SysFolderManager mgr = new SysFolderManager())
+            {
+                DataCollectionSysTags = new Collection<SysTag>(mgr.GetSysTags(tableName, entityId));
+            }
+        }
+
         public void Search()
         {
             using (SysFolderManager mgr = new SysFolderManager())
@@ -52,6 +76,7 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
                 }
             }
         }
+        
         public void Insert()
         {
             try

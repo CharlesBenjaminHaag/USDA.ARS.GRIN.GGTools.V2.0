@@ -35,7 +35,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
         
             var parameters = new List<IDbDataParameter> {
                 CreateParameter("TableName", !String.IsNullOrEmpty(searchEntity.TableName) ? (object)searchEntity.TableName: DBNull.Value, true),
-                CreateParameter("IDNumber", searchEntity.ID > 0 ? (object)searchEntity.IDNumber : DBNull.Value, true),
+                CreateParameter("IDNumber", searchEntity.IDNumber > 0 ? (object)searchEntity.IDNumber : DBNull.Value, true),
             };
 
             results = GetRecords<SysTag>(SQL, parameters.ToArray());

@@ -102,7 +102,9 @@ namespace USDA.ARS.GRIN.Common.Library
     #region Validate Method
     public virtual bool Validate()
     {
-      return true;
+        
+            
+        return true;
     }
     #endregion
 

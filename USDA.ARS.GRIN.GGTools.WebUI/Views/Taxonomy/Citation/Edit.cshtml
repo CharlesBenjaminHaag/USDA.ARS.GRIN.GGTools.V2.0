@@ -42,16 +42,8 @@
             <div class="content-header">
                 <div class="container" style="max-width:1500px;">
                     <div class="row mb-2">
-                        <div class="col-sm-6">
-                            <h1 class="m-0">
-                                @{
-                                    string controllerName = ViewContext.RouteData.Values["controller"].ToString();
-                                    string actionName = ViewContext.RouteData.Values["action"].ToString();
-                                }
-                                <span>@actionName @controllerName [@Model.Entity.ID]: @Html.Raw(Model.Entity.TaxonName) @Model.Entity.Abbreviation</span>
-                            </h1>
-                        </div>
-                        <div class="col-sm-6">
+                        @Html.Partial("~/Views/Taxonomy/Shared/_PageTitle.cshtml")
+                        <div class="col-sm-3">
                             @Html.Partial("~/Views/Taxonomy/Shared/_Breadcrumbs.cshtml")
                         </div>
                     </div>

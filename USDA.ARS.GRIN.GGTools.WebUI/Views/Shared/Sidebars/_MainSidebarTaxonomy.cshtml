@@ -10,12 +10,6 @@
         @Html.Partial("~/Views/Shared/Sidebars/Components/_MenuWorkspaces.cshtml")
 
         <li class="nav-header">FOLDERS</li>
-        @*<li class="nav-item">
-            <a href="@Url.Action("Explorer", "AppUserItemFolder")" class="nav-link">
-                <i class="nav-icon fas fa-globe"></i>
-                <p>Explorer</p>
-            </a>
-        </li>*@
         <li class="nav-item">
             <a href="@Url.Action("Index", "AppUserItemFolder")" class="nav-link">
                 <i class="nav-icon fas fa-search"></i>
@@ -31,7 +25,6 @@
 
         <li class="nav-header">
             DEMO
-            @*<span class="right badge badge-danger">New</span>*@
         </li>
         <li class="nav-item">
             <a href="@Url.Action("Index","Import")" class="nav-link">
@@ -39,19 +32,6 @@
                 <p>Data Import</p>
             </a>
         </li>
-
-        @*<li class="nav-item">
-            <a href="@Url.Action("Index","Import")" class="nav-link">
-                <i class="nav-icon fas fa-tools"></i>
-                <p>Import</p>
-            </a>
-        </li>*@
-        @*<li class="nav-item">
-            <a href="@Url.Action("Index","SysDynamicSearch")" class="nav-link">
-                <i class="nav-icon fas fa-tools"></i>
-                <p>Dynamic Search</p>
-            </a>
-        </li>*@
 
         <li class="nav-header">MANAGE DATA</li>
         @{ Html.RenderAction("_List", "SysTable"); }

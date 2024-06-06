@@ -55,9 +55,9 @@
             color: white;
         }
 
-        .margin {
+       /* .margin {
             margin-top: 15px;
-        }
+        }*/
 
         .social-auth-links {
             margin: 0px;
@@ -90,9 +90,9 @@
             margin-top: 25px;
         }
 
-        #section-extended-search-fields {
+        /*#section-extended-search-fields {
             margin-top: 15px;
-        }
+        }*/
 
         .section-checkbox {
             margin-top: 10px;
@@ -244,9 +244,7 @@
             <div class="content-header">
                 <div class="container-fluid">
                     <div class="row mb-2">
-                        <div class="col-sm-9">
-                            <h1 id="placeholder-page-title" class="m-0">@ViewBag.PageTitle</h1>
-                        </div><!-- /.col -->
+                        @Html.Partial("~/Views/Taxonomy/Shared/_PageTitle.cshtml")
                         <div class="col-sm-3">
                             @Html.Partial("~/Views/Taxonomy/Shared/_Breadcrumbs.cshtml")
                         </div><!-- /.col -->

@@ -297,9 +297,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 sMTPMailMessageCooperator.From = emailTemplateViewModel.Entity.EmailFrom;
                 
                 //DEBUG
-                //sMTPMailMessageCooperator.To = sessionCooperatorViewModel.Entity.EmailAddress;
-                sMTPMailMessageCooperator.To = "benjamin.haag@usda.gov";
-
+                sMTPMailMessageCooperator.To = sessionCooperatorViewModel.Entity.EmailAddress;
                 sMTPMailMessageCooperator.Subject = emailTemplateViewModel.Entity.Subject;
                 sMTPMailMessageCooperator.Body = emailTemplateViewModel.Entity.Body;
                 sMTPMailMessageCooperator.Body = sMTPMailMessageCooperator.Body.Replace("[FIRST_NAME]", sessionCooperatorViewModel.Entity.FirstName);
