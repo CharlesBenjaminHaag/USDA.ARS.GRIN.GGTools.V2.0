@@ -97,6 +97,7 @@
                                                 <option value="taxonomy-family">Family</option>
                                                 <option value="taxonomy-genus">Genus</option>
                                                 <option value="taxonomy-species">Species</option>
+                                                <option value="accession">Accession</option>
                                             </select>
                                         </div>
                                     </div>
@@ -104,8 +105,9 @@
                                         <div id="section-fields-taxonomy-family" class="form-group">
                                             <label>Family</label>
                                             <div class="input-group">
-                                                @Html.TextBoxFor(x => x.Entity.FamilyName, new { @class = "form-control", @readonly = "readonly", @style = "background-color:#ecf0f5;" })
+                                                <span id="placeholder-taxomony-family-name" style="background-color: #ecf0f5; border: 1px solid #ced4da; width: 100%; position: relative; -ms-flex: 1 1 auto; flex: 1 1 auto; width: 1%; min-width: 0; margin-bottom: 0; padding: 0.375rem 0.75rem; height: calc(2.25rem + 2px);">@Html.Raw(Model.Entity.FamilyName) </span>
                                                 @Html.HiddenFor(x => x.Entity.FamilyID)
+                                                @Html.HiddenFor(x => x.Entity.FamilyName)
                                                 @if (Model.Entity.FamilyID > 0)
                                                 {
                                                     <span class="input-group-btn">
@@ -124,8 +126,9 @@
                                         <div id="section-fields-taxonomy-genus" class="form-group">
                                             <label>Genus</label>
                                             <div class="input-group">
-                                                @Html.TextBoxFor(x => x.Entity.GenusName, new { @class = "form-control", @readonly = "readonly", @style = "background-color:#ecf0f5;" })
+                                                <span id="placeholder-taxomony-genus-name" style="background-color: #ecf0f5; border: 1px solid #ced4da; width: 100%; position: relative; -ms-flex: 1 1 auto; flex: 1 1 auto; width: 1%; min-width: 0; margin-bottom: 0; padding: 0.375rem 0.75rem; height: calc(2.25rem + 2px);">@Html.Raw(Model.Entity.GenusName) </span>
                                                 @Html.HiddenFor(x => x.Entity.GenusID)
+                                                @Html.HiddenFor(x=> x.Entity.GenusName)
                                                 @if (Model.Entity.GenusID > 0)
                                                 {
                                                     <span class="input-group-btn">
@@ -144,7 +147,30 @@
                                         <div id="section-fields-taxonomy-species" class="form-group">
                                             <label>Species</label>
                                             <div class="input-group">
-                                                @Html.TextBoxFor(x => x.Entity.SpeciesName, new { @class = "form-control", @readonly = "readonly", @style = "background-color:#ecf0f5;" })
+                                                <span id="placeholder-taxomony-family-name" style="background-color: #ecf0f5; border: 1px solid #ced4da; width: 100%; position: relative; -ms-flex: 1 1 auto; flex: 1 1 auto; width: 1%; min-width: 0; margin-bottom: 0; padding: 0.375rem 0.75rem; height: calc(2.25rem + 2px);">@Html.Raw(Model.Entity.SpeciesName) </span>
+                                                @Html.HiddenFor(x => x.Entity.SpeciesID)
+                                                @Html.HiddenFor(x => x.Entity.SpeciesName)
+                                                @if (Model.Entity.SpeciesID > 0)
+                                                {
+                                                    <span class="input-group-btn">
+                                                        <a href="@Url.Action("Edit", "Species", new { @entityId = Model.Entity.SpeciesID })" class="btn btn-default btn-flat">
+                                                            <i class="fa fa-link"></i>
+                                                        </a>
+                                                    </span>
+                                                }
+                                                <span class="input-group-btn">
+                                                    <button id="btnOpenSpeciesLookupModal" type="button" data-ggtools-action="SpeciesID" data-ggtools-value="SpeciesName" data-toggle="modal" data-target="#modal-species-lookup" class="btn btn-default btn-flat">
+                                                        <i class="fa fa-search"></i>
+                                                    </button>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    
+                                    
+                                        <div id="section-fields-accession" class="form-group">
+                                            <label>Species</label>
+                                            <div class="input-group">
+                                                @Html.TextBoxFor(x => x.Entity.AccessionID, new { @class = "form-control", @readonly = "readonly", @style = "background-color:#ecf0f5;" })
                                                 @Html.HiddenFor(x => x.Entity.SpeciesID)
                                                 @if (Model.Entity.SpeciesID > 0)
                                                 {
@@ -161,6 +187,7 @@
                                                 </span>
                                             </div>
                                         </div>
+                                    
                                     </div>
                                     <div class="col-md-2">
                                         <div class="margin" style="margin-top:40px;">
@@ -308,8 +335,12 @@
             // If adding a new record, show Family by default; otherwise, show section that corresponds to the
             // citation taxon.
             var entityId = $("#Entity_ID").val();
+            var familyId = $("#Entity_FamilyID").val();
             var genusId = $("#Entity_GenusID").val();
             var speciesId = $("#Entity_SpeciesID").val();
+
+            //DEBUG
+            alert("FAM ID IS " + familyId + " GEN ID IS" + genusId + " SPEC ID IS " + speciesId);
 
             if (genusId > 0) {
                 $("#ddlTaxonType option[value=taxonomy-genus]").attr('selected', 'selected');
@@ -321,8 +352,8 @@
                     $("#section-fields-taxonomy-species").show();
                 }
                 else {
-                    $("#ddlTaxonType option[value=taxonomy-genus]").attr('selected', 'selected');
-                    $("#section-fields-taxonomy-genus").show();
+                    $("#ddlTaxonType option[value=taxonomy-family]").attr('selected', 'selected');
+                    $("#section-fields-taxonomy-family").show();
                 }
             }
 

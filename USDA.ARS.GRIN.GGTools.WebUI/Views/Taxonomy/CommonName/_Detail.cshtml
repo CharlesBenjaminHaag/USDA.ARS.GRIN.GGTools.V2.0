@@ -57,17 +57,11 @@
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <label>Transcription</label>
+                                    <label>Simplified Name</label>
                                     @Html.TextBoxFor(x => x.SearchEntity.SimplifiedName, new { @class = "form-control" })
                                 </div>
                             </div>
-                            <div class="col-md-9">
-                                <div class="form-group form-horizontal">
-                                    <label>Note</label>
-                                    @Html.TextBoxFor(x => x.SearchEntity.Note, new { @class = "form-control" })
-                                </div>
-                            </div>
-                            <div class="col-md-12">
+                            <div class="col-md-6">
                                 <div class="form-group form-horizontal">
                                     <label>Citation</label>
                                     @Html.TextBoxFor(x => x.SearchEntity.CitationText, new { @class = "form-control" })

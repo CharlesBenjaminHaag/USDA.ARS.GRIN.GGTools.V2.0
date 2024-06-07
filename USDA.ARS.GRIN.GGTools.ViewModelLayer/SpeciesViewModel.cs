@@ -365,15 +365,17 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
                 }
             }
 
-            // Ensure that species does not validate uniqueness constraint.
             SetSpeciesName();
             SetSpeciesNameAuthority();
+
+            // Ensure that species does not validate uniqueness constraint.
             SpeciesViewModel speciesValidationViewModel = new SpeciesViewModel();
             speciesValidationViewModel.SearchEntity.GenusID = Entity.GenusID;
             speciesValidationViewModel.SearchEntity.Name = Entity.Name;
             speciesValidationViewModel.SearchEntity.NameAuthority= Entity.NameAuthority;
             speciesValidationViewModel.SearchEntity.Protologue = Entity.Protologue;
             speciesValidationViewModel.SearchEntity.SynonymCode = Entity.SynonymCode;
+            speciesValidationViewModel.SearchEntity.ExcludeID = Entity.ID;
             speciesValidationViewModel.Search();
 
             if (speciesValidationViewModel.DataCollection.Count > 0)

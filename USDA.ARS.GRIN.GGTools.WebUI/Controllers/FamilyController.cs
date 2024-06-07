@@ -163,7 +163,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             }
 
             viewModel.Search();
-            return PartialView("Modals/_SelectList.cshtml", viewModel);
+            return PartialView("~/Views/Taxonomy/Family/Modals/_SelectList.cshtml", viewModel);
         }
     
         [HttpPost]
@@ -266,8 +266,9 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
         public PartialViewResult RenderLookupModal()
         {
             FamilyViewModel viewModel = new FamilyViewModel();
-            return PartialView("/Modals/_Lookup.cshtml", viewModel);
+            return PartialView("~/Views/Taxonomy/Family/Modals/_Lookup.cshtml", viewModel);
         }
+        
         #endregion
     }
 }

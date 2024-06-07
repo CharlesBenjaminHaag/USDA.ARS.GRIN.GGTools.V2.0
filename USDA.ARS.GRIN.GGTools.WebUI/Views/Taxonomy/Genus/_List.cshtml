@@ -1,69 +1,87 @@
 ﻿@model USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer.GenusViewModel
-<div class="card card-success">
-    <div class="card-header">
-        <h3 class="card-title">Genera (@Model.DataCollection.Count)</h3>
-        <div class="card-tools">
-            <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                <i class="fas fa-minus"></i>
-            </button>
-        </div>
-    </div>
-    <div class="card-body">
-        <div id="section-search-results">
-            <table id="data_table_taxonomy_genus" class="table table-striped ggtools-table" style="width:100%;">
-                <thead>
-                    <tr>
-                        <th width="5%">ID</th>
-                        <th>Name</th>
-                        <th>Family</th>
-                        <th>Qualifying Code</th>
-                        <th>Hybrid Code</th>
-                        <th style="text-align:center;">Accepted?</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var result in Model.DataCollection)
-                    {
-                        <tr>
-                            <td>
-                                @result.ID
-                            </td>
-                            <td>
-                                @Html.Raw(result.AssembledName)
-                            </td>
-                            <td>
-                                <a href="@Url.Action("Edit","Family", new { @entityId = result.FamilyID })">
-                                    @Html.Raw(result.FamilyAssembledName)
-                                </a>
-                            </td>
-                            <td>
-                                @result.QualifyingCodeTitle
-                            </td>
-                            <td>
-                                @result.HybridCodeTitle
-                            </td>
-                            <td style="text-align:center;">@Html.Raw(Model.FormatBoolean(result.IsAcceptedName))</td>
-                            <td>
-                                @if (Model.EventAction == "FOLDER")
-                                {
-                                    <a href="@Url.Action("DeleteItem", "AppUserItemFolder", new { @folderId = result.FolderID, @appUserItemListId = result.AppUserItemListID })"
-                                       class="btn btn-danger btn-sm float-right row-edit margin-r-5">
-                                        <i class="fa fa-trash"></i>
-                                    </a>
-                                }
-                                else
-                                {
-                                    <a href="@Url.Action("Edit", "Genus", new { entityId = result.ID })" class="btn btn-default btn-sm float-right row-edit">
-                                        <i class="fa fa-edit"></i>
-                                    </a>
-                                }
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
-    </div>
-</div>
 
+@using (Html.BeginForm("GetBatchEditor", "Genus", FormMethod.Post, new { id = "frmGetBatchEditor" }))
+{
+    @Html.HiddenFor(x => x.ItemIDList)
+}
+
+
+@if (Model.DataCollection.Count == 0)
+{
+    <p>No genera assigned. <a href="" class="btn btn-default btn-flat">Add Genus</a></p>
+}
+else
+{
+    <table id="data_table_taxonomy_genus" class="table table-striped ggtools-table" style="width:100%;">
+        <thead>
+            <tr>
+                <th width="5%">ID</th>
+                <th>Name</th>
+                <th>Family</th>
+                <th>Qualifying Code</th>
+                <th>Hybrid Code</th>
+                <th style="text-align:center;">Accepted?</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var result in Model.DataCollection)
+            {
+                <tr>
+                    <td>
+                        @result.ID
+                    </td>
+                    <td>
+                        @Html.Raw(result.AssembledName)
+                    </td>
+                    <td>
+                        <a href="@Url.Action("Edit", "Family", new { @entityId = result.FamilyID })">
+                            @Html.Raw(result.FamilyAssembledName)
+                        </a>
+                    </td>
+                    <td>
+                        @result.QualifyingCodeTitle
+                    </td>
+                    <td>
+                        @result.HybridCodeTitle
+                    </td>
+                    <td style="text-align:center;">@Html.Raw(Model.FormatBoolean(result.IsAcceptedName))</td>
+                    <td>
+                        @if (Model.EventAction == "FOLDER")
+                        {
+                            <a href="@Url.Action("DeleteItem", "AppUserItemFolder", new { @folderId = result.FolderID, @appUserItemListId = result.AppUserItemListID })"
+                               class="btn btn-danger btn-sm float-right row-edit margin-r-5">
+                                <i class="fa fa-trash"></i>
+                            </a>
+                        }
+                        else
+                        {
+                            <a href="@Url.Action("Edit", "Genus", new { entityId = result.ID })" class="btn btn-default btn-sm float-right row-edit">
+                                <i class="fa fa-edit"></i>
+                            </a>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+<script type="text/javascript">
+    function GetBatchEditor() {
+        var link = '@Url.Action("GetBatchEditor", "Family")';
+        var formData = new FormData();
+
+        $.ajax({
+            url: link,
+            type: 'POST',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (response) {
+                $("#section-modal-email").html(response);
+                $("#modal-email").modal("show");
+            }
+        });
+    }
+</script>

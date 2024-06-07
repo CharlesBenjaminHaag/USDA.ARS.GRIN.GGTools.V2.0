@@ -202,7 +202,10 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
                 SQL += " AND (ID IN (" + searchEntity.IDList + "))";
             }
 
-            
+            if (searchEntity.ExcludeID > 0)
+            {
+                SQL += " AND ID <> " + searchEntity.ExcludeID;
+            }
 
             SQL = GetCreatedDateRangeSQL(searchEntity, SQL);
             SQL = GetModifiedDateRangeSQL(searchEntity, SQL);

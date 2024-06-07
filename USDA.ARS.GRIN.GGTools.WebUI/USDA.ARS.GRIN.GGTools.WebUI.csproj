@@ -474,16 +474,6 @@
     <Content Include="Views\Error\_ErrorLogList.cshtml" />
     <Content Include="Views\Error\_Detail.cshtml" />
     <Content Include="Views\Error\_InternalServerError.cshtml" />
-    <Content Include="Views\Taxonomy\FamilyMap\Edit.cshtml" />
-    <Content Include="Views\Taxonomy\FamilyMap\Index.cshtml" />
-    <Content Include="Views\Taxonomy\FamilyMap\_DetailExtended.cshtml" />
-    <Content Include="Views\Taxonomy\FamilyMap\_List.cshtml" />
-    <Content Include="Views\Taxonomy\FamilyMap\_Detail.cshtml" />
-    <Content Include="Views\Taxonomy\FamilyMap\Modals\_InfrafamilialTaxonEdit.cshtml" />
-    <Content Include="Views\Taxonomy\FamilyMap\Modals\_InfrafamilialTaxonEditGrid.cshtml" />
-    <Content Include="Views\Taxonomy\FamilyMap\Modals\_Lookup.cshtml" />
-    <Content Include="Views\Taxonomy\FamilyMap\Modals\_SelectList.cshtml" />
-    <Content Include="Views\Taxonomy\FamilyMap\Modals\_TypeGenusPrompt.cshtml" />
     <Content Include="Views\Taxonomy\Genus\Edit.cshtml" />
     <Content Include="Views\Taxonomy\Genus\Index.cshtml" />
     <Content Include="Views\Taxonomy\Genus\_DetailExtended.cshtml" />
@@ -640,9 +630,6 @@
     <Content Include="Views\Taxonomy\Author\Modals\_SelectList.cshtml" />
     <Content Include="Views\Taxonomy\Species\Modals\_LookupProtologue.cshtml" />
     <Content Include="Views\Taxonomy\Species\Modals\_SelectListProtologue.cshtml" />
-    <Content Include="Views\Taxonomy\FamilyMap\_OBSOLETE\EditSubfamily.cshtml" />
-    <Content Include="Views\Taxonomy\FamilyMap\_OBSOLETE\EditSubtribe.cshtml" />
-    <Content Include="Views\Taxonomy\FamilyMap\_OBSOLETE\EditTribe.cshtml" />
     <Content Include="Views\AppUserItemFolder\Index.cshtml" />
     <Content Include="Views\AppUserItemList\_List.cshtml" />
     <Content Include="Views\Cooperator\_SelectList.cshtml" />
@@ -656,8 +643,6 @@
     <Content Include="Views\Taxonomy\CropForCWR\_DetailExtended.cshtml" />
     <Content Include="Views\Taxonomy\Genus\_ListSynonyms.cshtml" />
     <Content Include="Views\Taxonomy\Genus\_ListSubdivisions.cshtml" />
-    <Content Include="Views\Taxonomy\FamilyMap\_ListSubdivisions.cshtml" />
-    <Content Include="Views\Taxonomy\FamilyMap\_ListSynonyms.cshtml" />
     <Content Include="Views\Shared\Modals\_NoteLookup2.cshtml" />
     <Content Include="Views\Error\SystemError.cshtml" />
     <Content Include="Views\Error\Error404.cshtml" />
@@ -677,12 +662,6 @@
     <Content Include="Views\Taxonomy\Author\_DetailExtended.cshtml" />
     <Content Include="Views\Taxonomy\Shared\Modals\_Delete.cshtml" />
     <Content Include="Views\Taxonomy\SpeciesSynonymMap\_DetailExtended.cshtml" />
-    <Content Include="Views\Taxonomy\FamilyMap\_ListGenera.cshtml" />
-    <Content Include="Views\Taxonomy\FamilyMap\_OBSOLETE\_EditFamily.cshtml" />
-    <Content Include="Views\Taxonomy\FamilyMap\_OBSOLETE\_EditFamily - Copy.cshtml" />
-    <Content Include="Views\Taxonomy\FamilyMap\_OBSOLETE\_EditSubtribe.cshtml" />
-    <Content Include="Views\Taxonomy\FamilyMap\_OBSOLETE\_EditTribe.cshtml" />
-    <Content Include="Views\Taxonomy\FamilyMap\_OBSOLETE\_EditSubfamily.cshtml" />
     <Content Include="Views\Taxonomy\Citation\Modals\_SelectListTaxon.cshtml" />
     <Content Include="Views\Taxonomy\Genus\_ListSpecies.cshtml" />
     <Content Include="Views\CodeValue\Explore.cshtml" />
@@ -754,7 +733,6 @@
     <Content Include="Views\CodeValue\Modals\_Edit.cshtml" />
     <Content Include="Views\CodeValue\Modals\_Detail.cshtml" />
     <Content Include="Views\Site\_EditAddress.cshtml" />
-    <Content Include="Views\Taxonomy\Genus\Edit - Copy.cshtml" />
     <Content Include="Views\SysGroupUserMap\_Widget.cshtml" />
     <Content Include="Views\SysTable\_Widget.cshtml" />
     <Content Include="Views\Cooperator\_ListWidget.cshtml" />
@@ -890,7 +868,6 @@
     <Content Include="Views\Taxonomy\CWRTrait\_ListFolder.cshtml" />
     <Content Include="Views\Taxonomy\EconomicUsageType\_ListFolder.cshtml" />
     <Content Include="Views\Taxonomy\EconomicUse\_ListFolder.cshtml" />
-    <Content Include="Views\Taxonomy\FamilyMap\_ListFolder.cshtml" />
     <Content Include="Views\Taxonomy\Genus\_ListFolder.cshtml" />
     <Content Include="Views\Taxonomy\Geography\_ListFolder.cshtml" />
     <Content Include="Views\Taxonomy\GeographyMap\_ListFolder.cshtml" />
@@ -954,7 +931,6 @@
     <Content Include="Views\Taxonomy\Species\Components\_InfraSpecificEditor.cshtml" />
     <Content Include="Views\Taxonomy\Species\Components\_AcceptedNameEditor.cshtml" />
     <Content Include="Views\Taxonomy\Species\Components\_GenusEditor.cshtml" />
-    <Content Include="Views\Taxonomy\FamilyMap\Components\_GenusEditor.cshtml" />
     <Content Include="Views\Taxonomy\Species\Components\_RelatedDataViewer.cshtml" />
     <Content Include="Views\Taxonomy\Species\Modals\_EditInfraspecificOptions.cshtml" />
     <Content Include="Views\SysDataview\Index.cshtml" />
@@ -1035,6 +1011,7 @@
     <Content Include="Views\Taxonomy\Family\Components\_GenusEditor.cshtml" />
     <Content Include="Views\Taxonomy\Shared\_PageTitle.cshtml" />
     <Content Include="Views\Taxonomy\Family\EditBatch.cshtml" />
+    <Content Include="Views\Taxonomy\Genus\EditBatch.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

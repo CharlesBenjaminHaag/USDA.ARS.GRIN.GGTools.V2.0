@@ -15,6 +15,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
     {
         public GenusViewModel()
         { }
+        
         public void Delete()
         {
             try
@@ -30,6 +31,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
                 throw ex;
             }
         }
+        
         public Genus Get(int entityId)
         {
             using (GenusManager mgr = new GenusManager())
@@ -45,6 +47,18 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
                     {
                         GetParentGenus();
                     }
+
+                    //TODO
+                    // If not accepted, retrieve accepted-fam data.
+                    
+
+                        if (Entity.IsAcceptedName == "N")
+                    {
+                        Genus genusAccepted = new Genus();
+                        genusAccepted = mgr.Get(Entity.AcceptedID);
+                        Entity.AcceptedName = genusAccepted.AssembledName;
+                    }
+
                     RowsAffected = mgr.RowsAffected;
                 }
                 catch (Exception ex)
@@ -55,6 +69,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
             }
             return Entity;
         }
+        
         public void GetFolderItems()
         {
             using (GenusManager mgr = new GenusManager())

@@ -115,10 +115,10 @@
             columns: [
                 { data: 'taxonomy_regulation_map.taxonomy_regulation_map_id' },
                 {
-                    data: 'taxonomy_family2.family_name',
+                    data: 'taxonomy_family.family_name',
                     render: function (data, type, row, meta) {
-                        if (row.taxonomy_family2.family_name != null) {
-                            return '<a id=button_modal-family-lookup_' + row.taxonomy_regulation_map.taxonomy_regulation_map_id + ' href="#">' + row.taxonomy_family2.family_name + '</a>';
+                        if (row.taxonomy_family.family_name != null) {
+                            return '<a id=button_modal-family-lookup_' + row.taxonomy_regulation_map.taxonomy_regulation_map_id + ' href="#">' + row.taxonomy_family.family_name + '</a>';
                         }
                         else {
                             return '';

@@ -6,6 +6,7 @@ using USDA.ARS.GRIN.GGTools.ViewModelLayer;
 using USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer;
 using USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer;
 using NLog;
+using DataTables;
 
 namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
 {
@@ -407,5 +408,83 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 return Json(new { errorMessage = ex.Message }, JsonRequestBehavior.AllowGet);
             }
         }
+
+        #region Batch Edit
+
+        [HttpPost]
+        public ActionResult GetBatchEditor(FamilyViewModel viewModel)
+        {
+            try
+            {
+                Session["GENUS_ID_LIST"] = viewModel.ItemIDList;
+                return View("~/Views/Taxonomy/Genus/EditBatch.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return RedirectToAction("InternalServerError", "Error");
+            }
+        }
+
+        [ValidateInput(false)]
+        public JsonResult EditBatch()
+        {
+            string idList = String.Empty;
+            var request = System.Web.HttpContext.Current.Request;
+
+            if (Session["GENUS_ID_LIST"] != null)
+            {
+                idList = Session["GENUS_ID_LIST"].ToString();
+            }
+
+            string[] idArray = idList.Split(',');
+
+            try
+            {
+                using (FamilyManager mgr = new FamilyManager())
+                {
+                    using (var db = new Database("sqlserver", mgr.ConnectionString))
+                    {
+                        var editor = new Editor(db, "taxonomy_genus", "taxonomy_genus.taxonomy_genus_id").Where(q =>
+                        {
+                            q.Where(r =>
+                            {
+                                foreach (var i in idArray)
+                                {
+                                    r.OrWhere("taxonomy_family.taxonomy_family_id", i);
+                                }
+                            });
+                        })
+                        .Model<FamilyTable>("taxonomy_family");
+
+                        editor.Field(new Field("taxonomy_family.taxonomy_family_id")
+                            .Validator(Validation.NotEmpty())
+                        );
+                        editor.Field(new Field("taxonomy_family.family_name"));
+                        editor.Field(new Field("taxonomy_family.subfamily_name"));
+                        editor.Field(new Field("taxonomy_family.tribe_name"));
+                        editor.Field(new Field("taxonomy_family.subtribe_name"));
+                        editor.Field(new Field("taxonomy_family.family_authority"));
+                        editor.Field(new Field("taxonomy_family.modified_date")
+                            .Set(Field.SetType.Edit));
+                        editor.PreEdit += (sender, e) => editor.Field("taxonomy_family.modified_date").SetValue(DateTime.Now);
+                        editor.Process(request);
+
+                        var response = editor.Data();
+
+                        JsonResult jsonResult = new JsonResult();
+                        jsonResult = Json(response);
+                        jsonResult.MaxJsonLength = 2147483644;
+                        jsonResult.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
+                        return jsonResult;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                return Json(ex.Message, JsonRequestBehavior.AllowGet);
+            }
+        }
+        #endregion
     }
 }

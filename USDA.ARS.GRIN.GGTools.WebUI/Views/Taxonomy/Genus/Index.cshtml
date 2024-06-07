@@ -4,7 +4,23 @@
     Layout = "~/Views/Shared/_LayoutAdminLTE3.cshtml";
 }
 @Html.Partial("~/Views/Taxonomy/Genus/_Detail.cshtml")
-@Html.Partial("~/Views/Taxonomy/Genus/_List.cshtml")
+
+<div class="card card-success card-outline">
+    <div class="card-header">
+        <h3 class="card-title"><i class="nav-icon fas fa-table"></i> Search Results [@Model.RowsAffected]</h3>
+        <div class="card-tools">
+            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                <i class="fas fa-minus"></i>
+            </button>
+        </div>
+    </div>
+    <div class="card-body">
+        <div id="section-search-results">
+            @Html.Partial("~/Views/Taxonomy/Genus/_List.cshtml")
+        </div>
+    </div>
+</div>
+
 @{Html.RenderAction("RenderEditModal", "AppUserItemFolder", new { @sysTableName = Model.TableName }); }
 
 <script type="text/javascript">

@@ -18,7 +18,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         public Genus Get(int entityId)
         {
             Genus genus = new Genus();
-            SQL = "usp_TaxonomyGenus_Select";
+            SQL = "usp_GRINGlobal_Taxonomy_Genus_Select";
            
             var parameters = new List<IDbDataParameter> {
                 CreateParameter("taxonomy_genus_id", (object)entityId, false)

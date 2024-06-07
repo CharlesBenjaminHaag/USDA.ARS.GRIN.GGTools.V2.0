@@ -237,9 +237,9 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                         .Model<RegulationTable>("taxonomy_regulation")
                         .Model<SpeciesTable>("taxonomy_species")
                         .Model<GenusTable>("taxonomy_genus")
-                        .Model<FamilyTable>("taxonomy_family2")
+                        .Model<FamilyTable>("taxonomy_family")
                         .LeftJoin("taxonomy_regulation", "taxonomy_regulation.taxonomy_regulation_id", "=", "taxonomy_regulation_map.taxonomy_regulation_id")
-                        .LeftJoin("taxonomy_family2", "taxonomy_family2.taxonomy_family2_id", "=", "taxonomy_regulation_map.taxonomy_family_id")
+                        .LeftJoin("taxonomy_family", "taxonomy_family.taxonomy_family_id", "=", "taxonomy_regulation_map.taxonomy_family_id")
                         .LeftJoin("taxonomy_genus", "taxonomy_genus.taxonomy_genus_id", "=", "taxonomy_regulation_map.taxonomy_genus_id")
                         .LeftJoin("taxonomy_species", "taxonomy_species.taxonomy_species_id", "=", "taxonomy_regulation_map.taxonomy_species_id");
 
@@ -248,7 +248,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                         );
                         editor.Field(new Field("taxonomy_species.name"));
                         editor.Field(new Field("taxonomy_genus.genus_name"));
-                        editor.Field(new Field("taxonomy_family2.family_name"));
+                        editor.Field(new Field("taxonomy_family.family_name"));
                         editor.Field(new Field("taxonomy_regulation_map.taxonomy_family_id"));
                         editor.Field(new Field("taxonomy_regulation_map.taxonomy_genus_id"));
                         editor.Field(new Field("taxonomy_regulation_map.taxonomy_species_id"));

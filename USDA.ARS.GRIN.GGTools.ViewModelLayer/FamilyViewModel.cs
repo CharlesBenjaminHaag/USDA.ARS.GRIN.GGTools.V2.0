@@ -49,7 +49,6 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
                             IsWebVisibleSelector = false;
                         }
 
-                        //TODO
                         // If not accepted, retrieve accepted-fam data.
                         if (Entity.IsAcceptedName == "N")
                         {
@@ -57,7 +56,6 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
                             familyAccepted = mgr.Get(Entity.AcceptedID);
                             Entity.AcceptedName = familyAccepted.AssembledName;
                         }
-
                         RowsAffected = mgr.RowsAffected;
                     }
                     catch (Exception ex)
@@ -66,6 +64,17 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
                         throw ex;
                     }
                 }
+
+                if (Entity.TypeGenusID > 0)
+                {
+                    using (GenusManager genusMgr = new GenusManager())
+                    {
+                        Genus typeGenus = new Genus();
+                        typeGenus = genusMgr.Get(Entity.TypeGenusID);
+                        Entity.TypeGenusName = typeGenus.AssembledName;
+                    }
+                }
+
                 return Entity;
             }
             catch (Exception ex)

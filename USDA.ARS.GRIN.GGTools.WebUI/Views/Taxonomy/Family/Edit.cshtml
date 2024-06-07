@@ -81,11 +81,11 @@
                             <div class="card-body">
                                 @Html.Partial("~/Views/Shared/_ValidationMessages.cshtml")
                                 <div class="row accepted">
-                                    <div id="section-accepted-name" class="col-md-3 accepted">
+                                    <div id="section-accepted-name" class="col-md-6 accepted">
                                         <div class="form-group">
                                             <label>Accepted Name</label>
                                             <div class="input-group">
-                                                @Html.TextBoxFor(x => x.Entity.AcceptedName, new { @class = "form-control" })
+                                                <span id="placeholder-accepted-name" style="background-color: #ecf0f5; border: 1px solid #ced4da; width: 100%; position: relative; -ms-flex: 1 1 auto; flex: 1 1 auto; width: 1%; min-width: 0; margin-bottom: 0; padding: 0.375rem 0.75rem; height: calc(2.25rem + 2px);">@Html.Raw(Model.Entity.AcceptedName) </span>
                                                 @Html.HiddenFor(x => x.Entity.AcceptedID)
                                                 @if (Model.Entity.AcceptedID > 0)
                                                 {
@@ -287,8 +287,10 @@
         <!-- Main Footer -->
         @Html.Partial("~/Views/Shared/_Footer.cshtml")
     </div>
-
-    <script type="text/javascript">
+</body>
+</html>
+@Html.Partial("~/Views/Shared/_Scripts.cshtml")
+<script type="text/javascript">
         $(document).ready(function () {
             Init();
         });
@@ -321,7 +323,7 @@
         link = link.replace("FAMILY_ID", entityId);
 
         // DEBUG
-        //alert("CALLING " + link);
+        alert("CALLING " + link);
         //alert("SECTION " + sectionData);
 
         formData.append("FamilyID", entityId);
@@ -341,7 +343,4 @@
             }
         });
     }
-    </script>
-</body>
-</html>
-@Html.Partial("~/Views/Shared/_Scripts.cshtml")
+</script>

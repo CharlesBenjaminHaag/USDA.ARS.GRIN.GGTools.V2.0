@@ -146,7 +146,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
         }
 
         // GET: Order
-        public ActionResult Index()
+        public ActionResult Index(string sysTableName = "")
         {
             ClassificationViewModel viewModel = new ClassificationViewModel();
 

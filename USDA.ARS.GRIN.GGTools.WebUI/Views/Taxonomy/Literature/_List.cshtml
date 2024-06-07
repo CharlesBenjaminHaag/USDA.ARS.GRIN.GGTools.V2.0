@@ -14,6 +14,7 @@
                 <tr>
                     <th width="5%">ID</th>
                     <th>Standard Abbreviation</th>
+                    <th>Abbreviation</th>
                     <th>Reference Title</th>
                     <th>Author</th>
                     <th>Publication Year</th>
@@ -30,6 +31,7 @@
                             @result.ID
                         </td>
                         <td>@Html.Raw(result.StandardAbbreviation)</td>
+                        <td>@result.Abbreviation</td>
                         <td>@Html.Raw(result.ReferenceTitle)</td>
                         <td>@result.EditorAuthorName</td>
                         <td>@result.PublicationYear</td>
