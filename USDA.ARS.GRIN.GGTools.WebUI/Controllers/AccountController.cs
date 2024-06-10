@@ -291,22 +291,22 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 //************************************ 2. SEND REQUESTOR EMAILS ******************************************************
 
                 // Get template.
-                emailTemplateViewModel.SearchEntity.CategoryCode = "CNA";
-                emailTemplateViewModel.Search();
+                //emailTemplateViewModel.SearchEntity.CategoryCode = "CNA";
+                //emailTemplateViewModel.Search();
 
-                sMTPMailMessageCooperator.From = emailTemplateViewModel.Entity.EmailFrom;
+                //sMTPMailMessageCooperator.From = emailTemplateViewModel.Entity.EmailFrom;
                 
-                //DEBUG
-                sMTPMailMessageCooperator.To = sessionCooperatorViewModel.Entity.EmailAddress;
-                sMTPMailMessageCooperator.Subject = emailTemplateViewModel.Entity.Subject;
-                sMTPMailMessageCooperator.Body = emailTemplateViewModel.Entity.Body;
-                sMTPMailMessageCooperator.Body = sMTPMailMessageCooperator.Body.Replace("[FIRST_NAME]", sessionCooperatorViewModel.Entity.FirstName);
-                sMTPMailMessageCooperator.Body = sMTPMailMessageCooperator.Body.Replace("[LAST_NAME]", sessionCooperatorViewModel.Entity.LastName);
-                sMTPMailMessageCooperator.Body = sMTPMailMessageCooperator.Body.Replace("[CURATOR_TOOL_USER_NAME]", sysUserViewModel.Entity.SysUserName);
-                sMTPMailMessageCooperator.Body = sMTPMailMessageCooperator.Body.Replace("[CURATOR_TOOL_PASSWORD]", defaultSysUserPassword);
-                sMTPMailMessageCooperator.Body = sMTPMailMessageCooperator.Body.Replace("[CURATOR_TOOL_PASSWORD_EXPIRATION_DATE]", sysUserViewModel.Entity.SysUserPasswordExpirationDate.ToShortDateString());
-                sMTPMailMessageCooperator.Body = sMTPMailMessageCooperator.Body.Replace("[WEB_USER_NAME]", webUserViewModel.Entity.WebUserName);
-                sMTPManager.SendMessage(sMTPMailMessageCooperator);
+                ////DEBUG
+                //sMTPMailMessageCooperator.To = sessionCooperatorViewModel.Entity.EmailAddress;
+                //sMTPMailMessageCooperator.Subject = emailTemplateViewModel.Entity.Subject;
+                //sMTPMailMessageCooperator.Body = emailTemplateViewModel.Entity.Body;
+                //sMTPMailMessageCooperator.Body = sMTPMailMessageCooperator.Body.Replace("[FIRST_NAME]", sessionCooperatorViewModel.Entity.FirstName);
+                //sMTPMailMessageCooperator.Body = sMTPMailMessageCooperator.Body.Replace("[LAST_NAME]", sessionCooperatorViewModel.Entity.LastName);
+                //sMTPMailMessageCooperator.Body = sMTPMailMessageCooperator.Body.Replace("[CURATOR_TOOL_USER_NAME]", sysUserViewModel.Entity.SysUserName);
+                //sMTPMailMessageCooperator.Body = sMTPMailMessageCooperator.Body.Replace("[CURATOR_TOOL_PASSWORD]", defaultSysUserPassword);
+                //sMTPMailMessageCooperator.Body = sMTPMailMessageCooperator.Body.Replace("[CURATOR_TOOL_PASSWORD_EXPIRATION_DATE]", sysUserViewModel.Entity.SysUserPasswordExpirationDate.ToShortDateString());
+                //sMTPMailMessageCooperator.Body = sMTPMailMessageCooperator.Body.Replace("[WEB_USER_NAME]", webUserViewModel.Entity.WebUserName);
+                //sMTPManager.SendMessage(sMTPMailMessageCooperator);
             }
             return View("~/Views/Account/Request/ThankYou.cshtml");
         }
