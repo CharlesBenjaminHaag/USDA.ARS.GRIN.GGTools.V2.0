@@ -4,6 +4,11 @@
     ViewBag.ID = Model.ID;
     Layout = "~/Views/Shared/_LayoutAdminLTE3.cshtml";
 }
+
+@Html.HiddenFor(x => x.EventAction)
+@Html.HiddenFor(x => x.EventValue)
+@Html.HiddenFor(x => x.EventInfo)
+
 <div id="section-search-results" class="card card-success">
     <div class="card-header">
         <h3 class="card-title">Family</h3>
@@ -185,7 +190,7 @@
         var link = '@Url.Action("SaveBatch","Genus")';
         var formData = new FormData();
 
-        formData.append("genusId", regulationMapId);
+        formData.append("genusId", genusId);
         formData.append("familyId", familyId);
 
         $.ajax({

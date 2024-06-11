@@ -39,7 +39,11 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
                 try
                 {
                     SearchEntity.ID = entityId;
-                    Entity = new Collection<Genus>(mgr.Search(SearchEntity))[0];
+                    DataCollection = new Collection<Genus>(mgr.Search(SearchEntity));
+                    if (DataCollection.Count == 1)
+                    {
+                        Entity = DataCollection[0];
+                    }
                     Entity.IsAccepted = ToBool(Entity.IsAcceptedName);
                     Entity.IsWebVisibleOption = ToBool(Entity.IsWebVisible);
 
