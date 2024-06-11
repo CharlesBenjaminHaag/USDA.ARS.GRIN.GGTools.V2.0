@@ -731,7 +731,7 @@
     <Content Include="Views\Taxonomy\Citation\_EditExtended.cshtml" />
     <Content Include="Views\CodeValue\Explorer\Index.cshtml" />
     <Content Include="Views\CodeValue\Modals\_Edit.cshtml" />
-    <Content Include="Views\CodeValue\Modals\_Detail.cshtml" />
+    <Content Include="Views\CodeValue\Components\_Editor.cshtml" />
     <Content Include="Views\Site\_EditAddress.cshtml" />
     <Content Include="Views\SysGroupUserMap\_Widget.cshtml" />
     <Content Include="Views\SysTable\_Widget.cshtml" />
@@ -1012,6 +1012,8 @@
     <Content Include="Views\Taxonomy\Shared\_PageTitle.cshtml" />
     <Content Include="Views\Taxonomy\Family\EditBatch.cshtml" />
     <Content Include="Views\Taxonomy\Genus\EditBatch.cshtml" />
+    <Content Include="Views\CodeValue\Components\_MainSidebar.cshtml" />
+    <Content Include="Views\CodeValue\Components\_SelectList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

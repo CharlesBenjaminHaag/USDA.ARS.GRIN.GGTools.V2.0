@@ -12,6 +12,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
     public class CodeValueController : BaseController, IController<CodeValueViewModel>
     {
         private static readonly Logger Log = LogManager.GetCurrentClassLogger();
+        
         public PartialViewResult _ListFolderItems(int appUserItemFolderId)
         {
             try
@@ -24,6 +25,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 return PartialView("~/Views/Error/_InternalServerError.cshtml");
             }
         }
+        
         [HttpPost]
         public JsonResult Add(FormCollection formCollection)
         {
@@ -101,6 +103,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 return RedirectToAction("InternalServerError", "Error");
             }
         }
+        
         [HttpPost]
         public ActionResult Edit(CodeValueViewModel viewModel)
         {
@@ -134,12 +137,14 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
         {
             throw new NotImplementedException();
         }
+        
         public ActionResult Index()
         {
             CodeValueViewModel viewModel = new CodeValueViewModel();
             viewModel.PageTitle = "Code Value Search";
             return View(viewModel);
         }
+        
         public ActionResult Explorer()
         {
             CodeValueViewModel viewModel = new CodeValueViewModel();
@@ -189,5 +194,57 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
         {
             throw new NotImplementedException();
         }
+
+        #region Components
+
+        public PartialViewResult Component_Editor(int codeValueId)
+        {
+            CodeValueViewModel viewModel = new CodeValueViewModel();
+            
+            try
+            {
+                viewModel.Get(codeValueId);
+                return PartialView("~/Views/CodeValue/Components/_Editor.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
+        }
+
+        public PartialViewResult Component_MainSidebar()
+        {
+            CodeValueViewModel viewModel = new CodeValueViewModel();
+            try 
+            {
+            
+                return PartialView("~/Views/CodeValue/Components/_MainSidebar.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
+        }
+
+        public PartialViewResult Component_SelectList(string groupName)
+        {
+            CodeValueViewModel viewModel = new CodeValueViewModel();
+            try
+            {
+                viewModel.SearchEntity.GroupName = groupName;
+                viewModel.Search();
+                //TODO
+                return PartialView("~/Views/CodeValue/Components/_SelectList.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
+        }
+
+        #endregion
     }
 }

@@ -5,40 +5,47 @@
 }
 <div class="row">
     <div class="col-md-3">
-        <!-- BEGIN CATEGORY LIST -->
-        <div class="card card-primary card-outline">
+
+        <div class="card card-default">
             <div class="card-header">
-                <h3 class="card-title"><i class="fas fa-filter"></i> Groups</h3>
+                <h3 class="card-title">Groups</h3>
                 <div class="card-tools">
-                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                    <button id="btn" type="button" class="btn btn-tool" data-card-widget="collapse">
                         <i class="fas fa-minus"></i>
                     </button>
                 </div>
             </div>
-            <div id="section-code-groups" class="card-body">
+            <div class="card-body">
+                @Html.DropDownListFor(x=>x.SelectedGroup, Model.Groups, new { @class = "form-control" })
+                <div id="section-code-value-list">
 
-                <table class="table table-hover text-nowrap">
-                    
-                    <tbody>
-                        @foreach (var result in Model.DataCollectionGroups)
-                        {
-                            <tr>
-                                <td>@result.Value</td>
-
-                            </tr>
-                        }
-                        </tbody>
-                </table>
-
-               
-
-
-
-
-
+                </div>
             </div>
         </div>
-        <!-- END CATEGORY LIST -->
+
+        <!-- TODO expandable hierarcical list that lazy-loads codes per grp (CBH, 6/10/24) -->
+        @*<div class="form-group">
+            <input type="text" class="form-control" />
+        </div>
+            @foreach (var group in Model.DataCollectionGroups)
+        {
+            <div class="card card-default collapsed-card">
+                <div class="card-header">
+                    <h3 class="card-title">@group.Title</h3>
+                    <div class="card-tools">
+                        <button id="btn" type="button" class="btn btn-tool" data-card-widget="collapse">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                    </div>
+
+                </div>
+
+                <div class="card-body">
+                    The body of the card
+                </div>
+
+            </div>
+        }*@
     </div>
     <div class="col-md-9">
         <div id="section-search-results" class="card card-success">
@@ -50,11 +57,16 @@
                     </button>
                 </div>
             </div>
-            <div id="section-code-value-list" class="card-body">
+            <div id="section-code-value-detail" class="card-body">
             </div>
             @*<div id="progress_overlay" class="overlay">
                 <i class="fas fa-2x fa-sync-alt fa-spin"></i>
             </div>*@
+            <div class="card-footer">
+                <button id="btnSaveEdits" type="submit" class="btn btn-default float-right">
+                    <i class="fa fa-save"></i> Save Edits
+                </button>
+            </div>
         </div>
     </div>
 </div>
@@ -62,77 +74,74 @@
 @Html.Partial("~/Views/CodeValue/Modals/_Edit.cshtml")
 
 <script type="text/javascript">
-
+    
     $(document).ready(function () {
-        InitCodeGroupDataTable("data-table-code-groups");
+        var selectedValue = $('#SelectedGroup').val();
+        console.log('Selected Value on Page Load: ' + selectedValue);
+        GetCodeValueList(selectedValue);
     });
 
-    //function InitSelectorDataTable(tableName) {
-    //    tableName = "#" + tableName;
+    $(document).ready(function () {
+        $('button[data-card-widget="collapse"]').on('click', function () {
+            console.log('Card collapsed/expanded');
+            // Add your custom functionality here
+        });
+    });
 
-    //    var tableNameString = tableName + " tbody";
+    $(document).ready(function () {
+        $('#SelectedGroup').on('change', function () {
+            var selectedIndex = $(this).prop('selectedIndex');
+            var selectedValue = $(this).val();
+            console.log('Selected Index: ' + selectedIndex);
+            console.log('Selected Value: ' + selectedValue);
+            GetCodeValueList(selectedValue);
+        });
+    });
 
-    //    table = $(tableName).DataTable({
-    //        paging: false,
-    //        select: {
-    //            style: 'single'
-    //        },
-    //        searching: true,
-    //        //columnDefs: [
-    //        //    { targets: [0], visible: false }
-    //        //]
-    //    });
-
-    //    //Select first row by default; load related data.
-    //    table.row(':eq(0)', { page: 'current' }).select();
-    //    var firstRowData = table.row(':eq(0)', { page: 'current' }).data();
-    //    LoadCodeValues(firstRowData[0]);
-    //}
-
-    function InitCodeGroupDataTable(tableName) {
+    function InitSelectorDataTable(tableName) {
         tableName = "#" + tableName;
-        $(document).ready(function () {
-            table = $(tableName).DataTable({
-                //dom: 'Blfrtip',
-                paging: false,
-                //"pageLength": 10,
-                responsive: true,
-                //buttons: [
-                //    'selectAll',
-                //    'selectNone',
-                //    'csv',
-                //    'excel',
-                //    'pdf',
-                //    {
-                //        text: 'Edit Batch',
-                //        action: function (e, dt, node, config) {
-                //            EditBatch();
-                //        }
-                //    }
-                //],
-                search: false,
-                select: true,
-                lengthMenu: [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],
-                //columnDefs: [
-                //    { targets: [0], visible: false }
-                //]
-            });
 
-            // Select the first visible row, and call relate method.
-            table.row(':eq(0)', { page: 'current' }).select();
-            LoadCodeValues(table.row(':eq(0)', { page: 'current' }).data()[0]);
+        var tableNameString = tableName + " tbody";
 
-            // Call select method when user clicks a given row.
-            $("#data-table-code-groups tbody").on('click', 'tr', function () {
-                var selRowdata = table.row(this).data();
-                alert("DEBUG " + selRowdata);
-                /*LoadCodeValues(data[0]);*/
-            });
+        table = $(tableName).DataTable({
+            paging: false,
+            select: {
+                style: 'single'
+            },
+            searching: true,
+            //columnDefs: [
+            //    { targets: [0], visible: false }
+            //]
+        });
+
+        // When the page loads, select the first row by default, and
+        // load the detail matching the code value ID.
+        table.row(':eq(0)', { page: 'current' }).select();
+        var row = table.row({ selected: true });
+
+        // Check if a row is selected
+        if (row.any()) {
+            // Get data for the selected row
+            var data = row.data();
+
+            // Assuming you want to get the value of the first column
+            var fieldValue = data[0];
+
+            GetCodeValueDetail(fieldValue);
+
+            //TODO
+        } else {
+            //TODO?
+        }
+
+        $("#data-table-code-values tbody").on('click', 'tr', function () {
+            var selRowdata = table.row(this).data()[0];
+            GetCodeValueDetail(selRowdata);
         });
     }
 
-    function LoadCodeValues(groupName) {
-        var link = '@Url.Action("_List", "CodeValue", new { groupName = "GROUP_NAME" })';
+    function GetCodeValueList(groupName) {
+        var link = '@Url.Action("Component_SelectList", "CodeValue", new { groupName = "GROUP_NAME" })';
         link = link.replace("GROUP_NAME", groupName);
         var formData = new FormData();
 
@@ -149,44 +158,39 @@
             data: formData,
             success: function (response) {
                 $("#section-code-value-list").html(response);
+                InitSelectorDataTable("data-table-code-values");
                 $("#progress_overlay").hide();
             }
         });
 
-        }
 
-    $(document).on("click", "[id='btnEditCodeValue']", function () {
-        $("#modal-code-value-edit").modal("show");
-        var codeValueId = $(this).data('ggtools-entity-id');
-        RenderEditModal(codeValueId);
-    });
+    }
 
-    function RenderEditModal(codeValueId) {
-        var link = '@Url.Action("_Edit", "CodeValue", new { entityId = "ENTITY_ID" })';
-        link = link.replace("ENTITY_ID", codeValueId);
+    function GetCodeValueDetail(id) {
+        var link = '@Url.Action("Component_Editor","CodeValue")';
         var formData = new FormData();
 
-        formData.append("entityId", codeValueId);
+        link = link + "?codeValueId=" + id;
 
         $.ajax({
             url: link,
-            type: 'POST',
+            type: 'GET',
             cache: false,
             contentType: false,
             processData: false,
             data: formData,
             success: function (response) {
-                $("#section-code-value-edit").html(response);
+                $("#section-code-value-detail").html(response);
+                //GetCodeValueList(selectedGroupName);
             }
         });
-        $("#modal-code-value-edit").modal("show");
     }
 
-    $("#btnSaveCodeValue").click(function () {
-        SaveChanges();
+    $("#btnSaveEdits").click(function () {
+        SaveEdits();
     });
 
-    function SaveChanges() {
+    function SaveEdits() {
         var link = '@Url.Action("Save","CodeValue")';
         var formData = new FormData();
 
@@ -212,9 +216,8 @@
                 // 2. Get selected group
                 var selectedGroupName = GetSelectedEntityIDs("data-table-groups");
                 // 3. Refresh the group-filtered code values.
-                LoadCodeValues(selectedGroupName);
+                GetCodeValueList(selectedGroupName);
             }
         });
-        
     }
 </script>
