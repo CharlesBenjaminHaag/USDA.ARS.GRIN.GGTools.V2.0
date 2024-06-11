@@ -3,6 +3,12 @@
     ViewBag.Title = Model.PageTitle;
     Layout = "~/Views/Shared/_LayoutAdminLTE3.cshtml";
 }
+
+@using (Html.BeginForm("GetBatchEditor", "Genus", FormMethod.Post, new { id = "frmGetBatchEditor" }))
+{
+    @Html.HiddenFor(x => x.ItemIDList)
+}
+
 @Html.Partial("~/Views/Taxonomy/Genus/_Detail.cshtml")
 
 <div class="card card-success card-outline">

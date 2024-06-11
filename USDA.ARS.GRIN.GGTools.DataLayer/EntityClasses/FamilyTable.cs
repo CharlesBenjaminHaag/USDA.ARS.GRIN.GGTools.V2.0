@@ -17,7 +17,6 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         public string subfamily_name { get; set; }
         public string tribe_name { get; set; }
         public string subtribe_name { get; set; }
-        
         public string family_authority { get; set; }
     }
 }

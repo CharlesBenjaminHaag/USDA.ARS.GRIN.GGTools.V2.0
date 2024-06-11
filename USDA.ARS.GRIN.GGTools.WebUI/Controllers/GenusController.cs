@@ -412,7 +412,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
         #region Batch Edit
 
         [HttpPost]
-        public ActionResult GetBatchEditor(FamilyViewModel viewModel)
+        public ActionResult GetBatchEditor(GenusViewModel viewModel)
         {
             try
             {
@@ -441,7 +441,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
 
             try
             {
-                using (FamilyManager mgr = new FamilyManager())
+                using (SpeciesManager mgr = new SpeciesManager())
                 {
                     using (var db = new Database("sqlserver", mgr.ConnectionString))
                     {
@@ -451,23 +451,29 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                             {
                                 foreach (var i in idArray)
                                 {
-                                    r.OrWhere("taxonomy_family.taxonomy_family_id", i);
+                                    r.OrWhere("taxonomy_genus.taxonomy_genus_id", i);
                                 }
                             });
                         })
-                        .Model<FamilyTable>("taxonomy_family");
+                        .Model<GenusTable>("taxonomy_genus")
+                        .Model<FamilyTable>("taxonomy_family")
+                        .LeftJoin("taxonomy_family", "taxonomy_genus.taxonomy_family_id", "=", "taxonomy_family.taxonomy_family_id");
 
-                        editor.Field(new Field("taxonomy_family.taxonomy_family_id")
+                        editor.Field(new Field("taxonomy_genus.taxonomy_genus_id")
                             .Validator(Validation.NotEmpty())
                         );
-                        editor.Field(new Field("taxonomy_family.family_name"));
-                        editor.Field(new Field("taxonomy_family.subfamily_name"));
-                        editor.Field(new Field("taxonomy_family.tribe_name"));
-                        editor.Field(new Field("taxonomy_family.subtribe_name"));
-                        editor.Field(new Field("taxonomy_family.family_authority"));
-                        editor.Field(new Field("taxonomy_family.modified_date")
+                        editor.Field(new Field("taxonomy_genus.hybrid_code"));
+                        editor.Field(new Field("taxonomy_genus.genus_name"));
+                        editor.Field(new Field("taxonomy_genus.genus_authority"));
+                        editor.Field(new Field("taxonomy_genus.subgenus_name"));
+                        editor.Field(new Field("taxonomy_genus.section_name"));
+                        editor.Field(new Field("taxonomy_genus.subsection_name"));
+                        editor.Field(new Field("taxonomy_genus.series_name"));
+                        editor.Field(new Field("taxonomy_genus.subseries_name"));
+                        editor.Field(new Field("taxonomy_genus.note"));
+                        editor.Field(new Field("taxonomy_genus.modified_date")
                             .Set(Field.SetType.Edit));
-                        editor.PreEdit += (sender, e) => editor.Field("taxonomy_family.modified_date").SetValue(DateTime.Now);
+                        editor.PreEdit += (sender, e) => editor.Field("taxonomy_genus.modified_date").SetValue(DateTime.Now);
                         editor.Process(request);
 
                         var response = editor.Data();
@@ -485,6 +491,36 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 return Json(ex.Message, JsonRequestBehavior.AllowGet);
             }
         }
+
+        [HttpPost]
+        public JsonResult SaveBatch(int genusId = 0, int familyId = 0)
+        {
+            try
+            {
+                GenusViewModel viewModel = new GenusViewModel();
+                viewModel.Get(genusId);
+                if (viewModel.DataCollection.Count == 0)
+                {
+                    throw new IndexOutOfRangeException("No genus found for id " + genusId);
+                }
+
+                if (familyId > 0)
+                {
+                    viewModel.Entity.FamilyID = familyId;
+                }
+
+
+                viewModel.Entity.ModifiedByCooperatorID = AuthenticatedUser.CooperatorID;
+                viewModel.Update();
+                return Json("OK", JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(ex.Message, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+
         #endregion
     }
 }
