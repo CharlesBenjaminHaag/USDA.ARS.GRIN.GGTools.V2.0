@@ -12,6 +12,7 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
     {
         private string _NewGroup;
         private string _SelectedGroup;
+        private int _SelectedCodeValueID;
         private CodeValue _Entity = new CodeValue();
         private CodeValueSearch _SearchEntity = new CodeValueSearch();
         private Collection<CodeValue> _DataCollection = new Collection<CodeValue>();
@@ -46,6 +47,12 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
         {
             get { return _SelectedGroup; }
             set { _SelectedGroup = value; }
+        }
+
+        public int SelectedCodeValueID
+        {
+            get { return _SelectedCodeValueID; }
+            set { _SelectedCodeValueID = value; }
         }
 
         public CodeValue Entity

@@ -374,7 +374,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             catch (Exception ex)
             {
                 Log.Error(ex);
-                return Json("true", JsonRequestBehavior.AllowGet);
+                return Json(new { succsss = false, message = ex.Message}, JsonRequestBehavior.AllowGet);
             }
         }
         #endregion

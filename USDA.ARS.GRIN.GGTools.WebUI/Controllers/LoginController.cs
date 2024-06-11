@@ -68,11 +68,13 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             Session.Clear();
             return RedirectToAction("Index", "Login");
         }
+        
         [HttpPost]
         public ActionResult Confirm()
         {
             return RedirectToAction("Index", "Home");
         }
+        
         /// <summary>
         /// Prompts user for user name.
         /// </summary>
@@ -83,6 +85,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             SysUserViewModel viewModel = new SysUserViewModel();
             return View(viewModel);
         }
+        
         /// <summary>
         /// User submits user name. Application then:
         /// 1) Verifies that name exists
@@ -131,6 +134,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 return RedirectToAction("SystemError", "Error");
             }
         }
+        
         public ActionResult ResetPassword(string token = "")
         {
             SysUserViewModel viewModel = new SysUserViewModel();
@@ -152,6 +156,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             }
             return View(viewModel);
         }
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult ResetPassword(SysUserViewModel viewModel)
@@ -175,6 +180,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 return View("~/Views/Login/ResetPasswordFinal.cshtml");
             }
         }
+        
         /// <summary>
         /// User has entered CT ID and requested reset
         /// </summary>

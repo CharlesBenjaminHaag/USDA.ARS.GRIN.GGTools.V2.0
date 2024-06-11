@@ -10,14 +10,26 @@
     @Html.HiddenFor(x => x.Entity.CodeValueID)
     @Html.HiddenFor(x => x.Entity.CodeValueLangID)
 
-    <div class="row">
-        <div class="col-md-4">
-            <div class="form-group form-horizontal">
-                <label>Group</label>
-                @Html.TextBoxFor(x => x.Entity.GroupName, new { @class = "form-control", @readonly = "readonly" })
-            </div>
+<div class="row">
+    <div class="col-md-4">
+        <div class="form-group form-horizontal">
+            <label>Group</label>
+            @Html.TextBoxFor(x => x.Entity.GroupName, new { @class = "form-control", @readonly = "readonly" })
         </div>
     </div>
+    <div class="col-md-2">
+        <div class="form-group form-horizontal">
+            <label>Code Value ID</label>
+            @Html.TextBoxFor(x => x.Entity.CodeValueID, new { @class = "form-control", @readonly = "readonly" })
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="form-group form-horizontal">
+            <label>Code Value Lang. ID</label>
+            @Html.TextBoxFor(x => x.Entity.CodeValueLangID, new { @class = "form-control", @readonly = "readonly" })
+        </div>
+    </div>
+</div>
     <div class="row">
         <div class="col-md-2">
             <div class="form-group form-horizontal">
@@ -43,6 +55,7 @@
                 @Html.TextBoxFor(x => x.Entity.CodeDescription, new { @class = "form-control" })
             </div>
         </div>
+        Last modified by @Model.Entity.ModifiedByCooperatorName on @Model.Entity.ModifiedDate.ToShortDateString() at @Model.Entity.ModifiedDate.ToShortTimeString()
     </div>
 }
 

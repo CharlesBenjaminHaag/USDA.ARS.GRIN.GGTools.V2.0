@@ -116,7 +116,6 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             if (entity.ID > 0)
             {
                 AddParameter("code_value_id", entity.ID == 0 ? DBNull.Value : (object)entity.ID, true);
-                AddParameter("code_value_lang_id", entity.CodeValueLangID == 0 ? DBNull.Value : (object)entity.CodeValueLangID, true);
             }
             AddParameter("group_name", String.IsNullOrEmpty(entity.GroupName) ? DBNull.Value : (object)entity.GroupName, true);
             AddParameter("code_value", String.IsNullOrEmpty(entity.Code) ? DBNull.Value : (object)entity.Code, true);

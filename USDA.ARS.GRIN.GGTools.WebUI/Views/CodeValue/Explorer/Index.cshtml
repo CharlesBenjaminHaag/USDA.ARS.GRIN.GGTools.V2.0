@@ -3,6 +3,15 @@
     ViewBag.Title = "Code Value Search";
     Layout = "~/Views/Shared/_LayoutAdminLTE3.cshtml";
 }
+
+@Html.HiddenFor(x=>x.SelectedCodeValueID)
+
+<div id="section-error" class="alert alert-danger alert-dismissible">
+    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+    <h5><i class="icon fas fa-ban"></i> Error</h5>
+    <span id="section-error-message"></span>
+</div>
+
 <div class="row">
     <div class="col-md-3">
 
@@ -74,8 +83,9 @@
 @Html.Partial("~/Views/CodeValue/Modals/_Edit.cshtml")
 
 <script type="text/javascript">
-    
+
     $(document).ready(function () {
+        Init();
         var selectedValue = $('#SelectedGroup').val();
         console.log('Selected Value on Page Load: ' + selectedValue);
         GetCodeValueList(selectedValue);
@@ -92,6 +102,7 @@
         $('#SelectedGroup').on('change', function () {
             var selectedIndex = $(this).prop('selectedIndex');
             var selectedValue = $(this).val();
+            
             console.log('Selected Index: ' + selectedIndex);
             console.log('Selected Value: ' + selectedValue);
             GetCodeValueList(selectedValue);
@@ -116,7 +127,16 @@
 
         // When the page loads, select the first row by default, and
         // load the detail matching the code value ID.
-        table.row(':eq(0)', { page: 'current' }).select();
+
+        var lastSelectedCodeValueId = $("#SelectedCodeValueID").val();
+        if (lastSelectedCodeValueId > 0) {
+            var rowIndex = table.column(0).data().indexOf(lastSelectedCodeValueId);
+            table.row(rowIndex).select();
+        }
+        else {
+            table.row(':eq(0)', { page: 'current' }).select();
+        }
+
         var row = table.row({ selected: true });
 
         // Check if a row is selected
@@ -131,7 +151,7 @@
 
             //TODO
         } else {
-            //TODO?
+             
         }
 
         $("#data-table-code-values tbody").on('click', 'tr', function () {
@@ -144,6 +164,8 @@
         var link = '@Url.Action("Component_SelectList", "CodeValue", new { groupName = "GROUP_NAME" })';
         link = link.replace("GROUP_NAME", groupName);
         var formData = new FormData();
+
+        $("#SelectedCodeGroup").val(groupName);
 
         formData.append("groupName", groupName);
 
@@ -171,6 +193,8 @@
         var formData = new FormData();
 
         link = link + "?codeValueId=" + id;
+
+        $("#SelectedCodeValueID").val(id);
 
         $.ajax({
             url: link,
@@ -211,13 +235,56 @@
             processData: false,
             data: formData,
             success: function (response) {
-                // 1. Close modal
-                $("#modal-code-value-edit").modal("hide");
-                // 2. Get selected group
-                var selectedGroupName = GetSelectedEntityIDs("data-table-groups");
-                // 3. Refresh the group-filtered code values.
-                GetCodeValueList(selectedGroupName);
+
+                if (response.success) {
+                    var selectedGroupName = $("#SelectedGroup").val();
+                    var selectedCodeValueId = $("#SelectedCodeValueID").val();
+                    GetCodeValueDetail(selectedCodeValueId);
+                    GetCodeValueList(selectedGroupName);
+                    SetCurrentRow(selectedCodeValueId);
+                    
+                } else {
+                    HandleError(response.message);
+                }
+            },
+            error: function (xhr, status, error) {
+                var errorMessage = xhr.status + ': ' + xhr.statusText;
+                HandleError(errorMessage);
             }
         });
+    }
+
+    function Init() {
+        $("#section-error").hide();
+    }
+
+    function SetCurrentRow(id) {
+        var table = $('#data-table-code-values').DataTable();
+       
+        // Define the value you are looking for
+        var searchValue = id;
+
+        // Use the DataTables API to find the row
+        var rowIndex = table.column(0).data().indexOf(searchValue);
+
+        console.log("VALUE " + id + " IS IN ROW " + rowIndex);
+
+        if (rowIndex !== -1) {
+            // Use the row().select() API to select the row
+            table.row(rowIndex).select();
+
+            //// Optional: scroll to the row
+            //$('html, body').animate({
+            //    scrollTop: $(table.row(rowIndex).node()).offset().top
+            //}, 1000);
+        } else {
+            console.log('Row not found');
+        }
+    }
+
+    function HandleError(message) {
+        $("#section-error").show();
+        $("#section-error-message").html(message);
+        
     }
 </script>
