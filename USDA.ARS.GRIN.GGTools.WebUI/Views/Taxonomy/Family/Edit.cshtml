@@ -125,6 +125,29 @@
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group">
+                                            <label>Type</label>
+                                            @Html.DropDownListFor(x => x.Entity.FamilyTypeCode, Model.FamilyTypes, "NULL", new { @class = "form-control" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Suprafamily Rank Name</label>
+                                            <div class="input-group">
+                                                @Html.TextBoxFor(x => x.Entity.SuprafamilyRankName, new { @class = "form-control" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Suprafamily Rank Code</label>
+                                            <div class="input-group">
+                                                @Html.TextBoxFor(x => x.Entity.SuprafamilyRankCode, new { @class = "form-control" })
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="form-group">
                                             <label>Subfamily Name</label>
                                             <div class="input-group">
                                                 @Html.TextBoxFor(x => x.Entity.SubfamilyName, new { @class = "form-control" })
@@ -137,93 +160,88 @@
                                             <label>Tribe Name</label>
                                             @Html.TextBoxFor(x => x.Entity.TribeName, new { @class = "form-control" })
                                         </div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label>Subtribe Name</label>
-                                                <div class="input-group">
-                                                    @Html.TextBoxFor(x => x.Entity.SubtribeName, new { @class = "form-control" })
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Subtribe Name</label>
+                                            <div class="input-group">
+                                                @Html.TextBoxFor(x => x.Entity.SubtribeName, new { @class = "form-control" })
 
-                                                </div>
                                             </div>
                                         </div>
-                                        <div class="col-md-3">
-                                            @Html.Partial("~/Views/Taxonomy/Family/Components/_GenusEditor.cshtml")
+                                    </div>
+                                    <div class="col-md-3">
+                                        @Html.Partial("~/Views/Taxonomy/Family/Components/_GenusEditor.cshtml")
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Alternate Name</label>
+                                            @Html.TextBoxFor(x => x.Entity.AlternateName, new { @class = "form-control" })
                                         </div>
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label>Alternate Name</label>
-                                                @Html.TextBoxFor(x => x.Entity.AlternateName, new { @class = "form-control" })
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Authority</label>
+                                            <div class="input-group">
+                                                @Html.TextBoxFor(x => x.Entity.FamilyAuthority, new { @class = "form-control" })
+                                                <span class="input-group-btn">
+                                                    <button id="btnOpenAuthorityLookupModal"
+                                                            type="button"
+                                                            data-ggtools-display-field="Entity_FamilyAuthority"
+                                                            data-ggtools-value-field="Entity_FamilyAuthority"
+                                                            data-toggle="modal"
+                                                            data-target="#modal-author-lookup"
+                                                            class="btn btn-default btn-flat">
+                                                        <i class="fa fa-search"></i>
+                                                    </button>
+                                                </span>
                                             </div>
                                         </div>
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label>Authority</label>
-                                                <div class="input-group">
-                                                    @Html.TextBoxFor(x => x.Entity.FamilyAuthority, new { @class = "form-control" })
-                                                    <span class="input-group-btn">
-                                                        <button id="btnOpenAuthorityLookupModal"
-                                                                type="button"
-                                                                data-ggtools-display-field="Entity_FamilyAuthority"
-                                                                data-ggtools-value-field="Entity_FamilyAuthority"
-                                                                data-toggle="modal"
-                                                                data-target="#modal-author-lookup"
-                                                                class="btn btn-default btn-flat">
-                                                            <i class="fa fa-search"></i>
-                                                        </button>
+                                    </div>
+
+                                </div>
+                                <div class="row">
+                                    <!-- BEGIN NOTE FIELD -->
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label>
+                                                Note
+                                                &nbsp;<a href="" data-toggle="modal" data-target="#modal-note-lookup"><i class="fa fa-search"></i></a>
+                                            </label>
+                                            <div class="input-group">
+                                                @Html.TextAreaFor(x => x.Entity.Note, new { @id = "txtNote", @class = "form-control", @style = "width:100%;" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- END NOTE FIELD-->
+                                </div>
+                                <!-- WEB VISIBLE -->
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <br />
+                                        <div class="form-group">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" value="Web Visible" readonly="readonly" />
+                                                <div class="input-group-append">
+                                                    <span class="input-group-text" style="background-color:white;">
+                                                        @Html.CheckBoxFor(x => x.IsWebVisibleSelector)
+                                                        &nbsp;
                                                     </span>
                                                 </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label>Type</label>
-                                                @Html.DropDownListFor(x => x.Entity.FamilyTypeCode, Model.FamilyTypes, "NULL", new { @class = "form-control" })
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <!-- BEGIN NOTE FIELD -->
-                                        <div class="col-md-12">
-                                            <div class="form-group">
-                                                <label>
-                                                    Note
-                                                    &nbsp;<a href="" data-toggle="modal" data-target="#modal-note-lookup"><i class="fa fa-search"></i></a>
-                                                </label>
-                                                <div class="input-group">
-                                                    @Html.TextAreaFor(x => x.Entity.Note, new { @id = "txtNote", @class = "form-control", @style = "width:100%;" })
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- END NOTE FIELD-->
-                                    </div>
-                                    <!-- WEB VISIBLE -->
-                                    <div class="row">
-                                        <div class="col-md-3">
-                                            <br />
-                                            <div class="form-group">
-                                                <div class="input-group">
-                                                    <input type="text" class="form-control" value="Web Visible" readonly="readonly" />
+                                                @if ((Model.Entity.ID > 0) && (Model.Entity.IsWebVisible == "Y"))
+                                                {
                                                     <div class="input-group-append">
-                                                        <span class="input-group-text" style="background-color:white;">
-                                                            @Html.CheckBoxFor(x => x.IsWebVisibleSelector)
-                                                            &nbsp;
-                                                        </span>
+                                                        <a href="https://npgsweb.ars-grin.gov/gringlobal/taxon/taxonomyfamily?id=@Model.Entity.ID" class="btn btn-default float-right" target="_blank">
+                                                            <i class="fas fa-globe"></i>
+                                                            View on Public Website
+                                                        </a>
                                                     </div>
-                                                    @if ((Model.Entity.ID > 0) && (Model.Entity.IsWebVisible == "Y"))
-                                                    {
-                                                        <div class="input-group-append">
-                                                            <a href="https://npgsweb.ars-grin.gov/gringlobal/taxon/taxonomyfamily?id=@Model.Entity.ID" class="btn btn-default float-right" target="_blank">
-                                                                <i class="fas fa-globe"></i>
-                                                                View on Public Website
-                                                            </a>
-                                                        </div>
-                                                    }
-                                                </div>
+                                                }
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+                            </div>
                             <div class="card-footer">
                                 <a href="@Url.Action("Refresh")" class="btn btn-default">Reset</a>
                                 @if (Model.Entity.ID > 0)
@@ -242,36 +260,11 @@
                             </div>
                         </div>
                     }
-
+                  
                     @if (Model.Entity.ID > 0)
                     {
-                        <div class="card">
-                            <div id="section-dependent-data" class="card-header p-2">
-                                <ul id="list-dependent-data" class="nav nav-pills">
-                                    <li id="tab_selector_citation" data-ggtools-action="Citation" data-ggtools-value="_List" class="nav-item"><a class="nav-link active" href="#tab_content_citation" data-toggle="tab">Citations</a></li>
-                                    <li id="tab_selector_taxonomy_genus" data-ggtools-action="Genus" data-ggtools-value="_List" class="nav-item"><a class="nav-link" href="#tab_content_taxonomy_genus" data-toggle="tab">Genera</a></li>
-                                    @*<li id="tab_selector_subdivisions" data-ggtools-action="FamilyMap" data-ggtools-value="_ListSubdivisions" class="nav-item"><a class="nav-link" href="#tab_content_subdivisions" data-toggle="tab">Subdivisions</a></li>
-                                    <li id="tab_selector_synonyms" data-ggtools-action="FamilyMap" data-ggtools-value="_ListSynonyms" class="nav-item"><a class="nav-link" href="#tab_content_synonyms" data-toggle="tab">Synonyms</a></li>*@
-                                </ul>
-                            </div>
-                            <div class="card-body">
-                                <div class="tab-content">
-                                    <div class="tab-pane active" id="tab_content_citation">
-                                    </div>
-                                    <div class="tab-pane" id="tab_content_taxonomy_genus">
-                                    </div>
-                                    @*<div class="tab-pane" id="tab_content_subdivisions">
-                                    </div>
-                                    <div class="tab-pane" id="tab_content_synonyms">
-                                    </div>*@
-                                </div>
-                            </div>
-                            <div id="progress_overlay" class="overlay">
-                                <i class="fas fa-2x fa-sync-alt fa-spin"></i>
-                            </div>
-                        </div>
+                        @Html.Partial("~/Views/Taxonomy/Family/Components/_RelatedDataViewer.cshtml")
                     }
-
                     @{Html.RenderAction("RenderLookupModal", "FamilyMap"); }
                     @{Html.RenderAction("RenderLookupModal", "Genus"); }
                     @{Html.RenderAction("RenderLookupModal", "Author"); }
@@ -321,10 +314,6 @@
         link = link.replace("EVENT_ACTION", eventAction);
         link = link.replace("EVENT_VALUE", eventValue);
         link = link.replace("FAMILY_ID", entityId);
-
-        // DEBUG
-        alert("CALLING " + link);
-        //alert("SECTION " + sectionData);
 
         formData.append("FamilyID", entityId);
 

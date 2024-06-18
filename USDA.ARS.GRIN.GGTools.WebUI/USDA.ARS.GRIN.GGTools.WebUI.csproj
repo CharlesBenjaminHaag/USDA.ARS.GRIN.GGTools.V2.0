@@ -805,7 +805,6 @@
     <Content Include="Views\Shared\Sidebars\_MainSidebarFolder.cshtml" />
     <Content Include="Views\Taxonomy\Species\Partial\_Treeview.cshtml" />
     <Content Include="Views\SysUser\_Widget_BACKUP.cshtml" />
-    <Content Include="Views\Cooperator\_Widget_BACKUP.cshtml" />
     <Content Include="Views\Shared\_LayoutAdminLTE3Taxonomy.cshtml" />
     <Content Include="Views\AppUserItemList\Import\Index.cshtml" />
     <Content Include="Views\Cooperator\_SiteCuratorListWidget.cshtml" />
@@ -847,7 +846,7 @@
     <Content Include="Views\AppUserItemList\Import\_ItemsByList.cshtml" />
     <Content Include="Views\Shared\_BootstrapTreeview2.cshtml" />
     <Content Include="Views\Taxonomy\Geography\Modals\_LookupRegion.cshtml" />
-    <Content Include="Views\Cooperator\_MenuEdit.cshtml" />
+    <Content Include="Views\Cooperator\Components\_EditMenu.cshtml" />
     <Content Include="Views\Shared\Modals\_Email.cshtml" />
     <Content Include="Views\Cooperator\Modals\_Email.cshtml" />
     <Content Include="Views\AppUserItemFolder\Modals\_BatchDelete.cshtml" />
@@ -1014,6 +1013,15 @@
     <Content Include="Views\Taxonomy\Genus\EditBatch.cshtml" />
     <Content Include="Views\CodeValue\Components\_MainSidebar.cshtml" />
     <Content Include="Views\CodeValue\Components\_SelectList.cshtml" />
+    <Content Include="Views\SysTag\Components\_Editor.cshtml" />
+    <Content Include="Views\SysTag\Components\_Select.cshtml" />
+    <Content Include="Views\Taxonomy\Family\Components\_RelatedDataViewer.cshtml" />
+    <Content Include="Views\Taxonomy\Family\Components\_EditMenu.cshtml" />
+    <Content Include="Views\Home\Components\_Menu.cshtml" />
+    <Content Include="Views\Components\_DefaultMenu.cshtml" />
+    <Content Include="Views\Components\_DefaultEditMenu.cshtml" />
+    <Content Include="Views\Components\_DefaultSearchMenu.cshtml" />
+    <Content Include="Views\Taxonomy\Citation\Components\_EditMenu.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1023,7 +1031,6 @@
     <Folder Include="logs\" />
     <Folder Include="Models\" />
     <Folder Include="Views\AppUserItemFolder\Cooperator\" />
-    <Folder Include="Views\Cooperator\_OBSOLETE\" />
     <Folder Include="Views\Demo\" />
     <Folder Include="Views\Main\" />
     <Folder Include="Views\Method\Components\" />

@@ -14,7 +14,7 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
     public class SysFolderViewModel: SysFolderViewModelBase
     {
         public bool IsFavoriteSelector { get; set; }
-        
+       
         public SysFolderViewModel()
         { }
         
@@ -47,11 +47,19 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
             }
         }
 
-        public void GetTags(string tableName, int entityId)
+        public void GetSysTags(string tableName, int entityId)
         {
             using (SysFolderManager mgr = new SysFolderManager())
             {
                 DataCollectionSysTags = new Collection<SysTag>(mgr.GetSysTags(tableName, entityId));
+            }
+        }
+
+        public void GetSysTables(int sysFolderId)
+        {
+            using (SysFolderManager mgr = new SysFolderManager())
+            {
+                DataCollectionSysTables = new Collection<SysTable>(mgr.GetSysTables(sysFolderId));
             }
         }
 
@@ -121,25 +129,19 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
 
         public int Update()
         {
-            return 0;
-            //using (SysFolderManager mgr = new SysFolderManager())
-            //{
-            //    try
-            //    {
-            //        if (!String.IsNullOrEmpty(Entity.NewCategory))
-            //        {
-            //            Entity.Category = Entity.NewCategory;
-            //        }
-            //        RowsAffected = mgr.Update(Entity);
-            //        AppUserItemListViewModel appUserItemListViewModel = new AppUserItemListViewModel();
-            //    }
-            //    catch (Exception ex)
-            //    {
-            //        PublishException(ex);
-            //        throw ex;
-            //    }
-            //    return RowsAffected;
-            //}
+            using (SysFolderManager mgr = new SysFolderManager())
+            {
+                try
+                {
+                    RowsAffected = mgr.Update(Entity);
+                }
+                catch (Exception ex)
+                {
+                    PublishException(ex);
+                    throw ex;
+                }
+                return RowsAffected;
+            }
         }
         
         public void Delete()

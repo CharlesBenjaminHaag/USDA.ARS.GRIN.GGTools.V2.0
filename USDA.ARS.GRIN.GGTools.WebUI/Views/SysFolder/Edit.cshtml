@@ -6,7 +6,11 @@
 @Html.HiddenFor(x => x.EventAction)
 @Html.HiddenFor(x => x.EventValue)
 
-@{ Html.RenderAction("ComponentSysTagsByTable", "SysTag", new { @tableName = "sys_folder", @idNumber = Model.Entity.ID }); }
+<div id="section-error" class="alert alert-danger alert-dismissible">
+    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+    <h5><i class="icon fas fa-ban"></i> Error</h5>
+    <span id="section-error-message"></span>
+</div>
 
 <div class="card">
     <div id="section-folder-options" class="card-header p-2">
@@ -31,35 +35,28 @@
     <div class="card-body">
         <div class="tab-content">
             <div class="tab-pane active" id="items">
-                <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var sysFolderItemMap in Model.DataCollectionSysFolderItemMaps)
-                        {
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-
-                        }
-                    </tbody>
-                </table>
-                
-
+            @Html.Partial("~/Views/SysFolderItemMap/_List.cshtml")
             </div>
             <div class="tab-pane" id="details">
-                @Html.Partial("~/Views/SysFolder/_Edit.cshtml")
+                <div id="section-sys_folder-details">
+                    @Html.Partial("~/Views/SysFolder/_Edit.cshtml")
+                </div>
+                
+                @*<div class="row">
+                    <div class="col-md-6">
+                        @{Html.RenderAction("ComponentEditor", "SysTag", new { @tableName = "sys_folder", @idNumber = Model.Entity.ID }); }
+                    </div>
+                    <div class="col-md-6">
+                        <div id="section-sys-tags-by-table" class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">Current Tags</h3>
+                            </div>
+                            <div class="card-body">
+                                @{Html.RenderAction("ComponentSysTagsByTable", "SysTag", new { @tableName = "sys_folder", @idNumber = Model.Entity.ID }); }
+                            </div>
+                        </div>
+                    </div>
+                </div>*@
             </div>
             <div class="tab-pane" id="sharing">
                 
@@ -73,13 +70,17 @@
                 Delete
             </button>
         }
-        <button id="btnAddCooperator" class="btn btn-default float-right" data-toggle="modal" data-target="#modal-folder-edit-cooperators">
+        <button id="btnSaveNewFolder" class="btn btn-default float-right">
+            <i class="fas fa-save"></i>
+            Save Edits
+        </button>
+        <button id="btnAddCooperator" class="btn btn-default float-right margin-left-5" data-toggle="modal" data-target="#modal-folder-edit-cooperators">
             <i class="fas fa-users"></i>
             Edit Sharing Options
         </button>
+        
     </div>
 </div>
-
 
 <!-- BEGIN FOLDER ITEM DEL CONFIRM -->
 <div class="modal fade" id="modal-folder-item-delete-confirm">
@@ -115,6 +116,43 @@
         if (isReadOnly == "Y") {
             SetReadOnly();
         }
+        $("#section-error").hide();
+    }
+
+    $(document).on("click", "[id='btnSaveNewFolder']", function () {
+        SaveEdits();
+    });
+
+    function SaveEdits() {
+        var link = '@Url.Action("Edit", "SysFolder")';
+        var tableName = $("#TableName").val();
+        var entityId = $("#Entity_ID").val();
+        var title = $("#Entity_Title").val();
+        var description = $("#Entity_Description").val();
+
+        var formData = new FormData();
+
+        formData.append("Entity.TableName", $("#TableName").val());
+        formData.append("Entity.id", entityId);
+        formData.append("Entity.Title", title);
+        formData.append("Entity.Description", description);
+        formData.append("Entity.TypeCode", "STC");
+
+        $.ajax({
+            url: link,
+            type: 'POST',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (response) {
+                $("#section-sys-folder-details").html(response);
+            },
+            error: function () {
+                alert("Error");
+            }
+        });
+        $("#modal-folder-edit").modal("hide");
     }
 
     /*
@@ -135,7 +173,7 @@
 
         link = link.replace("EVENT_VALUE", eventValue);
         link = link.replace("EVENT_ACTION", eventAction);
-       
+
         $("#EventAction").val(eventAction);
         $("#EventValue").val(eventValue);
         $("#EventNote").val(tableName);
@@ -143,7 +181,7 @@
         var formData = new FormData();
 
         formData.append("appUserItemFolderId", id);
-     
+
         $.ajax({
             url: link,
             type: 'POST',
@@ -225,6 +263,29 @@
 
     function RenderFolderCooperatorWidget() {
         var link = '@Url.Action("RenderWidget", "AppUserItemFolderCooperatorMap")';
+        var folderId = $("#Entity_ID").val();
+        var formData = new FormData();
+
+        formData.append("appUserItemFolderId", folderId);
+
+        $.ajax({
+            url: link,
+            type: 'POST',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (response) {
+                $("#section_folder_cooperator_widget").html(response);
+            },
+            error: function () {
+                alert("Error loading folder-sharing widget");
+            }
+        });
+    }
+
+    function GetSysTagsByTable() {
+        var link = '@Url.Action("RenderWidget", "SysTag")';
         var folderId = $("#Entity_ID").val();
         var formData = new FormData();
 

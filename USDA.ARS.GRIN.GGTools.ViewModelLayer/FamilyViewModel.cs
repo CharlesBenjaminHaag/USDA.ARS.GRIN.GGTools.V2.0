@@ -84,6 +84,39 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
             }
         }
 
+        public void GetSynonyms(int entityId)
+        {
+            using (FamilyManager mgr = new FamilyManager())
+            {
+                try
+                {
+                    DataCollectionSynonyms = new Collection<Family>(mgr.GetSynonyms(entityId));
+                    RowsAffected = mgr.RowsAffected;
+                }
+                catch (Exception ex)
+                {
+                    PublishException(ex);
+                    throw ex;
+                }
+            }
+        }
+        public void GetSubdivisions(string familyName)
+        {
+            using (FamilyManager mgr = new FamilyManager())
+            {
+                try
+                {
+                    DataCollectionSubdivisions = new Collection<Family>(mgr.GetSubdivisions(familyName));
+                    RowsAffected = mgr.RowsAffected;
+                }
+                catch (Exception ex)
+                {
+                    PublishException(ex);
+                    throw ex;
+                }
+            }
+        }
+
         public int Insert()
         {
             try

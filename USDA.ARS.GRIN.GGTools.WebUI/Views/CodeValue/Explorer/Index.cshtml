@@ -235,8 +235,7 @@
             processData: false,
             data: formData,
             success: function (response) {
-
-                if (response.success) {
+            if (response.success) {
                     var selectedGroupName = $("#SelectedGroup").val();
                     var selectedCodeValueId = $("#SelectedCodeValueID").val();
                     GetCodeValueDetail(selectedCodeValueId);

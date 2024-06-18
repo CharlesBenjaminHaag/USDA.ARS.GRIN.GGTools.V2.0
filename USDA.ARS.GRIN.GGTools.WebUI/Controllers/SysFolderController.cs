@@ -20,7 +20,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
         }
 
         [HttpPost]
-        public PartialViewResult Add(SysFolderViewModel viewModel)
+        public PartialViewResult Edit(SysFolderViewModel viewModel)
         {
             try
             {
@@ -28,18 +28,6 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 {
                     viewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
                     viewModel.Insert();
-
-                    // If there are tag attributes, add specified tag.
-                    if (!String.IsNullOrEmpty(viewModel.TagEntity.TagText))
-                    {
-                        SysTagViewModel sysTagViewModel = new SysTagViewModel();
-                        sysTagViewModel.Entity.TagText = viewModel.TagEntity.TagText;
-                        sysTagViewModel.Entity.TagFormatString = viewModel.TagEntity.TagFormatString;
-                        sysTagViewModel.Entity.TableName = "sys_folder";
-                        sysTagViewModel.Entity.IDNumber = viewModel.Entity.ID;
-                        sysTagViewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
-                        sysTagViewModel.Insert();
-                    }
                 }
                 else
                 {
@@ -47,10 +35,21 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                     viewModel.Update();
                 }
 
+                // If there are tag attributes, add specified tag.
+                //if (viewModel.IsFavoriteSelector == true)
+                //{
+                //    SysTagViewModel sysTagViewModel = new SysTagViewModel();
+                //    sysTagViewModel.Entity.TagText = "Favorites";
+                //    sysTagViewModel.Entity.TagFormatString = "";
+                //    sysTagViewModel.Entity.TableName = "sys_folder";
+                //    sysTagViewModel.Entity.IDNumber = viewModel.Entity.ID;
+                //    sysTagViewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
+                //    sysTagViewModel.Insert();
+                //}
+
                 // Re-retrieve new folder to verify existence.
                 viewModel.SearchEntity.ID = viewModel.Entity.ID;
                 viewModel.Get(viewModel.Entity.ID);
-                viewModel.EventAction = "ADD";
                 return PartialView("~/Views/SysFolder/Components/_Confirmation.cshtml", viewModel);
 
             }
@@ -69,7 +68,8 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 viewModel.Get(entityId);
                 viewModel.GetItems(entityId);
                 viewModel.GetCooperators(entityId);
-                viewModel.GetTags("sys_folder", entityId);
+                viewModel.GetSysTags("sys_folder", entityId);
+                viewModel.GetSysTables(entityId);
                 return View(viewModel);
             }
             catch (Exception ex)

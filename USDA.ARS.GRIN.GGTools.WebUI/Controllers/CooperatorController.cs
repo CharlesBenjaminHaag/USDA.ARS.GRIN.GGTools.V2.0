@@ -483,5 +483,14 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
 }
 
         #endregion Ownership
+
+        #region Components
+
+        public PartialViewResult Component_PageMenu()
+        {
+            return PartialView("~/Views/Cooperator/Components/_EditMenu.cshtml");
+        }
+
+        #endregion
     }
 }

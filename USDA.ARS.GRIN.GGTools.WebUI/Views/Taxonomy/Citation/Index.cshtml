@@ -17,4 +17,4 @@
 }
 
 @Html.Partial("~/Views/Taxonomy/Citation/_List.cshtml")
-@{Html.RenderAction("RenderEditModal", "AppUserItemFolder", new { @sysTableName = "taxonomy_cwr_crop" }); }
+@{Html.RenderAction("GetEditModal", "SysFolder", new { @sysTableName = Model.TableName }); }

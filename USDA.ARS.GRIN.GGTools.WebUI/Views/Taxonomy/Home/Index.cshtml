@@ -5,56 +5,6 @@
 }
 
 @{Html.RenderAction("ComponentListWithIcons", "SysFolder"); }
-
-<!--<div class="card card-success card-tabs">
-    <div id="section-cooperator-tabs" class="card-header p-0 pt-1">
-        <ul class="nav nav-tabs" id="custom-tabs-two-tab" role="tablist">
-            <li class="pt-2 px-3">
-                <h3 id="placeholder-cooperator-name" class="card-title">
-                    Folders
-                </h3>
-            </li>
-            <li id="tab-cooperator" class="nav-item">
-                <a class="nav-link active" id="tab-selector-favorites" data-toggle="pill" href="#tab-content-favorites" role="tab" aria-controls="custom-tabs-two-home" aria-selected="true">
-                    <i class="fas fa-star text-warning"></i>
-                    Favorites
-                </a>
-            </li>
-            <li id="tab-sys-user" class="nav-item">
-                <a class="nav-link" id="tab-selector-recently-added" data-toggle="pill" href="#tab-content-recently-added" role="tab" aria-controls="custom-tabs-two-profile" aria-selected="false">
-                    <i class="fas fa-folder"></i>
-                    All Folders
-                </a>
-            </li>
-            <li id="tab-sys-user" class="nav-item">
-                <a class="nav-link" id="tab-selector-shared-with-me" data-toggle="pill" href="#tab-content-shared-with-me" role="tab" aria-controls="custom-tabs-two-profile" aria-selected="false">
-                    <i class="fas fa-users"></i>
-                    Shared With Me
-                </a>
-            </li>-->
-@*<li id="tab-sys-user" class="nav-item">
-        <a class="nav-link" id="tab-selector-dynamic" data-toggle="pill" href="#tab-content-dynamic" role="tab" aria-controls="custom-tabs-two-profile" aria-selected="false">Dynamic Folders</a>
-    </li>*@
-<!--</ul>
-</div>
-<div class="card-body web-order-request">
-    <div class="tab-content">
-        <div class="tab-pane fade show active" id="tab-content-favorites" role="tabpanel" aria-labelledby="custom-tabs-two-home-tab">
-            @{Html.RenderAction("_List", "AppUserItemFolder", new { @cooperatorId = Model.AuthenticatedUser.CooperatorID, @isFavorite = "Y" }); }
-        </div>
-        <div class="tab-pane fade" id="tab-content-recently-added" role="tabpanel" aria-labelledby="custom-tabs-two-home-tab">
-            @{Html.RenderAction("_List", "AppUserItemFolder", new { @cooperatorId = Model.AuthenticatedUser.CooperatorID }); }
-        </div>
-        <div class="tab-pane fade" id="tab-content-shared-with-me" role="tabpanel" aria-labelledby="custom-tabs-two-home-tab">
-            @{Html.RenderAction("_List", "AppUserItemFolder", new { @cooperatorId = Model.AuthenticatedUser.CooperatorID, @isShared = "Y" }); }
-        </div>-->
-@*<div class="tab-pane fade" id="tab-content-dynamic" role="tabpanel" aria-labelledby="custom-tabs-two-home-tab">
-        @{Html.RenderAction("_List", "AppUserItemFolder", new { @cooperatorId = Model.AuthenticatedUser.CooperatorID, @folderType = "DYNAMIC" }); }
-    </div>*@
-<!--</div>
-    </div>
-</div>-->
-
 @{Html.RenderAction("RenderListWidget", "Cooperator", new { sysGroupTag = "MANAGE_TAXONOMY" });}
 
 <script type="text/javascript">

@@ -107,6 +107,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
                 return mgr.UpdateSpeciesCitation(tableName, entityId, citationId, cooperatorId);
             }
         }
+        
         public int Insert()
         {
             using (CitationManager mgr = new CitationManager())
@@ -124,6 +125,27 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
             }
             return RowsAffected;
         }
+        
+        public int GetClone(int entityId)
+        {
+            using (CitationManager mgr = new CitationManager())
+            {
+                Citation clonedCitation = new Citation();
+
+                try
+                {
+                    clonedCitation = mgr.Get(entityId);
+                    clonedCitation.ID = 0;
+                    clonedCitation.ID = mgr.Insert(clonedCitation);    
+                }
+                catch (Exception ex)
+                {
+                    PublishException(ex);
+                }
+                return clonedCitation.ID;
+            }
+        }
+
         public void Search()
         {
             using (CitationManager mgr = new CitationManager())

@@ -71,6 +71,21 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             return sysTags;
         }
 
+        public List<SysTable> GetSysTables(int sysFolderId)
+        {
+            List<SysTable> sysTables = new List<SysTable>();
+
+            SQL = "SELECT DISTINCT SysTableName, SysTableTitle FROM vw_GRINGlobal_Sys_Folder_Item_Map WHERE SysFolderID = @SysFolderID";
+
+            var parameters = new List<IDbDataParameter> {
+                CreateParameter("SysFolderID", (object)sysFolderId, false),
+            };
+
+            sysTables = GetRecords<SysTable>(SQL, parameters.ToArray());
+
+            return sysTables;
+        }
+
         public virtual List<SysFolder> Search(SysFolderSearch searchEntity)
         {
             List<SysFolder> results = new List<SysFolder>();
@@ -150,7 +165,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             Reset(CommandType.StoredProcedure);
             Validate<SysFolder>(entity);
 
-            SQL = "usp_GRINGlobal_SysFolder_Update";
+            SQL = "usp_GRINGlobal_Sys_Folder_Update";
 
             BuildInsertUpdateParameters(entity);
             AddParameter("@out_error_number", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
@@ -217,7 +232,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
         {
             if (entity.ID > 0)
             {
-                AddParameter("app_user_item_folder_id", (object)entity.ID, false);
+                AddParameter("sys_folder_id", (object)entity.ID, false);
             }
 
             AddParameter("title", (object)entity.Title, false);

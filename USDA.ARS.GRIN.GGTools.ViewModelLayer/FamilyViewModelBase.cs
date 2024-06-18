@@ -19,6 +19,8 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
         private Family _ParentEntity = new Family();
         private FamilySearch _SearchEntity = new FamilySearch();
         private Collection<Family> _DataCollection = new Collection<Family>();
+        private Collection<Family> _DataCollectionSynonyms = new Collection<Family>();
+        private Collection<Family> _DataCollectionSubdivisions = new Collection<Family>();
         private Collection<Classification> _DataCollectionClassification = new Collection<Classification>();
 
         public FamilyViewModelBase()
@@ -60,6 +62,18 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
             set { _DataCollection = value; }
         }
         
+        public Collection<Family> DataCollectionSynonyms
+        {
+            get { return _DataCollectionSynonyms; }
+            set { _DataCollectionSynonyms = value; }
+        }
+        
+        public Collection<Family> DataCollectionSubdivisions
+        {
+            get { return _DataCollectionSubdivisions; }
+            set { _DataCollectionSubdivisions = value; }
+        }
+
         public Collection<Classification> DataCollectionClassifications
         {
             get { return _DataCollectionClassification; }

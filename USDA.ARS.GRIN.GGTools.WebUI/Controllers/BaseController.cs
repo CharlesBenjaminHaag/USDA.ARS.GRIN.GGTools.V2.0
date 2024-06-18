@@ -23,6 +23,37 @@ namespace USDA.ARS.GRIN.GGTools.WebUI
             }
         }
 
+        /// <summary>
+        /// Handles all menu rendering.
+        /// 1. By default, a menu with a "Home" link leading to the GGTools main page.
+        /// </summary>
+        /// <param name="eventAction"></param>
+        /// <param name="eventValue"></param>
+        /// <param name="sysTableName"></param>
+        /// <param name="sysTableTitle"></param>
+        /// <returns></returns>
+        public virtual PartialViewResult PageMenu(string eventAction, string eventValue, string sysTableName = "", string sysTableTitle = "")
+        {
+            ViewBag.EventAction = eventAction;
+            ViewBag.EventValue = eventValue;
+
+            if (eventValue == "Edit")
+            {
+                return PartialView("~/Views/Components/_DefaultEditMenu.cshtml");
+            }
+            else
+            {
+                if (!String.IsNullOrEmpty(sysTableName))
+                {
+                    return PartialView("~/Views/Components/_DefaultSearchMenu.cshtml");
+                }
+                else 
+                {
+                    return PartialView("~/Views/Components/_DefaultMenu.cshtml");
+                }
+            }
+        }
+
         //public class RouteInfo
         //{
         //    public RouteInfo(RouteData data)

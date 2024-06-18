@@ -9,8 +9,8 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
 {
     public class SysFolderItemMap: AppEntityBase
     {
+        public int SysFolderID { get; set; }
         public string SysFolderTitle { get; set; }
-        public string TableName { get; set; }
         public string TableTitle { get; set; }
         public int IDNumber { get; set; }
     }

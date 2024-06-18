@@ -32,19 +32,19 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
 
         public List<Family> GetSynonyms(int entityId)
         {
-            SQL = "usp_GRINGlobal_Taxonomy_Family_Map_Synonyms_Select";
+            SQL = "usp_GRINGlobal_Taxonomy_Family_Synonyms_Select";
             var parameters = new List<IDbDataParameter> {
-                CreateParameter("@taxonomy_family_map_id", (object)entityId, false)
+                CreateParameter("@taxonomy_family_id", (object)entityId, false)
             };
             List<Family> familyMaps = GetRecords<Family>(SQL, CommandType.StoredProcedure, parameters.ToArray());
             return familyMaps;
         }
         
-        public List<Family> GetSubdivisions(int entityId)
+        public List<Family> GetSubdivisions(string familyName)
         {
             SQL = "usp_GRINGlobal_Taxonomy_Family_Subdivisions_Select";
             var parameters = new List<IDbDataParameter> {
-                CreateParameter("@taxonomy_family_map_id", (object)entityId, false)
+                CreateParameter("@family_name", (object)familyName, false)
             };
             List<Family> familyMaps = GetRecords<Family>(SQL, CommandType.StoredProcedure, parameters.ToArray());
             return familyMaps;
@@ -97,24 +97,22 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             List<Family> results = new List<Family>();
 
             SQL = "SELECT * FROM vw_GRINGlobal_Taxonomy_Family ";
-            SQL += " WHERE  (@ID                    IS NULL     OR  ID                  =       @ID) ";
-            SQL += " AND  (@AcceptedID            IS NULL     OR  AcceptedID          =       @AcceptedID) ";
-            SQL += " AND    (@IsAcceptedName        IS NULL     OR  IsAcceptedName      =       @IsAcceptedName)";
-            SQL += " AND  (@TypeGenusID           IS NULL     OR  TypeGenusID          =       @TypeGenusID) ";
-            SQL += " AND    (@TypeGenusName         IS NULL     OR  TypeGenusName       LIKE    '%' +  @TypeGenusName + '%')";
-            SQL += " AND    (@ClassificationID      IS NULL     OR  ClassificationID    =       @ClassificationID)";
-            SQL += " AND    (@ClassificationName    IS NULL     OR  ClassificationName  LIKE    '%' +  @ClassificationName + '%')";
-
-            //SuprafamilyRankCode  
-            //SuprafamilyRankName  
-           
-            SQL += " AND    (@FamilyName            IS NULL     OR  FamilyName          LIKE    '%' +  @FamilyName + '%')";
-            SQL += " AND    (@FamilyAuthority       IS NULL     OR  FamilyAuthority     LIKE    '%' +  @FamilyAuthority + '%')";
-            SQL += " AND    (@AlternateName         IS NULL     OR  AlternateName       LIKE    '%' +  @AlternateName + '%')";
-            SQL += " AND    (@SubfamilyName         IS NULL     OR  SubfamilyName       LIKE    '%' +  @SubfamilyName + '%')";
-            SQL += " AND    (@TribeName             IS NULL     OR  TribeName           LIKE    '%' +  @TribeName + '%')";
-            SQL += " AND    (@SubtribeName          IS NULL     OR  SubtribeName        LIKE    '%' +  @SubtribeName + '%')";
-            SQL += " AND    (@FamilyTypeCode        IS NULL     OR  FamilyTypeCode      =       @FamilyTypeCode)";
+            SQL += " WHERE  (@ID                        IS NULL     OR  ID                      =       @ID) ";
+            SQL += " AND  (@AcceptedID                  IS NULL     OR  AcceptedID              =       @AcceptedID) ";
+            SQL += " AND    (@IsAcceptedName            IS NULL     OR  IsAcceptedName          =       @IsAcceptedName)";
+            SQL += " AND  (@TypeGenusID                 IS NULL     OR  TypeGenusID             =       @TypeGenusID) ";
+            SQL += " AND    (@TypeGenusName             IS NULL     OR  TypeGenusName           LIKE    '%' +  @TypeGenusName + '%')";
+            SQL += " AND    (@ClassificationID          IS NULL     OR  ClassificationID        =       @ClassificationID)";
+            SQL += " AND    (@ClassificationName        IS NULL     OR  ClassificationName      LIKE    '%' +  @ClassificationName + '%')";
+            SQL += " AND    (@SuprafamilyRankCode       IS NULL     OR  SuprafamilyRankCode     LIKE    '%' +  @SuprafamilyRankCode + '%')";
+            SQL += " AND    (@SuprafamilyRankName       IS NULL     OR  SuprafamilyRankName     LIKE    '%' +  @SuprafamilyRankName + '%')";
+            SQL += " AND    (@FamilyName                IS NULL     OR  FamilyName              LIKE    '%' +  @FamilyName + '%')";
+            SQL += " AND    (@FamilyAuthority           IS NULL     OR  FamilyAuthority         LIKE    '%' +  @FamilyAuthority + '%')";
+            SQL += " AND    (@AlternateName             IS NULL     OR  AlternateName           LIKE    '%' +  @AlternateName + '%')";
+            SQL += " AND    (@SubfamilyName             IS NULL     OR  SubfamilyName           LIKE    '%' +  @SubfamilyName + '%')";
+            SQL += " AND    (@TribeName                 IS NULL     OR  TribeName               LIKE    '%' +  @TribeName + '%')";
+            SQL += " AND    (@SubtribeName              IS NULL     OR  SubtribeName            LIKE    '%' +  @SubtribeName + '%')";
+            SQL += " AND    (@FamilyTypeCode            IS NULL     OR  FamilyTypeCode          =       @FamilyTypeCode)";
             SQL += " AND    (@Note                      IS NULL     OR  Note                    LIKE    '%' +  @Note + '%')";
             SQL += " AND    (@CreatedByCooperatorID     IS NULL     OR  CreatedByCooperatorID   =       @CreatedByCooperatorID)";
             SQL += " AND    (@ModifiedByCooperatorID    IS NULL     OR  ModifiedByCooperatorID  =       @ModifiedByCooperatorID)";
@@ -128,6 +126,8 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
                 CreateParameter("TypeGenusName", (object)searchEntity.TypeGenusName ?? DBNull.Value, true),
                 CreateParameter("ClassificationID", searchEntity.ClassificationID > 0 ? (object)searchEntity.ClassificationID : DBNull.Value, true),
                 CreateParameter("ClassificationName", (object)searchEntity.ClassificationName ?? DBNull.Value, true),
+                CreateParameter("SuprafamilyRankCode", (object)searchEntity.SuprafamilyRankCode ?? DBNull.Value, true),
+                CreateParameter("SuprafamilyRankName", (object)searchEntity.SuprafamilyRankName ?? DBNull.Value, true),
                 CreateParameter("FamilyName", (object)searchEntity.FamilyName ?? DBNull.Value, true),
                 CreateParameter("FamilyAuthority", (object)searchEntity.FamilyAuthority ?? DBNull.Value, true),
                 CreateParameter("AlternateName", (object)searchEntity.AlternateName ?? DBNull.Value, true),

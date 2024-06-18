@@ -2,9 +2,44 @@
 * Name         : ggtools.js
 * Description  : Main JS application file for GGTools. This file
 *                should be included in all layout pages. 
-* Last Updated : 6/6/24  
+* Last Updated : 6/18/24  
 * By           : Benjamin Haag
 */
+
+/* ========================================================================================
+ * General UI Control
+ * ======================================================================================== */
+
+$(document).on("click", "[id*='btnShowHideExtendedFields']", function () {
+    var id = $(this).attr("id");
+    var status = id.includes("On");
+    console.log("DEBUG BTN ID IS " + id + " STATUS IS " + status);
+    if (status == true) {
+        $("#section-extended-search-fields-body").show();
+        $("#btnShowHideExtendedFieldsOn").hide();
+        $("#btnShowHideExtendedFieldsOff").show();
+    }
+    else {
+        $("#section-extended-search-fields-body").hide();
+        $("#btnShowHideExtendedFieldsOff").hide();
+        $("#btnShowHideExtendedFieldsOn").show();
+    }   
+});
+
+function SetControlVisibility() {
+    var recordIsAccepted = $("#Entity_IsAcceptedName").val();
+
+    if (recordIsAccepted == "Y") {
+        $("#btnSetAcceptedOn").hide();
+        $("#btnSetAcceptedOff").show();
+        $(".accepted").hide();
+    }
+    else {
+        $("#btnSetAcceptedOn").show();
+        $("#btnSetAcceptedOff").hide();
+        $(".accepted").show();
+    }
+}
 
 /* ========================================================================================
  * Modals
@@ -593,7 +628,8 @@ function Reset() {
 
     // Set action to "RESET" and re-submit the form -- instructing the application to also clear any cached data.
     $("#EventAction").val("RESET");
-    $("#frmMain").submit();
+    /*$("#frmMain").submit();*/
+    $.fn.dataTable.tables({ api: true }).clear().draw();
 }
 
 $("#btnModifiedByDateClear").on('click', function (event) {

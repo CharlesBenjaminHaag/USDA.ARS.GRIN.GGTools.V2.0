@@ -146,7 +146,40 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 return PartialView("~/Views/Error/_InternalServerError.cshtml");
             }
         }
-    
+
+        public PartialViewResult _ListSynonyms(int familyId)
+        {
+            FamilyViewModel viewModel = new FamilyViewModel();
+
+            try
+            {
+                viewModel.GetSynonyms(familyId);
+                return PartialView("~/Views/Taxonomy/Family/_ListSynonyms.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
+        }
+
+        public PartialViewResult _ListSubdivisions(int familyId)
+        {
+            FamilyViewModel viewModel = new FamilyViewModel();
+            viewModel.Get(familyId);
+
+            try
+            {
+                viewModel.GetSubdivisions(viewModel.Entity.FamilyName);
+                return PartialView("~/Views/Taxonomy/Family/_ListSubdivisions.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
+        }
+
         [HttpPost]
         public PartialViewResult Lookup(FormCollection formCollection)
         {
@@ -268,7 +301,12 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             FamilyViewModel viewModel = new FamilyViewModel();
             return PartialView("~/Views/Taxonomy/Family/Modals/_Lookup.cshtml", viewModel);
         }
-        
+
+        public PartialViewResult Component_PageMenu()
+        {
+            return PartialView("~/Views/Taxonomy/Family/Components/_EditMenu.cshtml");
+        }
+
         #endregion
     }
 }

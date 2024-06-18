@@ -1,4 +1,4 @@
-﻿@model USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer.FamilyMapViewModel
+﻿@model USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer.FamilyViewModel
 <div class="card card-default">
     <div class="card-header">
         <h3 class="card-title">Subdivisions (@Model.DataCollectionSubdivisions.Count)</h3>
@@ -13,7 +13,7 @@
             <table id="data-table-family-subdivisions" class="table table-striped ggtools-table" style=" width:100%;">
                 <thead>
                     <tr>
-                        <th></th>
+                         
                         <th width="5%">ID</th>
                         <th>Order Name</th>
                         <th>Family Name</th>
@@ -28,16 +28,12 @@
                     @foreach (var result in Model.DataCollectionSubdivisions)
                     {
                         <tr>
+                             
                             <td>
                                 @result.ID
                             </td>
                             <td>
-                                @result.ID
-                            </td>
-                            <td>
-                                <a href="@Url.Action("Edit", "Classification", new { @entityId = result.OrderID })">
-                                    @result.OrderName
-                                </a>
+                                
                             </td>
                             <td>
                                 @result.FamilyName
@@ -55,29 +51,7 @@
                                 @Html.Raw(Model.FormatBoolean(result.IsAcceptedName))
                             </td>
                             <td style="text-align:right;">
-                                @switch (result.FamilyRank)
-                                {
-                                    case "SUBFAMILY":
-                                        <a href="@Url.Action("EditSubfamily", "Family", new { entityId = result.ID })" class="btn btn-primary btn-sm pull-right row-edit">
-                                            <i class="fa fa-edit"></i>
-                                        </a>
-                                        break;
-                                    case "TRIBE":
-                                        <a href="@Url.Action("EditTribe", "Family", new { entityId = result.ID })" class="btn btn-primary btn-sm pull-right row-edit">
-                                            <i class="fa fa-edit"></i>
-                                        </a>
-                                        break;
-                                    case "SUBTRIBE":
-                                        <a href="@Url.Action("EditSubtribe", "Family", new { entityId = result.ID })" class="btn btn-primary btn-sm pull-right row-edit">
-                                            <i class="fa fa-edit"></i>
-                                        </a>
-                                        break;
-                                    default:
-                                        <a href="@Url.Action("Edit", "Family", new { entityId = result.ID })" class="btn btn-primary btn-sm pull-right row-edit">
-                                            <i class="fa fa-edit"></i>
-                                        </a>
-                                        break;
-                                }
+                               
                             </td>
                         </tr>
                     }

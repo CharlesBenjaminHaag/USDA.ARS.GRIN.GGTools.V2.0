@@ -2,7 +2,7 @@
 
 @if (Model.DataCollection.Count == 0)
 {
-    <p>No genera assigned. <a href="" class="btn btn-default btn-flat">Add Genus</a></p>
+    <p>No genera are currently assigned. <a href="@Url.Action("Add","Genus", new { @familyId = Model.SearchEntity.FamilyID })" class="btn btn-default btn-flat">Add Genus</a></p>
 }
 else
 {

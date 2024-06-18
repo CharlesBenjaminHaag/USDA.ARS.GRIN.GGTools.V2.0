@@ -55,13 +55,13 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
             return Entity;
         }
 
-        public void GetFolderItems()
+        public void GetFolderItems(int sysFolderId)
         {
             using (AuthorManager mgr = new AuthorManager())
             {
                 try
                 {
-                    DataCollection = new Collection<Author>(mgr.GetFolderItems(SearchEntity));
+                    DataCollection = new Collection<Author>(mgr.GetFolderItems(sysFolderId));
                     RowsAffected = mgr.RowsAffected;
                     if (RowsAffected == 1)
                     {

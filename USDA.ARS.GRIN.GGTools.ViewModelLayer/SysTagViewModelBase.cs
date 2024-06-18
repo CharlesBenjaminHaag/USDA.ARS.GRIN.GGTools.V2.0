@@ -37,11 +37,7 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
             set { _SearchEntity = value; }
         }
 
-        public SysTag TagEntity
-        {
-            get { return _TagEntity; }
-            set { _TagEntity = value; }
-        }
+       
 
         public Collection<SysTag> DataCollection
         {

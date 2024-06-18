@@ -79,7 +79,15 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
        
         public Citation Get(int entityId)
         {
-            return null;
+            Citation citation = new Citation();
+            SQL = "usp_GRINGlobal_Citation_Select";
+            List<ReportItem> reportItems = new List<ReportItem>();
+
+            var parameters = new List<IDbDataParameter> {
+                CreateParameter("citation_id", (object)entityId, false)
+            };
+            citation = GetRecord<Citation>(SQL, CommandType.StoredProcedure, parameters.ToArray());
+            return citation;
         }
 
         public List<Citation> GetSpeciesCitations(int speciesId, string tableName)
@@ -115,6 +123,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             RowsAffected = results.Count;
             return results;
         }
+        
         public List<ReportItem> GetCitationReferenceCounts(int citationId)
         {
             SQL = "usp_GRINGlobal_Citation_Reference_Counts_Select";
@@ -127,6 +136,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             reportItems = GetRecords<ReportItem>(SQL, CommandType.StoredProcedure, parameters.ToArray());
             return reportItems.Where(x=>x.Total > 0).ToList();
         }
+        
         public List<Citation> Search(CitationSearch searchEntity)
         {
             List<Citation> results = new List<Citation>();

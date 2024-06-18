@@ -22,18 +22,19 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         {
             throw new NotImplementedException();
         }
-        public List<Author> GetFolderItems(AuthorSearch searchEntity)
+        public List<Author> GetFolderItems(int sysFolderId)
         {
             List<Author> results = new List<Author>();
 
-            SQL = " SELECT * FROM vw_GRINGlobal_Folder_Taxonomy_Author WHERE FolderID = @FolderID";
+            SQL = " SELECT * FROM vw_GRINGlobal_Taxonomy_Author_Sys_Folder_Item_Map WHERE SysFolderID = @SysFolderID";
             var parameters = new List<IDbDataParameter> {
-                CreateParameter("FolderID", searchEntity.FolderID > 0 ? (object)searchEntity.FolderID : DBNull.Value, true)
+                CreateParameter("SysFolderID", sysFolderId > 0 ? (object)sysFolderId : DBNull.Value, true)
             };
             results = GetRecords<Author>(SQL, parameters.ToArray());
             RowsAffected = results.Count;
             return results;
         }
+        
         public List<AuthorReference> GetReferences(string shortName)
         {
             SQL = "usp_GRINGlobal_Taxonomy_Author_References_Select";
@@ -93,6 +94,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             }
             return RowsAffected;
         }
+        
         public List<Author> Search(AuthorSearch searchEntity)
         {
             List<Author> results = new List<Author>();

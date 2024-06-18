@@ -232,7 +232,8 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             GenusViewModel viewModel = new GenusViewModel();
             try
             {
-                viewModel.SearchEntity = new GenusSearch { FamilyID = familyId, Name = genusName };
+                viewModel.SearchEntity.FamilyID = familyId;
+                viewModel.SearchEntity.Name = genusName;
                 viewModel.Search();
                 return PartialView(BASE_PATH + "_List.cshtml", viewModel);
             }

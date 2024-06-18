@@ -16,15 +16,14 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
         
         private static readonly Logger Log = LogManager.GetCurrentClassLogger();
         
-        public PartialViewResult _ListFolderItems(int appUserItemFolderId)
+        public PartialViewResult _ListFolderItems(int sysFolderId)
         {
             AuthorViewModel viewModel = new AuthorViewModel();
             try
             {
                 viewModel.EventAction = "FOLDER";
                 viewModel.TableName = "taxonomy_author";
-                viewModel.SearchEntity.FolderID = appUserItemFolderId;
-                viewModel.GetFolderItems();
+                viewModel.GetFolderItems(sysFolderId);
                 return PartialView(BASE_PATH + "_ListFolder.cshtml", viewModel);
             }
             catch (Exception ex)
@@ -273,7 +272,8 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 return PartialView("~/Views/Error/_InternalServerError.cshtml");
             }
         }
-        
+       
+
         public ActionResult Add()
         {
             try
