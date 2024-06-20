@@ -13,7 +13,7 @@
 
 @Html.Partial("~/Views/Taxonomy/Species/_Detail.cshtml")
 @Html.Partial("~/Views/Taxonomy/Species/_List.cshtml")
-@{Html.RenderAction("RenderEditModal", "AppUserItemFolder", new { @sysTableName = Model.TableName }); }
+@{Html.RenderAction("GetEditModal", "SysFolder", new { @sysTableName = Model.TableName }); }
 
 @using (Html.BeginForm("GetBatchEditor", "Species", FormMethod.Post, new { id = "frmGetBatchEditor" }))
 {

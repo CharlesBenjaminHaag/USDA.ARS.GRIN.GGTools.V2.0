@@ -37,19 +37,26 @@ namespace USDA.ARS.GRIN.GGTools.WebUI
             ViewBag.EventAction = eventAction;
             ViewBag.EventValue = eventValue;
 
-            if (eventValue == "Edit")
+            if (eventValue == "Add")
             {
-                return PartialView("~/Views/Components/_DefaultEditMenu.cshtml");
+                return PartialView("~/Views/Components/_DefaultAddMenu.cshtml");
             }
             else
             {
-                if (!String.IsNullOrEmpty(sysTableName))
+                if (eventValue == "Edit")
                 {
-                    return PartialView("~/Views/Components/_DefaultSearchMenu.cshtml");
+                    return PartialView("~/Views/Components/_DefaultEditMenu.cshtml");
                 }
-                else 
+                else
                 {
-                    return PartialView("~/Views/Components/_DefaultMenu.cshtml");
+                    if (!String.IsNullOrEmpty(sysTableName))
+                    {
+                        return PartialView("~/Views/Components/_DefaultSearchMenu.cshtml");
+                    }
+                    else
+                    {
+                        return PartialView("~/Views/Components/_DefaultMenu.cshtml");
+                    }
                 }
             }
         }

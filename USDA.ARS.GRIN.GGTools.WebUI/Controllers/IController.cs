@@ -18,6 +18,6 @@ namespace USDA.ARS.GRIN.GGTools.WebUI
         //T LoadFromSession(T viewModel);
         [HttpPost]
         ActionResult Delete(FormCollection formCollection);
-        //PartialViewResult _ListFolderItems(int appUserItemFolderId);
+        //PartialViewResult _ListFolderItems(int sysFolderId);
     }
 }

@@ -79,13 +79,11 @@
                 <div class="tab-pane" id="timeline">
                     <div class="row">
                         <div class="col-md-12">
-                            @{Html.RenderAction("_ListDynamic", "AppUserItemFolder", new { @cooperatorId = Model.AuthenticatedUserCooperatorID, @dataType = Model.TableName });}
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    @Html.Partial("~/Views/AppUserItemFolder/Modals/_EditDynamic.cshtml")
 }
 

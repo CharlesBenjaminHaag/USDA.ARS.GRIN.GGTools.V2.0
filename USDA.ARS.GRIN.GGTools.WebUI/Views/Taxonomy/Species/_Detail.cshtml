@@ -56,12 +56,10 @@
                 <div id="tab-saved-searches" class="tab-pane">
                     <div class="row">
                         <div class="col-md-12">
-                            @{Html.RenderAction("_ListDynamic", "AppUserItemFolder", new { @cooperatorId = AppInfo.GetAuthenticatedUser().CooperatorID, @dataType = Model.TableName });}
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    @Html.Partial("~/Views/AppUserItemFolder/Modals/_EditDynamic.cshtml")
 }

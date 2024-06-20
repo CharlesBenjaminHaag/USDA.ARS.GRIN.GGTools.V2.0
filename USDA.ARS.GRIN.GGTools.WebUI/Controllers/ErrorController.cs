@@ -10,7 +10,13 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
     public class ErrorController : Controller
     {
         private static readonly Logger Log = LogManager.GetCurrentClassLogger();
-        [HttpGet]
+
+        public PartialViewResult PageMenu(string eventAction, string eventValue, string sysTableName = "", string sysTableTitle = "")
+        {
+            return null;
+        }
+
+            [HttpGet]
         public ActionResult Index()
         {
             try

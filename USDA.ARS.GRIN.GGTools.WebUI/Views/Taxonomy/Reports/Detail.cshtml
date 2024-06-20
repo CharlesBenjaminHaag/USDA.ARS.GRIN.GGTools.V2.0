@@ -140,7 +140,7 @@
             <div class="content">
                 <div class="container" style="max-width:1500px;">
                     <div id="section-folder-confirmation"></div>
-                    @{Html.RenderAction("RenderEditModal", "AppUserItemFolder", new { sysTableName = Model.TableName }); }
+                    @{Html.RenderAction("GetEditModal", "SysFolder", new { sysTableName = Model.TableName }); }
 
                 <div class="card card-success">
                     <div class="card-header">

@@ -66,45 +66,13 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             }
         }
 
-        public PartialViewResult _ListMapped(int appUserItemFolderId)
-        {
-            AppUserItemFolderCooperatorMapViewModel viewModel = new AppUserItemFolderCooperatorMapViewModel();
-            try
-            {
-                viewModel.SearchEntity.FolderID = appUserItemFolderId;
-                viewModel.GetMapped();
-                return PartialView("~/Views/AppUserItemFolderCooperatorMap/Modals/_ListMapped.cshtml", viewModel);
-            }
-            catch (Exception ex)
-            {
-                Log.Error(ex);
-                return PartialView("~/Views/Error/_InternalServerError.cshtml");
-            }
-        }
-
-        public PartialViewResult _ListNonMapped(int appUserItemFolderId)
-        {
-            AppUserItemFolderCooperatorMapViewModel viewModel = new AppUserItemFolderCooperatorMapViewModel();
-            try
-            {
-                viewModel.SearchEntity.FolderID = appUserItemFolderId;
-                viewModel.GetNonMapped();
-                return PartialView("~/Views/AppUserItemFolderCooperatorMap/Modals/_ListNonMapped.cshtml", viewModel);
-            }
-            catch (Exception ex)
-            {
-                Log.Error(ex);
-                return PartialView("~/Views/Error/_InternalServerError.cshtml");
-            }
-        }
-
         public PartialViewResult RenderEditModal(int appUserItemFolderId)
         {
             AppUserItemFolderCooperatorMapViewModel viewModel = new AppUserItemFolderCooperatorMapViewModel();
 
             try
             {
-                viewModel.SearchEntity.FolderID = appUserItemFolderId;
+                viewModel.SearchEntity.FolderID = sysFolderId;
                 viewModel.GetMapped();
                 viewModel.GetNonMapped();
                 return PartialView("~/Views/AppUserItemFolderCooperatorMap/Modals/_Edit.cshtml", viewModel);
@@ -120,7 +88,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             try
             {
                 AppUserItemFolderCooperatorMapViewModel viewModel = new AppUserItemFolderCooperatorMapViewModel();
-                viewModel.SearchEntity.FolderID = appUserItemFolderId;
+                viewModel.SearchEntity.FolderID = sysFolderId;
                 viewModel.GetNonMapped();
                 viewModel.GetMapped();
                 return PartialView("~/Views/AppUserItemFolderCooperatorMap/_Widget.cshtml", viewModel);

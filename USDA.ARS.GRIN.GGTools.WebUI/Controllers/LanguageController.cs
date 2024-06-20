@@ -13,7 +13,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
     public class LanguageController : BaseController, IController<CommonNameLanguageViewModel>
     {
         private static readonly Logger Log = LogManager.GetCurrentClassLogger();
-        public PartialViewResult _ListFolderItems(int appUserItemFolderId)
+        public PartialViewResult _ListFolderItems(int sysFolderId)
         {
             try
             {

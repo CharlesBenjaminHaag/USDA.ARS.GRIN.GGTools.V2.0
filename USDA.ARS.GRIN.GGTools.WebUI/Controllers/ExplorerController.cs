@@ -75,7 +75,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
         //    try
         //    {
         //        viewModel.EventAction = "FOLDER";
-        //        viewModel.SearchEntity.FolderID = appUserItemFolderId;
+        //        viewModel.SearchEntity.FolderID = sysFolderId;
         //        viewModel.GetFolderItems();
         //        return PartialView("~/Views/Taxonomy/Explorer/_List.cshtml", viewModel);
         //    }

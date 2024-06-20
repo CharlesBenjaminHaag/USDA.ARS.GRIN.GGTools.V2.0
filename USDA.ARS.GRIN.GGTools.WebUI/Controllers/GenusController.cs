@@ -16,13 +16,13 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
         protected static string BASE_PATH = "~/Views/Taxonomy/Genus/";
         private static readonly Logger Log = LogManager.GetCurrentClassLogger();
         
-        public PartialViewResult _ListFolderItems(int appUserItemFolderId)
+        public PartialViewResult _ListFolderItems(int sysFolderId)
         {
             GenusViewModel viewModel = new GenusViewModel();
             try
             {
                 viewModel.EventAction = "FOLDER";
-                viewModel.SearchEntity.FolderID = appUserItemFolderId;
+                viewModel.SearchEntity.FolderID = sysFolderId;
                 viewModel.GetFolderItems();
                 return PartialView(BASE_PATH + "_ListFolder.cshtml", viewModel);
             }

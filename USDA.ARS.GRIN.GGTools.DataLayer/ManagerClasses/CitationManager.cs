@@ -253,7 +253,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         {
             List<Citation> results = new List<Citation>();
 
-            SQL = " SELECT * FROM vw_GRINGlobal_Folder_Citation WHERE FolderID = @FolderID";
+            SQL = " SELECT * FROM vw_GRINGlobal_Citation_Sys_Folder_Item_Map WHERE SysFolderID = @FolderID";
             var parameters = new List<IDbDataParameter> {
                 CreateParameter("FolderID", searchEntity.FolderID > 0 ? (object)searchEntity.FolderID : DBNull.Value, true)
             };

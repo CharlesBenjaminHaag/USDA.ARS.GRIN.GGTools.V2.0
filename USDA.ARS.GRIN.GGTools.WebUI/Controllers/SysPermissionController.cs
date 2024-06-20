@@ -24,7 +24,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 return RedirectToAction("InternalServerError", "Error");
             }
         }
-        public PartialViewResult _ListFolderItems(int appUserItemFolderId)
+        public PartialViewResult _ListFolderItems(int sysFolderId)
         {
             try
             {

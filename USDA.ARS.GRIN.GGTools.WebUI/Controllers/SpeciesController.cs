@@ -94,7 +94,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
         }
 
 
-        public PartialViewResult _ListFolderItems(int appUserItemFolderId, string displayFormat = "")
+        public PartialViewResult _ListFolderItems(int sysFolderId, string displayFormat = "")
         {
             SpeciesViewModel viewModel = new SpeciesViewModel();
      
@@ -102,7 +102,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             {
                 viewModel.EventAction = "FOLDER";
                 viewModel.EventNote = "taxonomy_species";
-                viewModel.SearchEntity.FolderID = appUserItemFolderId;
+                viewModel.SearchEntity.FolderID = sysFolderId;
                 viewModel.GetFolderItems();
 
                 return PartialView("~/Views/Taxonomy/Species/_ListFolder.cshtml", viewModel);

@@ -4,12 +4,17 @@
     Layout = null;
 }
 
+@{
+    string eventAction = @ViewContext.RouteData.Values["controller"].ToString();
+    string eventValue = @ViewContext.RouteData.Values["action"].ToString();
+}
+
 <!DOCTYPE html>
 <html lang="en">
 @Html.Partial("~/Views/Shared/_Head.cshtml")
 <body class="hold-transition layout-top-nav">
     <div class="wrapper">
-        
+
         <nav class="main-header navbar navbar-expand-md navbar-light text-sm">
             <div class="container" style="max-width:1500px;">
                 <a href="@Url.Action("Index","Home")" class="navbar-brand">
@@ -20,19 +25,7 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse order-3" id="navbarCollapse">
-                    <!-- BEGIN EDIT PAGE MENU -->
-                    <ul class="navbar-nav">
-                        @if (Model.Entity.ID > 0)
-                        {
-                            <li class="nav-item d-none d-sm-inline-block">
-                                <a href="@Url.Action("Add", "FamilyMap", new { orderId = Model.Entity.ID })" class="nav-link">Add Family</a>
-                            </li>
-                            <li class="nav-item d-none d-sm-inline-block">
-                                <a id="btnOpenFolderModalInSingleMode" class="nav-link" href=""><i class="far fa-folder"></i>&nbsp;&nbsp;Add to Folder</a>
-                            </li>                        
-                        }
-                    </ul>
-                    <!-- END EDIT PAGE MENU-->
+                    @{Html.RenderAction("PageMenu", eventAction, new { eventAction = eventAction, eventValue = eventValue });}
                 </div>
                 <!-- BEGIN RIGHT-ALIGNED NAV MENU -->
                 <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
@@ -41,7 +34,7 @@
                 <!-- END RIGHT-ALIGNED NAV MENU -->
             </div>
         </nav>
-        
+
         <div class="content-wrapper">
             <div class="content-header">
                 <div class="container" style="max-width:1500px;">
@@ -70,19 +63,19 @@
                         @Html.HiddenFor(x => x.Entity.ID)
 
                         <!--
-        =====================================================
-        BEGIN REF. FOLDER LOGIC
-        =====================================================
-        -->
+                        =====================================================
+                        BEGIN REF. FOLDER LOGIC
+                        =====================================================
+                        -->
                         @*@if (Model.AppUserItemFolderID > 0)
-            {
-                Html.RenderAction("RenderRelatedFoldersWidget", "AppUserItemFolder", new { idNumber = Model.Entity.ID });
-            }*@
+                            {
+                                Html.RenderAction("RenderRelatedFoldersWidget", "AppUserItemFolder", new { idNumber = Model.Entity.ID });
+                            }*@
                         <!--
-        =====================================================
-        BEGIN REF. FOLDER LOGIC
-        =====================================================
-        -->
+                        =====================================================
+                        BEGIN REF. FOLDER LOGIC
+                        =====================================================
+                        -->
 
                         @Html.Partial("~/Views/Shared/_RevisionHistory.cshtml")
                         @Html.Partial("~/Views/Shared/_ValidationMessages.cshtml")
@@ -115,10 +108,10 @@
                                         <div class="input-group">
                                             @Html.TextAreaFor(x => x.Entity.Note, new { @id = "txtNote", @class = "form-control", @style = "width:100%;" })
                                             @*<span class="input-group-append">
-                                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#modal-note-lookup">
-                                        <i class="fa fa-search margin-r-5"></i>
-                                    </button>
-                                </span>*@
+                                                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#modal-note-lookup">
+                                                        <i class="fa fa-search margin-r-5"></i>
+                                                    </button>
+                                                </span>*@
                                         </div>
                                     </div>
                                     <!-- END NOTE FIELD-->
@@ -143,7 +136,7 @@
                     }
                     @Html.Partial("~/Views/Shared/Modals/_NoteLookup.cshtml")
                     @Html.Partial("~/Views/Taxonomy/Shared/Modals/_Delete.cshtml")
-                    @{Html.RenderAction("RenderEditModal", "AppUserItemFolder", new { sysTableName = Model.TableName, parentEntityId = Model.Entity.ID }); }
+                    @{Html.RenderAction("GetEditModal", "SysFolder", new { sysTableName = Model.TableName, parentEntityId = Model.Entity.ID }); }
                 </div>
             </div>
 

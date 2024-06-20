@@ -8,15 +8,6 @@
     <link rel="stylesheet" href="~/plugins/fontawesome-free/css/all.min.css">
     <link rel="stylesheet" href="~/dist/css/adminlte.css">
     <link rel="stylesheet" href="~/Content/dist/css/icheck-bootstrap.min.css" />
-
-    <!-- Datatables -->
-    @*<link rel="stylesheet" href="~/Content/dist/css/DataTables/datatables.min.css" />
-        <link rel="stylesheet" type="text/css" href="~/Content/dist/css/DataTables/select.dataTables.min.css">
-        <link rel="stylesheet" type="text/css" href="~/Content/dist/css/DataTables/buttons.dataTables.min.css">
-        <link rel="stylesheet" type="text/css" href="~/Content/dist/css/bootstrap-switch.min.css" />
-        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.4.0/css/responsive.dataTables.min.css" />*@
-
-    <!-- DATATABLES TEST -->
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.4.2/css/buttons.dataTables.min.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/select/1.7.0/css/select.dataTables.min.css">
@@ -124,23 +115,6 @@
 
         <nav class="main-header navbar navbar-expand navbar-white navbar-light text-sm">
             @{Html.RenderAction("PageMenu", eventAction, new { eventAction = eventAction, eventValue = eventValue });}
-            
-            @*@if (eventAction == "Cooperator")
-            {
-                if ((eventValue == "Get") || (eventValue == "Edit"))
-                {
-                    @Html.Partial("~/Views/Cooperator/_MenuEdit.cshtml")
-                }
-                else
-                {
-                    @Html.Partial("~/Views/Shared/_NavbarListOptions.cshtml")
-                }
-            }
-            else
-            {
-                @Html.Partial("~/Views/Shared/_NavbarListOptions.cshtml")
-            }*@
-
             <ul class="navbar-nav ml-auto">
                 <!-- Notifications Dropdown Menu -->
                 <li class="nav-item dropdown">

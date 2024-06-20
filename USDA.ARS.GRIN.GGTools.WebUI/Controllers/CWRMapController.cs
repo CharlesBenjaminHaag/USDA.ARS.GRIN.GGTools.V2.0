@@ -377,7 +377,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
         //        CWRMapViewModel viewModel = new CWRMapViewModel();
         //        viewModel.EventAction = "SEARCH";
         //        viewModel.EventValue = "FOLDER";
-        //        viewModel.SearchEntity.FolderID = appUserItemFolderId;
+        //        viewModel.SearchEntity.FolderID = sysFolderId;
         //        viewModel.SearchFolderItems();
         //        ModelState.Clear();
         //        return PartialView("~/Views/CWRMap/_List.cshtml", viewModel);
@@ -407,13 +407,13 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 return PartialView("~/Views/Error/_InternalServerError.cshtml", "Error");
             }
         }
-        public PartialViewResult _ListFolderItems(int appUserItemFolderId)
+        public PartialViewResult _ListFolderItems(int sysFolderId)
         {
             CWRMapViewModel viewModel = new CWRMapViewModel();
             try
             {
                 viewModel.EventAction = "FOLDER";
-                viewModel.SearchEntity.FolderID = appUserItemFolderId;
+                viewModel.SearchEntity.FolderID = sysFolderId;
                 viewModel.GetFolderItems();
                 return PartialView(BASE_PATH + "_ListFolder.cshtml", viewModel);
             }

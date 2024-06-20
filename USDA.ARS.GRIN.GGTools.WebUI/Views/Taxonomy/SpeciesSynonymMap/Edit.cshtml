@@ -158,7 +158,7 @@
                     }
                     @Html.Partial("~/Views/Shared/Modals/_NoteLookup.cshtml")
                     @Html.Partial("~/Views/Taxonomy/Shared/Modals/_Delete.cshtml")
-                    @{Html.RenderAction("RenderEditModal", "AppUserItemFolder", new { sysTableName = Model.TableName }); }
+                    @{Html.RenderAction("GetEditModal", "SysFolder", new { sysTableName = Model.TableName }); }
                 </div>
                 
             </div>

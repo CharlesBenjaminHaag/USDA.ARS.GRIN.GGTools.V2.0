@@ -14,19 +14,35 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
     {
         private static readonly Logger Log = LogManager.GetCurrentClassLogger();
 
-        //public ActionResult Explorer()
-        //{
-        //    CooperatorViewModel viewModel = new CooperatorViewModel();
-        //    return View("~/Views/Cooperator/Explorer/Index.cshtml", viewModel);
-        //}
+        public override PartialViewResult PageMenu(string eventAction, string eventValue, string sysTableName = "", string sysTableTitle = "")
+        {
+            ViewBag.EventAction = eventAction;
+            ViewBag.EventValue = eventValue;
 
-        //public ActionResult ExplorerAdd()
-        //{
-        //    CooperatorViewModel viewModel = new CooperatorViewModel();
-        //    viewModel.AuthenticatedUser = AuthenticatedUser;
-        //    viewModel.Entity.StatusCode = "PENDING";
-        //    return View("~/Views/Cooperator/Add.cshtml", viewModel);
-        //}
+            if (eventValue == "Add")
+            {
+                return PartialView("~/Views/Components/_DefaultAddMenu.cshtml");
+            }
+            else
+            {
+                if (eventValue == "Edit")
+                {
+                    return PartialView("~/Views/Cooperator/Components/_EditMenu.cshtml");
+                }
+                else
+                {
+                    if (!String.IsNullOrEmpty(sysTableName))
+                    {
+                        return PartialView("~/Views/Cooperator/Components/_SearchMenu.cshtml");
+                    }
+                    else
+                    {
+                        return PartialView("~/Views/Components/_DefaultMenu.cshtml");
+                    }
+                }
+            }
+        }
+
 
         public ActionResult Get(int entityId)
         {
@@ -119,6 +135,26 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
                 viewModel.AuthenticatedUser = AuthenticatedUser;
                 return View("~/Views/Cooperator/Edit.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return RedirectToAction("InternalServerError", "Error");
+            }
+        }
+
+        public ActionResult EditBatch()
+        {
+            try
+            {
+                CooperatorViewModel viewModel = new CooperatorViewModel();
+                viewModel.BatchSize = 10;
+                viewModel.Entity.FirstName = "Training";
+                viewModel.Entity.LastName = "User";
+                viewModel.Entity.JobTitle = "Student";
+                viewModel.AuthenticatedUser = AuthenticatedUser;
+                viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
+                return View("~/Views/Cooperator/EditBatch.cshtml", viewModel);
             }
             catch (Exception ex)
             {

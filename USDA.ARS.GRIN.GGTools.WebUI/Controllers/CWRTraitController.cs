@@ -169,13 +169,13 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI
                 return PartialView("~/Views/Error/_InternalServerError.cshtml", "Error");
             }
         }
-        public PartialViewResult _ListFolderItems(int appUserItemFolderId)
+        public PartialViewResult _ListFolderItems(int sysFolderId)
         {
             CWRTraitViewModel viewModel = new CWRTraitViewModel();
             try
             {
                 viewModel.EventAction = "FOLDER";
-                viewModel.SearchEntity.FolderID = appUserItemFolderId;
+                viewModel.SearchEntity.FolderID = sysFolderId;
                 viewModel.GetFolderItems();
                 return PartialView(BASE_PATH + "_ListFolder.cshtml", viewModel);
             }

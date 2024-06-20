@@ -3,6 +3,12 @@
     ViewBag.Title = Model.PageTitle;
     Layout = null;
 }
+
+@{
+    string eventAction = @ViewContext.RouteData.Values["controller"].ToString();
+    string eventValue = @ViewContext.RouteData.Values["action"].ToString();
+}
+
 <!DOCTYPE html>
 <html lang="en">
 @Html.Partial("~/Views/Shared/_Head.cshtml")
@@ -18,17 +24,7 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse order-3" id="navbarCollapse">
-                    <!-- BEGIN EDIT PAGE MENU -->
-                    <ul class="navbar-nav">
-                        @if (Model.Entity.ID > 0)
-                        {
-                            @*<li class="nav-item d-none d-sm-inline-block">
-                                    <a href="@Url.Action("Add", "EconomicUse")" class="nav-link">New</a>
-                                </li>*@
-                            Html.RenderAction("RenderRelatedFoldersMenu", "AppUserItemFolder", new { sysTableName = Model.TableName, entityId = Model.Entity.ID });
-                        }
-                    </ul>
-                    <!-- END EDIT PAGE MENU-->
+                    @{Html.RenderAction("PageMenu", eventAction, new { eventAction = eventAction, eventValue = eventValue });}
                 </div>
 
                 <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
@@ -146,7 +142,7 @@
                     @{
                         if (Model.Entity.ID > 0)
                         {
-                            {Html.RenderAction("RenderEditModal", "AppUserItemFolder", new { sysTableName = Model.TableName }); }
+                            { Html.RenderAction("RenderEditModal", "AppUserItemFolder", new { sysTableName = Model.TableName }); }
                         }
                     }
                 </div>

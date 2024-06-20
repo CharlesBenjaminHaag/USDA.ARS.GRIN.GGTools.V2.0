@@ -3,6 +3,12 @@
     ViewBag.Title = Model.PageTitle;
     Layout = null;
 }
+
+@{
+    string eventAction = @ViewContext.RouteData.Values["controller"].ToString();
+    string eventValue = @ViewContext.RouteData.Values["action"].ToString();
+}
+
 <!DOCTYPE html>
 <html lang="en">
 @Html.Partial("~/Views/Shared/_Head.cshtml")
@@ -18,6 +24,9 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse order-3" id="navbarCollapse">
+
+                    @{Html.RenderAction("PageMenu", eventAction, new { eventAction = eventAction, eventValue = eventValue });}
+
                     <!-- BEGIN EDIT PAGE MENU -->
                     <ul class="navbar-nav">
                         @if (Model.Entity.ID > 0)
@@ -43,8 +52,6 @@
                                     <li><a href="@Url.Action("Add", "RegulationMap", new { @genusId = Model.Entity.ID })" class="dropdown-item">Regulation</a></li>
                                 </ul>
                             </li>
-
-                            Html.RenderAction("RenderRelatedFoldersMenu", "AppUserItemFolder", new { sysTableName = Model.TableName, entityId = Model.Entity.ID });
                         }
                     </ul>
                     <!-- END EDIT PAGE MENU-->
@@ -97,7 +104,7 @@
                         @Html.HiddenFor(x => x.IsTypeGenus)
                         @Html.HiddenFor(x => x.Entity.Rank)
                         @Html.HiddenFor(x => x.Entity.IsAcceptedName)
-                        
+
                         if (Model.AppUserItemFolderID > 0)
                         {
                             Html.RenderAction("RenderRelatedFoldersWidget", "AppUserItemFolder", new { idNumber = Model.Entity.ID });

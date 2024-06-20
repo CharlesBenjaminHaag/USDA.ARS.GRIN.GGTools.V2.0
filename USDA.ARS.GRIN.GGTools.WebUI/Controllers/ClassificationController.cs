@@ -14,31 +14,15 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
         protected static string BASE_PATH = "~/Views/Taxonomy/Order/";
         private static readonly Logger Log = LogManager.GetCurrentClassLogger();
         
-        public PartialViewResult _ListFolderItems(int appUserItemFolderId)
+        public PartialViewResult _ListFolderItems(int sysFolderId)
         {
             ClassificationViewModel viewModel = new ClassificationViewModel();
             try
             {
                 viewModel.EventAction = "FOLDER";
-                viewModel.SearchEntity.FolderID = appUserItemFolderId;
+                viewModel.SearchEntity.FolderID = sysFolderId;
                 viewModel.GetFolderItems();
                 return PartialView(BASE_PATH + "_ListFolder.cshtml", viewModel);
-            }
-            catch (Exception ex)
-            {
-                Log.Error(ex);
-                return PartialView("~/Views/Error/_InternalServerError.cshtml");
-            }
-        }
-
-        public PartialViewResult _ListDynamicFolderItems(int folderId)
-        {
-            ClassificationViewModel viewModel = new ClassificationViewModel();
-
-            try
-            {
-                viewModel.RunSearch(folderId);
-                return PartialView(BASE_PATH + "_List.cshtml", viewModel);
             }
             catch (Exception ex)
             {
@@ -207,7 +191,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
         //        ClassificationViewModel viewModel = new ClassificationViewModel();
         //        viewModel.EventAction = "SEARCH";
         //        viewModel.EventValue = "FOLDER";
-        //        viewModel.SearchEntity.FolderID = appUserItemFolderId;
+        //        viewModel.SearchEntity.FolderID = sysFolderId;
         //        viewModel.SearchFolderItems();
         //        ModelState.Clear();
         //        return PartialView(BASE_PATH + "_List.cshtml", viewModel);

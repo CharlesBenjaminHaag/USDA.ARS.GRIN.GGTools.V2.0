@@ -3,10 +3,16 @@
     ViewBag.Title = Model.PageTitle;
     Layout = null;
 }
+
+@{
+    string eventAction = @ViewContext.RouteData.Values["controller"].ToString();
+    string eventValue = @ViewContext.RouteData.Values["action"].ToString();
+}
+
 <!DOCTYPE html>
 <html lang="en">
-    @Html.Partial("~/Views/Shared/_Head.cshtml")
-    <body class="hold-transition layout-top-nav">
+@Html.Partial("~/Views/Shared/_Head.cshtml")
+<body class="hold-transition layout-top-nav">
     <div class="wrapper">
         <nav class="main-header navbar navbar-expand-md navbar-light text-sm">
             <div class="container" style="max-width:1500px;">
@@ -18,24 +24,7 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse order-3" id="navbarCollapse">
-                    <!-- BEGIN EDIT PAGE MENU -->
-                    <ul class="navbar-nav">
-                        @if (Model.Entity.ID > 0)
-                        {
-                            Html.RenderAction("RenderRelatedFoldersMenu", "AppUserItemFolder", new { sysTableName = Model.TableName, entityId = Model.Entity.ID });
-                            <li class="nav-item">
-                                <button id="btnOpenTaxonomyCWRTraitCloneModal"
-                                        type="button"
-                                        data-toggle="modal"
-                                        data-target="#modal-taxonomy-cwr-trait-clone"
-                                        data-ggtools-entity-id="@Model.ID"
-                                        class="dropdown-item">
-                                    Clone
-                                </button>
-                            </li>
-                        }
-                    </ul>
-                    <!-- END EDIT PAGE MENU-->
+                    @{Html.RenderAction("PageMenu", eventAction, new { eventAction = eventAction, eventValue = eventValue });}
                 </div>
                 <!-- BEGIN RIGHT-ALIGNED NAV MENU -->
                 <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
@@ -196,7 +185,7 @@
                     }
                     @Html.Partial("~/Views/Shared/Modals/_NoteLookup.cshtml")
                     @Html.Partial("~/Views/Taxonomy/Shared/Modals/_Delete.cshtml")
-                    @{Html.RenderAction("RenderEditModal", "AppUserItemFolder", new { sysTableName = Model.TableName }); }
+                    @{Html.RenderAction("GetEditModal", "SysFolder", new { sysTableName = Model.TableName }); }
 
                     <script type="text/javascript">
                         $(document).ready(function () {

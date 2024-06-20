@@ -5,7 +5,8 @@
 }
 @Html.Partial("~/Views/Taxonomy/CWRMap/_Detail.cshtml")
 @Html.Partial("~/Views/Taxonomy/CWRMap/_List.cshtml")
-@{Html.RenderAction("RenderEditModal", "AppUserItemFolder", new { @sysTableName = "taxonomy_cwr_map" }); }
+@{Html.RenderAction("GetEditModal", "SysFolder", new { @sysTableName = "taxonomy_cwr_map" }); }
+@{Html.RenderAction("GetEditModal", "SysFolder", new { @sysTableName = Model.TableName }); }
 
 <script type="text/javascript">
     //$(document).keypress(function (event) {

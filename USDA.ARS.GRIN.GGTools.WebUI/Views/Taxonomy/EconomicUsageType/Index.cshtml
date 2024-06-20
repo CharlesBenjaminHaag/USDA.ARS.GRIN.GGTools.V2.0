@@ -5,7 +5,7 @@
 }
 @Html.Partial("~/Views/Taxonomy/EconomicUsageType/_Detail.cshtml")
 @Html.Partial("~/Views/Taxonomy/EconomicUsageType/_List.cshtml")
-@{Html.RenderAction("RenderEditModal", "AppUserItemFolder", new { @sysTableName = "taxonomy_economic_usage_type" });}
+@{Html.RenderAction("GetEditModal", "SysFolder", new { @sysTableName = "taxonomy_economic_usage_type" });}
 
 <script type="text/javascript">
 

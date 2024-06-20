@@ -14,13 +14,13 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
     {
         protected static string BASE_PATH = "~/Views/Taxonomy/GeographyMap/";
         private static readonly Logger Log = LogManager.GetCurrentClassLogger();
-        public PartialViewResult _ListFolderItems(int appUserItemFolderId)
+        public PartialViewResult _ListFolderItems(int sysFolderId)
         {
             GeographyMapViewModel viewModel = new GeographyMapViewModel();
             try
             {
                 viewModel.EventAction = "FOLDER";
-                viewModel.SearchEntity.FolderID = appUserItemFolderId;
+                viewModel.SearchEntity.FolderID = sysFolderId;
                 viewModel.GetFolderItems();
                 return PartialView(BASE_PATH + "_ListFolder.cshtml", viewModel);
             }
@@ -363,7 +363,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
         //        GeographyMapViewModel viewModel = new GeographyMapViewModel();
         //        viewModel.EventAction = "SEARCH";
         //        viewModel.EventValue = "FOLDER";
-        //        viewModel.SearchEntity.FolderID = appUserItemFolderId;
+        //        viewModel.SearchEntity.FolderID = sysFolderId;
         //        viewModel.SearchFolderItems();
         //        ModelState.Clear();
         //        return PartialView("~/Views/GeographyMap/_List.cshtml", viewModel);

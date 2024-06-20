@@ -49,7 +49,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             return PartialView("~/Views/SysGroupUserMap/_Widget.cshtml", viewModel);
         }
         
-        public PartialViewResult _ListFolderItems(int appUserItemFolderId)
+        public PartialViewResult _ListFolderItems(int sysFolderId)
         {
             try
             {

@@ -14,7 +14,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
     public class AccessionInventoryAttachmentController : BaseController, IController<AccessionInventoryAttachmentViewModel>
     {
         private static readonly Logger Log = LogManager.GetCurrentClassLogger();
-        public PartialViewResult _ListFolderItems(int appUserItemFolderId)
+        public PartialViewResult _ListFolderItems(int sysFolderId)
         {
             try
             {
@@ -238,25 +238,6 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             {
                 Log.Error(ex);
                 return View("InternalServerError", "Error");
-            }
-        }
-
-        public PartialViewResult FolderItems(int appUserItemFolderId)
-        {
-            try
-            {
-                AccessionInventoryAttachmentViewModel viewModel = new AccessionInventoryAttachmentViewModel();
-                viewModel.EventAction = "SEARCH";
-                viewModel.EventValue = "FOLDER";
-                viewModel.SearchEntity.FolderID = appUserItemFolderId;
-                viewModel.SearchFolderItems();
-                ModelState.Clear();
-                return PartialView("~/Views/Attachment/_List.cshtml", viewModel);
-            }
-            catch (Exception ex)
-            {
-                Log.Error(ex);
-                return PartialView("~/Views/Error/_InternalServerError.cshtml");
             }
         }
 

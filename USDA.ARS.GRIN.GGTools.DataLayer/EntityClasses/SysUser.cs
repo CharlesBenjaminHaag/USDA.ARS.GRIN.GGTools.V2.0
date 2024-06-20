@@ -58,6 +58,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
         public List<SysGroupUserMap> Groups { get; set; }
         public List<SysApplication> Applications { get; set; }
         public SysApplication Application { get; set; }
+        
         public bool IsInRole(string roleName)
         {
             if (Groups.Where(x => x.GroupTag == roleName).Count() > 0)

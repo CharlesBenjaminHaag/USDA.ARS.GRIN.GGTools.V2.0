@@ -46,9 +46,9 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         {
             List<Classification> results = new List<Classification>();
 
-            SQL = " SELECT * FROM vw_GRINGlobal_Folder_Taxonomy_Classification WHERE FolderID = @FolderID";
+            SQL = " SELECT * FROM vw_GRINGlobal_Taxonomy_Classification_Sys_Folder_Item_Map WHERE SysFolderID = @SysFolderID";
             var parameters = new List<IDbDataParameter> {
-                CreateParameter("FolderID", searchEntity.FolderID > 0 ? (object)searchEntity.FolderID : DBNull.Value, true)
+                CreateParameter("SysFolderID", searchEntity.FolderID > 0 ? (object)searchEntity.FolderID : DBNull.Value, true)
             };
             results = GetRecords<Classification>(SQL, parameters.ToArray());
             RowsAffected = results.Count;

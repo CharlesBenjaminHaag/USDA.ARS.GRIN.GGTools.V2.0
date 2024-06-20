@@ -15,14 +15,11 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
     {
         private static readonly Logger Log = LogManager.GetCurrentClassLogger();
 
-        public ActionResult Index()
-        {
-            return RedirectToAction("Search","Family");
-        }
-
-        public ActionResult Search()
+        public ActionResult Index(string sysTableName = "", string sysTableTitle = "")
         {
             FamilyViewModel viewModel = new FamilyViewModel();
+            viewModel.TableName = sysTableName;
+            viewModel.TableTitle = sysTableTitle;
             return View("~/Views/Taxonomy/Family/Index.cshtml", viewModel);
         }
         

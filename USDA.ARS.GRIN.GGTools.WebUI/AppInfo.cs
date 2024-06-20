@@ -45,6 +45,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI
             
             return authenticatedUser;
         }
+        
         public static string GetDatabase()
         {
             string databaseName = String.Empty;
@@ -71,6 +72,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI
            
             return databaseName.ToUpper();
         }
+        
         public static string GetSupportEmail()
         {
             string emailAddress = String.Empty;

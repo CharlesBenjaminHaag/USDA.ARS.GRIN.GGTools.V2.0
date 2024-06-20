@@ -16,7 +16,7 @@
     @Html.Partial("~/Views/Taxonomy/Literature/_Detail.cshtml")
 }
 @Html.Partial("~/Views/Taxonomy/Literature/_List.cshtml")
-@{Html.RenderAction("RenderEditModal", "AppUserItemFolder", new { @sysTableName = Model.TableName }); }
+@{Html.RenderAction("GetEditModal", "SysFolder", new { @sysTableName = Model.TableName }); }
 
 <script type="text/javascript">
 

@@ -8,7 +8,7 @@
 
 @Html.Partial("~/Views/Taxonomy/CommonName/_List.cshtml")
 @*@Html.Partial("~/Views/Taxonomy/Citation/Modals/_Detail.cshtml")*@
-@{Html.RenderAction("RenderEditModal", "AppUserItemFolder", new { @sysTableName = Model.TableName });}
+@{Html.RenderAction("GetEditModal", "SysFolder", new { @sysTableName = Model.TableName });}
 
 <script type="text/javascript">
 

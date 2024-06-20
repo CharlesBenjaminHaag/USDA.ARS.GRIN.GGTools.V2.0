@@ -3,6 +3,12 @@
     ViewBag.Title = Model.PageTitle;
     Layout = null;
 }
+
+@{
+    string eventAction = @ViewContext.RouteData.Values["controller"].ToString();
+    string eventValue = @ViewContext.RouteData.Values["action"].ToString();
+}
+
 <!DOCTYPE html>
 <html lang="en">
 @Html.Partial("~/Views/Shared/_Head.cshtml")
@@ -18,14 +24,7 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse order-3" id="navbarCollapse">
-                    <!-- BEGIN EDIT PAGE MENU -->
-                    <ul class="navbar-nav">
-                        @if (Model.Entity.ID > 0)
-                        {
-                            { Html.RenderAction("RenderRelatedFoldersMenu", "AppUserItemFolder", new { sysTableName = Model.TableName, entityId = Model.Entity.ID }); }
-                        }
-                    </ul>
-                    <!-- END EDIT PAGE MENU-->
+                    @{Html.RenderAction("PageMenu", eventAction, new { eventAction = eventAction, eventValue = eventValue });}
                 </div>
                 <!-- BEGIN RIGHT-ALIGNED NAV MENU -->
                 <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
@@ -48,13 +47,8 @@
             <div class="content-header">
                 <div class="container" style="max-width:1500px;">
                     <div class="row mb-2">
-                        <div class="col-sm-6">
-                            <h1 class="m-0">
-                                @Html.Raw(ViewBag.Title)
-                                @*<small>Example 3.0</small>*@
-                            </h1>
-                        </div>
-                        <div class="col-sm-6">
+                        @Html.Partial("~/Views/Taxonomy/Shared/_PageTitle.cshtml")
+                        <div class="col-sm-3">
                             @Html.Partial("~/Views//Taxonomy/Shared/_Breadcrumbs.cshtml")
                         </div>
                     </div>
@@ -224,7 +218,7 @@
     @{Html.RenderAction("RenderLookupModal", "Species"); }
     @Html.Partial("~/Views/Shared/Modals/_NoteLookup.cshtml")
     @Html.Partial("~/Views/Taxonomy/Shared/Modals/_Delete.cshtml")
-    @{Html.RenderAction("RenderEditModal", "AppUserItemFolder", new { sysTableName = Model.TableName }); }
+    @{Html.RenderAction("GetEditModal", "SysFolder", new { sysTableName = Model.TableName }); }
 
     @if (Model.Entity.SpeciesID > 0)
     {

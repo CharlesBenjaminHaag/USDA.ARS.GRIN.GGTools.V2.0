@@ -4,6 +4,12 @@
     Layout = null;
 }
 
+
+@{
+    string eventAction = @ViewContext.RouteData.Values["controller"].ToString();
+    string eventValue = @ViewContext.RouteData.Values["action"].ToString();
+}
+
 <!DOCTYPE html>
 <html lang="en">
 @Html.Partial("~/Views/Shared/_Head.cshtml")
@@ -19,18 +25,7 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse order-3" id="navbarCollapse">
-                    <!-- BEGIN EDIT PAGE MENU -->
-                    <ul class="navbar-nav">
-                        @if (Model.Entity.ID > 0)
-                        {
-                            <li class="nav-item d-none d-sm-inline-block">
-                                <a href="@Url.Action("Add", "RegulationMap", new { cropForCwrId = Model.Entity.ID })" class="nav-link">New</a>
-                            </li>
-                            Html.RenderAction("RenderRelatedFoldersMenu", "AppUserItemFolder", new { sysTableName = Model.TableName, entityId = Model.Entity.ID });
-                        }
-
-                    </ul>
-                    <!-- END EDIT PAGE MENU-->
+                    @{Html.RenderAction("PageMenu", eventAction, new { eventAction = eventAction, eventValue = eventValue });}
                 </div>
                 <!-- BEGIN RIGHT-ALIGNED NAV MENU -->
                 <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
@@ -49,7 +44,7 @@
                                     string controllerName = ViewContext.RouteData.Values["controller"].ToString();
                                     string actionName = ViewContext.RouteData.Values["action"].ToString();
                                 }
-                                @actionName @controllerName 
+                                @actionName @controllerName
                                 @if (actionName == "Edit")
                                 {
                                     <span>[@Model.Entity.ID]:</span>
@@ -121,14 +116,14 @@
                                 @Html.Partial("~/Views/Shared/_ValidationMessages.cshtml")
                                 <div class="row">
                                     @*<div id="section-taxon-select" class="col-md-3">
-                                        <div class="form-group">
-                                            <label>Taxon Type</label>
-                                            <select id="ddlTaxonType" class="form-control">
-                                                <option value="taxonomy-genus">Genus</option>
-                                                <option value="taxonomy-species">Species</option>
-                                            </select>
-                                        </div>
-                                    </div>*@
+                                            <div class="form-group">
+                                                <label>Taxon Type</label>
+                                                <select id="ddlTaxonType" class="form-control">
+                                                    <option value="taxonomy-genus">Genus</option>
+                                                    <option value="taxonomy-species">Species</option>
+                                                </select>
+                                            </div>
+                                        </div>*@
                                     <div class="col-md-6">
                                         <div id="section-fields-taxonomy-genus" class="form-group">
                                             <label>Genus</label>

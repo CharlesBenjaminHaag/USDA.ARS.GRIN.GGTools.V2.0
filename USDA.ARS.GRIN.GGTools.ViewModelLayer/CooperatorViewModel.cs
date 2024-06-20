@@ -13,6 +13,8 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
         public int AuthenticatedUserCooperatorSiteID { get; set; }
         public string RequestorEmailAddress { get; set; }
         public string RequestorNotes { get; set; }
+        public int BatchSize { get; set; }
+
         public void Delete()
         {
             throw new NotImplementedException();
