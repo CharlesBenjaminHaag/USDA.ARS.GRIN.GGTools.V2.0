@@ -5,6 +5,7 @@
 }
 @Html.HiddenFor(x => x.EventAction)
 @Html.HiddenFor(x => x.EventValue)
+@Html.HiddenFor(x => x.ItemIDList)
 
 <div id="section-error" class="alert alert-danger alert-dismissible">
     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
@@ -19,7 +20,7 @@
                 <a class="nav-link active" href="#items" data-toggle="tab">
                     <i class="fas fa-table"></i> Items
                 </a>
-                </li>
+            </li>
             <li id="tab-folder-sharing" class="nav-item">
                 <a class="nav-link" href="#details" data-toggle="tab">
                     <i class="fas fa-book"></i> Details
@@ -35,31 +36,31 @@
     <div class="card-body">
         <div class="tab-content">
             <div class="tab-pane active" id="items">
-            @Html.Partial("~/Views/SysFolderItemMap/_List.cshtml")
+                @Html.Partial("~/Views/SysFolderItemMap/_List.cshtml")
             </div>
             <div class="tab-pane" id="details">
                 <div id="section-sys_folder-details">
                     @Html.Partial("~/Views/SysFolder/_Edit.cshtml")
                 </div>
-                
+
                 @*<div class="row">
-                    <div class="col-md-6">
-                        @{Html.RenderAction("ComponentEditor", "SysTag", new { @tableName = "sys_folder", @idNumber = Model.Entity.ID }); }
-                    </div>
-                    <div class="col-md-6">
-                        <div id="section-sys-tags-by-table" class="card">
-                            <div class="card-header">
-                                <h3 class="card-title">Current Tags</h3>
-                            </div>
-                            <div class="card-body">
-                                @{Html.RenderAction("ComponentSysTagsByTable", "SysTag", new { @tableName = "sys_folder", @idNumber = Model.Entity.ID }); }
+                        <div class="col-md-6">
+                            @{Html.RenderAction("ComponentEditor", "SysTag", new { @tableName = "sys_folder", @idNumber = Model.Entity.ID }); }
+                        </div>
+                        <div class="col-md-6">
+                            <div id="section-sys-tags-by-table" class="card">
+                                <div class="card-header">
+                                    <h3 class="card-title">Current Tags</h3>
+                                </div>
+                                <div class="card-body">
+                                    @{Html.RenderAction("ComponentSysTagsByTable", "SysTag", new { @tableName = "sys_folder", @idNumber = Model.Entity.ID }); }
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </div>*@
+                    </div>*@
             </div>
             <div class="tab-pane" id="sharing">
-                
+
             </div>
         </div>
     </div>
@@ -78,7 +79,7 @@
             <i class="fas fa-users"></i>
             Edit Sharing Options
         </button>
-        
+
     </div>
 </div>
 
@@ -164,10 +165,11 @@
         var eventAction = $("#EventAction").val();
         var eventValue = $("#EventValue").val();
         var tableName = $("#EventNote").val();
-        LoadFolderItems(tableName, eventAction, eventValue);
+        /*LoadFolderItems(tableName, eventAction, eventValue);*/
+        location.reload();
     }
 
-    function LoadFolderItems(tableName, eventAction, eventValue) {
+    @*function LoadFolderItems(tableName, eventAction, eventValue) {
         var id = $("#Entity_ID").val();
         var link = '@Url.Action("EVENT_VALUE", "EVENT_ACTION")';
 
@@ -198,7 +200,7 @@
                 $("#section-tab-overlay").hide();
             }
         });
-    }
+    }*@
 
     /*
     * ***********************************************************
@@ -210,26 +212,23 @@
     });
 
     function BatchDeleteFolderItems() {
-        var selectedFolderItems = GetSelectedAppUserItemListIDs("data_table_app_user_item_list");
+        var selectedFolderItems = GetSelectedAppUserItemListIDs("data_table_sys_folder");
+        $("#ItemIDList").val(selectedFolderItems);
         $("#section-item-count").html(selectedFolderItems.length);
         $("#modal-folder-item-delete-confirm").modal("show");
     }
 
     function BatchDeleteFolderItemsFinal() {
-        var link = '@Url.Action("DeleteItems","AppUserItemFolder")';
+        var link = '@Url.Action("DeleteItems","SysFolder")';
         var refreshLink = '@Url.Action("Index","Taxonomy")';
         var folderId = $("#Entity_ID").val();
         var tableName = $("#EventNote").val();
-        var dataTableId = $('#section-search-results').find('table:first').attr('id');
-        var selectedFolderItems = GetSelectedAppUserItemListIDs(dataTableId);
         var formData = new FormData();
 
-        $("#ItemIDList").val(selectedFolderItems);
-
         formData.append("FolderID", folderId);
-        formData.append("ItemIDList", selectedFolderItems);
+        formData.append("ItemIDList", $("#ItemIDList").val());
 
-        $("#section-item-count").html(selectedFolderItems.length);
+        /*$("#section-item-count").html(selectedFolderItems.length);*/
 
         $.ajax({
             url: link,

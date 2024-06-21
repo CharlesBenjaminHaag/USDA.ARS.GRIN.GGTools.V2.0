@@ -195,8 +195,8 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
         {
             Reset(CommandType.StoredProcedure);
 
-            SQL = "usp_GRINGlobal_SysList_Delete";
-            AddParameter("@app_user_item_list_id", (object)appUserItemListId, false);
+            SQL = "usp_GRINGlobal_Sys_Folder_Item_Map_Delete";
+            AddParameter("@sys_folder_item_map_id", (object)appUserItemListId, false);
             AddParameter("@out_error_number", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
             RowsAffected = ExecuteNonQuery();
 

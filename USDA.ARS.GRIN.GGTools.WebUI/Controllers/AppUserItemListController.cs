@@ -163,46 +163,46 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             }
         }
 
-        public PartialViewResult _ListDynamic(int cooperatorId = 0, int appUserItemFolderId = 0)
-        {
-            AppUserItemFolderViewModel appUserItemFolderViewModel = new AppUserItemFolderViewModel();
-            AppUserItemListViewModel appUserItemListViewModel = new AppUserItemListViewModel();
-            AuthorViewModel authorViewModel = new AuthorViewModel();
+        //public PartialViewResult _ListDynamic(int cooperatorId = 0, int appUserItemFolderId = 0)
+        //{
+        //    AppUserItemFolderViewModel appUserItemFolderViewModel = new AppUserItemFolderViewModel();
+        //    AppUserItemListViewModel appUserItemListViewModel = new AppUserItemListViewModel();
+        //    AuthorViewModel authorViewModel = new AuthorViewModel();
 
-            try
-            {
-                appUserItemFolderViewModel.SearchEntity.ID = appUserItemFolderId;
-                appUserItemFolderViewModel.Search();
+        //    try
+        //    {
+        //        appUserItemFolderViewModel.SearchEntity.ID = appUserItemFolderId;
+        //        appUserItemFolderViewModel.Search();
 
-                appUserItemListViewModel.SearchEntity.AppUserItemFolderID = appUserItemFolderId;
-                appUserItemListViewModel.GetDynamic();
+        //        appUserItemListViewModel.SearchEntity.AppUserItemFolderID = appUserItemFolderId;
+        //        appUserItemListViewModel.GetDynamic();
 
-                //TODO Based on folder data type, retrieve and deserialize XML from app user item list
-                // record, and instantiate relevant viewmodel.
+        //        //TODO Based on folder data type, retrieve and deserialize XML from app user item list
+        //        // record, and instantiate relevant viewmodel.
 
                 
                 
-                switch (appUserItemFolderViewModel.Entity.DataType)
-                {
-                    case "taxonomy_author":
+        //        switch (appUserItemFolderViewModel.Entity.DataType)
+        //        {
+        //            case "taxonomy_author":
                         
-                        break;
-                    case "citation":
+        //                break;
+        //            case "citation":
                         
-                        break;
-                }
+        //                break;
+        //        }
 
-                //TODO Can I refactor this? Need variable for each view model in a massive switch
-                // statement. --CBH 10/6/23
+        //        //TODO Can I refactor this? Need variable for each view model in a massive switch
+        //        // statement. --CBH 10/6/23
 
-                return PartialView("~/Views/AppUserItemList/_ListDynamic.cshtml", appUserItemListViewModel);
-            }
-            catch (Exception ex)
-            {
-                Log.Error(ex);
-                return PartialView("~/Views/Error/_InternalServerError.cshtml");
-            }
-        }
+        //        return PartialView("~/Views/AppUserItemList/_ListDynamic.cshtml", appUserItemListViewModel);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Log.Error(ex);
+        //        return PartialView("~/Views/Error/_InternalServerError.cshtml");
+        //    }
+        //}
 
         [HttpPost]
         public ActionResult Search(AppUserItemListViewModel viewModel)
@@ -218,7 +218,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 //if ((viewModel.EventAction == "SEARCH") && (viewModel.EventValue == "SAVE"))
                 //{
                 //    viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
-                //    viewModel.SaveSearch();
+                //    //viewModel.SaveSearch();
                 //}
 
                 return View("~/Views/AppUserItemList/Index.cshtml", viewModel);

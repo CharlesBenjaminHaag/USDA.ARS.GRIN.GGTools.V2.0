@@ -100,6 +100,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
                 }
             }
         }
+        
         public void GetSubdivisions(string familyName)
         {
             using (FamilyManager mgr = new FamilyManager())
@@ -108,6 +109,27 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
                 {
                     DataCollectionSubdivisions = new Collection<Family>(mgr.GetSubdivisions(familyName));
                     RowsAffected = mgr.RowsAffected;
+                }
+                catch (Exception ex)
+                {
+                    PublishException(ex);
+                    throw ex;
+                }
+            }
+        }
+
+        public void GetFolderItems(int sysFolderId)
+        {
+            using (FamilyManager mgr = new FamilyManager())
+            {
+                try
+                {
+                    DataCollection = new Collection<Family>(mgr.GetFolderItems(sysFolderId));
+                    RowsAffected = mgr.RowsAffected;
+                    if (RowsAffected == 1)
+                    {
+                        Entity = DataCollection[0];
+                    }
                 }
                 catch (Exception ex)
                 {

@@ -180,7 +180,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                     if ((viewModel.EventAction == "Species") && (viewModel.EventValue == "SaveSearch"))
                     {
                         viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
-                        viewModel.SaveSearch();
+                        ////viewModel.SaveSearch();
                     }
                     viewModel.TableName = "taxonomy_species";
                     return View(BASE_PATH + "Index.cshtml", viewModel);

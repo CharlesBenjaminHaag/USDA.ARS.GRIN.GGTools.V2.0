@@ -125,6 +125,10 @@ Modal that appears if no record is selected for folder addition.
     function OpenAppUserItemFolderModal() {
         var tableName = $("#TableName").val();
         var dataTableName = "data_table_" + tableName;
+
+        //DEBUG
+        console.log("DEBUG TABLE NAME IS " + dataTableName);
+
         var selectedItemIdList = GetSelectedEntityIDs(dataTableName);
 
         if (selectedItemIdList.length < 1) {

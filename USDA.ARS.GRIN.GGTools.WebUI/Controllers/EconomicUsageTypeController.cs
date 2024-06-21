@@ -12,6 +12,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
     public class EconomicUsageTypeController : BaseController
     {
         protected static string BASE_PATH = "~/Views/Taxonomy/EconomicUsageType/";
+        
         private static readonly Logger Log = LogManager.GetCurrentClassLogger();
 
         public ActionResult Search(EconomicUsageTypeViewModel viewModel)
@@ -26,7 +27,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 if ((viewModel.EventAction == "SEARCH") && (viewModel.EventValue == "SAVE"))
                 {
                     viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
-                    viewModel.SaveSearch();
+                    //viewModel.SaveSearch();
                 }
 
                 return View(BASE_PATH + "Index.cshtml", viewModel);
@@ -54,21 +55,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 return PartialView("~/Views/Error/_InternalServerError.cshtml");
             }
         }
-        public PartialViewResult _ListDynamicFolderItems(int folderId)
-        {
-            AuthorViewModel viewModel = new AuthorViewModel();
-
-            try
-            {
-                viewModel.RunSearch(folderId);
-                return PartialView(BASE_PATH + "_List.cshtml", viewModel);
-            }
-            catch (Exception ex)
-            {
-                Log.Error(ex);
-                return PartialView("~/Views/Error/_InternalServerError.cshtml");
-            }
-        }
+        
         [HttpPost]
         public PartialViewResult Lookup(EconomicUsageTypeViewModel viewModel)
         {
@@ -128,6 +115,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 return RedirectToAction("InternalServerError", "Error");
             }
         }
+        
         public ActionResult Edit(int entityId)
         {
             try
@@ -188,6 +176,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
         {
             throw new NotImplementedException();
         }
+        
         public PartialViewResult RenderLookupModal()
         {
             EconomicUsageTypeViewModel viewModel = new EconomicUsageTypeViewModel();

@@ -26,6 +26,13 @@
             <div class="tab-pane fade show active" id="custom-tabs-one-home" role="tabpanel" aria-labelledby="custom-tabs-one-home-tab">
                 @using (Html.BeginForm("Search", "Family", FormMethod.Post, new { id = "frmMain" }))
                 {
+                    @Html.HiddenFor(x => x.EventAction)
+                    @Html.HiddenFor(x => x.EventValue)
+                    @Html.HiddenFor(x => x.TableName)
+                    @Html.HiddenFor(x => x.TableCode)
+                    @Html.HiddenFor(x => x.PageTitle)
+                    @Html.HiddenFor(x => x.AuthenticatedUserCooperatorID)
+                    @Html.HiddenFor(x => x.ItemIDList)
                     <div class="row">
                         <div class="col-md-12">
                             <div class="tab-pane active" id="section-family">
@@ -73,7 +80,7 @@
                                             @Html.TextBoxFor(x => x.SearchEntity.SuprafamilyRankCode, new { @class = "form-control" })
                                         </div>
                                     </div>
-                               
+
                                     <div class="col-md-3">
                                         <div id="section-family-name" class="form-group form-horizontal">
                                             <label>Subfamily Name</label>
@@ -98,12 +105,12 @@
                                             @Html.TextBoxFor(x => x.SearchEntity.TypeGenusName, new { @class = "form-control" })
                                         </div>
                                     </div>
-                                    
+
                                 </div>
                             </div>
                         </div>
                     </div>
-                    
+
                     @Html.Partial("~/Views/Taxonomy/Family/_DetailExtended.cshtml")
 
 

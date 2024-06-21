@@ -4,7 +4,27 @@
     Layout = "~/Views/Shared/_LayoutAdminLTE3.cshtml";
 }
 @Html.Partial("~/Views/Taxonomy/EconomicUse/_Detail.cshtml")
-@Html.Partial("~/Views/Taxonomy/EconomicUse/_List.cshtml")
+
+
+<div class="card card-success">
+    <div class="card-header">
+        <h3 class="card-title">Economic Uses (@Model.DataCollection.Count)</h3>
+        <div class="card-tools">
+            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                <i class="fas fa-minus"></i>
+            </button>
+        </div>
+    </div>
+    <div class="card-body">
+        <div id="section-search-results" class="data-list">
+            @Html.Partial("~/Views/Taxonomy/EconomicUse/_List.cshtml")
+        </div>
+    </div>
+    <div id="section-batch-edit-modal">
+    </div>
+   
+</div>
+
 @{Html.RenderAction("GetEditModal", "SysFolder", new { @sysTableName = "taxonomy_use" }); }
 
 <script type="text/javascript">

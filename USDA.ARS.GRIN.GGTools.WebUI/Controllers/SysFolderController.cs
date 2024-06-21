@@ -75,15 +75,41 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             catch (Exception ex)
             {
                 Log.Error(ex);
-                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+                return RedirectToAction("InternalServerError", "Error");
             }
         }
 
-        //public PartialViewResult GetList()
-        //{ }
+        [HttpPost]
+        public JsonResult DeleteItems(FormCollection coll)
+        {
+            SysFolderViewModel viewModel = new SysFolderViewModel();
+            viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
 
-        //public PartialViewResult GetItemList()
-        //{ }
+            try
+            {
+                viewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
+
+                if (!String.IsNullOrEmpty(coll["FolderID"]))
+                {
+                    viewModel.SearchEntity.ID = Int32.Parse(coll["FolderID"]);
+                }
+
+                if (!String.IsNullOrEmpty(coll["ItemIDList"]))
+                {
+                    viewModel.ItemIDList = coll["ItemIDList"].ToString();
+                }
+
+                //viewModel.Get();
+                viewModel.DeleteItems();
+
+                return Json(new { success = true }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return Json(new { success = false }, JsonRequestBehavior.AllowGet);
+            }
+        }
 
         public PartialViewResult GetEditModal()
         {
@@ -99,6 +125,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             }
         }
 
+        
         #region Components
 
         /// <summary>
@@ -121,7 +148,23 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 return PartialView("~/Views/Error/_InternalServerError.cshtml");
             }
         }
-        
+
+        public PartialViewResult Component_SysFolderCooperatorMapEditor()
+        {
+            try
+            {
+                SysFolderCooperatorMapViewModel viewModel = new SysFolderCooperatorMapViewModel();
+                viewModel.SearchEntity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
+                viewModel.Search();
+                return PartialView("~/Views/SysFolder/Components/_ListWithIcons.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
+        }
+
         #endregion
     }
 }

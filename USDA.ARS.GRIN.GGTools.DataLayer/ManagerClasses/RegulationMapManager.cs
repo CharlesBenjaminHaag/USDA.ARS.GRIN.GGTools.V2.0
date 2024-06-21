@@ -110,6 +110,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
 
             return results;
         }
+        
         public List<RegulationMap> SearchFolderItems(RegulationMapSearch searchEntity)
         {
             List<RegulationMap> results = new List<RegulationMap>();
@@ -125,6 +126,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             RowsAffected = results.Count;
             return results;
         }
+        
         public void BuildInsertUpdateParameters()
         {
             throw new NotImplementedException();
@@ -141,6 +143,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
                 { "taxonomy_species", "Species" }
             };
         }
+        
         public List<Citation> GetAvailableCitations(int speciesId)
         {
             SQL = "usp_TaxonomyCitationsSpeciesLookup_Select";
@@ -150,7 +153,9 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             List<Citation> citations = GetRecords<Citation>(SQL, CommandType.StoredProcedure, parameters.ToArray());
             return citations;
         }
+        
         #endregion
+        
         protected virtual void BuildInsertUpdateParameters(RegulationMap entity)
         {
             if (entity.ID > 0)
@@ -174,11 +179,12 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
                 AddParameter("created_by", entity.CreatedByCooperatorID == 0 ? DBNull.Value : (object)entity.CreatedByCooperatorID, true);
             }
         }
+        
         public List<RegulationMap> GetFolderItems(RegulationMapSearch searchEntity)
         {
             List<RegulationMap> results = new List<RegulationMap>();
 
-            SQL = " SELECT * FROM vw_GRINGlobal_Folder_Taxonomy_Regulation_Map WHERE FolderID = @FolderID";
+            SQL = " SELECT * FROM vw_GRINGlobal_Taxonomy_Regulation_Map_Sys_Folder_Item_Map WHERE SysFolderID = @FolderID";
             var parameters = new List<IDbDataParameter> {
                 CreateParameter("FolderID", searchEntity.FolderID > 0 ? (object)searchEntity.FolderID : DBNull.Value, true)
             };

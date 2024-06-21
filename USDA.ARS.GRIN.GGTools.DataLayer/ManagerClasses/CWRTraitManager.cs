@@ -142,11 +142,12 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         {
             throw new NotImplementedException();
         }
+        
         public List<CWRTrait> GetFolderItems(CWRTraitSearch searchEntity)
         {
             List<CWRTrait> results = new List<CWRTrait>();
 
-            SQL = " SELECT * FROM vw_GRINGlobal_Folder_Taxonomy_CWR_Trait WHERE FolderID = @FolderID";
+            SQL = " SELECT * FROM vw_GRINGlobal_Taxonomy_CWR_Trait_Sys_Folder_Item_Map WHERE SysFolderID = @FolderID";
             var parameters = new List<IDbDataParameter> {
                 CreateParameter("FolderID", searchEntity.FolderID > 0 ? (object)searchEntity.FolderID : DBNull.Value, true)
             };
@@ -154,6 +155,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             RowsAffected = results.Count;
             return results;
         }
+        
         public void BuildInsertUpdateParameters()
         {
             throw new NotImplementedException();

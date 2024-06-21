@@ -197,7 +197,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 if ((viewModel.EventAction == "SEARCH") && (viewModel.EventValue == "SAVE"))
                 {
                     viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
-                    viewModel.SaveSearch();
+                    //viewModel.SaveSearch();
                 }
                 viewModel.TableName = "taxonomy_author";
                 return View(BASE_PATH + "Index.cshtml", viewModel);

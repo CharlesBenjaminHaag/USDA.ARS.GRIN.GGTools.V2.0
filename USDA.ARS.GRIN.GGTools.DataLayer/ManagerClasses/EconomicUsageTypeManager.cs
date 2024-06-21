@@ -29,7 +29,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         {
             List<EconomicUsageType> results = new List<EconomicUsageType>();
 
-            SQL = " SELECT * FROM vw_GRINGlobal_Folder_Taxonomy_Economic_Usage_Type WHERE FolderID = @FolderID";
+            SQL = " SELECT * FROM vw_GRINGlobal_Taxonomy_Economic_Usage_Type_Sys_Folder_Item_Map WHERE SysFolderID = @FolderID";
             var parameters = new List<IDbDataParameter> {
                 CreateParameter("FolderID", searchEntity.FolderID > 0 ? (object)searchEntity.FolderID : DBNull.Value, true)
             };

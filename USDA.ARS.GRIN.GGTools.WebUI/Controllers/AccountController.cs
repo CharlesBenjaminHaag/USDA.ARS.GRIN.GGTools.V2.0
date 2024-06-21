@@ -227,7 +227,9 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 webUserViewModel.Search();
                 if (webUserViewModel.DataCollection.Count > 0)
                 {
-                    // TODO ADD ACTION
+                    webUserViewModel.Entity.WebCooperatorID = webCooperatorViewModel.Entity.ID;
+                    webUserViewModel.Entity.ModifiedByCooperatorID = 48;
+                    webUserViewModel.Update();
                 }
                 else
                 {

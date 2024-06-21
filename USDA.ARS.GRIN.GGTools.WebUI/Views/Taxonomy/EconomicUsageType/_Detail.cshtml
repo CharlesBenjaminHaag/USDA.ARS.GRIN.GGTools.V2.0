@@ -29,7 +29,7 @@
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label>Usage Code</label>
-                                @Html.TextBoxFor(x => x.SearchEntity.EconomicUsageCode, new { @class = "form-control" })
+                                @Html.DropDownListFor(x=>x.SearchEntity.EconomicUsageCode, Model.EconomicUsageCodes, "All Types", new { @class = "form-control" })
                             </div>
                         </div>
                         <div class="col-md-3">

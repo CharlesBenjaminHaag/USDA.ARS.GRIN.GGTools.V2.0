@@ -13,6 +13,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
     {
         protected static string BASE_PATH = "~/Views/Taxonomy/EconomicUse/";
         private static readonly Logger Log = LogManager.GetCurrentClassLogger();
+        
         public PartialViewResult _ListFolderItems(int sysFolderId)
         {
             EconomicUseViewModel viewModel = new EconomicUseViewModel();
@@ -226,7 +227,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 if ((viewModel.EventAction == "SEARCH") && (viewModel.EventValue == "SAVE"))
                 {
                     viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
-                    viewModel.SaveSearch();
+                    //viewModel.SaveSearch();
                 }
 
                 return View(BASE_PATH + "Index.cshtml", viewModel);

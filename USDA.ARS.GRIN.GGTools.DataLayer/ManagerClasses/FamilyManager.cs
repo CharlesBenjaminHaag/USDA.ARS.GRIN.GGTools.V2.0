@@ -147,15 +147,15 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             return results;
         }
 
-        public List<Family> GetFolderItems(FamilySearch searchEntity)
+        public List<Family> GetFolderItems(int entityId)
         {
             List<Family> results = new List<Family>();
 
-            SQL = " SELECT * FROM vw_GRINGlobal_Folder_Taxonomy_Family_Map ";
-            SQL += "WHERE  (@FolderID   IS NULL OR  FolderID       =           @FolderID)";
+            SQL = " SELECT * FROM vw_GRINGlobal_Taxonomy_Family_Sys_Folder_Item_Map ";
+            SQL += "WHERE  (@FolderID   IS NULL OR  SysFolderID       =           @FolderID)";
 
             var parameters = new List<IDbDataParameter> {
-                CreateParameter("FolderID", searchEntity.FolderID > 0 ? (object)searchEntity.FolderID : DBNull.Value, true)
+                CreateParameter("FolderID", entityId > 0 ? (object)entityId : DBNull.Value, true)
             };
             results = GetRecords<Family>(SQL, parameters.ToArray());
             RowsAffected = results.Count;

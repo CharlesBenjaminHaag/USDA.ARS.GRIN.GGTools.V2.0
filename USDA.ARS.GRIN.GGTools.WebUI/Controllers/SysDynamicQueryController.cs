@@ -10,38 +10,38 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
     {
         private static readonly Logger Log = LogManager.GetCurrentClassLogger();
         // GET: DynamicQuery
-        public ActionResult Index()
-        {
-            SysDynamicQueryViewModel viewModel = new SysDynamicQueryViewModel();
-            SysTableViewModel sysTableViewModel = new SysTableViewModel();
-            AppUserItemFolderViewModel appUserItemFolderViewModel = new AppUserItemFolderViewModel();
+        //public ActionResult Index()
+        //{
+        //    SysDynamicQueryViewModel viewModel = new SysDynamicQueryViewModel();
+        //    SysTableViewModel sysTableViewModel = new SysTableViewModel();
+        //    AppUserItemFolderViewModel appUserItemFolderViewModel = new AppUserItemFolderViewModel();
 
-            sysTableViewModel.GetSysTablesTaxonomy(true);
-            viewModel.DataCollectionSysTables = sysTableViewModel.DataCollection;
+        //    sysTableViewModel.GetSysTablesTaxonomy(true);
+        //    viewModel.DataCollectionSysTables = sysTableViewModel.DataCollection;
 
-            appUserItemFolderViewModel.SearchEntity.FolderType = "SQLQUERY";
-            appUserItemFolderViewModel.SearchEntity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
-            appUserItemFolderViewModel.Search();
+        //    appUserItemFolderViewModel.SearchEntity.FolderType = "SQLQUERY";
+        //    appUserItemFolderViewModel.SearchEntity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
+        //    appUserItemFolderViewModel.Search();
 
-            viewModel.TableName = "app_user_item_folder";
-            viewModel.DataCollectionAppUserItemFolders = appUserItemFolderViewModel.DataCollection;
-            return View(viewModel);
-        }
-        public ActionResult Edit(int entityId)
-        {
-            try
-            {
-                SysDynamicQueryViewModel viewModel = new SysDynamicQueryViewModel();
-                viewModel.Entity.ID = entityId;
-                viewModel.Get();
-                return View(viewModel);
-            }
-            catch (Exception ex)
-            {
-                Log.Error(ex);
-                return PartialView("~/Views/Error/_InternalServerError.cshtml");
-            }
-        }
+        //    viewModel.TableName = "app_user_item_folder";
+        //    viewModel.DataCollectionAppUserItemFolders = appUserItemFolderViewModel.DataCollection;
+        //    return View(viewModel);
+        //}
+        //public ActionResult Edit(int entityId)
+        //{
+        //    try
+        //    {
+        //        SysDynamicQueryViewModel viewModel = new SysDynamicQueryViewModel();
+        //        viewModel.Entity.ID = entityId;
+        //        viewModel.Get();
+        //        return View(viewModel);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Log.Error(ex);
+        //        return PartialView("~/Views/Error/_InternalServerError.cshtml");
+        //    }
+        //}
         
         [HttpPost]
         public ActionResult Search(SysDynamicQueryViewModel viewModel)
@@ -121,20 +121,20 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             }
         }
         [HttpPost]
-        public PartialViewResult SaveSearch(SysDynamicQueryViewModel viewModel)
-        {
-            try
-            {
-                viewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
-                viewModel.SaveSearch();
-                return PartialView("~/Views/SysDynamicQuery/Modals/_Edit.cshtml", viewModel);
-            }
-            catch (Exception ex)
-            {
-                Log.Error(ex);
-                return PartialView("~/Views/Error/_InternalServerError.cshtml");
-            }
-        }
+        //public PartialViewResult SaveSearch(SysDynamicQueryViewModel viewModel)
+        //{
+        //    try
+        //    {
+        //        viewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
+        //        //viewModel.SaveSearch();
+        //        return PartialView("~/Views/SysDynamicQuery/Modals/_Edit.cshtml", viewModel);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Log.Error(ex);
+        //        return PartialView("~/Views/Error/_InternalServerError.cshtml");
+        //    }
+        //}
 
         public PartialViewResult _Edit(int entityId)
         {
@@ -153,46 +153,46 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             }
         }
         
-        [HttpPost]
-        public PartialViewResult _Edit(SysDynamicQueryViewModel viewModel)
-        {
-            AppUserItemFolderViewModel appUserItemFolderViewModel = new AppUserItemFolderViewModel();
-            AppUserItemListViewModel appUserItemListViewModel = new AppUserItemListViewModel();
-            try
-            {
-                if (viewModel.Entity.ID > 0)
-                {
-                    // TODO: REFACTOR -- CBH 11/8/23
-                    // Update folder.
-                    appUserItemFolderViewModel.SearchEntity.ID = viewModel.Entity.ID;
-                    appUserItemFolderViewModel.Search();
-                    appUserItemFolderViewModel.Entity.FolderName = viewModel.Entity.Title;
-                    appUserItemFolderViewModel.Entity.Description = viewModel.Entity.Description;
-                    appUserItemFolderViewModel.Entity.IsFavorite = viewModel.Entity.IsFavorite;
-                    appUserItemFolderViewModel.Entity.CreatedByCooperatorID = viewModel.Entity.CreatedByCooperatorID;
-                    appUserItemFolderViewModel.Entity.ModifiedByCooperatorID = viewModel.Entity.ModifiedByCooperatorID;
-                    appUserItemFolderViewModel.Update();
+        //[HttpPost]
+        //public PartialViewResult _Edit(SysDynamicQueryViewModel viewModel)
+        //{
+        //    AppUserItemFolderViewModel appUserItemFolderViewModel = new AppUserItemFolderViewModel();
+        //    AppUserItemListViewModel appUserItemListViewModel = new AppUserItemListViewModel();
+        //    try
+        //    {
+        //        if (viewModel.Entity.ID > 0)
+        //        {
+        //            // TODO: REFACTOR -- CBH 11/8/23
+        //            // Update folder.
+        //            appUserItemFolderViewModel.SearchEntity.ID = viewModel.Entity.ID;
+        //            appUserItemFolderViewModel.Search();
+        //            appUserItemFolderViewModel.Entity.FolderName = viewModel.Entity.Title;
+        //            appUserItemFolderViewModel.Entity.Description = viewModel.Entity.Description;
+        //            appUserItemFolderViewModel.Entity.IsFavorite = viewModel.Entity.IsFavorite;
+        //            appUserItemFolderViewModel.Entity.CreatedByCooperatorID = viewModel.Entity.CreatedByCooperatorID;
+        //            appUserItemFolderViewModel.Entity.ModifiedByCooperatorID = viewModel.Entity.ModifiedByCooperatorID;
+        //            appUserItemFolderViewModel.Update();
 
-                    // Update related app user item list record with any changes
-                    // to SQL statement.
-                    appUserItemListViewModel.SearchEntity.ID = viewModel.Entity.ParentID;
-                    appUserItemListViewModel.Search();
-                    appUserItemListViewModel.Entity.Properties = viewModel.Entity.SQLStatement;
-                    appUserItemListViewModel.Entity.ModifiedByCooperatorID = AuthenticatedUser.CooperatorID;
-                    appUserItemListViewModel.Update();
-                }
+        //            // Update related app user item list record with any changes
+        //            // to SQL statement.
+        //            appUserItemListViewModel.SearchEntity.ID = viewModel.Entity.ParentID;
+        //            appUserItemListViewModel.Search();
+        //            appUserItemListViewModel.Entity.Properties = viewModel.Entity.SQLStatement;
+        //            appUserItemListViewModel.Entity.ModifiedByCooperatorID = AuthenticatedUser.CooperatorID;
+        //            appUserItemListViewModel.Update();
+        //        }
 
-                SysDynamicQueryViewModel sysDynamicQueryViewModel = new SysDynamicQueryViewModel();
-                sysDynamicQueryViewModel.Entity.ID = viewModel.Entity.ID;
-                sysDynamicQueryViewModel.Get();
-                return PartialView("~/Views/SysDynamicQuery/_Edit.cshtml", sysDynamicQueryViewModel);
-            }
-            catch (Exception ex)
-            {
-                Log.Error(ex);
-                return PartialView("~/Views/Error/_InternalServerError.cshtml");
-            }
-        }
+        //        SysDynamicQueryViewModel sysDynamicQueryViewModel = new SysDynamicQueryViewModel();
+        //        sysDynamicQueryViewModel.Entity.ID = viewModel.Entity.ID;
+        //        sysDynamicQueryViewModel.Get();
+        //        return PartialView("~/Views/SysDynamicQuery/_Edit.cshtml", sysDynamicQueryViewModel);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Log.Error(ex);
+        //        return PartialView("~/Views/Error/_InternalServerError.cshtml");
+        //    }
+        //}
         
         
     }

@@ -40,7 +40,9 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
             get { return _DataCollection; }
             set { _DataCollection = value; }
         }
+        
         public SelectList EconomicUsageCodes { get; set; }
+        
         public SelectList EconomicUsageTypes { get; set; }
     }
 }

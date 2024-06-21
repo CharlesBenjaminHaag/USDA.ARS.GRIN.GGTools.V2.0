@@ -1023,6 +1023,10 @@
     <Content Include="Views\Components\_DefaultAddMenu.cshtml" />
     <Content Include="Views\Cooperator\Components\_SearchMenu.cshtml" />
     <Content Include="Views\Cooperator\EditBatch.cshtml" />
+    <Content Include="Views\Taxonomy\Family\_ListFolder.cshtml" />
+    <Content Include="Views\SysFolderCooperatorMap\Components\_Editor.cshtml" />
+    <Content Include="Views\SysFolderCooperatorMap\Components\_MappedCooperatorList.cshtml" />
+    <Content Include="Views\SysFolderCooperatorMap\Components\_NonMappedCooperatorList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

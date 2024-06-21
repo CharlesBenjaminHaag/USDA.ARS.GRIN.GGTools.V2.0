@@ -31,11 +31,12 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             commonName = GetRecord<CommonName>(SQL, CommandType.StoredProcedure, parameters.ToArray());
             return commonName;
         }
+        
         public List<CommonName> GetFolderItems(CommonNameSearch searchEntity)
         {
             List<CommonName> results = new List<CommonName>();
 
-            SQL = " SELECT * FROM vw_GRINGlobal_Folder_Taxonomy_Common_Name WHERE FolderID = @FolderID";
+            SQL = " SELECT * FROM vw_GRINGlobal_Taxonomy_Common_Name_Language_Sys_Folder_Item_Map WHERE SysFolderID = @FolderID";
             var parameters = new List<IDbDataParameter> {
                 CreateParameter("FolderID", searchEntity.FolderID > 0 ? (object)searchEntity.FolderID : DBNull.Value, true)
             };

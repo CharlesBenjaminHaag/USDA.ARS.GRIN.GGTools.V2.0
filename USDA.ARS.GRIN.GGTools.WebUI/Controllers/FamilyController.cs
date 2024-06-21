@@ -114,7 +114,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 if ((viewModel.EventAction == "SEARCH") && (viewModel.EventValue == "SAVE"))
                 {
                     viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
-                    //viewModel.SaveSearch();
+                    ////viewModel.SaveSearch();
                 }
 
                 return View("~/Views/Taxonomy/Family/Index.cshtml", viewModel);
@@ -169,6 +169,23 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             {
                 viewModel.GetSubdivisions(viewModel.Entity.FamilyName);
                 return PartialView("~/Views/Taxonomy/Family/_ListSubdivisions.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
+        }
+
+        public PartialViewResult _ListFolderItems(int sysFolderId)
+        {
+            FamilyViewModel viewModel = new FamilyViewModel();
+            try
+            {
+                viewModel.EventAction = "FOLDER";
+                viewModel.TableName = "taxonomy_family";
+                viewModel.GetFolderItems(sysFolderId);
+                return PartialView("~/Views/Taxonomy/Family/_ListFolder.cshtml", viewModel);
             }
             catch (Exception ex)
             {

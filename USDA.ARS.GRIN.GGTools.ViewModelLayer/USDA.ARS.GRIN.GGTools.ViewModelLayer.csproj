@@ -71,6 +71,7 @@
     <Compile Include="AccessionInvAnnotationViewModelBase.cs" />
     <Compile Include="FamilyViewModelBase.cs" />
     <Compile Include="FamilyViewModel.cs" />
+    <Compile Include="SysFolderCooperatorMapViewModelBase.cs" />
     <Compile Include="SysTagViewModelBase.cs" />
     <Compile Include="SysTagViewModel.cs" />
     <Compile Include="SysFolderViewModel.cs" />
@@ -79,10 +80,6 @@
     <Compile Include="GOBSViewModelBase.cs" />
     <Compile Include="InventoryViewModel.cs" />
     <Compile Include="InventoryViewModelBase.cs" />
-    <Compile Include="AppUserItemFolderCooperatorMapViewModel.cs" />
-    <Compile Include="AppUserItemFolderCooperatorMapViewModelBase.cs" />
-    <Compile Include="AppUserItemFolderViewModelBase.cs" />
-    <Compile Include="AppUserItemFolderViewModel.cs" />
     <Compile Include="AppUserItemListViewModel.cs" />
     <Compile Include="AppUserItemListViewModelBase.cs" />
     <Compile Include="AuthenticatedViewModelBase.cs" />

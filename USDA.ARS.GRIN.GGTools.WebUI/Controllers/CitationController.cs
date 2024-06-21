@@ -54,30 +54,30 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             }
         }
 
-        public PartialViewResult _ListDynamicFolderItems(int folderId)
-        {
-            AppUserItemFolderViewModel appUserItemFolderViewModel = new AppUserItemFolderViewModel();
-            AppUserItemListViewModel appUserItemListViewModel = new AppUserItemListViewModel();
+        //public PartialViewResult _ListDynamicFolderItems(int folderId)
+        //{
+        //    AppUserItemFolderViewModel appUserItemFolderViewModel = new AppUserItemFolderViewModel();
+        //    AppUserItemListViewModel appUserItemListViewModel = new AppUserItemListViewModel();
 
-            try
-            {
-                appUserItemFolderViewModel.SearchEntity.ID = folderId;
-                appUserItemFolderViewModel.Search();
+        //    try
+        //    {
+        //        appUserItemFolderViewModel.SearchEntity.ID = folderId;
+        //        appUserItemFolderViewModel.Search();
 
-                appUserItemListViewModel.SearchEntity.AppUserItemFolderID = folderId;
-                appUserItemListViewModel.GetDynamic();
+        //        appUserItemListViewModel.SearchEntity.AppUserItemFolderID = folderId;
+        //        appUserItemListViewModel.GetDynamic();
 
-                CitationViewModel viewModel = new CitationViewModel();
-                viewModel.SearchEntity = viewModel.Deserialize<CitationSearch>(appUserItemListViewModel.Entity.Properties);
-                viewModel.Search();
-                return PartialView(BASE_PATH + "_List.cshtml", viewModel);
-            }
-            catch (Exception ex)
-            {
-                Log.Error(ex);
-                return PartialView("~/Views/Error/_InternalServerError.cshtml");
-            }
-        }
+        //        CitationViewModel viewModel = new CitationViewModel();
+        //        viewModel.SearchEntity = viewModel.Deserialize<CitationSearch>(appUserItemListViewModel.Entity.Properties);
+        //        viewModel.Search();
+        //        return PartialView(BASE_PATH + "_List.cshtml", viewModel);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Log.Error(ex);
+        //        return PartialView("~/Views/Error/_InternalServerError.cshtml");
+        //    }
+        //}
         [HttpPost]
         public ActionResult Search(CitationViewModel viewModel)
         {
@@ -91,7 +91,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 if ((viewModel.EventAction == "SEARCH") && (viewModel.EventValue == "SAVE"))
                 {
                     viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
-                    viewModel.SaveSearch();
+                    //viewModel.SaveSearch();
                     viewModel.EventValue = "";
                 }
 

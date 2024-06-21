@@ -10,8 +10,6 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
 {
     public class SpeciesManager : GRINGlobalDataManagerBase, IManager<Species, SpeciesSearch>
     {
-        
-        
         public int Insert(Species entity)
         {
             Reset(CommandType.StoredProcedure);
@@ -104,22 +102,6 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             return speciesList;
         }
 
-        //public List<CodeValue> GetReportList()
-        //{
-        //    SQL = "SELECT * FROM vw_GRINGlobal_Taxonomy_Rpt_List";
-
-        //    List<CodeValue> reportList = new List<CodeValue>();
-
-        //    reportList = GetRecords<CodeValue>(SQL);
-        //    return reportList;
-        //}
-
-        //public List<Species> GetReport(string name)
-        //{
-        //    SQL = "SELECT * FROM vw_GRINGlobal_Taxonomy_Rpt_" + name.Replace("_","").Replace(" ","");
-        //    return GetRecords<Species>(SQL);
-        //}
-        
         public List<Species> Search(SpeciesSearch searchEntity)
         {
             List<Species> results = new List<Species>();
@@ -264,7 +246,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         {
             List<Species> results = new List<Species>();
 
-            SQL = " SELECT * FROM vw_GRINGlobal_Folder_Taxonomy_Species WHERE FolderID = @FolderID";
+            SQL = " SELECT * FROM vw_GRINGlobal_Taxonomy_Species_Sys_Folder_Item_Map WHERE SysFolderID = @FolderID";
             var parameters = new List<IDbDataParameter> {
                 CreateParameter("FolderID", searchEntity.FolderID > 0 ? (object)searchEntity.FolderID : DBNull.Value, true)
             };

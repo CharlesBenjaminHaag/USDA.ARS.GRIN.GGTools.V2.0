@@ -48,6 +48,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 return RedirectToAction("InternalServerError", "Error");
             }
         }
+        
         public PartialViewResult _ListFolderItems(int sysFolderId)
         {
             CropForCWRViewModel viewModel = new CropForCWRViewModel();
@@ -64,12 +65,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 return PartialView("~/Views/Error/_InternalServerError.cshtml");
             }
         }
-        public PartialViewResult _ListDynamicFolderItems(int folderId)
-        {
-            CropForCWRViewModel viewModel = new CropForCWRViewModel();
-            viewModel.RunSearch(folderId);
-            return PartialView(BASE_PATH + "_List.cshtml", viewModel);
-        }
+        
         [HttpPost]
         public PartialViewResult _Search(FormCollection formCollection)
         {
@@ -101,7 +97,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 if ((viewModel.EventAction == "SEARCH") && (viewModel.EventValue == "SAVE"))
                 {
                     viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
-                    viewModel.SaveSearch();
+                    //viewModel.SaveSearch();
                 }
 
                 return View(BASE_PATH + "Index.cshtml", viewModel);

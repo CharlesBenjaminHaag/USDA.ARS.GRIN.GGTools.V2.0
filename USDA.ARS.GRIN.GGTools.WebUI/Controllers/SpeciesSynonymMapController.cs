@@ -81,30 +81,30 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 return PartialView("~/Views/Error/_InternalServerError.cshtml");
             }
         }
-        public PartialViewResult _ListDynamicFolderItems(int folderId)
-        {
-            AppUserItemFolderViewModel appUserItemFolderViewModel = new AppUserItemFolderViewModel();
-            AppUserItemListViewModel appUserItemListViewModel = new AppUserItemListViewModel();
+        //public PartialViewResult _ListDynamicFolderItems(int folderId)
+        //{
+        //    AppUserItemFolderViewModel appUserItemFolderViewModel = new AppUserItemFolderViewModel();
+        //    AppUserItemListViewModel appUserItemListViewModel = new AppUserItemListViewModel();
 
-            try
-            {
-                appUserItemFolderViewModel.SearchEntity.ID = folderId;
-                appUserItemFolderViewModel.Search();
+        //    try
+        //    {
+        //        appUserItemFolderViewModel.SearchEntity.ID = folderId;
+        //        appUserItemFolderViewModel.Search();
 
-                appUserItemListViewModel.SearchEntity.AppUserItemFolderID = folderId;
-                appUserItemListViewModel.GetDynamic();
+        //        appUserItemListViewModel.SearchEntity.AppUserItemFolderID = folderId;
+        //        appUserItemListViewModel.GetDynamic();
 
-                AuthorViewModel viewModel = new AuthorViewModel();
-                viewModel.SearchEntity = viewModel.Deserialize<AuthorSearch>(appUserItemListViewModel.Entity.Properties);
-                viewModel.Search();
-                return PartialView(BASE_PATH + "_List.cshtml", viewModel);
-            }
-            catch (Exception ex)
-            {
-                Log.Error(ex);
-                return PartialView("~/Views/Error/_InternalServerError.cshtml");
-            }
-        }
+        //        AuthorViewModel viewModel = new AuthorViewModel();
+        //        viewModel.SearchEntity = viewModel.Deserialize<AuthorSearch>(appUserItemListViewModel.Entity.Properties);
+        //        viewModel.Search();
+        //        return PartialView(BASE_PATH + "_List.cshtml", viewModel);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Log.Error(ex);
+        //        return PartialView("~/Views/Error/_InternalServerError.cshtml");
+        //    }
+        //}
         public ActionResult Add(int speciesId = 0, string synonymType = "")
         {
             SynonymMapViewModel viewModel = new SynonymMapViewModel();
@@ -272,7 +272,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 if ((viewModel.EventAction == "SEARCH") && (viewModel.EventValue == "SAVE"))
                 {
                     viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
-                    viewModel.SaveSearch();
+                    //viewModel.SaveSearch();
                 }
 
                 return View(BASE_PATH + "Index.cshtml", viewModel);
