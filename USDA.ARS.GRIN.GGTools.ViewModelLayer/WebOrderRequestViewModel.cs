@@ -15,6 +15,12 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
 {
     public class WebOrderRequestViewModel : WebOrderRequestViewModelBase, IViewModel<WebOrderRequest>
     {
+        public string SelectedFilterTimeFrame { get; set; }
+        public string SelectedFilterCurrentStatus { get; set; }
+        public string SelectedFilterMostRecentAction { get; set; }
+        public string SelectedFilterAssignedTo { get; set; }
+        public string EmailBodyOriginal { get; set; }
+
         public void Delete()
         {
             throw new NotImplementedException();

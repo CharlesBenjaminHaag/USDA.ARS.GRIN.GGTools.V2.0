@@ -96,10 +96,6 @@
 
         link = link.replace("[ACTION]", tableCode);
         refreshLink = refreshLink.replace("[ACTION]", tableCode);
-
-        //DEBUG
-        alert("CALLING " + link);
-
         formData.append("TableName", tableName);
         formData.append("EntityID", entityId);
 
@@ -111,6 +107,7 @@
             processData: false,
             data: formData,
             success: function (response) {
+                console.log("DEBUG Folder Delete ret code " + response.errorMessage);
                 if (response.errorMessage == "547") {
                     $("#modal-delete-dependency-warning").modal("show");
                 }

@@ -22,7 +22,10 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
 
         public SysFolderViewModelBase()
         {
-           
+            using (SysFolderManager mgr = new SysFolderManager())
+            {
+                Cooperators = new SelectList(mgr.GetCooperators("sys_folder"), "ID", "FullName");
+            }
         }
 
         public SysFolderViewModelBase(int cooperatorId)

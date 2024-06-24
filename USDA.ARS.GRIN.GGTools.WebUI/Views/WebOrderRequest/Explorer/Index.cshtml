@@ -138,7 +138,7 @@
     </div>
 </div>
 
-<div id="section-modal-email"></div>
+<div id="section-email-modal"></div>
 
 <!-- ****************************************** BEGIN EMAIL MODAL *******************************************************-->
 <div class="modal fade" id="modal-email" style="display: none;" aria-hidden="true">
@@ -221,12 +221,7 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
-        // TODO Determine default WOR list filter.
-        $("#filter-by-time-frame").val("1Y");
-        LoadWebOrderRequestList();
-
-        $("#txtSelectedTab").val("tab-web-order-request-detail");
-        $("#section-overlay-web-order-request-list").hide();
+        Load();
     });
 
     $('#section-web-order-request ul.nav li').on('click', function () {
@@ -235,6 +230,15 @@
         $("#txtSelectedTab").val(selectedId);
         LoadWebOrderRequest(webOrderRequestId);
     });
+
+    function Load() {
+        // TODO Determine default WOR list filter.
+        $("#filter-by-time-frame").val("1Y");
+        LoadWebOrderRequestList();
+
+        $("#txtSelectedTab").val("tab-web-order-request-detail");
+        $("#section-overlay-web-order-request-list").hide();
+    }
 
     function GetSelectedTab() {
         return $("#txtSelectedTab").val();
@@ -260,7 +264,8 @@
     });
 
     $(document).on("click", "[id='btnOpenModalApprove']", function () {
-        var link = '@Url.Action("RenderEmailModal", "WebOrderRequest")';
+        LoadEmailModal("NRR_APPROVE");
+        @*var link = '@Url.Action("RenderEmailModal", "WebOrderRequest")';
         var webOrderRequestId = $("#Entity_ID").val();
         var emailTo = $("#Entity_WebCooperatorEmail").val();
         var emailFrom = $("#ActionEmailFrom").val();
@@ -273,12 +278,13 @@
 
         //TODO Get template subj. and body
 
-        $("#modal-email").modal("show");
+        $("#modal-email").modal("show");*@
 
    });
 
     $(document).on("click", "[id='btnOpenModalReject']", function () {
-        var link = '@Url.Action("RenderEmailModal", "WebOrderRequest")';
+        LoadEmailModal("NRR_REJECT");
+        @*var link = '@Url.Action("RenderEmailModal", "WebOrderRequest")';
         var webOrderRequestId = $("#Entity_ID").val();
         var emailTo = $("#Entity_WebCooperatorEmail").val();
         var emailFrom = $("#ActionEmailFrom").val();
@@ -291,11 +297,11 @@
 
         //TODO Get template subj. and body
 
-        $("#modal-email").modal("show");
+        $("#modal-email").modal("show");*@
     });
 
     function LoadEmailModal(actionCode) {
-     link = '@Url.Action("RenderEmailModal", "WebOrder")';
+     link = '@Url.Action("Component_EmailModal", "WebOrderRequest")';
      var webOrderRequestId = $("#Entity_ID").val();
      var actionEmailTo = $("#Entity_WebCooperatorEmail").val();
      var formData = new FormData();
@@ -312,7 +318,7 @@
          processData: false,
          data: formData,
          success: function (response) {
-             $("#section-modal-email").html(response);
+             $("#section-email-modal").html(response);
              $("#modal-email").modal("show");
          }
      });

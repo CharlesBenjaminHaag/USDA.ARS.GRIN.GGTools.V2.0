@@ -148,10 +148,10 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
         {
             try
             {
-                //using (SysFolderManager mgr = new SysFolderManager())
-                //{
-                //    mgr.Delete(TableName, Entity.ID);
-                //}
+                using (SysFolderManager mgr = new SysFolderManager())
+                {
+                    mgr.Delete(TableName, Entity.ID);
+                }
             }
             catch (Exception ex)
             {

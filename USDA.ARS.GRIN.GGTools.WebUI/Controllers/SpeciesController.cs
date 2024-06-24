@@ -827,6 +827,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
         {
             throw new NotImplementedException();
         }
+        
         [HttpPost]
         public JsonResult DeleteEntity(FormCollection formCollection)
         {

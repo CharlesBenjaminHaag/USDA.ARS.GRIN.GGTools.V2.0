@@ -3,8 +3,7 @@
 {
     @Html.HiddenFor(x => x.EventInfo)
     @Html.HiddenFor(x => x.Entity.ID)
-    
-    <p>Last Modified on @Model.Entity.ModifiedDate.ToShortDateString() at @Model.Entity.ModifiedDate.ToShortTimeString()</p>
+    @Html.Partial("~/Views/Shared/_RevisionHistory.cshtml")
     <div class="row">
         <div class="col-md-12">
             <div class="form-group">

@@ -60,19 +60,9 @@
                                         @result.ModifiedByCooperatorName
                                     </td>
                                     <td>
-                                        @if (Model.EventAction == "FOLDER")
-                                        {
-                                            <a href="@Url.Action("DeleteItem", "AppUserItemFolder", new { @folderId = result.FolderID, @sysFolderItemMapId = result.SysFolderItemMapId })"
-                                               class="btn btn-danger btn-sm float-right row-edit margin-r-5">
-                                                <i class="fa fa-trash"></i>
-                                            </a>
-                                        }
-                                        else
-                                        {
-                                            <a href="@Url.Action("Edit", "Classification", new { entityId = result.ID })" class="btn btn-default btn-sm float-right row-edit">
-                                                <i class="fa fa-edit"></i>
-                                            </a>
-                                        }
+                                        <a href="@Url.Action("Edit", "Classification", new { entityId = result.ID })" class="btn btn-default btn-sm float-right row-edit">
+                                            <i class="fa fa-edit"></i>
+                                        </a>
                                     </td>
                                 </tr>
                             }

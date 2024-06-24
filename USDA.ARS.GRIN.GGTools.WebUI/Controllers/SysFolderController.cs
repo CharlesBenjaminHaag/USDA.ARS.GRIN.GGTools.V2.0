@@ -13,10 +13,39 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
     public class SysFolderController : BaseController
     {
         private static readonly Logger Log = LogManager.GetCurrentClassLogger();
-        
+
         public ActionResult Index()
         {
-            return View();
+            try
+            {
+                SysFolderViewModel viewModel = new SysFolderViewModel();
+                return View(viewModel);
+            
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return RedirectToAction("InternalServerError", "Error");
+            }
+        }
+
+        [HttpPost]
+        public ActionResult Search(SysFolderViewModel viewModel)
+        {
+            try
+            {
+                Session[SessionKeyName] = viewModel;
+                viewModel.EventAction = "SEARCH";
+                viewModel.Search();
+                ModelState.Clear();
+                viewModel.TableName = "taxonomy_author";
+                return View("~/Views/SysFolder/Index.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return RedirectToAction("InternalServerError", "Error");
+            }
         }
 
         [HttpPost]
@@ -65,6 +94,8 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             try
             {
                 SysFolderViewModel viewModel = new SysFolderViewModel();
+                viewModel.TableCode = "SysFolder";
+                viewModel.TableName = "sys_folder";
                 viewModel.Get(entityId);
                 viewModel.GetItems(entityId);
                 viewModel.GetCooperators(entityId);
@@ -76,6 +107,23 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             {
                 Log.Error(ex);
                 return RedirectToAction("InternalServerError", "Error");
+            }
+        }
+
+        [HttpPost]
+        public JsonResult DeleteEntity(FormCollection formCollection)
+        {
+            try
+            {
+               SysFolderViewModel viewModel = new SysFolderViewModel();
+                viewModel.Entity.ID = Int32.Parse(GetFormFieldValue(formCollection, "EntityID"));
+                viewModel.TableName = GetFormFieldValue(formCollection, "TableName");
+                viewModel.Delete();
+                return Json(new { success = true }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { errorMessage = ex.Message }, JsonRequestBehavior.AllowGet);
             }
         }
 
@@ -149,21 +197,21 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             }
         }
 
-        public PartialViewResult Component_SysFolderCooperatorMapEditor()
-        {
-            try
-            {
-                SysFolderCooperatorMapViewModel viewModel = new SysFolderCooperatorMapViewModel();
-                viewModel.SearchEntity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
-                viewModel.Search();
-                return PartialView("~/Views/SysFolder/Components/_ListWithIcons.cshtml", viewModel);
-            }
-            catch (Exception ex)
-            {
-                Log.Error(ex);
-                return PartialView("~/Views/Error/_InternalServerError.cshtml");
-            }
-        }
+        //public PartialViewResult Component_SysFolderCooperatorMapEditor()
+        //{
+        //    try
+        //    {
+        //        SysFolderCooperatorMapViewModel viewModel = new SysFolderCooperatorMapViewModel();
+        //        viewModel.SearchEntity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
+        //        viewModel.Search();
+        //        return PartialView("~/Views/SysFolder/Components/_ListWithIcons.cshtml", viewModel);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Log.Error(ex);
+        //        return PartialView("~/Views/Error/_InternalServerError.cshtml");
+        //    }
+        //}
 
         #endregion
     }

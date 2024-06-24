@@ -6,6 +6,9 @@
 @Html.HiddenFor(x => x.EventAction)
 @Html.HiddenFor(x => x.EventValue)
 @Html.HiddenFor(x => x.ItemIDList)
+@Html.HiddenFor(x => x.TableCode)
+@Html.HiddenFor(x => x.TableName)
+@Html.HiddenFor(x => x.TableTitle)
 
 <div id="section-error" class="alert alert-danger alert-dismissible">
     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
@@ -60,7 +63,7 @@
                     </div>*@
             </div>
             <div class="tab-pane" id="sharing">
-
+                @Html.Partial("~/Views/Shared/_UnderConstruction.cshtml")
             </div>
         </div>
     </div>
@@ -71,14 +74,11 @@
                 Delete
             </button>
         }
-        <button id="btnSaveNewFolder" class="btn btn-default float-right">
-            <i class="fas fa-save"></i>
-            Save Edits
-        </button>
-        <button id="btnAddCooperator" class="btn btn-default float-right margin-left-5" data-toggle="modal" data-target="#modal-folder-edit-cooperators">
-            <i class="fas fa-users"></i>
-            Edit Sharing Options
-        </button>
+
+        @*<button id="btnAddCooperator" class="btn btn-default float-right margin-left-5" data-toggle="modal" data-target="#modal-folder-edit-cooperators">
+                <i class="fas fa-users"></i>
+                Edit Sharing Options
+            </button>*@
 
     </div>
 </div>

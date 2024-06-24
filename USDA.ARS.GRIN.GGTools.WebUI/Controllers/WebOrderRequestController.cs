@@ -71,48 +71,6 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             return null;
         }
 
-        public PartialViewResult RenderEmailModal(int entityId, string actionCode)
-        {
-            WebOrderRequestViewModel viewModel = new WebOrderRequestViewModel();
-            viewModel.SearchEntity.ID = entityId;
-            viewModel.Search();
-
-            EmailTemplate emailTemplate = new EmailTemplate();
-
-            switch (actionCode)
-            {
-                case "NRR_APPROVE":
-                    viewModel.EventValue = "Approve Web Order Request";
-                    emailTemplate = viewModel.GetEmailTemplate("CAP");
-                    break;
-                case "NRR_REJECT":
-                    viewModel.EventValue = "Reject Web Order Request";
-                    emailTemplate = viewModel.GetEmailTemplate("RRJ");
-                    break;
-                case "NRR_REQ":
-                    viewModel.EventValue = "Request Additional Information";
-                    emailTemplate = viewModel.GetEmailTemplate("RQI");
-                    break;
-                case "NRR_CUR":
-                    viewModel.EventValue = "Email Curators";
-                    emailTemplate = viewModel.GetEmailTemplate("CUR");
-                    break;
-            }
-
-            viewModel.EventAction = actionCode;
-            viewModel.Entity.ID = entityId;
-            //viewModel.ActionEmailTo = actionEmailTo;
-            viewModel.ActionEmailSubject = emailTemplate.Subject;
-            viewModel.ActionEmailFrom = "gringlobal.orders@usda.gov";
-            viewModel.ActionEmailBody = emailTemplate.Body;
-
-            // REFACTOR: Replace placeholder variables with WOR data.
-            //viewModel.ActionEmailBody.Replace("@WebCooperatorFullName", viewModel.Entity.WebCooperatorFullName);
-            viewModel.ActionEmailBody = viewModel.ActionEmailBody.Replace("[ID_HERE]", entityId.ToString());
-            viewModel.ActionEmailSubject = viewModel.ActionEmailSubject.Replace("[ID_HERE]", entityId.ToString());
-            return PartialView("~/Views/WebOrder/Modals/_Email.cshtml", viewModel);
-        }
-
         public JsonResult SendEmail(WebOrderRequestViewModel viewModel)
         {
             try
@@ -129,28 +87,28 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             }
         }
 
-        public PartialViewResult RenderRejectModal(int entityId)
-        {
-            WebOrderRequestViewModel viewModel = new WebOrderRequestViewModel();
-            viewModel.Get(entityId);
-            viewModel.EventValue = "Reject Web Order Request";
+        //public PartialViewResult RenderRejectModal(int entityId)
+        //{
+        //    WebOrderRequestViewModel viewModel = new WebOrderRequestViewModel();
+        //    viewModel.Get(entityId);
+        //    viewModel.EventValue = "Reject Web Order Request";
 
-            //TODO Load appropriate template
-            EmailTemplate emailTemplate = viewModel.GetEmailTemplate("CCL");
-            viewModel.ActionEmailFrom = "gringlobal.orders@usda.gov";
-            viewModel.ActionEmailTo = viewModel.Entity.WebCooperatorEmail;
-            viewModel.ActionEmailBody = emailTemplate.Body;
+        //    //TODO Load appropriate template
+        //    EmailTemplate emailTemplate = viewModel.GetEmailTemplate("CCL");
+        //    viewModel.ActionEmailFrom = "gringlobal.orders@usda.gov";
+        //    viewModel.ActionEmailTo = viewModel.Entity.WebCooperatorEmail;
+        //    viewModel.ActionEmailBody = emailTemplate.Body;
 
-            return PartialView("~/Views/WebOrder/Modals/_Email.cshtml", viewModel);
-        }
+        //    return PartialView("~/Views/WebOrder/Modals/_Email.cshtml", viewModel);
+        //}
         
-        public PartialViewResult RenderNoteModal(int entityId)
-        {
-            WebOrderRequestViewModel viewModel = new WebOrderRequestViewModel();
-            viewModel.SearchEntity.ID = entityId;
-            viewModel.GetNotes();
-            return PartialView("~/Views/WebOrder/Modals/_Note.cshtml", viewModel);
-        }
+        //public PartialViewResult RenderNoteModal(int entityId)
+        //{
+        //    WebOrderRequestViewModel viewModel = new WebOrderRequestViewModel();
+        //    viewModel.SearchEntity.ID = entityId;
+        //    viewModel.GetNotes();
+        //    return PartialView("~/Views/WebOrder/Modals/_Note.cshtml", viewModel);
+        //}
         
         [HttpPost]
         public JsonResult AddNote(int webOrderRequestId, string noteText)
@@ -412,7 +370,55 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 return PartialView("~/Views/Error/_InternalServerError.cshtml");
             }
         }
-        
+
         #endregion Explorer
+
+        /// <summary>
+        /// Returns HTML for an email-entry modal pre-populated with the template that
+        /// corresponds to the supplied action code.
+        /// </summary>
+        /// <param name="entityId"></param>
+        /// <param name="actionCode"></param>
+        /// <returns></returns>
+        public PartialViewResult Component_EmailModal(int entityId, string actionCode)
+        {
+            WebOrderRequestViewModel viewModel = new WebOrderRequestViewModel();
+            viewModel.Get(entityId);
+
+            EmailTemplate emailTemplate = new EmailTemplate();
+
+            switch (actionCode)
+            {
+                case "NRR_APPROVE":
+                    viewModel.EventValue = "Approve Web Order Request";
+                    emailTemplate = viewModel.GetEmailTemplate("CAP");
+                    break;
+                case "NRR_REJECT":
+                    viewModel.EventValue = "Reject Web Order Request";
+                    emailTemplate = viewModel.GetEmailTemplate("RRJ");
+                    break;
+                case "NRR_REQ":
+                    viewModel.EventValue = "Request Additional Information";
+                    emailTemplate = viewModel.GetEmailTemplate("RQI");
+                    break;
+                case "NRR_CUR":
+                    viewModel.EventValue = "Email Curators";
+                    emailTemplate = viewModel.GetEmailTemplate("CUR");
+                    break;
+            }
+
+            viewModel.EventAction = actionCode;
+            viewModel.Entity.ID = entityId;
+            //viewModel.ActionEmailTo = actionEmailTo;
+            viewModel.ActionEmailSubject = emailTemplate.Subject;
+            viewModel.ActionEmailFrom = "gringlobal.orders@usda.gov";
+            viewModel.ActionEmailBody = emailTemplate.Body;
+
+            // REFACTOR: Replace placeholder variables with WOR data.
+            //viewModel.ActionEmailBody.Replace("@WebCooperatorFullName", viewModel.Entity.WebCooperatorFullName);
+            viewModel.ActionEmailBody = viewModel.ActionEmailBody.Replace("[ID_HERE]", entityId.ToString());
+            viewModel.ActionEmailSubject = viewModel.ActionEmailSubject.Replace("[ID_HERE]", entityId.ToString());
+            return PartialView("~/Views/WebOrder/Modals/_Email.cshtml", viewModel);
+        }
     }
 }
