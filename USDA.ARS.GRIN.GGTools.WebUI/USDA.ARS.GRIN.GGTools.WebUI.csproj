@@ -212,6 +212,7 @@
     <Compile Include="Controllers\SpeciesController.cs" />
     <Compile Include="Controllers\SynchController.cs" />
     <Compile Include="Controllers\SpeciesSynonymMapController.cs" />
+    <Compile Include="Controllers\SysFolderCooperatorMapController.cs" />
     <Compile Include="Controllers\SysFolderController.cs" />
     <Compile Include="Controllers\SysPermissionController.cs" />
     <Compile Include="Controllers\SysGroupController.cs" />

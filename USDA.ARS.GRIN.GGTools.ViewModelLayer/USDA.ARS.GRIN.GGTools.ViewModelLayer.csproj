@@ -72,6 +72,7 @@
     <Compile Include="FamilyViewModelBase.cs" />
     <Compile Include="FamilyViewModel.cs" />
     <Compile Include="SysFolderCooperatorMapViewModelBase.cs" />
+    <Compile Include="SysFolderCooperatorMapViewModel.cs" />
     <Compile Include="SysTagViewModelBase.cs" />
     <Compile Include="SysTagViewModel.cs" />
     <Compile Include="SysFolderViewModel.cs" />

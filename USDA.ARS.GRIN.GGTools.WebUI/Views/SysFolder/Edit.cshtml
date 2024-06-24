@@ -45,25 +45,9 @@
                 <div id="section-sys_folder-details">
                     @Html.Partial("~/Views/SysFolder/_Edit.cshtml")
                 </div>
-
-                @*<div class="row">
-                        <div class="col-md-6">
-                            @{Html.RenderAction("ComponentEditor", "SysTag", new { @tableName = "sys_folder", @idNumber = Model.Entity.ID }); }
-                        </div>
-                        <div class="col-md-6">
-                            <div id="section-sys-tags-by-table" class="card">
-                                <div class="card-header">
-                                    <h3 class="card-title">Current Tags</h3>
-                                </div>
-                                <div class="card-body">
-                                    @{Html.RenderAction("ComponentSysTagsByTable", "SysTag", new { @tableName = "sys_folder", @idNumber = Model.Entity.ID }); }
-                                </div>
-                            </div>
-                        </div>
-                    </div>*@
             </div>
             <div class="tab-pane" id="sharing">
-                @Html.Partial("~/Views/Shared/_UnderConstruction.cshtml")
+                @Html.Partial("~/Views/SysFolderCooperatorMap/Components/_Editor.cshtml")
             </div>
         </div>
     </div>

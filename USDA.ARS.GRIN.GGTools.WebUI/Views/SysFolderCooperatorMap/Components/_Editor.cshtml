@@ -1,14 +1,15 @@
-﻿<div class="row">
+﻿@model USDA.ARS.GRIN.GGTools.ViewModelLayer.SysFolderCooperatorMapViewModel
+<div class="row">
     <div class="col-md-6">
         <button id="btnMapCooperators" class="btn btn-success btn-block">Add >></button>
         <div id="section-non-mapped">
-            @Html.Partial("~/Views/SysFolderCooperatorMap/Modals/_NonMappedCooperatorList.cshtml")
+            @Html.Partial("~/Views/SysFolderCooperatorMap/Components/_NonMappedCooperatorList.cshtml")
         </div>
     </div>
     <div class="col-md-6">
         <button id="btnUnMapCooperators" class="btn btn-danger btn-block"><< Remove</button>
         <div id="section-mapped">
-            @Html.Partial("~/Views/SysFolderCooperatorMap/Modals/_MappedCooperatorList.cshtml")
+            @Html.Partial("~/Views/SysFolderCooperatorMap/Components/_MappedCooperatorList.cshtml")
         </div>
     </div>
 </div>
