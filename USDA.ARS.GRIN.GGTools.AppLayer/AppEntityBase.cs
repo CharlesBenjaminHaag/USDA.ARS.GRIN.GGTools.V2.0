@@ -13,7 +13,7 @@ namespace USDA.ARS.GRIN.GGTools.AppLayer
         public string EntityKey { get; set; }
         public string TableName { get; set; }
         public int FolderID { get; set; }
-        public int AppUserItemListID { get; set; }
+        //public int AppUserItemListID { get; set; }
         public int SysFolderItemMapID { get; set; }
         public int ParentID { get; set; }
         [AllowHtml]

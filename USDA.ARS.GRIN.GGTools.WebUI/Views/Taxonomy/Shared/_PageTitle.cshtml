@@ -1,15 +1,18 @@
 ﻿@{
     string eventAction = @ViewContext.RouteData.Values["controller"].ToString();
     string eventValue = @ViewContext.RouteData.Values["action"].ToString();
-    var param = @Request.QueryString["entityId"];
+    var sysTableName = @Request.QueryString["sysTableName"];
+    var sysTableTitle = @Request.QueryString["sysTableTitle"];
 }
 
 <div class="col-sm-9">
     <h1 class="m-0">
-        @if (!String.IsNullOrEmpty(param))
+        @*@if (!String.IsNullOrEmpty(param))
         {
             param = "[" + param + "]";
         }
-        @eventAction @eventValue @param
+        @eventAction @eventValue @param*@
+    
+        @Html.Raw(ViewBag.PageTitle)
     </h1>
 </div>

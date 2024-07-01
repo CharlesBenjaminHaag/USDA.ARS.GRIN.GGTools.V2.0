@@ -20,7 +20,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             {
                 SysFolderViewModel viewModel = new SysFolderViewModel();
                 return View(viewModel);
-            
+                SetPageTitle();
             }
             catch (Exception ex)
             {
@@ -57,6 +57,11 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 {
                     viewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
                     viewModel.Insert();
+                
+                
+                    //TODO
+                    //if type is "DYN", look for session object with folder table name
+                
                 }
                 else
                 {
@@ -101,6 +106,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 viewModel.GetCooperators(entityId);
                 viewModel.GetSysTags("sys_folder", entityId);
                 viewModel.GetSysTables(entityId);
+                SetPageTitle();
                 return View(viewModel);
             }
             catch (Exception ex)
@@ -173,14 +179,27 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             }
         }
 
-        
+        public PartialViewResult GetDynamicEditModal()
+        {
+            try
+            {
+                SysFolderViewModel viewModel = new SysFolderViewModel();
+                return PartialView("~/Views/SysFolder/Modals/_EditDynamic.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return null;
+            }
+        }
+
         #region Components
 
         /// <summary>
         /// Retrieves an icon-formatted list of folders. Defaults to folders owned by the logged-in user.
         /// </summary>
         /// <returns></returns>
-        
+
         public PartialViewResult ComponentListWithIcons()
         {
             try
@@ -196,6 +215,30 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 return PartialView("~/Views/Error/_InternalServerError.cshtml");
             }
         }
+
+        public PartialViewResult Component_Widget()
+        {
+            SysFolderViewModel viewModel = new SysFolderViewModel();
+            string sysFolderId = Request.QueryString["sysFolderId"];
+            try
+            {
+                if (!String.IsNullOrEmpty(sysFolderId))
+                {
+                    viewModel.Get(Int32.Parse(sysFolderId));
+                    return PartialView("~/Views/SysFolder/Components/_Widget.cshtml", viewModel);
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
+        }
+               
 
         //public PartialViewResult Component_SysFolderCooperatorMapEditor()
         //{

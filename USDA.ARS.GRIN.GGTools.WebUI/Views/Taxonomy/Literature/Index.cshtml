@@ -17,7 +17,7 @@
 }
 @Html.Partial("~/Views/Taxonomy/Literature/_List.cshtml")
 @{Html.RenderAction("GetEditModal", "SysFolder", new { @sysTableName = Model.TableName }); }
-
+@{Html.RenderAction("GetDynamicEditModal", "SysFolder", new { @sysTableName = Model.TableName }); }
 <script type="text/javascript">
 
     //$(document).keypress(function (event) {

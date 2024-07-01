@@ -47,7 +47,8 @@
                 </div>
             </div>
             <div class="tab-pane" id="sharing">
-                @Html.Partial("~/Views/SysFolderCooperatorMap/Components/_Editor.cshtml")
+                @Html.Partial("~/Views/Shared/_UnderConstruction.cshtml")
+                @*@{ Html.RenderAction("Component_SysFolderCooperatorMapEditor", "SysFolderCooperatorMap", new { @sysFolderId = Model.ID }); }}*@
             </div>
         </div>
     </div>

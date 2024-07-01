@@ -23,8 +23,8 @@
         {
             <tr>
                 <td>@result.ID</td>
-                <td>@result.AppUserItemListID</td>
-                <td>@result.EntityKey</td>
+                <td>   </td>
+                <td>    </td>
                 <td>
                     <a href="@Url.Action("Edit", "CropForCWR", new { entityId = result.CropForCWRID })">
                         @result.CropForCWRName
@@ -47,7 +47,7 @@
                     </a>
                 </td>
                 <td>
-                    <a href="@Url.Action("Edit", "CWRMap", new { entityId = result.ID })" class="btn btn-default btn-sm float-right row-edit">
+                    <a href="@Url.Action("Edit", "CWRMap", new { entityId = result.ID, sysFolderId = Model.SearchEntity.FolderID })" class="btn btn-default btn-sm float-right row-edit">
                         <i class="fa fa-edit"></i>
                     </a>
                 </td>

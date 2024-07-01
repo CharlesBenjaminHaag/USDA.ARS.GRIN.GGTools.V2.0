@@ -5,7 +5,7 @@
             <div class="modal-header">
                 <h4 class="modal-title">
                     <i class="fas fa-folder"></i>
-                    Folder
+                    Static Folder
                 </h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">×</span>
@@ -92,15 +92,6 @@ Modal that appears if no record is selected for folder addition.
         InitDataTableLookupFormat("data_table_app_user_item_folder_list");
     });
 
-    //$("#btnOpenFolderModalInSingleMode").click(function () {
-
-    //    event.preventDefault();
-    //    $("#EventAction").val("FOLDER");
-    //    $("#EventValue").val("SINGLE");
-
-    //    $("#modal-folder-edit").modal("show");
-    //});
-
     $("#btnSave").click(function () {
         var activeLink = $('#section-folder-options a.active');
         console.log(activeLink.attr('id')); // Outputs the href of the active link
@@ -117,10 +108,6 @@ Modal that appears if no record is selected for folder addition.
 
         /*SaveNewFolder();*/
     });
-
-    //$("#btnUpdateSelectedFolder").click(function () {
-    //    UpdateFolder();
-    //});
 
     function OpenAppUserItemFolderModal() {
         var tableName = $("#TableName").val();

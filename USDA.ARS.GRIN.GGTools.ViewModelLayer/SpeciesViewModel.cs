@@ -63,7 +63,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
             {
                 try
                 {
-                    DataCollection = new Collection<Species>(mgr.GetConspecificTaxa(SearchEntity.ID));
+                    DataCollection = new Collection<Species>(mgr.GetConspecific(SearchEntity.ID));
                 }
                 catch (Exception ex)
                 {
@@ -71,7 +71,22 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
                 }
             }
         }
-        
+
+        public void GetSynonyms()
+        {
+            using (SpeciesManager mgr = new SpeciesManager())
+            {
+                try
+                {
+                    DataCollection = new Collection<Species>(mgr.GetSynonyms(SearchEntity.ID));
+                }
+                catch (Exception ex)
+                {
+                    PublishException(ex);
+                }
+            }
+        }
+
         public void GetInfraspecificAutonym(string genusName, string speciesName, string rank)
         {
             List<Species> speciesList = new List<Species>();

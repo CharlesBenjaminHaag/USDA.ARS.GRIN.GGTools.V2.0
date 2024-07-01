@@ -22,7 +22,6 @@
 
                             <th width="5%">ID</th>
                             <th>Assembled Name</th>
-                            <th>Epithet</th>
                             <th>Synonym</th>
                             <th>Accepted</th>
                             <th>Protologue</th>
@@ -44,7 +43,6 @@
                                     </td>
 
                                     <td>@Html.Raw(result.AssembledName)</td>
-                                    <td>@result.SpeciesName</td>
                                     <td><span class="badge badge-info">@result.SynonymDescription</span></td>
                                     <td>@Html.Raw(Model.FormatBoolean(result.IsAcceptedName))</td>
                                     <td>

@@ -74,7 +74,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             return species;
         }
 
-        public List<Species> GetConspecificTaxa(int? entityId)
+        public List<Species> GetConspecific(int? entityId)
         {
             SQL = "usp_GRINGlobal_Taxonomy_Species_Conspecific_Select";
             List<Species> speciesList = new List<Species>();
@@ -86,7 +86,20 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             speciesList = GetRecords<Species>(SQL, CommandType.StoredProcedure, parameters.ToArray());
             return speciesList;
         }
-        
+
+        public List<Species> GetSynonyms(int? entityId)
+        {
+            SQL = "usp_GRINGlobal_Taxonomy_Species_Synonyms_Select";
+            List<Species> speciesList = new List<Species>();
+
+            var parameters = new List<IDbDataParameter> {
+                CreateParameter("taxonomy_species_id", (object)entityId, false)
+            };
+
+            speciesList = GetRecords<Species>(SQL, CommandType.StoredProcedure, parameters.ToArray());
+            return speciesList;
+        }
+
         public List<Species> GetInfraspecificAutonym(string genusName, string speciesName, string rank)
         {
             SQL = "usp_GRINGlobal_Taxonomy_Infraspecific_Autonym_Select";
@@ -112,7 +125,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             SQL += " WHERE      ((@Name                 IS NULL OR  REPLACE(Name, ' x ', '')        LIKE    'X ' + @Name + '%')";
             SQL += " OR         (@Name                  IS NULL OR  REPLACE(Name, ' x ', '')        LIKE    '+' + @Name + '%')";
             SQL += " OR         (@Name                  IS NULL OR  REPLACE(Name, ' x ', '')        LIKE    @Name + '%')";
-            SQL += " OR         (@Name                  IS NULL OR  Name                            LIKE    '%' + @Name + '%'))";
+            SQL += " OR         (@Name                  IS NULL OR  Name                            LIKE    @Name + '%'))";
 
             SQL += " AND        (@IsAcceptedName        IS NULL OR  IsAcceptedName                  =       @IsAcceptedName)";
             SQL += " AND        (@SynonymCode           IS NULL OR  SynonymCode                     =       @SynonymCode)";

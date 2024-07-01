@@ -92,6 +92,12 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
                 using (SysFolderManager mgr = new SysFolderManager())
                 {
                     Entity.ID = mgr.Insert(Entity);
+
+                    // If folder is dynamic, save serialized search criteria string.
+                    if (Entity.TypeCode == "DYN")
+                    {
+                        mgr.InsertProperties(Entity);
+                    }
                 }
                 InsertItems();
             }

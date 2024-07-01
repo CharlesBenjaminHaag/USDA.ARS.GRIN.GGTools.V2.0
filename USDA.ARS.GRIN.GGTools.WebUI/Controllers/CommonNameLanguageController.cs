@@ -109,7 +109,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             try
             {
                 CommonNameLanguageViewModel viewModel = new CommonNameLanguageViewModel();
-                viewModel.PageTitle = "Common Name Language Search";
+                ViewBag.PageTitle = "Common Name Language Search";
                 return View(BASE_PATH + "Index.cshtml", viewModel);
             }
             catch (Exception ex)

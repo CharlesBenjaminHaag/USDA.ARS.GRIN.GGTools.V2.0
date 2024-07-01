@@ -6,9 +6,7 @@
 @Html.Partial("~/Views/Taxonomy/GeographyMap/_Detail.cshtml")
 @Html.Partial("~/Views/Taxonomy/GeographyMap/_List.cshtml")
 @{Html.RenderAction("GetEditModal", "SysFolder", new { @sysTableName = Model.TableName }); }
-@*@{Html.RenderAction("RenderLookupModal", "Citation", new { isMultiSelect = "Y" }); }*@
-@Html.Partial("~/Views/Shared/Modals/_SaveSearch.cshtml")
-
+@{Html.RenderAction("GetDynamicEditModal", "SysFolder", new { @sysTableName = Model.TableName }); }
 <script type="text/javascript">
 
     $(document).ready(function () {

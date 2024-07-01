@@ -6,7 +6,7 @@
 @Html.Partial("~/Views/Taxonomy/Regulation/_Detail.cshtml")
 @Html.Partial("~/Views/Taxonomy/Regulation/_List.cshtml")
 @{Html.RenderAction("GetEditModal", "SysFolder", new { @sysTableName = "taxonomy_regulation" }); }
-
+@{Html.RenderAction("GetDynamicEditModal", "SysFolder", new { @sysTableName = Model.TableName }); }
 <script type="text/javascript">
 
     $(document).ready(function () {

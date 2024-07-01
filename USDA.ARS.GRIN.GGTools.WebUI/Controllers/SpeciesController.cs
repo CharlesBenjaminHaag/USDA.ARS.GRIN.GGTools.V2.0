@@ -21,11 +21,32 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
         protected static string BASE_PATH = "~/Views/Taxonomy/Species/";
         private static readonly Logger Log = LogManager.GetCurrentClassLogger();
 
-        //public ActionResult Map()
-        //{
-        //    SpeciesBatchEditViewModel viewModel = new SpeciesBatchEditViewModel();
-        //    return View("~/Views/Taxonomy/Species/Map/Index.cshtml", viewModel);
-        //}
+        /// <summary>
+        /// Handles all menu rendering.
+        /// 1. By default, a menu with a "Home" link leading to the GGTools main page.
+        /// </summary>
+        /// <param name="eventAction"></param>
+        /// <param name="eventValue"></param>
+        /// <param name="sysTableName"></param>
+        /// <param name="sysTableTitle"></param>
+        /// <returns></returns>
+        public override PartialViewResult PageMenu(string eventAction, string eventValue, string sysTableName = "", string sysTableTitle = "")
+        {
+            ViewBag.EventAction = eventAction;
+            ViewBag.EventValue = eventValue;
+
+            if (eventValue == "Add")
+            {
+                return PartialView("~/Views/Taxonomy/Species/Components/_AddMenu.cshtml");
+            }
+            else
+            {
+                
+                    return PartialView("~/Views/Taxonomy/Species/Components/_EditMenu.cshtml");
+                
+            }
+        }
+
 
         public PartialViewResult GetNameMatches(string genusName, string speciesName)
         {
@@ -93,6 +114,21 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             }
         }
 
+        public PartialViewResult _ListSynonyms(int speciesId = 0)
+        {
+            SpeciesViewModel viewModel = new SpeciesViewModel();
+            try
+            {
+                viewModel.SearchEntity.ID = speciesId;
+                viewModel.GetSynonyms();
+                return PartialView(BASE_PATH + "_List.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
+        }
 
         public PartialViewResult _ListFolderItems(int sysFolderId, string displayFormat = "")
         {
@@ -133,13 +169,13 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
         public ActionResult Index(string eventAction = "", int folderId = 0)
         {
             SpeciesViewModel viewModel = new SpeciesViewModel();
-            viewModel.PageTitle = "Species Search";
+            
             viewModel.TableName = "taxonomy_species";
             viewModel.TableCode = "Species";
             viewModel.SearchEntity.SQLStatement = "SELECT * FROM vw_gringlobal_" + viewModel.TableName;
 
-            ViewBag.PageTitle = "Search Species";
-
+            SetPageTitle();
+             
             string targetKey = this.ControllerContext.RouteData.Values["controller"].ToString().ToUpper() + "_SEARCH";
             if (Session[targetKey] != null)
             {
@@ -174,7 +210,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                     viewModel.Search();
                     ModelState.Clear();
 
-                    ViewBag.PageTitle = "Species Search";
+                     
 
                     // Save search if attribs supplied.
                     if ((viewModel.EventAction == "Species") && (viewModel.EventValue == "SaveSearch"))
@@ -291,8 +327,6 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             return PartialView(partialViewName, viewModel);
         }
 
-
-
         /// <summary>
         /// Called when adding a synonym. Assumes a UI element that allows the user to 
         /// specify:
@@ -389,7 +423,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 viewModel.Entity.CreatedByCooperatorName = AuthenticatedUser.FullName;
                 viewModel.Entity.CreatedDate = System.DateTime.Now;
 
-                ViewBag.PageTitle = "Add " + viewModel.ToTitleCase(viewModel.Entity.Rank);
+                 
 
                 if (genusId > 0)
                 {
@@ -488,7 +522,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 }
                 else
                 {
-                    viewModel.PageTitle = String.Format("Add {0}", viewModel.ToTitleCase(rank));
+                    //viewModel.PageTitle = String.Format("Add {0}", viewModel.ToTitleCase(rank));
                 }
 
                 viewModel.SubspeciesUrl = Url.Action("Add", "Species", new { entityId = entityId, rank = "subspecies" });
@@ -583,7 +617,6 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 viewModel.TableName = "taxonomy_species";
                 viewModel.TableCode = "Species";
                 viewModel.Get(entityId);
-                viewModel.PageTitle = String.Format("Edit [{0}]: {1}", viewModel.Entity.ID, viewModel.Entity.AssembledName);
                 viewModel.EventValue = viewModel.Entity.Rank.ToLower();
                 viewModel.ID = entityId;
                 viewModel.SpeciesID = entityId;
@@ -639,7 +672,6 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 viewModel.TableName = "taxonomy_species";
                 viewModel.TableCode = "Species";
                 viewModel.Get(speciesId);
-                viewModel.PageTitle = String.Format("Edit [{0}]: {1}", viewModel.Entity.ID, viewModel.Entity.AssembledName);
                 viewModel.EventValue = viewModel.Entity.Rank.ToLower();
                 viewModel.ID = speciesId;
                 viewModel.SpeciesID = speciesId;
@@ -694,12 +726,12 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 viewModel.EventAction = "EDIT";
                 viewModel.Get(entityId);
                 viewModel.Entity.Protologue = System.Web.HttpUtility.HtmlDecode(viewModel.Entity.Protologue);
-                viewModel.PageTitle = String.Format("Edit {0} [{1}]: {2}", viewModel.Entity.ID, viewModel.ToTitleCase(viewModel.Entity.Rank), viewModel.Entity.AssembledName);
                 viewModel.EventValue = viewModel.Entity.Rank.ToUpper();
                 viewModel.ID = entityId;
 
-                ViewBag.PageTitle = "Edit " + viewModel.ToTitleCase(viewModel.Entity.Rank);
-
+                SetPageTitle();
+                ViewBag.PageTitle += " [" + viewModel.ID + "]: " + viewModel.Entity.AssembledName;
+               
                 // If there is a rank specified, this is a change-rank operation; reload
                 // page with newly-set rank to enable necessary fields.
                 if (!String.IsNullOrEmpty(rank))

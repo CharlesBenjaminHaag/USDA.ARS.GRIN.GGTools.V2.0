@@ -17,8 +17,8 @@
         {
             <tr>
                 <td>@result.ID</td>
-                <td>@result.AppUserItemListID</td>
-                <td>@result.EntityKey</td>
+                <td>   </td>
+                <td>   </td>
                 <td>@result.LanguageName</td>
                 <td>@result.LanguageSimplifiedName</td>
                 <td>
@@ -28,7 +28,7 @@
                     @result.CountryDescription
                 </td>
                 <td style="text-align:right;">
-                    <a href="@Url.Action("Edit", "CommonNameLanguage", new { entityId = result.ID })" class="btn btn-default btn-sm pull-right row-edit">
+                    <a href="@Url.Action("Edit", "CommonNameLanguage", new { entityId = result.ID, sysFolderId = Model.SearchEntity.FolderID })" class="btn btn-default btn-sm pull-right row-edit">
                         <i class="fa fa-edit"></i>
                     </a>
                 </td>

@@ -15,6 +15,9 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
         public ActionResult Index()
         {
             SysUserViewModel vm = new SysUserViewModel();
+
+            ViewBag.PageTitle = "GGTools Login";
+
             return View(vm);
         }
 

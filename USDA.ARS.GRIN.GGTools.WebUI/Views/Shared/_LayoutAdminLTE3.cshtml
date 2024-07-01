@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>GGTools | Home</title>
+    <title>GGTools @AppInfo.GetVersion() @ViewBag.PageTitle</title>
     <link rel="stylesheet" href="~/Content/dist/css/fonts.googleapis.com.css">
     <link rel="stylesheet" href="~/plugins/fontawesome-free/css/all.min.css">
     <link rel="stylesheet" href="~/dist/css/adminlte.css">
@@ -224,6 +224,7 @@
                 <div class="container-fluid">
                     <div class="row mb-2">
                         @Html.Partial("~/Views/Taxonomy/Shared/_PageTitle.cshtml")
+                    
                         <div class="col-sm-3">
                             @Html.Partial("~/Views/Taxonomy/Shared/_Breadcrumbs.cshtml")
                         </div><!-- /.col -->
@@ -392,10 +393,10 @@
     }
 
     $(document).ready(function () {
-        findDivById()
+        InitSearchResultsDataTable();
     });
 
-    function findDivById() {
+    function InitSearchResultsDataTable() {
         var specificDiv = document.getElementById('section-search-results');
 
         if (specificDiv) {

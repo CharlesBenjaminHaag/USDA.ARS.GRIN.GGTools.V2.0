@@ -197,21 +197,21 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             }
         }
 
-        //public PartialViewResult Component_SysFolderCooperatorMapEditor()
-        //{
-        //    try
-        //    {
-        //        SysFolderCooperatorMapViewModel viewModel = new SysFolderCooperatorMapViewModel();
-        //        viewModel.SearchEntity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
-        //        viewModel.Search();
-        //        return PartialView("~/Views/SysFolder/Components/_ListWithIcons.cshtml", viewModel);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Log.Error(ex);
-        //        return PartialView("~/Views/Error/_InternalServerError.cshtml");
-        //    }
-        //}
+        public PartialViewResult Component_SysFolderCooperatorMapEditor(int sysFolderId)
+        {
+            try
+            {
+                SysFolderCooperatorMapViewModel viewModel = new SysFolderCooperatorMapViewModel();
+                viewModel.SearchEntity.SysFolderID = sysFolderId;
+                viewModel.Search();
+                return PartialView("~/Views/SysFolderCooperatorMap/Components/_Editor.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
+        }
 
         #endregion
     }

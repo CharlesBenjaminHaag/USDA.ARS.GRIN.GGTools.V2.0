@@ -15,7 +15,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
         protected static string BASE_PATH = "~/Views/Taxonomy/Author/";
         
         private static readonly Logger Log = LogManager.GetCurrentClassLogger();
-        
+
         public PartialViewResult _ListFolderItems(int sysFolderId)
         {
             AuthorViewModel viewModel = new AuthorViewModel();
@@ -74,6 +74,8 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
                 viewModel.PageTitle = "Author Search";
                 viewModel.TableName = "taxonomy_author";
+
+                //SetPageTitle();
 
                 string targetKey = this.ControllerContext.RouteData.Values["controller"].ToString().ToUpper() + "_SEARCH";
                 if (Session[targetKey] != null)
@@ -185,6 +187,8 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
         [HttpPost]
         public ActionResult Search(AuthorViewModel viewModel)
         {
+            SysFolderViewModel sysFolderViewModel = new SysFolderViewModel();
+
             try
             {
                 Session[SessionKeyName] = viewModel;
@@ -196,8 +200,12 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 // Save search if attribs supplied.
                 if ((viewModel.EventAction == "SEARCH") && (viewModel.EventValue == "SAVE"))
                 {
-                    viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
-                    //viewModel.SaveSearch();
+                    sysFolderViewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
+                    sysFolderViewModel.Entity.Title = viewModel.EventInfo;
+                    sysFolderViewModel.Entity.Description = viewModel.EventNote;
+                    sysFolderViewModel.Entity.Properties = viewModel.SerializeToXml<AuthorSearch>(viewModel.SearchEntity);
+                    sysFolderViewModel.Entity.TypeCode = "DYN";
+                    sysFolderViewModel.Insert();
                 }
                 viewModel.TableName = "taxonomy_author";
                 return View(BASE_PATH + "Index.cshtml", viewModel);

@@ -1,11 +1,12 @@
 ﻿@model USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer.CommonNameLanguageViewModel
 @{
-    ViewBag.Title = Model.PageTitle;
+    ViewBag.Title = ViewBag.PageTitle;
     Layout = "~/Views/Shared/_LayoutAdminLTE3.cshtml";
 }
 @Html.Partial("~/Views/Taxonomy/CommonNameLanguage/_Detail.cshtml")
 @Html.Partial("~/Views/Taxonomy/CommonNameLanguage/_List.cshtml")
 @{Html.RenderAction("GetEditModal", "SysFolder", new { @sysTableName = Model.TableName }); }
+@{Html.RenderAction("GetDynamicEditModal", "SysFolder", new { @sysTableName = Model.TableName }); }
 
 <script type="text/javascript">
 

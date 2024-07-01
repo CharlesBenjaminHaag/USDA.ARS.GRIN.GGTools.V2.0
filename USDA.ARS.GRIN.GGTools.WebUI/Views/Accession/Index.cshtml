@@ -1,11 +1,10 @@
-﻿@model USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer.AccessionViewModel
+﻿@model USDA.ARS.GRIN.GGTools.ViewModelLayer.AccessionViewModel
 @{
     ViewBag.Title = Model.PageTitle;
     Layout = "~/Views/Shared/_LayoutAdminLTE3.cshtml";
 }
 @Html.Partial("~/Views/Accession/_Detail.cshtml")
 @Html.Partial("~/Views/Accession/_List.cshtml")
-@{Html.RenderAction("GetEditModal", "SysFolder", new { @sysTableName = "accession" }); }
 
 <script type="text/javascript">
     //$(document).keypress(function (event) {

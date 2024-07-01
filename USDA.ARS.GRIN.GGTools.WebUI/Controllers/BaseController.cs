@@ -23,6 +23,33 @@ namespace USDA.ARS.GRIN.GGTools.WebUI
             }
         }
 
+        public void SetPageTitle()
+        {
+            string actionName = this.ControllerContext.RouteData.Values["action"].ToString();
+            string controllerName = this.ControllerContext.RouteData.Values["controller"].ToString();
+
+            System.Text.StringBuilder sbPageTitle = new System.Text.StringBuilder();
+
+            if (actionName.ToUpper() != "INDEX")
+            {
+                sbPageTitle.Append(actionName);
+                sbPageTitle.Append(" ");
+            }
+
+            sbPageTitle.Append(controllerName);
+
+            //if (sysTableTitleParameter != null)
+            //{
+            //    sbPageTitle.Append(sysTableTitleParameter.ToString());
+            //}
+            //else
+            //{
+            //    sbPageTitle.Append(controllerName);
+            //}
+            
+            ViewBag.PageTitle = sbPageTitle.ToString();
+        }
+
         /// <summary>
         /// Handles all menu rendering.
         /// 1. By default, a menu with a "Home" link leading to the GGTools main page.

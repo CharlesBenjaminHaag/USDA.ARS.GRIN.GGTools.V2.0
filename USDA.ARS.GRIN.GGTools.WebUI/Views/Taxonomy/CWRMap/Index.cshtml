@@ -6,6 +6,7 @@
 @Html.Partial("~/Views/Taxonomy/CWRMap/_Detail.cshtml")
 @Html.Partial("~/Views/Taxonomy/CWRMap/_List.cshtml")
 @{Html.RenderAction("GetEditModal", "SysFolder", new { @sysTableName = Model.TableName }); }
+@{Html.RenderAction("GetDynamicEditModal", "SysFolder", new { @sysTableName = Model.TableName }); }
 
 <script type="text/javascript">
     //$(document).keypress(function (event) {

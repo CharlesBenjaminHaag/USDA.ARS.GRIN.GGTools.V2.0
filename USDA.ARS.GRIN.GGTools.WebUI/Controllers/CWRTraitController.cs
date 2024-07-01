@@ -449,9 +449,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI
             try
             {
                 SpeciesViewModel viewModel = new SpeciesViewModel();
-                viewModel.PageTitle = "Batch Edit";
-                //viewModel.SearchEntity.IDList = idList;
-                //viewModel.Search();
+                
                 Session["SPECIES_ID_LIST"] = idList;
                 return View("~/Views/Taxonomy/Species/EditMultiple_POC.cshtml", viewModel);
             }

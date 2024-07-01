@@ -133,6 +133,30 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             return entity.ID;
         }
 
+        public virtual int InsertProperties(SysFolder entity)
+        {
+            int errorNumber = 0;
+
+            Reset(CommandType.StoredProcedure);
+            Validate<SysFolder>(entity);
+            SQL = "usp_GRINGlobal_Sys_Folder_Properties_Insert";
+
+            AddParameter("sys_folder_id", (object)entity.ID, false);
+            AddParameter("@out_error_number", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
+            AddParameter("@out_sys_folder_properties_id", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
+
+            RowsAffected = ExecuteNonQuery();
+
+            errorNumber = GetParameterValue<int>("@out_error_number", -1);
+            if (errorNumber > 0)
+            {
+                throw new Exception(errorNumber.ToString());
+            }
+
+            entity.ID = GetParameterValue<int>("@out_sys_folder_id", -1);
+            return entity.ID;
+        }
+
         public virtual int InsertItem(SysFolderItemMap sysFolderItemMap)
         {
             int errorNumber = 0;

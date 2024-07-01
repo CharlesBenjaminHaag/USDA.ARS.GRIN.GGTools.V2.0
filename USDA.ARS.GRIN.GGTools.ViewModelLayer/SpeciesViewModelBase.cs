@@ -159,6 +159,27 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
             set { _DataCollectionReports = value; }
         }
          
+        public new string PageTitle
+        {
+            get {
+                if (Entity.ID > 0)
+                {
+                    _PageTitle = String.Format("Edit Species [{0}]", Entity.ID);
+                }
+                else
+                {
+                    if (String.IsNullOrEmpty(Entity.SynonymCode))
+                    {
+                        _PageTitle = "Add Species";
+                    }
+                    else
+                    {
+                        _PageTitle = "Add SubTaxon";
+                    }
+                }
+                return _PageTitle;
+            }
+        }
 
         #region Select Lists
         public SelectList TableNames { get; set; }
@@ -183,25 +204,25 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
 
         #endregion
 
-        public string GetPageTitle()
-        {
-            if (Entity.ID > 0)
-            {
-                _PageTitle = String.Format("Edit Species [{0}]", Entity.ID);
-            }
-            else
-            {
-                if (String.IsNullOrEmpty(Entity.SynonymCode))
-                {
-                    _PageTitle = "Add Species";
-                }
-                else
-                {
-                    _PageTitle = "Add SubTaxon";
-                }
-            }
-            return _PageTitle;
-        }
+        //public string GetPageTitle()
+        //{
+        //    if (Entity.ID > 0)
+        //    {
+        //        _PageTitle = String.Format("Edit Species [{0}]", Entity.ID);
+        //    }
+        //    else
+        //    {
+        //        if (String.IsNullOrEmpty(Entity.SynonymCode))
+        //        {
+        //            _PageTitle = "Add Species";
+        //        }
+        //        else
+        //        {
+        //            _PageTitle = "Add SubTaxon";
+        //        }
+        //    }
+        //    return _PageTitle;
+        //}
 
         
     }

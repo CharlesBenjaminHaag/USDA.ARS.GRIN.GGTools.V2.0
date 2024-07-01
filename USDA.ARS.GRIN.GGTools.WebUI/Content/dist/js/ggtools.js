@@ -2,7 +2,7 @@
 * Name         : ggtools.js
 * Description  : Main JS application file for GGTools. This file
 *                should be included in all layout pages. 
-* Last Updated : 6/21/24  
+* Last Updated : 6/27/24  
 * By           : Benjamin Haag
 */
 
@@ -113,6 +113,7 @@ function InitDataTable(tableName) {
     $(document).ready(function () {
         table = $(tableName).DataTable({
             dom: "Bflrtip",
+            stateSave: true,
             responsive: true,
             paging: true,
             "pageLength": 10,
@@ -229,6 +230,7 @@ function InitDataTableFolderFormat(tableName) {
     $(document).ready(function () {
         table = $(tableName).DataTable({
             dom: "Bflrtip",
+            stateSave: true,
             responsive: true,
             paging: true,
             "pageLength": 10,

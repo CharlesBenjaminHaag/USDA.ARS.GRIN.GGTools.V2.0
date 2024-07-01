@@ -14,13 +14,13 @@
 @Html.Partial("~/Views/Taxonomy/Species/_Detail.cshtml")
 @Html.Partial("~/Views/Taxonomy/Species/_List.cshtml")
 @{Html.RenderAction("GetEditModal", "SysFolder", new { @sysTableName = Model.TableName }); }
-
+@{Html.RenderAction("GetDynamicEditModal", "SysFolder", new { @sysTableName = Model.TableName }); }
 @using (Html.BeginForm("GetBatchEditor", "Species", FormMethod.Post, new { id = "frmGetBatchEditor" }))
 {
     @Html.HiddenFor(x => x.ItemIDList)
 }
 
-    <script type="text/javascript">
+<script type="text/javascript">
     $(document).ready(function () {
         Init();
         SetExtendedFields();
@@ -68,5 +68,5 @@
             }
         });
     }
-    
-    </script>
+
+</script>

@@ -402,6 +402,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Views\ReleaseNotes.html" />
+    <Content Include="Views\SysFolder\Modals\_EditDynamic.cshtml" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -601,7 +602,6 @@
     <Content Include="Views\Login\ResetPasswordFinal.cshtml" />
     <Content Include="Views\WebOrder\_TEST.cshtml" />
     <Content Include="Views\CodeValue\Edit.cshtml" />
-    <Content Include="Views\AppUserItemFolder\_Detail.cshtml" />
     <Content Include="Views\Login\Error.cshtml" />
     <Content Include="Views\Shared\Sidebars\_MainSidebarARM.cshtml" />
     <Content Include="Views\SysGroup\Index.cshtml" />
@@ -609,7 +609,6 @@
     <Content Include="Views\SysGroup\_Detail.cshtml" />
     <Content Include="Views\SysGroup\_List.cshtml" />
     <Content Include="Views\SysGroupUserMap\_List.cshtml" />
-    <Content Include="Views\AppUserDynamicQuery\_List.cshtml" />
     <Content Include="Views\Taxonomy\Citation\Modals\_Detail.cshtml" />
     <Content Include="Views\Cooperator\Transfer.cshtml" />
     <Content Include="Views\Cooperator\Ownership\_List.cshtml" />
@@ -629,7 +628,6 @@
     <Content Include="Views\Taxonomy\Author\Modals\_SelectList.cshtml" />
     <Content Include="Views\Taxonomy\Species\Modals\_LookupProtologue.cshtml" />
     <Content Include="Views\Taxonomy\Species\Modals\_SelectListProtologue.cshtml" />
-    <Content Include="Views\AppUserItemFolder\Index.cshtml" />
     <Content Include="Views\AppUserItemList\_List.cshtml" />
     <Content Include="Views\Cooperator\_SelectList.cshtml" />
     <Content Include="Views\SiteAdmin\_Detail.cshtml" />
@@ -848,14 +846,6 @@
     <Content Include="Views\Cooperator\Components\_EditMenu.cshtml" />
     <Content Include="Views\Shared\Modals\_Email.cshtml" />
     <Content Include="Views\Cooperator\Modals\_Email.cshtml" />
-    <Content Include="Views\AppUserItemFolder\Modals\_BatchDelete.cshtml" />
-    <Content Include="Views\AppUserItemFolder\Modals\_Edit.cshtml" />
-    <Content Include="Views\AppUserItemFolder\Modals\_Import.cshtml" />
-    <Content Include="Views\AppUserItemFolder\Modals\_SelectList.cshtml" />
-    <Content Include="Views\AppUserItemFolder\Edit.cshtml" />
-    <Content Include="Views\AppUserItemFolder\_Confirmation.cshtml" />
-    <Content Include="Views\AppUserItemFolder\_List.cshtml" />
-    <Content Include="Views\AppUserItemFolder\_ListWidget.cshtml" />
     <Content Include="Views\AppUserItemList\_ListByFolder.cshtml" />
     <Content Include="Views\Taxonomy\Author\_ListFolder.cshtml" />
     <Content Include="Views\Taxonomy\Citation\_ListFolder.cshtml" />
@@ -874,18 +864,7 @@
     <Content Include="Views\Taxonomy\Regulation\_ListFolder.cshtml" />
     <Content Include="Views\Taxonomy\RegulationMap\_ListFolder.cshtml" />
     <Content Include="Views\Taxonomy\Species\_ListFolder.cshtml" />
-    <Content Include="Views\AppUserItemFolder\_ListAvailable.cshtml" />
-    <Content Include="Views\AppUserItemFolder\_ListCurrent.cshtml" />
-    <Content Include="Views\AppUserItemFolderCooperatorMap\_Widget.cshtml" />
-    <Content Include="Views\AppUserItemFolderCooperatorMap\Modals\_Edit.cshtml" />
-    <Content Include="Views\AppUserItemFolderCooperatorMap\Modals\_ListNonMapped.cshtml" />
-    <Content Include="Views\AppUserItemFolderCooperatorMap\Modals\_ListMapped.cshtml" />
-    <Content Include="Views\AppUserItemFolderCooperatorMap\Modals\_Widget.cshtml" />
     <Content Include="Views\Taxonomy\SpeciesSynonymMap\_ListFolder.cshtml" />
-    <Content Include="Views\AppUserItemFolder\_RelatedFoldersMenu.cshtml" />
-    <Content Include="Views\AppUserItemFolder\Modals\_EditDynamic.cshtml" />
-    <Content Include="Views\AppUserItemFolder\_ConfirmationDynamic.cshtml" />
-    <Content Include="Views\AppUserItemFolder\_ListWidgetDynamic.cshtml" />
     <Content Include="Views\Taxonomy\Author\_ListReferences.cshtml" />
     <Content Include="Views\Account\Modals\_TrainingRosterEdit.cshtml" />
     <Content Include="Views\Account\EditBatch.cshtml" />
@@ -894,14 +873,11 @@
     <Content Include="Views\AppUserItemList\_ListDynamic.cshtml" />
     <Content Include="Views\Taxonomy\GeographyMap\_MenuEdit.cshtml" />
     <Content Include="Views\AppUserItemList\_Detail.cshtml" />
-    <Content Include="Views\AppUserItemFolder\Explorer\Index.cshtml" />
     <Content Include="Views\AppUserItemList\_SelectList.cshtml" />
-    <Content Include="Views\AppUserItemFolder\_RelatedFoldersWidget.cshtml" />
     <Content Include="Views\SysDynamicQuery\Modals\_Edit.cshtml" />
     <Content Include="Views\SysDynamicQuery\Edit.cshtml" />
     <Content Include="Views\SysDynamicQuery\_Edit.cshtml" />
     <Content Include="Views\SysDynamicQuery\_List.cshtml" />
-    <Content Include="Views\AppUserItemFolder\Index BACKUP.cshtml" />
     <Content Include="Views\AppUserItemList\Index BACKUP.cshtml" />
     <Content Include="Views\SysTable\Edit.cshtml" />
     <Content Include="Views\Shared\_UserMessages.cshtml" />
@@ -940,7 +916,6 @@
     <Content Include="Views\Shared\Components\_BatchEdit.cshtml" />
     <Content Include="Views\GOBS\Index.cshtml" />
     <Content Include="Views\Shared\_LayoutAdminLTE3GOBS.cshtml" />
-    <Content Include="Views\AppUserItemFolder\_Widget.cshtml" />
     <Content Include="Views\Shared\Sidebars\_MainSidebarGOBS.cshtml" />
     <Content Include="Views\GOBS\Edit.cshtml" />
     <Content Include="Views\GOBS\_EditDataset.cshtml" />
@@ -1032,6 +1007,10 @@
     <Content Include="Views\SysFolder\Index.cshtml" />
     <Content Include="Views\SysFolder\_Detail.cshtml" />
     <Content Include="Views\SysFolder\_List.cshtml" />
+    <Content Include="Views\SysFolder\Components\_Widget.cshtml" />
+    <Content Include="Views\Taxonomy\Species\Components\_AddMenu.cshtml" />
+    <Content Include="Views\Taxonomy\Species\Components\_EditMenu.cshtml" />
+    <Content Include="Views\Shared\Modals\_UnderConstruction.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1040,7 +1019,6 @@
     <Folder Include="Controls\Shared\" />
     <Folder Include="logs\" />
     <Folder Include="Models\" />
-    <Folder Include="Views\AppUserItemFolder\Cooperator\" />
     <Folder Include="Views\Demo\" />
     <Folder Include="Views\Main\" />
     <Folder Include="Views\Method\Components\" />

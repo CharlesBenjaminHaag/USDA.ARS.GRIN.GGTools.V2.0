@@ -26,6 +26,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
                 Cooperators = new SelectList(mgr.GetCooperators("taxonomy_author"), "ID", "FullName");
             }
         }
+        
         public string OriginalShortName
         {
             get { return _OriginalShortName; }

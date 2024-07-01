@@ -30,12 +30,9 @@
     @Html.HiddenFor(x => x.Entity.VerifiedByCooperatorName)
     @Html.HiddenFor(x => x.Entity.NameVerifiedDate)
     @Html.HiddenFor(x => x.Entity.AccessionCount)
-    @Html.HiddenFor(x=> x.Entity.AssembledName)
+    @Html.HiddenFor(x => x.Entity.AssembledName)
 
-    if (Model.AppUserItemFolderID > 0)
-    {
-        Html.RenderAction("GetWidget", "AppUserItemFolder", new { idNumber = Model.Entity.ID });
-    }
+    {Html.RenderAction("Component_Widget", "SysFolder"); }
 
     <input type="hidden" id="hfModalEventValue" />
     <div id="section-verification">
@@ -100,7 +97,7 @@
                         @Html.Partial("~/Views/Shared/_ValidationMessages.cshtml")
                         @Html.Partial("~/Views/Taxonomy/Species/Components/_AcceptedNameEditor.cshtml")
 
-                        @if (Model.Entity.ID > 0)
+                        @*@if (Model.Entity.ID > 0)
                         {
                             <div class="row">
                                 <div class="col-md-12">
@@ -112,7 +109,7 @@
                                     </div>
                                 </div>
                             </div>
-                        }
+                        }*@
 
                         <div class="row">
                             <div class="col-md-4">
@@ -252,7 +249,7 @@
 @Html.Partial("~/Views/Taxonomy/Species/Modals/_EditSynonymOptions.cshtml")
 
 <script type="text/javascript">
-    $(document).ready(function () {
+    @*$(document).ready(function () {
         Init();
         /*$('#frmEdit').dirtyForms();*/
     });
@@ -387,6 +384,6 @@
         $("#placeholder-rank-name").html(rank);
         $("#EventValue").val(rank);
         $("#modal-edit-infraspecific-options").modal("show");
-    });
+    });*@
 </script>
 @Html.Partial("~/Views/Shared/_Scripts.cshtml")

@@ -12,6 +12,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
     public class HomeController : BaseController
     {
         private static readonly Logger Log = LogManager.GetCurrentClassLogger();
+        
         public ActionResult Index()
         {
             Session["APP_CONTEXT"] = "HOME";
@@ -39,10 +40,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 }
             }
         }
-        public ActionResult ReleaseNotes()
-        {
-            return View();
-        }
+        
         public ActionResult Navigate(string applicationCode)
         {
             Session["APP_CONTEXT"] = applicationCode;
@@ -60,6 +58,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                     return RedirectToAction("Index", "Home");
             }
         }
+        
         public ActionResult Search()
         {
             try
@@ -72,6 +71,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 return RedirectToAction("InternalServerError", "Error");
             }
         }
+        
         public PartialViewResult RenderSidebar()
         {
             return PartialView("~/Views/Shared/Sidebars/_MainSidebar.cshtml");

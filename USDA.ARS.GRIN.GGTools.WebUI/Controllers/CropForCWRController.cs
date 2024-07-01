@@ -21,9 +21,10 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             try
             {
                 viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
-                viewModel.PageTitle = "Crop For CWR Search";
                 viewModel.TableName = "taxonomy_cwr_crop";
                 viewModel.TableCode = "CropForCWR";
+
+                var DEBUG = ViewBag.PageTitle;
 
                 string targetKey = this.ControllerContext.RouteData.Values["controller"].ToString().ToUpper() + "_SEARCH";
                 if (Session[targetKey] != null)

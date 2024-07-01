@@ -5,6 +5,8 @@
 {
     @Html.HiddenFor(x => x.EventAction)
     @Html.HiddenFor(x => x.EventValue)
+    @Html.HiddenFor(x => x.EventInfo)
+    @Html.HiddenFor(x => x.EventNote)
     @Html.HiddenFor(x => x.TableName)
     @Html.HiddenFor(x => x.TableCode)
     @Html.HiddenFor(x => x.PageTitle)
@@ -32,7 +34,7 @@
                 <li class="nav-item">
                     <a class="nav-link" id="custom-tabs-one-profile-tab" data-toggle="pill" href="#custom-tabs-one-profile" role="tab" aria-controls="custom-tabs-one-profile" aria-selected="false">Saved Searches</a>
                 </li>
-                
+
             </ul>
         </div>
         <div class="card-body">
@@ -84,7 +86,7 @@
             </div>
         </div>
     </div>
-    @Html.Partial("~/Views/AppUserItemFolder/Modals/_EditDynamic.cshtml")
+
 }
 
 <script type="text/javascript">

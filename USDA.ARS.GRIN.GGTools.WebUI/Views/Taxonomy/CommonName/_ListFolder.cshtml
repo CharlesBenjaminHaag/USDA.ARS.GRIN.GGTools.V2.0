@@ -19,7 +19,7 @@
         {
         <tr>
             <td>@result.ID</td>
-            <td>@result.AppUserItemListID</td>
+            <td>@result.SysFolderItemMapID</td>
             <td>@result.EntityKey</td>
             <td>@result.Name</td>
             <td>
@@ -34,7 +34,7 @@
                 @Html.Raw(result.CitationText)
             </td>
             <td style="text-align:right;">
-                <a href="@Url.Action("Edit", "CommonName", new { entityId = result.ID })" class="btn btn-default btn-sm pull-right row-edit">
+                <a href="@Url.Action("Edit", "CommonName", new { entityId = result.ID, sysFolderId = Model.SearchEntity.FolderID })" class="btn btn-default btn-sm pull-right row-edit">
                     <i class="fa fa-edit"></i>
                 </a>
             </td>

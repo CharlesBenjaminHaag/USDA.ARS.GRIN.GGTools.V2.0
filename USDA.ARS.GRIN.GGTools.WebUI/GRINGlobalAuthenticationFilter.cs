@@ -22,8 +22,20 @@ namespace USDA.ARS.GRIN.GGTools.WebUI
             var controllerName = descriptor.ControllerDescriptor.ControllerName;
 
             var viewBag = filterContext.Controller.ViewBag;
-            viewBag.PageTitle = controllerName + " " + actionName;
-            
+
+            if (actionName.ToUpper() == "INDEX")
+            {
+                viewBag.PageTitle = controllerName;
+            }
+            else
+            {
+                var queryString = filterContext.HttpContext.Request.QueryString;
+                if (!string.IsNullOrEmpty(queryString["sysTableTitle"]))
+                {
+                    controllerName = queryString["sysTableTitle"];
+                }
+                viewBag.PageTitle = actionName + " " + controllerName;
+            }
 
             base.OnActionExecuting(filterContext);
         }
