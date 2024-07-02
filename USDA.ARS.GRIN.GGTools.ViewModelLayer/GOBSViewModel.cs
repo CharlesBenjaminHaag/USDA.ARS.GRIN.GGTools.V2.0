@@ -57,7 +57,27 @@ namespace USDA.ARS.GRIN.GGTools.GOBS.ViewModelLayer
 
         public GOBSDatasetAttachment GetGOBSDatasetAttachment(int entityId)
         {
-            return null;
+            try
+            {
+                using (GOBSManager mgr = new GOBSManager())
+                {
+                    try
+                    {
+                         //TODO
+                    }
+                    catch (Exception ex)
+                    {
+                        PublishException(ex);
+                        throw ex;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                PublishException(ex);
+                throw ex;
+            }
+            return Entity;
         }
 
         public GOBSDatasetAttachment GetGOBSDatasetField(int entityId)

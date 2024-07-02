@@ -80,6 +80,9 @@
             link = link.replace("ENTITY_ID", entityId);
             link = link.replace("OBJECT_TYPE", objectType);
 
+            //DEBUG
+            alert("CALLING " + link);
+
             var formData = new FormData();
             formData.append("entityId", entityId);
             formData.append("objectType", objectType);

@@ -35,15 +35,15 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             return View("~/Views/GOBS/Edit.cshtml", viewModel);
         }
 
-        public ViewResult GetAll(string objectType, string objectTitle)
+        public ViewResult GetAll(string tableName)
         {
             GOBSViewModel viewModel = new GOBSViewModel();
             SysDynamicQueryViewModel sysDynamicQueryViewModel = new SysDynamicQueryViewModel();
-            sysDynamicQueryViewModel.SearchEntity.SQLStatement = "SELECT * FROM get_" + objectType;
+            sysDynamicQueryViewModel.SearchEntity.SQLStatement = "SELECT * FROM gobs.get_" + tableName;
             sysDynamicQueryViewModel.Search();
 
             viewModel.DataCollectionDataTable = sysDynamicQueryViewModel.DataCollectionDataTable;
-            viewModel.TableName = objectTitle;
+            viewModel.TableName = tableName;
             return View("~/Views/GOBS/EditDependentData.cshtml", viewModel);
         }
 
@@ -65,29 +65,41 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             {
                 case "admin":
                     break;
+                case "dataset":
+                    partialViewName = "~/Views/GOBS/_EditDataset.cshtml";
+                    viewModel.GetDataset(entityId);
+                    break;
                 case "dataset_attach":
                     partialViewName = "~/Views/GOBS/_EditDatasetAttach.cshtml";
+                    viewModel.GetGOBSDatasetAttachment(entityId);
                     break;
                 case "dataset_cooperator":
                     partialViewName = "~/Views/GOBS/_EditDatasetCooperator.cshtml";
+                   
                     break;
                 case "dataset_field":
                     partialViewName = "~/Views/GOBS/_EditDatasetField.cshtml";
+                    viewModel.GetGOBSDatasetField(entityId);
                     break;
                 case "dataset_inventory":
                     partialViewName = "~/Views/GOBS/_EditDatasetInventory.cshtml";
+                    viewModel.GetGOBSDatasetInventory(entityId);
                     break;
                 case "dataset_marker":
                     partialViewName = "~/Views/GOBS/_EditDatasetMarker.cshtml";
+                    viewModel.GetGOBSDatasetMarker(entityId);
                     break;
                 case "dataset_marker_field":
                     partialViewName = "~/Views/GOBS/_EditDatasetMarkerField.cshtml";
+                    viewModel.GetGOBSDatasetMarkerField(entityId);
                     break;
                 case "dataset_marker_value":
                     partialViewName = "~/Views/GOBS/_EditDatasetMarkerValue.cshtml";
+                    viewModel.GetGOBSDatasetMarkerValue(entityId);
                     break;
                 case "dataset_value":
                     partialViewName = "~/Views/GOBS/_EditDatasetValue.cshtml";
+                    viewModel.GetGOBSDatasetValue(entityId);
                     break;
             }
             return PartialView(partialViewName, viewModel);

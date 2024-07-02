@@ -26,7 +26,7 @@ namespace USDA.ARS.GRIN.GGTools.GOBS.DataLayer
         public GOBSDataset Get(int entityId)
         {
             GOBSDataset gobsDataset = new GOBSDataset();
-            SQL = "SELECT * FROM get_gobs_dataset WHERE ID = @EntityID" ;
+            SQL = "SELECT * FROM gobs.get_dataset WHERE dataset_id = @EntityID" ;
 
             var parameters = new List<IDbDataParameter> {
                 CreateParameter("EntityID", (object)entityId, false)
@@ -35,6 +35,48 @@ namespace USDA.ARS.GRIN.GGTools.GOBS.DataLayer
             gobsDataset = GetRecord<GOBSDataset>(SQL, CommandType.Text, parameters.ToArray());
 
             return gobsDataset;
+        }
+
+        public GOBSDatasetAttachment GetDatasetAttachment(int entityId)
+        {
+            GOBSDatasetAttachment entity = new GOBSDatasetAttachment();
+            SQL = "SELECT * FROM gobs.get_dataset_attach WHERE dataset_attach_id = @EntityID";
+
+            var parameters = new List<IDbDataParameter> {
+                CreateParameter("EntityID", (object)entityId, false)
+            };
+
+            entity = GetRecord<GOBSDatasetAttachment>(SQL, CommandType.Text, parameters.ToArray());
+
+            return entity;
+        }
+
+        public GOBSDatasetField GetDatasetField(int entityId)
+        {
+            GOBSDatasetField entity = new GOBSDatasetField();
+            SQL = "SELECT * FROM gobs.get_dataset_field WHERE dataset_field_id = @EntityID";
+
+            var parameters = new List<IDbDataParameter> {
+                CreateParameter("EntityID", (object)entityId, false)
+            };
+
+            entity = GetRecord<GOBSDatasetField>(SQL, CommandType.Text, parameters.ToArray());
+
+            return entity;
+        }
+
+        public GOBSDatasetInventory GetDatasetInventory(int entityId)
+        {
+            GOBSDatasetInventory entity = new GOBSDatasetInventory();
+            SQL = "SELECT * FROM gobs.get_dataset_inventory WHERE dataset_inventory_id = @EntityID";
+
+            var parameters = new List<IDbDataParameter> {
+                CreateParameter("EntityID", (object)entityId, false)
+            };
+
+            entity = GetRecord<GOBSDatasetInventory>(SQL, CommandType.Text, parameters.ToArray());
+
+            return entity;
         }
 
         public int Insert(GOBSDataset entity)
