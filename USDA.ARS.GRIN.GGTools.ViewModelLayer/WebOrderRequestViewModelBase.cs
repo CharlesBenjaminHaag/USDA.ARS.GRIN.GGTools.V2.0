@@ -20,7 +20,8 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
         private string _ActionEmailBCC = String.Empty;
         private string _ActionEmailSubject = String.Empty;
         private string _ActionEmailBody = String.Empty;
-        
+        private string _ActionEmailBodyOriginal = String.Empty;
+
         private WebOrderRequest _Entity = new WebOrderRequest();
         private WebOrderRequestSearch _SearchEntity = new WebOrderRequestSearch();
         private Collection<WebOrderRequest> _DataCollection = new Collection<WebOrderRequest>();
@@ -49,6 +50,7 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
             }
             ActionEmailFrom = "gringlobal.orders@usda.gov";           
         }
+        
         public WebOrderRequest Entity
         {
             get { return _Entity; }
@@ -72,16 +74,19 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
             get { return _DataCollectionItems; }
             set { _DataCollectionItems = value; }
         }
+        
         public Collection<WebOrderRequestAction> DataCollectionActions
         {
             get { return _DataCollectionActions; }
             set { _DataCollectionActions = value; }
         }
+        
         public Collection<WebOrderRequestAction> DataCollectionNotes
         {
             get { return _DataCollectionNotes; }
             set { _DataCollectionNotes = value; }
         }
+        
         public Collection<WebOrderRequestActionGroup> DataCollectionActionGroups
         {
             get { return _DataCollectionActionGroups; }
@@ -146,25 +151,30 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
         { get { return _ActionEmailCategory; }
             set { _ActionEmailCategory = value; }
         }
+        
         public string ActionEmailFrom
         { get { return _ActionEmailFrom; }
             set { _ActionEmailFrom = value; }
         }
+        
         public string ActionEmailTo
         {
             get { return _ActionEmailTo; }
             set { _ActionEmailTo = value; }
         }
+        
         public string ActionEmailBCC
         {
             get { return _ActionEmailBCC; }
             set { _ActionEmailBCC = value; }
         }
+        
         public string ActionEmailSubject
         {
             get { return _ActionEmailSubject; }
             set { _ActionEmailSubject = value; }
         }
+        
         [AllowHtml]
         public string ActionEmailBody
         {
@@ -172,9 +182,17 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
             set { _ActionEmailBody = value; }
         }
 
+        [AllowHtml]
+        public string ActionEmailBodyOriginal
+        {
+            get { return _ActionEmailBodyOriginal; }
+            set { _ActionEmailBodyOriginal = value; }
+        }
+
         #region Select Lists
 
         public SelectList Statuses { get; set; }
+        
         public SelectList IntendedUseCodes { get; set; }
         
         #endregion

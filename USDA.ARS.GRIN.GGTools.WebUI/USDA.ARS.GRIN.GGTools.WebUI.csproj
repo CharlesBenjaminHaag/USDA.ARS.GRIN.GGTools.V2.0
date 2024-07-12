@@ -230,6 +230,7 @@
     </Compile>
     <Compile Include="GRINGlobalAuthenticationFilter.cs" />
     <Compile Include="Helpers\HtmlImageHelper.cs" />
+    <Compile Include="Helpers\ViewHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -986,7 +987,7 @@
     <Content Include="Views\Taxonomy\Family\EditBatch.cshtml" />
     <Content Include="Views\Taxonomy\Genus\EditBatch.cshtml" />
     <Content Include="Views\CodeValue\Components\_MainSidebar.cshtml" />
-    <Content Include="Views\CodeValue\Components\_SelectList.cshtml" />
+    <Content Include="Views\CodeValue\Components\_GroupSelectList.cshtml" />
     <Content Include="Views\SysTag\Components\_Editor.cshtml" />
     <Content Include="Views\SysTag\Components\_Select.cshtml" />
     <Content Include="Views\Taxonomy\Family\Components\_RelatedDataViewer.cshtml" />
@@ -1003,7 +1004,7 @@
     <Content Include="Views\SysFolderCooperatorMap\Components\_Editor.cshtml" />
     <Content Include="Views\SysFolderCooperatorMap\Components\_MappedCooperatorList.cshtml" />
     <Content Include="Views\SysFolderCooperatorMap\Components\_NonMappedCooperatorList.cshtml" />
-    <Content Include="Views\WebOrderRequest\Components\_EmailModal.cshtml" />
+    <Content Include="Views\WebOrderRequest\Components\_EmailEditor.cshtml" />
     <Content Include="Views\SysFolder\Index.cshtml" />
     <Content Include="Views\SysFolder\_Detail.cshtml" />
     <Content Include="Views\SysFolder\_List.cshtml" />
@@ -1011,6 +1012,7 @@
     <Content Include="Views\Taxonomy\Species\Components\_AddMenu.cshtml" />
     <Content Include="Views\Taxonomy\Species\Components\_EditMenu.cshtml" />
     <Content Include="Views\Shared\Modals\_UnderConstruction.cshtml" />
+    <Content Include="Views\CodeValue\Components\_CodeValueSelectList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

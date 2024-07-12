@@ -11,6 +11,8 @@ namespace USDA.ARS.GRIN.GGTools.WebUI
 {
     public class BaseController : Controller
     {
+   
+
         public string SessionKeyName
         {
             get 
@@ -59,7 +61,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI
         /// <param name="sysTableName"></param>
         /// <param name="sysTableTitle"></param>
         /// <returns></returns>
-        public virtual PartialViewResult PageMenu(string eventAction, string eventValue, string sysTableName = "", string sysTableTitle = "")
+        public virtual PartialViewResult PageMenu(string eventAction, string eventValue, string sysTableName = "", string sysTableTitle = "", int entityId = 0)
         {
             ViewBag.EventAction = eventAction;
             ViewBag.EventValue = eventValue;

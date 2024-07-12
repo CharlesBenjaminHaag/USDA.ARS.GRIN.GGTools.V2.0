@@ -228,15 +228,34 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             }
         }
 
-        public PartialViewResult Component_SelectList(string groupName)
+        public PartialViewResult Component_GroupList()
+        {
+            CodeValueViewModel viewModel = new CodeValueViewModel();
+            return PartialView("~/Views/CodeValue/Components/_SelectList.cshtml", viewModel);
+
+            //try
+            //{
+            //    viewModel.SearchEntity.GroupName = groupName;
+            //    viewModel.Search();
+            //    //TODO
+            //    return PartialView("~/Views/CodeValue/Components/_SelectList.cshtml", viewModel);
+            //}
+            //catch (Exception ex)
+            //{
+            //    Log.Error(ex);
+            //    return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            //}
+
+        }
+
+        public PartialViewResult Component_CodeValueList(string groupName)
         {
             CodeValueViewModel viewModel = new CodeValueViewModel();
             try
             {
                 viewModel.SearchEntity.GroupName = groupName;
                 viewModel.Search();
-                //TODO
-                return PartialView("~/Views/CodeValue/Components/_SelectList.cshtml", viewModel);
+                return PartialView("~/Views/CodeValue/Components/_CodeValueSelectList.cshtml", viewModel);
             }
             catch (Exception ex)
             {

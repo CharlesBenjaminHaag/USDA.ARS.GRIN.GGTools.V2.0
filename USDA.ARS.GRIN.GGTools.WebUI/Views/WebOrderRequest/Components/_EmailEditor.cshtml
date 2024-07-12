@@ -1,9 +1,17 @@
 ﻿@model USDA.ARS.GRIN.GGTools.ViewModelLayer.WebOrderRequestViewModel
 @using (Html.BeginForm("SendEmail", "WebOrder", FormMethod.Post, new { id = "frmEditEmail" }))
 {
-    @Html.HiddenFor(x => x.EventAction)
+    @Html.HiddenFor(x => x.NewActionCode)
     @Html.HiddenFor(x => x.EventValue)
     @Html.HiddenFor(x => x.Entity.ID)
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <label>Note (Optional)</label>
+                @Html.TextAreaFor(x => x.EventNote, new { @class = "form-control" })
+            </div>
+        </div>
+    </div>
     <div class="row">
         <div class="col-md-12">
             <div class="form-group">
@@ -40,7 +48,8 @@
         <div class="col-md-12">
             <div class="form-group">
                 <label>Body</label>
-                @Html.TextAreaFor(x => x.ActionEmailBody, new { @class = "form-control", @rows = "25" })
+                @Html.TextAreaFor(x => x.ActionEmailBody, new { @class = "form-control", @rows = "15" })
+                @Html.HiddenFor(x => x.ActionEmailBodyOriginal)
             </div>
         </div>
     </div>

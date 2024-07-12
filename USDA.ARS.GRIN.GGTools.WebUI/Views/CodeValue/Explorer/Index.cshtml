@@ -14,7 +14,6 @@
 
 <div class="row">
     <div class="col-md-3">
-
         <div class="card card-default">
             <div class="card-header">
                 <h3 class="card-title">Groups</h3>
@@ -25,41 +24,28 @@
                 </div>
             </div>
             <div class="card-body">
-                @Html.DropDownListFor(x=>x.SelectedGroup, Model.Groups, new { @class = "form-control" })
-                <div id="section-code-value-list">
-
-                </div>
+                <table id="data-table-groups" class="table table-striped ggtools-table">
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                            @foreach (var result in Model.DataCollectionGroups)
+                            {
+                                <tr>
+                                    <td>@result.Title</td>
+                                </tr>
+                            }
+                    </tbody>
+                </table>
             </div>
         </div>
-
-        <!-- TODO expandable hierarcical list that lazy-loads codes per grp (CBH, 6/10/24) -->
-        @*<div class="form-group">
-            <input type="text" class="form-control" />
-        </div>
-            @foreach (var group in Model.DataCollectionGroups)
-        {
-            <div class="card card-default collapsed-card">
-                <div class="card-header">
-                    <h3 class="card-title">@group.Title</h3>
-                    <div class="card-tools">
-                        <button id="btn" type="button" class="btn btn-tool" data-card-widget="collapse">
-                            <i class="fas fa-plus"></i>
-                        </button>
-                    </div>
-
-                </div>
-
-                <div class="card-body">
-                    The body of the card
-                </div>
-
-            </div>
-        }*@
     </div>
     <div class="col-md-9">
         <div id="section-search-results" class="card card-success">
             <div class="card-header">
-                <h3 class="card-title">Code Values (@Model.DataCollection.Count)</h3>
+                <h3 class="card-title"><span id="SelectedGroup"></span> Code Values (@Model.DataCollection.Count)</h3>
                 <div class="card-tools">
                     <button type="button" class="btn btn-tool" data-card-widget="collapse">
                         <i class="fas fa-minus"></i>
@@ -86,9 +72,10 @@
 
     $(document).ready(function () {
         Init();
-        var selectedValue = $('#SelectedGroup').val();
-        console.log('Selected Value on Page Load: ' + selectedValue);
-        GetCodeValueList(selectedValue);
+        InitSelectorDataTable("data-table-groups");
+        /*var selectedValue = $('#SelectedGroup').val();*/
+        /*console.log('Selected Value on Page Load: ' + selectedValue);*/
+        /*GetCodeValueList(selectedValue);*/
     });
 
     $(document).ready(function () {
@@ -147,21 +134,21 @@
             // Assuming you want to get the value of the first column
             var fieldValue = data[0];
 
-            GetCodeValueDetail(fieldValue);
-
-            //TODO
+            console.log("DEBUG SEL GRP " + fieldValue);
+            GetCodeValueList(fieldValue);
         } else {
              
         }
 
         $("#data-table-code-values tbody").on('click', 'tr', function () {
             var selRowdata = table.row(this).data()[0];
-            GetCodeValueDetail(selRowdata);
+            console.log("DEBUG SEL GRP " + selRowdata);
+            GetCodeValueList(selRowdata);
         });
     }
 
     function GetCodeValueList(groupName) {
-        var link = '@Url.Action("Component_SelectList", "CodeValue", new { groupName = "GROUP_NAME" })';
+        var link = '@Url.Action("Component_CodeValueList", "CodeValue", new { groupName = "GROUP_NAME" })';
         link = link.replace("GROUP_NAME", groupName);
         var formData = new FormData();
 

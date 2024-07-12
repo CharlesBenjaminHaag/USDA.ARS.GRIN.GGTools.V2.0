@@ -15,6 +15,7 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
 {
     public class WebOrderRequestViewModel : WebOrderRequestViewModelBase, IViewModel<WebOrderRequest>
     {
+        public string NewActionCode { get; set; }
         public string SelectedFilterTimeFrame { get; set; }
         public string SelectedFilterCurrentStatus { get; set; }
         public string SelectedFilterMostRecentAction { get; set; }
@@ -60,6 +61,7 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
                 DataCollectionItems = new Collection<WebOrderRequestItem>(mgr.GetWebOrderRequestItems(entityId));
             }
         }
+        
         public void GetWebOrderRequestActions()
         {
             try 
@@ -195,6 +197,7 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
             }
             return rowsAffected;
         }
+        
         public void InsertAction(WebOrderRequestAction webOrderRequestAction)
         {
             int rowsAffected = 0;
@@ -204,6 +207,7 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
                 rowsAffected = mgr.InsertWebOrderRequestAction(webOrderRequestAction);
             }
         }
+        
         public void Search()
         {
             using (WebOrderRequestManager mgr = new WebOrderRequestManager())
@@ -242,13 +246,17 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
             // Update WOR record and items, and add action.
             using (WebOrderRequestManager mgr = new WebOrderRequestManager())
             {
+                Entity.StatusCode = NewActionCode;
+                Entity.Note = EventNote;
+                Entity.EmailAddressList = ActionEmailTo;
+
                 mgr.Update(Entity);
 
                 WebOrderRequestAction webOrderRequestAction = new WebOrderRequestAction();
                 webOrderRequestAction.WebOrderRequestID = Entity.ID;
-                webOrderRequestAction.ActionCode = Entity.StatusCode;
-                webOrderRequestAction.Note = Entity.Note;
-                webOrderRequestAction.OwnedByWebUserID = Entity.OwnedByWebUserID;
+                webOrderRequestAction.ActionCode = NewActionCode;
+                webOrderRequestAction.Note = EventNote;
+                webOrderRequestAction.OwnedByWebUserID = Entity.WebUserID;
                 mgr.InsertWebOrderRequestAction(webOrderRequestAction);
             }
 
@@ -266,9 +274,10 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
                     SMTPMailMessage requestorEmailMessage = new SMTPMailMessage();
                     EmailTemplate rejectionEmailTemplate = DataCollectionEmailTemplates.Where(x => x.CategoryCode == emailTemplateCode).First();
                     requestorEmailMessage.From = rejectionEmailTemplate.EmailFrom;
-                    requestorEmailMessage.To = Entity.WebCooperatorEmail;
-                    requestorEmailMessage.Subject = rejectionEmailTemplate.Subject.Replace("[ID_HERE]", Entity.ID.ToString());
-                    requestorEmailMessage.Body = rejectionEmailTemplate.Body.Replace("[ID_HERE]", Entity.ID.ToString());
+                    requestorEmailMessage.To = ActionEmailTo;
+                    requestorEmailMessage.Subject = ActionEmailSubject;
+                    //requestorEmailMessage.Body = rejectionEmailTemplate.Body.Replace("[ID_HERE]", Entity.ID.ToString());
+                    requestorEmailMessage.Body = ActionEmailBody;
                     requestorEmailMessage.IsHtml = true;
                     sMTPManager.SendMessage(requestorEmailMessage);
                 }

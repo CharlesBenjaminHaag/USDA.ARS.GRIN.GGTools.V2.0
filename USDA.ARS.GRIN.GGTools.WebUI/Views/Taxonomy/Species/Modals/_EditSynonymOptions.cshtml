@@ -1,4 +1,4 @@
-﻿@model USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer.SpeciesViewModelBase
+﻿@model USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer.SynonymOptionsViewModel
 <div class="modal fade" id="modal-edit-syononym-options" style="display: none;" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -14,28 +14,20 @@
             <div id="section-search-criteria" class="modal-body">
                 @using (Html.BeginForm("Add", "Species", FormMethod.Post, new { id = "frmEditSynonymOptions" }))
                 {
-                    @Html.HiddenFor(x => x.Entity.ParentID)
-                    @Html.HiddenFor(x => x.Entity.IsAccepted)
-                    @Html.HiddenFor(x => x.Entity.IsAcceptedName)
-                    @Html.HiddenFor(x => x.Entity.SynonymCode)
+                    @Html.HiddenFor(x => x.ParentSpeciesID)
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Synonym Type</label>
-                                @Html.TextBoxFor(x => x.Entity.SynonymName, new { @class = "form-control" })
+                                @Html.DropDownListFor(x=>x.SelectedSynonymCode, Model.SynonymTypeCodes, "Select synonym type", new { @class = "form-control" })
+                                @Html.TextBoxFor(x => x.SelectedSynonymName, new { @class = "form-control" })
                             </div>
                         </div>
-                        <div class="col-md-3">
-                        </div>
-                    </div>
-                    <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Rank</label>
-                                @Html.DropDownListFor(x => x.Entity.Rank, Model.Ranks, new { @class = "form-control" })
+                                @Html.DropDownListFor(x => x.SelectedRank, Model.Ranks, new { @class = "form-control" })
                             </div>
-                        </div>
-                        <div class="col-md-3">
                         </div>
                     </div>
                     <div class="row">

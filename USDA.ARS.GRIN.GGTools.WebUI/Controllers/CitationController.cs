@@ -14,7 +14,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
         protected static string BASE_PATH = "~/Views/Taxonomy/Citation/";
         private static readonly Logger Log = LogManager.GetCurrentClassLogger();
 
-        public override PartialViewResult PageMenu(string eventAction, string eventValue, string sysTableName = "", string sysTableTitle = "")
+        public override PartialViewResult PageMenu(string eventAction, string eventValue, string sysTableName = "", string sysTableTitle = "", int entityId = 0)
         {
             ViewBag.EventAction = eventAction;
             ViewBag.EventValue = eventValue;

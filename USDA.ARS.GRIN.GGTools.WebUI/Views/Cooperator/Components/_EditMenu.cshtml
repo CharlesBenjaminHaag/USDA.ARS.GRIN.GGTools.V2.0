@@ -1,4 +1,4 @@
-﻿@model USDA.ARS.GRIN.GGTools.ViewModelLayer.CooperatorViewModel
+﻿
 @{ string eventAction = @ViewContext.RouteData.Values["controller"].ToString();
                 string eventValue = @ViewContext.RouteData.Values["action"].ToString(); }
 <ul class="navbar-nav">
@@ -15,7 +15,5 @@
             <li><a href="@Url.Action("AddBatch", eventAction)" class="dropdown-item">NRR Tool</a></li>
         </ul>
     </li>
-    <li class="nav-item d-none d-sm-inline-block">
-        <a href="@Url.Action("Edit","WebCooperator", new { entityId = Model.Entity.WebCooperatorID })" id="btnOpenFolderModal" class="nav-link">Web Cooperator</a>
-    </li>
+   
 </ul>

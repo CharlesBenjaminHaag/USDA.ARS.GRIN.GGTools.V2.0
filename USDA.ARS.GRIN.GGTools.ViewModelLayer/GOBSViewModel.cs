@@ -77,7 +77,7 @@ namespace USDA.ARS.GRIN.GGTools.GOBS.ViewModelLayer
                 PublishException(ex);
                 throw ex;
             }
-            return Entity;
+            return null;
         }
 
         public GOBSDatasetAttachment GetGOBSDatasetField(int entityId)

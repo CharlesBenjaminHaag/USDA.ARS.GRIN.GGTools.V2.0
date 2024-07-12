@@ -230,12 +230,6 @@
             </div>
 
         </div>
-
-
-
-
-
-
     </div>
 </div>
 
@@ -293,6 +287,10 @@
             data: formData,
             success: function (response) {
                 $("#section-folder-confirmation").html(response);
+
+                //DEBUG
+                alert(window.location.href);
+
                 window.location.href = window.location.href;
             },
             error: function () {

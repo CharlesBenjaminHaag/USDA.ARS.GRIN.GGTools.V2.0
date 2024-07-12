@@ -6,95 +6,73 @@
     Layout = "~/Views/Shared/_LayoutAdminLTE3.cshtml";
 }
 
-@Html.HiddenFor(x => x.RowsAffected)
-
 <div class="row">
     <div class="col-md-3">
-        <div class="card card-primary">
-            <div class="card-header">
-                <h3 class="card-title">1. Load Import File</h3>
-                <div class="card-tools">
-                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                        <i class="fas fa-minus"></i>
-                    </button>
+        @using (Html.BeginForm("LoadFileDefinition", "Import", FormMethod.Post, new { id = "frmEdit", enctype = "multipart/form-data" }))
+        {
+            <div class="card card-primary card-outline">
+                <div class="card-header">
+                    <h3 class="card-title">1. Load Import File</h3>
+                    <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                    </div>
                 </div>
-            </div>
-            <div class="card-body">
-                @using (Html.BeginForm("LoadFileDefinition", "Import", FormMethod.Post, new { id = "frmEdit", enctype = "multipart/form-data" }))
-                {
+                <div class="card-body">
+
                     <div class="form-group">
                         <label>Select Source File (.xls)</label>
                         @Html.TextBoxFor(x => x.DocumentUpload, new { @class = "form-control", @type = "file", @value = Model.ImportFileName })
                     </div>
-                    <button id="btnLoadFileDefinition" class="btn btn-default btn-block btn-flat">Load File Definition</button>
                     
-                }
-                </div>
-        </div>
-        <div class="card card-primary">
-            <div class="card-header">
-                <h3 class="card-title">2. Select Fields</h3>
-            </div>
-            <div class="card-body">
-                <div id="section-file-definition">
-                    @foreach (var result in Model.DataCollectionFields)
-                    {
-                        <div class="form-group">
-                            <div class="input-group">
-                                <input type="text" class="form-control" value="@result.Value" readonly="readonly" />
-                                <div class="input-group-append">
-                                    <span class="input-group-text" style="background-color:white;">
-                                        <input type="checkbox" capture checked="checked" />
-                                        &nbsp;
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                    }
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-9">
-            <div class="card card-primary card-tabs">
-                <div class="card-header p-0 pt-1">
-                    <ul class="nav nav-tabs" id="custom-tabs-two-tab" role="tablist">
-                        <li class="pt-2 px-3"><h3 class="card-title">Import</h3></li>
-                        <li class="nav-item">
-                            <a class="nav-link active" id="custom-tabs-two-home-tab" data-toggle="pill" href="#custom-tabs-two-home" role="tab" aria-controls="custom-tabs-two-home" aria-selected="true">APHIS</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" id="custom-tabs-two-profile-tab" data-toggle="pill" href="#custom-tabs-two-profile" role="tab" aria-controls="custom-tabs-two-profile" aria-selected="false">Passport Validation</a>
-                        </li>
 
-                    </ul>
+                    
+                </div>
+                <div class="card-footer">
+                    <button id="btnLoadFileDefinition" class="btn btn-default btn-block btn-flat">Load File Definition</button>
+                </div>
+            </div>
+        }
+            <div class="card card-primary card-outline">
+                <div class="card-header">
+                    <h3 class="card-title">2. Select Fields</h3>
                 </div>
                 <div class="card-body">
-                    <div class="tab-content" id="custom-tabs-two-tabContent">
-                        <div class="tab-pane fade show active" id="custom-tabs-two-home" role="tabpanel" aria-labelledby="custom-tabs-two-home-tab">
-                            <div class="row">
-                                <div class="col-md-6">
-
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label>Import Options</label>
-                                        <div class="input-group">
-                                            <input type="text" class="form-control" value="Load Species Only" readonly="readonly" />
-                                            <div class="input-group-append">
-                                                <span class="input-group-text" style="background-color:white;">
-                                                    @Html.CheckBoxFor(x => x.LoadSpeciesOnly)
-                                                    &nbsp;
-                                                </span>
-                                            </div>
-                                        </div>
+                    <div id="section-file-definition">
+                        @foreach (var result in Model.DataCollectionFields)
+                        {
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" value="@result.Value" readonly="readonly" />
+                                    <div class="input-group-append">
+                                        <span class="input-group-text" style="background-color:white;">
+                                            <input type="checkbox" capture checked="checked" />
+                                            &nbsp;
+                                        </span>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="tab-pane fade" id="custom-tabs-two-profile" role="tabpanel" aria-labelledby="custom-tabs-two-profile-tab">
-                        </div>
+                        }
                     </div>
+                </div>
+                <div class="card-footer">
+                    <button id="btnImportFile" class="btn btn-default btn-block btn-flat">Import File</button>
+                </div>
+            </div>
+        </div>
+    <div class="col-md-9">
+            <div class="card card-primary">
+                <div class="card-header">
+                    <h3 class="card-title">Import</h3>
+                    <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="card-body">
+                    
                 </div>
                 <div class="card-footer">
                     <button type="submit" class="btn btn-default">Begin Import</button>
@@ -141,7 +119,7 @@
     });
 
     $("#btnLoadFileDefinition").on('click', function (event) {
-
+        GetFieldNames();
     });
 
     $(document).on("click", "[id*='species-selector-']", function () {
@@ -211,7 +189,43 @@
             //});
         });
     }
-      
+
+    function GetFieldNames() {
+        var link = '@Url.Action("Save","Component_FieldNameList")';
+        var formData = new FormData();
+
+        formData.append("Entity.ID", $("#Entity_ID").val());
+        formData.append("Entity.CodeValueID", $("#Entity_CodeValueID").val());
+        formData.append("Entity.CodeValueLangID", $("#Entity_CodeValueLangID").val());
+        formData.append("Entity.GroupName", $("#Entity_GroupName").val());
+        formData.append("Entity.SysLangID", $("#Entity_SysLangID").val());var link = '@Url.Action("Save","CodeValue")';
+
+        $.ajax({
+            url: link,
+            type: 'POST',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (response) {
+                if (response.success) {
+                    var selectedGroupName = $("#SelectedGroup").val();
+                    var selectedCodeValueId = $("#SelectedCodeValueID").val();
+                    GetCodeValueDetail(selectedCodeValueId);
+                    GetCodeValueList(selectedGroupName);
+                    SetCurrentRow(selectedCodeValueId);
+
+                } else {
+                    HandleError(response.message);
+                }
+            },
+            error: function (xhr, status, error) {
+                var errorMessage = xhr.status + ': ' + xhr.statusText;
+                HandleError(errorMessage);
+            }
+        });
+    }
+
     function ShowResultsModal(genusName, speciesName) {
         $("#section-modal-title").html(genusName);
         $("#txtSpeciesName").val(speciesName);
@@ -264,5 +278,34 @@
                 alert("Error");
             }
         });
+    }
+
+    function ImportFile() {
+        var link = '@Url.Action("ImportFile","Import")';
+        var formData = new FormData();
+
+        var 
+
+        $.ajax({
+            url: link,
+            type: 'POST',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (response) {
+                $("#section-species-name-matching-results").html(response);
+            },
+            error: function () {
+                alert("Error");
+            }
+        });
+
+    }
+
+    function HandleError(message) {
+        $("#section-error").show();
+        $("#section-error-message").html(message);
+
     }
 </script>

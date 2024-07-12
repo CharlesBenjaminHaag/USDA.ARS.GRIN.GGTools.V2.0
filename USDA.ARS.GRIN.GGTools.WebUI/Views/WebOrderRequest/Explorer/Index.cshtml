@@ -138,8 +138,6 @@
     </div>
 </div>
 
-<div id="section-email-modal"></div>
-
 <!-- ****************************************** BEGIN EMAIL MODAL *******************************************************-->
 <div class="modal fade" id="modal-email" style="display: none;" aria-hidden="true">
     <div class="modal-dialog modal-lg">
@@ -153,62 +151,7 @@
                     <span aria-hidden="true">×</span>
                 </button>
             </div>
-            <div id="section-search-criteria" class="modal-body">
-                @using (Html.BeginForm("SendEmail", "WebOrder", FormMethod.Post, new { id = "frmEditEmail" }))
-                {
-                    @Html.HiddenFor(x => x.EventAction)
-                    @Html.HiddenFor(x => x.EventValue)
-                    @Html.HiddenFor(x => x.Entity.ID)
-
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label>From</label>
-                                <input type="text" id="txtEmailFrom" class="form-control" readonly="readonly" />
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label>To</label>
-                                <input type="text" id="txtEmailTo" class="form-control" readonly="readonly" />
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label>BCC</label>
-                                <input type="text" id="txtEmailBCC" class="form-control" readonly="readonly" />
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label>Subject</label>
-                                <input type="text" id="txtEmailSubject" class="form-control" />
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label>Note (Optional)</label>
-                                <input type="text" id="txtEmailNote" , class="form-control" />
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label>Body</label>
-                                <textarea id="txtEmailBody" class="form-control" rows="20"></textarea>
-                            </div>
-                        </div>
-                    </div>
-                }
+            <div id="section-modal-email-content" class="modal-body">
             </div>
             <div class="modal-footer justify-content-between">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
@@ -257,9 +200,7 @@
     });
 
     $(document).on("click", "[id='btnSubmitReview']", function () {
-        //TODO
-        //Submit approval or rejection
-        //Send email body and metadata if necessary
+        SubmitReview();
         LoadWebOrderRequestList();
     });
 
@@ -300,11 +241,56 @@
         $("#modal-email").modal("show");*@
     });
 
+    function SubmitReview() {
+        var link = '@Url.Action("Edit","WebOrderRequest")';
+        var note = $("#EventNote").val();
+        var entityId = $("#Entity_ID").val();
+        var newActionCode = $("#NewActionCode").val();
+        var actionEmailFrom = $("#ActionEmailFrom").val();
+        var actionEmailTo = $("#ActionEmailTo").val();
+        var actionEmailSubject = $("#ActionEmailSubject").val();
+        var actionEmailBody = $("#ActionEmailBody").val();
+        var actionEmailBodyOriginal = $("#ActionEmailBodyOriginal").val();
+
+        var formData = new FormData();
+        formData.append("Entity.ID", entityId);
+        formData.append("EventNote", note);
+        formData.append("NewActionCode", newActionCode);
+        formData.append("ActionEmailFrom", actionEmailFrom);
+        formData.append("ActionEmailTo", actionEmailTo);
+        formData.append("ActionEmailSubject", actionEmailSubject);
+        formData.append("ActionEmailBody", actionEmailBody);
+        formData.append("ActionEmailBodyOriginal", actionEmailBodyOriginal);
+
+        $.ajax({
+            url: link,
+            type: 'POST',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (response) {
+                if (response.success) {
+                    
+
+                } else {
+                    HandleError(response.message);
+                }
+            },
+            error: function (xhr, status, error) {
+                var errorMessage = xhr.status + ': ' + xhr.statusText;
+                /*HandleError(errorMessage);*/
+            }
+        });
+    }
+
     function LoadEmailModal(actionCode) {
      link = '@Url.Action("Component_EmailModal", "WebOrderRequest")';
      var webOrderRequestId = $("#Entity_ID").val();
      var actionEmailTo = $("#Entity_WebCooperatorEmail").val();
      var formData = new FormData();
+
+     $("#modal-email").modal("show");
 
      formData.append("entityId", webOrderRequestId);
      formData.append("actionCode", actionCode);
@@ -318,8 +304,9 @@
          processData: false,
          data: formData,
          success: function (response) {
-             $("#section-email-modal").html(response);
-             $("#modal-email").modal("show");
+
+             $("#section-modal-email-content").html(response);
+
          }
      });
  }
@@ -371,7 +358,7 @@
                 //columnDefs: [
                 //    { targets: [0], visible: false }
                 //]
-                
+
             });
 
             // If the table contains at least one row, select that row by default, and load the WOR data
@@ -524,11 +511,6 @@
         });
     }
 
-    // BEGIN TAG LOGIC
-
-
-
-
     $(document).ready(function () {
         // Click event handler for dynamically created tags
         $('#tagContainer').on('click', '.tag', function () {
@@ -552,9 +534,5 @@
             $(this).parent().remove(); // Remove the tag containing the delete button
         });
     });
-
-
-
-    // END TAG LOGIC
 
 </script>

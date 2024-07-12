@@ -14,7 +14,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
     {
         private static readonly Logger Log = LogManager.GetCurrentClassLogger();
 
-        public override PartialViewResult PageMenu(string eventAction, string eventValue, string sysTableName = "", string sysTableTitle = "")
+        public override PartialViewResult PageMenu(string eventAction, string eventValue, string sysTableName = "", string sysTableTitle = "", int entityId = 0)
         {
             ViewBag.EventAction = eventAction;
             ViewBag.EventValue = eventValue;

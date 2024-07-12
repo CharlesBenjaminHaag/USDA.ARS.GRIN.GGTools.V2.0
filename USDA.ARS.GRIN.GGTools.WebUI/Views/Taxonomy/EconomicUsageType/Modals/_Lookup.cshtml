@@ -49,6 +49,7 @@
             </div>
             <div class="modal-footer justify-content-between">
                 <button type="button" class="btn btn-danger pull-left" data-dismiss="modal">Close</button>
+                <button id="btnSaveEconomicUsageType" type="button" class="btn btn-info" data-dismiss="modal">Add Selected Type</button>
             </div>
         </div>
     </div>
@@ -102,11 +103,8 @@
         var idField = $("#hfEconomicUsageTypeLookupIDFieldName").val();
         var nameField = $("#hfEconomicUsageTypeLookupNameFieldName").val();
         var idList = GetSelectedEntityIDs("data-table-economic-usage-type-lookup");
-        var nameList = GetSelectedEntityLabels("data-table-economic-usage-type-lookup");
-
-        //DEBUG
-        alert("ID FLD IS " + idField + " AND NAME FLD IS " + nameField + " GETS VAL " + nameList);
-
+        var nameList = GetSelectedEntityText("data-table-economic-usage-type-lookup");
+   
         $("#Entity_" + idField).val(idList);
         $("#Entity_" + nameField).val(nameList);
     });

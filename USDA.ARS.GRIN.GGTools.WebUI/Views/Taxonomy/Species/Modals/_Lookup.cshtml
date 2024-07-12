@@ -145,14 +145,12 @@
         var isAcceptedName = "";
         var idList = GetSelectedEntityIDs("data-table-species-lookup");
         var nameList = GetSelectedEntityLabels("data-table-species-lookup");
-
-        //DEBUG
-        /*alert("DEBUG ID IS " + idList + " AND NAME IS " + nameList);*/
+        var placeholderName = "#placeholder-" + nameField;
 
         $("#Entity_" + idField).val(idList);
         $("#Entity_" + nameField).val(nameList);
 
-        $("#placeholder-accepted-name").html(nameList);
+        $(placeholderName).html(nameList);
         $('#modal-species-lookup').modal('hide');
     }
 

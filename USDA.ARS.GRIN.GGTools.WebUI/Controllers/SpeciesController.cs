@@ -30,23 +30,32 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
         /// <param name="sysTableName"></param>
         /// <param name="sysTableTitle"></param>
         /// <returns></returns>
-        public override PartialViewResult PageMenu(string eventAction, string eventValue, string sysTableName = "", string sysTableTitle = "")
+        public override PartialViewResult PageMenu(string eventAction, string eventValue, string sysTableName = "", string sysTableTitle = "", int entityId = 0)
         {
+            var queryParams = new Dictionary<string, string>();
+
+            // Iterate through the query string collection
+            foreach (string key in Request.QueryString)
+            {
+                if (key != null)
+                {
+                    queryParams[key] = Request.QueryString[key];
+                }
+            }
+
+            // Access specific query string parameters
+            //string param1 = Request.QueryString["entityId"];
+            //string param2 = Request.QueryString["synonymCode"];
+
+            // Pass the dictionary and specific parameters to the view
+            ViewBag.QueryParams = queryParams;
+            ViewBag.EntityID = Request.QueryString["entityId"];
+            ViewBag.SynonymCode = Request.QueryString["synonymCode"];
             ViewBag.EventAction = eventAction;
             ViewBag.EventValue = eventValue;
 
-            if (eventValue == "Add")
-            {
-                return PartialView("~/Views/Taxonomy/Species/Components/_AddMenu.cshtml");
-            }
-            else
-            {
-                
-                    return PartialView("~/Views/Taxonomy/Species/Components/_EditMenu.cshtml");
-                
-            }
+            return PartialView("~/Views/Taxonomy/Species/Components/_EditMenu.cshtml");
         }
-
 
         public PartialViewResult GetNameMatches(string genusName, string speciesName)
         {
@@ -229,104 +238,6 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             }
         }
 
-        public PartialViewResult RenderLookupModal()
-        {
-            SpeciesViewModel viewModel = new SpeciesViewModel();
-            return PartialView(BASE_PATH + "/Modals/_Lookup.cshtml", viewModel);
-        }
-        
-        public PartialViewResult RenderParentLookupModal()
-        {
-            SpeciesViewModel viewModel = new SpeciesViewModel();
-            return PartialView(BASE_PATH + "/Modals/_LookupParent.cshtml", viewModel);
-        }
-        
-        public PartialViewResult RenderInfraspecificAutonymWidget(string genusName, string speciesName, string rank)
-        {
-            try
-            {
-                SpeciesViewModel viewModel = new SpeciesViewModel();
-                viewModel.GetInfraspecificAutonym(genusName, speciesName, rank);
-                return PartialView("~/Views/Taxonomy/Shared/_InfraspecificAutonymWidget.cshtml", viewModel);
-            }
-            catch (Exception ex)
-            {
-                Log.Error(ex);
-                return PartialView("~/Views/Error/_InternalServerError.cshtml");
-            }
-        }
-        
-        [HttpPost]
-        public PartialViewResult Lookup(SpeciesViewModel viewModel)
-        {
-            string partialViewName = "~/Views/Taxonomy/Species/Modals/_SelectList.cshtml";
-
-            try
-            {
-                switch (viewModel.EventAction)
-                {
-                    case "species-a":
-                        partialViewName = "~/Views/Taxonomy/SpeciesSynonymMap/_SelectListSpeciesA.cshtml";
-                        break;
-                    case "species-b":
-                        partialViewName = "~/Views/Taxonomy/SpeciesSynonymMap/_SelectListSpeciesB.cshtml";
-                        break;
-                }
-                viewModel.Search();
-                return PartialView(partialViewName, viewModel);
-            }
-            catch (Exception ex)
-            {
-                Log.Error(ex);
-                return PartialView("~/Views/Error/_InternalServerError.cshtml");
-            }
-        }
-
-        [HttpPost]
-        public PartialViewResult LookupParent(SpeciesViewModel viewModel)
-        {
-            try
-            {
-                viewModel.Search();
-                return PartialView("~/Views/Taxonomy/Species/Modals/_SelectListParent.cshtml", viewModel);
-            }
-            catch (Exception ex)
-            {
-                Log.Error(ex);
-                return PartialView("~/Views/Error/_InternalServerError.cshtml");
-            }
-        }
-
-        [HttpPost]
-        public PartialViewResult LookupProtologues(FormCollection formCollection)
-        {
-            string partialViewName = BASE_PATH + "/Modals/_SelectListProtologue.cshtml";
-            SpeciesViewModel viewModel = new SpeciesViewModel();
-
-            if (!String.IsNullOrEmpty(formCollection["Protologue"]))
-            {
-                viewModel.SearchEntity.Protologue = formCollection["Protologue"];
-            }
-
-            viewModel.SearchProtologues(viewModel.SearchEntity.Protologue);
-            return PartialView(partialViewName, viewModel);
-        }
-
-        [HttpPost]
-        public PartialViewResult LookupProtologuePaths(FormCollection formCollection)
-        {
-            string partialViewName = BASE_PATH + "/Modals/_SelectListProtologueVirtualPath.cshtml";
-            SpeciesViewModel viewModel = new SpeciesViewModel();
-
-            if (!String.IsNullOrEmpty(formCollection["ProtologueVirtualPath"]))
-            {
-                viewModel.SearchEntity.ProtologueVirtualPath = formCollection["ProtologueVirtualPath"];
-            }
-
-            viewModel.SearchProtologues(viewModel.SearchEntity.Protologue);
-            return PartialView(partialViewName, viewModel);
-        }
-
         /// <summary>
         /// Called when adding a synonym. Assumes a UI element that allows the user to 
         /// specify:
@@ -362,16 +273,16 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 viewModel.Entity.ParentName = parentViewModel.Entity.AssembledName;
                 viewModel.Entity.Name = parentViewModel.Entity.Name;
 
-                if (viewModel.IsCopyGenusRequired == true)
-                {
-                    viewModel.Entity.GenusID = parentViewModel.Entity.GenusID;
-                    viewModel.Entity.GenusName = parentViewModel.Entity.GenusName;
-                }
+                //if (viewModel.IsCopyGenusRequired == true)
+                //{
+                //    viewModel.Entity.GenusID = parentViewModel.Entity.GenusID;
+                //    viewModel.Entity.GenusName = parentViewModel.Entity.GenusName;
+                //}
 
-                if (viewModel.IsCopySpeciesRequired == true)
-                {
-                    viewModel.Entity.SpeciesName = parentViewModel.Entity.SpeciesName;
-                }
+                //if (viewModel.IsCopySpeciesRequired == true)
+                //{
+                //    viewModel.Entity.SpeciesName = parentViewModel.Entity.SpeciesName;
+                //}
                 
                 viewModel.Entity.AssembledName = parentViewModel.Entity.AssembledName;
                 viewModel.Entity.SubspeciesName = parentViewModel.Entity.SubspeciesName;
@@ -407,7 +318,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             return View(BASE_PATH + "Edit.cshtml", viewModel);
         }
 
-        public ActionResult Add(int genusId = 0, int entityId = 0, string rank = "", string synonymTypeCode = "", string copyProtologue="false", string copyAuthority="false", string copyNote="false")
+        public ActionResult Add(int genusId = 0, int entityId = 0, string rank = "", string synonymCode = "", string copyProtologue="false", string copyAuthority="false", string copyNote="false")
         {
             try
             {
@@ -444,6 +355,12 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
 
                     // Add link to "parent" taxon.
                     viewModel.ParentEntity = parentViewModel.Entity;
+                    viewModel.Entity.AcceptedID = parentViewModel.Entity.ID;
+                    viewModel.Entity.AcceptedName = parentViewModel.Entity.AssembledName;
+                    viewModel.Entity.SynonymCode = synonymCode;
+                    viewModel.Entity.IsAccepted = false;
+                    viewModel.Entity.IsAcceptedName = "N";
+
                     viewModel.Entity.ParentID = parentViewModel.Entity.ID;
                     viewModel.Entity.ParentName = parentViewModel.Entity.AssembledName;
                     viewModel.Entity.Name = parentViewModel.Entity.Name;
@@ -492,33 +409,37 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                     Session["PARENT-SPECIES"] = viewModel.ParentEntity;
                 }
 
-                if (!String.IsNullOrEmpty(synonymTypeCode))
+                if (!String.IsNullOrEmpty(synonymCode))
                 {
                     // TODO: Refactor; obtain actual syn code based on human-readable
                     //       string passed in querystring.
-                    switch (synonymTypeCode)
+                    switch (synonymCode)
                     {
-                        case "homotypic":
+                        case "=":
                             viewModel.Entity.SynonymCode = "=";
                             viewModel.Entity.SynonymDescription = "Homotypic Synonym";
                             break;
-                        case "autonym":
+                        case "A":
                             viewModel.Entity.SynonymCode = "A";
                             viewModel.Entity.SynonymDescription = "Autonym";
                             break;
-                        case "basionym":
+                        case "B":
                             viewModel.Entity.SynonymCode = "B";
                             viewModel.Entity.SynonymDescription = "Basionym";
                             break;
-                        case "heterotypic":
+                        case "S":
                             viewModel.Entity.SynonymCode = "S";
                             viewModel.Entity.SynonymDescription = "Heterotypic Synonym";
                             break;
-                        case "invalid":
+                        case "I":
                             viewModel.Entity.SynonymDescription = "Invalid Synonym";
                             viewModel.Entity.SynonymCode = "I";
                             break;
                     }
+
+                  
+
+                    ViewBag.PageTitle += viewModel.Entity.SynonymDescription;
                 }
                 else
                 {
@@ -547,7 +468,15 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 return RedirectToAction("InternalServerError", "Error");
             }
         }
-        
+
+        [HttpPost]
+        public ActionResult AddSynonym(SynonymOptionsViewModel viewModel)
+        {
+            SpeciesViewModel speciesViewModel = new SpeciesViewModel();
+            //TODO
+            return View("~/Views/Taxonomy/Species/Edit.cshtml", viewModel);
+        }
+
         public ActionResult AddAutonym(int entityId)
         {
             SpeciesViewModel speciesViewModel = new SpeciesViewModel();
@@ -731,7 +660,9 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
 
                 SetPageTitle();
                 ViewBag.PageTitle += " [" + viewModel.ID + "]: " + viewModel.Entity.AssembledName;
-               
+
+                ViewData["DEBUG"] = "DEBUG EDIT SPEC " + viewModel.ID;
+
                 // If there is a rank specified, this is a change-rank operation; reload
                 // page with newly-set rank to enable necessary fields.
                 if (!String.IsNullOrEmpty(rank))
@@ -985,7 +916,109 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 return Json(ex.Message, JsonRequestBehavior.AllowGet);
             }
         }
-        
+
+        #endregion
+
+        #region Modals
+
+        public PartialViewResult RenderLookupModal()
+        {
+            SpeciesViewModel viewModel = new SpeciesViewModel();
+            return PartialView(BASE_PATH + "/Modals/_Lookup.cshtml", viewModel);
+        }
+
+        public PartialViewResult RenderParentLookupModal()
+        {
+            SpeciesViewModel viewModel = new SpeciesViewModel();
+            return PartialView(BASE_PATH + "/Modals/_LookupParent.cshtml", viewModel);
+        }
+
+        public PartialViewResult RenderInfraspecificAutonymWidget(string genusName, string speciesName, string rank)
+        {
+            try
+            {
+                SpeciesViewModel viewModel = new SpeciesViewModel();
+                viewModel.GetInfraspecificAutonym(genusName, speciesName, rank);
+                return PartialView("~/Views/Taxonomy/Shared/_InfraspecificAutonymWidget.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
+        }
+
+        [HttpPost]
+        public PartialViewResult Lookup(SpeciesViewModel viewModel)
+        {
+            string partialViewName = "~/Views/Taxonomy/Species/Modals/_SelectList.cshtml";
+
+            try
+            {
+                switch (viewModel.EventAction)
+                {
+                    case "species-a":
+                        partialViewName = "~/Views/Taxonomy/SpeciesSynonymMap/_SelectListSpeciesA.cshtml";
+                        break;
+                    case "species-b":
+                        partialViewName = "~/Views/Taxonomy/SpeciesSynonymMap/_SelectListSpeciesB.cshtml";
+                        break;
+                }
+                viewModel.Search();
+                return PartialView(partialViewName, viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
+        }
+
+        [HttpPost]
+        public PartialViewResult LookupParent(SpeciesViewModel viewModel)
+        {
+            try
+            {
+                viewModel.Search();
+                return PartialView("~/Views/Taxonomy/Species/Modals/_SelectListParent.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
+        }
+
+        [HttpPost]
+        public PartialViewResult LookupProtologues(FormCollection formCollection)
+        {
+            string partialViewName = BASE_PATH + "/Modals/_SelectListProtologue.cshtml";
+            SpeciesViewModel viewModel = new SpeciesViewModel();
+
+            if (!String.IsNullOrEmpty(formCollection["Protologue"]))
+            {
+                viewModel.SearchEntity.Protologue = formCollection["Protologue"];
+            }
+
+            viewModel.SearchProtologues(viewModel.SearchEntity.Protologue);
+            return PartialView(partialViewName, viewModel);
+        }
+
+        [HttpPost]
+        public PartialViewResult LookupProtologuePaths(FormCollection formCollection)
+        {
+            string partialViewName = BASE_PATH + "/Modals/_SelectListProtologueVirtualPath.cshtml";
+            SpeciesViewModel viewModel = new SpeciesViewModel();
+
+            if (!String.IsNullOrEmpty(formCollection["ProtologueVirtualPath"]))
+            {
+                viewModel.SearchEntity.ProtologueVirtualPath = formCollection["ProtologueVirtualPath"];
+            }
+
+            viewModel.SearchProtologues(viewModel.SearchEntity.Protologue);
+            return PartialView(partialViewName, viewModel);
+        }
+
         #endregion
     }
 }

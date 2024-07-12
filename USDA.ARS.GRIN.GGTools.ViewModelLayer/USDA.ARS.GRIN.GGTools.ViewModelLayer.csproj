@@ -69,6 +69,7 @@
     <Compile Include="AccessionInventoryAttachmentViewModelBase.cs" />
     <Compile Include="AccessionInvAnnotationViewModel.cs" />
     <Compile Include="AccessionInvAnnotationViewModelBase.cs" />
+    <Compile Include="SynonymOptionsViewModel.cs" />
     <Compile Include="FamilyViewModelBase.cs" />
     <Compile Include="FamilyViewModel.cs" />
     <Compile Include="SysFolderCooperatorMapViewModelBase.cs" />

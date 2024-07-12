@@ -145,7 +145,25 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             //    return RedirectToAction("InternalServerError", "Error");
             //}
         }
-       
+
+        [HttpPost]
+        public JsonResult Edit(WebOrderRequestViewModel viewModel)
+        {
+            try
+            {
+               
+                viewModel.Entity.ModifiedByCooperatorID = AuthenticatedUser.CooperatorID;
+                viewModel.Entity.WebUserID = AuthenticatedUser.WebUserID;
+                viewModel.Update();
+                return Json(new { success = true, data = viewModel.Entity.ID }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return Json(new { success = false, message = ex.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
         public ActionResult Index()
         {
             try
@@ -407,18 +425,19 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                     break;
             }
 
-            viewModel.EventAction = actionCode;
+            viewModel.NewActionCode = actionCode;
             viewModel.Entity.ID = entityId;
-            //viewModel.ActionEmailTo = actionEmailTo;
+            viewModel.ActionEmailTo = viewModel.Entity.WebCooperatorEmail;
             viewModel.ActionEmailSubject = emailTemplate.Subject;
             viewModel.ActionEmailFrom = "gringlobal.orders@usda.gov";
             viewModel.ActionEmailBody = emailTemplate.Body;
+            viewModel.ActionEmailBodyOriginal = emailTemplate.Body;
 
             // REFACTOR: Replace placeholder variables with WOR data.
             //viewModel.ActionEmailBody.Replace("@WebCooperatorFullName", viewModel.Entity.WebCooperatorFullName);
             viewModel.ActionEmailBody = viewModel.ActionEmailBody.Replace("[ID_HERE]", entityId.ToString());
             viewModel.ActionEmailSubject = viewModel.ActionEmailSubject.Replace("[ID_HERE]", entityId.ToString());
-            return PartialView("~/Views/WebOrder/Modals/_Email.cshtml", viewModel);
+            return PartialView("~/Views/WebOrderRequest/Components/_EmailEditor.cshtml", viewModel);
         }
     }
 }
