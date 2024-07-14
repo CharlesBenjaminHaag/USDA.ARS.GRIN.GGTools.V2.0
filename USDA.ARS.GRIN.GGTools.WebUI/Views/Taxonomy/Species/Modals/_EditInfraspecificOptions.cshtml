@@ -1,42 +1,32 @@
-﻿ @model USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer.SpeciesViewModelBase
+﻿@model USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer.InfraspecificOptionsViewModel
 <div class="modal fade" id="modal-edit-infraspecific-options" style="display: none;" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title">
                     <i class="fas fa-search"></i>
-                    Add <span id="placeholder-rank-name"></span>
+                    Add Infraspecific Rank <span id="placeholder-rank-name"></span>
                 </h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">×</span>
                 </button>
             </div>
             <div id="section-search-criteria" class="modal-body">
-                @using (Html.BeginForm("Add", "Species", FormMethod.Post, new { id = "frmEditInfraspecificOptions" }))
+                @using (Html.BeginForm("AddInfraspecific", "Species", FormMethod.Post, new { id = "frmEditInfraspecificOptions" }))
                 {
-                    @Html.HiddenFor(x => x.Entity.ParentID)
-                    @Html.HiddenFor(x => x.Entity.IsAccepted)
-                    @Html.HiddenFor(x => x.Entity.IsAcceptedName)
-                    @Html.HiddenFor(x => x.Entity.SynonymCode)
-                    @Html.HiddenFor(x => x.EventInfo)
+                    @Html.HiddenFor(x => x.ParentSpeciesID)
                     
                     <p>Select one or more of the following fields to copy to the newly-created infraspecific name.</p>
-                    
+                   
                     <div class="row">
-                        <div class="col-md-12">
-                            <label>Select Field(s) to Copy</label>
-                            <div class="input-group">
-                                <input type="text" class="form-control" value="Copy genus" />
-                                <div class="input-group-append">
-                                    <span class="input-group-text">
-                                        @Html.CheckBoxFor(x => x.IsCopyGenusRequired)
-                                        &nbsp;
-                                    </span>
-                                </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Rank</label>
+                                @Html.DropDownListFor(x => x.SelectedRank, Model.Ranks, new { @class = "form-control" })
                             </div>
-
                         </div>
                     </div>
+
                     <div class="row">
                         <div class="col-md-12">
                             <div class="input-group">

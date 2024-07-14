@@ -472,9 +472,80 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
         [HttpPost]
         public ActionResult AddSynonym(SynonymOptionsViewModel viewModel)
         {
+            SpeciesViewModel acceptedNameViewModel = new SpeciesViewModel();
+            SpeciesViewModel synonymViewModel = new SpeciesViewModel();
+            acceptedNameViewModel.Get(viewModel.ParentSpeciesID);
+
+            synonymViewModel.Entity.SpeciesName = acceptedNameViewModel.Entity.SpeciesName;
+            synonymViewModel.Entity.Name = acceptedNameViewModel.Entity.Name;
+            synonymViewModel.Entity.AssembledName = acceptedNameViewModel.Entity.AssembledName;
+            synonymViewModel.Entity.AcceptedID = acceptedNameViewModel.Entity.ID;
+            synonymViewModel.Entity.SynonymCode = viewModel.SelectedSynonymCode;
+            synonymViewModel.Entity.GenusID = acceptedNameViewModel.Entity.GenusID;
+            synonymViewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
+            synonymViewModel.Entity.Rank = viewModel.SelectedRank;
+            synonymViewModel.Entity.SubspeciesName = acceptedNameViewModel.Entity.SubspeciesName;
+            synonymViewModel.Entity.VarietyName = acceptedNameViewModel.Entity.VarietyName;
+            synonymViewModel.Entity.SubvarietyName = acceptedNameViewModel.Entity.SubvarietyName;
+            synonymViewModel.Entity.TribeName = acceptedNameViewModel.Entity.TribeName;
+            synonymViewModel.Entity.SubtribeName = acceptedNameViewModel.Entity.SubtribeName;
+            synonymViewModel.Entity.FormaName = acceptedNameViewModel.Entity.FormaName;
+
+            if (viewModel.IsCopyAuthorityRequired)
+            {
+                synonymViewModel.Entity.NameAuthority = acceptedNameViewModel.Entity.NameAuthority;
+                synonymViewModel.Entity.SpeciesAuthority = acceptedNameViewModel.Entity.SpeciesAuthority;
+                synonymViewModel.Entity.SubspeciesAuthority = acceptedNameViewModel.Entity.SubspeciesAuthority;
+                synonymViewModel.Entity.VarietyAuthority = acceptedNameViewModel.Entity.VarietyAuthority;
+                synonymViewModel.Entity.SubvarietyAuthority = acceptedNameViewModel.Entity.SubvarietyAuthority;
+                synonymViewModel.Entity.TribeAuthority = acceptedNameViewModel.Entity.TribeAuthority;
+                synonymViewModel.Entity.SubTribeAuthority = acceptedNameViewModel.Entity.SubTribeAuthority;
+                synonymViewModel.Entity.FormaAuthority = acceptedNameViewModel.Entity.FormaAuthority;
+            }
+
+            if (viewModel.IsCopyProtologueRequired)
+            {
+                synonymViewModel.Entity.Protologue = acceptedNameViewModel.Entity.Protologue;
+            }
+
+            if (viewModel.IsCopyNoteRequired)
+            {
+                synonymViewModel.Entity.Note = acceptedNameViewModel.Entity.Note;
+            }
+
+            synonymViewModel.Insert();
+            synonymViewModel.Get(synonymViewModel.Entity.ID);
+
+            ViewBag.PageTitle = "Add " + viewModel.SelectedSynonymName;
+
+            return RedirectToAction("Edit", "Species", new { @entityId = synonymViewModel.Entity.ID });
+        }
+
+        public ActionResult AddInfraspecific(InfraspecificOptionsViewModel viewModel)
+        {
+            SpeciesViewModel parentSpeciesViewModel = new SpeciesViewModel();
+            parentSpeciesViewModel.Get(viewModel.ParentSpeciesID);
+
             SpeciesViewModel speciesViewModel = new SpeciesViewModel();
-            //TODO
-            return View("~/Views/Taxonomy/Species/Edit.cshtml", viewModel);
+            speciesViewModel.TableName = "taxonomy_species";
+            speciesViewModel.EventAction = "ADD";
+            speciesViewModel.EventValue = viewModel.SelectedRank;
+            speciesViewModel.Entity.Name = parentSpeciesViewModel.Entity.Name;
+            speciesViewModel.Entity.SpeciesName = parentSpeciesViewModel.Entity.SpeciesName;
+            speciesViewModel.Entity.AssembledName = parentSpeciesViewModel.Entity.AssembledName;
+            speciesViewModel.Entity.GenusID = parentSpeciesViewModel.Entity.GenusID;
+            speciesViewModel.Entity.GenusName = parentSpeciesViewModel.Entity.GenusName;
+            speciesViewModel.Entity.IsAcceptedName = "Y";
+            speciesViewModel.Entity.IsAccepted = true;
+            speciesViewModel.Entity.IsWebVisibleOption = true;
+            speciesViewModel.Entity.Rank = viewModel.SelectedRank;
+            speciesViewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
+            speciesViewModel.Entity.CreatedByCooperatorName = AuthenticatedUser.FullName;
+            speciesViewModel.Entity.CreatedDate = System.DateTime.Now;
+
+            ViewBag.PageTitle = "Add " + speciesViewModel.ToTitleCase(viewModel.SelectedRank);
+
+            return View("~/Views/Taxonomy/Species/Edit.cshtml", speciesViewModel);
         }
 
         public ActionResult AddAutonym(int entityId)
@@ -923,8 +994,16 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
 
         public PartialViewResult RenderLookupModal()
         {
-            SpeciesViewModel viewModel = new SpeciesViewModel();
-            return PartialView(BASE_PATH + "/Modals/_Lookup.cshtml", viewModel);
+            try 
+            { 
+                SpeciesViewModel viewModel = new SpeciesViewModel();
+                return PartialView(BASE_PATH + "/Modals/_Lookup.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
         }
 
         public PartialViewResult RenderParentLookupModal()
@@ -947,6 +1026,35 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 return PartialView("~/Views/Error/_InternalServerError.cshtml");
             }
         }
+
+        public PartialViewResult RenderEditSynonymOptionsModal()
+        {
+            try
+            {
+                SynonymOptionsViewModel viewModel = new SynonymOptionsViewModel();
+                return PartialView("~/Views/Taxonomy/Species/Modals/_EditSynonymOptions.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
+        }
+
+        public PartialViewResult RenderInfraspecificOptionsModal()
+        {
+            try
+            {
+                InfraspecificOptionsViewModel viewModel = new InfraspecificOptionsViewModel();
+                return PartialView("~/Views/Taxonomy/Species/Modals/_EditInfraspecificOptions.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
+        }
+
 
         [HttpPost]
         public PartialViewResult Lookup(SpeciesViewModel viewModel)

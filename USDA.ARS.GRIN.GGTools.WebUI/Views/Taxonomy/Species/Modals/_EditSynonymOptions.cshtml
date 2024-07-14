@@ -12,15 +12,15 @@
                 </button>
             </div>
             <div id="section-search-criteria" class="modal-body">
-                @using (Html.BeginForm("Add", "Species", FormMethod.Post, new { id = "frmEditSynonymOptions" }))
+                @using (Html.BeginForm("AddSynonym", "Species", FormMethod.Post, new { id = "frmEditSynonymOptions" }))
                 {
                     @Html.HiddenFor(x => x.ParentSpeciesID)
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Synonym Type</label>
-                                @Html.DropDownListFor(x=>x.SelectedSynonymCode, Model.SynonymTypeCodes, "Select synonym type", new { @class = "form-control" })
-                                @Html.TextBoxFor(x => x.SelectedSynonymName, new { @class = "form-control" })
+                                @Html.DropDownListFor(x => x.SelectedSynonymCode, Model.SynonymTypeCodes, "Select synonym type", new { @class = "form-control" })
+                                @Html.HiddenFor(x=>x.SelectedSynonymName)
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -32,39 +32,24 @@
                     </div>
                     <div class="row">
                         <div class="col-md-12">
-                            <label>Synonym Options</label>
-                            <div class="input-group">
-                                <input type="text" class="form-control" value="Copy genus" />
-                                <div class="input-group-append">
-                                    <span class="input-group-text">
-                                        @Html.CheckBoxFor(x => x.IsCopyGenusRequired)
-                                        &nbsp;
-                                    </span>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="input-group">
-                                <input type="text" class="form-control" value="Copy species" />
-                                <div class="input-group-append">
-                                    <span class="input-group-text">
-                                        @Html.CheckBoxFor(x => x.IsCopySpeciesRequired, new { @id = "cbxIsCopySpeciesRequired" })
-                                        &nbsp;
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12">
                             <div class="input-group">
                                 <input type="text" class="form-control" value="Copy protologue" />
                                 <div class="input-group-append">
                                     <span class="input-group-text">
                                         @Html.CheckBoxFor(x => x.IsCopyProtologueRequired)
+                                        &nbsp;
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="input-group">
+                                <input type="text" class="form-control" value="Copy authority" />
+                                <div class="input-group-append">
+                                    <span class="input-group-text">
+                                        @Html.CheckBoxFor(x => x.IsCopyAuthorityRequired)
                                         &nbsp;
                                     </span>
                                 </div>

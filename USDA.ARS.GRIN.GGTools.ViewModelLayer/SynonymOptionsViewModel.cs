@@ -17,8 +17,6 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
         public string SelectedSynonymName { get; set; }
         public string SelectedRank { get; set; }
         public int ParentSpeciesID { get; set; }
-        public bool IsCopyGenusRequired { get; set; }
-        public bool IsCopySpeciesRequired { get; set; }
         public bool IsCopyProtologueRequired { get; set; }
         public bool IsCopyAuthorityRequired { get; set; }
         public bool IsCopyNoteRequired { get; set; }

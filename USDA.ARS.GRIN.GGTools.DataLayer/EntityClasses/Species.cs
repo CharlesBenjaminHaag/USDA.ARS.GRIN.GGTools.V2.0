@@ -57,7 +57,9 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         public string FamilyName { get; set; }
         public string SubfamilyName { get; set; }
         public string TribeName { get; set; }
+        public string TribeAuthority { get; set; }
         public string SubtribeName { get; set; }
+        public string SubTribeAuthority { get; set; }
         public string IsNamePending { get; set; }
         public string SynonymCode { get; set; }
         public string SynonymDescription { get; set; }

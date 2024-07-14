@@ -46,20 +46,22 @@
                     <div id="section-infraspecific-select" class="card-header p-0 pt-1">
                         <ul class="nav nav-tabs" id="custom-tabs-two-tab" role="tablist">
                             <li class="pt-2 px-3"><h3 id="section-title" class="card-title">Species</h3></li>
-                            <li id="section-subspecies" data-ggtools-rank="subspecies" class="nav-item">
+                            <li id="section-subspecies"  class="nav-item">
                                 <a id="tab-subspecies"
-                                   class="nav-link"
-                                   href="@Model.SubspeciesUrl"
+                                   class="nav-link infraspecific-link"
+                                   data-ggtools-rank="subspecies"
+                                   href="#"
                                    role="tab"
                                    aria-controls="custom-tabs-two-profile"
                                    aria-selected="false">
                                     <i class="fas fa-plus"></i>&nbsp;Subspecies
                                 </a>
                             </li>
-                            <li id="section-variety" data-ggtools-rank="variety" class="nav-item">
+                            <li id="section-variety" class="nav-item">
                                 <a id="tab-variety"
-                                   class="nav-link"
-                                   href="@Model.VarietyUrl"
+                                   class="nav-link infraspecific-link"
+                                   data-ggtools-rank="variety"
+                                   href="#"
                                    role="tab"
                                    aria-controls="custom-tabs-two-profile"
                                    aria-selected="false">
@@ -67,10 +69,11 @@
                                     Variety
                                 </a>
                             </li>
-                            <li id="section-subvariety" data-ggtools-rank="subvariety" class="nav-item">
+                            <li id="section-subvariety" class="nav-item">
                                 <a id="tab-subvariety"
-                                   class="nav-link"
-                                   href="@Model.SubvarietyUrl"
+                                   class="nav-link infraspecific-link"
+                                   data-ggtools-rank="subvariety"
+                                   href="#"
                                    role="tab"
                                    aria-controls="custom-tabs-two-messages"
                                    aria-selected="false">
@@ -78,10 +81,11 @@
                                     Subvariety
                                 </a>
                             </li>
-                            <li id="section-form" data-ggtools-rank="form" class="nav-item">
+                            <li id="section-form" class="nav-item">
                                 <a id="tab-form"
-                                   class="nav-link"
-                                   href="@Model.FormUrl"
+                                   class="nav-link infraspecific-link"
+                                   data-ggtools-rank="form"
+                                   href="#"
                                    role="tab"
                                    aria-controls="custom-tabs-two-messages"
                                    aria-selected="false">
@@ -228,9 +232,10 @@
 
 @if (Model.Entity.ID > 0)
 {
-    @Html.Partial("~/Views/Taxonomy/Species/Modals/_EditSynonymOptions.cshtml")
-    @Html.Partial("~/Views/Taxonomy/Species/Modals/_EditInfraspecificOptions.cshtml")
+    @*@Html.Partial("~/Views/Taxonomy/Species/Modals/_EditInfraspecificOptions.cshtml")*@
     @Html.Partial("~/Views/Taxonomy/Species/Components/_RelatedDataViewer.cshtml")
+    {Html.RenderAction("RenderEditSynonymOptionsModal", "Species"); }
+    {Html.RenderAction("RenderInfraspecificOptionsModal", "Species"); }
 }
 
 @{Html.RenderAction("RenderLookupModal", "Genus"); }
@@ -247,12 +252,9 @@
     { Html.RenderAction("RenderLookupModal", "Citation", new { @tableName = Model.TableName, @isMultiSelect = "Y" }); }
 }
 
-@Html.Partial("~/Views/Taxonomy/Species/Modals/_EditSynonymOptions.cshtml")
-
 <script type="text/javascript">
     $(document).ready(function () {
         Init();
-
     });
 
     function Init() {
@@ -285,15 +287,15 @@
     }
 
     $(".synonym-link").on('click', function (event) {
-        //event.stopPropagation();
-        //event.stopImmediatePropagation();
+        event.stopPropagation();
+        event.stopImmediatePropagation();
         var parentSpeciesId = $("#Entity_ID").val();
-        var synonymName = $(this).attr("id").replace("btnAddSyn", "");
+        var synonymName = $(this).attr("id").replace("btnAddSynonym", "");
         var synonymTypeCode = $(this).data("ggtools-synonym-code");
 
-        $("#frmEditSynonymOptions #Entity_SynonymCode").val(synonymTypeCode);
-        $("#frmEditSynonymOptions #Entity_SynonymName").val(synonymName);
-        $("#frmEditSynonymOptions #Entity_ParentID").val(parentSpeciesId);
+        $("#frmEditSynonymOptions #SelectedSynonymCode").val(synonymTypeCode);
+        $("#frmEditSynonymOptions #SelectedSynonymName").val(synonymName);
+        $("#frmEditSynonymOptions #ParentSpeciesID").val(parentSpeciesId);
 
         // Refactor onto server.
         switch (synonymName.toLowerCase()) {
@@ -309,6 +311,21 @@
                 break;
         }
         $("#modal-edit-syononym-options").modal("show");
+    });
+
+    $(".infraspecific-link").on('click', function (event) {
+        event.stopPropagation();
+        event.stopImmediatePropagation();
+        var parentSpeciesId = $("#Entity_ID").val();
+        var rank = $(this).data("ggtools-rank");
+
+        //DEBUG
+        alert("INFRA TAB SEL" + rank);
+     
+        $("#frmEditInfraspecificOptions #ParentSpeciesID").val(parentSpeciesId);
+        $("#frmEditInfraspecificOptions #SelectedRank").val(rank);
+
+        $("#modal-edit-infraspecific-options").modal("show");
     });
 
     $("#btnGenerateSynonym").on('click', function (event) {
@@ -328,17 +345,15 @@
         window.location.href = link;
     });
 
-    $(document).on("click", "[id*='btnAddSynonym']", function () {
-        event.preventDefault();
-        $("#modal-edit-syononym-options").modal("show");
-    });
-
     $(document).on("click", "[id*='btnAddInfraspecificRank']", function () {
-        var link = '@Url.Action("Add","Species")';
+        $("#frmEditInfraspecificOptions").submit();
+        @*var link = '@Url.Action("Add","Species")';
         var rank = $("#EventValue").val();
         var entityId = $("#Entity_ID").val();
 
         link = link + "?entityId=" + entityId + "&rank=" + rank;
+
+        console.log("DEBUG " + link);
 
         if ($("#IsCopyGenusRequired").prop("checked") == true) {
             link += "&copyGenus=true";
@@ -355,7 +370,7 @@
         if ($("#IsCopyNoteRequired").prop("checked") == true) {
             link += "&copyNote=true";
         }
-        window.location.href = link;
+        window.location.href = link;*@
     });
 
     function SetRankSelectorTab() {
@@ -391,14 +406,5 @@
         });
     }
 
-    $('#section-infraspecific-select ul.nav li').on('click', function () {
-        event.preventDefault();
-        var selectedId = $(this).attr('id');
-        var rank = ToTitleCase($(this).data("ggtools-rank"));
-
-        $("#placeholder-rank-name").html(rank);
-        $("#EventValue").val(rank);
-        $("#modal-edit-infraspecific-options").modal("show");
-    });
 </script>
 @*@Html.Partial("~/Views/Shared/_Scripts.cshtml")*@
