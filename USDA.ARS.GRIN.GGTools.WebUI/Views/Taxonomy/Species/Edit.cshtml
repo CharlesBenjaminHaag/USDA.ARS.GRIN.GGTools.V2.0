@@ -232,7 +232,6 @@
 
 @if (Model.Entity.ID > 0)
 {
-    @*@Html.Partial("~/Views/Taxonomy/Species/Modals/_EditInfraspecificOptions.cshtml")*@
     @Html.Partial("~/Views/Taxonomy/Species/Components/_RelatedDataViewer.cshtml")
     {Html.RenderAction("RenderEditSynonymOptionsModal", "Species"); }
     {Html.RenderAction("RenderInfraspecificOptionsModal", "Species"); }
@@ -318,9 +317,6 @@
         event.stopImmediatePropagation();
         var parentSpeciesId = $("#Entity_ID").val();
         var rank = $(this).data("ggtools-rank");
-
-        //DEBUG
-        alert("INFRA TAB SEL" + rank);
      
         $("#frmEditInfraspecificOptions #ParentSpeciesID").val(parentSpeciesId);
         $("#frmEditInfraspecificOptions #SelectedRank").val(rank);

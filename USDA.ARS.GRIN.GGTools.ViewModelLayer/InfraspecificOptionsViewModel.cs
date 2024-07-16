@@ -19,6 +19,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
         public bool IsCopyProtologueRequired { get; set; }
         public bool IsCopyAuthorityRequired { get; set; }
         public bool IsCopyNoteRequired { get; set; }
+        public bool IsGenerateAutonymRequired { get; set; }
 
         public SelectList Ranks
         {

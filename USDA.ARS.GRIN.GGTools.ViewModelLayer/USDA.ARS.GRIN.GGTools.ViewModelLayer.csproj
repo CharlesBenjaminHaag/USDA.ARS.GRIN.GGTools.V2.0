@@ -172,6 +172,7 @@
     <Compile Include="SysDataViewViewModel.cs" />
     <Compile Include="SysTableViewModel.cs" />
     <Compile Include="SysTableViewModelBase.cs" />
+    <Compile Include="MenuViewModel.cs" />
     <Compile Include="TaxonomyExplorerViewModel.cs" />
     <Compile Include="TrainingRosterViewModel.cs" />
     <Compile Include="WebUserViewModelBase.cs" />

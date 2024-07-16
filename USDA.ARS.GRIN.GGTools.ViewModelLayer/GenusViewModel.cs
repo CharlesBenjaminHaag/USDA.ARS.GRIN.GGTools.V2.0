@@ -94,6 +94,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
                 }
             }
         }
+        
         public void GetSynonyms(int entityId)
         {
             using (GenusManager mgr = new GenusManager())
@@ -110,13 +111,15 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
                 }
             }
         }
-        public void GetSubdivisions(string genusName)
+        
+        public void GetSubdivisions(int entityId)
         {
             using (GenusManager mgr = new GenusManager())
             {
                 try
                 {
-                    DataCollectionSubdivisions = new Collection<Genus>(mgr.GetSubdivisions(genusName));
+                    Genus genus = mgr.Get(entityId);
+                    DataCollectionSubdivisions = new Collection<Genus>(mgr.GetSubdivisions(genus.Name));
                     RowsAffected = mgr.RowsAffected;
                 }
                 catch (Exception ex)
@@ -126,6 +129,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
                 }
             }
         }
+        
         public void GetParentGenus()
         {
             using (GenusManager mgr = new GenusManager())

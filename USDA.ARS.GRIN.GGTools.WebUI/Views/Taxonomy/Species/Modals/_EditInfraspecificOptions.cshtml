@@ -15,9 +15,9 @@
                 @using (Html.BeginForm("AddInfraspecific", "Species", FormMethod.Post, new { id = "frmEditInfraspecificOptions" }))
                 {
                     @Html.HiddenFor(x => x.ParentSpeciesID)
-                    
+
                     <p>Select one or more of the following fields to copy to the newly-created infraspecific name.</p>
-                   
+
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
@@ -25,6 +25,10 @@
                                 @Html.DropDownListFor(x => x.SelectedRank, Model.Ranks, new { @class = "form-control" })
                             </div>
                         </div>
+                        <div class="col-md-6">
+
+                        </div>
+
                     </div>
 
                     <div class="row">
@@ -60,6 +64,19 @@
                                 <div class="input-group-append">
                                     <span class="input-group-text">
                                         @Html.CheckBoxFor(x => x.IsCopyNoteRequired)
+                                        &nbsp;
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="input-group">
+                                <input type="text" class="form-control" value="Generate autonym" />
+                                <div class="input-group-append">
+                                    <span class="input-group-text">
+                                        @Html.CheckBoxFor(x => x.IsGenerateAutonymRequired)
                                         &nbsp;
                                     </span>
                                 </div>

@@ -4,18 +4,7 @@
     @Html.HiddenFor(x => x.ItemIDList)
 }
 
-<div id="section-search-results" class="card card-success">
-    <div class="card-header">
-        <h3 class="card-title">Species (@Model.DataCollection.Count)</h3>
-        <div class="card-tools">
-            <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                <i class="fas fa-minus"></i>
-            </button>
-        </div>
-    </div>
-    <div class="card-body">
-        <div id="section-search-results">
-            <div id="section-search-results">
+
                 <table id="data_table_taxonomy_species" class="table table-striped ggtools-table" style="width:100%;">
                     <thead>
                         <tr>
@@ -74,10 +63,7 @@
                     </tbody>
                 </table>
 
-            </div>
-        </div>
-    </div>
-</div>
+           
 
 
 @*<iframe width="100%"

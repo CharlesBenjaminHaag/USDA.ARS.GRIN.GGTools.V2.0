@@ -43,10 +43,6 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 }
             }
 
-            // Access specific query string parameters
-            //string param1 = Request.QueryString["entityId"];
-            //string param2 = Request.QueryString["synonymCode"];
-
             // Pass the dictionary and specific parameters to the view
             ViewBag.QueryParams = queryParams;
             ViewBag.EntityID = Request.QueryString["entityId"];
@@ -54,7 +50,18 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             ViewBag.EventAction = eventAction;
             ViewBag.EventValue = eventValue;
 
-            return PartialView("~/Views/Taxonomy/Species/Components/_EditMenu.cshtml");
+            // Render menu based on action.
+            switch(eventValue)
+            {
+                case "Index":
+                    return PartialView("~/Views/Taxonomy" + eventAction + "/_DefaultMenu.cshtml");
+                case "Add":
+                    return PartialView("~/Views/Taxonomy/Species/Components/_AddMenu.cshtml");
+                case "Edit":
+                    return PartialView("~/Views/Taxonomy/Species/Components/_EditMenu.cshtml");
+                default:
+                    return PartialView("~/Views/Components/_DefaultMenu.cshtml");
+            }
         }
 
         public PartialViewResult GetNameMatches(string genusName, string speciesName)
@@ -543,6 +550,27 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             speciesViewModel.Entity.CreatedByCooperatorName = AuthenticatedUser.FullName;
             speciesViewModel.Entity.CreatedDate = System.DateTime.Now;
 
+            if (viewModel.IsCopyAuthorityRequired)
+            {
+                speciesViewModel.Entity.SpeciesAuthority = parentSpeciesViewModel.Entity.SpeciesAuthority;
+                speciesViewModel.Entity.NameAuthority = parentSpeciesViewModel.Entity.NameAuthority;
+            }
+
+            if (viewModel.IsCopyNoteRequired)
+            {
+                speciesViewModel.Entity.Note = parentSpeciesViewModel.Entity.Note;
+            }
+
+            if (viewModel.IsCopyProtologueRequired)
+            {
+                speciesViewModel.Entity.Protologue = parentSpeciesViewModel.Entity.Protologue;
+            }
+
+            if (viewModel.IsGenerateAutonymRequired)
+            {
+                speciesViewModel.EventInfo = "AUTONYM";
+            }
+
             ViewBag.PageTitle = "Add " + speciesViewModel.ToTitleCase(viewModel.SelectedRank);
 
             return View("~/Views/Taxonomy/Species/Edit.cshtml", speciesViewModel);
@@ -843,6 +871,38 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                     synonymMapViewModel.Insert();
                 }
 
+                // If the species being added is an infraspecific name, determine whether or not an autonym is needed.
+                if (viewModel.Entity.Rank.ToUpper() != "SPECIES")
+                {
+                    viewModel.GetAutonym(viewModel.Entity.GenusName, viewModel.Entity.SpeciesName, viewModel.Entity.Rank);
+                    if (viewModel.AutonymEntity.ID == 0)
+                    {
+                        SpeciesViewModel autonymViewModel = new SpeciesViewModel();
+                        autonymViewModel.Entity.GenusID = viewModel.Entity.GenusID;
+                        autonymViewModel.Entity.SpeciesName = viewModel.Entity.SpeciesName;
+                        autonymViewModel.Entity.Rank = viewModel.Entity.Rank;
+
+                        switch (viewModel.Entity.Rank)
+                        {
+                            case "subspecies":
+                                autonymViewModel.Entity.SubspeciesName = autonymViewModel.Entity.SpeciesName;
+                                break;
+                            case "variety":
+                                autonymViewModel.Entity.VarietyName = autonymViewModel.Entity.SpeciesName;
+                                break;
+                            case "subvariety":
+                                autonymViewModel.Entity.SubvarietyName = autonymViewModel.Entity.SpeciesName;
+                                break;
+                            case "form":
+                                autonymViewModel.Entity.FormaName = autonymViewModel.Entity.SpeciesName;
+                                break;
+                        }
+                        autonymViewModel.Entity.SynonymCode = "A";
+                        autonymViewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
+                        autonymViewModel.Insert();
+                    }
+                }
+
                 return RedirectToAction("Edit", "Species", new { entityId = viewModel.Entity.ID, parentId = viewModel.Entity.ParentID });
             }
             catch (Exception ex)
@@ -1017,7 +1077,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             try
             {
                 SpeciesViewModel viewModel = new SpeciesViewModel();
-                viewModel.GetInfraspecificAutonym(genusName, speciesName, rank);
+                viewModel.GetAutonym(genusName, speciesName, rank);
                 return PartialView("~/Views/Taxonomy/Shared/_InfraspecificAutonymWidget.cshtml", viewModel);
             }
             catch (Exception ex)

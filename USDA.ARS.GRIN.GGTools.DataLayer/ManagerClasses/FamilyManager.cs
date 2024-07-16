@@ -180,7 +180,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             AddParameter("subtribe_name", (object)entity.SubtribeName ?? DBNull.Value, true);
             AddParameter("family_type_code", (object)entity.FamilyTypeCode ?? DBNull.Value, true);
             AddParameter("taxonomy_classification_id", entity.ClassificationID == 0 ? DBNull.Value : (object)entity.ClassificationID, true);
-            AddParameter("is_web_visible", (object)entity.IsWebVisible ?? DBNull.Value, true);
+             
             AddParameter("note", (object)entity.Note ?? DBNull.Value, true);
 
             if (entity.ID > 0)

@@ -28,9 +28,12 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
         private string _FormUrl;
         private Report _Report = new Report();
         private Species _Entity = new Species();
+        private Species _AutonymEntity = new Species();
         private Species _ParentEntity = new Species();
+        private Species _Autonym = new Species();
         private SpeciesSearch _SearchEntity = new SpeciesSearch();
         private Collection<Species> _DataCollection = new Collection<Species>();
+        private Collection<Species> _DataCollectionSynonyms = new Collection<Species>();
         private Collection<SpeciesImport> _DataCollectionImport = new Collection<SpeciesImport>();
         private Collection<CodeValue> _DataCollectionProtologues = new Collection<CodeValue>();
         private Collection<CodeValue> _DataCollectionProtologueVirtualPaths = new Collection<CodeValue>();
@@ -107,10 +110,17 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
             get { return _Entity; }
             set { _Entity = value; }
         }
+        
         public Species ParentEntity
         {
             get { return _ParentEntity; }
             set { _ParentEntity = value; }
+        }
+
+        public Species AutonymEntity
+        {
+            get { return _AutonymEntity; }
+            set { _AutonymEntity = value; }
         }
 
         public SpeciesSearch SearchEntity
@@ -123,6 +133,12 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
         {
             get { return _DataCollection; }
             set { _DataCollection = value; }
+        }
+
+        public Collection<Species> DataCollectionSynonyms
+        {
+            get { return _DataCollectionSynonyms; }
+            set { _DataCollectionSynonyms = value; }
         }
 
         public Collection<SpeciesImport> DataCollectionImport

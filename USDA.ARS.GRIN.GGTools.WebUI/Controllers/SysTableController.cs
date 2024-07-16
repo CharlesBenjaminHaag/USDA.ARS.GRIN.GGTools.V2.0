@@ -28,7 +28,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 return PartialView("~/Views/Error/_InternalServerError.cshtml");
             }
         }
-
+      
         public PartialViewResult _ListFolderItems(int sysFolderId)
         {
             try
@@ -100,6 +100,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
         {
             return View();
         }
+        
         public PartialViewResult _RenderLookupModal(string tableName = "")
         {
             SysPermissionViewModel viewModel = new SysPermissionViewModel();
@@ -113,5 +114,25 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
         {
             throw new NotImplementedException();
         }
+
+        #region Components
+
+        public PartialViewResult Component_ListWidget(string sysTag)
+        {
+            SysTableViewModel viewModel = new SysTableViewModel();
+            try
+            {
+                viewModel.SearchEntity.SysTag = sysTag;
+                viewModel.Search();
+                return PartialView("~/Views/SysTable/Components/_ListWidget.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
+        }
+
+        #endregion
     }
 }

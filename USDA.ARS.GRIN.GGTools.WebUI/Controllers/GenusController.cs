@@ -55,7 +55,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             throw new NotImplementedException();
         }
 
-        public ActionResult Add(string eventAction="", string eventValue="", int familyMapId = 0, int genusId = 0, string isType="", string rank = "genus")
+        public ActionResult Add(string eventAction="", string eventValue="", int familyId = 0, int genusId = 0, string isType="", string rank = "genus")
         {
             GenusViewModel viewModel = new GenusViewModel();
             viewModel.EventAction = eventAction;
@@ -69,15 +69,15 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             viewModel.Entity.IsAcceptedName = "Y";
             viewModel.Entity.IsWebVisible = "Y";
             viewModel.Entity.IsWebVisibleOption = true;
-            viewModel.Entity.FamilyID = familyMapId;
+            viewModel.Entity.FamilyID = familyId;
             viewModel.IsTypeGenus = isType;
 
-            if (familyMapId > 0)
+            if (familyId > 0)
             {
-                FamilyMapViewModel familyMapViewModel = new FamilyMapViewModel();
-                familyMapViewModel.Get(familyMapId);
-                viewModel.Entity.FamilyID = familyMapViewModel.Entity.ID;
-                viewModel.Entity.FamilyName = familyMapViewModel.Entity.FamilyName;
+                FamilyViewModel familyViewModel = new FamilyViewModel();
+                familyViewModel.Get(familyId);
+                viewModel.Entity.FamilyID = familyViewModel.Entity.ID;
+                viewModel.Entity.FamilyName = familyViewModel.Entity.FamilyName;
             }
 
             if (genusId > 0)
@@ -277,13 +277,13 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             }
         }
 
-        public PartialViewResult _ListSubdivisions(string genusName)
+        public PartialViewResult _ListSubdivisions(int genusId)
         {
             GenusViewModel viewModel = new GenusViewModel();
 
             try
             {
-                viewModel.GetSubdivisions(genusName);
+                viewModel.GetSubdivisions(genusId);
                 return PartialView(BASE_PATH + "_ListSubdivisions.cshtml", viewModel);
             }
             catch (Exception ex)

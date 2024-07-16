@@ -87,15 +87,19 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
             }
         }
 
-        public void GetInfraspecificAutonym(string genusName, string speciesName, string rank)
+        public void GetAutonym(string genusName, string speciesName, string rank)
         {
             List<Species> speciesList = new List<Species>();
             using (SpeciesManager mgr = new SpeciesManager())
             {
-                DataCollection = new Collection<Species>(mgr.GetInfraspecificAutonym(genusName, speciesName, rank));
+                speciesList = mgr.GetInfraspecificAutonym(genusName, speciesName, rank);
+                if (speciesList.Count == 1)
+                {
+                    AutonymEntity = speciesList[0];
+                }
             }
         }
-       
+
         public int Insert()
         {
             using (SpeciesManager mgr = new SpeciesManager())

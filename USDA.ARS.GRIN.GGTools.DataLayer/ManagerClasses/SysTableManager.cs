@@ -88,6 +88,13 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             return sysTableField;
         }
 
+        public CodeValue GetRecordCount(string sysTableName, int ownedByCooperatorId = 0)
+        {
+            SQL = "SELECT 'Records:' AS CodeTitle, CONVERT(NVARCHAR, COUNT(*)) + ' Records' AS Value FROM " + sysTableName;
+            CodeValue codeValue = GetRecord<CodeValue>(SQL);
+            return codeValue;
+        }
+
         public int Insert(SysTable entity)
         {
             throw new NotImplementedException();
@@ -99,6 +106,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
 
             SQL = " SELECT * FROM vw_GRINGlobal_Sys_Table";
             SQL += " WHERE  (@ID                    IS NULL     OR ID                   =       @ID)";
+            SQL += " AND    (@SysTag                IS NULL     OR SysTag               =       @SysTag)";
             SQL += " AND    (@DatabaseAreaCode      IS NULL     OR DatabaseAreaCode     =       @DatabaseAreaCode)";
             SQL += " AND    (@SysTableName          IS NULL     OR SysTableName         =       @SysTableName)";
             //SQL += " AND SysTableTitle IS NOT NULL ";
@@ -106,10 +114,11 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             //SQL += " UNION ";
             //SQL += " SELECT ID, DatabaseAreaCode, TableName, TableTitle, TableCode FROM vw_GRINGlobal_Sys_Table";
             //SQL += " WHERE TableName IN ('citation','literature','geography')"; 
-            SQL += " ORDER BY SysTableTitle ";
+            SQL += " ORDER BY SysTag, SysTableTitle ";
 
              var parameters = new List<IDbDataParameter> {
                 CreateParameter("ID", searchEntity.ID > 0 ? (object)searchEntity.ID : DBNull.Value, true),
+                CreateParameter("SysTag", (object)searchEntity.SysTag ?? DBNull.Value, true),
                 CreateParameter("DatabaseAreaCode", (object)searchEntity.DatabaseAreaCode ?? DBNull.Value, true),
                 CreateParameter("SysTableName", (object)searchEntity.TableName ?? DBNull.Value, true),
             };

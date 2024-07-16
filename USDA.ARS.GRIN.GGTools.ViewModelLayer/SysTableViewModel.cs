@@ -19,6 +19,14 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
             throw new NotImplementedException();
         }
 
+        public CodeValue GetRecordCount(string sysTableName)
+        {
+            using (SysTableManager mgr = new SysTableManager())
+            {
+                return mgr.GetRecordCount(sysTableName);
+            }
+        }
+
         public void GetSysTablesTaxonomy(bool loadChildData = false)
         {
             using (SysTableManager mgr = new SysTableManager())

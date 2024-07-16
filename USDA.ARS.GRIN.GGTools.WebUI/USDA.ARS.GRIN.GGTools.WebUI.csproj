@@ -180,6 +180,7 @@
     <Compile Include="Controllers\CWRMapController.cs" />
     <Compile Include="Controllers\CWRTraitController.cs" />
     <Compile Include="Controllers\DemoController.cs" />
+    <Compile Include="Controllers\MenuController.cs" />
     <Compile Include="Controllers\MethodController.cs" />
     <Compile Include="Controllers\SysDataviewController.cs" />
     <Compile Include="Controllers\SysDynamicSearchController.cs" />
@@ -230,7 +231,7 @@
     </Compile>
     <Compile Include="GRINGlobalAuthenticationFilter.cs" />
     <Compile Include="Helpers\HtmlImageHelper.cs" />
-    <Compile Include="Helpers\ViewHelper.cs" />
+    <Compile Include="Helpers\MenuHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -995,9 +996,8 @@
     <Content Include="Views\Home\Components\_Menu.cshtml" />
     <Content Include="Views\Components\_DefaultMenu.cshtml" />
     <Content Include="Views\Components\_DefaultEditMenu.cshtml" />
-    <Content Include="Views\Components\_DefaultSearchMenu.cshtml" />
+    <Content Include="Views\Taxonomy\Species\Components\_SearchMenu.cshtml" />
     <Content Include="Views\Taxonomy\Citation\Components\_EditMenu.cshtml" />
-    <Content Include="Views\Components\_DefaultAddMenu.cshtml" />
     <Content Include="Views\Cooperator\Components\_SearchMenu.cshtml" />
     <Content Include="Views\Cooperator\EditBatch.cshtml" />
     <Content Include="Views\Taxonomy\Family\_ListFolder.cshtml" />
@@ -1013,22 +1013,26 @@
     <Content Include="Views\Taxonomy\Species\Components\_EditMenu.cshtml" />
     <Content Include="Views\Shared\Modals\_UnderConstruction.cshtml" />
     <Content Include="Views\CodeValue\Components\_CodeValueSelectList.cshtml" />
+    <Content Include="Views\Taxonomy\Genus\Components\_RelatedDataViewer.cshtml" />
+    <Content Include="Views\Components\_DefaultSearchMenu.cshtml" />
+    <Content Include="Views\Taxonomy\Genus\Components\_EditMenu.cshtml" />
+    <Content Include="Views\Taxonomy\Order\Components\_EditMenu.cshtml" />
+    <Content Include="Views\SysTable\Components\_ListWidget.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Content\bower_components\font-awesome\fonts\" />
     <Folder Include="Content\dist\js\pages\" />
     <Folder Include="Controls\Shared\" />
-    <Folder Include="logs\" />
     <Folder Include="Models\" />
     <Folder Include="Views\Demo\" />
     <Folder Include="Views\Main\" />
+    <Folder Include="Views\Menu\" />
     <Folder Include="Views\Method\Components\" />
     <Folder Include="Views\Search\" />
     <Folder Include="Views\Shared\Layout\" />
     <Folder Include="Views\SysTable\Explorer\" />
     <Folder Include="Views\Taxonomy\CropForCWR\Map\" />
-    <Folder Include="Views\Taxonomy\Genus\Components\" />
     <Folder Include="Views\Taxonomy\RegulationMap\Modals\" />
   </ItemGroup>
   <ItemGroup>

@@ -127,17 +127,18 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             SQL += " OR         (@Name                  IS NULL OR  REPLACE(Name, ' x ', '')        LIKE    @Name + '%')";
             SQL += " OR         (@Name                  IS NULL OR  Name                            LIKE    @Name + '%'))";
 
-            SQL += " AND        (@IsAcceptedName        IS NULL OR  IsAcceptedName                  =       @IsAcceptedName)";
-            SQL += " AND        (@SynonymCode           IS NULL OR  SynonymCode                     =       @SynonymCode)";
+            SQL += " AND        (@IsAcceptedName        IS NULL OR  IsAcceptedName                      =       @IsAcceptedName)";
+            SQL += " AND        (@SynonymCode           IS NULL OR  SynonymCode                         =       @SynonymCode)";
 
             // EXTENDED
             SQL += " AND        (@CreatedByCooperatorID     IS NULL OR  CreatedByCooperatorID = @CreatedByCooperatorID)";
             // TODO CR DATE
-            SQL += " AND        (@ModifiedByCooperatorID    IS NULL OR  ModifiedByCooperatorID = @ModifiedByCooperatorID)";
+            SQL += " AND        (@ModifiedByCooperatorID    IS NULL OR  ModifiedByCooperatorID          = @ModifiedByCooperatorID)";
             // TODO MOD DATE
 
             SQL += " AND        (@ID                        IS NULL OR  ID = @ID) ";
-            SQL += " AND        (@AcceptedID                IS NULL OR  AcceptedID = @AcceptedID) ";
+            SQL += " AND        (@AcceptedID                IS NULL OR  AcceptedID                      = @AcceptedID) ";
+            SQL += " AND        (@GenusID                   IS NULL OR  GenusID                         = @GenusID) ";
             SQL += " AND        (@NomenNumber               IS NULL OR  NomenNumber = @NomenNumber) ";
             SQL += " AND        (@Note                      IS NULL OR  Note                            LIKE    '%' + @Note + '%')";
             SQL += " AND        (@IsVerified                IS NULL OR  IsVerified                      =       @IsVerified)";
@@ -216,6 +217,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
                 CreateParameter("ModifiedByCooperatorID", searchEntity.ModifiedByCooperatorID > 0 ? (object)searchEntity.ModifiedByCooperatorID : DBNull.Value, true),
                 CreateParameter("ID", searchEntity.ID > 0 ? (object)searchEntity.ID : DBNull.Value, true),
                 CreateParameter("AcceptedID", searchEntity.AcceptedNameID > 0 ? (object)searchEntity.AcceptedNameID : DBNull.Value, true),
+                CreateParameter("GenusID", searchEntity.GenusID > 0 ? (object)searchEntity.GenusID : DBNull.Value, true),
                 CreateParameter("NomenNumber", searchEntity.NomenNumber > 0 ? (object)searchEntity.NomenNumber : DBNull.Value, true),
                 CreateParameter("Note", (object)searchEntity.Note ?? DBNull.Value, true),
                 CreateParameter("IsVerified", (object)searchEntity.IsVerified ?? DBNull.Value, true),
@@ -312,7 +314,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
                 AddParameter("taxonomy_species_id", entity.ID == 0 ? DBNull.Value : (object)entity.ID, true);
             }
             AddParameter("current_taxonomy_species_id", entity.AcceptedID == 0 ? entity.ID : (object)entity.AcceptedID, true);
-            AddParameter("is_specific_hybrid", (object)entity.IsSpecificHybrid ?? DBNull.Value, true);
+            AddParameter("is_specific_hybrid", entity.IsSpecificHybrid == null ? "N" : (object)entity.IsSpecificHybrid, false);
             AddParameter("hybrid_parentage", (object)entity.HybridParentage ?? DBNull.Value, true);
             AddParameter("name_authority", (object)entity.NameAuthority ?? DBNull.Value, true);
             AddParameter("species_authority", (object)entity.SpeciesAuthority ?? DBNull.Value, true);
