@@ -13,7 +13,8 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
         {
             HomeViewModel viewModel = new HomeViewModel();
             viewModel.AuthenticatedUser = AuthenticatedUser;
-            return View("~/Views/Taxonomy/Home/Index.cshtml", viewModel);
+            //return View("~/Views/Taxonomy/Home/Index.cshtml", viewModel);
+            return RedirectToAction("Explorer","SysFolder");
         }
         public ActionResult Admin(int sysUserId = 0)
         {

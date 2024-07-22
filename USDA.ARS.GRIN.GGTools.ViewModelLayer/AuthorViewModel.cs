@@ -137,12 +137,12 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
                 }
             }
         }
-        public void RunSearch(int appUserItemFolderId)
+        
+        public void RunSearch(int sysFolderId)
         {
-            AppUserItemListViewModel appUserItemListViewModel = new AppUserItemListViewModel();
-            appUserItemListViewModel.SearchEntity.AppUserItemFolderID = appUserItemFolderId;
-            appUserItemListViewModel.Search();
-            SearchEntity = Deserialize<AuthorSearch>(appUserItemListViewModel.Entity.Properties);
+            SysFolderViewModel viewModel = new SysFolderViewModel();
+            viewModel.GetProperties(sysFolderId);
+            SearchEntity = Deserialize<AuthorSearch>(viewModel.Entity.Properties);
             Search();
         }
         //public void SaveSearch()

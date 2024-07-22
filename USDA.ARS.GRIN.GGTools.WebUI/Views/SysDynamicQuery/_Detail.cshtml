@@ -5,8 +5,9 @@
 {
     @Html.HiddenFor(x => x.EventAction)
     @Html.HiddenFor(x => x.EventValue)
-    
-
+    @Html.HiddenFor(x => x.EventInfo)
+    @Html.HiddenFor(x => x.EventNote)
+    @Html.HiddenFor(x => x.TableName)
     <div id="section-panel-help" class="alert alert-info alert-dismissible" style="display: none;">
         <button type="button" class="close" aria-hidden="true">×</button>
         <h5><i class="icon fas fa-info"></i> SQL Query Guidelines</h5>
@@ -30,7 +31,7 @@
         <div class="card-body">
             <div class="tab-content">
                 @Html.Partial("~/Views/Shared/_ValidationMessages.cshtml")
-                @Html.Partial("~/Views/Shared/_UserMessages.cshtml")
+                @*@Html.Partial("~/Views/Shared/_UserMessages.cshtml")*@
                 <div class="tab-pane active" id="section-search-criteria">
                     <div class="row">
                         <div class="col-md-12">
@@ -51,7 +52,7 @@
                                 <span class="sr-only">Toggle Dropdown</span>
                             </button>
                             <div class="dropdown-menu" role="menu" style="">
-                                <a id="btnOpenSysDynamicQueryModal" class="dropdown-item" href="#">Save Search</a>
+                                <a id="btnOpenDynamicFolderModal" class="dropdown-item" href="#">Save Search</a>
                             </div>
                         </div>
                     </div>

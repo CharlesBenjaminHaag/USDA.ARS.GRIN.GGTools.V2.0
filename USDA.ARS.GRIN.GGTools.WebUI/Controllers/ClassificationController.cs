@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using USDA.ARS.GRIN.GGTools.WebUI;
+using USDA.ARS.GRIN.GGTools.ViewModelLayer;
 using USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer;
 using USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer;
 using NLog;
@@ -158,8 +159,14 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 // Save search if attribs supplied.
                 if ((viewModel.EventAction == "SEARCH") && (viewModel.EventValue == "SAVE"))
                 {
-                    viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
-                    //viewModel.SaveSearch();
+                    SysFolderViewModel sysFolderViewModel = new SysFolderViewModel();
+                    sysFolderViewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
+                    sysFolderViewModel.Entity.Title = viewModel.EventInfo;
+                    sysFolderViewModel.Entity.Description = viewModel.EventNote;
+                    sysFolderViewModel.Entity.TableName = viewModel.TableName;
+                    sysFolderViewModel.Entity.Properties = viewModel.SerializeToXml<ClassificationSearch>(viewModel.SearchEntity);
+                    sysFolderViewModel.Entity.TypeCode = "DYN";
+                    sysFolderViewModel.Insert();
                 }
 
                 return View(BASE_PATH + "Index.cshtml", viewModel);

@@ -31,6 +31,14 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
             }
         }
 
+        public void GetProperties(int entityId)
+        {
+            using (SysFolderManager mgr = new SysFolderManager())
+            {
+                SysFolderPropertiesEntity = mgr.GetSysFolderProperties(entityId);
+            }
+        }
+
         public void GetItems(int entityId)
         {
             using (SysFolderManager mgr = new SysFolderManager())
@@ -94,10 +102,11 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
                     Entity.ID = mgr.Insert(Entity);
 
                     // If folder is dynamic, save serialized search criteria string.
-                    if (Entity.TypeCode == "DYN")
+                    if ((Entity.TypeCode == "DYN") || (Entity.TypeCode == "SQL"))
                     {
                         mgr.InsertProperties(Entity);
                     }
+           
                 }
                 InsertItems();
             }

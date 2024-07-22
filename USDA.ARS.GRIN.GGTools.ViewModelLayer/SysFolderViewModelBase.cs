@@ -12,6 +12,7 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
     public class SysFolderViewModelBase: AuthenticatedViewModelBase
     {
         private SysFolder _Entity = new SysFolder();
+        private SysFolderProperties _SysFolderPropertiesEntity = new SysFolderProperties();
         private SysTag _TagEntity = new SysTag();
         private SysFolderSearch _SearchEntity = new SysFolderSearch();
         private Collection<SysFolder> _DataCollection = new Collection<SysFolder>();
@@ -37,6 +38,12 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
         {
             get { return _Entity; }
             set { _Entity = value; }
+        }
+
+        public SysFolderProperties SysFolderPropertiesEntity
+        {
+            get { return _SysFolderPropertiesEntity; }
+            set { _SysFolderPropertiesEntity = value; }
         }
 
         public SysFolderSearch SearchEntity

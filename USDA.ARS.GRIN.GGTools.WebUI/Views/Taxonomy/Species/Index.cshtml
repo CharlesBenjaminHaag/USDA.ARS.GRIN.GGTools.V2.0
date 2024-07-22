@@ -13,8 +13,9 @@
 
 @Html.Partial("~/Views/Taxonomy/Species/_Detail.cshtml")
 @Html.Partial("~/Views/Taxonomy/Species/_List.cshtml")
+@{Html.RenderAction("GetDynamicEditModal", "SysFolder", new { @sysTableName = Model.TableName, @typeCode = "DYN" }); }
 @{Html.RenderAction("GetEditModal", "SysFolder", new { @sysTableName = Model.TableName }); }
-@{Html.RenderAction("GetDynamicEditModal", "SysFolder", new { @sysTableName = Model.TableName }); }
+
 @using (Html.BeginForm("GetBatchEditor", "Species", FormMethod.Post, new { id = "frmGetBatchEditor" }))
 {
     @Html.HiddenFor(x => x.ItemIDList)

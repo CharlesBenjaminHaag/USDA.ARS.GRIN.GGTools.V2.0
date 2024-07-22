@@ -44,62 +44,8 @@
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
-    @*<div class="col-md-6">
-        <div class="small-box bg-info">
-            <div class="inner">
-                <h3>Users</h3>
-                <p>Create and edit CT accounts</p>
-            </div>
-            <div class="icon">
-                <i class="fas fa-cogs"></i>
-            </div>
-            <a href="@Url.Action("Index","Cooperator")" class="small-box-footer">
-                Launch <i class="fas fa-arrow-circle-right"></i>
-            </a>
-        </div>
-        <div class="small-box bg-info">
-            <div class="inner">
-                <h3>Orders</h3>
-                <p>Review orders and manage NRR workflow</p>
-            </div>
-            <div class="icon">
-                <i class="fas fa-cogs"></i>
-            </div>
-            <a href="@Url.Action("Explorer","WebOrderRequest")" class="small-box-footer">
-                Launch <i class="fas fa-arrow-circle-right"></i>
-            </a>
-        </div>
-        <div class="small-box bg-info">
-            <div class="inner">
-                <h3>Taxonomy</h3>
-                <p>Manage taxonomical data</p>
-            </div>
-            <div class="icon">
-                <i class="fas fa-cogs"></i>
-            </div>
-            <a href="@Url.Action("Index","Taxonomy")" class="small-box-footer">
-                Launch <i class="fas fa-arrow-circle-right"></i>
-            </a>
-        </div>
-        <div class="small-box bg-info">
-            <div class="inner">
-                <h3>GOBS</h3>
-                <p>GOBS data manager prototype</p>
-            </div>
-            <div class="icon">
-                <i class="fas fa-cogs"></i>
-            </div>
-            <a href="@Url.Action("Index","GOBS")" class="small-box-footer">
-                Launch <i class="fas fa-arrow-circle-right"></i>
-            </a>
-        </div>
-    </div>
-    <div class="col-md-3">
-        @{Html.RenderAction("RenderListWidget", "Site", new { @siteId = Model.AuthenticatedUser.SiteID }); }
-    </div>*@
 </div>
 
 <div class="modal fade" id="modal-error" aria-hidden="true" style="display: none;">
@@ -120,8 +66,6 @@
         </div>
     </div>
 </div>
-
-@*@{Html.RenderAction("_Add", "Cooperator", new { siteId = Model.SiteID }); }*@
 
 <script type="text/javascript">
 

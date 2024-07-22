@@ -5,8 +5,8 @@
 }
 @Html.Partial("~/Views/Taxonomy/Order/_Detail.cshtml")
 @Html.Partial("~/Views/Taxonomy/Order/_List.cshtml")
+@{Html.RenderAction("GetDynamicEditModal", "SysFolder", new { @sysTableName = Model.TableName, @typeCode = "DYN" }); }
 @{Html.RenderAction("GetEditModal", "SysFolder", new { @sysTableName = Model.TableName }); }
-@{Html.RenderAction("GetDynamicEditModal", "SysFolder", new { @sysTableName = Model.TableName }); }
 <script type="text/javascript">
     $(document).ready(function () {
         Init();

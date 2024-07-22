@@ -10,23 +10,12 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
     {
         private static readonly Logger Log = LogManager.GetCurrentClassLogger();
         // GET: DynamicQuery
-        //public ActionResult Index()
-        //{
-        //    SysDynamicQueryViewModel viewModel = new SysDynamicQueryViewModel();
-        //    SysTableViewModel sysTableViewModel = new SysTableViewModel();
-        //    AppUserItemFolderViewModel appUserItemFolderViewModel = new AppUserItemFolderViewModel();
+        public ActionResult Index()
+        {
+            SysDynamicQueryViewModel viewModel = new SysDynamicQueryViewModel();
+            return View(viewModel);
+        }
 
-        //    sysTableViewModel.GetSysTablesTaxonomy(true);
-        //    viewModel.DataCollectionSysTables = sysTableViewModel.DataCollection;
-
-        //    appUserItemFolderViewModel.SearchEntity.FolderType = "SQLQUERY";
-        //    appUserItemFolderViewModel.SearchEntity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
-        //    appUserItemFolderViewModel.Search();
-
-        //    viewModel.TableName = "app_user_item_folder";
-        //    viewModel.DataCollectionAppUserItemFolders = appUserItemFolderViewModel.DataCollection;
-        //    return View(viewModel);
-        //}
         //public ActionResult Edit(int entityId)
         //{
         //    try
@@ -42,7 +31,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
         //        return PartialView("~/Views/Error/_InternalServerError.cshtml");
         //    }
         //}
-        
+
         [HttpPost]
         public ActionResult Search(SysDynamicQueryViewModel viewModel)
         {
@@ -55,8 +44,21 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                     if (viewModel.ValidationMessages.Count > 0) return View("~/Views/SysDynamicQuery/Index.cshtml", viewModel);
                 }
 
-                viewModel.Clean();  
-               
+                viewModel.Clean();
+
+                // Save search if attribs supplied.
+                if ((viewModel.EventAction == "SEARCH") && (viewModel.EventValue == "SAVE"))
+                {
+                    SysFolderViewModel sysFolderViewModel = new SysFolderViewModel();
+                    sysFolderViewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
+                    sysFolderViewModel.Entity.Title = viewModel.EventInfo;
+                    sysFolderViewModel.Entity.Description = viewModel.EventNote;
+                    sysFolderViewModel.Entity.TableName = viewModel.TableName;
+                    sysFolderViewModel.Entity.Properties = viewModel.SearchEntity.SQLStatement;
+                    sysFolderViewModel.Entity.TypeCode = "SQL";
+                    sysFolderViewModel.Insert();
+                }
+
                 // Execute user-defined search.
                 viewModel.Search();
                 return View("~/Views/SysDynamicQuery/Index.cshtml", viewModel);

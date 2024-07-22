@@ -1018,6 +1018,10 @@
     <Content Include="Views\Taxonomy\Genus\Components\_EditMenu.cshtml" />
     <Content Include="Views\Taxonomy\Order\Components\_EditMenu.cshtml" />
     <Content Include="Views\SysTable\Components\_ListWidget.cshtml" />
+    <Content Include="Views\SysFolder\Explorer\Index.cshtml" />
+    <Content Include="Views\SysFolderItemMap\Components\_ListWidgets.cshtml" />
+    <Content Include="Views\SysTag\Components\_SelectList.cshtml" />
+    <Content Include="Views\SysFolderItemMap\Components\_SelectList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

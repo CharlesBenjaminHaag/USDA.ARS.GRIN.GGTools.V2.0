@@ -4,12 +4,12 @@
 
 @Html.HiddenFor(x=>x.RowsAffected)
 
-@{ // REFACTOR: Set id of DataTable based on DB table extracted from query.
+@*@{ // REFACTOR: Set id of DataTable based on DB table extracted from query.
     SysTableField sysTableFieldHeading = new SysTableField();
     SysTableField sysTableField = new SysTableField();
     var tableId = "data_table_" + Model.TableName;
     int keyColumnCount = 0;
-}
+}*@
 
 
     @if (Model.DataCollectionDataTable.Rows.Count > 0)
@@ -27,77 +27,61 @@
                 </div>
             </div>
             <div class="card-body">
-                <table id="@tableId" class="table table-striped" style="width:100%;">
+                <table id="data_table_sys_dynamic_query" class="table table-striped" style="width:100%;">
                     <thead>
                         <tr>
                             @foreach (DataColumn col in Model.DataCollectionDataTable.Columns)
                             {
-                            {
-                            // REFACTOR: If col is primary key, create TWO cols -- one for data; one to nav
-                            // to edit page corresponding to record type.
-
-                            sysTableFieldHeading = Model.GetColumnInfo(Model.TableName, col.ColumnName);
+                                <th>
+                                    @col.ColumnName
+                                </th>
                             }
-
-                            if (sysTableFieldHeading.IsPrimaryKey == "Y")
-                            {
-                            <th>
-                                @col.ColumnName
-                            </th>
-                            <th></th>
-                            }
-                            else
-                            {
-                            <th>
-                                @col.ColumnName
-                            </th>
-                            }
-                            }
-                        </tr>
                     </thead>
                     <tbody>
                         @foreach (DataRow dr in Model.DataCollectionDataTable.Rows)
                         {
-                            <tr>
-                                @foreach (DataColumn rowCol in Model.DataCollectionDataTable.Columns)
-                                {
-                                    {
-                                        // REFACTOR:
-                                        
-                                        sysTableField = Model.GetColumnInfo(Model.TableName, rowCol.ColumnName);
-                                    }
+                        <tr>
+                            @foreach (DataColumn rowCol in Model.DataCollectionDataTable.Columns)
+                            {
+                                <td>
+                                    @dr[rowCol.ColumnName]
+                                </td>
 
-                                    if (sysTableField.IsPrimaryKey == "Y")
-                                    {
-                                        keyColumnCount++;
-                                        <td>
-                                            @dr[rowCol.ColumnName]
-                                        </td>
-                                        <td>
-                                            <a href="@Url.Action("Edit", Model.TableTitle, new { entityId = @dr[rowCol.ColumnName] })" , target="_blank">[Edit]</a>
-                                        </td>
-                                    }
-                                    else
-                                    {
-                                        <td>
-                                            @dr[rowCol.ColumnName]
-                                        </td>
-                                    }
+                                //{
+                                //    // REFACTOR:
 
+                                //    sysTableField = Model.GetColumnInfo(Model.TableName, rowCol.ColumnName);
+                                //}
 
-                                }
-                            </tr>
+                                @*if (sysTableField.IsPrimaryKey == "Y")
+            {
+                keyColumnCount++;
+                <td>
+                    @dr[rowCol.ColumnName]
+                </td>
+                <td>
+                    <a href="@Url.Action("Edit", Model.TableTitle, new { entityId = @dr[rowCol.ColumnName] })" , target="_blank">[Edit]</a>
+                </td>
+            }
+            else
+            {
+                <td>
+                    @dr[rowCol.ColumnName]
+                </td>
+            }*@
+                            }
+                        </tr>
                         }
                     </tbody>
                     <tfoot>
-                        @if (keyColumnCount == 0)
+                        @*@if (keyColumnCount == 0)
                         {
                             <div class="alert alert-warning alert-dismissible">
                                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
                                 <h5><i class="icon fas fa-exclamation-triangle"></i> No Primary Key Defined</h5>
                                 This query does not contain a primary key field for the table <strong>@Model.TableTitle</strong>. You will need to add a primary key prior to attempting to export these results to a folder.
                             </div>
-                        }
+                        }*@
                     </tfoot>
                 </table>
             </div>
@@ -110,7 +94,7 @@
         searchResultsVisible = $("#RowsAffected").val();
 
         if (searchResultsVisible > 0) {
-            var tableName = "data_table_" + $("#TableName").val();
+            var tableName = "data_table_sys_dynamic_query";
             InitDataTableDynamicQuery(tableName);
         }
     });
@@ -123,6 +107,7 @@
                 paging: true,
                 "pageLength": 10,
                 scrollX: true,
+                scrollY:true,
                 responsive: true,
                 buttons: [
                     'selectAll',
@@ -130,12 +115,12 @@
                     'csv',
                     'excel',
                     'pdf',
-                    {
-                        text: 'Add to Folder',
-                        action: function (e, dt, node, config) {
-                            OpenFolderModal();
-                        }
-                    }
+                    //{
+                    //    text: 'Add to Folder',
+                    //    action: function (e, dt, node, config) {
+                    //        OpenFolderModal();
+                    //    }
+                    //}
                 ],
                 select: true,
                 lengthMenu: [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],

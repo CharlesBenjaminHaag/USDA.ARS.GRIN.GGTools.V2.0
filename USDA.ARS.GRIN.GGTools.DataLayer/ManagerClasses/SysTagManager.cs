@@ -30,12 +30,14 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             List<SysTag> results = new List<SysTag>();
 
             SQL = " SELECT * FROM vw_GRINGlobal_Sys_Tag";
-            SQL += " WHERE  (@TableName             IS NULL OR   TableName       =    @TableName)";
-            SQL += " AND    (@IDNumber              IS NULL OR   IDNumber       =   @IDNumber)";
-        
+            SQL += " WHERE  (@TableName                 IS NULL OR   TableName              =    @TableName)";
+            SQL += " AND    (@IDNumber                  IS NULL OR   IDNumber               =   @IDNumber)";
+            SQL += " AND    (@CreatedByCooperatorID     IS NULL OR   CreatedByCooperatorID  =   @CreatedByCooperatorID)";
+
             var parameters = new List<IDbDataParameter> {
                 CreateParameter("TableName", !String.IsNullOrEmpty(searchEntity.TableName) ? (object)searchEntity.TableName: DBNull.Value, true),
                 CreateParameter("IDNumber", searchEntity.IDNumber > 0 ? (object)searchEntity.IDNumber : DBNull.Value, true),
+                CreateParameter("CreatedByCooperatorID", searchEntity.CreatedByCooperatorID > 0 ? (object)searchEntity.CreatedByCooperatorID : DBNull.Value, true),
             };
 
             results = GetRecords<SysTag>(SQL, parameters.ToArray());

@@ -25,6 +25,21 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             return appUserItemFolder;
         }
 
+        public SysFolderProperties GetSysFolderProperties(int sysFolderId)
+        {
+            SysFolderProperties sysFolderProperties = new SysFolderProperties();
+
+            SQL = "SELECT sys_folder_properties_id AS ID, type_code AS TypeCode, table_name AS TableName, properties AS Properties FROM sys_folder_properties WHERE sys_folder_id = @ID";
+
+            var parameters = new List<IDbDataParameter> {
+                CreateParameter("ID", (object)sysFolderId, false)
+            };
+
+            sysFolderProperties = GetRecord<SysFolderProperties>(SQL, parameters.ToArray());
+
+            return sysFolderProperties;
+        }
+
         public List<SysFolderItemMap> GetSysFolderItemMaps(int sysFolderId)
         {
             List<SysFolderItemMap> sysFolderItemMaps = new List<SysFolderItemMap>();
@@ -140,8 +155,11 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             Reset(CommandType.StoredProcedure);
             Validate<SysFolder>(entity);
             SQL = "usp_GRINGlobal_Sys_Folder_Properties_Insert";
-
+            AddParameter("properties", (object)entity.Properties, false);
             AddParameter("sys_folder_id", (object)entity.ID, false);
+            AddParameter("type_code", (object)entity.TypeCode, false);
+            AddParameter("table_name", (object)entity.TableName, false);
+            AddParameter("created_by", (object)entity.CreatedByCooperatorID, false);
             AddParameter("@out_error_number", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
             AddParameter("@out_sys_folder_properties_id", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
 
@@ -153,7 +171,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
                 throw new Exception(errorNumber.ToString());
             }
 
-            entity.ID = GetParameterValue<int>("@out_sys_folder_id", -1);
+            entity.ID = GetParameterValue<int>("@out_sys_folder_properties_id", -1);
             return entity.ID;
         }
 

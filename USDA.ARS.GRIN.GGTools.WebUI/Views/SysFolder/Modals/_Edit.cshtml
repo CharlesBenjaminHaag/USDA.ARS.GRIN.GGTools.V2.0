@@ -187,12 +187,6 @@ Modal that appears if no record is selected for folder addition.
     */
     function CreateFolder() {
         var link = '@Url.Action("Edit", "SysFolder")';
-
-        //TO DO
-        //Get title and description
-        //Get selected items
-        //Get tag name and color, if supplied
-
         var tableName = $("#TableName").val();
         var title = $("#Entity_Title").val();
         var description = $("#Entity_Description").val();
@@ -209,17 +203,11 @@ Modal that appears if no record is selected for folder addition.
 
         var formData = new FormData();
 
-        //if ($('#cbxIsFavorite').prop('checked') == true) {
-        //    formData.append("Entity.IsFavorite", "Y");
-        //}
-
         formData.append("Entity.TableName", $("#TableName").val());
         formData.append("Entity.Title", title);
         formData.append("Entity.Description", description);
         formData.append("Entity.TypeCode", "STC");
         formData.append("ItemIDList", itemIdList);
-
-        // Tag
         formData.append("TagEntity.TagText", tagText);
         formData.append("TagEntity.TagFormatString", tagFormatString);
 

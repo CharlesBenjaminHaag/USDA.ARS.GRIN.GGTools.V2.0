@@ -11,6 +11,12 @@
 
         <li class="nav-header">FOLDERS</li>
         <li class="nav-item">
+            <a href="@Url.Action("Explorer", "SysFolder")" class="nav-link">
+                <i class="nav-icon fas fa-globe"></i>
+                <p>Explorer</p>
+            </a>
+        </li>
+        <li class="nav-item">
             <a href="@Url.Action("Index", "SysFolder")" class="nav-link">
                 <i class="nav-icon fas fa-search"></i>
                 <p>Search</p>
@@ -24,12 +30,18 @@
         </li>
 
         <li class="nav-header">
-            DEMO
+            Tools
         </li>
         <li class="nav-item">
             <a href="@Url.Action("Index","Import")" class="nav-link">
-                <i class="nav-icon fas fa-flask"></i>
+                <i class="nav-icon fas fa-toolbox"></i>
                 <p>Data Import</p>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="@Url.Action("Index","SysDynamicQuery")" class="nav-link">
+                <i class="nav-icon fas fa-toolbox"></i>
+                <p>SQL Query</p>
             </a>
         </li>
 

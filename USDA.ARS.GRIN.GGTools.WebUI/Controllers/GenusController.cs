@@ -214,8 +214,13 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 // Save search if attribs supplied.
                 if ((viewModel.EventAction == "SEARCH") && (viewModel.EventValue == "SAVE"))
                 {
-                    viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
-                    //viewModel.SaveSearch();
+                    SysFolderViewModel sysFolderViewModel = new SysFolderViewModel();
+                    sysFolderViewModel.Entity.Title = viewModel.EventInfo;
+                    sysFolderViewModel.Entity.Description = viewModel.EventNote;
+                    sysFolderViewModel.Entity.TypeCode = "DYN";
+                    sysFolderViewModel.Entity.Properties = sysFolderViewModel.SerializeToXml<GenusSearch>(viewModel.SearchEntity);
+                    sysFolderViewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
+                    sysFolderViewModel.Insert();
                 }
 
                 return View(BASE_PATH + "Index.cshtml", viewModel);

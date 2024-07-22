@@ -38,8 +38,16 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             AuthorViewModel viewModel = new AuthorViewModel();
             viewModel.TableName = "taxonomy_author";
 
+            SysFolderViewModel sysFolderViewModel = new SysFolderViewModel();
+           
             try 
-            { 
+            {
+                sysFolderViewModel.GetProperties(folderId);
+                if (sysFolderViewModel.SysFolderPropertiesEntity != null)
+                {
+                    viewModel.SearchEntity = viewModel.Deserialize<AuthorSearch>(sysFolderViewModel.SysFolderPropertiesEntity.Properties);
+                }
+
                 viewModel.RunSearch(folderId);
                 return PartialView(BASE_PATH + "_List.cshtml", viewModel);
             }
@@ -187,8 +195,6 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
         [HttpPost]
         public ActionResult Search(AuthorViewModel viewModel)
         {
-            SysFolderViewModel sysFolderViewModel = new SysFolderViewModel();
-
             try
             {
                 Session[SessionKeyName] = viewModel;
@@ -200,9 +206,11 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 // Save search if attribs supplied.
                 if ((viewModel.EventAction == "SEARCH") && (viewModel.EventValue == "SAVE"))
                 {
+                    SysFolderViewModel sysFolderViewModel = new SysFolderViewModel();
                     sysFolderViewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
                     sysFolderViewModel.Entity.Title = viewModel.EventInfo;
                     sysFolderViewModel.Entity.Description = viewModel.EventNote;
+                    sysFolderViewModel.Entity.TableName = viewModel.TableName;
                     sysFolderViewModel.Entity.Properties = viewModel.SerializeToXml<AuthorSearch>(viewModel.SearchEntity);
                     sysFolderViewModel.Entity.TypeCode = "DYN";
                     sysFolderViewModel.Insert();

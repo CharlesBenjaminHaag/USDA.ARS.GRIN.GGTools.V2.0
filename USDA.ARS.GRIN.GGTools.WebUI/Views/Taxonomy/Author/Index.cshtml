@@ -6,7 +6,7 @@
 @Html.Partial("~/Views/Taxonomy/Author/_Detail.cshtml")
 @Html.Partial("~/Views/Taxonomy/Author/_List.cshtml")
 
-@{Html.RenderAction("GetDynamicEditModal", "SysFolder", new { @sysTableName = Model.TableName }); }
+@{Html.RenderAction("GetDynamicEditModal", "SysFolder", new { @sysTableName = Model.TableName, @typeCode = "DYN" }); }
 @{Html.RenderAction("GetEditModal", "SysFolder", new { @sysTableName = Model.TableName }); }
 
 <script type="text/javascript">

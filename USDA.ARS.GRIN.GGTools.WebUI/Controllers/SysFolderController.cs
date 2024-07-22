@@ -13,6 +13,17 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
     public class SysFolderController : BaseController
     {
         private static readonly Logger Log = LogManager.GetCurrentClassLogger();
+        private AuthorViewModel authorViewModel = null;
+        private ClassificationViewModel classificationViewModel = null;
+        private CropForCWRViewModel cropForCWRViewModel = null;
+        private CWRMapViewModel cWRMapViewModel = null;
+        private CWRTraitViewModel cWRTraitViewModel = null;
+        private CommonNameViewModel commonNameViewModel = null;
+        private CommonNameLanguageViewModel commonNameLanguageViewModel = null;
+        private EconomicUsageType economicUsageTypeViewModel = null;
+        private EconomicUseViewModel economicUseViewModel = null;
+        private FamilyViewModel familyViewModel = null;
+        private GenusViewModel genusViewModel = null;
 
         public ActionResult Index()
         {
@@ -21,6 +32,20 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 SysFolderViewModel viewModel = new SysFolderViewModel();
                 return View(viewModel);
                 SetPageTitle();
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return RedirectToAction("InternalServerError", "Error");
+            }
+        }
+
+        public ActionResult Explorer()
+        {
+            try
+            {
+                SysFolderViewModel viewModel = new SysFolderViewModel();
+                return View("~/Views/SysFolder/Explorer/Index.cshtml", viewModel);
             }
             catch (Exception ex)
             {
@@ -179,12 +204,27 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             }
         }
 
-        public PartialViewResult GetDynamicEditModal()
+        public PartialViewResult GetDynamicEditModal(string sysTableName, string typeCode)
         {
             try
             {
                 SysFolderViewModel viewModel = new SysFolderViewModel();
+                viewModel.Entity.TypeCode = typeCode;
                 return PartialView("~/Views/SysFolder/Modals/_EditDynamic.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return null;
+            }
+        }
+
+        public PartialViewResult GetSQLSearchModal()
+        {
+            try
+            {
+                SysFolderViewModel viewModel = new SysFolderViewModel();
+                return PartialView("~/Views/SysFolder/Modals/_EditSQL.cshtml", viewModel);
             }
             catch (Exception ex)
             {
@@ -200,11 +240,12 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
         /// </summary>
         /// <returns></returns>
 
-        public PartialViewResult ComponentListWithIcons()
+        public PartialViewResult Component_ListWithIcons(string typeCode = "")
         {
             try
             {
                 SysFolderViewModel viewModel = new SysFolderViewModel();
+                viewModel.SearchEntity.TypeCode = typeCode;
                 viewModel.SearchEntity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
                 viewModel.Search();
                 return PartialView("~/Views/SysFolder/Components/_ListWithIcons.cshtml", viewModel);
@@ -238,7 +279,145 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 return PartialView("~/Views/Error/_InternalServerError.cshtml");
             }
         }
-               
+
+        /// <summary>
+        /// Loads and runs a previously-saved search.
+        /// </summary>
+        /// <param name="sysFolderId">The ID of the folder containing the encoded search criteria.</param>
+        /// <returns>A partial view containing the search results.</returns>
+        public PartialViewResult _ListDynamicFolderItems(int sysFolderId)
+        {
+            try
+            {
+                SysFolderViewModel viewModel = new SysFolderViewModel();
+                viewModel.GetProperties(sysFolderId);
+                switch (viewModel.SysFolderPropertiesEntity.TableName)
+                {
+                    case "taxonomy_author":
+                        AuthorViewModel authorViewModel = new AuthorViewModel();
+                        authorViewModel.SearchEntity = authorViewModel.Deserialize<AuthorSearch>(viewModel.SysFolderPropertiesEntity.Properties);
+                        authorViewModel.Search();
+                        return PartialView("~/Views/Taxonomy/Author/_List.cshtml", authorViewModel);
+                    case "citation":
+                        CitationViewModel citationViewModel = new CitationViewModel();
+                        citationViewModel.SearchEntity = citationViewModel.Deserialize<CitationSearch>(viewModel.Entity.Properties);
+                        citationViewModel.Search();
+                        return PartialView("~/Views/Taxonomy/Citation/_List.cshtml", citationViewModel);
+                    case "taxonomy_classification":
+                        ClassificationViewModel classificationViewModel = new ClassificationViewModel();
+                        classificationViewModel.SearchEntity = classificationViewModel.Deserialize<ClassificationSearch>(viewModel.Entity.Properties);
+                        classificationViewModel.Search();
+                        return PartialView("~/Views/Taxonomy/Order/_List.cshtml", classificationViewModel);
+                    case "taxonomy_common_name":
+                        CommonNameViewModel commonNameViewModel = new CommonNameViewModel();
+                        commonNameViewModel.SearchEntity = commonNameViewModel.Deserialize<CommonNameSearch>(viewModel.Entity.Properties);
+                        commonNameViewModel.Search();
+                        return PartialView("~/Views/Taxonomy/CommonName/_List.cshtml", commonNameViewModel);
+                    case "taxonomy_common_name_language":
+                        CommonNameLanguageViewModel commonNameLanguageViewModel = new CommonNameLanguageViewModel();
+                        commonNameLanguageViewModel.SearchEntity = commonNameLanguageViewModel.Deserialize<CommonNameLanguageSearch>(viewModel.Entity.Properties);
+                        commonNameLanguageViewModel.Search();
+                        return PartialView("~/Views/Taxonomy/CommonNameLanguage/_List.cshtml", commonNameLanguageViewModel);
+                    case "taxonomy_cwr_crop":
+                        CropForCWRViewModel cropForCWRViewModel = new CropForCWRViewModel();
+                        cropForCWRViewModel.SearchEntity = cropForCWRViewModel.Deserialize<CropForCWRSearch>(viewModel.Entity.Properties);
+                        cropForCWRViewModel.Search();
+                        return PartialView("~/Views/Taxonomy/CropForCWRViewModel/_List.cshtml", cropForCWRViewModel);
+                    case "taxonomy_cwr_map":
+                        CWRMapViewModel cWRMapViewModel = new CWRMapViewModel();
+                        cWRMapViewModel.SearchEntity = cWRMapViewModel.Deserialize<CWRMapSearch>(viewModel.Entity.Properties);
+                        cWRMapViewModel.Search();
+                        return PartialView("~/Views/Taxonomy/CWRMapViewModel/_List.cshtml", cWRMapViewModel);
+                    case "taxonomy_cwr_trait":
+                        CWRTraitViewModel cWRTraitViewModel = new CWRTraitViewModel();
+                        cWRTraitViewModel.SearchEntity = cWRTraitViewModel.Deserialize<CWRTraitSearch>(viewModel.Entity.Properties);
+                        cWRTraitViewModel.Search();
+                        return PartialView("~/Views/Taxonomy/CWRTraitViewModel/_List.cshtml", cWRTraitViewModel);
+                    case "taxonomy_economic_usage_type":
+                        EconomicUsageTypeViewModel economicUsageTypeViewModel = new EconomicUsageTypeViewModel();
+                        economicUsageTypeViewModel.SearchEntity = economicUsageTypeViewModel.Deserialize<EconomicUsageTypeSearch>(viewModel.Entity.Properties);
+                        economicUsageTypeViewModel.Search();
+                        return PartialView("~/Views/Taxonomy/EconomicUsageTypeViewModel/_List.cshtml", economicUsageTypeViewModel);
+                    case "taxonomy_use":
+                        EconomicUseViewModel economicUseViewModel = new EconomicUseViewModel();
+                        economicUseViewModel.SearchEntity = economicUseViewModel.Deserialize<EconomicUseSearch>(viewModel.Entity.Properties);
+                        economicUseViewModel.Search();
+                        return PartialView("~/Views/Taxonomy/EconomicUseViewModel/_List.cshtml", economicUseViewModel);
+                    case "taxonomy_family":
+                        FamilyViewModel familyViewModel = new FamilyViewModel();
+                        familyViewModel.SearchEntity = familyViewModel.Deserialize<FamilySearch>(viewModel.Entity.Properties);
+                        familyViewModel.Search();
+                        return PartialView("~/Views/Taxonomy/FamilyViewModel/_List.cshtml", familyViewModel);
+                    case "taxonomy_genus":
+                        GenusViewModel genusViewModel = new GenusViewModel();
+                        genusViewModel.SearchEntity = genusViewModel.Deserialize<GenusSearch>(viewModel.Entity.Properties);
+                        genusViewModel.Search();
+                        return PartialView("~/Views/Taxonomy/GenusViewModel/_List.cshtml", genusViewModel);
+                    case "geography":
+                        GeographyViewModel geographyViewModel = new GeographyViewModel();
+                        geographyViewModel.SearchEntity = geographyViewModel.Deserialize<GeographySearch>(viewModel.Entity.Properties);
+                        geographyViewModel.Search();
+                        return PartialView("~/Views/Taxonomy/GeographyViewModel/_List.cshtml", geographyViewModel);
+                    case "taxonomy_geography_map":
+                        GeographyMapViewModel geographyMapViewModel = new GeographyMapViewModel();
+                        geographyMapViewModel.SearchEntity = geographyMapViewModel.Deserialize<GeographyMapSearch>(viewModel.Entity.Properties);
+                        geographyMapViewModel.Search();
+                        return PartialView("~/Views/Taxonomy/GeographyMapViewModel/_List.cshtml", geographyMapViewModel);
+                    case "literature":
+                        LiteratureViewModel literatureViewModel = new LiteratureViewModel();
+                        literatureViewModel.SearchEntity = literatureViewModel.Deserialize<LiteratureSearch>(viewModel.Entity.Properties);
+                        literatureViewModel.Search();
+                        return PartialView("~/Views/Taxonomy/Literature/_List.cshtml", literatureViewModel);
+                    case "taxonomy_regulation":
+                        RegulationViewModel regulationViewModel = new RegulationViewModel();
+                        regulationViewModel.SearchEntity = regulationViewModel.Deserialize<RegulationSearch>(viewModel.Entity.Properties);
+                        regulationViewModel.Search();
+                        return PartialView("~/Views/Taxonomy/RegulationViewModel/_List.cshtml", regulationViewModel);
+                    case "taxonomy_regulation_map":
+                        RegulationMapViewModel regulationMapViewModel = new RegulationMapViewModel();
+                        regulationMapViewModel.SearchEntity = regulationMapViewModel.Deserialize<RegulationMapSearch>(viewModel.Entity.Properties);
+                        regulationMapViewModel.Search();
+                        return PartialView("~/Views/Taxonomy/RegulationMap/_List.cshtml", regulationMapViewModel);
+                    case "taxonomy_species":
+                        SpeciesViewModel speciesViewModel = new SpeciesViewModel();
+                        speciesViewModel.SearchEntity = speciesViewModel.Deserialize<SpeciesSearch>(viewModel.Entity.Properties);
+                        speciesViewModel.Search();
+                        return PartialView("~/Views/Taxonomy/Species/_List.cshtml", speciesViewModel);
+                    case "taxonomy_species_synonym_map":
+                        SynonymMapViewModel synonymMapViewModel = new SynonymMapViewModel();
+                        synonymMapViewModel.SearchEntity = synonymMapViewModel.Deserialize<SpeciesSynonymMapSearch>(viewModel.Entity.Properties);
+                        synonymMapViewModel.Search();
+                        return PartialView("~/Views/Taxonomy/SpeciesSynonymMap/_List.cshtml", synonymMapViewModel);
+                }
+
+                return null;
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
+
+        }
+
+        public PartialViewResult _ListSQLQueryFolderItems(int sysFolderId)
+        {
+            try
+            {
+                SysFolderViewModel viewModel = new SysFolderViewModel();
+                viewModel.GetProperties(sysFolderId);
+
+                SysDynamicQueryViewModel sysDynamicQueryViewModel = new SysDynamicQueryViewModel();
+                sysDynamicQueryViewModel.SearchEntity.SQLStatement = viewModel.SysFolderPropertiesEntity.Properties;
+                sysDynamicQueryViewModel.Search();
+                return PartialView("~/Views/SysDynamicQuery/_SearchResultsList.cshtml", sysDynamicQueryViewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
+        }
 
         //public PartialViewResult Component_SysFolderCooperatorMapEditor()
         //{

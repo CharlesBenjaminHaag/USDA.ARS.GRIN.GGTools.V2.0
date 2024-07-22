@@ -7,8 +7,8 @@
 @Html.Partial("~/Views/Taxonomy/Family/_Detail.cshtml")
 @Html.Partial("~/Views/Taxonomy/Family/_List.cshtml")
 
+@{Html.RenderAction("GetDynamicEditModal", "SysFolder", new { @sysTableName = Model.TableName, @typeCode = "DYN" }); }
 @{Html.RenderAction("GetEditModal", "SysFolder", new { @sysTableName = Model.TableName }); }
-@{Html.RenderAction("GetDynamicEditModal", "SysFolder", new { @sysTableName = Model.TableName }); }
 
 @using (Html.BeginForm("GetBatchEditor", "Family", FormMethod.Post, new { id = "frmGetBatchEditor" }))
 {

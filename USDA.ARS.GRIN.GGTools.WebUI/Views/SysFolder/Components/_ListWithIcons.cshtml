@@ -1,22 +1,40 @@
 ﻿@model USDA.ARS.GRIN.GGTools.ViewModelLayer.SysFolderViewModel
+
+@{
+    string folderIconCssClass = "fas fa-folder";
+}
+
 <div class="row">
     @if (Model.DataCollection.Count > 0)
     {
         foreach (var result in Model.DataCollection)
         {
+            switch (result.TypeCode)
+            {
+                case "STC":
+                    folderIconCssClass = "fas fa-folder";
+                    break;
+                case "DYN":
+                    folderIconCssClass = "fas fa-bolt";
+                    break;
+                case "SQL":
+                    folderIconCssClass = "fas fa-database";
+                    break;
+            }
+
             <div class="col-md-4">
                 <div class="info-box shadow">
                     <span class="info-box-icon bg-info">
-                        <i class="fas fa-folder"></i>
+                        <i class="@folderIconCssClass"></i>
                     </span>
                     <div class="info-box-content">
                         <span class="info-box-text">
                             @*@if (result.IsFavorite == "Y")
-                            {
+            {
                                 <i class="fas fa-star text-warning"></i>
                             }*@
                             <a href="@Url.Action("Edit", "SysFolder", new { @entityId = result.ID })">
-                                @result.Title 
+                                @result.Title
                             </a>
                         </span>
                         <span class="info-box-number">

@@ -58,13 +58,21 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
 
         #region Components
         
+        public PartialViewResult Component_SelectList()
+        {
+            SysTagViewModel viewModel = new SysTagViewModel();
+            viewModel.SearchEntity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
+            viewModel.Search();
+            return PartialView("~/Views/SysTag/Components/_SelectList.cshtml", viewModel);
+        }
+
         /// <summary>
         /// Retrieves a list of all tags assigned to a given table.
         /// </summary>
         /// <param name="tableName"></param>
         /// <param name="idNumber"></param>
         /// <returns></returns>
-        public PartialViewResult ComponentSysTagsByTable(string tableName, int idNumber)
+        public PartialViewResult Component_SysTagsByTable(string tableName, int idNumber)
         {
             try
             {
@@ -81,7 +89,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             }
         }
 
-        public PartialViewResult ComponentEditor(string tableName, int idNumber)
+        public PartialViewResult Component_Editor(string tableName, int idNumber)
         {
             try
             {
@@ -104,7 +112,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
         /// <param name="tableName"></param>
         /// <param name="idNumber"></param>
         /// <returns></returns>
-        public PartialViewResult ComponentSelect(string tableName, int idNumber)
+        public PartialViewResult Component_Select(string tableName, int idNumber)
         {
             try
             {

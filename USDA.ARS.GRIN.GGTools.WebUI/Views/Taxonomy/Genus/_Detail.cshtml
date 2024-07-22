@@ -4,6 +4,8 @@
 {
     @Html.HiddenFor(x => x.EventAction)
     @Html.HiddenFor(x => x.EventValue)
+    @Html.HiddenFor(x => x.EventInfo)
+    @Html.HiddenFor(x => x.EventNote)
     @Html.HiddenFor(x => x.TableName)
     @Html.HiddenFor(x => x.TableCode)
     @Html.HiddenFor(x => x.AuthenticatedUserCooperatorID)
@@ -26,7 +28,7 @@
                                     @Html.TextBoxFor(x => x.SearchEntity.FamilyName, new { @class = "form-control" })
                                 </div>
                             </div>
-                            
+
                             <div class="col-md-3">
                                 <div class="form-group form-horizontal">
                                     <label>Name</label>

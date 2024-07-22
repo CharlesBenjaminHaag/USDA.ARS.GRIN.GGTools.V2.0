@@ -25,8 +25,8 @@
 
 </div>
 
-@{Html.RenderAction("GetEditModal", "SysFolder", new { @sysTableName = "taxonomy_use" }); }
-@{Html.RenderAction("GetDynamicEditModal", "SysFolder", new { @sysTableName = Model.TableName }); }
+@{Html.RenderAction("GetDynamicEditModal", "SysFolder", new { @sysTableName = Model.TableName, @typeCode = "DYN" }); }
+@{Html.RenderAction("GetEditModal", "SysFolder", new { @sysTableName = Model.TableName }); }
 
 <script type="text/javascript">
 
