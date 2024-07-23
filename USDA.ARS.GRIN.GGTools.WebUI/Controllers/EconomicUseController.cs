@@ -178,12 +178,13 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 return Json("FALSE", JsonRequestBehavior.AllowGet);
             }
         }
+        
         public ActionResult Index(string eventAction = "", int folderId = 0)
         {
             try
             {
                 EconomicUseViewModel viewModel = new EconomicUseViewModel();
-                viewModel.PageTitle = "Economic Use Search";
+                ViewBag.PageTitle = "Economic Use Search";
 
                 string targetKey = this.ControllerContext.RouteData.Values["controller"].ToString().ToUpper() + "_SEARCH";
                 if (Session[targetKey] != null)
