@@ -27,7 +27,7 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
         {
             using (SysFolderCooperatorMapManager mgr = new SysFolderCooperatorMapManager())
             {
-                DataCollectionMapped = new Collection<SysFolderCooperatorMap>(mgr.GetMappedCooperators(sysFolderId));
+                DataCollectionMapped = new Collection<Cooperator>(mgr.GetMappedCooperators(sysFolderId));
             }
         }
 
@@ -35,7 +35,7 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
         {
             using(SysFolderCooperatorMapManager mgr = new SysFolderCooperatorMapManager())
             {
-                DataCollectionNonMapped = new Collection<SysFolderCooperatorMap>(mgr.GetNonMappedCooperators(sysFolderId));
+                DataCollectionNonMapped = new Collection<Cooperator>(mgr.GetNonMappedCooperators(sysFolderId));
             }
         }
 

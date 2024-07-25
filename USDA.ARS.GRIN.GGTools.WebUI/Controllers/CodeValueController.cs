@@ -142,6 +142,16 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
         {
             CodeValueViewModel viewModel = new CodeValueViewModel();
             viewModel.PageTitle = "Code Value Search";
+            viewModel.TableCode = "CodeValue";
+            viewModel.TableName = "code_value";
+
+            string targetKey = this.ControllerContext.RouteData.Values["controller"].ToString().ToUpper() + "_SEARCH";
+            if (Session[targetKey] != null)
+            {
+                viewModel = Session[targetKey] as CodeValueViewModel;
+                viewModel.Search();
+            }
+
             return View(viewModel);
         }
         

@@ -13,5 +13,6 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
         public int SysFolderID { get; set; }
         public int CooperatorID { get; set; }
         public string TypeCode { get; set; }
+        public string FullName { get; set; }
     }
 }

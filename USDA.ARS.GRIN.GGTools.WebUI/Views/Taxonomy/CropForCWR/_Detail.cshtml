@@ -22,7 +22,8 @@
                     <div id="section-search-criteria">
 
                         <div class="row">
-                            <div class="col-md-12">
+                            @Html.Partial("~/Views/Components/_ShowHideButtons.cshtml")
+                            <div class="col-md-11">
                                 <div class="form-group">
                                     <label>Name</label>
                                     @Html.TextBoxFor(x => x.SearchEntity.Name, new { @class = "form-control" })

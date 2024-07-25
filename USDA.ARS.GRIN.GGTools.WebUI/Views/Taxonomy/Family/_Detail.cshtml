@@ -37,15 +37,7 @@
                         <div class="col-md-12">
                             <div class="tab-pane active" id="section-family">
                                 <div class="row">
-                                    <div class="col-md-1" style="padding:0px;">
-                                        <label style="color:transparent;">DEBUG</label>
-                                        <button id="btnShowHideExtendedFieldsOn" type="button" style="margin-top:0px;" class="btn btn-default btn-flat btn-block">
-                                            <i id="btnShowHideExtendedFieldsIcon" class="fas fa-plus"></i>
-                                        </button>
-                                        <button id="btnShowHideExtendedFieldsOff" type="button" style="margin-top: 0px; display: none;" class="btn btn-default btn-flat btn-block">
-                                            <i id="btnShowHideExtendedFieldsIcon" class="fas fa-minus"></i>
-                                        </button>
-                                    </div>
+                                    @Html.Partial("~/Views/Components/_ShowHideButtons.cshtml")
                                     <div class="col-md-3">
                                         <div id="section-family-name" class="form-group form-horizontal">
                                             <label>Family Name</label>

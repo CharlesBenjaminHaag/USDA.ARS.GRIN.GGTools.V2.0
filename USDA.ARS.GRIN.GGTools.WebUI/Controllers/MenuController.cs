@@ -22,22 +22,25 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             viewModel.EventAction = eventAction;
             viewModel.EventValue = eventValue;
 
-            if ((eventAction == "Home") && (eventValue == "Index"))
+            eventAction = eventAction.ToLower();
+            eventValue = eventValue.ToLower();
+
+            if ((eventAction == "home") && (eventValue == "index"))
             {
                 return PartialView("~/Views/Components/_DefaultMenu.cshtml");
             }
 
-            if ((eventAction == "Taxonomy") && (eventValue == "Index"))
+            if ((eventAction == "taxonomy") && (eventValue == "index"))
             {
                 return PartialView("~/Views/Components/_DefaultMenu.cshtml");
             }
 
-            if (eventValue == "Index")
+            if (eventValue == "index")
             {
                 return PartialView("~/Views/Components/_DefaultSearchMenu.cshtml", viewModel);
             }
 
-            if ((eventValue == "Add") || (eventValue == "Edit"))
+            if ((eventValue == "add") || (eventValue == "edit"))
             {
                 if ((eventAction == "Family") || (eventAction == "Genus") || (eventAction == "Species"))
                 {

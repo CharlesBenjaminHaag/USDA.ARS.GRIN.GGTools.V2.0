@@ -8,23 +8,24 @@
     </a>
     <ul class="nav nav-treeview">
         <li class="nav-item">
-            <a href="@Url.Action("Index","Cooperator", new { sysTableName = "cooperator", sysTableTitle = "Cooperator" })" class="nav-link">
-                <i class="fas fa-circle nav-icon"></i>
-                <p>Users</p>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a href="@Url.Action("Explorer","WebOrderRequest")" class="nav-link">
-                <i class="fas fa-circle nav-icon"></i>
-                <p>Orders</p>
-            </a>
-        </li>
-        <li class="nav-item">
             <a href="@Url.Action("Index","Taxonomy")" class="nav-link">
                 <i class="fas fa-circle nav-icon"></i>
                 <p>Taxonomy</p>
             </a>
         </li>
+        <li class="nav-item">
+            <a href="@Url.Action("Index","Cooperator", new { sysTableName = "cooperator", sysTableTitle = "Cooperator" })" class="nav-link">
+                <i class="fas fa-circle nav-icon"></i>
+                <p>Access Rights Management</p>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="@Url.Action("Explorer","WebOrderRequest")" class="nav-link">
+                <i class="fas fa-circle nav-icon"></i>
+                <p>Order Management</p>
+            </a>
+        </li>
+
         <li class="nav-item">
             <a href="@Url.Action("Index","GOBS")" class="nav-link">
                 <i class="fas fa-circle nav-icon"></i>

@@ -1022,6 +1022,13 @@
     <Content Include="Views\SysFolderItemMap\Components\_ListWidgets.cshtml" />
     <Content Include="Views\SysTag\Components\_SelectList.cshtml" />
     <Content Include="Views\SysFolderItemMap\Components\_SelectList.cshtml" />
+    <Content Include="Views\Components\_ShowHideButtons.cshtml" />
+    <Content Include="Views\SysFolderCooperatorMap\Components\_Widget.cshtml" />
+    <Content Include="Views\SysFolderCooperatorMap\Modals\_Edit.cshtml" />
+    <Content Include="Views\SysFolderCooperatorMap\Modals\_ListAvailable.cshtml" />
+    <Content Include="Views\SysFolderCooperatorMap\Modals\_ListCurrent.cshtml" />
+    <Content Include="Views\SysFolderCooperatorMap\Components\_ListNonMapped.cshtml" />
+    <Content Include="Views\SysFolderCooperatorMap\Components\_ListMapped.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

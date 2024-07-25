@@ -21,6 +21,7 @@
         <div class="tab-content">
             <div class="tab-pane active" id="activity">
                 <div class="row">
+                    @Html.Partial("~/Views/Components/_ShowHideButtons.cshtml")
                     <div class="col-md-4">
                         <label>Crop For CWR Name</label>
                         @Html.TextBoxFor(x => x.SearchEntity.CropForCWRName, new { @class = "form-control" })

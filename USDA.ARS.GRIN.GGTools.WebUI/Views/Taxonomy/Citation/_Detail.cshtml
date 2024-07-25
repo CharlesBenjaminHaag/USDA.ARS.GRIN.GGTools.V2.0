@@ -27,8 +27,8 @@
         <div class="tab-content" id="custom-tabs-one-tabContent">
             <div class="tab-pane fade show active" id="custom-tabs-one-home" role="tabpanel" aria-labelledby="custom-tabs-one-home-tab">
                 <div id="section-search-criteria">
-
                     <div class="row">
+                        @Html.Partial("~/Views/Components/_ShowHideButtons.cshtml")
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label>Type</label>
@@ -45,6 +45,12 @@
                             <div class="form-group">
                                 <label>Citation Title</label>
                                 @Html.TextBoxFor(x => x.SearchEntity.CitationTitle, new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="col-md-1">
+                            <div id="form-group form-group-horizontal">
+                                <label>Cit. Year</label>
+                                @Html.TextBoxFor(x => x.SearchEntity.CitationYear, new { @class = "form-control" })
                             </div>
                         </div>
                         <div class="col-md-3">
@@ -71,14 +77,8 @@
                                 @Html.TextBoxFor(x => x.SearchEntity.SpeciesName, new { @class = "form-control" })
                             </div>
                         </div>
-                        <div class="col-md-1">
-                            <div id="form-group form-group-horizontal">
-                                <label>Cit. Year</label>
-                                @Html.TextBoxFor(x => x.SearchEntity.CitationYear, new { @class = "form-control" })
-                            </div>
-                        </div>
+
                     </div>
-                    <br />
                     @Html.Partial("~/Views/Taxonomy/Citation/_DetailExtended.cshtml")
                     <div>
                         <button id="btnReset" type="button" class="btn btn-default">Reset</button>

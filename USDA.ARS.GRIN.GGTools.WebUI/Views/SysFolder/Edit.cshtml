@@ -48,13 +48,13 @@
                 @switch (Model.Entity.TypeCode)
                 {
                     case "STC":
-                            <span>@Html.Partial("~/Views/SysFolderItemMap/_List.cshtml")</span>
+                        <span>@Html.Partial("~/Views/SysFolderItemMap/_List.cshtml")</span>
                         break;
                     case "DYN":
-                        {Html.RenderAction("_ListDynamicFolderItems", "SysFolder", new { @sysFolderId = Model.Entity.ID });}
+                        { Html.RenderAction("_ListDynamicFolderItems", "SysFolder", new { @sysFolderId = Model.Entity.ID }); }
                         break;
                     case "SQL":
-                        {Html.RenderAction("_ListSQLQueryFolderItems", "SysFolder", new { @sysFolderId = Model.Entity.ID }); }
+                        { Html.RenderAction("_ListSQLQueryFolderItems", "SysFolder", new { @sysFolderId = Model.Entity.ID }); }
                         break;
                 }
             </div>
@@ -64,12 +64,10 @@
                 </div>
             </div>
             <div class="tab-pane" id="sharing">
-                @{ Html.RenderAction("Component_SysFolderCooperatorMapEditor", "SysFolderCooperatorMap", new { @sysFolderId = Model.Entity.ID }); }
+                @{ Html.RenderAction("Component_Widget", "SysFolderCooperatorMap", new { @sysFolderId = Model.Entity.ID }); }
             </div>
             <div class="tab-pane" id="tags">
-
                 @{ Html.RenderAction("Component_Editor", "SysTag", new { @tableName = "sys_folder", @idNumber = Model.Entity.ID }); }
-
             </div>
         </div>
     </div>
@@ -112,6 +110,7 @@
 </div>
 <!-- END FOLDER ITEM DEL CONFIRM -->
 
+@{Html.RenderAction("RenderEditModal", "SysFolderCooperatorMap", new { sysFolderId = Model.Entity.ID }); }
 @Html.Partial("~/Views/Taxonomy/Shared/Modals/_Delete.cshtml")
 
 <script type="text/javascript">

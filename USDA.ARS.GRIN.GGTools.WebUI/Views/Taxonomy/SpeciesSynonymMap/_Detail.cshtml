@@ -13,26 +13,27 @@
                 <div id="section-search-criteria">
                     @using (Html.BeginForm("Search", "SpeciesSynonymMap", FormMethod.Post, new { id = "frmMain" }))
                     {
-                        <div class="row">
-                            <div class="col-md-5">
-                                <div class="form-group">
-                                    <label>Taxon A Name</label>
-                                    @Html.TextBoxFor(x => x.SearchEntity.SpeciesAName, new { @class = "form-control" })
-                                </div>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="form-group form-horizontal">
-                                    <label>Synonym Code</label>
-                                    @Html.DropDownListFor(x => x.SearchEntity.SynonymCode, Model.SynonymCodes, "All Codes", new { @class = "form-control" })
-                                </div>
-                            </div>
-                            <div class="col-md-5">
-                                <div class="form-group">
-                                    <label>Taxon B Name</label>
-                                    @Html.TextBoxFor(x => x.SearchEntity.SpeciesBName, new { @class = "form-control" })
-                                </div>
+                    <div class="row">
+                        @Html.Partial("~/Views/Components/_ShowHideButtons.cshtml")
+                        <div class="col-md-5">
+                            <div class="form-group">
+                                <label>Taxon A Name</label>
+                                @Html.TextBoxFor(x => x.SearchEntity.SpeciesAName, new { @class = "form-control" })
                             </div>
                         </div>
+                        <div class="col-md-2">
+                            <div class="form-group form-horizontal">
+                                <label>Synonym Code</label>
+                                @Html.DropDownListFor(x => x.SearchEntity.SynonymCode, Model.SynonymCodes, "All Codes", new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="col-md-5">
+                            <div class="form-group">
+                                <label>Taxon B Name</label>
+                                @Html.TextBoxFor(x => x.SearchEntity.SpeciesBName, new { @class = "form-control" })
+                            </div>
+                        </div>
+                    </div>
                         @Html.Partial("~/Views/Taxonomy/SpeciesSynonymMap/_DetailExtended.cshtml")
                     }
                 </div>

@@ -89,6 +89,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 if (Session[targetKey] != null)
                 {
                     viewModel = Session[targetKey] as AuthorViewModel;
+                    viewModel.Search();
                 }
 
                 if (eventAction == "RUN_SEARCH")

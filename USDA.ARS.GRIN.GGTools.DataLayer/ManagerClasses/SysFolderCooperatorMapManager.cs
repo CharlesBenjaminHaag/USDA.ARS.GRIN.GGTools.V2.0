@@ -25,9 +25,9 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
         //    return appUserItemFolder;
         //}
        
-        public List<SysFolderCooperatorMap> GetMappedCooperators(int sysFolderId)
+        public List<Cooperator> GetMappedCooperators(int sysFolderId)
         {
-            List<SysFolderCooperatorMap> sysFolderCooperatorMaps = new List<SysFolderCooperatorMap>();
+            List<Cooperator> sysFolderCooperatorMaps = new List<Cooperator>();
 
             SQL = "usp_GRINGlobal_Sys_Folder_Cooperator_Maps_Mapped_Select";
 
@@ -35,14 +35,14 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
                 CreateParameter("sys_folder_id", (object)sysFolderId, false)
             };
 
-            sysFolderCooperatorMaps = GetRecords<SysFolderCooperatorMap>(SQL, CommandType.StoredProcedure, parameters.ToArray());
+            sysFolderCooperatorMaps = GetRecords<Cooperator>(SQL, CommandType.StoredProcedure, parameters.ToArray());
 
             return sysFolderCooperatorMaps;
         }
 
-        public List<SysFolderCooperatorMap> GetNonMappedCooperators(int sysFolderId)
+        public List<Cooperator> GetNonMappedCooperators(int sysFolderId)
         {
-            List<SysFolderCooperatorMap> sysFolderCooperatorMaps = new List<SysFolderCooperatorMap>();
+            List<Cooperator> sysFolderCooperatorMaps = new List<Cooperator>();
 
             SQL = "usp_GRINGlobal_Sys_Folder_Cooperator_Maps_NonMapped_Select";
 
@@ -50,7 +50,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
                 CreateParameter("sys_folder_id", (object)sysFolderId, false)
             };
 
-            sysFolderCooperatorMaps = GetRecords<SysFolderCooperatorMap>(SQL, CommandType.StoredProcedure, parameters.ToArray());
+            sysFolderCooperatorMaps = GetRecords<Cooperator>(SQL, CommandType.StoredProcedure, parameters.ToArray());
 
             return sysFolderCooperatorMaps;
         }

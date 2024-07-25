@@ -13,8 +13,8 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
     {
         private SysFolderCooperatorMap _Entity = new SysFolderCooperatorMap();
         private SysFolderCooperatorMapSearch _SearchEntity = new SysFolderCooperatorMapSearch();
-        private Collection<SysFolderCooperatorMap> _DataCollectionMapped = new Collection<SysFolderCooperatorMap>();
-        private Collection<SysFolderCooperatorMap> _DataCollectionNonMapped = new Collection<SysFolderCooperatorMap>();
+        private Collection<Cooperator> _DataCollectionMapped = new Collection<Cooperator>();
+        private Collection<Cooperator> _DataCollectionNonMapped = new Collection<Cooperator>();
      
         public SysFolderCooperatorMapViewModelBase()
         {
@@ -38,13 +38,13 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
             set { _SearchEntity = value; }
         }
 
-        public Collection<SysFolderCooperatorMap> DataCollectionMapped
+        public Collection<Cooperator> DataCollectionMapped
         {
             get { return _DataCollectionMapped; }
             set { _DataCollectionMapped = value; }
         }
 
-        public Collection<SysFolderCooperatorMap> DataCollectionNonMapped
+        public Collection<Cooperator> DataCollectionNonMapped
         {
             get { return _DataCollectionNonMapped; }
             set { _DataCollectionNonMapped = value; }

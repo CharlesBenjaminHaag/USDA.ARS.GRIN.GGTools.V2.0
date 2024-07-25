@@ -159,12 +159,15 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             }
         }
 
-        public PartialViewResult GetEditModal()
+        public PartialViewResult RenderEditModal(int sysFolderId)
         {
             try
             {
-                SysFolderViewModel viewModel = new SysFolderViewModel();
-                return PartialView("~/Views/SysFolder/Modals/_Edit.cshtml", viewModel);
+                SysFolderCooperatorMapViewModel viewModel = new SysFolderCooperatorMapViewModel();
+                viewModel.Entity.SysFolderID = sysFolderId;
+                viewModel.GetNonMappedCooperators(sysFolderId);
+                viewModel.GetMappedCooperators(sysFolderId);
+                return PartialView("~/Views/SysFolderCooperatorMap/Modals/_Edit.cshtml", viewModel);
             }
             catch (Exception ex)
             {
@@ -172,15 +175,14 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 return null;
             }
         }
-
-        
+       
         #region Components
 
         /// <summary>
         /// Retrieves an icon-formatted list of folders. Defaults to folders owned by the logged-in user.
         /// </summary>
         /// <returns></returns>
-        
+
         public PartialViewResult ComponentListWithIcons()
         {
             try
@@ -202,8 +204,6 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             try
             {
                 SysFolderCooperatorMapViewModel viewModel = new SysFolderCooperatorMapViewModel();
-                viewModel.SearchEntity.SysFolderID = sysFolderId;
-                viewModel.Search();
                 return PartialView("~/Views/SysFolderCooperatorMap/Components/_Editor.cshtml", viewModel);
             }
             catch (Exception ex)
@@ -211,6 +211,13 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 Log.Error(ex);
                 return PartialView("~/Views/Error/_InternalServerError.cshtml");
             }
+        }
+
+        public PartialViewResult Component_Widget(int sysFolderId)
+        {
+            SysFolderCooperatorMapViewModel viewModel = new SysFolderCooperatorMapViewModel();
+            viewModel.GetMappedCooperators(sysFolderId);
+            return PartialView("~/Views/SysFolderCooperatorMap/Components/_Widget.cshtml", viewModel);
         }
 
         #endregion

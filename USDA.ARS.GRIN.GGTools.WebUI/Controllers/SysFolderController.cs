@@ -128,7 +128,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 viewModel.TableName = "sys_folder";
                 viewModel.Get(entityId);
                 viewModel.GetItems(entityId);
-                viewModel.GetCooperators(entityId);
+                //viewModel.GetCooperators(entityId);
                 viewModel.GetSysTags("sys_folder", entityId);
                 viewModel.GetSysTables(entityId);
                 SetPageTitle();
