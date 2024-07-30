@@ -105,12 +105,21 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
         {
             List<SysFolder> results = new List<SysFolder>();
 
-            SQL = " SELECT * FROM vw_GRINGlobal_Sys_Folder";
+            SQL = " SELECT ID, Title, Description, TypeCode, IsShared, 'N' AS IsSharedWithMe, CreatedDate, CreatedByCooperatorID, CreatedByCooperatorName, ModifiedDate, ModifiedByCooperatorID, ModifiedByCooperatorName FROM vw_GRINGlobal_Sys_Folder";
             SQL += " WHERE  (@Title                     IS NULL OR   Title                  LIKE    '%' + @Title + '%')";
             SQL += " AND    (@Description               IS NULL OR   Description            LIKE    '%' + @Description + '%')";
             SQL += " AND    (@TypeCode                  IS NULL OR   TypeCode               =       @TypeCode)";
             SQL += " AND    (@CreatedByCooperatorID     IS NULL OR   CreatedByCooperatorID  =       @CreatedByCooperatorID)";
-           
+
+            // Use UNION to include folders shared with current user.
+            // TODO
+            SQL += " UNION ";
+            SQL += " SELECT ID, Title, Description, TypeCode, IsShared, 'Y' AS IsSharedWithMe, CreatedDate, CreatedByCooperatorID, CreatedByCooperatorName, ModifiedDate, ModifiedByCooperatorID, ModifiedByCooperatorName FROM vw_GRINGlobal_Sys_Folder WHERE ID IN ";
+            SQL += " (SELECT SysFolderID FROM vw_GRINGlobal_Sys_Folder_Cooperator_Map WHERE CooperatorID = @CreatedByCooperatorID) ";
+            SQL += " AND    (@Title                     IS NULL OR   Title                  LIKE    '%' + @Title + '%')";
+            SQL += " AND    (@Description               IS NULL OR   Description            LIKE    '%' + @Description + '%')";
+            SQL += " AND    (@TypeCode                  IS NULL OR   TypeCode               =       @TypeCode)";
+            
             var parameters = new List<IDbDataParameter> {
                 CreateParameter("Title", !String.IsNullOrEmpty(searchEntity.Title) ? (object)searchEntity.Title : DBNull.Value, true),
                 CreateParameter("Description", !String.IsNullOrEmpty(searchEntity.Description) ? (object)searchEntity.Description : DBNull.Value, true),

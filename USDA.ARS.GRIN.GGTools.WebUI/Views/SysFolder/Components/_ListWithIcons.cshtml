@@ -29,10 +29,10 @@
                     </span>
                     <div class="info-box-content">
                         <span class="info-box-text">
-                            @*@if (result.IsFavorite == "Y")
-            {
-                                <i class="fas fa-star text-warning"></i>
-                            }*@
+                            @if (result.IsSharedWithMe == "Y")
+                            {
+                                <i class="fas fa-users text-warning"></i>
+                            }
                             <a href="@Url.Action("Edit", "SysFolder", new { @entityId = result.ID })">
                                 @result.Title
                             </a>

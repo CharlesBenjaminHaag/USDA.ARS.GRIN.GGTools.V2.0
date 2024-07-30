@@ -13,6 +13,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
         public ActionResult Index()
         {
             SysDynamicQueryViewModel viewModel = new SysDynamicQueryViewModel();
+            ViewBag.PageTitle = "SQL Query Editor";
             return View(viewModel);
         }
 

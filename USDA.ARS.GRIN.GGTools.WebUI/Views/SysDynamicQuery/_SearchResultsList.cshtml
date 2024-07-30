@@ -2,44 +2,49 @@
 @using USDA.ARS.GRIN.GGTools.DataLayer;
 @model USDA.ARS.GRIN.GGTools.ViewModelLayer.SysDynamicQueryViewModel
 
-@Html.HiddenFor(x=>x.RowsAffected)
+@Html.HiddenFor(x => x.RowsAffected)
 
 @*@{ // REFACTOR: Set id of DataTable based on DB table extracted from query.
-    SysTableField sysTableFieldHeading = new SysTableField();
-    SysTableField sysTableField = new SysTableField();
-    var tableId = "data_table_" + Model.TableName;
-    int keyColumnCount = 0;
-}*@
+        SysTableField sysTableFieldHeading = new SysTableField();
+        SysTableField sysTableField = new SysTableField();
+        var tableId = "data_table_" + Model.TableName;
+        int keyColumnCount = 0;
+    }*@
 
+<div class="form-group">
+    <label>SQL</label>
+    @Html.TextAreaFor(x => x.SearchEntity.SQLStatement, new { @class = "form-control", @readonly = "readonly", @rows = 5 })
+</div>
+<hr />
 
-    @if (Model.DataCollectionDataTable.Rows.Count > 0)
-    {
-        <div class="card card-success">
-            <div class="card-header">
-                <h3 class="card-title">
-                    <i class="far fas fa-table nav-icon"></i>
-                    Query Results: @Model.DataCollectionDataTable.Rows.Count Records Found 
-                </h3>
-                <div class="card-tools">
-                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                        <i class="fas fa-minus"></i>
-                    </button>
-                </div>
+@if (Model.DataCollectionDataTable.Rows.Count > 0)
+{
+    <div class="card card-success">
+        <div class="card-header">
+            <h3 class="card-title">
+                <i class="far fas fa-table nav-icon"></i>
+                Query Results: @Model.DataCollectionDataTable.Rows.Count Records Found
+            </h3>
+            <div class="card-tools">
+                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                    <i class="fas fa-minus"></i>
+                </button>
             </div>
-            <div class="card-body">
-                <table id="data_table_sys_dynamic_query" class="table table-striped" style="width:100%;">
-                    <thead>
-                        <tr>
-                            @foreach (DataColumn col in Model.DataCollectionDataTable.Columns)
-                            {
-                                <th>
-                                    @col.ColumnName
-                                </th>
-                            }
-                    </thead>
-                    <tbody>
-                        @foreach (DataRow dr in Model.DataCollectionDataTable.Rows)
+        </div>
+        <div class="card-body">
+            <table id="data_table_sys_dynamic_query" class="table table-striped" style="width:100%;">
+                <thead>
+                    <tr>
+                        @foreach (DataColumn col in Model.DataCollectionDataTable.Columns)
                         {
+                            <th>
+                                @col.ColumnName
+                            </th>
+                        }
+                </thead>
+                <tbody>
+                    @foreach (DataRow dr in Model.DataCollectionDataTable.Rows)
+                    {
                         <tr>
                             @foreach (DataColumn rowCol in Model.DataCollectionDataTable.Columns)
                             {
@@ -54,27 +59,27 @@
                                 //}
 
                                 @*if (sysTableField.IsPrimaryKey == "Y")
-            {
-                keyColumnCount++;
-                <td>
-                    @dr[rowCol.ColumnName]
-                </td>
-                <td>
-                    <a href="@Url.Action("Edit", Model.TableTitle, new { entityId = @dr[rowCol.ColumnName] })" , target="_blank">[Edit]</a>
-                </td>
-            }
-            else
-            {
-                <td>
-                    @dr[rowCol.ColumnName]
-                </td>
-            }*@
+                                    {
+                                        keyColumnCount++;
+                                        <td>
+                                            @dr[rowCol.ColumnName]
+                                        </td>
+                                        <td>
+                                            <a href="@Url.Action("Edit", Model.TableTitle, new { entityId = @dr[rowCol.ColumnName] })" , target="_blank">[Edit]</a>
+                                        </td>
+                                    }
+                                    else
+                                    {
+                                        <td>
+                                            @dr[rowCol.ColumnName]
+                                        </td>
+                                    }*@
                             }
                         </tr>
-                        }
-                    </tbody>
-                    <tfoot>
-                        @*@if (keyColumnCount == 0)
+                    }
+                </tbody>
+                <tfoot>
+                    @*@if (keyColumnCount == 0)
                         {
                             <div class="alert alert-warning alert-dismissible">
                                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
@@ -82,15 +87,15 @@
                                 This query does not contain a primary key field for the table <strong>@Model.TableTitle</strong>. You will need to add a primary key prior to attempting to export these results to a folder.
                             </div>
                         }*@
-                    </tfoot>
-                </table>
-            </div>
+                </tfoot>
+            </table>
         </div>
-    }
+    </div>
+}
 
 <script type="text/javascript">
     $(document).ready(function () {
-        var searchResultsVisible = 0; 
+        var searchResultsVisible = 0;
         searchResultsVisible = $("#RowsAffected").val();
 
         if (searchResultsVisible > 0) {
@@ -107,7 +112,7 @@
                 paging: true,
                 "pageLength": 10,
                 scrollX: true,
-                scrollY:true,
+                scrollY: true,
                 responsive: true,
                 buttons: [
                     'selectAll',

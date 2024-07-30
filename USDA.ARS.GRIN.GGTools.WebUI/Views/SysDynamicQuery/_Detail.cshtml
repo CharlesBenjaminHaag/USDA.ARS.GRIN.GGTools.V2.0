@@ -8,18 +8,7 @@
     @Html.HiddenFor(x => x.EventInfo)
     @Html.HiddenFor(x => x.EventNote)
     @Html.HiddenFor(x => x.TableName)
-    <div id="section-panel-help" class="alert alert-info alert-dismissible" style="display: none;">
-        <button type="button" class="close" aria-hidden="true">×</button>
-        <h5><i class="icon fas fa-info"></i> SQL Query Guidelines</h5>
-        <ul>
-            <li>
-                Queries cannot contain INSERT, UPDATE, or DELETE clauses.
-            </li>
-            <li>
-                For the purposes of creating a folder, the query will determine the record data type based on the first table named in the FROM clause.
-            </li>
-        </ul>
-    </div>
+    
 
     <div class="card">
         <div class="card-header p-2">
@@ -31,6 +20,7 @@
         <div class="card-body">
             <div class="tab-content">
                 @Html.Partial("~/Views/Shared/_ValidationMessages.cshtml")
+                
                 @*@Html.Partial("~/Views/Shared/_UserMessages.cshtml")*@
                 <div class="tab-pane active" id="section-search-criteria">
                     <div class="row">
@@ -40,6 +30,18 @@
                                     SQL Statement
                                     &nbsp;<i class="fas fa-info-circle" style="color:#17a2b8;"></i>
                                 </label>
+                                <div id="section-panel-help" class="alert alert-info alert-dismissible" style="display: none;">
+                                    <button type="button" class="close" aria-hidden="true">×</button>
+                                    <h5><i class="icon fas fa-info"></i> SQL Query Guidelines</h5>
+                                    <ul>
+                                        <li>
+                                            Queries cannot contain INSERT, UPDATE, or DELETE clauses.
+                                        </li>
+                                        <li>
+                                            For the purposes of creating a folder, the query engine will attempt determine the record data type based on the first table named in the FROM clause.
+                                        </li>
+                                    </ul>
+                                </div>
                                 @Html.TextAreaFor(x => x.SearchEntity.SQLStatement, new { @id = "txtSQL", @class = "form-control", @rows = "10" })
                             </div>
                         </div>
