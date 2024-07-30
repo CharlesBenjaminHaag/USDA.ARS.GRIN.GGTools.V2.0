@@ -4,8 +4,8 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title">
-                    <i class="fas fa-search"></i>
-                    Assign Sys Groups
+                    <i class="fas fa-users"></i>
+                    Share Folder
                 </h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">×</span>
@@ -14,14 +14,14 @@
             <div class="modal-body">
                 <div class="row">
                     <div class="col-md-6">
-                        <button id="btnAddSysGroups" class="btn btn-default btn-block">>></button>
-                        <div id="section-available-sys-groups">
+                        <button id="btnAddCooperators" class="btn btn-default btn-block">>></button>
+                        <div id="section-non-mapped-cooperators">
                             @Html.Partial("~/Views/SysFolderCooperatorMap/Modals/_ListAvailable.cshtml")
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <button id="btnRemoveSysGroups" class="btn btn-default btn-block"><<</button>
-                        <div id="section-current-sys-groups">
+                        <button id="btnRemoveCooperators" class="btn btn-default btn-block"><<</button>
+                        <div id="section-mapped-cooperators">
                             @Html.Partial("~/Views/SysFolderCooperatorMap/Modals/_ListCurrent.cshtml")
                         </div>
                     </div>
@@ -34,30 +34,25 @@
     </div>
 </div>
 <script type="text/javascript">
-    $("#btnAddSysGroups").click(function () {
-        var sysUserId = $("#Entity_SysUserID").val();
-        AddSysGroups();
+    $("#btnAddCooperators").click(function () {
+        AddSysFolderCooperatorMaps();
     });
 
-    $("#btnRemoveSysGroups").click(function () {
-        var sysUserId = $("#Entity_SysUserID").val();
-        RemoveSysGroups();
-        LoadAvailableSysGroups(sysUserId);
-        LoadCurrentSysGroups(sysUserId);
+    $("#btnRemoveCooperators").click(function () {
+        DeleteSysFolderCooperatorMaps();
     });
 
     $("#btnCloseEditSysGroupUserMapModal").click(function () {
-        //DEBUG
-        alert("DEBUG CLOSE SYS GRP MODAL");
+        Component_Widget();
     });
 
-    function AddSysGroups() {
-        var link = '@Url.Action("AddSysGroups", "SysGroupUserMap")';
-        var sysUserId = $("#Entity_SysUserID").val();
-        var selectedItemIdList = GetSelectedEntityIDs("data-table-available-sys-groups");
+    function AddSysFolderCooperatorMaps() {
+        var link = '@Url.Action("Add", "SysFolderCooperatorMap")';
+        var sysFolderId = $("#Entity_ID").val();
+        var selectedItemIdList = GetSelectedEntityIDs("data-table-non-mapped");
         var formData = new FormData();
 
-        formData.append("SysUserID", sysUserId);
+        formData.append("SysFolderID", sysFolderId);
         formData.append("IDList", selectedItemIdList);
 
         $.ajax({
@@ -69,21 +64,21 @@
             processData: false,
             data: formData,
             success: function (data) {
-                LoadAvailableSysGroups(sysUserId);
-                LoadCurrentSysGroups(sysUserId);
+                LoadNonMapped(sysFolderId);
+                LoadMapped(sysFolderId);
             },
             error: function (ex) {
             }
         });
     }
 
-    function RemoveSysGroups() {
-        var link = '@Url.Action("DeleteSysGroups", "SysGroupUserMap")';
-        var entityId = $("#Entity_ID").val();
-        var selectedItemIdList = GetSelectedEntityIDs("data-table-current-sys-groups");
+    function DeleteSysFolderCooperatorMaps() {
+        var link = '@Url.Action("DeleteItems", "SysFolderCooperatorMap")';
+        var sysFolderId = $("#Entity_ID").val();
+        var selectedItemIdList = GetSelectedEntityIDs("data-table-mapped");
         var formData = new FormData();
 
-        formData.append("FolderID", entityId);
+        formData.append("SysFolderID", sysFolderId);
         formData.append("IDList", selectedItemIdList);
 
         $.ajax({
@@ -95,17 +90,19 @@
             processData: false,
             data: formData,
             success: function (data) {
+                LoadNonMapped(sysFolderId);
+                LoadMapped(sysFolderId);
             },
             error: function (ex) {
             }
         });
     }
 
-    function LoadAvailableSysGroups(sysUserId) {
-        var link = '@Url.Action("_ListAvailableSysGroups","SysGroupUserMap")';
+    function LoadNonMapped(sysFolderId) {
+        var link = '@Url.Action("Component_NonMappedCooperatorList","SysFolderCooperatorMap")';
         var formData = new FormData();
 
-        formData.append("SysUserID", sysUserId);
+        formData.append("SysFolderID", sysFolderId);
 
         $.ajax({
             url: link,
@@ -115,19 +112,20 @@
             processData: false,
             data: formData,
             success: function (response) {
-                $("#section-available-sys-groups").html(response);
+                $("#section-non-mapped-cooperators").html(response);
             },
             error: function () {
-                alert("Error loading available sys groups");
+                alert("Error loading non-mapped");
             }
         });
     }
 
-    function LoadCurrentSysGroups(sysUserId) {
-        var link = '@Url.Action("_ListCurrentSysGroups","SysGroupUserMap")';
+    function LoadMapped(sysFolderId) {
+        var link = '@Url.Action("Component_MappedCooperatorList", "SysFolderCooperatorMap", new { @sysFolderId = "SYS_FOLDER_ID"})';
+        link = link.replace("SYS_FOLDER_ID", sysFolderId);
         var formData = new FormData();
 
-        formData.append("SysUserID", sysUserId);
+        formData.append("SysFolderID", sysFolderId);
 
         $.ajax({
             url: link,
@@ -137,10 +135,10 @@
             processData: false,
             data: formData,
             success: function (response) {
-                $("#section-current-sys-groups").html(response);
+                $("#section-mapped-cooperators").html(response);
             },
             error: function () {
-                alert("Error loading current sys groups");
+                alert("Error loading mapped");
             }
         });
     }

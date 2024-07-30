@@ -45,6 +45,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             try
             {
                 SysFolderViewModel viewModel = new SysFolderViewModel();
+                ViewBag.PageTitle = "My Folders";
                 return View("~/Views/SysFolder/Explorer/Index.cshtml", viewModel);
             }
             catch (Exception ex)

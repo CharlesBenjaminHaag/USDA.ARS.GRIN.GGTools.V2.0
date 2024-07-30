@@ -140,11 +140,11 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
         {
             string[] itemIdList = ItemIDList.Split(',');
 
-            using (SysFolderManager mgr = new SysFolderManager())
+            using (SysFolderCooperatorMapManager mgr = new SysFolderCooperatorMapManager())
             {
                 foreach (var itemId in itemIdList)
                 {
-                    mgr.DeleteItem(Int32.Parse(itemId));
+                    mgr.DeleteItems(Entity.SysFolderID, Int32.Parse(itemId));
                 }
             }
         }

@@ -83,12 +83,13 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
 
             Reset(CommandType.StoredProcedure);
             Validate<SysFolderCooperatorMap>(entity);
-            SQL = "usp_GRINGlobal_Sys_Folder_Insert";
-            
-            BuildInsertUpdateParameters(entity);
+            SQL = "usp_GRINGlobal_Sys_Folder_Cooperator_Map_Insert";
 
+            AddParameter("@sys_folder_id", (object)entity.SysFolderID, false);
+            AddParameter("@cooperator_id", (object)entity.CooperatorID, false);
+            AddParameter("@created_by", (object)entity.CreatedByCooperatorID, false);
             AddParameter("@out_error_number", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
-            AddParameter("@out_sys_folder_id", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
+            AddParameter("@out_sys_folder_cooperator_map_id", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
 
             RowsAffected = ExecuteNonQuery();
 
@@ -98,7 +99,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
                 throw new Exception(errorNumber.ToString());
             }
 
-            entity.ID = GetParameterValue<int>("@out_sys_folder_id", -1);
+            entity.ID = GetParameterValue<int>("@out_sys_folder_cooperator_map_id", -1);
             return entity.ID;
         }
 
@@ -160,12 +161,13 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             return RowsAffected;
         }
         
-        public int DeleteItem(int appUserItemListId)
+        public int DeleteItems(int sysFolderId, int cooperatorId)
         {
             Reset(CommandType.StoredProcedure);
 
-            SQL = "usp_GRINGlobal_Sys_Folder_Item_Map_Delete";
-            AddParameter("@sys_folder_item_map_id", (object)appUserItemListId, false);
+            SQL = "usp_GRINGlobal_Sys_Folder_Cooperator_Map_Delete";
+            AddParameter("@sys_folder_id", (object)sysFolderId, false);
+            AddParameter("@cooperator_id", (object)cooperatorId, false);
             AddParameter("@out_error_number", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
             RowsAffected = ExecuteNonQuery();
 

@@ -130,21 +130,18 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
         [HttpPost]
         public JsonResult DeleteItems(FormCollection coll)
         {
-            SysFolderViewModel viewModel = new SysFolderViewModel();
-            viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
+            SysFolderCooperatorMapViewModel viewModel = new SysFolderCooperatorMapViewModel();
 
             try
             {
-                viewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
-
-                if (!String.IsNullOrEmpty(coll["FolderID"]))
+                if (!String.IsNullOrEmpty(coll["SysFolderID"]))
                 {
-                    viewModel.SearchEntity.ID = Int32.Parse(coll["FolderID"]);
+                    viewModel.Entity.SysFolderID = Int32.Parse(coll["SysFolderID"]);
                 }
 
-                if (!String.IsNullOrEmpty(coll["ItemIDList"]))
+                if (!String.IsNullOrEmpty(coll["IDList"]))
                 {
-                    viewModel.ItemIDList = coll["ItemIDList"].ToString();
+                    viewModel.ItemIDList = coll["IDList"].ToString();
                 }
 
                 //viewModel.Get();
@@ -175,7 +172,40 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 return null;
             }
         }
-       
+
+        [HttpPost]
+        public JsonResult Add(FormCollection coll)
+        {
+            SysFolderCooperatorMapViewModel viewModel = new SysFolderCooperatorMapViewModel();
+
+            try
+            {
+                if (!String.IsNullOrEmpty(coll["SysFolderID"]))
+                {
+                    viewModel.Entity.SysFolderID = Int32.Parse(coll["SysFolderID"]);
+                }
+
+                if (!String.IsNullOrEmpty(coll["IDList"]))
+                {
+                    viewModel.ItemIDList = coll["IDList"];
+                }
+
+                string[] cooperatorIdListArray = viewModel.ItemIDList.Split(',');
+                foreach (var cooperatorId in cooperatorIdListArray)
+                {
+                    viewModel.Entity.CooperatorID = Int32.Parse(cooperatorId.ToString());
+                    viewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
+                    viewModel.Insert();
+                }
+                return Json(new { success = true }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return Json(new { success = false }, JsonRequestBehavior.AllowGet);
+            }
+        }
+      
         #region Components
 
         /// <summary>
@@ -218,6 +248,20 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             SysFolderCooperatorMapViewModel viewModel = new SysFolderCooperatorMapViewModel();
             viewModel.GetMappedCooperators(sysFolderId);
             return PartialView("~/Views/SysFolderCooperatorMap/Components/_Widget.cshtml", viewModel);
+        }
+
+        public PartialViewResult Component_NonMappedCooperatorList(int sysFolderId)
+        {
+            SysFolderCooperatorMapViewModel viewModel = new SysFolderCooperatorMapViewModel();
+            viewModel.GetNonMappedCooperators(sysFolderId);
+            return PartialView("~/Views/SysFolderCooperatorMap/Modals/_ListAvailable.cshtml", viewModel);
+        }
+
+        public PartialViewResult Component_MappedCooperatorList(int sysFolderId)
+        {
+            SysFolderCooperatorMapViewModel viewModel = new SysFolderCooperatorMapViewModel();
+            viewModel.GetMappedCooperators(sysFolderId);
+            return PartialView("~/Views/SysFolderCooperatorMap/Modals/_ListCurrent.cshtml", viewModel);
         }
 
         #endregion
