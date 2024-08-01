@@ -120,6 +120,18 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             }
         }
 
+        [HttpPost]
+        public PartialViewResult EditProperties(SysFolderViewModel viewModel)
+        {
+            SysFolderViewModel updateViewModel = new SysFolderViewModel();
+            updateViewModel.Get(viewModel.Entity.ID);
+            updateViewModel.Entity.Properties = viewModel.Entity.Properties;
+            updateViewModel.UpdateProperties();
+
+            viewModel.GetProperties(viewModel.Entity.ID);
+            return PartialView("~/Views/SysFolder/Components/_SQLQueryFolderEditor.cshtml", viewModel);
+        }
+
         public ActionResult Edit(int entityId)
         {
             try
@@ -435,6 +447,22 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
         //        return PartialView("~/Views/Error/_InternalServerError.cshtml");
         //    }
         //}
+
+        #endregion
+
+        #region Components
+
+        public PartialViewResult Component_SQLQueryFolderEditor(int sysFolderId)
+        {
+            SysFolderViewModel viewModel = new SysFolderViewModel();
+            viewModel.Get(sysFolderId);
+            viewModel.GetProperties(sysFolderId);
+
+            //SysDynamicQueryViewModel sysDynamicQueryViewModel = new SysDynamicQueryViewModel();
+            //sysDynamicQueryViewModel.SearchEntity.SQLStatement = viewModel.SysFolderPropertiesEntity.Properties;
+            //sysDynamicQueryViewModel.Search();
+            return PartialView("~/Views/SysFolder/Components/_SQLQueryFolderEditor.cshtml", viewModel);
+        }
 
         #endregion
     }

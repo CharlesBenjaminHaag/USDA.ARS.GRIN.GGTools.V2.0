@@ -11,19 +11,25 @@
         int keyColumnCount = 0;
     }*@
 
-<div class="form-group">
-    <label>SQL</label>
-    @Html.TextAreaFor(x => x.SearchEntity.SQLStatement, new { @class = "form-control", @readonly = "readonly", @rows = 5 })
+@if (Model.ValidationMessages.Count > 0)
+{
+<div class="alert alert-danger alert-dismissible">
+    @*<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>*@
+    <h4><i class="icon fa fa-ban"></i>SQL Error</h4>
+    @foreach (var result in Model.ValidationMessages)
+    {
+        <p>@result.Message</p>
+    }
 </div>
-<hr />
+}
 
 @if (Model.DataCollectionDataTable.Rows.Count > 0)
 {
-    <div class="card card-success">
+    <div class="card card-success card-outline">
         <div class="card-header">
             <h3 class="card-title">
                 <i class="far fas fa-table nav-icon"></i>
-                Query Results: @Model.DataCollectionDataTable.Rows.Count Records Found
+                Query Results
             </h3>
             <div class="card-tools">
                 <button type="button" class="btn btn-tool" data-card-widget="collapse">

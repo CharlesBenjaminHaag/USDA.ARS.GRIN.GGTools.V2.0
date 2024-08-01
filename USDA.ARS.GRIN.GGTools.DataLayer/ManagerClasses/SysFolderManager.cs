@@ -223,7 +223,30 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             RowsAffected = ExecuteNonQuery();
             return RowsAffected;
         }
-        
+
+        public virtual int UpdateProperties(SysFolder entity)
+        {
+            int errorNumber = 0;
+
+            Reset(CommandType.StoredProcedure);
+            Validate<SysFolder>(entity);
+            SQL = "usp_GRINGlobal_Sys_Folder_Properties_Update";
+            AddParameter("properties", (object)entity.Properties, false);
+            AddParameter("sys_folder_id", (object)entity.ID, false);
+            AddParameter("modified_by", (object)entity.ModifiedByCooperatorID, false);
+            AddParameter("@out_error_number", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
+       
+            RowsAffected = ExecuteNonQuery();
+
+            errorNumber = GetParameterValue<int>("@out_error_number", -1);
+            if (errorNumber > 0)
+            {
+                throw new Exception(errorNumber.ToString());
+            }
+            return RowsAffected;
+        }
+
+
         public int Delete(SysFolder entity)
         {
             Reset(CommandType.StoredProcedure);

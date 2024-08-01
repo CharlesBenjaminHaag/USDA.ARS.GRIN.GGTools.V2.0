@@ -183,7 +183,6 @@
     <Compile Include="Controllers\MenuController.cs" />
     <Compile Include="Controllers\MethodController.cs" />
     <Compile Include="Controllers\SysDataviewController.cs" />
-    <Compile Include="Controllers\SysDynamicSearchController.cs" />
     <Compile Include="Controllers\SysDynamicQueryController.cs" />
     <Compile Include="Controllers\EconomicUsageTypeController.cs" />
     <Compile Include="Controllers\EconomicUseController.cs" />
@@ -1029,6 +1028,7 @@
     <Content Include="Views\SysFolderCooperatorMap\Modals\_ListCurrent.cshtml" />
     <Content Include="Views\SysFolderCooperatorMap\Components\_ListNonMapped.cshtml" />
     <Content Include="Views\SysFolderCooperatorMap\Components\_ListMapped.cshtml" />
+    <Content Include="Views\SysFolder\Components\_SQLQueryFolderEditor.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

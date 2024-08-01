@@ -17,6 +17,8 @@
     <span id="section-error-message"></span>
 </div>
 
+@Html.Partial("~/Views/SysFolder/_Edit.cshtml")
+
 <div class="card">
     <div id="section-folder-options" class="card-header p-2">
         <ul class="nav nav-pills">
@@ -25,21 +27,21 @@
                     <i class="fas fa-table"></i> Items
                 </a>
             </li>
-            <li id="tab-folder-sharing" class="nav-item">
-                <a class="nav-link" href="#tab-content-details" data-toggle="tab">
-                    <i class="fas fa-book"></i> Details
-                </a>
-            </li>
+            @*<li id="tab-folder-sharing" class="nav-item">
+                    <a class="nav-link" href="#tab-content-details" data-toggle="tab">
+                        <i class="fas fa-book"></i> Details
+                    </a>
+                </li>*@
             <li id="tab-folder-sharing" class="nav-item">
                 <a class="nav-link" href="#tab-content-sharing" data-toggle="tab">
                     <i class="fas fa-users"></i> Sharing
                 </a>
             </li>
             @*<li id="tab-folder-sharing" class="nav-item">
-                <a class="nav-link" href="#tab-content-tags" data-toggle="tab">
-                    <i class="fas fa-tag"></i> Tags
-                </a>
-            </li>*@
+                    <a class="nav-link" href="#tab-content-tags" data-toggle="tab">
+                        <i class="fas fa-tag"></i> Tags
+                    </a>
+                </li>*@
         </ul>
     </div>
     <div class="card-body">
@@ -54,21 +56,22 @@
                         { Html.RenderAction("_ListDynamicFolderItems", "SysFolder", new { @sysFolderId = Model.Entity.ID }); }
                         break;
                     case "SQL":
-                        { Html.RenderAction("_ListSQLQueryFolderItems", "SysFolder", new { @sysFolderId = Model.Entity.ID }); }
+                        { Html.RenderAction("Component_SQLQueryFolderEditor", "SysFolder", new { @sysFolderId = Model.Entity.ID }); }
+                       
                         break;
                 }
             </div>
-            <div class="tab-pane" id="tab-content-details">
-                <div id="section-sys_folder-details">
-                    @Html.Partial("~/Views/SysFolder/_Edit.cshtml")
-                </div>
-            </div>
+            @*<div class="tab-pane" id="tab-content-details">
+                    <div id="section-sys_folder-details">
+
+                    </div>
+                </div>*@
             <div class="tab-pane" id="tab-content-sharing">
                 @{ Html.RenderAction("Component_Widget", "SysFolderCooperatorMap", new { @sysFolderId = Model.Entity.ID }); }
             </div>
             @*<div class="tab-pane" id="tab-content-tags">
-                @{ Html.RenderAction("Component_Editor", "SysTag", new { @tableName = "sys_folder", @idNumber = Model.Entity.ID }); }
-            </div>*@
+                    @{ Html.RenderAction("Component_Editor", "SysTag", new { @tableName = "sys_folder", @idNumber = Model.Entity.ID }); }
+                </div>*@
         </div>
     </div>
 

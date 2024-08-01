@@ -11,7 +11,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
 {
     public class SysDynamicQuery : AppEntityBase
     {
-       
+        
         public string Title { get; set; }
         public string Description { get; set; }
         public string DataSource { get; set; }

@@ -158,6 +158,23 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
                 return RowsAffected;
             }
         }
+
+        public int UpdateProperties()
+        {
+            using (SysFolderManager mgr = new SysFolderManager())
+            {
+                try
+                {
+                    RowsAffected = mgr.UpdateProperties(Entity);
+                }
+                catch (Exception ex)
+                {
+                    PublishException(ex);
+                    throw ex;
+                }
+                return RowsAffected;
+            }
+        }
         
         public void Delete()
         {

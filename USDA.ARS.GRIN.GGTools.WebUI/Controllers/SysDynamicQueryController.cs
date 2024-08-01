@@ -62,6 +62,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
 
                 // Execute user-defined search.
                 viewModel.Search();
+                ViewBag.PageTitle = "SQL Query Editor";
                 return View("~/Views/SysDynamicQuery/Index.cshtml", viewModel);
             }
             catch (Exception ex)
@@ -98,6 +99,9 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 // TODO POC: Based on "key" table in query, determine data type
                 // of results.
 
+                //viewModel.SearchEntity.SQLStatement = viewModel.SearchEntity.SQLStatement.Remove('\r');
+                //viewModel.SearchEntity.SQLStatement = viewModel.SearchEntity.SQLStatement.Remove('\n');
+
                 viewModel.Search();
                 return PartialView("~/Views/SysDynamicQuery/_SearchResultsList.cshtml", viewModel);
             }
@@ -105,7 +109,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             {
                 Log.Error(ex);
                 viewModel.ValidationMessages.Add(new Common.Library.ValidationMessage { Message = ex.Message });
-                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+                return PartialView("~/Views/SysDynamicQuery/_SearchResultsList.cshtml", viewModel);
             }
         }
 
@@ -155,7 +159,20 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 return PartialView("~/Views/Error/_InternalServerError.cshtml");
             }
         }
-        
+
+        //public PartialViewResult EditQuery(int entityId)
+        //{
+        //    SysFolderViewModel viewModel = new SysFolderViewModel();
+        //    viewModel.Get(entityId);
+        //    return PartialView("~/Views/SysFolder/_EditQuery.cshtml", viewModel);
+        //}
+
+        //public PartialViewResult EditQuery(SysDynamicQueryViewModel viewModel)
+        //{
+        //    //TODO
+        //    return PartialView("~/Views/SysFolder/_EditQuery.cshtml", viewModel);
+        //}
+
         //[HttpPost]
         //public PartialViewResult _Edit(SysDynamicQueryViewModel viewModel)
         //{
