@@ -83,11 +83,11 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 {
                     viewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
                     viewModel.Insert();
-                
-                
+
+
                     //TODO
                     //if type is "DYN", look for session object with folder table name
-                
+
                 }
                 else
                 {
@@ -111,6 +111,36 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 viewModel.SearchEntity.ID = viewModel.Entity.ID;
                 viewModel.Get(viewModel.Entity.ID);
                 return PartialView("~/Views/SysFolder/Components/_Confirmation.cshtml", viewModel);
+
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
+        }
+
+        [HttpPost]
+        public PartialViewResult EditDetails(SysFolderViewModel viewModel)
+        {
+            try
+            {
+                if (viewModel.Entity.ID == 0)
+                {
+                    viewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
+                    viewModel.Insert();
+                }
+                else
+                {
+                    viewModel.Entity.ModifiedByCooperatorID = AuthenticatedUser.CooperatorID;
+                    viewModel.Update();
+                }
+
+                // Re-retrieve new folder to verify existence.
+                viewModel.SearchEntity.ID = viewModel.Entity.ID;
+                viewModel.Get(viewModel.Entity.ID);
+                return PartialView("~/Views/SysFolder/_Edit.cshtml", viewModel);
+                
 
             }
             catch (Exception ex)

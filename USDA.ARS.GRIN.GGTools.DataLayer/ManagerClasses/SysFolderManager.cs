@@ -213,6 +213,8 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
 
         public int Update(SysFolder entity)
         {
+            int errorNumber = 0;
+
             Reset(CommandType.StoredProcedure);
             Validate<SysFolder>(entity);
 
@@ -221,6 +223,13 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             BuildInsertUpdateParameters(entity);
             AddParameter("@out_error_number", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
             RowsAffected = ExecuteNonQuery();
+
+            errorNumber = GetParameterValue<int>("@out_error_number", -1);
+            if (errorNumber > 0)
+            {
+                throw new Exception(errorNumber.ToString());
+            }
+
             return RowsAffected;
         }
 
