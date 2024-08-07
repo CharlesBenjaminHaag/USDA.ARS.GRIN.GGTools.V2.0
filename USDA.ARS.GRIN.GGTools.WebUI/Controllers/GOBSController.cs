@@ -20,7 +20,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
         public ActionResult Index()
         {
             GOBSViewModel viewModel = new GOBSViewModel();
-            viewModel.GetSysTables(AuthenticatedUser.SysUserID, "GOBS");
+            viewModel.GetDatasets(AuthenticatedUser.CooperatorID);
             return View(viewModel);
         }
 
@@ -31,80 +31,26 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             sysDynamicQueryViewModel.SearchEntity.SQLStatement = "SELECT * FROM get_" + objectType;
             sysDynamicQueryViewModel.Search();
 
-            viewModel.DataCollectionDataTable = sysDynamicQueryViewModel.DataCollectionDataTable;
+            //viewModel.DataCollectionDataTable = sysDynamicQueryViewModel.DataCollectionDataTable;
             return View("~/Views/GOBS/Edit.cshtml", viewModel);
         }
 
-        public ViewResult GetAll(string tableName)
+        public PartialViewResult GetAll()
         {
             GOBSViewModel viewModel = new GOBSViewModel();
-            SysDynamicQueryViewModel sysDynamicQueryViewModel = new SysDynamicQueryViewModel();
-            sysDynamicQueryViewModel.SearchEntity.SQLStatement = "SELECT * FROM gobs.get_" + tableName;
-            sysDynamicQueryViewModel.Search();
-
-            viewModel.DataCollectionDataTable = sysDynamicQueryViewModel.DataCollectionDataTable;
-            viewModel.TableName = tableName;
-            return View("~/Views/GOBS/EditDependentData.cshtml", viewModel);
+            viewModel.GetDatasets(AuthenticatedUser.CooperatorID);
+            return PartialView("~/Views/GOBS/_ListDatasets.cshtml", viewModel);
         }
 
         public PartialViewResult GetDatasetDetailEditor(int dataSetId)
         {
             GOBSViewModel viewModel = new GOBSViewModel();
-            viewModel.GetDataset(dataSetId);
+            //viewModel.GetDataset(dataSetId);
             viewModel.TableTitle = "GOBS Dataset";
             return PartialView("~/Views/GOBS/_EditDataset.cshtml", viewModel);
         }
 
-        public PartialViewResult GetDetailEditor(int entityId, string objectType)
-        {
-            string partialViewName = String.Empty;
-            GOBSViewModel viewModel = new GOBSViewModel();
-            viewModel.GetDataset(entityId);
-
-            switch(objectType)
-            {
-                case "admin":
-                    break;
-                case "dataset":
-                    partialViewName = "~/Views/GOBS/_EditDataset.cshtml";
-                    viewModel.GetDataset(entityId);
-                    break;
-                case "dataset_attach":
-                    partialViewName = "~/Views/GOBS/_EditDatasetAttach.cshtml";
-                    viewModel.GetGOBSDatasetAttachment(entityId);
-                    break;
-                case "dataset_cooperator":
-                    partialViewName = "~/Views/GOBS/_EditDatasetCooperator.cshtml";
-                   
-                    break;
-                case "dataset_field":
-                    partialViewName = "~/Views/GOBS/_EditDatasetField.cshtml";
-                    viewModel.GetGOBSDatasetField(entityId);
-                    break;
-                case "dataset_inventory":
-                    partialViewName = "~/Views/GOBS/_EditDatasetInventory.cshtml";
-                    viewModel.GetGOBSDatasetInventory(entityId);
-                    break;
-                case "dataset_marker":
-                    partialViewName = "~/Views/GOBS/_EditDatasetMarker.cshtml";
-                    viewModel.GetGOBSDatasetMarker(entityId);
-                    break;
-                case "dataset_marker_field":
-                    partialViewName = "~/Views/GOBS/_EditDatasetMarkerField.cshtml";
-                    viewModel.GetGOBSDatasetMarkerField(entityId);
-                    break;
-                case "dataset_marker_value":
-                    partialViewName = "~/Views/GOBS/_EditDatasetMarkerValue.cshtml";
-                    viewModel.GetGOBSDatasetMarkerValue(entityId);
-                    break;
-                case "dataset_value":
-                    partialViewName = "~/Views/GOBS/_EditDatasetValue.cshtml";
-                    viewModel.GetGOBSDatasetValue(entityId);
-                    break;
-            }
-            return PartialView(partialViewName, viewModel);
-        }
-
+     
         public PartialViewResult GetDatasetInventoryEditor(int entityId)
         {
             //TODO

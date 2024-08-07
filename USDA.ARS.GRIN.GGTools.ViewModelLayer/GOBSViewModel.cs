@@ -8,6 +8,7 @@ using USDA.ARS.GRIN.GGTools.DataLayer;
 using USDA.ARS.GRIN.GGTools.GOBS.DataLayer;
 using USDA.ARS.GRIN.GGTools.ViewModelLayer;
 using System.Collections.Generic;
+using USDA.ARS.GRIN.GRINGlobal.DTO;
 
 namespace USDA.ARS.GRIN.GGTools.GOBS.ViewModelLayer
 {
@@ -19,7 +20,7 @@ namespace USDA.ARS.GRIN.GGTools.GOBS.ViewModelLayer
             {
                 using (GRINGlobalDataManagerBase mgr = new GRINGlobalDataManagerBase())
                 {
-                    mgr.Delete(TableName, Entity.ID);
+                   // mgr.Delete(TableName, Entity.ID);
                 }
             }
             catch (Exception ex)
@@ -29,7 +30,7 @@ namespace USDA.ARS.GRIN.GGTools.GOBS.ViewModelLayer
             }
         }
 
-        public GOBSDataset GetDataset(int entityId)
+        public Dataset GetDataset(int cooperaorId, int entityId)
         {
             try
             {
@@ -37,7 +38,7 @@ namespace USDA.ARS.GRIN.GGTools.GOBS.ViewModelLayer
                 {
                     try
                     {
-                        Entity = mgr.Get(entityId);
+                        Entity = mgr.GetDataset(cooperaorId, entityId);
 
                     }
                     catch (Exception ex)
@@ -55,7 +56,31 @@ namespace USDA.ARS.GRIN.GGTools.GOBS.ViewModelLayer
             return Entity;
         }
 
-        public GOBSDatasetAttachment GetGOBSDatasetAttachment(int entityId)
+        public void GetDatasets(int cooperatorId)
+        {
+            try
+            {
+                using (GOBSManager mgr = new GOBSManager())
+                {
+                    try
+                    {
+                       DataCollectionDatasets = new Collection<Dataset>(mgr.GetDatasets(cooperatorId));
+                    }
+                    catch (Exception ex)
+                    {
+                        PublishException(ex);
+                        throw ex;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                PublishException(ex);
+                throw ex;
+            }
+        }
+
+        public DatasetAttach GetGOBSDatasetAttachment(int entityId)
         {
             try
             {
@@ -80,78 +105,14 @@ namespace USDA.ARS.GRIN.GGTools.GOBS.ViewModelLayer
             return null;
         }
 
-        public GOBSDatasetAttachment GetGOBSDatasetField(int entityId)
-        {
-            return null;
-        }
-
-        public GOBSDatasetAttachment GetGOBSDatasetInventory(int entityId)
-        {
-            return null;
-        }
-
-        public GOBSDatasetAttachment GetGOBSDatasetMarker(int entityId)
-        {
-            return null;
-        }
-
-        public GOBSDatasetAttachment GetGOBSDatasetMarkerField(int entityId)
-        {
-            return null;
-        }
-
-        public GOBSDatasetAttachment GetGOBSDatasetMarkerValue(int entityId)
-        {
-            return null;
-        }
-
-        public GOBSDatasetAttachment GetGOBSDatasetValue(int entityId)
-        {
-            return null;
-        }
-
-        public GOBSDatasetAttachment GetGOBSMarker(int entityId)
-        {
-            return null;
-        }
-
-        public GOBSDatasetAttachment GetGOBSMarkerField(int entityId)
-        {
-            return null;
-        }
-
-        public GOBSDatasetAttachment GetGOBSMarkerValue(int entityId)
-        {
-            return null;
-        }
-
-        public GOBSDatasetAttachment GetGOBSReportTrait(int entityId)
-        {
-            return null;
-        }
-
-        public GOBSDatasetAttachment GetGOBSReportValue(int entityId)
-        {
-            return null;
-        }
-
-        public GOBSDatasetAttachment GetGOBSType(int entityId)
-        {
-            return null;
-        }
-
-        public void HandleRequest()
-        {
-            throw new NotImplementedException();
-        }
-
+   
         public int Insert()
         {
             using (GOBSManager mgr = new GOBSManager())
             {
                 try
                 {
-                    RowsAffected = mgr.Insert(Entity);
+                    //RowsAffected = mgr.Insert(Entity);
                 }
                 catch (Exception ex)
                 {
@@ -186,7 +147,7 @@ namespace USDA.ARS.GRIN.GGTools.GOBS.ViewModelLayer
             {
                 try
                 {
-                    RowsAffected = mgr.Update(Entity);
+                    //RowsAffected = mgr.Update(Entity);
                 }
                 catch (Exception ex)
                 {
@@ -213,13 +174,6 @@ namespace USDA.ARS.GRIN.GGTools.GOBS.ViewModelLayer
         {
             throw new NotImplementedException();
         }
-
-        public void GetSysTables(int sysUserId, string databaseAreaCode)
-        {
-            using (SysTableManager mgr = new SysTableManager())
-            {
-                DataCollectionSysTables = new Collection<SysTable>(mgr.GetSysTables(sysUserId, databaseAreaCode));
-            }
-        }
+ 
     }
 }

@@ -115,7 +115,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             // TODO
             SQL += " UNION ";
             SQL += " SELECT ID, Title, Description, TypeCode, IsShared, 'Y' AS IsSharedWithMe, CreatedDate, CreatedByCooperatorID, CreatedByCooperatorName, ModifiedDate, ModifiedByCooperatorID, ModifiedByCooperatorName FROM vw_GRINGlobal_Sys_Folder WHERE ID IN ";
-            SQL += " (SELECT SysFolderID FROM vw_GRINGlobal_Sys_Folder_Cooperator_Map WHERE CooperatorID = @CreatedByCooperatorID) ";
+            SQL += " (SELECT SysFolderID FROM vw_GRINGlobal_Sys_Folder_Cooperator_Map WHERE CooperatorID = @CreatedByCooperatorID AND CreatedByCooperatorID <> @CreatedByCooperatorID) ";
             SQL += " AND    (@Title                     IS NULL OR   Title                  LIKE    '%' + @Title + '%')";
             SQL += " AND    (@Description               IS NULL OR   Description            LIKE    '%' + @Description + '%')";
             SQL += " AND    (@TypeCode                  IS NULL OR   TypeCode               =       @TypeCode)";

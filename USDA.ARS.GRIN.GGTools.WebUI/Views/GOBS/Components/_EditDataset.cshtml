@@ -13,13 +13,13 @@
             <div class="col-md-3">
                 <div class="form-group">
                     <label>ID</label>
-                    @Html.TextBoxFor(x => x.Entity.ID, new { @class = "form-control", @readonly = "readonly" })
+                    @Html.TextBoxFor(x => x.Entity.dataset_id, new { @class = "form-control", @readonly = "readonly" })
                 </div>
             </div>
             <div class="col-md-3">
                 <div class="form-group">
                     <label>Name</label>
-                    @Html.TextBoxFor(x=>x.Entity.DatasetName, new { @class = "form-control" })
+                    @Html.TextBoxFor(x=>x.Entity.name, new { @class = "form-control" })
                 </div>
             </div>
             <div class="col-md-3">
@@ -27,7 +27,7 @@
                     <label>Type</label>
                     <div class="input-group">
                         <span id="placeholder-accepted-name" style="background-color: #ecf0f5; border: 1px solid #ced4da; width: 100%; position: relative; -ms-flex: 1 1 auto; flex: 1 1 auto; width: 1%; min-width: 0; margin-bottom: 0; padding: 0.375rem 0.75rem; height: calc(2.25rem + 2px);">@Html.Raw(Model.Entity.TypeName) </span>
-                        @Html.HiddenFor(x => x.Entity.TypeID)
+                        @Html.HiddenFor(x => x.Entity.type_id)
                         <span class="input-group-btn">
                             <a href="" class="btn btn-default btn-flat">
                                 <i class="fa fa-link"></i>
@@ -46,7 +46,7 @@
                     <label>Method</label>
                     <div class="input-group">
                         <span id="placeholder-accepted-name" style="background-color: #ecf0f5; border: 1px solid #ced4da; width: 100%; position: relative; -ms-flex: 1 1 auto; flex: 1 1 auto; width: 1%; min-width: 0; margin-bottom: 0; padding: 0.375rem 0.75rem; height: calc(2.25rem + 2px);">@Html.Raw(Model.Entity.MethodName) </span>
-                        @Html.HiddenFor(x => x.Entity.MethodID)
+                        @Html.HiddenFor(x => x.Entity.method_id)
                         <span class="input-group-btn">
                             <a href="" class="btn btn-default btn-flat">
                                 <i class="fa fa-link"></i>

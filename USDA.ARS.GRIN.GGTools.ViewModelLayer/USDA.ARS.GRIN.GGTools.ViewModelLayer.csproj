@@ -207,6 +207,10 @@
       <Project>{902c87a6-fb1f-4c16-b816-5f7678b1ef01}</Project>
       <Name>USDA.ARS.GRIN.GGTools.DataLayer</Name>
     </ProjectReference>
+    <ProjectReference Include="..\USDA.ARS.GRIN.GRINGlobal.DTO\USDA.ARS.GRIN.GRINGlobal.DTO.csproj">
+      <Project>{b8f69ef8-93f5-4ea9-b5f5-3c67da0e2846}</Project>
+      <Name>USDA.ARS.GRIN.GRINGlobal.DTO</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

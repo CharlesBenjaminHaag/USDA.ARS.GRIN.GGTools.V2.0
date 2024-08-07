@@ -2,7 +2,7 @@
 * Name         : ggtools.js
 * Description  : Main JS application file for GGTools. This file
 *                should be included in all layout pages. 
-* Last Updated : 6/27/24  
+* Last Updated : 8/6/24
 * By           : Benjamin Haag
 */
 
@@ -61,6 +61,12 @@ function OpenLookupModal(type, value_field, display_field) {
     // Clear modal
     $("#section-search-criteria input[type=text]").val("");
     $(searchResultsSectionName).html("");
+
+    // Reset datatable within specified div.
+    $(searchResultsSectionName).find('table.dataTable').each(function () {
+        // Clear the DataTable
+        $(this).DataTable().clear().draw();
+    });
 }
 
 // Toggle show/hide of standard help widget.
@@ -82,14 +88,6 @@ $(".close").on('click', function (event) {
 /* ========================================================================================
  * General Utilities
   ======================================================================================== */
-
-//$(document).keypress(function (event) {
-//    var keycode = (event.keyCode ? event.keyCode : event.which);
-//    if (keycode == '13') {
-//        $("#btnSearch").click();
-//    }
-//});
-
 function AddRecord() {
     var addNewRecordUrl = $("#hfAddNewRecordLink").val();
     window.location.href = addNewRecordUrl;
@@ -309,7 +307,6 @@ function InitDataTableLookupFormat(tableName) {
         tableName = "#" + tableName;
         table = $(tableName).DataTable({
             paging: false,
-            stateSave: true,
             "bLengthChange": false,
             scrollY: '300px',
             scrollCollapse: true,
@@ -628,7 +625,6 @@ function Reset() {
 
     // Set action to "RESET" and re-submit the form -- instructing the application to also clear any cached data.
     $("#EventAction").val("RESET");
-    /*$("#frmMain").submit();*/
     $.fn.dataTable.tables({ api: true }).clear().draw();
 }
 

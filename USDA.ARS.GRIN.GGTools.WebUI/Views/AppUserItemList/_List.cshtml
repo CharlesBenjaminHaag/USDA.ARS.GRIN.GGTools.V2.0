@@ -14,17 +14,15 @@
         <table id="data_table_app_user_item_list" class="table table-striped search-results" style=" width:100%;">
             <thead>
                 <tr>
-                    <th></th>
-                    <th></th>
                     <th>ID</th>
+                    <th>Sort Order</th>
+                    <th>TabName</th>
+                    <th>ListName</th>
                     <th>ID Type</th>
-                    <th>Imported</th>
-                    <th>ID Number</th>
-                    <th>List Name</th>
                     <th>Item Title</th>
+                    <th>Properties</th>
                     <th>Created</th>
                     <th>Last Modified</th>
-
                 </tr>
             </thead>
             <tbody>
@@ -32,28 +30,12 @@
                 {
                     <tr>
                         <td>@result.ID</td>
-                        <td></td>
-                        <td>
-                            @result.ID
-                        </td>
-                        <td>
-                            @result.IDType
-                        </td>
-                        <td>
-                            @Html.Raw(Model.FormatBoolean(result.IsImported))
-                        </td>
-                        <td>
-                            @if (result.EntityID > 0)
-                            { 
-                                <span>
-                                    @result.EntityID
-                                </span>                            
-                            }
-                        </td>
-                        <td>
-                            @result.ListName
-                        </td>
-                        <td>@result.ItemTitle</td>
+                        <td>@result.SortOrder</td>
+                        <td>@result.TabName</td>
+                        <td>@result.ListName</td>
+                        <td>@result.IDType</td>
+                        <td>@result.Title</td>
+                        <td>@result.Properties</td>
                         <td>
                             @result.CreatedDate.ToShortDateString()
                         </td>

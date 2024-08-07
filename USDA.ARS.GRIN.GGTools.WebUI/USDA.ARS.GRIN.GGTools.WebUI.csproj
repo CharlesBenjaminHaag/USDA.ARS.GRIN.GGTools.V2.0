@@ -918,22 +918,9 @@
     <Content Include="Views\GOBS\Index.cshtml" />
     <Content Include="Views\Shared\_LayoutAdminLTE3GOBS.cshtml" />
     <Content Include="Views\Shared\Sidebars\_MainSidebarGOBS.cshtml" />
-    <Content Include="Views\GOBS\Edit.cshtml" />
-    <Content Include="Views\GOBS\_EditDataset.cshtml" />
-    <Content Include="Views\GOBS\_List.cshtml" />
     <Content Include="Views\Shared\Sidebars\Components\_MenuWorkspaces.cshtml" />
     <Content Include="Views\Method\Modals\_Lookup.cshtml" />
     <Content Include="Views\Method\Modals\_SelectList.cshtml" />
-    <Content Include="Views\GOBS\_DependentDataList.cshtml" />
-    <Content Include="Views\GOBS\EditDependentData.cshtml" />
-    <Content Include="Views\GOBS\_EditDatasetAttach.cshtml" />
-    <Content Include="Views\GOBS\_EditDatasetCooperator.cshtml" />
-    <Content Include="Views\GOBS\_EditDatasetField.cshtml" />
-    <Content Include="Views\GOBS\_EditDatasetInventory.cshtml" />
-    <Content Include="Views\GOBS\_EditDatasetMarker.cshtml" />
-    <Content Include="Views\GOBS\_EditDatasetMarkerField.cshtml" />
-    <Content Include="Views\GOBS\_EditDatasetMarkerValue.cshtml" />
-    <Content Include="Views\GOBS\_EditDatasetValue.cshtml" />
     <Content Include="Views\GOBS\Modals\_MethodSelectList.cshtml" />
     <Content Include="Views\GOBS\Modals\_MethodLookup.cshtml" />
     <Content Include="Views\GOBS\Modals\_InventoryLookup.cshtml" />
@@ -1029,6 +1016,8 @@
     <Content Include="Views\SysFolderCooperatorMap\Components\_ListNonMapped.cshtml" />
     <Content Include="Views\SysFolderCooperatorMap\Components\_ListMapped.cshtml" />
     <Content Include="Views\SysFolder\Components\_SQLQueryFolderEditor.cshtml" />
+    <Content Include="Views\GOBS\_ListDatasets.cshtml" />
+    <Content Include="Views\GOBS\_ListDatasetMarkers.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1073,6 +1062,10 @@
     <ProjectReference Include="..\USDA.ARS.GRIN.GGTools.ViewModelLayer\USDA.ARS.GRIN.GGTools.ViewModelLayer.csproj">
       <Project>{9460dc16-3013-4028-9403-3541e1235771}</Project>
       <Name>USDA.ARS.GRIN.GGTools.ViewModelLayer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\USDA.ARS.GRIN.GRINGlobal.DTO\USDA.ARS.GRIN.GRINGlobal.DTO.csproj">
+      <Project>{b8f69ef8-93f5-4ea9-b5f5-3c67da0e2846}</Project>
+      <Name>USDA.ARS.GRIN.GRINGlobal.DTO</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

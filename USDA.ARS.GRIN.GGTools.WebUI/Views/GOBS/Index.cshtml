@@ -1,32 +1,141 @@
 ﻿@model USDA.ARS.GRIN.GGTools.GOBS.ViewModelLayer.GOBSViewModel
 @{
     ViewBag.Title = "My GGTools";
-    Layout = "~/Views/Shared/_LayoutAdminLTE3GOBS.cshtml";
+    Layout = "~/Views/Shared/_LayoutAdminLTE3.cshtml";
 }
 
-<style>
-    p {
-        width: 350px;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
-</style>
+@foreach(var dataset in Model.DataCollectionDatasets)
+{
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">Dataset: @dataset.name</h3>
+            <div class="card-tools">
+                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                    <i class="fas fa-minus"></i>
+                </button>
+            </div>
+        </div>
+        <div class="card-body">
+            <div id="placeholder_datasets">
+                @Html.Partial("~/Views/GOBS/_ListDatasets.cshtml")
+            </div>
 
-<div class="row">
-    @foreach (var sysTable in Model.DataCollectionSysTables)
-    {
-    <div class="col-lg-4 col-6">
-        <div class="small-box bg-danger">
-            <div class="inner">
-                <h3>@sysTable.SysTableName DEBUG</h3>
-                <p>@sysTable.Description</p>
-            </div>
-            <div class="icon">
-                <i class="fa fa-lock"></i>
-            </div>
-            <a href="@Url.Action("GetAll", "GOBS", new { @tableName = sysTable.SysTableName })" class="small-box-footer">View <i class="fas fa-arrow-circle-right"></i></a>
+            @foreach (var datasetMarker in dataset.DatasetMarkers)
+            {
+                <!-- Level 2 Card -->
+                <div class="card card-info">
+                    <div class="card-header">
+                        <h3 class="card-title">Dataset Marker: @datasetMarker.marker</h3>
+                        <div class="card-tools">
+                            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                <i class="fas fa-minus"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <table id="data_table_dataset_markers" class="table table-striped ggtools">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Method</th>
+                                    <th>Marker</th>
+                                    <th>Trait?</th>
+                                    <th>Valid From</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                    <tr>
+                                        <td>@datasetMarker.dataset_marker_id</td>
+                                        <td>@datasetMarker.method</td>
+                                        <td>@datasetMarker.marker</td>
+                                        <td>@datasetMarker.is_trait</td>
+                                        <td>@dataset.valid_from.ToShortDateString()</td>
+                                        <td style="text-align:right;">
+                                            <a href="@Url.Action("EditDatasetmarker", "GOBS", new { entityId = dataset.dataset_id })" class="btn btn-default btn-sm pull-right row-edit">
+                                                <i class="fa fa-edit"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                
+                            </tbody>
+                        </table>
+                       
+                        <div class="card card-warning">
+                            <div class="card-header">
+                                <h3 class="card-title">Dataset Marker Field</h3>
+                                <div class="card-tools">
+                                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                        <i class="fas fa-minus"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                Content for Level 3 Item
+                            </div>
+                        </div>
+                        <div class="card card-warning">
+                            <div class="card-header">
+                                <h3 class="card-title">Dataset Marker Inventory</h3>
+                                <div class="card-tools">
+                                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                        <i class="fas fa-minus"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                Content for Level 3 Item
+                            </div>
+                        </div>
+                        <div class="card card-warning">
+                            <div class="card-header">
+                                <h3 class="card-title">Dataset Marker Value</h3>
+                                <div class="card-tools">
+                                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                        <i class="fas fa-minus"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                Content for Level 3 Item
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
         </div>
     </div>
+}
+
+<script type="text/javascript">
+    @*$(document).ready(function () {
+        GetDatasets();
+    });
+
+    function GetDatasets() {
+        var link = '@Url.Action("GetAll","GOBS")';
+        var formData = new FormData();
+
+        $.ajax({
+            url: link,
+            type: 'POST',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (response) {
+                $("#placeholder_datasets").html(response);
+            },
+            error: function (xhr, status, error) {
+                var errorMessage = xhr.status + ': ' + xhr.statusText;
+                HandleError(errorMessage);
+            }
+        });
     }
-</div>
+
+    function HandleError(message) {
+        $("#section-error").show();
+        $("#section-error-message").html(message);
+
+    }*@
+</script>

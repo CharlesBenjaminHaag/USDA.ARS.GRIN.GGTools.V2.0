@@ -5,37 +5,106 @@ using System.Data;
 using USDA.ARS.GRIN.Common.DataLayer;
 using USDA.ARS.GRIN.GGTools.AppLayer;
 using USDA.ARS.GRIN.GGTools.DataLayer;
-using USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer;
+using USDA.ARS.GRIN.GRINGlobal.DTO;
+
+
 
 namespace USDA.ARS.GRIN.GGTools.GOBS.DataLayer
 {
     public class GOBSManager : GRINGlobalDataManagerBase
     {
-        
-    
         public void BuildInsertUpdateParameters()
         {
             throw new NotImplementedException();
         }
 
-        public int Delete(GOBSDataset entity)
+        #region Dataset
+
+        public Dataset GetDataset(int cooperatorId, int entityId)
+        {
+            SQL = "gobs.get_all_datasets";
+
+            Dataset dataset = new Dataset();
+
+            var parameters = new List<IDbDataParameter> {
+                CreateParameter("cooperator_id", (object)cooperatorId, false)
+            };
+
+            dataset = GetRecord<Dataset>(SQL, CommandType.StoredProcedure, parameters.ToArray());
+            return dataset;
+        }
+
+        public List<Dataset> GetDatasets(int cooperatorId)
+        {
+            SQL = "gobs.get_all_datasets";
+
+            List<Dataset> datasets = new List<Dataset>();
+
+            var parameters = new List<IDbDataParameter> {
+                CreateParameter("cooperator_id", (object)cooperatorId, false)
+            };
+
+            datasets = GetRecords<Dataset>(SQL, CommandType.StoredProcedure, parameters.ToArray());
+
+            foreach (var dataset in datasets)
+            {
+                dataset.DatasetMarkers = GetDatasetMarkers(cooperatorId, dataset.dataset_id);
+            }
+
+            return datasets;
+        }
+
+        public int DeleteDataset(GOBSDataset entity)
         {
             throw new NotImplementedException();
         }
 
-        public GOBSDataset Get(int entityId)
+        #endregion Dataset
+
+        #region Dataset Marker
+
+        public List<DatasetMarker> GetDatasetMarkers(int cooperatorId, int datasetId)
         {
-            GOBSDataset gobsDataset = new GOBSDataset();
-            SQL = "SELECT * FROM gobs.get_dataset WHERE dataset_id = @EntityID" ;
+            SQL = "gobs.get_all_dataset_markers";
+
+            List<DatasetMarker> datasetMarkers = new List<DatasetMarker>();
 
             var parameters = new List<IDbDataParameter> {
-                CreateParameter("EntityID", (object)entityId, false)
+                CreateParameter("cooperator_id", (object)cooperatorId, false),
+                CreateParameter("dataset_id", (object)datasetId, false),
             };
 
-            gobsDataset = GetRecord<GOBSDataset>(SQL, CommandType.Text, parameters.ToArray());
+            datasetMarkers = GetRecords<DatasetMarker>(SQL, CommandType.StoredProcedure, parameters.ToArray());
 
-            return gobsDataset;
+            foreach (var datasetMarker in datasetMarkers)
+            {
+                datasetMarker.DatasetMarkerValues = GetDatasetMarkerValues(cooperatorId, datasetMarker.marker_id);
+            }
+
+            return datasetMarkers;
         }
+
+        #endregion Dataset Marker
+
+        #region Dataset Marker Value
+        
+        public List<DatasetMarkerValue> GetDatasetMarkerValues(int cooperatorId, int datasetMarkerId)
+        {
+            SQL = "gobs.get_all_dataset_marker_values";
+
+            List<DatasetMarkerValue> datasetMarkerValues = new List<DatasetMarkerValue>();
+
+            var parameters = new List<IDbDataParameter> {
+                CreateParameter("cooperator_id", (object)cooperatorId, false),
+                CreateParameter("marker_id", (object)datasetMarkerId, false),
+            };
+
+            datasetMarkerValues = GetRecords < DatasetMarkerValue>(SQL, CommandType.StoredProcedure, parameters.ToArray());
+
+            return datasetMarkerValues;
+        }
+        
+        #endregion Dataset Marker Value
 
         public GOBSDatasetAttachment GetDatasetAttachment(int entityId)
         {
@@ -63,6 +132,22 @@ namespace USDA.ARS.GRIN.GGTools.GOBS.DataLayer
             entity = GetRecord<GOBSDatasetField>(SQL, CommandType.Text, parameters.ToArray());
 
             return entity;
+        }
+
+        public List<Dataset> GetDatasetFields(int cooperatorId)
+        {
+            SQL = "gobs.get_all_dataset_Fields";
+
+            List<Dataset> datasetFields = new List<Dataset>();
+
+            var parameters = new List<IDbDataParameter> {
+                CreateParameter("cooperator_id", (object)cooperatorId, false),
+                CreateParameter("dataset_id", (object)cooperatorId, false)
+            };
+
+            datasetFields = GetRecords<Dataset>(SQL, CommandType.StoredProcedure, parameters.ToArray());
+
+            return datasetFields;
         }
 
         public GOBSDatasetInventory GetDatasetInventory(int entityId)

@@ -22,6 +22,9 @@
     <!-- Date range picker -->
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 
+   
+
+
     <style type="text/css">
         .table-col-align-right {
             text-align: right;
@@ -46,7 +49,7 @@
             color: white;
         }
 
-       /* .margin {
+        /* .margin {
             margin-top: 15px;
         }*/
 
@@ -91,7 +94,7 @@
         }
 
         .external-event {
-            cursor:default;    
+            cursor: default;
         }
     </style>
 
@@ -102,6 +105,7 @@
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/adminlte/js")
     @Scripts.Render("~/ggtools/js")
+
 </head>
 <body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed text-sm">
     <div class="wrapper">
@@ -230,7 +234,7 @@
                 <div class="container-fluid">
                     <div class="row mb-2">
                         @Html.Partial("~/Views/Taxonomy/Shared/_PageTitle.cshtml")
-                    
+
                         <div class="col-sm-3">
                             @Html.Partial("~/Views/Taxonomy/Shared/_Breadcrumbs.cshtml")
                         </div><!-- /.col -->
@@ -281,12 +285,14 @@
 <!-- Date range picker -->
 <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+
+
 <script>
     $(document).on({
         ajaxStart: function () {
             $("body").addClass("loading");
-            },
-            ajaxStop: function () {
+        },
+        ajaxStop: function () {
             $("body").removeClass("loading");
         }
     });
@@ -344,7 +350,7 @@
 
         /* When user begins typing, hide error message block. */
         $(document).on('keypress', function (event) {
-                    var keycode = (event.keyCode ? event.keyCode : event.which);
+            var keycode = (event.keyCode ? event.keyCode : event.which);
             $("#section-input-error").hide();
         });
     });
@@ -354,26 +360,26 @@
         var end = moment();
 
         function cb(start, end) {
-        $(fieldName + ' span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
-    }
-
-    $(fieldName).daterangepicker({
-        startDate: start,
-        endDate: end,
-        autoUpdateInput: false,
-        ranges: {
-            'Today': [moment(), moment()],
-            'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-            'Last 7 Days': [moment().subtract(6, 'days'), moment()],
-            'Last 30 Days': [moment().subtract(29, 'days'), moment()],
-            'This Month': [moment().startOf('month'), moment().endOf('month')],
-            'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
-        },
-        locale: {
-        cancelLabel: 'Clear'
+            $(fieldName + ' span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
         }
-    }, cb);
-    cb(start, end);
+
+        $(fieldName).daterangepicker({
+            startDate: start,
+            endDate: end,
+            autoUpdateInput: false,
+            ranges: {
+                'Today': [moment(), moment()],
+                'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+                'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+                'This Month': [moment().startOf('month'), moment().endOf('month')],
+                'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+            },
+            locale: {
+                cancelLabel: 'Clear'
+            }
+        }, cb);
+        cb(start, end);
     }
 
     $("#btnCreatedByDateClear").on('click', function (event) {
@@ -393,8 +399,8 @@
 
             /\w\S*/g,
             function (txt) {
-            return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
-        }
+                return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+            }
         );
     }
 
@@ -417,29 +423,19 @@
         var controller = $("#hfController").val();
         var action = $("#hfAction").val();
         var dataTableId = $('#section-search-results').find('table:first').attr('id');
-        dataTableId = dataTableId.replace("data_table_","");
+        dataTableId = dataTableId.replace("data_table_", "");
 
         var idList = GetSelectedEntityIDs("data_table_" + dataTableId);
 
-        //DEBUG
-        //alert("ID LIST IS " + idList + " TABLE " + dataTableId);
-
         $("#ItemIDList").val(idList);
         $("#frmGetBatchEditor").submit();
-
-        //if (dataTableId == "taxonomy_species") {
-            
-        //}
-        //else {
-        //    $("#modal-cooperator-lookup").modal("show");
-        //}
     }
 
     function BatchEditFiltered() {
         var controller = $("#hfController").val();
         var action = $("#hfAction").val();
         var dataTableId = $('#section-search-results').find('table:first').attr('id');
-        dataTableId = dataTableId.replace("data_table_","");
+        dataTableId = dataTableId.replace("data_table_", "");
 
         if (dataTableId == "taxonomy_species") {
             var idList = GetFilteredEntityIDs("data_table_taxonomy_species");

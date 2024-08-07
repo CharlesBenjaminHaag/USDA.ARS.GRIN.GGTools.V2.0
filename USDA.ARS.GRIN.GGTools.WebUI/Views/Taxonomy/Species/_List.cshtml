@@ -3,83 +3,60 @@
 {
     @Html.HiddenFor(x => x.ItemIDList)
 }
+<table id="data_table_taxonomy_species" class="table table-striped ggtools-table" style="width:100%;">
+    <thead>
+        <tr>
 
+            <th width="5%">ID</th>
+            <th>Assembled Name</th>
+            <th>Synonym</th>
+            <th>Accepted</th>
+            <th>Protologue</th>
+            <th>URL</th>
+            <th>Authority</th>
+            <th>Verified</th>
+            <th>By</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.DataCollection.Count() > 0)
+        {
+            foreach (var result in Model.DataCollection)
+            {
+                <tr>
+                    <td>
+                        @result.ID
+                    </td>
 
-                <table id="data_table_taxonomy_species" class="table table-striped ggtools-table" style="width:100%;">
-                    <thead>
-                        <tr>
-
-                            <th width="5%">ID</th>
-                            <th>Assembled Name</th>
-                            <th>Synonym</th>
-                            <th>Accepted</th>
-                            <th>Protologue</th>
-                            <th>URL</th>
-                            <th>Authority</th>
-                            <th>Verified</th>
-                            <th>By</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @if (Model.DataCollection.Count() > 0)
+                    <td>@Html.Raw(result.AssembledName)</td>
+                    <td><span class="badge badge-info">@result.SynonymDescription</span></td>
+                    <td>@Html.Raw(Model.FormatBoolean(result.IsAcceptedName))</td>
+                    <td>
+                        @Html.Raw(result.Protologue)
+                    </td>
+                    <td>
+                        @Html.Raw(result.ProtologueVirtualPath)
+                    </td>
+                    <td>
+                        @result.SpeciesAuthority
+                    </td>
+                    <td>
+                        @if (result.NameVerifiedDate > DateTime.MinValue)
                         {
-                            foreach (var result in Model.DataCollection)
-                            {
-                                <tr>
-                                    <td>
-                                        @result.ID
-                                    </td>
-
-                                    <td>@Html.Raw(result.AssembledName)</td>
-                                    <td><span class="badge badge-info">@result.SynonymDescription</span></td>
-                                    <td>@Html.Raw(Model.FormatBoolean(result.IsAcceptedName))</td>
-                                    <td>
-                                        @Html.Raw(result.Protologue)
-                                    </td>
-                                    <td>
-                                        @Html.Raw(result.ProtologueVirtualPath)
-                                    </td>
-                                    <td>
-                                        @result.SpeciesAuthority
-                                    </td>
-                                    <td>
-                                        @if (result.NameVerifiedDate > DateTime.MinValue)
-                                        {
-                                            @result.NameVerifiedDate.ToString("yyyy-MM-dd")
-                                        }
-                                    </td>
-                                    <td>
-                                        @result.VerifiedByCooperatorName
-                                    </td>
-                                    <td>
-                                        <a href="@Url.Action("Edit", "Species", new { entityId = result.ID })" class="btn btn-default btn-sm float-right row-edit">
-                                            <i class="fa fa-edit"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-                            }
+                            @result.NameVerifiedDate.ToString("yyyy-MM-dd")
                         }
-                    </tbody>
-                </table>
-
-           
-
-
-@*<iframe width="100%"
-            height="380"
-            frameborder="0"
-            scrolling="no"
-            marginheight="0"
-            marginwidth="0"
-            src="https://www.ipni.org/?q=abies">
-
-    </iframe>*@
-
-<script type="text/javascript">
-    //$(document).ready(function () {
-    //    InitDataTableBase("data_table_taxonomy_species","Y");
-    //});
-
-
-</script>
+                    </td>
+                    <td>
+                        @result.VerifiedByCooperatorName
+                    </td>
+                    <td>
+                        <a href="@Url.Action("Edit", "Species", new { entityId = result.ID })" class="btn btn-default btn-sm float-right row-edit">
+                            <i class="fa fa-edit"></i>
+                        </a>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>

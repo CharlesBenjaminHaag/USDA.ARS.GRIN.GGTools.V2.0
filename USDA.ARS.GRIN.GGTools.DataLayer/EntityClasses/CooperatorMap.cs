@@ -11,8 +11,14 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
     public class CooperatorMap: AppEntityBase
     {
         public int CooperatorID { get; set; }
-        public string CooperatorName { get; set; }
-        public int GroupID { get; set; }
+        public string LastName { get; set; }
+        public string FirstName { get; set; }
+        public string Name { get; set; }
+        public string IsActive { get; set; }
+        public int SiteID { get; set; }
+        public string SiteShortName { get; set; }
+        public string SiteLongName { get; set; }
+        public string CategoryCode { get; set; }
         public string GroupTag { get; set; }
     }
 }

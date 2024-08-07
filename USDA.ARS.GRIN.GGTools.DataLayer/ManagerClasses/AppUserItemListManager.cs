@@ -79,23 +79,21 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
         {
             SQL = "SELECT * FROM  vw_GRINGlobal_App_User_Item_List ";
             SQL += " WHERE  (@CreatedByCooperatorID     IS NULL OR CreatedByCooperatorID    =       @CreatedByCooperatorID)";
-            SQL += " AND    (@AppUserItemFolderID       IS NULL OR AppUserItemFolderID      =       @AppUserItemFolderID)";
             SQL += " AND    (@ID                        IS NULL OR ID                       =       @ID)";
             SQL += " AND    (@TabName                   IS NULL OR TabName                  LIKE    '%' + @TabName + '%')";
             SQL += " AND    (@IDNumber                  IS NULL OR IDNumber                 =       @ID)";
             SQL += " AND    (@IDType                    IS NULL OR IDType                   =       @IDType)";
             SQL += " AND    (@ListName                  IS NULL OR ListName                 LIKE    '%' + @ListName + '%')";
-            SQL += " AND    (@IsImported                IS NULL OR IsImported               =       @IsImported)";
 
             var parameters = new List<IDbDataParameter> {
                 CreateParameter("CreatedByCooperatorID", search.CreatedByCooperatorID > 0 ? (object)search.CreatedByCooperatorID : DBNull.Value, true),
-                CreateParameter("AppUserItemFolderID", search.AppUserItemFolderID > 0 ? (object)search.AppUserItemFolderID : DBNull.Value, true),
                 CreateParameter("ID", search.ID > 0 ? (object)search.ID : DBNull.Value, true),
                 CreateParameter("TabName", (object)search.TabName ?? DBNull.Value, true),
                 CreateParameter("IDNumber", search.IDNumber > 0 ? (object)search.IDNumber : DBNull.Value, true),
                 CreateParameter("IDType", (object)search.IDType ?? DBNull.Value, true),
-                CreateParameter("ListName", (object)search.ListName ?? DBNull.Value, true),
-                CreateParameter("IsImported", (object)search.IsImported ?? DBNull.Value, true),            };
+                CreateParameter("ListName", (object)search.ListName ?? DBNull.Value, true)
+            };
+            
             List<AppUserItemList> appUserItemLists = GetRecords<AppUserItemList>(SQL, parameters.ToArray());
             RowsAffected = appUserItemLists.Count;
             return appUserItemLists;

@@ -839,18 +839,18 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
 
                 // If the action indicates "ADD" and a synonym code has been supplied, add
                 // a map record to link the parent species, and the newly-created one.
-                if (viewModel.EventAction.ToUpper() == "ADD")
-                {
-                    if (!String.IsNullOrEmpty(viewModel.Entity.SynonymCode))
-                    {
-                        SynonymMapViewModel synonymMapViewModel = new SynonymMapViewModel();
-                        synonymMapViewModel.Entity.SpeciesAID = viewModel.Entity.ID;
-                        synonymMapViewModel.Entity.SynonymCode = viewModel.Entity.SynonymCode;
-                        synonymMapViewModel.Entity.SpeciesBID = viewModel.Entity.ParentID;
-                        synonymMapViewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
-                        synonymMapViewModel.Insert();
-                    }
-                }
+                //if (viewModel.EventAction.ToUpper() == "ADD")
+                //{
+                //    if (!String.IsNullOrEmpty(viewModel.Entity.SynonymCode))
+                //    {
+                //        SynonymMapViewModel synonymMapViewModel = new SynonymMapViewModel();
+                //        synonymMapViewModel.Entity.SpeciesAID = viewModel.Entity.ID;
+                //        synonymMapViewModel.Entity.SynonymCode = viewModel.Entity.SynonymCode;
+                //        synonymMapViewModel.Entity.SpeciesBID = viewModel.Entity.ParentID;
+                //        synonymMapViewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
+                //        synonymMapViewModel.Insert();
+                //    }
+                //}
 
                 // If parent ID is present, display its data in a navigable URL.
                 if (viewModel.Entity.ParentID > 0)

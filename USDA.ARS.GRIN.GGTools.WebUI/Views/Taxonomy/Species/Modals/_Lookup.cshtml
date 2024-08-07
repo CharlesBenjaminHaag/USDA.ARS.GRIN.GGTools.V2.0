@@ -83,11 +83,12 @@
     });
 
     $("#btnOpenSpeciesLookupModal").click(function () {
-        var eventAction = $(this).data("ggtools-action");
-        var eventValue = $(this).data("ggtools-value");
-        $("#hfSpeciesLookupIDFieldName").val(eventAction);
-        $("#hfSpeciesLookupNameFieldName").val(eventValue);
-        $("#search-progress-overlay-species-lookup").hide();
+        OpenLookupModal("species");
+        //var eventAction = $(this).data("ggtools-action");
+        //var eventValue = $(this).data("ggtools-value");
+        //$("#hfSpeciesLookupIDFieldName").val(eventAction);
+        //$("#hfSpeciesLookupNameFieldName").val(eventValue);
+        //$("#search-progress-overlay-species-lookup").hide();
     });
 
     $("#btnGetSpecies").click(function () {
@@ -146,9 +147,6 @@
         var idList = GetSelectedEntityIDs("data-table-species-lookup");
         var nameList = GetSelectedEntityLabels("data-table-species-lookup");
         var placeholderName = "#placeholder-" + nameField;
-
-        //DEBUG
-        alert("PLACEHLDR IS " + placeholderName);
 
         $("#Entity_" + idField).val(idList);
         $("#Entity_" + nameField).val(nameList);

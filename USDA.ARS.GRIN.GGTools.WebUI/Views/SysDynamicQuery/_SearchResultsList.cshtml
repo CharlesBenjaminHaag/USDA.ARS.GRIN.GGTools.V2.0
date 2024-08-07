@@ -4,12 +4,12 @@
 
 @Html.HiddenFor(x => x.RowsAffected)
 
-@*@{ // REFACTOR: Set id of DataTable based on DB table extracted from query.
+@{ // REFACTOR: Set id of DataTable based on DB table extracted from query.
         SysTableField sysTableFieldHeading = new SysTableField();
         SysTableField sysTableField = new SysTableField();
         var tableId = "data_table_" + Model.TableName;
         int keyColumnCount = 0;
-    }*@
+}
 
 @if (Model.ValidationMessages.Count > 0)
 {
@@ -54,15 +54,15 @@
                         <tr>
                             @foreach (DataColumn rowCol in Model.DataCollectionDataTable.Columns)
                             {
+                                {
+                                    sysTableField = Model.GetColumnInfo(Model.TableName, rowCol.ColumnName);
+                                }
+
                                 <td>
-                                    @dr[rowCol.ColumnName]
+                                    @dr[rowCol.ColumnName] DEBUG @sysTableField
                                 </td>
 
-                                //{
-                                //    // REFACTOR:
-
-                                //    sysTableField = Model.GetColumnInfo(Model.TableName, rowCol.ColumnName);
-                                //}
+                                
 
                                 @*if (sysTableField.IsPrimaryKey == "Y")
                                     {
