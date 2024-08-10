@@ -8,6 +8,7 @@
                 <th>Name</th>
                 <th>URL</th>
                 <th>Valid From</th>
+                <th>Owner</th>
                 <th></th>
             </tr>
         </thead>
@@ -21,10 +22,21 @@
                     <td>@dataset.name</td>
                     <td>@dataset.link</td>
                     <td>@dataset.valid_from.ToShortDateString()</td>
+                    <td>@dataset.controller_name</td>
                     <td style="text-align:right;">
-                        <a href="@Url.Action("EditDataset", "GOBS", new { entityId = dataset.dataset_id })" class="btn btn-default btn-sm pull-right row-edit">
-                            <i class="fa fa-edit"></i>
-                        </a>
+                        @if (dataset.authorized == 1)
+                        {
+                            <a href="@Url.Action("EditDataset", "GOBS", new { datasetId = dataset.dataset_id })" class="btn btn-default btn-sm pull-right row-edit">
+                                <i class="fa fa-edit"></i>
+                            </a>
+                        }
+                        else
+                        {
+                            <a href="@Url.Action("EditDataset", "GOBS", new { datasetId = dataset.dataset_id })" class="btn btn-default btn-sm pull-right row-edit">
+                                <i class="fa fa-eye"></i>
+                            </a>
+                        }
+
                     </td>
                 </tr>
             }

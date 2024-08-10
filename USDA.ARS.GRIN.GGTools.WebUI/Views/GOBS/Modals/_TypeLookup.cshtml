@@ -14,42 +14,44 @@
                 </button>
             </div>
             <div id="section-search-criteria" class="modal-body">
-                @using (Html.BeginForm("Search", "Method", FormMethod.Post, new { id = "frmTypeLookup", @class = "ggtools-lookup-form" }))
+                @using (Html.BeginForm("Search", "Method", FormMethod.Post, new { id = "frm-modal-type-lookup", @class = "ggtools-lookup-form" }))
                 {
-                <div class="row">
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label>
-                                Name
-                                &nbsp;<i class="fas fa-info-circle" style="color:#17a2b8;"></i>
-                            </label>
-                            <input type="text" class="form-control" />
+                    <input type="hidden" id="hfIdField" />
+                    <input type="hidden" id="hfNameField" />
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>
+                                    Name
+                                    &nbsp;<i class="fas fa-info-circle" style="color:#17a2b8;"></i>
+                                </label>
+                                <input type="text" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>
+                                    Validator
+                                    &nbsp;<i class="fas fa-info-circle" style="color:#17a2b8;"></i>
+                                </label>
+                                <input type="text" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>
+                                    Message
+                                    &nbsp;<i class="fas fa-info-circle" style="color:#17a2b8;"></i>
+                                </label>
+                                <input type="text" class="form-control" />
+                            </div>
                         </div>
                     </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label>
-                                Validator
-                                &nbsp;<i class="fas fa-info-circle" style="color:#17a2b8;"></i>
-                            </label>
-                            <input type="text" class="form-control" />
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label>
-                                Message
-                                &nbsp;<i class="fas fa-info-circle" style="color:#17a2b8;"></i>
-                            </label>
-                            <input type="text" class="form-control" />
-                        </div>
-                    </div>
-                </div>
                     <div class="row">
                         <div class="col-md-12">
                             <div class="margin">
                                 <button id="btnReset" type="button" class="btn btn-danger">Reset</button>
-                                <button id="btnLookupMethod" type="button" class="btn btn-default float-right">Search</button>
+                                <button id="btnLookupType" type="button" class="btn btn-default float-right">Search</button>
                             </div>
                         </div>
                     </div>

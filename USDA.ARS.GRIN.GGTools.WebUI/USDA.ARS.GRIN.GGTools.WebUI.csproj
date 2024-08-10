@@ -1018,6 +1018,8 @@
     <Content Include="Views\SysFolder\Components\_SQLQueryFolderEditor.cshtml" />
     <Content Include="Views\GOBS\_ListDatasets.cshtml" />
     <Content Include="Views\GOBS\_ListDatasetMarkers.cshtml" />
+    <Content Include="Views\GOBS\EditDataset.cshtml" />
+    <Content Include="Views\GOBS\EditDatasetMarker.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

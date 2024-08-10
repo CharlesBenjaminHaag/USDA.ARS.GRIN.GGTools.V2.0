@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace USDA.ARS.GRIN.GRINGlobal.DTO
 {
-    public class Dataset
+    public class Dataset: DTOBase
     {
         public int dataset_id { get; set; }
         public int method_id { get; set; }
@@ -18,5 +18,6 @@ namespace USDA.ARS.GRIN.GRINGlobal.DTO
         public DateTime valid_from { get; set; }
 
         public List<DatasetMarker> DatasetMarkers { get; set; }
+        public List<ReportValue> ReportValues { get; set; }
     }
 }

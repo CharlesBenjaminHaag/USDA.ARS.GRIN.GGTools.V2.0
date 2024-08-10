@@ -14,6 +14,88 @@ namespace USDA.ARS.GRIN.GGTools.GOBS.ViewModelLayer
 {
     public class GOBSViewModel : GOBSViewModelBase, IViewModel<GOBSViewModel>
     {
+        #region Dataset
+        
+        public Dataset GetDataset(int cooperaorId, int entityId)
+        {
+            try
+            {
+                using (GOBSManager mgr = new GOBSManager())
+                {
+                    try
+                    {
+                        DatasetEntity = mgr.GetDataset(cooperaorId, entityId);
+
+                    }
+                    catch (Exception ex)
+                    {
+                        PublishException(ex);
+                        throw ex;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                PublishException(ex);
+                throw ex;
+            }
+            return DatasetEntity;
+        }
+
+        public void GetDatasets(int cooperatorId)
+        {
+            try
+            {
+                using (GOBSManager mgr = new GOBSManager())
+                {
+                    try
+                    {
+                        DataCollectionDatasets = new Collection<Dataset>(mgr.GetDatasets(cooperatorId));
+                    }
+                    catch (Exception ex)
+                    {
+                        PublishException(ex);
+                        throw ex;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                PublishException(ex);
+                throw ex;
+            }
+        }
+
+        #endregion
+
+        #region Dataset Marker
+
+        public void GetDataSetMarker(int cooperatorId, int datasetMarkerId)
+        {
+            try
+            {
+                using (GOBSManager mgr = new GOBSManager())
+                {
+                    try
+                    {
+                       DatasetMarkerEntity = mgr.GetDatasetMarker(cooperatorId, datasetMarkerId);
+                    }
+                    catch (Exception ex)
+                    {
+                        PublishException(ex);
+                        throw ex;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                PublishException(ex);
+                throw ex;
+            }
+        }
+
+        #endregion
+
         public void Delete()
         {
             try
@@ -30,55 +112,7 @@ namespace USDA.ARS.GRIN.GGTools.GOBS.ViewModelLayer
             }
         }
 
-        public Dataset GetDataset(int cooperaorId, int entityId)
-        {
-            try
-            {
-                using (GOBSManager mgr = new GOBSManager())
-                {
-                    try
-                    {
-                        Entity = mgr.GetDataset(cooperaorId, entityId);
-
-                    }
-                    catch (Exception ex)
-                    {
-                        PublishException(ex);
-                        throw ex;
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                PublishException(ex);
-                throw ex;
-            }
-            return Entity;
-        }
-
-        public void GetDatasets(int cooperatorId)
-        {
-            try
-            {
-                using (GOBSManager mgr = new GOBSManager())
-                {
-                    try
-                    {
-                       DataCollectionDatasets = new Collection<Dataset>(mgr.GetDatasets(cooperatorId));
-                    }
-                    catch (Exception ex)
-                    {
-                        PublishException(ex);
-                        throw ex;
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                PublishException(ex);
-                throw ex;
-            }
-        }
+        
 
         public DatasetAttach GetGOBSDatasetAttachment(int entityId)
         {
@@ -104,7 +138,6 @@ namespace USDA.ARS.GRIN.GGTools.GOBS.ViewModelLayer
             }
             return null;
         }
-
    
         public int Insert()
         {

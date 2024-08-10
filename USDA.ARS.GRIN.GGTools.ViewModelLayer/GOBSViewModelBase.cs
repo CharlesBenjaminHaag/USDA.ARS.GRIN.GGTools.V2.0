@@ -11,12 +11,12 @@ namespace USDA.ARS.GRIN.GGTools.GOBS.ViewModelLayer
 {
     public class GOBSViewModelBase : AppViewModelBase
     {
-        private Dataset _Entity = new Dataset();
-        private DatasetField _DatasetField = new DatasetField();
-        private DatasetAttach _DatasetAttach = new DatasetAttach();
-        private DatasetInventory _DatasetInventory = new DatasetInventory();
-        private DatasetMarker _DatasetMarker = new DatasetMarker();
-        private DatasetMarkerField _DatasetMarkerField = new DatasetMarkerField();
+        private Dataset _DatasetEntity = new Dataset();
+        private DatasetField _DatasetFieldEntity = new DatasetField();
+        private DatasetAttach _DatasetAttachEntity = new DatasetAttach();
+        private DatasetInventory _DatasetInventoryEntity = new DatasetInventory();
+        private DatasetMarker _DatasetMarkerEntity = new DatasetMarker();
+        private DatasetMarkerField _DatasetMarkerFieldEntity = new DatasetMarkerField();
 
         private Collection<Dataset> _DataCollectionDatasets = new Collection<Dataset>();
         private Collection<GOBSDataset> _DataCollection = new Collection<GOBSDataset>();
@@ -26,34 +26,34 @@ namespace USDA.ARS.GRIN.GGTools.GOBS.ViewModelLayer
         {
         }
        
-        public Dataset Entity
+        public Dataset DatasetEntity
         {
-            get { return _Entity; }
-            set { _Entity = value; }
+            get { return _DatasetEntity; }
+            set { _DatasetEntity = value; }
         }
 
-        public DatasetAttach DatasetAttach
+        public DatasetAttach DatasetAttachEntity
         {
-            get { return _DatasetAttach; }
-            set { _DatasetAttach = value; }
+            get { return _DatasetAttachEntity; }
+            set { _DatasetAttachEntity = value; }
         }
 
-        public DatasetField DatasetField
+        public DatasetField DatasetFieldEntity
         {
-            get { return _DatasetField; }
-            set { _DatasetField = value; }
+            get { return _DatasetFieldEntity; }
+            set { _DatasetFieldEntity = value; }
         }
 
-        public DatasetInventory DatasetInventory
+        public DatasetInventory DatasetInventoryEntity
         {
-            get { return _DatasetInventory; }
-            set { _DatasetInventory = value; }
+            get { return _DatasetInventoryEntity; }
+            set { _DatasetInventoryEntity = value; }
         }
 
-        public DatasetMarker DatasetMarker
+        public DatasetMarker DatasetMarkerEntity
         {
-            get { return _DatasetMarker; }
-            set { _DatasetMarker = value; }
+            get { return _DatasetMarkerEntity; }
+            set { _DatasetMarkerEntity = value; }
         }
        
         public Collection<Dataset> DataCollectionDatasets

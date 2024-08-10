@@ -49,7 +49,9 @@ namespace USDA.ARS.GRIN.GGTools.GOBS.DataLayer
             foreach (var dataset in datasets)
             {
                 dataset.DatasetMarkers = GetDatasetMarkers(cooperatorId, dataset.dataset_id);
+                dataset.ReportValues = GetReportValuesByDataset(cooperatorId, dataset.dataset_id);
             }
+      
 
             return datasets;
         }
@@ -57,6 +59,28 @@ namespace USDA.ARS.GRIN.GGTools.GOBS.DataLayer
         public int DeleteDataset(GOBSDataset entity)
         {
             throw new NotImplementedException();
+        }
+
+        public int InsertDataset(Dataset entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<GOBSDataset> SearchDatasets(GOBSDatasetSearch searchEntity)
+        {
+            SQL = "usp_GRINGlobal_GOBSDataset_Search";
+            List<GOBSDataset> GOBSDatasets = new List<GOBSDataset>();
+
+
+
+            return GOBSDatasets;
+        }
+
+        public int UpdateDataset(Dataset entity)
+        {
+
+
+            return RowsAffected;
         }
 
         #endregion Dataset
@@ -84,10 +108,26 @@ namespace USDA.ARS.GRIN.GGTools.GOBS.DataLayer
             return datasetMarkers;
         }
 
+        public DatasetMarker GetDatasetMarker(int cooperatorId, int datasetMarkerId)
+        {
+            SQL = "gobs.usp_get_dataset_marker";
+
+            DatasetMarker datasetMarker = new DatasetMarker();
+
+            var parameters = new List<IDbDataParameter> {
+                CreateParameter("cooperator_id", (object)cooperatorId, false),
+                CreateParameter("dataset_marker_id", (object)datasetMarkerId, false),
+            };
+
+            datasetMarker = GetRecord<DatasetMarker>(SQL, CommandType.StoredProcedure, parameters.ToArray());
+
+            return datasetMarker;
+        }
+
         #endregion Dataset Marker
 
         #region Dataset Marker Value
-        
+
         public List<DatasetMarkerValue> GetDatasetMarkerValues(int cooperatorId, int datasetMarkerId)
         {
             SQL = "gobs.get_all_dataset_marker_values";
@@ -103,9 +143,11 @@ namespace USDA.ARS.GRIN.GGTools.GOBS.DataLayer
 
             return datasetMarkerValues;
         }
-        
+
         #endregion Dataset Marker Value
 
+        #region Dataset Attachment
+        
         public GOBSDatasetAttachment GetDatasetAttachment(int entityId)
         {
             GOBSDatasetAttachment entity = new GOBSDatasetAttachment();
@@ -119,7 +161,10 @@ namespace USDA.ARS.GRIN.GGTools.GOBS.DataLayer
 
             return entity;
         }
+        #endregion Dataset Attachment
 
+        #region Dataset Field
+        
         public GOBSDatasetField GetDatasetField(int entityId)
         {
             GOBSDatasetField entity = new GOBSDatasetField();
@@ -150,6 +195,10 @@ namespace USDA.ARS.GRIN.GGTools.GOBS.DataLayer
             return datasetFields;
         }
 
+        #endregion Dataset Field
+
+        #region Dataset Inventory
+
         public GOBSDatasetInventory GetDatasetInventory(int entityId)
         {
             GOBSDatasetInventory entity = new GOBSDatasetInventory();
@@ -164,28 +213,26 @@ namespace USDA.ARS.GRIN.GGTools.GOBS.DataLayer
             return entity;
         }
 
-        public int Insert(GOBSDataset entity)
+        #endregion Dataset Inventory
+
+        #region Report Value
+
+        public List<ReportValue> GetReportValuesByDataset(int cooperatorId, int datasetId)
         {
-            throw new NotImplementedException();
+            SQL = "gobs.get_all_report_values_by_dataset";
+
+            List<ReportValue> reportValues = new List<ReportValue>();
+
+            var parameters = new List<IDbDataParameter> {
+                CreateParameter("cooperator_id", (object)cooperatorId, false),
+                CreateParameter("dataset_id", (object)datasetId, false),
+            };
+
+            reportValues = GetRecords<ReportValue>(SQL, CommandType.StoredProcedure, parameters.ToArray());
+
+            return reportValues;
         }
 
-        public List<GOBSDataset> Search(GOBSDatasetSearch searchEntity)
-        {
-            SQL = "usp_GRINGlobal_GOBSDataset_Search";
-            List<GOBSDataset> GOBSDatasets = new List<GOBSDataset>();
-
-           
-            
-            return GOBSDatasets;
-        }
-
-        public int Update(GOBSDataset entity)
-        {
-            
-
-            return RowsAffected;
-        }
-
-        
+        #endregion Report Value
     }
 }

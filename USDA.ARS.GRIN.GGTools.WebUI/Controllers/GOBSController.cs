@@ -24,7 +24,9 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             return View(viewModel);
         }
 
-        public ViewResult Get(string objectType)
+        #region Dataset
+
+        public ViewResult GetDataset(string objectType)
         {
             GOBSViewModel viewModel = new GOBSViewModel();
             SysDynamicQueryViewModel sysDynamicQueryViewModel = new SysDynamicQueryViewModel();
@@ -34,6 +36,34 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             //viewModel.DataCollectionDataTable = sysDynamicQueryViewModel.DataCollectionDataTable;
             return View("~/Views/GOBS/Edit.cshtml", viewModel);
         }
+
+        public ActionResult AddDataset()
+        {
+            GOBSViewModel viewModel = new GOBSViewModel();
+            return View("~/Views/GOBS/EditDataset.cshtml", viewModel);
+        }
+
+        public ActionResult EditDataset(int datasetId)
+        {
+            GOBSViewModel viewModel = new GOBSViewModel();
+            viewModel.GetDataset(AuthenticatedUser.CooperatorID, datasetId);
+
+            if (viewModel.DatasetEntity.authorized == 1)
+            {
+                ViewBag.PageTitle = "Edit Dataset";
+            }
+            else
+            {
+                ViewBag.PageTitle = "View Dataset";
+            }
+
+            return View("~/Views/GOBS/EditDataset.cshtml", viewModel);
+        }
+
+        //public ActionResult EditDataset(GOBSViewModel viewModel)
+        //{ 
+        
+        //}
 
         public PartialViewResult GetAll()
         {
@@ -50,7 +80,35 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             return PartialView("~/Views/GOBS/_EditDataset.cshtml", viewModel);
         }
 
-     
+        #endregion Dataset
+
+        #region Dataset Marker
+
+        public ActionResult AddDatasetMarker()
+        {
+            GOBSViewModel viewModel = new GOBSViewModel();
+            return View("~/Views/GOBS/EditDatasetMarker.cshtml", viewModel);
+        }
+
+        public ActionResult EditDatasetMarker(int datasetMarkerId)
+        {
+            GOBSViewModel viewModel = new GOBSViewModel();
+            viewModel.GetDataSetMarker(AuthenticatedUser.CooperatorID, datasetMarkerId);
+
+            if (viewModel.DatasetEntity.authorized == 1)
+            {
+                ViewBag.PageTitle = "Edit Dataset Marker";
+            }
+            else
+            {
+                ViewBag.PageTitle = "View Dataset Marker";
+            }
+
+            return View("~/Views/GOBS/EditDatasetMarker.cshtml", viewModel);
+        }
+
+        #endregion 
+
         public PartialViewResult GetDatasetInventoryEditor(int entityId)
         {
             //TODO
