@@ -26,16 +26,24 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
 
         #region Dataset
 
-        public ViewResult GetDataset(string objectType)
+        public PartialViewResult GetDatasets()
         {
-            GOBSViewModel viewModel = new GOBSViewModel();
-            SysDynamicQueryViewModel sysDynamicQueryViewModel = new SysDynamicQueryViewModel();
-            sysDynamicQueryViewModel.SearchEntity.SQLStatement = "SELECT * FROM get_" + objectType;
-            sysDynamicQueryViewModel.Search();
-
-            //viewModel.DataCollectionDataTable = sysDynamicQueryViewModel.DataCollectionDataTable;
-            return View("~/Views/GOBS/Edit.cshtml", viewModel);
+            SysDynamicQueryViewModel viewModel = new SysDynamicQueryViewModel();
+            viewModel.SearchEntity.SQLStatement = "SELECT * FROM get_gobs_dataset";
+            viewModel.Search();
+            return PartialView("~/Views/SysDynamicQuery/_SearchResultsList.cshtml", viewModel);
         }
+
+        //public ViewResult GetDataset(string objectType)
+        //{
+        //    GOBSViewModel viewModel = new GOBSViewModel();
+        //    SysDynamicQueryViewModel sysDynamicQueryViewModel = new SysDynamicQueryViewModel();
+        //    sysDynamicQueryViewModel.SearchEntity.SQLStatement = "SELECT * FROM get_" + objectType;
+        //    sysDynamicQueryViewModel.Search();
+
+        //    //viewModel.DataCollectionDataTable = sysDynamicQueryViewModel.DataCollectionDataTable;
+        //    return View("~/Views/GOBS/Edit.cshtml", viewModel);
+        //}
 
         public ActionResult AddDataset()
         {
@@ -59,12 +67,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
 
             return View("~/Views/GOBS/EditDataset.cshtml", viewModel);
         }
-
-        //public ActionResult EditDataset(GOBSViewModel viewModel)
-        //{ 
-        
-        //}
-
+       
         public PartialViewResult GetAll()
         {
             GOBSViewModel viewModel = new GOBSViewModel();
@@ -107,7 +110,9 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             return View("~/Views/GOBS/EditDatasetMarker.cshtml", viewModel);
         }
 
-        #endregion 
+        #endregion
+
+        #region Dataset Inventory
 
         public PartialViewResult GetDatasetInventoryEditor(int entityId)
         {
@@ -115,11 +120,27 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             return null;
         }
 
+        #endregion Dataset Inventory
+
+        #region Dataset Value
+
         public PartialViewResult GetDatasetValueEditor(int entityId)
         {
             //TODO
             return null;
         }
+
+        #endregion Dataset Value
+
+        #region Dataset Field
+        public PartialViewResult GetDataSetFields()
+        {
+            //TODO
+            return null;
+        }
+        #endregion Dataset Field
+
+        #region Dataset Marker
 
         public PartialViewResult GetDatasetMarkerEditor(int entityId)
         {
@@ -127,49 +148,35 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             return null;
         }
 
+        #endregion Dataset Marker
+
+        #region Dataset Marker Field
+
         public PartialViewResult GetDatasetMarkerFieldEditor(int entityId)
         {
             //TODO
             return null;
         }
 
+        #endregion Dataset Marker Field
+
+        #region Dataset Marker Value
+        
         public PartialViewResult GetDatasetMarkerValueEditor(int entityId)
         {
             //TODO
             return null;
         }
 
-        public PartialViewResult GetDependentData(int entityId, string objectType)
-        {
-            SysDynamicQueryViewModel viewModel = new SysDynamicQueryViewModel();
+        #endregion Dataset Marker Value
 
-            try
-            {
-                viewModel.SearchEntity.SQLStatement = "SELECT * FROM get_gobs_" + objectType + " WHERE gobs_dataset_id = " + entityId.ToString();
-                viewModel.Search();
-                viewModel.TableName = objectType;
-                return PartialView("~/Views/GOBS/_DependentDataList.cshtml", viewModel);
-            }
-            catch (Exception ex)
-            {
-                Log.Error(ex);
-                return PartialView("~/Views/Error/_InternalServerError.cshtml");
-            }
-        }
+        #region Report Value
 
-        public PartialViewResult GetDatasets()
-        {
-            SysDynamicQueryViewModel viewModel = new SysDynamicQueryViewModel();
-            viewModel.SearchEntity.SQLStatement = "SELECT * FROM get_gobs_dataset";
-            viewModel.Search();
-            return PartialView("~/Views/SysDynamicQuery/_SearchResultsList.cshtml", viewModel);
-        }
+        #endregion Report Value
 
-        public PartialViewResult GetDataSetFields()
-        {
-            //TODO
-            return null;
-        }
+        #region Report Trait
+
+        #endregion Report Trait
 
         public PartialViewResult RenderSidebar()
         {

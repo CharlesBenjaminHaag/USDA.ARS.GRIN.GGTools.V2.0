@@ -1020,6 +1020,17 @@
     <Content Include="Views\GOBS\_ListDatasetMarkers.cshtml" />
     <Content Include="Views\GOBS\EditDataset.cshtml" />
     <Content Include="Views\GOBS\EditDatasetMarker.cshtml" />
+    <Content Include="Views\GOBS\Modals\_EditPermissions.cshtml" />
+    <Content Include="Views\GOBS\EditDataset - Copy.cshtml" />
+    <Content Include="Views\GOBS\EditDataset - Copy %282%29.cshtml" />
+    <Content Include="Views\GOBS\EditDataset - Copy %283%29.cshtml" />
+    <Content Include="Views\GOBS\EditDataset - Copy %284%29.cshtml" />
+    <Content Include="Views\GOBS\EditDataset - Copy %285%29.cshtml" />
+    <Content Include="Views\GOBS\EditDataset - Copy %286%29.cshtml" />
+    <Content Include="Views\GOBS\_ListDatasetMarkers - Copy.cshtml" />
+    <Content Include="Views\GOBS\_ListDatasetMarkers - Copy %282%29.cshtml" />
+    <Content Include="Views\GOBS\_ListDatasetMarkers - Copy %283%29.cshtml" />
+    <Content Include="Views\GOBS\_ListDatasetMarkers - Copy %284%29.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

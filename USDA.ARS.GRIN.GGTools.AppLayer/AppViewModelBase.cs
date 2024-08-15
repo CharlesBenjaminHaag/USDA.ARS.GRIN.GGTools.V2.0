@@ -132,11 +132,11 @@ namespace USDA.ARS.GRIN.GGTools.AppLayer
                 return "<span class='badge badge-success'>INACTIVE</span>";
             }
 
-            if ((value.ToUpper() == "Y") || (value.ToUpper() == "TRUE") || (value.ToUpper() == "YES")) {
+            if ((value.ToUpper() == "Y") || (value.ToUpper() == "TRUE") || (value.ToUpper() == "YES") || (value == "1")) {
                 return "<span class='badge badge-success'>Yes</span>";
             }
 
-            if ((value.ToUpper() == "N") || (value.ToUpper() == "FALSE") || (value.ToUpper() == "NO"))
+            if ((value.ToUpper() == "N") || (value.ToUpper() == "FALSE") || (value.ToUpper() == "NO") || (value == "0"))
             { 
                 return "<span class='badge badge-danger'>No</span>";
             }

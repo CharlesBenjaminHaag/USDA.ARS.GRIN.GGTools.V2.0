@@ -17,7 +17,11 @@ namespace USDA.ARS.GRIN.GRINGlobal.DTO
         public string link { get; set; }
         public DateTime valid_from { get; set; }
 
+        public List<DatasetValue> DatasetValues { get; set; }
         public List<DatasetMarker> DatasetMarkers { get; set; }
+        public List<DatasetMarkerValue> DatasetMarkerValues { get; set; }
+        public List<DatasetInventory> DatasetInventories { get; set; }
         public List<ReportValue> ReportValues { get; set; }
+        public List<ReportTrait> ReportTraits { get; set; }
     }
 }

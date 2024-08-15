@@ -20,7 +20,7 @@ namespace USDA.ARS.GRIN.GGTools.GOBS.DataLayer
 
         #region Dataset
 
-        public Dataset GetDataset(int cooperatorId, int entityId)
+        public Dataset GetDataset(int cooperatorId, int datasetId)
         {
             SQL = "gobs.get_all_datasets";
 
@@ -31,6 +31,12 @@ namespace USDA.ARS.GRIN.GGTools.GOBS.DataLayer
             };
 
             dataset = GetRecord<Dataset>(SQL, CommandType.StoredProcedure, parameters.ToArray());
+            dataset.DatasetValues = GetDatasetValues(cooperatorId, datasetId);
+            dataset.DatasetMarkers = GetDatasetMarkers(cooperatorId, dataset.dataset_id);
+            dataset.DatasetMarkerValues = GetDatasetMarkerValues(cooperatorId, datasetId);
+            dataset.DatasetInventories = GetDatasetInventories(cooperatorId, datasetId);
+            dataset.ReportValues = GetReportValuesByDataset(cooperatorId, dataset.dataset_id);
+            //rpt traits
             return dataset;
         }
 
@@ -48,11 +54,12 @@ namespace USDA.ARS.GRIN.GGTools.GOBS.DataLayer
 
             foreach (var dataset in datasets)
             {
+                dataset.DatasetValues = GetDatasetValues(cooperatorId, dataset.dataset_id);
                 dataset.DatasetMarkers = GetDatasetMarkers(cooperatorId, dataset.dataset_id);
+                dataset.DatasetMarkerValues = GetDatasetMarkerValues(cooperatorId, dataset.dataset_id);
+                dataset.DatasetInventories = GetDatasetInventories(cooperatorId, dataset.dataset_id);
                 dataset.ReportValues = GetReportValuesByDataset(cooperatorId, dataset.dataset_id);
             }
-      
-
             return datasets;
         }
 
@@ -84,6 +91,26 @@ namespace USDA.ARS.GRIN.GGTools.GOBS.DataLayer
         }
 
         #endregion Dataset
+
+        #region Dataset Value
+
+        public List<DatasetValue> GetDatasetValues (int cooperatorId, int datasetId)
+        {
+            SQL = "gobs.usp_get_dataset_values";
+
+            List<DatasetValue> datasetValues = new List<DatasetValue>();
+
+            var parameters = new List<IDbDataParameter> {
+                CreateParameter("cooperator_id", (object)cooperatorId, false),
+                CreateParameter("dataset_id", (object)datasetId, false),
+            };
+
+            datasetValues = GetRecords<DatasetValue>(SQL, CommandType.StoredProcedure, parameters.ToArray());
+
+            return datasetValues;
+        }
+
+        #endregion Dataset Value
 
         #region Dataset Marker
 
@@ -128,7 +155,7 @@ namespace USDA.ARS.GRIN.GGTools.GOBS.DataLayer
 
         #region Dataset Marker Value
 
-        public List<DatasetMarkerValue> GetDatasetMarkerValues(int cooperatorId, int datasetMarkerId)
+        public List<DatasetMarkerValue> GetDatasetMarkerValues(int cooperatorId, int datasetMarkerId = 0, int datasetMarkerFieldId = 0)
         {
             SQL = "gobs.get_all_dataset_marker_values";
 
@@ -211,6 +238,22 @@ namespace USDA.ARS.GRIN.GGTools.GOBS.DataLayer
             entity = GetRecord<GOBSDatasetInventory>(SQL, CommandType.Text, parameters.ToArray());
 
             return entity;
+        }
+
+        public List<DatasetInventory> GetDatasetInventories(int cooperatorId, int datasetId)
+        {
+            SQL = "gobs.usp_get_dataset_inventories";
+
+            List<DatasetInventory> datasetInventories = new List<DatasetInventory>();
+
+            var parameters = new List<IDbDataParameter> {
+                CreateParameter("cooperator_id", (object)cooperatorId, false),
+                CreateParameter("dataset_id", (object)datasetId, false),
+            };
+
+            datasetInventories = GetRecords<DatasetInventory>(SQL, CommandType.StoredProcedure, parameters.ToArray());
+
+            return datasetInventories;
         }
 
         #endregion Dataset Inventory

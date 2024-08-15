@@ -42,6 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ReportTrait.cs" />
     <Compile Include="ReportValue.cs" />
     <Compile Include="DTOBase.cs" />
     <Compile Include="DatasetValue.cs" />

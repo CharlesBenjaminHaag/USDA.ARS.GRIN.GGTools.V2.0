@@ -6,18 +6,18 @@ using System.Threading.Tasks;
 
 namespace USDA.ARS.GRIN.GRINGlobal.DTO
 {
-    public class DatasetMarker: DTOBase
+    public class ReportTrait: DTOBase
     {
-        public int dataset_marker_id { get; set; }
         public int method_id { get; set; }
         public string method { get; set; }
         public int dataset_id { get; set; }
         public string dataset { get; set; }
         public int marker_id { get; set; }
         public string marker { get; set; }
-        public bool is_trait { get; set; }
-        public DateTime valid_from { get; set; }
-
-        public List<DatasetMarkerValue> DatasetMarkerValues { get; set; }
-}
+        public int inventory_id { get; set; }
+        public string inventory { get; set; }
+        public int report_value_id { get; set; }
+        public int individual { get; set; }
+        public string value { get; set; }
+    }
 }

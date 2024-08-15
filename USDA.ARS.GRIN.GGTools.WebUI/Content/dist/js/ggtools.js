@@ -2,7 +2,7 @@
 * Name         : ggtools.js
 * Description  : Main JS application file for GGTools. This file
 *                should be included in all layout pages. 
-* Last Updated : 8/9/24
+* Last Updated : 8/14/24
 * By           : Benjamin Haag
 */
 
@@ -448,7 +448,7 @@ function InitDataTableLightMultiSelect(tableName) {
             ],
             stateSave: true,
             "bLengthChange": false,
-            scrollY: '300px',
+             
             select: {
                 style: 'multi'
             },
