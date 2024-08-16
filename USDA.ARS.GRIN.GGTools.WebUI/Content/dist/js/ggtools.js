@@ -46,18 +46,17 @@ function SetControlVisibility() {
   ======================================================================================== */
 function OpenLookupModal(type, value_field, display_field) {
     type = type.toLowerCase();
-    var modalName = "#modal-" + type + "-lookup";
-    var overlayName = "#search-progress-overlay-" + type;
-    var searchResultsSectionName = "#section-" + type + "-lookup-search-results";
+    var modalName = "modal-" + type + "-lookup";
+    var overlayName = "search-progress-overlay-" + type;
+    var searchResultsSectionName = "section-" + type + "-lookup-search-results";
     var valueHiddenFieldName = modalName + "-value-field";
-    var displayHiddenFieldName = modalName + "-display_field";
+    var displayHiddenFieldName = modalName + "-display-field";
 
-    //DEBUG
-    console.log("DEBUG modal is " + modalName + "id field is " + value_field + " name field is " + display_field);
+    /*console.log("DEBUG modal is " + modalName + " id field is " + value_field + " name field is " + display_field);*/
 
-    $(modalName).modal("show");
-    $(valueHiddenFieldName).val(value_field);
-    $(displayHiddenFieldName).val(display_field);
+    $("#" + modalName).modal("show");
+    $("#" + valueHiddenFieldName).val(value_field);
+    $("#" + displayHiddenFieldName).val(display_field);
 
     $(overlayName).hide();
 

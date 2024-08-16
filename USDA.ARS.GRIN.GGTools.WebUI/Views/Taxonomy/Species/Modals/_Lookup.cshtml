@@ -2,7 +2,7 @@
 <div class="modal fade" id="modal-species-lookup" style="display: none;" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <div id="search-progress-overlay-species-lookup" class="overlay">
+            <div id="search-progress-overlay-modal-species-lookup" class="overlay">
                 <i class="fas fa-2x fa-sync fa-spin"></i>
             </div>
             <div class="modal-header">
@@ -17,8 +17,8 @@
             <div id="section-search-criteria" class="modal-body">
                 @using (Html.BeginForm(new { id = "frmSpeciesLookup", onsubmit = "return false;" }))
                 {
-                    <input type="hidden" id="hfSpeciesLookupIDFieldName" />
-                    <input type="hidden" id="hfSpeciesLookupNameFieldName" />
+                    <input type="hidden" id="modal-species-lookup-value-field" />
+                    <input type="hidden" id="modal-species-lookup-display-field" />
                     <div class="row">
                         <div class="col-md-12">
                             @Html.TextBoxFor(x => x.SearchEntity.Name, new { @id = "txtLookupSpeciesName", @class = "form-control" })
@@ -83,12 +83,9 @@
     });
 
     $("#btnOpenSpeciesLookupModal").click(function () {
-        OpenLookupModal("species");
-        //var eventAction = $(this).data("ggtools-action");
-        //var eventValue = $(this).data("ggtools-value");
-        //$("#hfSpeciesLookupIDFieldName").val(eventAction);
-        //$("#hfSpeciesLookupNameFieldName").val(eventValue);
-        //$("#search-progress-overlay-species-lookup").hide();
+        var idField = $(this).data("ggtools-id-field");
+        var nameField = $(this).data("ggtools-name-field");
+        OpenLookupModal("species", idField, nameField);
     });
 
     $("#btnGetSpecies").click(function () {
@@ -141,17 +138,18 @@
     });
 
     function SaveSpecies() {
-        var idField = $("#hfSpeciesLookupIDFieldName").val();
-        var nameField = $("#hfSpeciesLookupNameFieldName").val();
+        var idField = $("#modal-species-lookup-value-field").val();
+        var displayField = $("#modal-species-lookup-display-field").val();
         var isAcceptedName = "";
         var idList = GetSelectedEntityIDs("data-table-species-lookup");
         var nameList = GetSelectedEntityLabels("data-table-species-lookup");
-        var placeholderName = "#placeholder-" + nameField;
 
-        $("#Entity_" + idField).val(idList);
-        $("#Entity_" + nameField).val(nameList);
+        idField = "#" + idField;
+        displayField = "#" + displayField;
 
-        $(placeholderName).html(nameList);
+        $(idField).val(idList);
+        $(displayField).val(nameList);
+        $("#placeholder-AcceptedName").html(nameList);
         $('#modal-species-lookup').modal('hide');
     }
 

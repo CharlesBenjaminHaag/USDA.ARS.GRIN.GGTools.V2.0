@@ -17,8 +17,8 @@
                     <button id="btnOpenSpeciesLookupModal"
                             type="button"
                             data-toggle="modal"
-                            data-ggtools-action="AcceptedID"
-                            data-ggtools-value="AcceptedName"
+                            data-ggtools-id-field="Entity_AcceptedID" 
+                            data-ggtools-name-field="Entity_AcceptedName" 
                             data-target="#modal-species-lookup"
                             class="btn btn-default btn-flat">
                         <i class="fa fa-search"></i>
@@ -34,3 +34,10 @@
         </div>
     </div>
 </div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#Entity_AcceptedName').on('change', function () {
+            $('#placeholder-AcceptedName').html($(this).val());
+        });
+    });
+</script>

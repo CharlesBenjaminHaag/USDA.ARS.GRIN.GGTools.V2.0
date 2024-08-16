@@ -205,15 +205,8 @@
                     case "CodeValue":
                         Html.RenderAction("Component_MainSidebar", "CodeValue");
                         break;
-                    case "Folder":
-                        if (actionName == "Explorer")
-                        {
-                            Html.RenderAction("RenderSidebar", "Folder");
-                        }
-                        else
-                        {
-                            Html.RenderAction("RenderSidebar", "Taxonomy");
-                        }
+                    case "SysFolder":
+                        Html.RenderAction("RenderSidebar", "Taxonomy");
                         break;
                     case "Taxonomy":
                         Html.RenderAction("RenderSidebar", "Taxonomy");

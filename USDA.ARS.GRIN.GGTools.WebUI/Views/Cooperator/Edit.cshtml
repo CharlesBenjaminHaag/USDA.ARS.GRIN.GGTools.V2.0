@@ -287,10 +287,6 @@
             data: formData,
             success: function (response) {
                 $("#section-folder-confirmation").html(response);
-
-                //DEBUG
-                alert(window.location.href);
-
                 window.location.href = window.location.href;
             },
             error: function () {
@@ -307,9 +303,7 @@
     });
 
     function GetOwnershipList() {
-        /* TODO Make AJAX call to retrieve ownership list */
-        //DEBUG
-        alert("REFRESH OWN LIST");
+       
     }
 
     function TransferOwnership() {
