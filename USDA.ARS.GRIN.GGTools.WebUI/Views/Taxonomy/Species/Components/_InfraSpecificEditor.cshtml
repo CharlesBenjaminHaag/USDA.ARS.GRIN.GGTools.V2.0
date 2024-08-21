@@ -3,22 +3,7 @@
 {
     case "SUBSPECIES":
         <div class="col-md-4">
-            <div class="form-group">
-                <label>Authority</label>
-                <div class="input-group">
-                    @Html.TextBoxFor(x => x.Entity.SpeciesAuthority, new { @class = "form-control" })
-                    <span class="input-group-append">
-                        <button id="btnOpenAuthorityLookupModalSpecies"
-                                type="button"
-                                data-toggle="modal"
-                                data-target="#modal-author-lookup"
-                                data-ggtools-value="Entity_SpeciesAuthority"
-                                class="btn btn-default btn-flat">
-                            <i class="fa fa-search"></i>
-                        </button>
-                    </span>
-                </div>
-            </div>
+            @Html.Partial("~/Views/Taxonomy/Species/Components/_AuthorityEditorSpecies.cshtml")
         </div>
         <div class="col-md-6">
             <div class="form-group">
@@ -36,42 +21,12 @@
             </div>
         </div>
         <div class="col-md-6">
-            <div class="form-group">
-                <label>Subspecies Authority</label>
-                <div class="input-group">
-                    @Html.TextBoxFor(x => x.Entity.SubspeciesAuthority, new { @class = "form-control" })
-                    <span class="input-group-append">
-                        <button id="btnOpenAuthorityLookupModalSubspecies"
-                                type="button"
-                                data-toggle="modal"
-                                data-target="#modal-author-lookup"
-                                data-ggtools-value="Entity_SubspeciesAuthority"
-                                class="btn btn-default btn-flat">
-                            <i class="fa fa-search"></i>
-                        </button>
-                    </span>
-                </div>
-            </div>
+            @Html.Partial("~/Views/Taxonomy/Species/Components/_AuthorityEditorSubspecies.cshtml")
         </div>
         break;
     case "VARIETY":
         <div class="col-md-4">
-            <div class="form-group">
-                <label>Authority</label>
-                <div class="input-group">
-                    @Html.TextBoxFor(x => x.Entity.SpeciesAuthority, new { @class = "form-control" })
-                    <span class="input-group-append">
-                        <button id="btnOpenAuthorityLookupModalSpecies"
-                                type="button"
-                                @*data-toggle="modal"
-                                data-target="#modal-author-lookup"
-                                data-ggtools-value="Entity_SpeciesAuthority"*@
-                                class="btn btn-default btn-flat">
-                            <i class="fa fa-search"></i>
-                        </button>
-                    </span>
-                </div>
-            </div>
+            @Html.Partial("~/Views/Taxonomy/Species/Components/_AuthorityEditorForma.cshtml")
         </div>
         <div class="col-md-6">
             <div class="form-group">
@@ -82,22 +37,7 @@
             </div>
         </div>
         <div class="col-md-6">
-            <div class="form-group">
-                <label>Subspecies Authority</label>
-                <div class="input-group">
-                    @Html.TextBoxFor(x => x.Entity.SubspeciesAuthority, new { @class = "form-control" })
-                    <span class="input-group-append">
-                        <button type="button"
-                                id="btnOpenAuthorityLookupModalSubspecies"
-                                data-toggle="modal"
-                                data-target="#modal-author-lookup"
-                                class="btn btn-default btn-flat"
-                                data-ggtools-value="Entity_SubspeciesAuthority">
-                            <i class="fa fa-search"></i>
-                        </button>
-                    </span>
-                </div>
-            </div>
+            @Html.Partial("~/Views/Taxonomy/Species/Components/_AuthorityEditorSubspecies.cshtml")
         </div>
         <div class="col-md-6">
             <div class="form-group">
@@ -112,42 +52,12 @@
             </div>
         </div>
         <div class="col-md-6">
-            <div class="form-group">
-                <label>Variety Authority</label>
-                <div class="input-group">
-                    @Html.TextBoxFor(x => x.Entity.VarietyAuthority, new { @class = "form-control" })
-                    <span class="input-group-append">
-                        <button type="button"
-                                id="btnOpenAuthorityLookupModalVariety"
-                                data-toggle="modal"
-                                data-target="#modal-author-lookup"
-                                class="btn btn-default btn-flat"
-                                data-ggtools-value="Entity_VarietyAuthority">
-                            <i class="fa fa-search"></i>
-                        </button>
-                    </span>
-                </div>
-            </div>
+            @Html.Partial("~/Views/Taxonomy/Species/Components/_AuthorityEditorVariety.cshtml")
         </div>
         break;
     case "SUBVARIETY":
         <div class="col-md-4">
-            <div class="form-group">
-                <label>Authority</label>
-                <div class="input-group">
-                    @Html.TextBoxFor(x => x.Entity.SpeciesAuthority, new { @class = "form-control" })
-                    <span class="input-group-append">
-                        <button id="btnOpenAuthorityLookupModalSpecies"
-                                type="button"
-                                data-toggle="modal"
-                                data-target="#modal-author-lookup"
-                                data-ggtools-value="Entity_SpeciesAuthority"
-                                class="btn btn-default btn-flat">
-                            <i class="fa fa-search"></i>
-                        </button>
-                    </span>
-                </div>
-            </div>
+            @Html.Partial("~/Views/Taxonomy/Species/Components/_AuthorityEditorSubvariety.cshtml")
         </div>
         <div class="col-md-6">
             <div class="form-group">
@@ -158,49 +68,18 @@
             </div>
         </div>
         <div class="col-md-6">
-            <div class="form-group">
-                <label>Subspecies Authority</label>
-                <div class="input-group">
-                    @Html.TextBoxFor(x => x.Entity.SubspeciesAuthority, new { @class = "form-control" })
-                    <span class="input-group-append">
-                        <button type="button"
-                                id="btnOpenAuthorityLookupModalSubspecies"
-                                data-toggle="modal"
-                                data-target="#modal-author-lookup"
-                                class="btn btn-default btn-flat"
-                                data-ggtools-value="Entity_SubspeciesAuthority">
-                            <i class="fa fa-search"></i>
-                        </button>
-                    </span>
-                </div>
-            </div>
+            @Html.Partial("~/Views/Taxonomy/Species/Components/_AuthorityEditorSubspecies.cshtml")
         </div>
         <div class="col-md-6">
             <div class="form-group">
                 <label>Variety Name</label>
                 <div class="input-group">
                     @Html.TextBoxFor(x => x.Entity.VarietyName, new { @class = "form-control" })
-
                 </div>
             </div>
         </div>
         <div class="col-md-6">
-            <div class="form-group">
-                <label>Variety Authority</label>
-                <div class="input-group">
-                    @Html.TextBoxFor(x => x.Entity.VarietyAuthority, new { @class = "form-control" })
-                    <span class="input-group-append">
-                        <button type="button"
-                                id="btnOpenAuthorityLookupModalVariety"
-                                data-toggle="modal"
-                                data-target="#modal-author-lookup"
-                                class="btn btn-default btn-flat"
-                                data-ggtools-value="Entity_VarietyAuthority">
-                            <i class="fa fa-search"></i>
-                        </button>
-                    </span>
-                </div>
-            </div>
+            @Html.Partial("~/Views/Taxonomy/Species/Components/_AuthorityEditorForma.cshtml")
         </div>
         <div class="col-md-6">
             <div class="form-group">
@@ -215,42 +94,12 @@
             </div>
         </div>
         <div class="col-md-6">
-            <div class="form-group">
-                <label>Subvariety Authority</label>
-                <div class="input-group">
-                    @Html.TextBoxFor(x => x.Entity.SubvarietyAuthority, new { @class = "form-control" })
-                    <span class="input-group-append">
-                        <button id="btnOpenAuthorityLookupModalSubvariety"
-                                type="button"
-                                data-toggle="modal"
-                                data-target="#modal-author-lookup"
-                                data-ggtools-value="Entity_SubvarietyAuthority"
-                                class="btn btn-default btn-flat">
-                            <i class="fa fa-search"></i>
-                        </button>
-                    </span>
-                </div>
-            </div>
+            @Html.Partial("~/Views/Taxonomy/Species/Components/_AuthorityEditorSubvariety.cshtml")
         </div>
         break;
-    case "FORM":
+    case "FORMA":
         <div class="col-md-4">
-            <div class="form-group">
-                <label>Authority</label>
-                <div class="input-group">
-                    @Html.TextBoxFor(x => x.Entity.SpeciesAuthority, new { @class = "form-control" })
-                    <span class="input-group-append">
-                        <button id="btnOpenAuthorityLookupModalSpecies"
-                                type="button"
-                                data-toggle="modal"
-                                data-target="#modal-author-lookup"
-                                data-ggtools-value="Entity_SpeciesAuthority"
-                                class="btn btn-default btn-flat">
-                            <i class="fa fa-search"></i>
-                        </button>
-                    </span>
-                </div>
-            </div>
+            @Html.Partial("~/Views/Taxonomy/Species/Components/_AuthorityEditorSpecies.cshtml")
         </div>
         <div class="col-md-6">
             <div class="form-group">
@@ -261,22 +110,7 @@
             </div>
         </div>
         <div class="col-md-6">
-            <div class="form-group">
-                <label>Subspecies Authority</label>
-                <div class="input-group">
-                    @Html.TextBoxFor(x => x.Entity.SubspeciesAuthority, new { @class = "form-control" })
-                    <span class="input-group-append">
-                        <button type="button"
-                                id="btnOpenAuthorityLookupModalSubspecies"
-                                data-toggle="modal"
-                                data-target="#modal-author-lookup"
-                                class="btn btn-default btn-flat"
-                                data-ggtools-value="Entity_SubspeciesAuthority">
-                            <i class="fa fa-search"></i>
-                        </button>
-                    </span>
-                </div>
-            </div>
+            @Html.Partial("~/Views/Taxonomy/Species/Components/_AuthorityEditorSubspecies.cshtml")
         </div>
         <div class="col-md-6">
             <div class="form-group">
@@ -288,22 +122,7 @@
             </div>
         </div>
         <div class="col-md-6">
-            <div class="form-group">
-                <label>Variety Authority</label>
-                <div class="input-group">
-                    @Html.TextBoxFor(x => x.Entity.VarietyAuthority, new { @class = "form-control" })
-                    <span class="input-group-append">
-                        <button type="button"
-                                id="btnOpenAuthorityLookupModalVariety"
-                                data-toggle="modal"
-                                data-target="#modal-author-lookup"
-                                class="btn btn-default btn-flat"
-                                data-ggtools-value="Entity_VarietyAuthority">
-                            <i class="fa fa-search"></i>
-                        </button>
-                    </span>
-                </div>
-            </div>
+            @Html.Partial("~/Views/Taxonomy/Species/Components/_AuthorityEditorVariety.cshtml")
         </div>
         <div class="col-md-6">
             <div class="form-group">
@@ -314,22 +133,7 @@
             </div>
         </div>
         <div class="col-md-6">
-            <div class="form-group">
-                <label>Subvariety Authority</label>
-                <div class="input-group">
-                    @Html.TextBoxFor(x => x.Entity.SubvarietyAuthority, new { @class = "form-control" })
-                    <span class="input-group-append">
-                        <button id="btnOpenAuthorityLookupModalSubvariety"
-                                type="button"
-                                data-toggle="modal"
-                                data-target="#modal-author-lookup"
-                                data-ggtools-value="Entity_SubvarietyAuthority"
-                                class="btn btn-default btn-flat">
-                            <i class="fa fa-search"></i>
-                        </button>
-                    </span>
-                </div>
-            </div>
+            @Html.Partial("~/Views/Taxonomy/Species/Components/_AuthorityEditorSubvariety.cshtml")
         </div>
         <div class="col-md-6">
             <div class="form-group">
@@ -344,23 +148,7 @@
             </div>
         </div>
         <div class="col-md-6">
-            <div class="form-group">
-                <label>Forma Authority</label>
-                <div class="input-group">
-                    @Html.TextBoxFor(x => x.Entity.FormaAuthority, new { @class = "form-control" })
-                    <span class="input-group-append">
-                        <button id="btnOpenAuthorityLookupModal"
-                                type="button"
-                                data-toggle="modal"
-                                data-target="#modal-author-lookup"
-                                data-ggtools-value="Entity_FormaAuthority"
-                                data-ggtools-title="Forma Authority"
-                                class="btn btn-default btn-flat">
-                            <i class="fa fa-search"></i>
-                        </button>
-                    </span>
-                </div>
-            </div>
+            @Html.Partial("~/Views/Taxonomy/Species/Components/_AuthorityEditorForma.cshtml")
         </div>
         <div class="col-md-3">
             <div class="form-group">
@@ -371,23 +159,7 @@
         break;
     default:
         <div class="col-md-3">
-            <div class="form-group">
-                <label>Authority</label>
-                <div class="input-group">
-                    @Html.TextBoxFor(x => x.Entity.SpeciesAuthority, new { @class = "form-control" })
-                    <span class="input-group-append">
-                        <button id="btnOpenAuthorityLookupModalSpecies"
-                                type="button"
-                                data-toggle="modal"
-                                data-target="#modal-author-lookup"
-                                data-ggtools-value="Entity_SpeciesAuthority"
-                                data-ggtools-title="Species Authority"
-                                class="btn btn-default btn-flat">
-                            <i class="fa fa-search"></i>
-                        </button>
-                    </span>
-                </div>
-            </div>
+            @Html.Partial("~/Views/Taxonomy/Species/Components/_AuthorityEditorSpecies.cshtml")
         </div>
         break;
 }

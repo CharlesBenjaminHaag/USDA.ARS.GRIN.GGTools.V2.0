@@ -536,6 +536,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             SpeciesViewModel speciesViewModel = new SpeciesViewModel();
             speciesViewModel.TableName = "taxonomy_species";
             speciesViewModel.EventAction = "ADD";
+            speciesViewModel.Entity.ParentID = viewModel.ParentSpeciesID;
             speciesViewModel.EventValue = viewModel.SelectedRank;
             speciesViewModel.Entity.Name = parentSpeciesViewModel.Entity.Name;
             speciesViewModel.Entity.SpeciesName = parentSpeciesViewModel.Entity.SpeciesName;
@@ -1185,6 +1186,34 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
 
             viewModel.SearchProtologues(viewModel.SearchEntity.Protologue);
             return PartialView(partialViewName, viewModel);
+        }
+
+        #endregion
+
+        #region Components
+
+        public PartialViewResult Component_Widget(int speciesId)
+        {
+            SpeciesViewModel viewModel = new SpeciesViewModel();
+            viewModel.Get(speciesId);
+
+            try
+            {
+                if (speciesId > 0)
+                {
+                    viewModel.Get(speciesId);
+                    return PartialView("~/Views/Taxonomy/Species/Components/_Widget.cshtml", viewModel);
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
         }
 
         #endregion

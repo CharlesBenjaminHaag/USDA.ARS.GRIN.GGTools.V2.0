@@ -54,12 +54,12 @@
                         <tr>
                             @foreach (DataColumn rowCol in Model.DataCollectionDataTable.Columns)
                             {
-                                {
-                                    sysTableField = Model.GetColumnInfo(Model.TableName, rowCol.ColumnName);
-                                }
+                                //{
+                                //    sysTableField = Model.GetColumnInfo(Model.TableName, rowCol.ColumnName);
+                                //}
 
                                 <td>
-                                    @dr[rowCol.ColumnName] DEBUG @sysTableField
+                                    @dr[rowCol.ColumnName]  
                                 </td>
 
                                 

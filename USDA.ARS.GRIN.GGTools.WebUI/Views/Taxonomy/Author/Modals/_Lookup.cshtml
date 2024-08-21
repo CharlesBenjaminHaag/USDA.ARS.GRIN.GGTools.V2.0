@@ -106,8 +106,11 @@
         SearchAuthorityText();
     });
 
-    $("#btnOpenAuthorityLookupModal").click(function () {
-        OpenLookupModal("author", "Entity_FamilyAuthority","Entity_FamilyAuthority");
+    $(document).on("click", "[id*='btnOpenAuthorityLookupModal']", function () {
+        var id = $(this).attr("id");
+        var idField = $(this).data("ggtools-id-field");
+        var nameField = $(this).data("ggtools-name-field");
+        OpenLookupModal("author", idField, nameField);
     });
 
     function SearchAuthor() {
@@ -166,11 +169,7 @@
 
         $('#modal-author-lookup').modal('hide');
         var selectedAuthor = GetSelectedEntityText("data-table-author-lookup");
-
-        console.log("DEBUG Setting " + valueField + " to " + selectedAuthor);
-        console.log("DEBUG Setting " + displayField + " to " + selectedAuthor);
-
-        $("#" + valueField).val(selectedAuthor);
+        
         $("#" + displayField).val(selectedAuthor);
     });
    

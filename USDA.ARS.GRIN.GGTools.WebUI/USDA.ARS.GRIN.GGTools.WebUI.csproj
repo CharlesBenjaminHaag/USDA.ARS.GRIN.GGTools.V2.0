@@ -892,7 +892,6 @@
     <Content Include="Views\Accession\_Detail.cshtml" />
     <Content Include="Views\Accession\Edit.cshtml" />
     <Content Include="Views\Inventory\_List.cshtml" />
-    <Content Include="Views\Taxonomy\Species\_OBSOLETE\EditMultiple.cshtml" />
     <Content Include="Views\Import\_List2.cshtml" />
     <Content Include="Views\WebOrderRequest\Explorer\_Email.cshtml" />
     <Content Include="Views\WebOrderRequest\View.cshtml" />
@@ -1031,6 +1030,12 @@
     <Content Include="Views\GOBS\_ListDatasetMarkers - Copy %282%29.cshtml" />
     <Content Include="Views\GOBS\_ListDatasetMarkers - Copy %283%29.cshtml" />
     <Content Include="Views\GOBS\_ListDatasetMarkers - Copy %284%29.cshtml" />
+    <Content Include="Views\Taxonomy\Species\Components\_AuthorityEditorSpecies.cshtml" />
+    <Content Include="Views\Taxonomy\Species\Components\_AuthorityEditorSubspecies.cshtml" />
+    <Content Include="Views\Taxonomy\Species\Components\_AuthorityEditorForma.cshtml" />
+    <Content Include="Views\Taxonomy\Species\Components\_AuthorityEditorSubvariety.cshtml" />
+    <Content Include="Views\Taxonomy\Species\Components\_AuthorityEditorVariety.cshtml" />
+    <Content Include="Views\Taxonomy\Species\Components\_Widget.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -554,28 +554,28 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
                 Entity.GenusName = "X " + Entity.GenusName;
 
             // TODO SPEC NAME
-            //Entity.Name = Entity.GenusName + " " + Entity.SpeciesName;
+            Entity.Name = Entity.GenusName + " " + Entity.SpeciesName;
 
-            //if (Entity.IsSpecificHybrid == "Y")
-            //{
-            //    Entity.Name = "x " + Entity.SpeciesName;
-            //}
-            //if (Entity.IsSubspecificHybrid == "Y")
-            //{
-            //    Entity.Name = "x " + Entity.SubspeciesName;
-            //}
-            //if (Entity.IsVarietalHybrid == "Y")
-            //{
-            //    Entity.Name = "x " + Entity.VarietyName;
-            //}
-            //if (Entity.IsSubVarietalHybrid == "Y")
-            //{
-            //    Entity.Name = "x " + Entity.SubvarietyName;
-            //}
-            //if (Entity.IsFormaHybrid == "Y")
-            //{
-            //    Entity.Name = "x " + Entity.FormaName;
-            //}
+            if (Entity.IsSpecificHybrid == "Y")
+            {
+                Entity.Name = "x " + Entity.SpeciesName;
+            }
+            if (Entity.IsSubspecificHybrid == "Y")
+            {
+                Entity.Name = "x " + Entity.SubspeciesName;
+            }
+            if (Entity.IsVarietalHybrid == "Y")
+            {
+                Entity.Name = "x " + Entity.VarietyName;
+            }
+            if (Entity.IsSubVarietalHybrid == "Y")
+            {
+                Entity.Name = "x " + Entity.SubvarietyName;
+            }
+            if (Entity.IsFormaHybrid == "Y")
+            {
+                Entity.Name = "x " + Entity.FormaName;
+            }
 
             // Handle infraspecific names.
             if (!String.IsNullOrEmpty(Entity.FormaName))

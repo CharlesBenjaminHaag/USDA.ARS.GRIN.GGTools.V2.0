@@ -2,7 +2,7 @@
 * Name         : ggtools.js
 * Description  : Main JS application file for GGTools. This file
 *                should be included in all layout pages. 
-* Last Updated : 8/14/24
+* Last Updated : 8/21/24
 * By           : Benjamin Haag
 */
 
@@ -13,7 +13,7 @@
 $(document).on("click", "[id*='btnShowHideExtendedFields']", function () {
     var id = $(this).attr("id");
     var status = id.includes("On");
-    console.log("DEBUG BTN ID IS " + id + " STATUS IS " + status);
+    
     if (status == true) {
         $("#section-extended-search-fields-body").show();
         $("#btnShowHideExtendedFieldsOn").hide();
@@ -52,7 +52,7 @@ function OpenLookupModal(type, value_field, display_field) {
     var valueHiddenFieldName = modalName + "-value-field";
     var displayHiddenFieldName = modalName + "-display-field";
 
-    /*console.log("DEBUG modal is " + modalName + " id field is " + value_field + " name field is " + display_field);*/
+    console.log("DEBUG modal is " + modalName + " id field is " + value_field + " name field is " + display_field);
 
     $("#" + modalName).modal("show");
     $("#" + valueHiddenFieldName).val(value_field);

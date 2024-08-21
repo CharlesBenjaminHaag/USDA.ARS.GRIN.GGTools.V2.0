@@ -30,6 +30,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
                 codeValues.Add(new CodeValue { Value = "subspecies", Title = "Subspecies" });
                 codeValues.Add(new CodeValue { Value = "variety", Title = "Variety" });
                 codeValues.Add(new CodeValue { Value = "subvariety", Title = "Subvariety" });
+                codeValues.Add(new CodeValue { Value = "forma", Title = "Forma" });
                 return new SelectList(codeValues, "Value", "Title");
             }
         }
