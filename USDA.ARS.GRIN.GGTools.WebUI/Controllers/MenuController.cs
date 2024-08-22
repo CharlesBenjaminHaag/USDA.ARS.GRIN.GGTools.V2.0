@@ -42,20 +42,20 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
 
             if ((eventValue == "add") || (eventValue == "edit"))
             {
-                if ((eventAction == "Family") || (eventAction == "Genus") || (eventAction == "Species"))
+                if ((eventAction == "family") || (eventAction == "genus") || (eventAction == "species"))
                 {
                     // Load context-based menu for the current taxon type.
                     return PartialView("~/Views/Taxonomy/" + eventAction + "/Components/_EditMenu.cshtml", viewModel);
                 }
                 else
                 {
-                    if (eventAction == "Classification")
+                    if (eventAction == "classification")
                     {
                         return PartialView("~/Views/Taxonomy/Order/Components/_EditMenu.cshtml", viewModel);
                     }
                     else 
                     {
-                        if (eventAction == "SysFolder")
+                        if (eventAction == "sysfolder")
                         {
                             return PartialView("~/Views/Components/_DefaultMenu.cshtml");
                         }
@@ -66,7 +66,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                     }
                 }
             }
-            return null;
+            return PartialView("~/Views/Components/_DefaultMenu.cshtml");
         }
     }
 }

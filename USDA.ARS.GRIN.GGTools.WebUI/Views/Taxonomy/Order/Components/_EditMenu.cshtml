@@ -6,7 +6,7 @@
     @if (Model.EventValue == "Edit")
     {
         <li class="nav-item dropdown">
-            <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">New...</a>
+            <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Add Related Data</a>
             <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow">
                 <li><a href="@Url.Action("Add", "Classification")" class="dropdown-item">Classification </a></li>
                 <li><a href="@Url.Action("Add", "Family", new { @orderId = Model.EntityID })" class="dropdown-item">Family</a></li>
