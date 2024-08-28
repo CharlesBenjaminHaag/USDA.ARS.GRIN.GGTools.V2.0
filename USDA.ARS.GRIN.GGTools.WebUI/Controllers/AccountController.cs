@@ -262,6 +262,8 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                     sMTPMailMessage.To = result.EmailAddress;
                     sMTPMailMessage.Subject = emailTemplateViewModel.Entity.Subject;
                     sMTPMailMessage.Body = emailTemplateViewModel.Entity.Body;
+
+                    sMTPMailMessage.Body = sMTPMailMessage.Body.Replace("[ENVIRONMENT]", AppInfo.GetDatabase());
                     sMTPMailMessage.Body = sMTPMailMessage.Body.Replace("[FIRST_NAME]", sessionCooperatorViewModel.Entity.FirstName);
                     sMTPMailMessage.Body = sMTPMailMessage.Body.Replace("[LAST_NAME]", sessionCooperatorViewModel.Entity.LastName);
                     sMTPMailMessage.Body = sMTPMailMessage.Body.Replace("[EMAIL_ADDRESS]", sessionCooperatorViewModel.Entity.EmailAddress);

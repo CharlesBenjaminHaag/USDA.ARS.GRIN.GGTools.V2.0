@@ -11,7 +11,7 @@
         <div class="card-header">
             <h3 class="card-title">
                 <i class="far fas fa-table nav-icon"></i>
-                Step 1: Review Validation Results
+                Imported @Model.DataCollectionDataTable.Rows.Count Rows from file: <strong>@ViewBag.ImportFileName</strong>
             </h3>
             <div class="card-tools">
                 <button type="button" class="btn btn-tool" data-card-widget="collapse">
@@ -20,7 +20,7 @@
             </div>
         </div>
         <div class="card-body">
-            <table id="data_table_import" class="table table-striped" style="width:100%;">
+            <table id="data_table_import" class="table table-bordered" style="width:100%;">
                 <thead>
                     <tr>
                         @foreach (DataColumn col in Model.DataCollectionDataTable.Columns)
@@ -39,20 +39,23 @@
                         @foreach (DataColumn rowCol in Model.DataCollectionDataTable.Columns)
                         {
                             speciesDetailLink = dr[rowCol.ColumnName].ToString();
-                            if (rowCol.ColumnName == "MATCH_FOUND")
+                            if ((rowCol.ColumnName == "MATCH_GENUS") || (rowCol.ColumnName == "MATCH_SPECIES"))
                             {
-                                if (dr[rowCol.ColumnName].ToString() == "YES")
+                                if ((dr[rowCol.ColumnName].ToString() == "YES") || (dr[rowCol.ColumnName].ToString() == "Y"))
                                 {
                                     columnStyleMatchFoundIndicator = "text-align:center;background-color:green;color:white;";
                                     speciesDetailLink = dr[rowCol.ColumnName].ToString();
                                 }
                                 else
                                 {
-                                    if (dr[rowCol.ColumnName].ToString().Contains("similar"))
-
+                                    if ((dr[rowCol.ColumnName].ToString() == "NO") || (dr[rowCol.ColumnName].ToString() == "N"))
                                     {
                                         columnStyleMatchFoundIndicator = "text-align:center;background-color:red;color:white;";
-                                        speciesDetailLink = "<a id=species-selector-" + dr["ID"].ToString() +" href=# data-ggtools-genus='" + dr["TAXONOMY_GENUS"].ToString() + "' data-ggtools-species='" + dr["TAXONOMY_SPECIES"].ToString() + "' class='species-name-selector' style='color:white;'>" + dr[rowCol.ColumnName].ToString() + "</a>";
+                                        speciesDetailLink = "<a id=species-selector href=# data-ggtools-genus='" + dr["TAXONOMY_GENUS"].ToString() + "' data-ggtools-species='" + dr["TAXONOMY_SPECIES"].ToString() + "' class='species-name-selector' style='color:white;'>" + dr[rowCol.ColumnName].ToString() + "</a>";
+                                    }
+                                    else
+                                    {
+                                        columnStyleMatchFoundIndicator = "text-align:center;background-color:transparent;color:white;";
                                     }
                                 }
                             }

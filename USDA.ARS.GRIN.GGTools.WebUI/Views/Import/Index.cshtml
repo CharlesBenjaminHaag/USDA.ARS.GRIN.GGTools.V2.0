@@ -7,12 +7,12 @@
 }
 
 <div class="row">
-    <div class="col-md-3">
-        @using (Html.BeginForm("LoadFileDefinition", "Import", FormMethod.Post, new { id = "frmEdit", enctype = "multipart/form-data" }))
+    <div class="col-md-12">
+        @using (Html.BeginForm("ImportFile", "Import", FormMethod.Post, new { id = "frmEdit", value = ViewBag.ImportFileName, enctype = "multipart/form-data" }))
         {
             <div class="card card-primary card-outline">
                 <div class="card-header">
-                    <h3 class="card-title">1. Load Import File</h3>
+                    <h3 class="card-title">Load Import File</h3>
                     <div class="card-tools">
                         <button type="button" class="btn btn-tool" data-card-widget="collapse">
                             <i class="fas fa-minus"></i>
@@ -25,59 +25,15 @@
                         <label>Select Source File (.xls)</label>
                         @Html.TextBoxFor(x => x.DocumentUpload, new { @class = "form-control", @type = "file", @value = Model.ImportFileName })
                     </div>
-                    
 
-                    
+
+
                 </div>
                 <div class="card-footer">
-                    <button id="btnLoadFileDefinition" class="btn btn-default btn-block btn-flat">Load File Definition</button>
+                    <button id="btnLoadDataFile" type="submit" class="btn btn-default float-right btn-flat">Load Data File</button>
                 </div>
             </div>
         }
-            <div class="card card-primary card-outline">
-                <div class="card-header">
-                    <h3 class="card-title">2. Select Fields</h3>
-                </div>
-                <div class="card-body">
-                    <div id="section-file-definition">
-                        @foreach (var result in Model.DataCollectionFields)
-                        {
-                            <div class="form-group">
-                                <div class="input-group">
-                                    <input type="text" class="form-control" value="@result.Value" readonly="readonly" />
-                                    <div class="input-group-append">
-                                        <span class="input-group-text" style="background-color:white;">
-                                            <input type="checkbox" capture checked="checked" />
-                                            &nbsp;
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                        }
-                    </div>
-                </div>
-                <div class="card-footer">
-                    <button id="btnImportFile" class="btn btn-default btn-block btn-flat">Import File</button>
-                </div>
-            </div>
-        </div>
-    <div class="col-md-9">
-            <div class="card card-primary">
-                <div class="card-header">
-                    <h3 class="card-title">Import</h3>
-                    <div class="card-tools">
-                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                            <i class="fas fa-minus"></i>
-                        </button>
-                    </div>
-                </div>
-                <div class="card-body">
-                    
-                </div>
-                <div class="card-footer">
-                    <button type="submit" class="btn btn-default">Begin Import</button>
-                </div>
-            </div>
     </div>
 </div>
 
@@ -280,11 +236,11 @@
         });
     }
 
-    function ImportFile() {
+    @*function ImportFile() {
         var link = '@Url.Action("ImportFile","Import")';
         var formData = new FormData();
 
-        var 
+        var
 
         $.ajax({
             url: link,
@@ -301,7 +257,7 @@
             }
         });
 
-    }
+    }*@
 
     function HandleError(message) {
         $("#section-error").show();

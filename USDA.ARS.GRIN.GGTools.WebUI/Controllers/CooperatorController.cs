@@ -303,6 +303,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
 
                     // Replace substitution variables with values from cooperator data
                     // fields.
+                    requestorEmailMessage.Body = requestorEmailMessage.Body.Replace("[ENVIRONMENT]", AppInfo.GetDatabase());
                     requestorEmailMessage.Body = requestorEmailMessage.Body.Replace("[FIRST_NAME]", cooperatorViewModel.Entity.FirstName);
                     requestorEmailMessage.Body = requestorEmailMessage.Body.Replace("[LAST_NAME]", cooperatorViewModel.Entity.LastName);
                     requestorEmailMessage.Body = requestorEmailMessage.Body.Replace("[CURATOR_TOOL_USER_NAME]", sysUserViewModel.Entity.SysUserName);

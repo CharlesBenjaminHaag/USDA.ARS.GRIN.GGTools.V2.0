@@ -167,6 +167,22 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
             }
         }
 
+        public List<Species> SearchNames(int genusId, string speciesName)
+        {
+            try
+            {
+                using (SpeciesManager mgr = new SpeciesManager())
+                {
+                    return mgr.SearchNames(genusId, speciesName);
+                }
+            }
+            catch (Exception ex)
+            {
+                PublishException(ex);
+                throw ex;
+            }
+        }
+
         public void RunSearch(int appUserItemFolderId)
         {
             AppUserItemListViewModel appUserItemListViewModel = new AppUserItemListViewModel();

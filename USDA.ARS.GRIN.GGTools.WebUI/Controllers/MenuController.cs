@@ -18,6 +18,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
         public PartialViewResult GetMenu(string eventAction, string eventValue, int entityId = 0)
         {
             MenuViewModel viewModel = new MenuViewModel();
+            string viewName = "~/Views/Components/_DefaultMenu.cshtml"; 
             viewModel.EntityID = entityId;
             viewModel.EventAction = eventAction;
             viewModel.EventValue = eventValue;
@@ -25,48 +26,53 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             eventAction = eventAction.ToLower();
             eventValue = eventValue.ToLower();
 
-            if ((eventAction == "home") && (eventValue == "index"))
-            {
-                return PartialView("~/Views/Components/_DefaultMenu.cshtml");
-            }
-
-            if ((eventAction == "taxonomy") && (eventValue == "index"))
-            {
-                return PartialView("~/Views/Components/_DefaultMenu.cshtml");
-            }
-
+            // Handle "Index" (home) pages
             if (eventValue == "index")
             {
-                return PartialView("~/Views/Components/_DefaultSearchMenu.cshtml", viewModel);
+                switch (eventAction)
+                {
+                    case "home":
+                    case "taxonomy":
+                        viewName = "~/Views/Components/_DefaultMenu.cshtml";
+                        break;
+                    case "species":
+                        viewName = "~/Views/Taxonomy/Species/Components/_SearchMenu.cshtml";
+                        break;
+                    default:
+                        viewName = "~/Views/Components/_DefaultSearchMenu.cshtml";
+                        break;
+                }
             }
+
+
 
             if ((eventValue == "add") || (eventValue == "edit"))
             {
                 if ((eventAction == "family") || (eventAction == "genus") || (eventAction == "species"))
                 {
                     // Load context-based menu for the current taxon type.
-                    return PartialView("~/Views/Taxonomy/" + eventAction + "/Components/_EditMenu.cshtml", viewModel);
+                    viewName = "~/Views/Taxonomy/" + eventAction + "/Components/_EditMenu.cshtml";
                 }
                 else
                 {
                     if (eventAction == "classification")
                     {
-                        return PartialView("~/Views/Taxonomy/Order/Components/_EditMenu.cshtml", viewModel);
+                        viewName = "~/Views/Taxonomy/Order/Components/_EditMenu.cshtml";
                     }
                     else 
                     {
                         if (eventAction == "sysfolder")
                         {
-                            return PartialView("~/Views/Components/_DefaultMenu.cshtml");
+                            viewName = "~/Views/Components/_DefaultMenu.cshtml";
                         }
                         else
                         {
-                            return PartialView("~/Views/Components/_DefaultEditMenu.cshtml", viewModel);
+                            viewName = "~/Views/Components/_DefaultEditMenu.cshtml";
                         }
                     }
                 }
             }
-            return PartialView("~/Views/Components/_DefaultMenu.cshtml");
+            return PartialView(viewName, viewModel);
         }
     }
 }

@@ -257,6 +257,20 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             return results;
         }
 
+        public List<Species> SearchNames(int genusId, string speciesName)
+        {
+            SQL = "usp_GRINGlobal_Taxonomy_Species_Matches_Select";
+            List<Species> speciesList = new List<Species>();
+
+            var parameters = new List<IDbDataParameter> {
+                CreateParameter("taxonomy_genus_id", (object)genusId, false),
+                CreateParameter("species_name", (object)speciesName, false),
+            };
+
+            speciesList = GetRecords<Species>(SQL, CommandType.StoredProcedure, parameters.ToArray());
+            return speciesList;
+        }
+
         public List<Species> GetFolderItems(SpeciesSearch searchEntity)
         {
             List<Species> results = new List<Species>();
