@@ -43,7 +43,6 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             }
         }
 
-
         public ActionResult Get(int entityId)
         {
             try
@@ -363,7 +362,22 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 return PartialView("~/Views/Error/_InternalServerError.cshtml");
             }
         }
-        
+
+        public PartialViewResult _ListAppUserGUISettings(int cooperatorId)
+        {
+            try 
+            {
+                CooperatorViewModel viewModel = new CooperatorViewModel();
+                viewModel.GetAppUserGUISettings(cooperatorId);
+                return PartialView("~/Views/Cooperator/_ListAppUserGUISettings.cshtml",viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
+        }
+
         public PartialViewResult RenderSiteCuratorListWidget(int siteId)
         {
             try

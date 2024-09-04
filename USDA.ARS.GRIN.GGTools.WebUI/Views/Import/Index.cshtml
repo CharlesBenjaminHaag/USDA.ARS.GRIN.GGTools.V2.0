@@ -106,7 +106,7 @@
                     {
                         text: 'Import Selected Rows',
                         action: function (e, dt, node, config) {
-                            OpenFolderModal();
+                            ImportSelectedRows();
                         }
                     }
                 ],
@@ -144,6 +144,19 @@
             //    ShowResultsModal(data[1], data[2]);
             //});
         });
+    }
+
+    function ImportSelectedSpeciesRecords() {
+
+    }
+
+    function GetSelectedSpeciesRecords(tableName) {
+        var table = $('#' + tableName).DataTable();
+        var ids = $.map(table.rows('.selected').data(), function (item) {
+            return item[3]
+        });
+        console.log(ids)
+        return ids;
     }
 
     function GetFieldNames() {

@@ -7,6 +7,7 @@ using System.Configuration;
 using USDA.ARS.GRIN.Common.DataLayer;
 using USDA.ARS.GRIN.GGTools.AppLayer;
 using USDA.ARS.GRIN.GGTools.DataLayer;
+using USDA.ARS.GRIN.GGTools.DataLayer.EntityClasses;
 
 namespace USDA.ARS.GRIN.GGTools.DataLayer
 {
@@ -237,6 +238,18 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             };
             groups = GetRecords<SysGroup>(SQL, parameters.ToArray());
             return groups;
+        }
+
+        public List<AppUserGUISetting> GetAppUserGUISettings(int cooperatorId)
+        {
+            List<AppUserGUISetting> appUserGuiSettings = new List<AppUserGUISetting>();
+            SQL = "SELECT * FROM app_user_gui_setting " +
+                " WHERE cooperator_id = @CooperatorID";
+            var parameters = new List<IDbDataParameter> {
+                CreateParameter("CooperatorID", cooperatorId, true),
+            };
+            appUserGuiSettings = GetRecords<AppUserGUISetting>(SQL, parameters.ToArray());
+            return appUserGuiSettings;
         }
 
         public List<State> GetStates()

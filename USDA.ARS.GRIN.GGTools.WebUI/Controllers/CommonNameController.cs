@@ -257,6 +257,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             viewModel.Search();
             return PartialView(BASE_PATH + "_List.cshtml", viewModel);
         }
+        
         public PartialViewResult _ListFolderItems(int sysFolderId)
         {
             CommonNameViewModel viewModel = new CommonNameViewModel();
@@ -273,6 +274,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 return PartialView("~/Views/Error/_InternalServerError.cshtml");
             }
         }
+        
         public PartialViewResult _ListDynamicFolderItems(int folderId)
         {
             try
@@ -287,6 +289,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 return PartialView("~/Views/Error/_InternalServerError.cshtml");
             }
         }
+        
         public PartialViewResult RenderEditModal(int genusId = 0, int speciesId = 0)
         {
             try

@@ -246,7 +246,8 @@
     });
 
     function BatchDeleteFolderItems() {
-        var selectedFolderItems = GetSelectedAppUserItemListIDs("data_table_sys_folder");
+        var folderItemTableId = GetFolderItemTable();
+        var selectedFolderItems = GetSelectedAppUserItemListIDs(folderItemTableId);
         $("#ItemIDList").val(selectedFolderItems);
         $("#section-item-count").html(selectedFolderItems.length);
         $("#modal-folder-item-delete-confirm").modal("show");
@@ -338,6 +339,13 @@
                 alert("Error loading folder-sharing widget");
             }
         });
+    }
+
+    function GetFolderItemTable() {
+        var tableId = $('div#tab-content-items').find('table:first').attr('id');
+        //DEBUG
+        console.log("TABLE ID IS " + tableId);
+        return tableId;
     }
 </script>
 

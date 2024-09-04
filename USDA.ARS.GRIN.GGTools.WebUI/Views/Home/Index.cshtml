@@ -3,14 +3,78 @@
     ViewBag.Title = "My GGTools";
     Layout = "~/Views/Shared/_LayoutAdminLTE3.cshtml";
 }
-
 <div class="row">
     <div class="col-md-3">
         @{Html.RenderAction("RenderWidget", "SysUser", new { sysUserId = Model.SysUserID }); }
         @{Html.RenderAction("RenderWidget", "Cooperator", new { cooperatorId = Model.CooperatorID }); }
     </div>
     <div class="col-md-9">
-        <div class="card card-success card-tabs">
+
+        <div id="accordion">
+            <div class="card card-success">
+                <div class="card-header bg-success">
+                    <h4 class="card-title w-100">
+                        <a class="d-block w-100 collapsed" data-toggle="collapse" href="#collapseOne" style="color:white;" aria-expanded="false">
+                            <i class="fas fa-leaf"></i> Taxonomy
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapseOne" class="collapse" data-parent="#accordion" style="">
+                    <div class="card-body">
+                        <a class="btn btn-app">
+                            <i class="fas fa-plus"></i> Add a new Species
+                        </a>
+                        <a class="btn btn-app">
+                            <i class="fas fa-search"></i>Search Species
+                        </a>
+                        <a class="btn btn-app">
+                            <i class="fas fa-list"></i> Bulk-Import Species
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="card card-default " >
+                <div class="card-header bg-purple">
+                    <h4 class="card-title w-100">
+                        <a class="d-block w-100 collapsed" data-toggle="collapse" href="#collapseTwo" style="color:white;" aria-expanded="false">
+                            <i class="fas fa-users"></i> Manage Curators and User Access
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapseTwo" class="collapse" data-parent="#accordion" style="">
+                    <div class="card-body">
+                        <a class="btn btn-app">
+                            <i class="fas fa-plus"></i> Add a new user
+                        </a>
+                        <a class="btn btn-app">
+                            <i class="fas fa-search"></i>Search curators
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="card card-default ">
+                <div class="card-header bg-blue">
+                    <h4 class="card-title w-100">
+                        <a class="d-block w-100" data-toggle="collapse" href="#collapseThree" style="color:white;" aria-expanded="true">
+                            <i class="fas fa-shopping-cart"></i> NRR Review and Order Tracking
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapseThree" class="collapse show" data-parent="#accordion" style="">
+                    <div class="card-body">
+                        <a class="btn btn-app">
+                            <i class="fas fa-plus"></i> View Orders
+                        </a>
+                        <a class="btn btn-app">
+                            <i class="fas fa-search"></i>Search
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="card card-primary card-tabs">
             <div class="card-header p-0 pt-1">
                 <ul class="nav nav-tabs" id="custom-tabs-two-tab" role="tablist">
                     <li class="pt-2 px-3"><h3 class="card-title">Workspaces</h3></li>

@@ -76,10 +76,16 @@
             autoFill: {
                 editor: editor
             },
+            //RE-ENABLE ONCE DONE (CBH 9/4/24)
             //buttons: [
-            //    { extend: 'create', editor: editor },
-            //    { extend: 'edit', editor: editor },
-            //    { extend: 'remove', editor: editor }
+            //    {
+            //        extend: 'createInline',
+            //        editor: editor,
+            //        formOptions: {
+            //            submitTrigger: -2,
+            //            submitHtml: '<i class="fa fa-play"/>'
+            //        }
+            //    }
             //],
             columns: [
                 {
@@ -135,6 +141,25 @@
                 onBlur: 'submit'
             });
         });
+
+        function addBlankRows(count) {
+            
+
+            let newRecords = [
+                { "name": "Alice Johnson", "position": "Manager", "age": 40 },
+                { "name": "Bob Brown", "position": "Developer", "age": 29 }
+            ];
+
+            // Add new records to the Editor
+            editor.add(newRecords)
+                .submit()
+                .then(function () {
+                    console.log('New records added successfully!');
+                })
+                .catch(function (err) {
+                    console.error('Error adding records:', err);
+                });
+        }
 
     });
 </script>

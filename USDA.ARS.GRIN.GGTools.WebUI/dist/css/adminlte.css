@@ -26793,41 +26793,41 @@ body.text-sm .input-group-text {
   color: #fff;
 }
 
-.card-success:not(.card-outline) > .card-header {
+.card-primary:not(.card-outline) > .card-header {
   background-color: #008000;
 }
 
-.card-success:not(.card-outline) > .card-header,
-.card-success:not(.card-outline) > .card-header a {
+.card-primary:not(.card-outline) > .card-header,
+.card-primary:not(.card-outline) > .card-header a {
   color: #fff;
 }
 
-.card-success:not(.card-outline) > .card-header a.active {
+.card-primary:not(.card-outline) > .card-header a.active {
   color: #1f2d3d;
 }
 
-.card-success.card-outline {
+.card-primary.card-outline {
   border-top: 3px solid #008000;
 }
 
-.card-success.card-outline-tabs > .card-header a:hover {
+.card-primary.card-outline-tabs > .card-header a:hover {
   border-top: 3px solid #dee2e6;
 }
 
-.card-success.card-outline-tabs > .card-header a.active,
-.card-success.card-outline-tabs > .card-header a.active:hover {
+.card-primary.card-outline-tabs > .card-header a.active,
+.card-primary.card-outline-tabs > .card-header a.active:hover {
   border-top: 3px solid #008000;
 }
 
 .bg-success > .card-header .btn-tool,
 .bg-gradient-success > .card-header .btn-tool,
-.card-success:not(.card-outline) > .card-header .btn-tool {
+.card-primary:not(.card-outline) > .card-header .btn-tool {
   color: rgba(255, 255, 255, 0.8);
 }
 
 .bg-success > .card-header .btn-tool:hover,
 .bg-gradient-success > .card-header .btn-tool:hover,
-.card-success:not(.card-outline) > .card-header .btn-tool:hover {
+.card-primary:not(.card-outline) > .card-header .btn-tool:hover {
   color: #fff;
 }
 
@@ -29231,41 +29231,41 @@ html.maximized-card {
   color: #fff;
 }
 
-.dark-mode .card-success:not(.card-outline) > .card-header {
+.dark-mode .card-primary:not(.card-outline) > .card-header {
   background-color: #00bc8c;
 }
 
-.dark-mode .card-success:not(.card-outline) > .card-header,
-.dark-mode .card-success:not(.card-outline) > .card-header a {
+.dark-mode .card-primary:not(.card-outline) > .card-header,
+.dark-mode .card-primary:not(.card-outline) > .card-header a {
   color: #fff;
 }
 
-.dark-mode .card-success:not(.card-outline) > .card-header a.active {
+.dark-mode .card-primary:not(.card-outline) > .card-header a.active {
   color: #1f2d3d;
 }
 
-.dark-mode .card-success.card-outline {
+.dark-mode .card-primary.card-outline {
   border-top: 3px solid #00bc8c;
 }
 
-.dark-mode .card-success.card-outline-tabs > .card-header a:hover {
+.dark-mode .card-primary.card-outline-tabs > .card-header a:hover {
   border-top: 3px solid #dee2e6;
 }
 
-.dark-mode .card-success.card-outline-tabs > .card-header a.active,
-.dark-mode .card-success.card-outline-tabs > .card-header a.active:hover {
+.dark-mode .card-primary.card-outline-tabs > .card-header a.active,
+.dark-mode .card-primary.card-outline-tabs > .card-header a.active:hover {
   border-top: 3px solid #00bc8c;
 }
 
 .dark-mode .bg-success > .card-header .btn-tool,
 .dark-mode .bg-gradient-success > .card-header .btn-tool,
-.dark-mode .card-success:not(.card-outline) > .card-header .btn-tool {
+.dark-mode .card-primary:not(.card-outline) > .card-header .btn-tool {
   color: rgba(255, 255, 255, 0.8);
 }
 
 .dark-mode .bg-success > .card-header .btn-tool:hover,
 .dark-mode .bg-gradient-success > .card-header .btn-tool:hover,
-.dark-mode .card-success:not(.card-outline) > .card-header .btn-tool:hover {
+.dark-mode .card-primary:not(.card-outline) > .card-header .btn-tool:hover {
   color: #fff;
 }
 

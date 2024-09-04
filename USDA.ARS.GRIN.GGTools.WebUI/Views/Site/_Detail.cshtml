@@ -1,10 +1,10 @@
-﻿@model USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer.CodeValueViewModelBase
+﻿@model USDA.ARS.GRIN.GGTools.ViewModelLayer.SiteViewModelBase
 
 <div id="section-controls" class="box box-default collapsed-box" style="border:none;">
     <div class="box-header">
         <div class="mailbox-controls">
             <div class="btn-group">
-                <a href="@Url.Action("Add","CodeValue")" class="btn btn-default"><i class="fa fa-plus"></i></a>
+                <a href="@Url.Action("Add","Site")" class="btn btn-default"><i class="fa fa-plus"></i></a>
                 <button type="button" id="btnSelectAll" class="btn btn-default">
                     <i class="fa fa-check"></i>
                 </button>
@@ -34,25 +34,21 @@
             <div class="col-md-2">
                 <div class="form-group form-horizontal">
                     <label>Group</label>
-                    @Html.DropDownListFor(x => x.SearchEntity.GroupName, Model.Groups, "Any Groups", new { @class = "form-control" })
                 </div>
             </div>
             <div class="col-md-3">
                 <div class="form-group form-horizontal">
                     <label>Code</label>
-                    @Html.TextBoxFor(x => x.SearchEntity.Value, new { @class = "form-control" })
                 </div>
             </div>
             <div class="col-md-3">
                 <div class="form-group form-horizontal">
                     <label>Title</label>
-                    @Html.TextBoxFor(x => x.SearchEntity.Title, new { @class = "form-control" })
                 </div>
             </div>
             <div class="col-md-3">
                 <div class="form-group form-horizontal">
                     <label>Description</label>
-                    @Html.TextBoxFor(x => x.SearchEntity.Description, new { @class = "form-control" })
                 </div>
             </div>
         </div>

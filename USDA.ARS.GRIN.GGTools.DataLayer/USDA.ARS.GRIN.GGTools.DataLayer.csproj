@@ -67,6 +67,7 @@
     <Compile Include="EntityClasses\AccessionMCPD.cs" />
     <Compile Include="EntityClasses\AccessionInvAnnotationSearch.cs" />
     <Compile Include="EntityClasses\AccessionInvAnnotation.cs" />
+    <Compile Include="EntityClasses\AppUserGUISetting.cs" />
     <Compile Include="EntityClasses\FamilySearch.cs" />
     <Compile Include="EntityClasses\Family.cs" />
     <Compile Include="EntityClasses\SpeciesMatch.cs" />

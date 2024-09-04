@@ -36,21 +36,21 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             List<CooperatorMap> results = new List<CooperatorMap>();
                 
             SQL = " SELECT * FROM vw_GRINGlobal_Cooperator_Map";
-            SQL += " WHERE (@ID                     IS NULL     OR ID                       =       @ID)";
-            SQL += " AND (@CooperatorName           IS NULL     OR CooperatorName           LIKE    '%' + @CooperatorName + '%')";
-            SQL += " AND (@GroupTag                 IS NULL     OR GroupTag                 LIKE    '%' + @GroupTag + '%')";
-            SQL += " AND (@CreatedByCooperatorID    IS NULL     OR CreatedByCooperatorID    =       @CreatedByCooperatorID)";
-            SQL += " AND (@ModifiedByCooperatorID   IS NULL     OR ModifiedByCooperatorID   =       @ModifiedByCooperatorID)";
-            SQL += " AND (@OwnedByCooperatorID      IS NULL     OR OwnedByCooperatorID      =       @OwnedByCooperatorID)";
-            SQL += " ORDER BY CooperatorName, GroupTag";
+            SQL += " WHERE  (@CooperatorGroupID         IS NULL     OR CooperatorGroupID        =       @CooperatorGroupID)";
+            SQL += " AND    (@CooperatorID              IS NULL     OR CooperatorID             =       @CooperatorID)";
+            SQL += " AND    (@CooperatorName            IS NULL     OR CooperatorName           LIKE    '%' + @CooperatorName + '%')";
+            SQL += " AND    (@GroupTag                  IS NULL     OR GroupTag                 LIKE    '%' + @GroupTag + '%')";
+            SQL += " AND    (@CreatedByCooperatorID     IS NULL     OR CreatedByCooperatorID    =       @CreatedByCooperatorID)";
+            SQL += " AND    (@ModifiedByCooperatorID    IS NULL     OR ModifiedByCooperatorID   =       @ModifiedByCooperatorID)";
+            SQL += " ORDER BY GroupTag";
 
             var parameters = new List<IDbDataParameter> {
-                CreateParameter("ID", searchEntity.ID > 0 ? (object)searchEntity.ID : DBNull.Value, true),
+                CreateParameter("CooperatorGroupID", searchEntity.CooperatorGroupID > 0 ? (object)searchEntity.CooperatorGroupID : DBNull.Value, true),
+                CreateParameter("CooperatorID", searchEntity.CooperatorID > 0 ? (object)searchEntity.CooperatorID : DBNull.Value, true),
                 CreateParameter("CooperatorName", (object)searchEntity.CooperatorName ?? DBNull.Value, true),
                 CreateParameter("GroupTag", (object)searchEntity.GroupTag ?? DBNull.Value, true),
                 CreateParameter("CreatedByCooperatorID", searchEntity.CreatedByCooperatorID > 0 ? (object)searchEntity.CreatedByCooperatorID : DBNull.Value, true),
                 CreateParameter("ModifiedByCooperatorID", searchEntity.ModifiedByCooperatorID > 0 ? (object)searchEntity.ModifiedByCooperatorID : DBNull.Value, true),                
-                CreateParameter("OwnedByCooperatorID", searchEntity.OwnedByCooperatorID > 0 ? (object)searchEntity.OwnedByCooperatorID : DBNull.Value, true),                
             };
 
             results = GetRecords<CooperatorMap>(SQL, parameters.ToArray());

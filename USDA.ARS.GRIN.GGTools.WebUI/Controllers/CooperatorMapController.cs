@@ -6,9 +6,26 @@ using USDA.ARS.GRIN.GGTools.ViewModelLayer;
 namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
 {
     [GrinGlobalAuthentication]
-    public class CooperatorMapController : BaseController, IController<CooperatorMapViewModel>
+    public class CooperatorMapController : BaseController
     {
         private static readonly Logger Log = LogManager.GetCurrentClassLogger();
+
+        public PartialViewResult _List(int cooperatorId = 0)
+        {
+            CooperatorMapViewModel viewModel = new CooperatorMapViewModel();
+
+            try
+            {
+                viewModel.SearchEntity.CooperatorID = cooperatorId;
+                viewModel.Search();
+                return PartialView("~/Views/CooperatorMap/_List.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
+        }
 
         public ActionResult Delete(FormCollection formCollection)
         {
@@ -43,6 +60,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 return RedirectToAction("InternalServerError", "Error");
             }
         }
+        
         [HttpPost]
         public ActionResult Search(CooperatorMapViewModel viewModel)
         {

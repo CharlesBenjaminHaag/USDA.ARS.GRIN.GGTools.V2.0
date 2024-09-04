@@ -1,18 +1,18 @@
-﻿@model USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer.CodeValueViewModel
+﻿@model USDA.ARS.GRIN.GGTools.ViewModelLayer.SiteViewModel
 @{
-    ViewBag.Title = "Code Value Search";
-    Layout = "~/Views/Shared/_LayoutAdminLTE.cshtml";
+    ViewBag.Title = "Site Search";
+    Layout = "~/Views/Shared/_LayoutAdminLTE3.cshtml";
 }
 
 @Html.Partial("~/Views/Shared/_UnderConstruction.cshtml")
 
-@using (Html.BeginForm("Search", "CodeValue", FormMethod.Post, new { id = "frmMain" }))
+@using (Html.BeginForm("Search", "Site", FormMethod.Post, new { id = "frmMain" }))
 {
     <div class="box box-default">
         <div class="box-body" style="border:none;">
-            @Html.Partial("~/Views/CodeValue/_Detail.cshtml")
+            @Html.Partial("~/Views/Site/_Detail.cshtml")
             <div id="section-species-data">
-                @Html.Partial("~/Views/CodeValue/_List.cshtml")
+                @Html.Partial("~/Views/Site/_List.cshtml")
             </div>
             <div class="box-footer no-padding">
             </div>

@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Data;
 using System.Linq;
 using System.Web.Mvc;
 using USDA.ARS.GRIN.Common.Library.Email;
 using USDA.ARS.GRIN.GGTools.DataLayer;
+using USDA.ARS.GRIN.GGTools.DataLayer.EntityClasses;
 
 namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
 {
@@ -58,6 +60,15 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
                 }
             }
         }
+
+        public void GetAppUserGUISettings(int cooperatorId)
+        {
+            using (CooperatorManager manager = new CooperatorManager())
+            {
+                DataCollectionAppUserGUISettings = new Collection<AppUserGUISetting>(manager.GetAppUserGUISettings(cooperatorId));
+            }
+        }
+
         public void GetBySysGroup(string sysGroupTag)
         {
             using (CooperatorManager mgr = new CooperatorManager())
