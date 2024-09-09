@@ -59,8 +59,18 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
         public ActionResult Edit(int entityId)
         {
             SiteViewModel viewModel = new SiteViewModel();
-            viewModel.Get(entityId);
-            return View(viewModel);
+            
+            try 
+            { 
+                viewModel.AuthenticatedUser = AuthenticatedUser;
+                viewModel.Get(entityId);
+                return View(viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return RedirectToAction("InternalServerError", "Error");
+            }
         }
 
         [HttpPost]
@@ -111,10 +121,18 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
         public ActionResult Index()
         {
             SiteViewModel viewModel = new SiteViewModel();
-            viewModel.PageTitle = "Site Search";
-            viewModel.TableName = "site";
-            viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
-            return View(viewModel);
+            try 
+            { 
+                viewModel.PageTitle = "Site Search";
+                viewModel.TableName = "site";
+                viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
+                return View(viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return RedirectToAction("InternalServerError", "Error");
+            }
         }
 
         [HttpPost]
@@ -184,5 +202,24 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
         {
             throw new NotImplementedException();
         }
+
+        #region Components
+
+        public PartialViewResult Component_SiteCuratorList(int siteId)
+        {
+            SiteViewModel viewModel = new SiteViewModel();
+            try
+            {
+                viewModel.GetSiteCurators(siteId);
+                return PartialView("~/Views/Cooperator/_SiteCuratorListWidget.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
+        }
+
+        #endregion
     }
 }

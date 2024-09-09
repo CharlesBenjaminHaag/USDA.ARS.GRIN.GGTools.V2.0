@@ -17,6 +17,12 @@ namespace USDA.ARS.GRIN.GGTools.WebUI
             return pageTitle;
         }
 
+        public static string GetPublicWebsiteURL()
+        {
+            string publicWebsiteUrl = System.Configuration.ConfigurationManager.AppSettings["PublicWebsiteBaseUrl"];
+            return publicWebsiteUrl;
+        }
+
         public static string GetVersion()
         {
             Version version = null;

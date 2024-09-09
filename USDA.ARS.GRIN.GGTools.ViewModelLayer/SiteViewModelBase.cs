@@ -4,6 +4,7 @@ using System.Web.Mvc;
 using System.Collections.ObjectModel;
 using USDA.ARS.GRIN.GGTools.AppLayer;
 using USDA.ARS.GRIN.GGTools.DataLayer;
+using USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer;
 
 namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
 {
@@ -18,6 +19,11 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
             using (SiteManager mgr = new SiteManager())
             {
                 Types = new SelectList(mgr.GetCodeValues("SITE_TYPE"), "Value", "Title");
+            }
+
+            using (GeographyManager mgr = new GeographyManager())
+            {
+                States = new SelectList(mgr.GetStates(), "ID", "Admin1");
             }
         }
 
@@ -43,16 +49,18 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
             get { return _DataCollectionSiteCooperators; }
             set { _DataCollectionSiteCooperators = value; }
         }
+        
         public SelectList Types { get; set; }
+
+        public SelectList States { get; set; }
+
         public string IsReadOnly
         {
             get
             {
-                if ((AuthenticatedUser.IsInRole("GGTOOLS_COOPERATOR")) ||
-                    (AuthenticatedUser.IsInRole("MANAGE_COOPERATOR")) ||
-                    (AuthenticatedUser.IsInRole("GGTOOLS_ADMIN")) ||
-                    (AuthenticatedUser.CooperatorID == Entity.ID)
-                    )
+                string siteManagementRoleName = "MANAGE_SITE_" + AuthenticatedUser.SiteShortName;
+
+                if((AuthenticatedUser.IsInRole(siteManagementRoleName)) || (AuthenticatedUser.IsInRole("ADMINS")))
                 {
                     return "N";
                 }

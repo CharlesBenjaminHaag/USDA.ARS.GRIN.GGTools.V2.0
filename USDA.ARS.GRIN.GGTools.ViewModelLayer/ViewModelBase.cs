@@ -8,6 +8,12 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
 {
     public class ViewModelBase
     {
+        public bool IsAuthorized(int cooperatorId, string eventAction, string eventValue)
+        {
+            // TODO
+            return false;
+        }
+
         public void CheckAuthority(string authorities, string column)
         {
             //    //convert all author construction syntax to &

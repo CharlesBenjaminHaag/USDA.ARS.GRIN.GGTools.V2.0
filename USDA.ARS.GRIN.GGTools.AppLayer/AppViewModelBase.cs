@@ -182,5 +182,11 @@ namespace USDA.ARS.GRIN.GGTools.AppLayer
         
         public SelectList YesNoOptions { get; set; }
         
+        public bool IsAuthorized(int cooperatorId, string eventAction, string eventValue)
+        {
+            //TODO
+            return false;
+        }
+        
     }
 }

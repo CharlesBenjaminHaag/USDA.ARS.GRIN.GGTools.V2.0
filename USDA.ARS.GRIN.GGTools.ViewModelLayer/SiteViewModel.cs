@@ -41,6 +41,23 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
             }
         }
 
+        public void GetSiteCurators(int siteId)
+        {
+            using (CooperatorManager mgr = new CooperatorManager())
+            {
+                try
+                {
+                    DataCollectionSiteCooperators = new Collection<Cooperator>(mgr.GetSiteCurators(siteId));
+                    RowsAffected = mgr.RowsAffected;
+                }
+                catch (Exception ex)
+                {
+                    PublishException(ex);
+                    throw ex;
+                }
+            }
+        }
+
         public void HandleRequest()
         {
             throw new NotImplementedException();

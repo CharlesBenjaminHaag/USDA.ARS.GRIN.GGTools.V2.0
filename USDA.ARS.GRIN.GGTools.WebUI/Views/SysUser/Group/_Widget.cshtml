@@ -3,7 +3,10 @@
 {
     <div class="card card-primary">
         <div class="card-header">
-            <h3 class="card-title">Groups (@Model.DataCollectionGroups.Count)</h3>
+            <h3 class="card-title">
+                <i class="fas fa-users"></i>
+                Groups (@Model.DataCollectionGroups.Count)
+            </h3>
         </div>
         <div class="card-body">
             <div id="external-events">
@@ -16,12 +19,12 @@
             </div>
         </div>
 
-        @*@if (Model.AuthenticatedUser.IsInRole("ADMINS"))
-        {*@
+        @if (Model.AuthenticatedUser.IsInRole("ADMINS"))
+        {
             <div id="section-edit-controls" class="card-footer">
                 <button id="btnEditGroups" class="btn btn-default btn-block" data-toggle="modal" data-target="#modal-sys-group-user-map-edit">Edit Groups</button>
             </div>
-        @*}*@
+        }
     </div>
 }
 else

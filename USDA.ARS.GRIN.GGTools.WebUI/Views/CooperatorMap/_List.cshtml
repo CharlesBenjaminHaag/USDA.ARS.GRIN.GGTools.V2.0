@@ -3,56 +3,34 @@
         <table id="data_table_cooperator_map" class="table table-striped" style="width:100%;">
             <thead>
                 <tr>
-                    <th width="5%"></th>
-                    <th>ID</th>
-                    <th>Cooperator</th>
-                    <th>Group</th>
-                    <th>Active?</th>
-                    <th>Site</th>
+                   
                     <th>Group Tag</th>
-                    <th></th>
+                    <th>Group Name</th>
+                    <th>Active?</th>
+                    <th>Note</th>
+                    <th>Member Since</th>
+                    
                 </tr>
             </thead>
             <tbody>
                 @foreach (var result in Model.DataCollection)
                 {
                     <tr>
-                        <td>
-                            @result.ID
-                        </td>
-                        <td>
-                            <a href="@Url.Action("Edit","Cooperator", new { entityId = result.ID })">
-                                
-                            </a>
-                        </td>
+                        
                         <td>
                             @result.GroupTag
                         </td>
                         <td>
+                            @result.CooperatorGroupName
+                        </td>
+                        <td>
+                            @result.IsActive
+                        </td>
+                        <td>
+                            @result.Note
+                        </td>
+                        <td>
                             @result.CreatedDate.ToShortDateString()
-                        </td>
-                        <td>
-                            @result.CreatedByCooperatorName
-                        </td>
-                        <td>
-                            @if (result.ModifiedDate > DateTime.MinValue)
-                            {
-                                @result.ModifiedDate.ToShortDateString()
-                            }
-                        </td>
-                        <td>
-                            @result.ModifiedByCooperatorName
-                        </td>
-                        <td>
-                            @result.OwnedDate.ToShortDateString()
-                        </td>
-                        <td>
-                            @result.OwnedByCooperatorName
-                        </td>
-                        <td>
-                            <a href="@Url.Action("Edit", "CooperatorMap", new { entityId = result.ID })" class="btn btn-default btn-flat btn-sm pull-right row-edit">
-                                <i class="fa fa-edit"></i> Edit
-                            </a>
                         </td>
                     </tr>
                 }
@@ -60,7 +38,7 @@
         </table>
     
 <script type="text/javascript">
-    InitDataTable("data_table_cooperator_map");
+    InitDataTableDefault("data_table_cooperator_map");
 </script>
 
 

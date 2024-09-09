@@ -133,6 +133,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 viewModel.PageTitle = String.Format("Edit Cooperator [{0}]: {1}, {2}", entityId, viewModel.Entity.LastName, viewModel.Entity.FirstName);
                 viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
                 viewModel.AuthenticatedUser = AuthenticatedUser;
+                
                 return View("~/Views/Cooperator/Edit.cshtml", viewModel);
             }
             catch (Exception ex)
@@ -519,7 +520,8 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
         public PartialViewResult _ListOwnership(int cooperatorId)
         {
             CooperatorViewModel viewModel = new CooperatorViewModel();
-           
+            viewModel.AuthenticatedUser = AuthenticatedUser;
+
             try 
             {
                 viewModel.GetRecordsOwned(cooperatorId);

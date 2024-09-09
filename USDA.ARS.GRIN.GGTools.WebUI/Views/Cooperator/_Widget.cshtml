@@ -1,7 +1,9 @@
 ﻿@model USDA.ARS.GRIN.GGTools.ViewModelLayer.CooperatorViewModel
 <div class="card card-primary">
     <div class="card-header">
-        <h3 class="card-title">My Cooperator Record</h3>
+        <h3 class="card-title">
+            <i class="fas fa-user"></i>
+            My Cooperator Record</h3>
     </div>
 
     <div class="card-body">
@@ -22,7 +24,11 @@
         </p>
         <hr>
         <strong><i class="fas fa-map-marker-alt mr-1"></i> Site</strong>
-        <p class="text-muted">@Model.Entity.SiteName @Model.Entity.SiteShortName</p>
+        <p class="text-muted">
+            <a href="@Url.Action("Edit","Site", new { @entityId = Model.Entity.SiteID})">
+                @Model.Entity.SiteName (@Model.Entity.SiteShortName)
+            </a>
+        </p>
         <hr>
         <strong><i class="fas fa-pencil-alt mr-1"></i> Organization</strong>
         <p class="text-muted">

@@ -2,7 +2,7 @@
 * Name         : ggtools.js
 * Description  : Main JS application file for GGTools. This file
 *                should be included in all layout pages. 
-* Last Updated : 8/21/24
+* Last Updated : 9/9/24 7:05 PM
 * By           : Benjamin Haag
 */
 
@@ -167,6 +167,69 @@ function InitDataTable(tableName) {
         });
     });
 }
+
+function InitDataTableDefault(tableName) {
+    tableName = "#" + tableName;
+
+    $(document).ready(function () {
+        table = $(tableName).DataTable({
+            /*dom: "Bflrtip",*/
+            stateSave: true,
+            responsive: true,
+            paging: true,
+            "pageLength": 10,
+            select: true,
+            buttons: [
+                {
+                    extend: 'copyHtml5',
+                    exportOptions: {
+                        columns: [0, ':visible']
+                    }
+                },
+                {
+                    extend: 'excelHtml5',
+                    exportOptions: {
+                        columns: ':visible'
+                    }
+                },
+                {
+                    extend: 'pdfHtml5',
+                    exportOptions: {
+                        columns: [0, 1, 2, 5]
+                    }
+                },
+                'colvis',
+                'selectAll',
+                'selectNone',
+                //{
+                //    text: 'Add to Folder',
+                //    action: function (e, dt, node, config) {
+                //        OpenAppUserItemFolderModal();
+                //    }
+                //},
+                //{
+                //    text: 'Edit Selected',
+                //    action: function (e, dt, node, config) {
+                //        BatchEdit();
+                //    }
+                //},
+                //{
+                //    text: 'Edit Filtered',
+                //    action: function (e, dt, node, config) {
+                //        BatchEditFiltered();
+                //    }
+                //}
+            ]
+        });
+
+        $('table.ggtools').on('click', 'tr', function () {
+            var data = table.row(this).data();
+            /*alert('You clicked on ' + data[0] + "'s row");*/
+        });
+    });
+}
+
+
 
 function InitDataTableWithBatchEdit(tableName) {
     tableName = "#" + tableName;
@@ -581,14 +644,18 @@ function GetSelectedEntityText(tableName) {
  Notes          : Requires that all input fields be within a div named "section-input-fields."
  */
 function SetReadOnly() {
-    $("#section-input-fields select").attr('readonly', true);
-    $("#section-input-fields select").prop('disabled', true);
-    $("#section-input-fields input").attr('readonly', true);
+    $('#section-input-fields').find('input, select, textarea').prop('disabled', true);
+
     $("#section-file-input-fields input").attr('readonly', true);
     $("#section-file-input-fields input").prop('disabled', true);
     $('section-file-input-fields input[type=checkbox]').attr('disabled', 'true');
     $("#section-edit-controls").hide();
     $(".edit-controls").hide();
+
+    $("#section-edit-controls").find('input[type="submit"]').hide();
+
+    $("#btnReset").hide();
+    $("#btnDelete").hide();
 }
 
 /* ========================================================================================

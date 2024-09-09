@@ -2,44 +2,47 @@
 @if (Model.Entity.ID > 0)
 {
     @Html.HiddenFor(x=>x.Entity.SysUserID)
-    <div class="card card-primary card-outline">
-        <div class="card-body box-profile">
-            <div class="text-center">
-                <img class="profile-user-img img-fluid img-circle" src="~/dist/img/user-default.png" alt="User profile picture">
-            </div>
-            <h3 class="profile-username text-center">@Model.Entity.FullName</h3>
-            <p class="text-muted text-center">@Model.Entity.SysUserName</p>
-            <ul class="list-group list-group-unbordered mb-3">
-                <li class="list-group-item">
-                    <b>Status</b> 
-                    <span class="float-right">
-
-                        @if (Model.Entity.IsEnabled == "Y")
-                        {
-                            <span class="badge bg-green">
-                                ENABLED
-                            </span>
-                        }
-                        else
-                        {
-                            <span class="badge bg-red">
-                                DISABLED
-                            </span>
-                        }
-
-                    </span>
-                </li>
-                <li class="list-group-item">
-                    <b>Password Expires</b> <a class="float-right">@Model.Entity.SysUserPasswordExpirationDate.ToShortDateString()</a>
-                </li>
-                <li class="list-group-item">
-                    <b>Created</b> <a class="float-right">@Model.Entity.CreatedDate.ToShortDateString()</a>
-                </li>
-            </ul>
+<div class="card card-primary card-outline">
+    <div class="card-body box-profile">
+        <div class="text-center">
+            <img class="profile-user-img img-fluid img-circle" src="~/dist/img/user-default.png" alt="User profile picture">
         </div>
+        <h3 class="profile-username text-center">@Model.Entity.FullName</h3>
+        <p class="text-muted text-center">@Model.Entity.SysUserName</p>
+        <ul class="list-group list-group-unbordered mb-3">
+            <li class="list-group-item">
+                <b>Status</b>
+                <span class="float-right">
+
+                    @if (Model.Entity.IsEnabled == "Y")
+                    {
+                        <span class="badge bg-green">
+                            ENABLED
+                        </span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-red">
+                            DISABLED
+                        </span>
+                    }
+
+                </span>
+            </li>
+            <li class="list-group-item">
+                <b>Password Expires</b> <a class="float-right">@Model.Entity.SysUserPasswordExpirationDate.ToShortDateString()</a>
+            </li>
+            <li class="list-group-item">
+                <b>Created</b> <a class="float-right">@Model.Entity.CreatedDate.ToShortDateString()</a>
+            </li>
+        </ul>
+    </div>
+    @if (Model.IsReadOnly == "N")
+    {
         <div class="card-footer">
-            <a href="@Url.Action("RequestPasswordReset","Login")" class="btn btn-default btn-block"><b>Reset My Password</b></a>
+            <a href="@Url.Action("RequestPasswordReset", "Login")" class="btn btn-default btn-block"><b>Reset My Password</b></a>
         </div>
+    }
     </div>
 }
 else

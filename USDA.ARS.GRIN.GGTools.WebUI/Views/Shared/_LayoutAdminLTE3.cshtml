@@ -174,7 +174,7 @@
                         <img src="~/dist/img/user-default.png" class="img-circle elevation-2" alt="User Image">
                     </div>
                     <div class="info">
-                        <a href="#" class="d-block">
+                        <a href="@Url.Action("Edit","Cooperator", new { entityId = AppInfo.GetAuthenticatedUser().CooperatorID  })" class="d-block">
                             @AppInfo.GetAuthenticatedUser().FullName
                         </a>
                     </div>

@@ -1,37 +1,40 @@
 ﻿@model USDA.ARS.GRIN.GGTools.ViewModelLayer.CooperatorViewModel
 <div class="row">
     <div class="col-md-12">
-        <div>
-            <button id="btnOpenCooperatorLookup" class="btn btn-default float-right" style="margin-bottom:15px;" data-toggle="modal" data-target="#modal-cooperator-lookup">
-                Transfer Selected Records
-            </button>
-        </div>
-        <table id="data-table-cooperator-ownership" class="table table-striped" style="width:100%;">
-            <thead>
-                <tr>
-                    <th>Table Name</th>
-                    <th>Table Title</th>
-                    <th>Records Owned</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var result in Model.DataCollectionReportItems)
-                {
+        @if (Model.IsReadOnly == "N")
+        {
+            <div>
+                <button id="btnOpenCooperatorLookup" class="btn btn-default float-right" style="margin-bottom:15px;" data-toggle="modal" data-target="#modal-cooperator-lookup">
+                    Transfer Selected Records
+                </button>
+            </div>
+        }
+            <table id="data-table-cooperator-ownership" class="table table-striped" style="width:100%;">
+                <thead>
                     <tr>
-                        <td>
-                            @result.Title
-                        </td>
-                        <td>
-                            @result.Description
-                        </td>
-                        <td>
-                            @result.Total
-                        </td>
+                        <th>Table Name</th>
+                        <th>Table Title</th>
+                        <th>Records Owned</th>
                     </tr>
-                }
-            </tbody>
-        </table>
-    </div>
+                </thead>
+                <tbody>
+                    @foreach (var result in Model.DataCollectionReportItems)
+                    {
+                        <tr>
+                            <td>
+                                @result.Title
+                            </td>
+                            <td>
+                                @result.Description
+                            </td>
+                            <td>
+                                @result.Total
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
 </div>
 <script type="text/javascript">
     $(document).ready(function () {

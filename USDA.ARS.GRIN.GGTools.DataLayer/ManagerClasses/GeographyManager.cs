@@ -351,7 +351,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         {
             List<Geography> results = new List<Geography>();
 
-            SQL = " SELECT ID, Admin1 FROM vw_GRINGlobal_Geography_State  ";
+            SQL = " SELECT ID, Admin1 FROM vw_GRINGlobal_Geography_State WHERE Admin1 IS NOT NULL ";
             SQL += " ORDER BY Admin1 ASC ";
 
             results = GetRecords<Geography>(SQL);
