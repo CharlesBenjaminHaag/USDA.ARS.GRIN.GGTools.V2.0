@@ -1037,6 +1037,8 @@
     <Content Include="Views\Taxonomy\Species\Components\_AuthorityEditorVariety.cshtml" />
     <Content Include="Views\Taxonomy\Species\Components\_Widget.cshtml" />
     <Content Include="Views\Cooperator\_ListAppUserGUISettings.cshtml" />
+    <Content Include="Views\WebOrderRequest\Index.cshtml" />
+    <Content Include="Views\WebOrderRequest\_Detail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

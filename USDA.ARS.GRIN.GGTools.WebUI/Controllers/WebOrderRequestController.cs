@@ -170,7 +170,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             {
                 WebOrderRequestViewModel viewModel = new WebOrderRequestViewModel();
                 viewModel.PageTitle = "NRR Tool Web Order Explorer";
-                return View("~/Views/WebOrderRequest/Explorer/Index.cshtml", viewModel);
+                return View("~/Views/WebOrderRequest/Index.cshtml", viewModel);
             }
             catch (Exception ex)
             {

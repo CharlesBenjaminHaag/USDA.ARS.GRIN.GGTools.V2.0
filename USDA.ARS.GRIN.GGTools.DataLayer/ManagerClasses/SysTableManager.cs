@@ -67,6 +67,16 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             return sysTableFields;
         }
 
+        public List<SysTableField> GetSysTableFieldsByGroupName(string groupName)
+        {
+            SQL = "usp_GRINGlobal_Sys_Table_Field_By_Group_Name_Select";
+            var parameters = new List<IDbDataParameter> {
+                CreateParameter("@group_name", (object)groupName, false)
+            };
+            List<SysTableField> sysTableFields = GetRecords<SysTableField>(SQL, CommandType.StoredProcedure, parameters.ToArray());
+            return sysTableFields;
+        }
+
         public SysTableField GetSysTableField(string sysTableName, string sysFieldName)
         {
             SQL = "usp_GRINGlobal_Sys_Table_Field_Select";

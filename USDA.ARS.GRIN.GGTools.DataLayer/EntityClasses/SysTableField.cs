@@ -8,11 +8,11 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
 {
     public class SysTableField
     {
-        public int MyProperty { get; set; }
         public int ID { get; set; }
         public int SysTableID { get; set; }
         public string  SysTableName  { get; set; }
         public string SysTableTitle { get; set; }
+        public string DatabaseAreaCode { get; set; }
         public string FieldName { get; set; }
         public string FieldTitle { get; set; }
         public int FieldOrdinal { get; set; }

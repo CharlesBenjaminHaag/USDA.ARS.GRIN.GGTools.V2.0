@@ -5,10 +5,11 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using USDA.ARS.GRIN.GGTools.AppLayer;
 using USDA.ARS.GRIN.GGTools.DataLayer;
+using System.Data;
 
 namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
 {
-    public class CodeValueViewModelBase: AppViewModelBase
+    public class CodeValueViewModelBase : AppViewModelBase
     {
         private string _NewGroup;
         private string _SelectedGroup;
@@ -17,12 +18,14 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
         private CodeValueSearch _SearchEntity = new CodeValueSearch();
         private Collection<CodeValue> _DataCollection = new Collection<CodeValue>();
         private Collection<CodeValue> _DataCollectionGroups = new Collection<CodeValue>();
+        private Collection<SysTableField> _DataCollectionSysTableFields = new Collection<SysTableField>();
+        private DataTable _DataCollectionDataTable = new DataTable();
 
         public CodeValueViewModelBase()
         {
             List<CodeValue> codeValues = new List<CodeValue>();
 
-            using (CodeValueManager  mgr = new CodeValueManager())
+            using (CodeValueManager mgr = new CodeValueManager())
             {
                 codeValues = mgr.GetGroups();
                 Groups = new SelectList(codeValues, "Value", "Title");
@@ -37,7 +40,7 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
         public SelectList SysLangs { get; set; }
         #endregion
 
-        public string NewGroup 
+        public string NewGroup
         {
             get { return _NewGroup; }
             set { _NewGroup = value; }
@@ -72,10 +75,23 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
             get { return _DataCollection; }
             set { _DataCollection = value; }
         }
+
         public Collection<CodeValue> DataCollectionGroups
         {
             get { return _DataCollectionGroups; }
             set { _DataCollectionGroups = value; }
+        }
+
+        public Collection<SysTableField> DataCollectionSysTableFields
+        {
+            get { return _DataCollectionSysTableFields; }
+            set { _DataCollectionSysTableFields = value; }
+        }
+
+        public DataTable DataCollectionDataTable
+        {
+            get { return _DataCollectionDataTable; }
+            set { _DataCollectionDataTable = value; }
         }
     }
 }

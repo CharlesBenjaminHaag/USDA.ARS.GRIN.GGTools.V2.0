@@ -14,25 +14,25 @@
                     @using (Html.BeginForm("Search", "CodeValue", FormMethod.Post, new { id = "frmMain" }))
                     {
                         <div class="row">
-                            <div class="col-md-2">
+                            <div class="col-md-3">
                                 <div class="form-group form-horizontal">
                                     <label>Group</label>
                                     @Html.DropDownListFor(x => x.SearchEntity.GroupName, Model.Groups, "Any Groups", new { @class = "form-control" })
                                 </div>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-4">
                                 <div class="form-group form-horizontal">
                                     <label>Code</label>
                                     @Html.TextBoxFor(x => x.SearchEntity.Value, new { @class = "form-control" })
                                 </div>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-4">
                                 <div class="form-group form-horizontal">
                                     <label>Title</label>
                                     @Html.TextBoxFor(x => x.SearchEntity.Title, new { @class = "form-control" })
                                 </div>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-12">
                                 <div class="form-group form-horizontal">
                                     <label>Description</label>
                                     @Html.TextBoxFor(x => x.SearchEntity.Description, new { @class = "form-control" })

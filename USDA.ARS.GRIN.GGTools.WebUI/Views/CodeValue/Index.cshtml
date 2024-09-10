@@ -13,4 +13,18 @@
     @Html.HiddenFor(x => x.AuthenticatedUserCooperatorID)
     @Html.Partial("~/Views/CodeValue/_Detail.cshtml")
 }
-@Html.Partial("~/Views/CodeValue/_List.cshtml")
+
+<div class="card card-primary">
+    <div class="card-header">
+        <h3 class="card-title">Code Values (@Model.DataCollection.Count())</h3>
+        <div class="card-tools">
+            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                <i class="fas fa-minus"></i>
+            </button>
+        </div>
+    </div>
+    <!-- /.box-header -->
+    <div class="card-body">
+        @Html.Partial("~/Views/CodeValue/_List.cshtml")
+        </div>
+</div>

@@ -6,7 +6,7 @@ using USDA.ARS.GRIN.GGTools.ViewModelLayer;
 
 namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
 {
-    public class CodeValueViewModel : CodeValueViewModelBase, IViewModel<CodeValue>
+    public class CodeValueViewModel : CodeValueViewModelBase
     {
         public void Delete()
         {
@@ -26,6 +26,29 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
                     PublishException(ex);
                     throw ex;
                 }
+            }
+
+            using (SysTableManager sysTableManager = new SysTableManager())
+            {
+                DataCollectionSysTableFields = new Collection<SysTableField>(sysTableManager.GetSysTableFieldsByGroupName(Entity.GroupName));
+            }
+
+            if (DataCollectionSysTableFields.Count >= 1)
+            {
+                using (SysDynamicQueryManager sysDynamicQueryManager = new SysDynamicQueryManager()) 
+                {
+                    SysDynamicQuerySearch sysDynamicQuerySearch = new SysDynamicQuerySearch();
+                    sysDynamicQuerySearch.SQLStatement = "SELECT * FROM " + DataCollectionSysTableFields[0].SysTableName + " WHERE " + DataCollectionSysTableFields[0].FieldName + " = '" + Entity.GroupName + "'";
+                    DataCollectionDataTable = sysDynamicQueryManager.Search(sysDynamicQuerySearch);
+                }
+            }
+        }
+
+        public void GetRelatedSysTableField()
+        {
+            using (SysTableManager mgr = new SysTableManager())
+            {
+                mgr.GetSysTableFieldsByGroupName(Entity.GroupName);
             }
         }
 
@@ -88,11 +111,6 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
                 }
                 return Entity.ID;
             }
-        }
-
-        CodeValue IViewModel<CodeValue>.Get(int entityId)
-        {
-            throw new NotImplementedException();
         }
     }
 }
