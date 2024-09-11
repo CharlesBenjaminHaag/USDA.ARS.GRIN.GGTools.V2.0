@@ -1039,6 +1039,7 @@
     <Content Include="Views\Cooperator\_ListAppUserGUISettings.cshtml" />
     <Content Include="Views\WebOrderRequest\Index.cshtml" />
     <Content Include="Views\WebOrderRequest\_Detail.cshtml" />
+    <Content Include="Views\CodeValue\_ListReferencedTables.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

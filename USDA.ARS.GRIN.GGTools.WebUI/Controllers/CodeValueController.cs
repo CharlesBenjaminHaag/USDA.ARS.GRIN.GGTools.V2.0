@@ -274,6 +274,14 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             }
         }
 
+        public PartialViewResult Component_ReferencedTableList(string tableName, string fieldName, string codeValue)
+        { 
+            SysDynamicQueryViewModel viewModel = new SysDynamicQueryViewModel();
+            viewModel.SearchEntity.SQLStatement = "SELECT * FROM " + tableName + " WHERE " + fieldName + " = '" + codeValue + "'";
+            viewModel.Search();
+            return PartialView("~/Views/CodeValue/_ListReferencedTables.cshtml", viewModel);
+        }
+
         #endregion
     }
 }
