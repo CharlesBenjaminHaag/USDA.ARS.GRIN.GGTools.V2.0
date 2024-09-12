@@ -9,7 +9,7 @@ using System.Data;
 
 namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
 {
-    public class CodeValueViewModelBase : AppViewModelBase
+    public class CodeValueViewModelBase : AuthenticatedViewModelBase
     {
         private string _NewGroup;
         private string _SelectedGroup;
@@ -92,6 +92,23 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
         {
             get { return _DataCollectionDataTable; }
             set { _DataCollectionDataTable = value; }
+        }
+
+        public string IsReadOnly
+        {
+            get
+            {
+                if ((AuthenticatedUser.IsInRole("ADMINS")) ||
+                    (AuthenticatedUser.CooperatorID == Entity.ID)
+                    )
+                {
+                    return "N";
+                }
+                else
+                {
+                    return "Y";
+                }
+            }
         }
     }
 }

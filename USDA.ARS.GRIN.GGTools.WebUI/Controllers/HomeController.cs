@@ -24,21 +24,22 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             viewModel.SiteShortName = AuthenticatedUser.SiteShortName;
 
             // TEMP Route user according to group membership. Placeholder for customizable single home page.
-            if (viewModel.AuthenticatedUser.Groups.Find(x => x.GroupTag == "GGTOOLS_TAXON") != null)
-            {
-                return RedirectToAction("Index", "Taxonomy");
-            }
-            else 
-            {
-                if (viewModel.AuthenticatedUser.Groups.Find(x => x.GroupTag == "GGTOOLS_ORDERS") != null)
-                {
-                    return RedirectToAction("Explorer", "WebOrderRequest");
-                }
-                else
-                {
-                    return View(viewModel);
-                }
-            }
+            //if (viewModel.AuthenticatedUser.Groups.Find(x => x.GroupTag == "GGTOOLS_TAXON") != null)
+            //{
+            //    return RedirectToAction("Index", "Taxonomy");
+            //}
+            //else 
+            //{
+            //    if (viewModel.AuthenticatedUser.Groups.Find(x => x.GroupTag == "GGTOOLS_ORDERS") != null)
+            //    {
+            //        return RedirectToAction("Explorer", "WebOrderRequest");
+            //    }
+            //    else
+            //    {
+            //        return View(viewModel);
+            //    }
+            //}
+            return View("~/Views/Home/Index.cshtml", viewModel);
         }
         
         public ActionResult Navigate(string applicationCode)

@@ -14,12 +14,20 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
         private string _SQL = String.Empty;
         private SysDataView _Entity = new SysDataView();
         private SysDataViewSearch _SearchEntity = new SysDataViewSearch();
+        private Collection<CodeValue> _DataCollectionDatabaseAreaCodes = new Collection<CodeValue>();
         private Collection<SysDataView> _DataCollection = new Collection<SysDataView>();
         private Collection<SysDataViewField> _DataCollectionFields = new Collection<SysDataViewField>();
         private Collection<SysDataViewParameter> _DataCollectionParameters = new Collection<SysDataViewParameter>();
         private DataTable _DataCollectionDataTable = new DataTable();
-
         public List<SysDataViewParameter> _DataCollectionEditableParameters = new List<SysDataViewParameter>();
+
+        public SysDataViewViewModelBase() 
+        { 
+            using (CodeValueManager mgr  = new CodeValueManager()) 
+            {
+                DatabaseAreaCodes = new SelectList(mgr.GetCodeValues("DATAVIEW_DATABASE_AREA"), "Value", "Title");
+            }
+        }
 
         public string SQL
         {
@@ -37,6 +45,12 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
         {
             get { return _SearchEntity; }
             set { _SearchEntity = value; }
+        }
+
+        public Collection<CodeValue> DataCollectionDatabaseAreaCodes
+        {
+            get { return _DataCollectionDatabaseAreaCodes; }
+            set { _DataCollectionDatabaseAreaCodes = value; }
         }
 
         public Collection<SysDataView> DataCollection
@@ -62,5 +76,8 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
             get { return _DataCollectionDataTable; }
             set { _DataCollectionDataTable = value; }
         }
+
+        public SelectList DatabaseAreaCodes
+        { get; set; }
     }
 }

@@ -6,8 +6,29 @@
 
 <div class="row">
     <div class="col-md-3">
-        <div id="section-sys-dataview-parameter-list">
+        <div class="card card-primary shadow-none">
+            <div class="card-header">
+                <h3 class="card-title">Select Dataview</h3>
+                <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                        <i class="fas fa-minus"></i>
+                    </button>
+                </div>
+
+            </div>
+
+            <div class="card-body">
+                <div class="form-group">
+                    <label>Database Area Codes</label>
+                    @Html.DropDownListFor(x=>x.SearchEntity.DatabaseAreaCode, Model.DatabaseAreaCodes, "Select code", new { @class = "form-control"}) 
+                    <div id="section-sys-dataview-list">
+                    </div>
+                </div>
+            </div>
+
         </div>
+
+        
     </div>
     <div class="col-md-9">
         <div class="card card-primary card-tabs">
@@ -19,14 +40,19 @@
                     <li class="nav-item">
                         <a class="nav-link" id="custom-tabs-one-profile-tab" data-toggle="pill" href="#tab-content-sys-dataview-sql" role="tab" aria-controls="custom-tabs-one-profile" aria-selected="false">SQL</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="custom-tabs-one-profile-tab" data-toggle="pill" href="#tab-content-sys-dataview-run" role="tab" aria-controls="custom-tabs-one-profile" aria-selected="false">Run</a>
+                    </li>
                 </ul>
             </div>
             <div class="card-body">
                 <div class="tab-content" id="custom-tabs-one-tabContent">
                     <div class="tab-pane fade show active" id="tab-content-sys-dataview-field-list" role="tabpanel" aria-labelledby="custom-tabs-one-home-tab">
-                         
+
                     </div>
                     <div class="tab-pane fade" id="tab-content-sys-dataview-sql" role="tabpanel" aria-labelledby="custom-tabs-one-profile-tab">
+                    </div>
+                    <div class="tab-pane fade" id="tab-content-sys-dataview-run" role="tabpanel" aria-labelledby="custom-tabs-one-profile-tab">
                     </div>
                 </div>
             </div>

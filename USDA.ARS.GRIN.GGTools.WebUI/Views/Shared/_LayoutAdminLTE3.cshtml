@@ -174,7 +174,7 @@
                         <img src="~/dist/img/user-default.png" class="img-circle elevation-2" alt="User Image">
                     </div>
                     <div class="info">
-                        <a href="@Url.Action("Edit","Cooperator", new { entityId = AppInfo.GetAuthenticatedUser().CooperatorID  })" class="d-block">
+                        <a href="@Url.Action("Edit", "Cooperator", new { entityId = AppInfo.GetAuthenticatedUser().CooperatorID })" class="d-block">
                             @AppInfo.GetAuthenticatedUser().FullName
                         </a>
                     </div>
@@ -189,28 +189,11 @@
                         </div>
                     </div>
                 </div>
+
                 @switch (controllerName)
                 {
-                    case "Home":
-                        Html.RenderAction("RenderSidebar", "Home");
-                        break;
-                    case "SysDataView":
-                        Html.RenderAction("GetSidebar", "SysDataView");
-                        break;
                     case "WebOrderRequest":
                         Html.RenderAction("RenderSidebar", "WebOrderRequest");
-                        break;
-                    case "Cooperator":
-                        Html.RenderAction("RenderSidebar", "Home");
-                        break;
-                    case "CodeValue":
-                        Html.RenderAction("Component_MainSidebar", "CodeValue");
-                        break;
-                    case "SysFolder":
-                        Html.RenderAction("RenderSidebar", "Taxonomy");
-                        break;
-                    case "Taxonomy":
-                        Html.RenderAction("RenderSidebar", "Taxonomy");
                         break;
                     default:
                         Html.RenderAction("RenderSidebar", "Home");

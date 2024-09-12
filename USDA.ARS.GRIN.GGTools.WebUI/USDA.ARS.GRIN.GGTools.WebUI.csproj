@@ -1040,6 +1040,11 @@
     <Content Include="Views\WebOrderRequest\Index.cshtml" />
     <Content Include="Views\WebOrderRequest\_Detail.cshtml" />
     <Content Include="Views\CodeValue\_ListReferencedTables.cshtml" />
+    <Content Include="Views\Shared\Sidebars\Components\_MenuSysAdmin.cshtml" />
+    <Content Include="Views\Shared\Sidebars\Components\_MenuSysFolder.cshtml" />
+    <Content Include="Views\Shared\Sidebars\Components\_MenuTools.cshtml" />
+    <Content Include="Views\Home\Components\_Workspaces.cshtml" />
+    <Content Include="Views\SysDataview\Components\_DataviewSelectList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

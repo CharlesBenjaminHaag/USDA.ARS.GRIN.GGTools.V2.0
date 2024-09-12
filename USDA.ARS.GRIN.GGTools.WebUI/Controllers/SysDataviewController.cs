@@ -20,6 +20,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             try
             {
                 viewModel = new SysDataViewViewModel();
+                return View("~/Views/SysDataview/Index.cshtml", viewModel);
             }
             catch (Exception ex)
             {

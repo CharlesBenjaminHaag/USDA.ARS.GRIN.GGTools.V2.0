@@ -1,5 +1,4 @@
-﻿
-<nav class="mt-2">
+﻿<nav class="mt-2">
     <ul class="nav nav-pills nav-sidebar nav-child-indent flex-column mt-2" data-widget="treeview" role="menu" data-accordion="false">
         <li class="nav-item">
             <a href="@Url.Action("Navigate", "Home", new { applicationCode = "GGT-TAX" })" class="nav-link">
@@ -8,58 +7,10 @@
             </a>
         </li>
         @Html.Partial("~/Views/Shared/Sidebars/Components/_MenuWorkspaces.cshtml")
-
-        <li class="nav-header">FOLDERS</li>
-        <li class="nav-item">
-            <a href="@Url.Action("Explorer", "SysFolder")" class="nav-link">
-                <i class="nav-icon fas fa-globe"></i>
-                <p>Explorer</p>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a href="@Url.Action("Index", "SysFolder")" class="nav-link">
-                <i class="nav-icon fas fa-search"></i>
-                <p>Search</p>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a href="@Url.Action("Index", "AppUserItemList")" class="nav-link">
-                <i class="nav-icon fas fa-folder"></i>
-                <p>CT Folders</p>
-            </a>
-        </li>
-
-        <li class="nav-header">
-            Tools
-        </li>
-        <li class="nav-item">
-            <a href="@Url.Action("Index","Import")" class="nav-link">
-                <i class="nav-icon fas fa-toolbox"></i>
-                <p>Data Import</p>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a href="@Url.Action("Index","SysDynamicQuery")" class="nav-link">
-                <i class="nav-icon fas fa-toolbox"></i>
-                <p>SQL Query</p>
-            </a>
-        </li>
-
+        @Html.Partial("~/Views/Shared/Sidebars/Components/_MenuSysFolder.cshtml")
+        @Html.Partial("~/Views/Shared/Sidebars/Components/_MenuTools.cshtml")
         <li class="nav-header">MANAGE DATA</li>
         @{ Html.RenderAction("_List", "SysTable"); }
-
-        <li class="nav-header">SYSADMIN</li>
-        <li class="nav-item">
-            <a href="@Url.Action("Index","CodeValue")" class="nav-link">
-                <i class="nav-icon fas fa-table"></i>
-                <p>Code Values</p>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a href="@Url.Action("Index","Error")" class="nav-link">
-                <i class="nav-icon fas fa-bug"></i>
-                <p>Error Logs</p>
-            </a>
-        </li>
+        @Html.Partial("~/Views/Shared/Sidebars/Components/_MenuSysAdmin.cshtml")
     </ul>
 </nav>
