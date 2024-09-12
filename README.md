@@ -3,6 +3,7 @@ Proposed Coooperator table refactoring
 
 Notes
 1. Assume that all tables will use whatever audit fields (created, owned, dates) are part of GRINext schema.
+2. Associative tables assume a type_code field that describes the association -- ex., Rollo Tomasi linked to site NC7 as "CURATOR", Lisa Burke linked to site NC& as "ADMIN" (person with resp. for managing site curators and updating contact info)
 
 Questions/For Discussion
 -------------------------
