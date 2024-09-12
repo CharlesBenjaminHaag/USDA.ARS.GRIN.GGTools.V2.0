@@ -1,3 +1,14 @@
+Proposed Coooperator table refactoring
+-------------------------
+
+Notes
+1. Assume that all tables will use whatever audit fields (created, owned, dates) are part of GRINext schema.
+
+Questions/For Discussion
+-------------------------
+1. Some questions about person.status:
+   a. Currently, status seems to be part of the workflow that's behind the duplication/over-storage of data: for instance, allowing coop records to be more or less soft-archived while allowing "research" into past orders to be linked to requestor info.. What is the policy behind retaining historical order information? How mucn of this information is needed for stats related to accessions per year/FY/etc.? If we need info such as "accessions by crop requested in the southwest US," for instance, there must be a way to store the location of the originator of the request without retaining "cooperator" info. A use for geo data/polygons?
+
 ```mermaid
 
 ---
