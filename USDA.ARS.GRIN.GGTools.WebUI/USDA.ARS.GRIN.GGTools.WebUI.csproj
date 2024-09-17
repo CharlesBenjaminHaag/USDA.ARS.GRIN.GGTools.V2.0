@@ -1045,6 +1045,9 @@
     <Content Include="Views\Shared\Sidebars\Components\_MenuTools.cshtml" />
     <Content Include="Views\Home\Components\_Workspaces.cshtml" />
     <Content Include="Views\SysDataview\Components\_DataviewSelectList.cshtml" />
+    <Content Include="Views\Home\IndexUSWDS.cshtml" />
+    <Content Include="Views\Shared\_LayoutUSWDS.cshtml" />
+    <Content Include="Views\Shared\_LayoutUSWDSInterior.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
