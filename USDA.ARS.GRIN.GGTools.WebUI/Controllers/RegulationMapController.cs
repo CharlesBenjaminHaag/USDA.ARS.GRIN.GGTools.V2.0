@@ -164,6 +164,8 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             {
                 RegulationMapViewModel viewModel = new RegulationMapViewModel();
                 viewModel.TableName = "taxonomy_regulation_map";
+                viewModel.TableCode = "RegulationMap";
+                viewModel.EventAction = "EDIT";
                 viewModel.Get(entityId);
                 viewModel.PageTitle = String.Format("Edit Regulation Map [{0}]: {1}", entityId, viewModel.Entity.AssembledName);
                 return View(BASE_PATH + "Edit.cshtml", viewModel);
