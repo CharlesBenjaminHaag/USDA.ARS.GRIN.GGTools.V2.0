@@ -11,6 +11,9 @@ using USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer;
 using USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer;
 using NLog;
 using DataTables;
+using System.Collections.ObjectModel;
+using System.Web.Configuration;
+using System.Runtime.Remoting.Messaging;
 
 namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
 {
@@ -984,6 +987,55 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 Log.Error(ex);
                 return RedirectToAction("InternalServerError", "Error");
             }
+        }
+
+        public ActionResult AddBatch()
+        {
+            SpeciesViewModel viewModel = new SpeciesViewModel();
+            return View("~/Views/Taxonomy/Species/AddBatch.cshtml", viewModel);
+        }
+
+        [HttpPost]
+        public JsonResult Save(SpeciesDTO speciesDTO) 
+        {
+            SpeciesViewModel viewModel = new SpeciesViewModel();
+
+            try
+            {
+                viewModel.Entity.Rank = "SPECIES";
+                viewModel.Entity.GenusName = speciesDTO.GenusName;
+                viewModel.Entity.Name = speciesDTO.SpeciesName;
+                viewModel.Entity.SpeciesAuthority = speciesDTO.SpeciesAuthority;
+                viewModel.Entity.Protologue = speciesDTO.Protologue;
+                viewModel.Entity.ProtologueVirtualPath = speciesDTO.ProtologueVirtualPath;
+                viewModel.Entity.Note = speciesDTO.Note;
+                if (!viewModel.Validate())
+                {
+                    //REFACTOR
+                    List<string> messages = new List<string>();
+                    foreach(var message in viewModel.ValidationMessages)
+                    { 
+                        messages.Add(message.Message);
+                    }
+
+                    return Json(new { success = false, messages });
+                }
+                return Json(new { success = true, viewModel.Entity });
+            }
+            catch (Exception ex)
+            {
+                var errorResponse = new
+                {
+                    success = false,
+                    errorCode = 500,
+                    errorMessage = ex.Message,
+                    validationErrors = viewModel.ValidationMessages,
+                    additionalInfo = "Additional error details if any",
+                    timestamp = DateTime.Now
+                };
+                return Json(errorResponse);
+            }
+            
         }
 
         [ValidateInput(false)]

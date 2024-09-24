@@ -2,9 +2,9 @@
 <div class="modal fade" id="modal-genus-lookup" style="display: none;" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <div id="search-progress-overlay-genus-lookup" class="overlay">
+            @*<div id="search-progress-overlay-genus-lookup" class="overlay">
                 <i class="fas fa-2x fa-sync fa-spin"></i>
-            </div>
+            </div>*@
             <div class="modal-header">
                 <h4 class="modal-title">
                     <i class="fas fa-search"></i>
@@ -67,7 +67,7 @@
         }
     });
 
-    $("#btnOpenGenusLookupModal").click(function () {
+    $(document).on("click", "[id*='btnOpenGenusLookupModal']", function () {
         var idField = $(this).data("ggtools-id-field");
         var nameField = $(this).data("ggtools-name-field");
         OpenLookupModal("genus", idField, nameField);
