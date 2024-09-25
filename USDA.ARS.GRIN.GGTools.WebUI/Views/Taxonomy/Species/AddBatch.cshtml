@@ -9,6 +9,10 @@
     #templateTable {
         display: none; /* Keep the template table hidden */
     }
+
+    .error {
+        background-color: red;
+    }
 </style>
 
 <div id="" class="card card-success">
@@ -23,6 +27,9 @@
     <div class="card-body">
         <div>
             <div>
+                <div id="placeholder-error-message-template">
+
+                </div>
                 <div>
                     <button id="addRow" class="btn btn-primary">Add Row</button>
                     <button id="saveChanges" class="btn btn-primary">Save Changes</button>
@@ -38,7 +45,7 @@
                             <th>Protologue</th>
                             <th>URL</th>
                             <th>Note</th>
-                            <th>Last Modified</th>
+                            <th>Status</th>
                             <th></th>
                             <th></th>
                         </tr>
@@ -53,17 +60,18 @@
     </div>
 </div>
 
-<!-- Hidden template table -->
+<!-- TABLE TEMPLATE -->
 <table id="templateTable" style="display:none;">
     <tr>
         <td>
-            <input type="text" class="form-control" id="txtID" name="ID" />
-            <input type="hidden" class="unique-id" value="template-id" />
+            <input type="text" class="form-control" id="txtID" name="ID" readonly="readonly" />
+            <input type="hidden" id="hfRowID" name="RowID" class="unique-id" value="template-id" />
         </td>
-        <td>
+        <td width="35%">
             <div class="input-group">
-                @*<span id="placeholder-genus-name" style="background-color: #ecf0f5; border: 1px solid #ced4da; width: 100%; position: relative; -ms-flex: 1 1 auto; flex: 1 1 auto; min-width: 0; margin-bottom: 0; padding: 0.375rem 0.75rem; height: calc(2.25rem + 2px); position: relative; -ms-flex: 1 1 auto; flex: 1 1 auto; width: 1%; min-width: 0; margin-bottom: 0;">@Html.Raw(Model.Entity.GenusName)</span>@Html.HiddenFor(x => x.Entity.GenusID)*@
-            <input type="text" class="form-control" id="txtGenusName" name="GenusName" />
+                
+                <span id="GenusName" class="placeholder" style="background-color: #ecf0f5; border: 1px solid #ced4da; width: 100%; position: relative; -ms-flex: 1 1 auto; flex: 1 1 auto; min-width: 0; margin-bottom: 0; padding: 0.375rem 0.75rem; height: calc(2.25rem + 2px); position: relative; -ms-flex: 1 1 auto; flex: 1 1 auto; width: 1%; min-width: 0; margin-bottom: 0;"></span>
+                <input type="text" class="form-control" id="txtGenusName" name="GenusName" style="display:none;" />
                 <span class="input-group-append">
                     <button id="btnOpenGenusLookupModal"
                             type="button"
@@ -83,7 +91,7 @@
         <td><input type="text" class="form-control" id="txtProtologue" name="Protologue" /></td>
         <td><input type="text" class="form-control" id="txtProtologueVirtualPath" name="ProtologueVirtualPath" /></td>
         <td><input type="text" class="form-control" id="txtNote" name="Note" /></td>
-        <td><input type="text" class="form-control" id="txtModifiedDate" name="ModifiedDate" /></td>
+        <td><input type="text" class="form-control" id="txtStatus" name="Status" /></td>
         <td>
             <button id="btnDelete" class="btn btn-danger delete-row">Delete</button>
         </td>
@@ -92,10 +100,30 @@
         </td>
     </tr>
 </table>
+<!-- END TABLE TEMPLATE -->
 
+<!-- ERROR MESSAGE TEMPLATE -->
+<div class="alert alert-danger alert-dismissible" style="display:none;">
+    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+    <h5><i class="icon fas fa-ban"></i> Validation Errors</h5>
+    <div id="section-error-messages"></div>
+</div>
+
+<!-- END ERROR MESSAGE TEMPLATE -->
 
 @{Html.RenderAction("RenderLookupModal", "Genus"); }
 <script>
+    let counter = 1; // Counter to create unique IDs
+    $(document).ready(function () {
+        $(document).on('input', 'input[type="text"]', function () {
+            $(this).css('background-color', 'white');
+        });
+
+        $(document).on('change', 'input[type="text"]', function () {
+            $(this).css('background-color', 'white');
+            $('span.placeholder').css('background-color', 'white');
+        });
+    });
 
     class SpeciesDTO {
         constructor(ID, GenusID, GenusName, SpeciesName, Protologue, ProtologueVirtualPath, SpeciesAuthority, Note) {
@@ -110,7 +138,7 @@
         }
     }
 
-    let counter = 1; // Counter to create unique IDs
+    
 
     // Add row from template to main table
     document.getElementById('addRow').addEventListener('click', function () {
@@ -121,35 +149,34 @@
         let textboxes = templateRow.querySelectorAll('input[type="text"]');
         textboxes.forEach((textbox, index) => {
             textbox.id = textbox.id + "-" + counter;
-
-
         });
 
         let hiddenFields = templateRow.querySelectorAll('input[type="hidden"]');
         hiddenFields.forEach((hiddenField, index) => {
             hiddenField.id = hiddenField.id + "-" + counter;
-           
         });
-
 
         let buttons = templateRow.querySelectorAll('button');
         buttons.forEach((button, index) => {
             button.id = button.id + "-" + counter;
 
-            // Check if the button has the two specified data attributes
             if (button.hasAttribute(`data-ggtools-id-field`) && button.hasAttribute(`data-ggtools-name-field`)) {
-                // Retrieve the values of the two data attributes
                 let dataAttr1Value = button.getAttribute(`data-ggtools-id-field`);
                 let dataAttr2Value = button.getAttribute(`data-ggtools-name-field`);
 
                 button.setAttribute(`data-ggtools-id-field`, 'hf' + dataAttr1Value + '-' + counter);
                 button.setAttribute(`data-ggtools-name-field`, 'txt' + dataAttr2Value + '-' + counter);
 
-                // Log the button id and the data attribute values
+                //DEBUG    
                 console.log(button.id);
                 console.log(dataAttr1Value);
                 console.log(dataAttr2Value);
             }
+        });
+
+        let spans = templateRow.querySelectorAll('span');
+        spans.forEach((span, index) => {
+            span.id = 'txt' + span.id + '-' + counter + '-Placeholder';
         });
 
         // Set unique hidden field ID
@@ -181,7 +208,7 @@
             table.querySelector('tbody').appendChild(clonedRow);
         }
 
-        
+
     });
 
     // Open modal and pass the value from another field in the row
@@ -200,7 +227,7 @@
 
     // Save changes using AJAX
     $('#saveChanges').click(function () {
-
+        var isValid = true;
         var table = getDomElement("#mainTable");
 
         if (table) {
@@ -208,6 +235,7 @@
             const rows = tableBody.querySelectorAll('tr');
 
             rows.forEach((row) => {
+                var rowId = $(row).find('input[name="RowID"]').val();
                 var id = $(row).find('input[name="ID"]').val();
                 var genusId = $(row).find('input[name="GenusID"]').val();
                 var genusName = $(row).find('input[name="GenusName"]').val();
@@ -217,14 +245,32 @@
                 var protologueVirtualPath = $(row).find('input[name="ProtologueVirtualPath"]').val();
                 var note = $(row).find('input[name="Note"]').val();
 
-                var species = new SpeciesDTO(id, genusId, genusName, speciesName, speciesAuthority, protologue, protologueVirtualPath, note);
-                SaveSpecies(species);
+                //DEBUG
+                alert("SAVING ROW " + rowId);
+
+                if ((genusId == 0) || (genusId == null)) {
+                    /* VALIDATION OPTION: Set all error fields to red */
+                    //$(row).find('input[name="GenusName"]').css('background-color', 'red');
+                    $('span.placeholder').css('background-color', 'red');
+                    isValid = false;
+                }
+
+                if ((speciesName == null) || speciesName.trim() == "") {
+                    $(row).find('input[name="SpeciesName"]').css('background-color', 'red');
+                }
+
+                if (isValid == true) {
+                    var species = new SpeciesDTO(id, genusId, genusName, speciesName, speciesAuthority, protologue, protologueVirtualPath, note);
+                    SaveSpecies(species);
+                }
+                else {
+                    HandleError();
+                }
             });
         }
     });
 
     function SaveSpecies(speciesDTO) {
-        console.log("DEBUG: SAVING " + speciesDTO.ID, speciesDTO.GenusID, speciesDTO.GenusName, speciesDTO.SpeciesName, speciesDTO.SpeciesAuthority, speciesDTO.Protologue, speciesDTO.ProtologueVirtualPath, speciesDTO.Note);
         $.ajax({
             url: '@Url.Action("Save","Species")',
             type: 'POST',
@@ -233,22 +279,20 @@
             data: JSON.stringify( { speciesDTO: speciesDTO }),
             success: function (response) {
                 if (response.success) {
-                    // Handle success
-                    alert("Success: " + response.message);
+                    alert("DEBUG Success: " + response.Entity.ID);
                 } else {
-                    // Handle the list of error messages
-                    var errorList = response.messages;
-                    var errorMessage = "The following errors occurred:\n";
-                    for (var i = 0; i < errorList.length; i++) {
-                        errorMessage += "- " + errorList[i] + "\n";
-                    }
-                    alert(errorMessage);
+                    alert("DEBUG: " + response.errorResponse.errorMessage);
                 }
             },
             error: function (xhr, status, error) {
                 alert("An error occurred: " + error);
             }
+            
         });
+    }
+
+    function HandleError() {
+        //TODO show error(s) in activated panel.
     }
 
     function getDomElement(selector) {
@@ -266,7 +310,7 @@
         }
     }
 
-    /* ROW COPY LOGIC */ 
+    /* ROW COPY LOGIC */
     // Function to handle the COPY button click
     function copyRow(buttonElement) {
         // Find the <tr> that contains the clicked button
@@ -280,7 +324,7 @@
         // Optionally, remove the ID attributes of cloned row elements if needed
         clonedRow.querySelectorAll('[id]').forEach(element => element.removeAttribute('id'));
 
-        
+
 
 
         // Find the table where the row belongs
@@ -296,6 +340,8 @@
             copyRow(this);
         });
     });
+
+   
 
 </script>
 @*<script type="text/javascript">

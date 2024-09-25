@@ -1003,12 +1003,15 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             try
             {
                 viewModel.Entity.Rank = "SPECIES";
+                viewModel.Entity.GenusID = speciesDTO.GenusID;
                 viewModel.Entity.GenusName = speciesDTO.GenusName;
-                viewModel.Entity.Name = speciesDTO.SpeciesName;
+                viewModel.Entity.SpeciesName = speciesDTO.SpeciesName;
                 viewModel.Entity.SpeciesAuthority = speciesDTO.SpeciesAuthority;
                 viewModel.Entity.Protologue = speciesDTO.Protologue;
                 viewModel.Entity.ProtologueVirtualPath = speciesDTO.ProtologueVirtualPath;
                 viewModel.Entity.Note = speciesDTO.Note;
+                viewModel.Entity.ModifiedByCooperatorID = AuthenticatedUser.CooperatorID;
+
                 if (!viewModel.Validate())
                 {
                     //REFACTOR
@@ -1020,6 +1023,9 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
 
                     return Json(new { success = false, messages });
                 }
+
+                viewModel.Get(viewModel.Insert());
+              
                 return Json(new { success = true, viewModel.Entity });
             }
             catch (Exception ex)
@@ -1033,7 +1039,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                     additionalInfo = "Additional error details if any",
                     timestamp = DateTime.Now
                 };
-                return Json(errorResponse);
+                return Json(new { success = false, errorResponse });
             }
             
         }

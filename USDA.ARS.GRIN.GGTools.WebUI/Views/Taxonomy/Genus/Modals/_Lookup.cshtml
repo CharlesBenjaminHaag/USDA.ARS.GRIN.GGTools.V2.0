@@ -19,6 +19,7 @@
                 {
                     <input type="hidden" id="modal-genus-lookup-value-field" />
                     <input type="hidden" id="modal-genus-lookup-display-field" />
+                    <input type="hidden" id="modal-genus-lookup-use-long-name-format" />
                     <div class="row">
                         <div class="col-md-12">
                             <label>Name</label>
@@ -70,6 +71,7 @@
     $(document).on("click", "[id*='btnOpenGenusLookupModal']", function () {
         var idField = $(this).data("ggtools-id-field");
         var nameField = $(this).data("ggtools-name-field");
+        var useLongNameFormat = $(this).data("ggtools-use-long-name-format");
         OpenLookupModal("genus", idField, nameField);
     });
 
@@ -109,11 +111,15 @@
         idField = "#" + idField;
         displayField = "#" + displayField;
 
-        console.log("DEBUG idField IS " + idField + " displayField IS " + displayField + " iDList IS " + idList + " nameList IS " + nameList);
+        //console.log("DEBUG idField IS " + idField + " displayField IS " + displayField + " iDList IS " + idList + " nameList IS " + nameList);
 
         $(idField).val(idList);
+
+        // TODO: Refactor into a SetValue() method? 
         $(displayField).val(nameList);
-        $("#placeholder-GenusName").html(nameList);
+        $(displayField).trigger('change');
+
+        $(displayField + "-Placeholder").html(nameList);
         $('#modal-genus-lookup').modal('hide');
     }
 
