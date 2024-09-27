@@ -2,7 +2,7 @@
 * Name         : ggtools.js
 * Description  : Main JS application file for GGTools. This file
 *                should be included in all layout pages. 
-* Last Updated : 9/9/24 7:05 PM
+* Last Updated : 9/27/24 5:03 PM
 * By           : Benjamin Haag
 */
 
@@ -52,7 +52,7 @@ function OpenLookupModal(type, value_field, display_field) {
     var valueHiddenFieldName = modalName + "-value-field";
     var displayHiddenFieldName = modalName + "-display-field";
 
-    console.log("DEBUG modal is " + modalName + " id field is " + value_field + " name field is " + display_field);
+    //console.log("DEBUG modal is " + modalName + " id field is " + value_field + " name field is " + display_field);
 
     $("#" + modalName).modal("show");
     $("#" + valueHiddenFieldName).val(value_field);
@@ -64,11 +64,46 @@ function OpenLookupModal(type, value_field, display_field) {
     $("#section-search-criteria input[type=text]").val("");
     $(searchResultsSectionName).html("");
 
-    // Reset datatable within specified div.
+    // Clear data tables.
+    const modal = document.getElementById(modalName);
+    clearDataTables(modal);
+
     $(searchResultsSectionName).find('table.dataTable').each(function () {
         // Clear the DataTable
         $(this).DataTable().clear().draw();
     });
+
+    // Set focus to first visible text control.
+    $('.modal').on('shown.bs.modal', function () {
+        $(this).find('input:text:visible:first').focus();
+    });
+}
+
+function clearDataTables(modal) {
+    // Find all tables within the modal
+    const tables = modal.querySelectorAll('table');
+
+    // Loop through each table and clear its DataTable
+    tables.forEach(function (table) {
+        if ($.fn.DataTable.isDataTable(table)) {
+            // Get the DataTable instance and clear it
+            const dataTable = $(table).DataTable();
+            dataTable.clear().draw();  // Clear all data and redraw the empty table
+        }
+    });
+}
+
+function focusFirstVisibleTextBox(modal) {
+    // Get all input elements inside the modal
+    const inputs = modal.querySelectorAll('input[type="text"]');
+
+    // Loop through inputs and find the first visible one
+    for (let i = 0; i < inputs.length; i++) {
+        if (inputs[i].offsetParent !== null) { // Check if the input is visible
+            inputs[i].focus();  // Set focus to the first visible input
+            break;
+        }
+    }
 }
 
 // Toggle show/hide of standard help widget.
@@ -558,7 +593,7 @@ function GetSelectedEntityIDs(tableName) {
     var ids = $.map(table.rows('.selected').data(), function (item) {
         return item[0]
     });
-    console.log(ids)
+    //console.log(ids)
     return ids;
 }
 
@@ -576,7 +611,7 @@ function GetFilteredEntityIDs(tableName) {
     });
 
     // Now you have the values from the first column of only the filtered rows in the firstColumnValues array
-    console.log(firstColumnValues);
+    //console.log(firstColumnValues);
     return firstColumnValues;
 }
 
@@ -585,7 +620,7 @@ function GetSelectedSpeciesIDs(tableName) {
     var ids = $.map(table.rows('.selected').data(), function (item) {
         return item[2]
     });
-    console.log(ids)
+    //console.log(ids)
     return ids;
 }
 
@@ -602,7 +637,7 @@ function GetSelectedEntityStringIDs(tableName) {
     var ids = $.map(table.rows('.selected').data(), function (item) {
         return "'" + item[0] + "'"
     });
-    console.log(ids)
+    //console.log(ids)
     return ids;
 }
 
@@ -611,7 +646,7 @@ function GetSelectedEntityLabels(tableName) {
     var ids = $.map(table.rows('.selected').data(), function (item) {
         return item[3]
     });
-    console.log(ids)
+    //console.log(ids)
     return ids;
 }
 
@@ -620,7 +655,7 @@ function GetSelectedEntityQuotedStrings(tableName) {
     var ids = $.map(table.rows('.selected').data(), function (item) {
         return "'" + item[1] + "'";
     });
-    console.log(ids)
+    //console.log(ids)
     return ids;
 }
 
@@ -629,7 +664,7 @@ function GetSelectedEntityText(tableName) {
     var ids = $.map(table.rows('.selected').data(), function (item) {
         return item[1]
     });
-    console.log(ids)
+    //console.log(ids)
     return ids;
 }
 

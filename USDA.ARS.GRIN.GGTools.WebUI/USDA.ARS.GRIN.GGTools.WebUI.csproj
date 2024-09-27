@@ -1049,6 +1049,7 @@
     <Content Include="Views\Shared\_LayoutUSWDS.cshtml" />
     <Content Include="Views\Shared\_LayoutUSWDSInterior.cshtml" />
     <Content Include="Views\Taxonomy\Species\AddBatch.cshtml" />
+    <Content Include="Views\Taxonomy\Species\_ListBatch.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

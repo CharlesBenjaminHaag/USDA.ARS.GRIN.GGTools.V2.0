@@ -174,7 +174,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             Session["SPECIES-SYNONYM-MAPS"] = batchedSpeciesSynonymMaps;
             viewModel.DataCollectionBatch = batchedSpeciesSynonymMaps;
 
-            return PartialView("~/Views/Taxonomy/SpeciesSynonymMap/_BatchList.cshtml", viewModel);
+            return PartialView("~/Views/Taxonomy/SpeciesSynonymMap/_ListBatch.cshtml", viewModel);
         }
 
         public PartialViewResult Clear(FormCollection formCollection)

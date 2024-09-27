@@ -310,6 +310,8 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
         {
             try
             {
+                
+                
                 viewModel.Search();
                 return PartialView(BASE_PATH + "/Modals/_SelectList.cshtml", viewModel);
             }

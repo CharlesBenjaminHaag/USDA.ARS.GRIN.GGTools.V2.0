@@ -14,47 +14,95 @@
         background-color: red;
     }
 </style>
+<div id="errorDiv" class="alert alert-danger alert-dismissible">
+    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+    <h5><i class="icon fas fa-ban"></i> Alert!</h5>
+    <ul id="errorList"></ul>
+</div>
+<div id="accordion">
+    <div class="card card-default">
+        <div class="card-header">
+            <h4 class="card-title w-100">
+                <a id="accordionButton1" class="d-block w-100" data-toggle="collapse" href="#collapseOne" aria-expanded="false">
+                    1. Add Species
+                </a>
+            </h4>
+        </div>
+        <div id="collapseOne" class="collapse show" data-parent="#accordion" style="">
+            <div class="card-body">
+                <div>
+                    <div>
+                        <div id="placeholder-error-message-template">
 
-<div id="" class="card card-success">
-    <div class="card-header">
-        <h3 class="card-title">Species</h3>
-        <div class="card-tools">
-            <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                <i class="fas fa-minus"></i>
-            </button>
+                        </div>
+                        <div>
+                            <button id="addRow" class="btn btn-primary">Add Row</button>
+                            
+                            <p id="display-id"></p>
+                        </div>
+                        <table id="mainTable" class="table table-striped" cellspacing="0" width="100%">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Genus</th>
+                                    <th>Epithet</th>
+                                    <th>Authority</th>
+                                    <th>Protologue</th>
+                                    <th>URL</th>
+                                    <th>Note</th>
+                                    @*<th>Status</th>*@
+                                    <th></th>
+                                    
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+
+                        <div id="statusMessage"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <button id="saveChanges" class="btn btn-primary float-right">Save Changes</button>
+            </div>
         </div>
     </div>
-    <div class="card-body">
-        <div>
-            <div>
-                <div id="placeholder-error-message-template">
-
-                </div>
-                <div>
-                    <button id="addRow" class="btn btn-primary">Add Row</button>
-                    <button id="saveChanges" class="btn btn-primary">Save Changes</button>
-                    <p id="display-id"></p>
-                </div>
-                <table id="mainTable" class="table table-striped" cellspacing="0" width="100%">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Genus</th>
-                            <th>Epithet</th>
-                            <th>Authority</th>
-                            <th>Protologue</th>
-                            <th>URL</th>
-                            <th>Note</th>
-                            <th>Status</th>
-                            <th></th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    </tbody>
-                </table>
-
-                <div id="statusMessage"></div>
+    <div class="card card-default">
+        <div class="card-header">
+            <h4 class="card-title w-100">
+                <a id="accordionButton2" class="d-block w-100 collapsed" data-toggle="collapse" href="#collapseTwo" aria-expanded="true">
+                    2. Review Added Species
+                </a>
+            </h4>
+        </div>
+        <div id="collapseTwo" class="collapse" data-parent="#accordion" style="">
+            <div class="card-body">
+                
+            </div>
+        </div>
+    </div>
+    <div class="card card-default">
+        <div class="card-header">
+            <h4 class="card-title w-100">
+                <a id="accordionButton3" class="d-block w-100" data-toggle="collapse" href="#collapseThree">
+                    Other
+                </a>
+            </h4>
+        </div>
+        <div id="collapseThree" class="collapse" data-parent="#accordion">
+            <div class="card-body">
+                Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid.
+                3
+                wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt
+                laborum
+                eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee
+                nulla
+                assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred
+                nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft
+                beer
+                farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus
+                labore sustainable VHS.
             </div>
         </div>
     </div>
@@ -86,34 +134,57 @@
             </div>
             <input type="hidden" id="hfGenusID" name="GenusID" />
         </td>
-        <td><input type="text" class="form-control" id="txtSpeciesName" name="SpeciesName" /></td>
+        <td width="35%"><input type="text" class="form-control" id="txtSpeciesName" name="SpeciesName" /></td>
         <td><input type="text" class="form-control" id="txtSpeciesAuthority" name="SpeciesAuthority" /></td>
         <td><input type="text" class="form-control" id="txtProtologue" name="Protologue" /></td>
         <td><input type="text" class="form-control" id="txtProtologueVirtualPath" name="ProtologueVirtualPath" /></td>
         <td><input type="text" class="form-control" id="txtNote" name="Note" /></td>
-        <td><input type="text" class="form-control" id="txtStatus" name="Status" /></td>
         <td>
-            <button id="btnDelete" class="btn btn-danger delete-row">Delete</button>
+            <div class="btn-group">
+                <button id="btnDelete" type="button" class="btn btn-default delete-row">
+                    <i class="fas fa-trash"></i>
+                </button>
+                <button type="button" class="btn btn-default copy-btn">
+                    <i class="fas fa-copy"></i>
+                </button>
+            </div>
         </td>
-        <td>
-            <button class="btn btn-default btn-sm copy-btn">Copy</button>
-        </td>
+       
     </tr>
 </table>
 <!-- END TABLE TEMPLATE -->
 
-<!-- ERROR MESSAGE TEMPLATE -->
-<div class="alert alert-danger alert-dismissible" style="display:none;">
-    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-    <h5><i class="icon fas fa-ban"></i> Validation Errors</h5>
-    <div id="section-error-messages"></div>
-</div>
-
-<!-- END ERROR MESSAGE TEMPLATE -->
-
 @{Html.RenderAction("RenderLookupModal", "Genus"); }
+
 <script>
+    function togglePanels() {
+
+            // Get the button that controls the panel (use the button's ID)
+            var panel1Button = document.getElementById("panel1Toggle");
+            var panel2Button = document.getElementById("panel2Toggle");
+
+            // Trigger the click event
+            panel1Button.click();
+            panel2Button.click();
+    }
+
+    function triggerAccordionHeadingClick(headingId) {
+        // Get the accordion heading by its ID
+        var heading = document.getElementById(headingId);
+
+        if (heading) {
+            // Trigger a click event on the heading
+            heading.click();
+        } else {
+            console.log("Accordion heading not found");
+        }
+    }
+
     let counter = 1; // Counter to create unique IDs
+
+    var errorDiv = document.getElementById("errorDiv");
+    errorDiv.style.display = "none";
+
     $(document).ready(function () {
         $(document).on('input', 'input[type="text"]', function () {
             $(this).css('background-color', 'white');
@@ -137,8 +208,6 @@
             this.Note = Note;
         }
     }
-
-    
 
     // Add row from template to main table
     document.getElementById('addRow').addEventListener('click', function () {
@@ -167,10 +236,10 @@
                 button.setAttribute(`data-ggtools-id-field`, 'hf' + dataAttr1Value + '-' + counter);
                 button.setAttribute(`data-ggtools-name-field`, 'txt' + dataAttr2Value + '-' + counter);
 
-                //DEBUG    
-                console.log(button.id);
-                console.log(dataAttr1Value);
-                console.log(dataAttr2Value);
+                //DEBUG
+                //console.log(button.id);
+                //console.log(dataAttr1Value);
+                //console.log(dataAttr2Value);
             }
         });
 
@@ -229,6 +298,15 @@
     $('#saveChanges').click(function () {
         var isValid = true;
         var table = getDomElement("#mainTable");
+        var errors = [];
+
+        var errorDiv = document.getElementById("errorDiv");
+        errorDiv.style.display = "none"; // Hide error div initially
+        var ul = document.getElementById("errorList");
+        if (ul) {
+            console.log("DEBUG clearing errors");
+            ul.innerHTML = "";
+        }
 
         if (table) {
             const tableBody = document.querySelector('#mainTable tbody');
@@ -245,54 +323,91 @@
                 var protologueVirtualPath = $(row).find('input[name="ProtologueVirtualPath"]').val();
                 var note = $(row).find('input[name="Note"]').val();
 
-                //DEBUG
-                alert("SAVING ROW " + rowId);
-
                 if ((genusId == 0) || (genusId == null)) {
                     /* VALIDATION OPTION: Set all error fields to red */
                     //$(row).find('input[name="GenusName"]').css('background-color', 'red');
                     $('span.placeholder').css('background-color', 'red');
+                    errors.push("Genus required.");
                     isValid = false;
                 }
 
                 if ((speciesName == null) || speciesName.trim() == "") {
+                    errors.push("Species name required.");
                     $(row).find('input[name="SpeciesName"]').css('background-color', 'red');
+                    isValid = false;
                 }
 
-                if (isValid == true) {
+                if (isValid == true) {;
+                    console.log("DEBUG isValid TRUE");
                     var species = new SpeciesDTO(id, genusId, genusName, speciesName, speciesAuthority, protologue, protologueVirtualPath, note);
-                    SaveSpecies(species);
+                    SaveSpecies(rowId, species);
+                    
                 }
                 else {
-                    HandleError();
+                    if (errors.length > 0) {
+                        errorDiv.style.display = "block"; // Show error div
+                        errors.forEach(function (error) {
+                            var li = document.createElement("li");
+                            li.textContent = error;
+                            errorList.appendChild(li);
+                        });
+                    }
                 }
             });
         }
     });
 
-    function SaveSpecies(speciesDTO) {
+    function SaveSpecies(rowId, speciesDTO) {
         $.ajax({
-            url: '@Url.Action("Save","Species")',
+            url: '@Url.Action("SaveBatch","Species")',
             type: 'POST',
             contentType: "application/json; charset=utf-8",
 
             data: JSON.stringify( { speciesDTO: speciesDTO }),
             success: function (response) {
                 if (response.success) {
-                    alert("DEBUG Success: " + response.Entity.ID);
+                    GetSpeciesBatch();
                 } else {
-                    alert("DEBUG: " + response.errorResponse.errorMessage);
+                    //TODO
                 }
             },
             error: function (xhr, status, error) {
                 alert("An error occurred: " + error);
             }
-            
+
         });
     }
 
-    function HandleError() {
-        //TODO show error(s) in activated panel.
+    function GetSpeciesBatch() {
+        $.ajax({
+            url: '@Url.Action("_ListBatch","Species")',
+            type: 'POST',
+            contentType: "application/json; charset=utf-8",
+            success: function (response) {
+                $("#collapseTwo").html(response);
+                triggerAccordionHeadingClick("accordionButton2");
+                ResetTable("mainTable");
+            },
+            error: function (xhr, status, error) {
+                alert("An error occurred: " + error);
+            }
+        });
+    }
+
+    function ResetTable(tableId) {
+        // Get the table by its ID
+        var table = document.getElementById(tableId);
+
+        // Find the tbody within the table
+        var tbody = table.getElementsByTagName('tbody')[0];
+
+        // Make sure tbody exists
+        if (tbody) {
+            // Remove all rows (<tr>) from tbody
+            while (tbody.firstChild) {
+                tbody.removeChild(tbody.firstChild);
+            }
+        }
     }
 
     function getDomElement(selector) {
@@ -316,10 +431,13 @@
         // Find the <tr> that contains the clicked button
         let rowToCopy = buttonElement.closest('tr');
 
-        console.log("DEBUG " + rowToCopy);
-
         // Clone the row
         let clonedRow = rowToCopy.cloneNode(true);
+
+        counter++;
+
+        // Set ID of cloned row
+        $(clonedRrow).find('input[name="RowID"]').val(counter);
 
         // Optionally, remove the ID attributes of cloned row elements if needed
         clonedRow.querySelectorAll('[id]').forEach(element => element.removeAttribute('id'));
@@ -341,161 +459,18 @@
         });
     });
 
-   
+    function HandleError() {
+        //TODO show error(s) in activated panel.
+    }
+
+    function copyDivContent() {
+        // Get the source and target divs
+        var sourceDiv = document.getElementById("sourceDiv");
+        var targetDiv = document.getElementById("targetDiv");
+
+        // Copy the inner HTML from sourceDiv to targetDiv
+        targetDiv.innerHTML = sourceDiv.innerHTML;
+    }
 
 </script>
-@*<script type="text/javascript">
-        let counter = 1;
 
-        // Function to add a row from the hidden template table to the main table
-        function addRow() {
-            // Get the template row
-            const templateRow = document.querySelector('#template-table tr');
-
-            // Clone the row
-            const newRow = templateRow.cloneNode(true);
-
-            // Make the new row visible
-            newRow.style.display = '';
-
-            // Set a unique ID in the hidden input field
-            const hiddenInput = newRow.querySelector('.row-id');
-            hiddenInput.value = 'Row-' + counter;
-
-            // Increment the counter for the next row
-            counter++;
-
-
-
-            // Add the new row to the main table
-            const mainTableBody = document.querySelector('#main-table tbody');
-            mainTableBody.appendChild(newRow);
-
-            // Add event listener to the delete button of this row
-            const deleteBtn = newRow.querySelector('.delete-btn');
-            deleteBtn.addEventListener('click', function () {
-                deleteRow(newRow);
-            });
-        }
-
-        // Function to delete a row and display the unique ID
-        function deleteRow(row) {
-            // Get the unique ID from the hidden input field
-            const uniqueId = row.querySelector('.row-id').value;
-
-            // Display the unique ID
-            document.getElementById('display-id').innerText = 'Deleting Row with ID: ' + uniqueId;
-
-            // Remove the row from the table
-            row.remove();
-        }
-    </script>*@
-
-@*<script>
-        $(document).ready(function () {
-            let counter = 1;
-
-            // Add new row
-            // Function to add the template row to the main table
-            document.getElementById('addRow').addEventListener('click', function () {
-                // Select the hidden template row
-                const templateRow = document.querySelector('#templateTable .template-row');
-
-                // Clone the template row
-                const newRow = templateRow.cloneNode(true);
-
-                // Make sure the new row is visible by removing any hidden properties or classes
-                newRow.style.display = ''; // Ensure it doesn't inherit 'display: none'
-
-                // Append the cloned row to the main table
-                const mainTable = document.getElementById('table_taxonomy_species');
-                mainTable.appendChild(newRow);
-            });
-
-            // Delete row
-            $(document).on('click', '.delete-row', function () {
-                $(this).closest('tr').remove();
-            });
-
-            class SpeciesDTO {
-                constructor(ID, GenusID, GenusName, SpeciesName, Protologue, ProtologueVirtualPath, SpeciesAuthority, Note) {
-                    this.ID = ID;
-                    this.GenusID = GenusID;
-                    this.GenusName = GenusName;
-                    this.SpeciesName = SpeciesName;
-                    this.Protologue = Protologue;
-                    this.ProtologueVirtualPath = ProtologueVirtualPath;
-                    this.SpeciesAuthority = SpeciesAuthority;
-                    this.Note = Note;
-                }
-            }
-
-            // Save changes using AJAX
-            $('#saveChanges').click(function() {
-
-                var table = getDomElement("#table_taxonomy_species");
-
-                if (table) {
-                    const tableBody = document.querySelector('#table_taxonomy_species tbody');
-                    const rows = tableBody.querySelectorAll('tr');
-
-                    rows.forEach((row) => {
-                        var id = $(row).find('input[name="ID"]').val();
-                        var genusId = $(row).find('input[name="GenusID"]').val();
-                        var genusName = $(row).find('input[name="GenusName"]').val();
-                        var speciesName = $(row).find('input[name="SpeciesName"]').val();
-                        var speciesAuthority = $(row).find('input[name="SpeciesAuthority"]').val();
-                        var protologue = $(row).find('input[name="Protologue"]').val();
-                        var protologueVirtualPath = $(row).find('input[name="ProtologueVirtualPath"]').val();
-                        var note = $(row).find('input[name="Note"]').val();
-
-                        var species = new SpeciesDTO(id, genusId, genusName, speciesName, speciesAuthority, protologue, protologueVirtualPath, note);
-                        SaveSpecies(species);
-                    });
-                }
-            });
-
-            function SaveSpecies(speciesDTO) {
-                    console.log("DEBUG: SAVING " + speciesDTO.ID, speciesDTO.GenusID, speciesDTO.GenusName, speciesDTO.SpeciesName, speciesDTO.SpeciesAuthority, speciesDTO.Protologue, speciesDTO.ProtologueVirtualPath, speciesDTO.Note);
-                    $.ajax({
-                        url: '@Url.Action("Save","Species")',
-                        type: 'POST',
-                        contentType: "application/json; charset=utf-8",
-
-                        data: JSON.stringify( { speciesDTO: speciesDTO }),
-                        success: function (response) {
-                            if (response.success) {
-                                // Handle success
-                                alert("Success: " + response.message);
-                            } else {
-                                // Handle the list of error messages
-                                var errorList = response.messages;
-                                var errorMessage = "The following errors occurred:\n";
-                                for (var i = 0; i < errorList.length; i++) {
-                                    errorMessage += "- " + errorList[i] + "\n";
-                                }
-                                alert(errorMessage);
-                            }
-                        },
-                        error: function (xhr, status, error) {
-                            alert("An error occurred: " + error);
-                        }
-                    });
-                }
-
-            function getDomElement(selector) {
-                try {
-                    const element = document.querySelector(selector);
-
-                    if (!element) {
-                        throw new Error(`Element with selector "${selector}" not found.`);
-                    }
-
-                    return element; // Return the DOM element reference if it exists
-                } catch (error) {
-                    console.error(error.message);
-                    return null; // Return null if there's an error
-                }
-            }
-        });
-    </script>*@

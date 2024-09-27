@@ -14,6 +14,7 @@ using DataTables;
 using System.Collections.ObjectModel;
 using System.Web.Configuration;
 using System.Runtime.Remoting.Messaging;
+using USDA.ARS.GRIN.GGTools.DataLayer;
 
 namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
 {
@@ -996,8 +997,9 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
         }
 
         [HttpPost]
-        public JsonResult Save(SpeciesDTO speciesDTO) 
+        public JsonResult SaveBatch(SpeciesDTO speciesDTO) 
         {
+            List<Species> speciesList = new List<Species>();
             SpeciesViewModel viewModel = new SpeciesViewModel();
 
             try
@@ -1010,22 +1012,33 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 viewModel.Entity.Protologue = speciesDTO.Protologue;
                 viewModel.Entity.ProtologueVirtualPath = speciesDTO.ProtologueVirtualPath;
                 viewModel.Entity.Note = speciesDTO.Note;
-                viewModel.Entity.ModifiedByCooperatorID = AuthenticatedUser.CooperatorID;
+                viewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
 
-                if (!viewModel.Validate())
-                {
-                    //REFACTOR
-                    List<string> messages = new List<string>();
-                    foreach(var message in viewModel.ValidationMessages)
-                    { 
-                        messages.Add(message.Message);
-                    }
+                //if (!viewModel.Validate())
+                //{
+                //    //REFACTOR
+                //    List<string> messages = new List<string>();
+                //    foreach(var message in viewModel.ValidationMessages)
+                //    { 
+                //        messages.Add(message.Message);
+                //    }
 
-                    return Json(new { success = false, messages });
-                }
+                //    return Json(new { success = false, messages });
+                //}
 
                 viewModel.Get(viewModel.Insert());
-              
+
+                if (Session["TAXONOMY_SPECIES_BATCH"] != null)
+                {
+                    speciesList = Session["TAXONOMY_SPECIES_BATCH"] as List<Species>;
+                }
+                else
+                {
+                    speciesList = new List<Species>();
+                }    
+                speciesList.Add(viewModel.Entity);
+                Session["TAXONOMY_SPECIES_BATCH"] = speciesList;
+
                 return Json(new { success = true, viewModel.Entity });
             }
             catch (Exception ex)
@@ -1040,6 +1053,25 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                     timestamp = DateTime.Now
                 };
                 return Json(new { success = false, errorResponse });
+            }
+            
+        }
+
+        public PartialViewResult _ListBatch()
+        {
+            SpeciesViewModel viewModel = new SpeciesViewModel();
+            try
+            {
+                if (Session["TAXONOMY_SPECIES_BATCH"] != null)
+                {
+                    viewModel.DataCollectionImport = new Collection<Species>(Session["TAXONOMY_SPECIES_BATCH"] as List<Species>);
+                }
+                return PartialView("~/Views/Taxonomy/Species/_ListBatch.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
             }
             
         }
