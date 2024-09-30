@@ -14,7 +14,7 @@
                     <span aria-hidden="true">×</span>
                 </button>
             </div>
-            <div id=" " class="modal-body">
+            <div id="section-search-criteria" class="modal-body">
                 @using (Html.BeginForm("Search", "Genus", FormMethod.Post, new { id = "frmGenusLookup", @class = "ggtools-lookup-form" }))
                 {
                     <input type="hidden" id="modal-genus-lookup-value-field" />
@@ -76,15 +76,6 @@
         
     });
 
-    //function GenusLookupModal_Open() {
-       
-    //    $('#modal-genus-lookup').modal('show');
-
-    //    $("#hfGenusLookupIDFieldName").val(eventAction);
-    //    $("#hfGenusLookupNameFieldName").val(eventValue);
-    //    $("#search-progress-overlay-genus-lookup").hide();
-    //}
-
     $("#btnLookupGenus").click(function () {
         SearchGenus();
     });
@@ -112,7 +103,7 @@
         idField = "#" + idField;
         displayField = "#" + displayField;
 
-        //console.log("DEBUG idField IS " + idField + " displayField IS " + displayField + " iDList IS " + idList + " nameList IS " + nameList);
+        console.log("DEBUG idField IS " + idField + " displayField IS " + displayField + " iDList IS " + idList + " nameList IS " + nameList);
 
         $(idField).val(idList);
 

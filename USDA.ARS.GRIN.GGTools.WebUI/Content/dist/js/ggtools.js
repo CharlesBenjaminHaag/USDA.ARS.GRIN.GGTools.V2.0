@@ -2,7 +2,7 @@
 * Name         : ggtools.js
 * Description  : Main JS application file for GGTools. This file
 *                should be included in all layout pages. 
-* Last Updated : 9/27/24 5:03 PM
+* Last Updated : 9/30/24 
 * By           : Benjamin Haag
 */
 
@@ -89,6 +89,8 @@ function clearDataTables(modal) {
             // Get the DataTable instance and clear it
             const dataTable = $(table).DataTable();
             dataTable.clear().draw();  // Clear all data and redraw the empty table
+            // Clear the search filter
+            dataTable.search('').draw(); 
         }
     });
 }
@@ -667,6 +669,7 @@ function GetSelectedEntityText(tableName) {
     //console.log(ids)
     return ids;
 }
+
 
 /* ========================================================================================
  * Edit logic

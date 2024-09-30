@@ -403,7 +403,6 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Views\ReleaseNotes.html" />
-    <Content Include="Views\SysFolder\Modals\_EditDynamic.cshtml" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -943,17 +942,12 @@
     <Content Include="Views\Taxonomy\Species\Modals\_SelectListProtologueVirtualPath.cshtml" />
     <Content Include="Views\Home\ReleaseNotes.cshtml" />
     <Content Include="Views\Taxonomy\RegulationMap\EditBatch.cshtml" />
-    <Content Include="Views\SysFolder\Components\_ListWithIcons.cshtml" />
-    <Content Include="Views\SysFolder\Modals\_Edit.cshtml" />
-    <Content Include="Views\SysFolder\Components\_Confirmation.cshtml" />
-    <Content Include="Views\SysFolder\Edit.cshtml" />
     <Content Include="Views\SysTag\Components\_SysTagsByTable.cshtml" />
     <Content Include="Views\Import\_List3.cshtml" />
     <Content Include="Views\Import\_SearchResultsList.cshtml" />
     <Content Include="Views\Taxonomy\Species\Components\_NameMatchingSelectList.cshtml" />
     <Content Include="Views\Taxonomy\Regulation\Modals\_Lookup.cshtml" />
     <Content Include="Views\Taxonomy\Regulation\Modals\_SelectList.cshtml" />
-    <Content Include="Views\SysFolder\_Edit.cshtml" />
     <Content Include="Views\SysFolderItemMap\_List.cshtml" />
     <Content Include="Views\Taxonomy\Family\Edit.cshtml" />
     <Content Include="Views\Taxonomy\Family\Index.cshtml" />
@@ -990,10 +984,6 @@
     <Content Include="Views\SysFolderCooperatorMap\Components\_MappedCooperatorList.cshtml" />
     <Content Include="Views\SysFolderCooperatorMap\Components\_NonMappedCooperatorList.cshtml" />
     <Content Include="Views\WebOrderRequest\Components\_EmailEditor.cshtml" />
-    <Content Include="Views\SysFolder\Index.cshtml" />
-    <Content Include="Views\SysFolder\_Detail.cshtml" />
-    <Content Include="Views\SysFolder\_List.cshtml" />
-    <Content Include="Views\SysFolder\Components\_Widget.cshtml" />
     <Content Include="Views\Taxonomy\Species\Components\_AddMenu.cshtml" />
     <Content Include="Views\Taxonomy\Species\Components\_EditMenu.cshtml" />
     <Content Include="Views\Shared\Modals\_UnderConstruction.cshtml" />
@@ -1003,7 +993,6 @@
     <Content Include="Views\Taxonomy\Genus\Components\_EditMenu.cshtml" />
     <Content Include="Views\Taxonomy\Order\Components\_EditMenu.cshtml" />
     <Content Include="Views\SysTable\Components\_ListWidget.cshtml" />
-    <Content Include="Views\SysFolder\Explorer\Index.cshtml" />
     <Content Include="Views\SysFolderItemMap\Components\_ListWidgets.cshtml" />
     <Content Include="Views\SysTag\Components\_SelectList.cshtml" />
     <Content Include="Views\SysFolderItemMap\Components\_SelectList.cshtml" />
@@ -1014,7 +1003,6 @@
     <Content Include="Views\SysFolderCooperatorMap\Modals\_ListCurrent.cshtml" />
     <Content Include="Views\SysFolderCooperatorMap\Components\_ListNonMapped.cshtml" />
     <Content Include="Views\SysFolderCooperatorMap\Components\_ListMapped.cshtml" />
-    <Content Include="Views\SysFolder\Components\_SQLQueryFolderEditor.cshtml" />
     <Content Include="Views\GOBS\_ListDatasets.cshtml" />
     <Content Include="Views\GOBS\_ListDatasetMarkers.cshtml" />
     <Content Include="Views\GOBS\EditDataset.cshtml" />
@@ -1050,6 +1038,18 @@
     <Content Include="Views\Shared\_LayoutUSWDSInterior.cshtml" />
     <Content Include="Views\Taxonomy\Species\AddBatch.cshtml" />
     <Content Include="Views\Taxonomy\Species\_ListBatch.cshtml" />
+    <Content Include="Views\SysFolder\Components\_Confirmation.cshtml" />
+    <Content Include="Views\SysFolder\Components\_ListWithIcons.cshtml" />
+    <Content Include="Views\SysFolder\Components\_SQLQueryFolderEditor.cshtml" />
+    <Content Include="Views\SysFolder\Components\_Widget.cshtml" />
+    <Content Include="Views\SysFolder\Explorer\Index.cshtml" />
+    <Content Include="Views\SysFolder\Modals\_Edit.cshtml" />
+    <Content Include="Views\SysFolder\Modals\_EditDynamic.cshtml" />
+    <Content Include="Views\SysFolder\Edit.cshtml" />
+    <Content Include="Views\SysFolder\Index.cshtml" />
+    <Content Include="Views\SysFolder\_Detail.cshtml" />
+    <Content Include="Views\SysFolder\_Edit.cshtml" />
+    <Content Include="Views\SysFolder\_List.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

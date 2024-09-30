@@ -137,11 +137,41 @@
 </div>
 <!-- ****************************************** END EMAIL MODAL *******************************************************-->
 
+
 <script type="text/javascript">
+
+    // Fires when page renders.
     $(document).ready(function () {
         Load();
     });
 
+    // Fires when user selects an item from the sidebar.
+    $('.filter').on('click', function () {
+        event.preventDefault();
+        var id = $(this).attr('id');
+        var eventAction = $(this).attr('data-ggtools-action');
+        var eventValue = $(this).attr('data-ggtools-value');
+
+        $("#placeholder-page-title").html("Web Order Requests: " + eventValue);
+
+        if (typeof id === "undefined") {
+
+        }
+        else {
+            //DEBUG
+            $("#" + eventAction).val(eventValue);
+
+            //TODO Set visual indicator of filters.
+
+
+
+
+
+            LoadWebOrderRequestList();
+        }
+    });
+
+    // Event handler for user selecting a WOR from the list.
     $('#section-web-order-request ul.nav li').on('click', function () {
         var webOrderRequestId = $("#Entity_ID").val();
         var selectedId = $(this).attr('id');
@@ -150,13 +180,146 @@
     });
 
     function Load() {
-        // TODO Determine default WOR list filter.
+        // TODO Determine the default time frame to use to filter the WOR list.
         $("#filter-by-time-frame").val("1Y");
         LoadWebOrderRequestList();
 
         $("#txtSelectedTab").val("tab-web-order-request-detail");
         $("#section-overlay-web-order-request-list").hide();
     }
+
+    // Populate the list of web order requests based on the filters currently
+    // stored in hidden fields.
+    function LoadWebOrderRequestList() {
+    var link = '@Url.Action("ExplorerList","WebOrderRequest")';
+    var timeFrame = GetSelectedFilter("filter-by-time-frame");
+    var statusCode = GetSelectedFilter("filter-by-status");
+    var assignedTo = GetSelectedFilter("filter-by-assigned-to");
+    var formData = new FormData();
+
+        console.log("DEBUG: Filtering WOR list TIME FRAME " + timeFrame + " STATUS " + statusCode + " ASSIGNED " + assignedTo);
+
+    formData.append("SearchEntity.TimeFrame", timeFrame);
+    formData.append("SearchEntity.StatusCode", statusCode);
+    formData.append("SearchEntity.OwnedByWebUserID", assignedTo);
+
+    $("#section-overlay-web-order-request-list").show();
+
+    $.ajax({
+        url: link,
+        type: 'POST',
+        cache: false,
+        contentType: false,
+        processData: false,
+        data: formData,
+        success: function (response) {
+            $("#section-web-order-request-list").html(response);
+            $("#section-overlay-web-order-request-list").hide();
+        }
+    });
+}
+
+    function LoadWebOrderRequest(id) {
+    var selectedTab = GetSelectedTab();
+
+    $("#Entity_ID").val(id);
+
+    switch (selectedTab) {
+        case "tab-web-order-request-detail":
+            LoadWebOrderRequestDetail(id);
+            break;
+        case "tab-web-order-request-timeline":
+            LoadWebOrderRequestTimeline(id);
+            break;
+        case "tab-web-order-request-notes":
+            LoadWebOrderRequestNotes(id);
+            break;
+        case "tab-web-order-request-order-request":
+            LoadWebOrderRequestOrderRequest(id);
+            break;
+    }
+}
+
+    function LoadWebOrderRequestDetail(webOrderRequestId) {
+    var link = '@Url.Action("ExplorerDetail","WebOrderRequest", new { webOrderRequestId = "WEB_ORDER_REQUEST_ID" })';
+    link = link.replace("WEB_ORDER_REQUEST_ID", webOrderRequestId);
+
+    var formData = new FormData();
+    formData.append("webOrderRequestId", webOrderRequestId);
+
+    $.ajax({
+        url: link,
+        type: 'POST',
+        cache: false,
+        contentType: false,
+        processData: false,
+        data: formData,
+        success: function (response) {
+            $("#tab-content-web-order-request").html(response);
+        }
+    });
+    //tab-web-order-request-detail
+}
+
+    function LoadWebOrderRequestTimeline(webOrderRequestId) {
+    var link = '@Url.Action("ExplorerTimeline","WebOrderRequest", new { webOrderRequestId = "WEB_ORDER_REQUEST_ID" })';
+    link = link.replace("WEB_ORDER_REQUEST_ID", webOrderRequestId);
+
+    var formData = new FormData();
+    formData.append("webOrderRequestId", webOrderRequestId);
+
+    $.ajax({
+        url: link,
+        type: 'POST',
+        cache: false,
+        contentType: false,
+        processData: false,
+        data: formData,
+        success: function (response) {
+            $("#tab-content-web-order-request").html(response);
+        }
+    });
+}
+
+    function LoadWebOrderRequestNotes(webOrderRequestId) {
+    var link = '@Url.Action("ExplorerNotes","WebOrderRequest", new { webOrderRequestId = "WEB_ORDER_REQUEST_ID" })';
+    link = link.replace("WEB_ORDER_REQUEST_ID", webOrderRequestId);
+
+    var formData = new FormData();
+    formData.append("webOrderRequestId", webOrderRequestId);
+
+    $.ajax({
+        url: link,
+        type: 'POST',
+        cache: false,
+        contentType: false,
+        processData: false,
+        data: formData,
+        success: function (response) {
+            $("#tab-content-web-order-request").html(response);
+        }
+    });
+}
+
+    function LoadWebOrderRequestOrderRequest(webOrderRequestId) {
+    var link = '@Url.Action("_Get","OrderRequest", new { webOrderRequestId = "WEB_ORDER_REQUEST_ID" })';
+    link = link.replace("WEB_ORDER_REQUEST_ID", webOrderRequestId);
+
+    var formData = new FormData();
+    formData.append("webOrderRequestId", webOrderRequestId);
+
+    $.ajax({
+        url: link,
+        type: 'POST',
+        cache: false,
+        contentType: false,
+        processData: false,
+        data: formData,
+        success: function (response) {
+            $("#tab-content-web-order-request").html(response);
+        }
+    });
+}
 
     function GetSelectedTab() {
         return $("#txtSelectedTab").val();
@@ -246,7 +409,7 @@
             data: formData,
             success: function (response) {
                 if (response.success) {
-                    
+
 
                 } else {
                     HandleError(response.message);
@@ -352,137 +515,6 @@
                 var data = table.row(this).data();
                 LoadWebOrderRequest(data[0]);
             });
-        });
-    }
-
-    // Populate the list of web order requests based on the filters currently
-    // stored in hidden fields.
-    function LoadWebOrderRequestList() {
-        var link = '@Url.Action("ExplorerList","WebOrderRequest")';
-        var timeFrame = GetSelectedFilter("filter-by-time-frame");
-        var statusCode = GetSelectedFilter("filter-by-status");
-        var assignedTo = GetSelectedFilter("filter-by-assigned-to");
-        var formData = new FormData();
-
-        formData.append("SearchEntity.TimeFrame", timeFrame);
-        formData.append("SearchEntity.StatusCode", statusCode);
-        formData.append("SearchEntity.OwnedByWebUserID", assignedTo);
-
-        $("#section-overlay-web-order-request-list").show();
-
-        $.ajax({
-            url: link,
-            type: 'POST',
-            cache: false,
-            contentType: false,
-            processData: false,
-            data: formData,
-            success: function (response) {
-                $("#section-web-order-request-list").html(response);
-                $("#section-overlay-web-order-request-list").hide();
-            }
-        });
-    }
-
-    function LoadWebOrderRequest(id) {
-        var selectedTab = GetSelectedTab();
-
-        $("#Entity_ID").val(id);
-
-        switch (selectedTab) {
-            case "tab-web-order-request-detail":
-                LoadWebOrderRequestDetail(id);
-                break;
-            case "tab-web-order-request-timeline":
-                LoadWebOrderRequestTimeline(id);
-                break;
-            case "tab-web-order-request-notes":
-                LoadWebOrderRequestNotes(id);
-                break;
-            case "tab-web-order-request-order-request":
-                LoadWebOrderRequestOrderRequest(id);
-                break;
-        }
-    }
-
-    function LoadWebOrderRequestDetail(webOrderRequestId) {
-        var link = '@Url.Action("ExplorerDetail","WebOrderRequest", new { webOrderRequestId = "WEB_ORDER_REQUEST_ID" })';
-        link = link.replace("WEB_ORDER_REQUEST_ID", webOrderRequestId);
-
-        var formData = new FormData();
-        formData.append("webOrderRequestId", webOrderRequestId);
-
-        $.ajax({
-            url: link,
-            type: 'POST',
-            cache: false,
-            contentType: false,
-            processData: false,
-            data: formData,
-            success: function (response) {
-                $("#tab-content-web-order-request").html(response);
-            }
-        });
-        //tab-web-order-request-detail
-    }
-
-    function LoadWebOrderRequestTimeline(webOrderRequestId) {
-        var link = '@Url.Action("ExplorerTimeline","WebOrderRequest", new { webOrderRequestId = "WEB_ORDER_REQUEST_ID" })';
-        link = link.replace("WEB_ORDER_REQUEST_ID", webOrderRequestId);
-
-        var formData = new FormData();
-        formData.append("webOrderRequestId", webOrderRequestId);
-
-        $.ajax({
-            url: link,
-            type: 'POST',
-            cache: false,
-            contentType: false,
-            processData: false,
-            data: formData,
-            success: function (response) {
-                $("#tab-content-web-order-request").html(response);
-            }
-        });
-    }
-
-    function LoadWebOrderRequestNotes(webOrderRequestId) {
-        var link = '@Url.Action("ExplorerNotes","WebOrderRequest", new { webOrderRequestId = "WEB_ORDER_REQUEST_ID" })';
-        link = link.replace("WEB_ORDER_REQUEST_ID", webOrderRequestId);
-
-        var formData = new FormData();
-        formData.append("webOrderRequestId", webOrderRequestId);
-
-        $.ajax({
-            url: link,
-            type: 'POST',
-            cache: false,
-            contentType: false,
-            processData: false,
-            data: formData,
-            success: function (response) {
-                $("#tab-content-web-order-request").html(response);
-            }
-        });
-    }
-
-    function LoadWebOrderRequestOrderRequest(webOrderRequestId) {
-        var link = '@Url.Action("_Get","OrderRequest", new { webOrderRequestId = "WEB_ORDER_REQUEST_ID" })';
-        link = link.replace("WEB_ORDER_REQUEST_ID", webOrderRequestId);
-
-        var formData = new FormData();
-        formData.append("webOrderRequestId", webOrderRequestId);
-
-        $.ajax({
-            url: link,
-            type: 'POST',
-            cache: false,
-            contentType: false,
-            processData: false,
-            data: formData,
-            success: function (response) {
-                $("#tab-content-web-order-request").html(response);
-            }
         });
     }
 

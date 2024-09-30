@@ -187,29 +187,3 @@
         </li>
     </ul>
 </nav>
-<script type="text/javascript">
-    $('.filter').on('click', function () {
-        event.preventDefault();
-        var id = $(this).attr('id');
-        var eventAction = $(this).attr('data-ggtools-action');
-        var eventValue = $(this).attr('data-ggtools-value');
-
-        $("#placeholder-page-title").html("Web Order Requests: " + eventValue);
-
-        if (typeof id === "undefined") {
-
-        }
-        else {
-            //DEBUG
-            $("#" + eventAction).val(eventValue);
-
-            //TODO Set visual indicator of filters.
-
-
-            
-
-
-            LoadWebOrderRequestList();
-        }
-    });
-</script>
