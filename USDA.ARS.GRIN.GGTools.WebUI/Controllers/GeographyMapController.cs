@@ -52,7 +52,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             
             try
             {
-                viewModel.PageTitle = "Distribution Search";
+                ViewBag.PageTitle = "Distribution Search";
                 viewModel.TableName = "taxonomy_geography_map";
                 viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
 
@@ -162,7 +162,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             {
                 GeographyMapViewModel viewModel = new GeographyMapViewModel();
                 viewModel.TableName = "taxonomy_geography_map";
-                viewModel.PageTitle = "Add Distribution";
+                ViewBag.PageTitle = "Add Distribution";
                 viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
                
                 if (speciesId > 0)

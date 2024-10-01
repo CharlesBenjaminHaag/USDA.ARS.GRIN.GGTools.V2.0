@@ -1050,6 +1050,7 @@
     <Content Include="Views\SysFolder\_Detail.cshtml" />
     <Content Include="Views\SysFolder\_Edit.cshtml" />
     <Content Include="Views\SysFolder\_List.cshtml" />
+    <Content Include="Views\Cooperator\Components\_SiteCuratorList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

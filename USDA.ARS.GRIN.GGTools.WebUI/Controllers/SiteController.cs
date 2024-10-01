@@ -162,18 +162,9 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             SiteViewModel viewModel = new SiteViewModel();
             try
             {
-                viewModel.Get(siteId);
-
-                // Get a list of all active cooperators at the specified site.
-                //CooperatorViewModel cooperatorViewModel = new CooperatorViewModel();
-                //cooperatorViewModel.SearchEntity.SiteID = siteId;
-                //cooperatorViewModel.SearchEntity.SysUserIsEnabled = "Y";
-                //cooperatorViewModel.SearchEntity.StatusCode = "ACTIVE";
-                //cooperatorViewModel.Search();
-                
-                //viewModel.DataCollectionSiteCooperators = cooperatorViewModel.DataCollection;
                 viewModel.AuthenticatedUser = AuthenticatedUser;
-
+                viewModel.Get(siteId);
+                viewModel.GetSiteCurators(siteId);
                 return PartialView("~/Views/Site/_Widget.cshtml", viewModel);
             }
             catch (Exception ex)
@@ -211,7 +202,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             try
             {
                 viewModel.GetSiteCurators(siteId);
-                return PartialView("~/Views/Cooperator/_SiteCuratorListWidget.cshtml", viewModel);
+                return PartialView("~/Views/Cooperator/Components/_SiteCuratorList.cshtml", viewModel);
             }
             catch (Exception ex)
             {

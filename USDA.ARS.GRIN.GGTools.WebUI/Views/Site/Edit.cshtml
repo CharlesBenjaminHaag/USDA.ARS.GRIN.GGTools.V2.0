@@ -198,12 +198,12 @@
             <i class="fa fa-undo"></i>
             Reset
         </a>
-        @if (Model.Entity.ID > 0)
+        @*@if (Model.Entity.ID > 0)
         {
             <button id="btnDelete" type="button" class="btn btn-danger">
                 <i class="fa fa-trash"></i> Delete
             </button>
-        }
+        }*@
 
         @{
             string publicWebsiteSiteDetailUrl = AppInfo.GetPublicWebsiteURL() + "/site?id=" + Model.Entity.ID;

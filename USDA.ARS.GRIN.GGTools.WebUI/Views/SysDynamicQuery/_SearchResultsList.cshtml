@@ -8,19 +8,7 @@
         SysTableField sysTableFieldHeading = new SysTableField();
         SysTableField sysTableField = new SysTableField();
         var tableId = "data_table_" + Model.TableName;
-        int keyColumnCount = 0;
-}
-
-@if (Model.ValidationMessages.Count > 0)
-{
-<div class="alert alert-danger alert-dismissible">
-    @*<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>*@
-    <h4><i class="icon fa fa-ban"></i>SQL Error</h4>
-    @foreach (var result in Model.ValidationMessages)
-    {
-        <p>@result.Message</p>
-    }
-</div>
+        
 }
 
 @if (Model.DataCollectionDataTable.Rows.Count > 0)
