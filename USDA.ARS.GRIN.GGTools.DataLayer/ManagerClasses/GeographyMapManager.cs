@@ -110,7 +110,6 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             SQL += " AND    (@GeographyStatusCode       IS NULL OR      GeographyStatusCode         =           @GeographyStatusCode)";
             SQL += " AND    (@CountryCode               IS NULL OR      CountryCode                 =           @CountryCode)";
             SQL += " AND    (@CountryName               IS NULL OR      CountryName                 LIKE  '%' + @CountryName + '%')";
-            SQL += " AND    (@Admin1                    IS NULL OR      Admin1                      LIKE  '%' + @Admin1 + '%')";
             SQL += " AND    (@IsCited                   IS NULL OR      IsCited                      =           @IsCited)";
             SQL += " AND    (@IsValid                   IS NULL OR      IsValid                      =           @IsValid)";
 
@@ -147,7 +146,6 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
                 CreateParameter("GeographyStatusCode", (object)searchEntity.GeographyStatusCode ?? DBNull.Value, true),
                 CreateParameter("CountryCode", (object)searchEntity.CountryCode ?? DBNull.Value, true),
                 CreateParameter("CountryName", (object)searchEntity.CountryName  ?? DBNull.Value, true),
-                CreateParameter("Admin1", (object)searchEntity.Admin1 ?? DBNull.Value, true),
                 CreateParameter("IsCited", (object)searchEntity.IsCited ?? DBNull.Value, true),
                 CreateParameter("IsValid", (object)searchEntity.IsValid ?? DBNull.Value, true),
             };

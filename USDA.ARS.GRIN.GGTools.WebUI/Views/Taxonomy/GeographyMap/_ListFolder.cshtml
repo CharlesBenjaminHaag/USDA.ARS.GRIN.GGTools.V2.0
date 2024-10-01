@@ -5,13 +5,9 @@
             <th>ID</th>
             <th>Item</th>
             <th>Key</th>
-            <th>Species ID</th>
-            <th>Species Name</th>
-            <th>Status</th>
-            <th>Country</th>
             <th>Assembled Name</th>
-            <th>Admin 1</th>
-            <th>Note</th>
+            <th>Species ID</th>
+            <th>Status</th>
             <th>Citation</th>
             <th></th>
         </tr>
@@ -25,20 +21,20 @@
             <td>@result.ID</td>
             <td>@result.SysFolderItemMapID</td>
             <td>@result.EntityKey</td>
-            <td>@result.SpeciesID</td>
+            <td>@result.AssembledName</td>
             <td>
                 <a href="@Url.Action("Edit","Species", new { @entityId = result.SpeciesID })">
-                    @result.SpeciesName
+                    @result.SpeciesID
                 </a>
             </td>
             <td>
                 @result.GeographyStatusDescription
             </td>
-            <td>@result.CountryName</td>
-            <td>@result.AssembledName</td>
-            <td>@result.Admin1</td>
-            <td>@Html.Raw(result.Note)</td>
-            <td>@Html.Raw(result.CitationText)</td>
+            <td>
+                <a href="@Url.Action("Edit", "Citation", new { entityId = result.ID })">
+                    @Html.Raw(result.CitationText)
+                </a>
+            </td>
             <td>
                 <a href="@Url.Action("Edit", "GeographyMap", new { entityId = result.ID })" class="btn btn-default btn-sm float-right row-edit">
                     <i class="fa fa-edit"></i>
