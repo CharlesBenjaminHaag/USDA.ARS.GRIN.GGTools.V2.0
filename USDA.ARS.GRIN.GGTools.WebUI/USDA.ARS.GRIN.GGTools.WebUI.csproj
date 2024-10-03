@@ -1052,6 +1052,9 @@
     <Content Include="Views\SysFolder\_List.cshtml" />
     <Content Include="Views\Cooperator\Components\_SiteCuratorList.cshtml" />
     <Content Include="Views\Components\_DefaultAddMenu.cshtml" />
+    <Content Include="Views\Taxonomy\GeographyMap\Components\_EditMenu.cshtml" />
+    <Content Include="Views\Taxonomy\GeographyMap\Components\_SearchMenu.cshtml" />
+    <Content Include="Views\Taxonomy\GeographyMap\EditBatchBACKUP.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

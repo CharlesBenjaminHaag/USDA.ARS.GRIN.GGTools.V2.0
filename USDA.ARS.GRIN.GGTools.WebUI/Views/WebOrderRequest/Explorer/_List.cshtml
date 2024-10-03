@@ -1,57 +1,41 @@
 ﻿@model USDA.ARS.GRIN.GGTools.ViewModelLayer.WebOrderRequestViewModel
+<table id="data-table-web-order-requests" class="table table-striped ggtools" style="width:100%;">
+    <thead>
+        <tr>
+            <th style="width: 1%">
+                ID
+            </th>
 
-<div class="card card-outline card-primary">
-    <div class="card-header">
-        <h3 id="section-web-order-request-list-title" class="card-title">Web Order Requests [@Model.DataCollection.Count]</h3>
-        <div class="card-tools">
-            <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                <i class="fas fa-minus"></i>
-            </button>
-        </div>
-    </div>
-    <div class="card-body">
-        <table id="data-table-web-order-requests" class="table table-striped ggtools" style="width:100%;">
-            <thead>
-                <tr>
-                    <th style="width: 1%">
-                        ID
-                    </th>
+            <th style="width: 20%">
+                Requestor
+            </th>
+            <th>Submitted</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var result in Model.DataCollection)
+        {
+            <tr>
+                <td>
+                    @result.ID
+                </td>
 
-                    <th style="width: 20%">
-                        Requestor
-                    </th>
-                    <th>Submitted</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var result in Model.DataCollection)
-                {
-                    <tr>
-                        <td>
-                            @result.ID
-                        </td>
+                <td>
+                    @result.WebCooperatorFullName
+                    <br>
 
-                        <td>
-                            @result.WebCooperatorFullName
-                            <br>
+                    @result.WebCooperatorEmail
 
-                            @result.WebCooperatorEmail
+                    <br />
 
-                            <br />
+                    @result.WebCooperatorOrganization
 
-                            @result.WebCooperatorOrganization
-
-                        </td>
-                        <td>@result.CreatedDate.ToString("yyyy-MM-dd")</td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    </div>
-    <div id="section-overlay-web-order-request-list" class="overlay">
-        <i class="fas fa-2x fa-sync-alt"></i>
-    </div>
-</div>
+                </td>
+                <td>@result.CreatedDate.ToString("yyyy-MM-dd")</td>
+            </tr>
+        }
+    </tbody>
+</table>
 
 
 <script type="text/javascript">

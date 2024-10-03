@@ -24,12 +24,29 @@
 
 <input type="hidden" id="filter-by-time-frame" />
 <input type="hidden" id="filter-by-status" />
+<input type="hidden" id="filter-by-most-recent-action" />
 <input type="hidden" id="filter-by-assigned-to" />
 <input type="hidden" id="txtSelectedTab" />
 <input type="hidden" id="Entity_ID" />
 
 <div class="row">
-    <div id="section-web-order-request-list" class="col-md-4">
+    <div class="col-md-4">
+        <div class="card card-outline card-primary">
+            <div class="card-header">
+                <h3 id="section-web-order-request-list-title" class="card-title">Web Order Requests [@Model.DataCollection.Count]</h3>
+                <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                        <i class="fas fa-minus"></i>
+                    </button>
+                </div>
+            </div>
+            <div id="section-web-order-request-list" class="card-body">
+
+            </div>
+            <div id="section-overlay-web-order-request-list" class="overlay">
+                <i class="fas fa-2x fa-sync-alt"></i>
+            </div>
+        </div>
     </div>
     <div class="col-md-8">
         <div class="card card-primary card-tabs">
@@ -149,27 +166,28 @@
     $('.filter').on('click', function () {
         event.preventDefault();
         var id = $(this).attr('id');
+
         var eventAction = $(this).attr('data-ggtools-action');
         var eventValue = $(this).attr('data-ggtools-value');
 
         $("#placeholder-page-title").html("Web Order Requests: " + eventValue);
 
         if (typeof id === "undefined") {
-
+            //TODO Handle error
         }
         else {
-            //DEBUG
-            $("#" + eventAction).val(eventValue);
-
-            //TODO Set visual indicator of filters.
-
-
-
-
-
+            SetFilter(eventAction, eventValue);
             LoadWebOrderRequestList();
         }
     });
+
+    function SetFilter(filterName, filterValue) {
+        var filterDisplayName = "";
+        var filterDisplayTitle = "";
+
+        console.log("DEBUG SetFilter " + filterName + " to " + filterValue);
+        $("#" + filterName).val(filterValue);
+    }
 
     // Event handler for user selecting a WOR from the list.
     $('#section-web-order-request ul.nav li').on('click', function () {
@@ -181,43 +199,51 @@
 
     function Load() {
         // TODO Determine the default time frame to use to filter the WOR list.
-        $("#filter-by-time-frame").val("1Y");
+        SetFilter("filter-by-time-frame", "30D");
         LoadWebOrderRequestList();
-
         $("#txtSelectedTab").val("tab-web-order-request-detail");
-        $("#section-overlay-web-order-request-list").hide();
     }
 
     // Populate the list of web order requests based on the filters currently
     // stored in hidden fields.
     function LoadWebOrderRequestList() {
-    var link = '@Url.Action("ExplorerList","WebOrderRequest")';
-    var timeFrame = GetSelectedFilter("filter-by-time-frame");
-    var statusCode = GetSelectedFilter("filter-by-status");
-    var assignedTo = GetSelectedFilter("filter-by-assigned-to");
-    var formData = new FormData();
+        var link = '@Url.Action("ExplorerList","WebOrderRequest")';
+
+        // Get all active filters.
+        var timeFrame = GetSelectedFilter("filter-by-time-frame");
+        var statusCode = GetSelectedFilter("filter-by-status");
+        var mostRecentAction = GetSelectedFilter("filter-by-most-recent-action");
+        var assignedTo = GetSelectedFilter("filter-by-assigned-to");
+
+        // Show current filter in title.
+        var pageMainTitle = "Web Order Request Explorer";
+        pageMainTitle += " " + GetSelectedFilter("filter-by-time-frame") + " " + GetSelectedFilter("filter-by-status") + " " + GetSelectedFilter("filter-by-assigned-to");
+        $("#placeholder-page-main-title").html(pageMainTitle);
+
+        var formData = new FormData();
 
         console.log("DEBUG: Filtering WOR list TIME FRAME " + timeFrame + " STATUS " + statusCode + " ASSIGNED " + assignedTo);
 
-    formData.append("SearchEntity.TimeFrame", timeFrame);
-    formData.append("SearchEntity.StatusCode", statusCode);
-    formData.append("SearchEntity.OwnedByWebUserID", assignedTo);
+        formData.append("SearchEntity.TimeFrame", timeFrame);
+        formData.append("SearchEntity.StatusCode", statusCode);
+        formData.append("SearchEntity.MostRecentAction", mostRecentAction);
+        formData.append("SearchEntity.OwnedByWebUserID", assignedTo);
 
-    $("#section-overlay-web-order-request-list").show();
+        $("#section-overlay-web-order-request-list").show();
 
-    $.ajax({
-        url: link,
-        type: 'POST',
-        cache: false,
-        contentType: false,
-        processData: false,
-        data: formData,
-        success: function (response) {
-            $("#section-web-order-request-list").html(response);
-            $("#section-overlay-web-order-request-list").hide();
-        }
-    });
-}
+        $.ajax({
+            url: link,
+            type: 'POST',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (response) {
+                $("#section-web-order-request-list").html(response);
+                $("#section-overlay-web-order-request-list").hide();
+            }
+        });
+    }
 
     function LoadWebOrderRequest(id) {
     var selectedTab = GetSelectedTab();

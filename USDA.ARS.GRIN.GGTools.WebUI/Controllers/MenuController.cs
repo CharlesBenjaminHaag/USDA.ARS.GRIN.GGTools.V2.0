@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using USDA.ARS.GRIN.GGTools.DataLayer;
 using USDA.ARS.GRIN.GGTools.ViewModelLayer;
 
 namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
 {
-    public class MenuController : Controller
+    public class MenuController : BaseController
     {
         // GET: Menu
         public ActionResult Index()
@@ -26,6 +27,10 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             eventAction = eventAction.ToLower();
             eventValue = eventValue.ToLower();
 
+            //// Determine whether user can edit the table being accessed.
+            SysUser authenticatedUser = AuthenticatedUser;
+            //if (authenticatedUser.CanEdit(eventValue)) { }
+
             // Handle "Index" (home) pages
             if (eventValue == "index")
             {
@@ -37,6 +42,9 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                         break;
                     case "species":
                         viewName = "~/Views/Taxonomy/Species/Components/_SearchMenu.cshtml";
+                        break;
+                    case "geographymap":
+                        viewName = "~/Views/Taxonomy/GeographyMap/Components/_SearchMenu.cshtml";
                         break;
                     default:
                         viewName = "~/Views/Components/_DefaultSearchMenu.cshtml";

@@ -66,5 +66,10 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             else
                 return false;
         }
+
+        //public bool IsEditor(string tableTitle)
+        //{ 
+        //    // g
+        //}
     }
 }

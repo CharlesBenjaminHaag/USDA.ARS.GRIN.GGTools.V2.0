@@ -154,6 +154,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                
                 viewModel.Entity.ModifiedByCooperatorID = AuthenticatedUser.CooperatorID;
                 viewModel.Entity.WebUserID = AuthenticatedUser.WebUserID;
+                viewModel.Entity.StatusCode = viewModel.NewActionCode;
                 viewModel.Update();
                 return Json(new { success = true, data = viewModel.Entity.ID }, JsonRequestBehavior.AllowGet);
             }
@@ -314,7 +315,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             try 
             { 
                 WebOrderRequestViewModel viewModel = new WebOrderRequestViewModel();
-                viewModel.PageTitle = "Web Order Requests";
+                ViewBag.PageTitle = "Web Order Request Explorer";
                 return View("~/Views/WebOrderRequest/Explorer/Index.cshtml", viewModel);
             }
             catch (Exception ex)

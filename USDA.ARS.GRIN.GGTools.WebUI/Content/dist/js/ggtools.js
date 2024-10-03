@@ -2,7 +2,7 @@
 * Name         : ggtools.js
 * Description  : Main JS application file for GGTools. This file
 *                should be included in all layout pages. 
-* Last Updated : 9/30/24 
+* Last Updated : 10/2/24
 * By           : Benjamin Haag
 */
 
@@ -682,16 +682,25 @@ function GetSelectedEntityText(tableName) {
  Notes          : Requires that all input fields be within a div named "section-input-fields."
  */
 function SetReadOnly() {
-    $('#section-input-fields').find('input, select, textarea').prop('disabled', true);
 
+    // Disable all input controls.
+    $('#section-input-fields').find('input, select, textarea').prop('disabled', true);
     $("#section-file-input-fields input").attr('readonly', true);
     $("#section-file-input-fields input").prop('disabled', true);
     $('section-file-input-fields input[type=checkbox]').attr('disabled', 'true');
+
+    // TODO Needed?
     $("#section-edit-controls").hide();
     $(".edit-controls").hide();
 
-    $("#section-edit-controls").find('input[type="submit"]').hide();
+    // Hide all buttons that are explicitly used to make changes.
+    $('button').each(function () {
+        if ($(this).hasClass('edit-enabled')) {
+            $(this).hide();
+        }
+    });
 
+    $("#btnSaveEdits").hide();
     $("#btnReset").hide();
     $("#btnDelete").hide();
 }

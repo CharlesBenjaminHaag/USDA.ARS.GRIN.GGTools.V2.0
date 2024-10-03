@@ -71,6 +71,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             SQL += " AND (@Organization             IS NULL     OR      WebCooperatorOrganization       LIKE        '%' + @Organization + '%')";
             SQL += " AND (@IntendedUseCode          IS NULL     OR      IntendedUseCode                 =           @IntendedUseCode)";
             SQL += " AND (@StatusCode               IS NULL     OR      StatusCode                      =           @StatusCode)";
+            SQL += " AND (@MostRecentWebOrderAction IS NULL     OR      MostRecentWebOrderAction        =           @MostRecentWebOrderAction)";
             SQL += " AND (@Year                     IS NULL     OR      YEAR(CreatedDate)               =           @Year)";
 
             if (searchEntity.IsLocked == "Y")
@@ -156,6 +157,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
                 CreateParameter("EmailAddress", (object)searchEntity.WebCooperatorEmailAddress ?? DBNull.Value, true),
                 CreateParameter("IntendedUseCode", (object)searchEntity.IntendedUseCode ?? DBNull.Value, true),
                 CreateParameter("StatusCode", (object)searchEntity.StatusCode ?? DBNull.Value, true),
+                CreateParameter("MostRecentWebOrderAction", (object)searchEntity.MostRecentAction ?? DBNull.Value, true),
                 CreateParameter("Year", searchEntity.Year > 0 ? (object)searchEntity.Year : DBNull.Value, true),
                 CreateParameter("IsLocked", (object)searchEntity.IsLocked ?? DBNull.Value, true),
             };

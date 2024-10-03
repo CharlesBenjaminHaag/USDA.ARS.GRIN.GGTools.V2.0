@@ -253,7 +253,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             //}
         }
         //[HttpPost]
-        //public JsonResult BatchEdit(FormCollection formCollection)
+        //public JsonResult EditBatch(FormCollection formCollection)
         //{
         //    try 
         //    {

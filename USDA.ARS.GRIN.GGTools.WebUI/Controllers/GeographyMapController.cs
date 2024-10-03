@@ -145,15 +145,24 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             }
         }
 
-        public PartialViewResult BatchEdit()
+        public ActionResult EditBatch()
         {
             GeographyMapViewModel viewModel = new GeographyMapViewModel();
-            viewModel.EventAction = "GeographyMap";
-            viewModel.EventValue = "BatchEdit";
-            viewModel.Entity.GeographyID = 926;
-            viewModel.Entity.GeographyDescription = "United States";
-            viewModel.Entity.GeographyStatusCode = "n";
-            return PartialView("~/Views/Taxonomy/GeographyMap/_EditBatch.cshtml", viewModel);
+
+            try
+            {
+                viewModel.EventAction = "GeographyMap";
+                viewModel.EventValue = "EditBatch";
+                viewModel.Entity.GeographyID = 926;
+                viewModel.Entity.GeographyDescription = "United States";
+                viewModel.Entity.GeographyStatusCode = "n";
+                return View("~/Views/Taxonomy/GeographyMap/EditBatch.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return RedirectToAction("InternalServerError", "Error");
+            }
         }
        
         public ActionResult Add(int speciesId = 0)

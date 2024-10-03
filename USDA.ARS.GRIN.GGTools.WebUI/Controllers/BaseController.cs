@@ -145,6 +145,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI
         //}
 
         private static readonly Logger Log = LogManager.GetCurrentClassLogger();
+        
         public SysUser AuthenticatedUser
         {
             get

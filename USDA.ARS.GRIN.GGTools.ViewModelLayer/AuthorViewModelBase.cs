@@ -6,10 +6,11 @@ using System;
 using System.Web;
 using System.Web.Mvc;
 using System.Collections.ObjectModel;
+using USDA.ARS.GRIN.GGTools.ViewModelLayer;
 
 namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
 {
-    public class AuthorViewModelBase : AppViewModelBase
+    public class AuthorViewModelBase : AuthenticatedViewModelBase
     {
         private string _OriginalShortName = String.Empty;
         private Author _Entity = new Author();
@@ -66,6 +67,23 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
             get { return _SearchResultsFormat; }
             set { _SearchResultsFormat = value; }
 
+        }
+
+        public string IsReadOnly
+        {
+            get
+            {
+                if ((AuthenticatedUser.IsInRole("MANAGE_TAXONOMY")) ||
+                    (AuthenticatedUser.CooperatorID == Entity.ID)
+                    )
+                {
+                    return "N";
+                }
+                else
+                {
+                    return "Y";
+                }
+            }
         }
     }
 }
