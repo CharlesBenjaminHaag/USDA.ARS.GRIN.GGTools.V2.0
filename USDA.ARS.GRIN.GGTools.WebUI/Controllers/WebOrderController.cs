@@ -106,7 +106,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             viewModel.Get(viewModel.Entity.ID);
             viewModel.Entity.StatusCode = "NRR_APPROVE";
             viewModel.Entity.OwnedByWebUserID = AuthenticatedUser.WebUserID;
-            viewModel.Update();
+            //ewModel.Update();
 
             WebOrderRequestAction webOrderRequestAction = new WebOrderRequestAction();
             webOrderRequestAction.WebOrderRequestID = viewModel.Entity.ID;
@@ -124,7 +124,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             viewModel.Get(viewModel.Entity.ID);
             viewModel.Entity.StatusCode = "NRR_REJECT";
             viewModel.Entity.OwnedByWebUserID = AuthenticatedUser.WebUserID;
-            viewModel.Update();
+            //viewModel.Update();
 
             WebOrderRequestAction webOrderRequestAction = new WebOrderRequestAction();
             webOrderRequestAction.WebOrderRequestID = viewModel.Entity.ID;

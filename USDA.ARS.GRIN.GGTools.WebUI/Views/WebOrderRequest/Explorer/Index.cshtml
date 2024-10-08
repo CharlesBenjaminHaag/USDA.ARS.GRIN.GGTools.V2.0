@@ -102,19 +102,31 @@
                 <div class="tab-content">
                     <div class="row">
                         <div class="btn-group">
-                            <button id="btnOpenModalApprove" data-ggtools-value="NRR_APPROVE" type="button" class="btn btn-default">
+                            <button id="btnOpenModalApprove" 
+                                    data-ggtools-web-order-request-action="NRR_APPROVE" 
+                                    type="button" 
+                                    class="btn btn-default">
                                 <i class="fas fa-thumbs-up text-green nav-icon"></i>
                                 Approve
                             </button>
-                            <button id="btnOpenModalReject" data-ggtools-value="NRR_REJECT" type="button" class="btn btn-default">
+                            <button id="btnOpenModalReject" 
+                                    data-ggtools-web-order-request-action="NRR_REJECT" 
+                                    type="button" 
+                                    class="btn btn-default">
                                 <i class="fas fa-thumbs-down text-red nav-icon"></i>
                                 Reject
                             </button>
-                            <button id="btnOpenModalRequestInfo" data-ggtools-value="NRR_INFO" type="button" class="btn btn-default">
+                            <button id="btnOpenModalRequestInfo" 
+                                    data-ggtools-web-order-request-action="NRR_INFO" 
+                                    type="button" 
+                                    class="btn btn-default">
                                 <i class="fas fa-info text-blue nav-icon"></i>
                                 Request Additional Information
                             </button>
-                            <button id="btnOpenModalRequestInfo" data-ggtools-value="NRR_INFO" type="button" class="btn btn-default">
+                            <button id="btnOpenModalRequestInfo" 
+                                    data-ggtools-web-order-request-action="NRR_CUR" 
+                                    type="button" 
+                                    class="btn btn-default">
                                 <i class="fas fa-tree nav-icon"></i>
                                 Email Curator(s)
                             </button>
@@ -153,7 +165,6 @@
     </div>
 </div>
 <!-- ****************************************** END EMAIL MODAL *******************************************************-->
-
 
 <script type="text/javascript">
 
@@ -217,12 +228,12 @@
 
         // Show current filter in title.
         var pageMainTitle = "Web Order Request Explorer";
-        pageMainTitle += " " + GetSelectedFilter("filter-by-time-frame") + " " + GetSelectedFilter("filter-by-status") + " " + GetSelectedFilter("filter-by-assigned-to");
+        pageMainTitle += " " + GetSelectedFilter("filter-by-time-frame") + " " + GetSelectedFilter("filter-by-status") + " " + GetSelectedFilter("filter-by-assigned-to") + " " + GetSelectedFilter("filter-by-most-recent-action");
         $("#placeholder-page-main-title").html(pageMainTitle);
 
         var formData = new FormData();
 
-        console.log("DEBUG: Filtering WOR list TIME FRAME " + timeFrame + " STATUS " + statusCode + " ASSIGNED " + assignedTo);
+        console.log("DEBUG: Filtering WOR list TIME FRAME " + timeFrame + " STATUS " + statusCode + " ASSIGNED " + assignedTo + " MOST RECENT ACTION " + mostRecentAction);
 
         formData.append("SearchEntity.TimeFrame", timeFrame);
         formData.append("SearchEntity.StatusCode", statusCode);
@@ -368,41 +379,9 @@
         LoadWebOrderRequestList();
     });
 
-    $(document).on("click", "[id='btnOpenModalApprove']", function () {
-        LoadEmailModal("NRR_APPROVE");
-        @*var link = '@Url.Action("RenderEmailModal", "WebOrderRequest")';
-        var webOrderRequestId = $("#Entity_ID").val();
-        var emailTo = $("#Entity_WebCooperatorEmail").val();
-        var emailFrom = $("#ActionEmailFrom").val();
-
-        $("#section-modal-title-event-value").html("Approve Web Order Request");
-        $("#section-modal-title-web-order-request-id").html(webOrderRequestId);
-
-        $("#txtEmailTo").val(emailTo);
-        $("#txtEmailFrom").val(emailFrom);
-
-        //TODO Get template subj. and body
-
-        $("#modal-email").modal("show");*@
-
-   });
-
-    $(document).on("click", "[id='btnOpenModalReject']", function () {
-        LoadEmailModal("NRR_REJECT");
-        @*var link = '@Url.Action("RenderEmailModal", "WebOrderRequest")';
-        var webOrderRequestId = $("#Entity_ID").val();
-        var emailTo = $("#Entity_WebCooperatorEmail").val();
-        var emailFrom = $("#ActionEmailFrom").val();
-
-        $("#section-modal-title-event-value").html("Reject Web Order Request");
-        $("#section-modal-title-web-order-request-id").html(webOrderRequestId);
-
-        $("#txtEmailTo").val(emailTo);
-        $("#txtEmailFrom").val(emailFrom);
-
-        //TODO Get template subj. and body
-
-        $("#modal-email").modal("show");*@
+    $(document).on("click", "[id*='btnOpenModal']", function () {
+        var webOrderRequestAction = $(this).data('ggtools-web-order-request-action');
+        LoadEmailModal(webOrderRequestAction);
     });
 
     function SubmitReview() {
@@ -448,32 +427,30 @@
         });
     }
 
-    function LoadEmailModal(actionCode) {
-     link = '@Url.Action("Component_EmailModal", "WebOrderRequest")';
-     var webOrderRequestId = $("#Entity_ID").val();
-     var actionEmailTo = $("#Entity_WebCooperatorEmail").val();
-     var formData = new FormData();
+    function LoadEmailModal(webOrderRequestAction) {
+        link = '@Url.Action("Component_EmailModal", "WebOrderRequest")';
+        var webOrderRequestId = $("#Entity_ID").val();
+        var actionEmailTo = $("#Entity_WebCooperatorEmail").val();
+        var formData = new FormData();
 
-     $("#modal-email").modal("show");
+        $("#modal-email").modal("show");
 
-     formData.append("entityId", webOrderRequestId);
-     formData.append("actionCode", actionCode);
-     formData.append("actionEmailTo", actionEmailTo);
+        formData.append("entityId", webOrderRequestId);
+        formData.append("webOrderRequestAction", webOrderRequestAction);
+        formData.append("actionEmailTo", actionEmailTo);
 
-     $.ajax({
-         url: link,
-         type: 'POST',
-         cache: false,
-         contentType: false,
-         processData: false,
-         data: formData,
-         success: function (response) {
-
-             $("#section-modal-email-content").html(response);
-
-         }
-     });
- }
+        $.ajax({
+            url: link,
+            type: 'POST',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (response) {
+                $("#section-modal-email-content").html(response);
+            }
+        });
+    }
 
     function AddNote(webOrderRequestId, note) {
         var link = '@Url.Action("AddNote", "WebOrderRequest")';

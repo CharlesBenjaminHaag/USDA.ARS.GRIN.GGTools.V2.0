@@ -1,5 +1,6 @@
 ﻿using NLog;
 using System;
+using System.CodeDom;
 using System.Web.Mvc;
 using USDA.ARS.GRIN.GGTools.DataLayer;
 using USDA.ARS.GRIN.GGTools.ViewModelLayer;
@@ -38,7 +39,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             viewModel.Get(viewModel.Entity.ID);
             viewModel.Entity.StatusCode = "NRR_APPROVE";
             viewModel.Entity.OwnedByWebUserID = AuthenticatedUser.WebUserID;
-            viewModel.Update();
+           //viewModel.Update();
 
             WebOrderRequestAction webOrderRequestAction = new WebOrderRequestAction();
             webOrderRequestAction.WebOrderRequestID = viewModel.Entity.ID;
@@ -57,7 +58,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             viewModel.Get(viewModel.Entity.ID);
             viewModel.Entity.StatusCode = "NRR_REJECT";
             viewModel.Entity.OwnedByWebUserID = AuthenticatedUser.WebUserID;
-            viewModel.Update();
+            //viewModel.Update();
 
             WebOrderRequestAction webOrderRequestAction = new WebOrderRequestAction();
             webOrderRequestAction.WebOrderRequestID = viewModel.Entity.ID;
@@ -155,7 +156,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 viewModel.Entity.ModifiedByCooperatorID = AuthenticatedUser.CooperatorID;
                 viewModel.Entity.WebUserID = AuthenticatedUser.WebUserID;
                 viewModel.Entity.StatusCode = viewModel.NewActionCode;
-                viewModel.Update();
+                //viewModel.Update();
                 return Json(new { success = true, data = viewModel.Entity.ID }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
@@ -397,48 +398,61 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
         /// corresponds to the supplied action code.
         /// </summary>
         /// <param name="entityId"></param>
-        /// <param name="actionCode"></param>
+        /// <param name="webOrderRequestAction"></param>
         /// <returns></returns>
-        public PartialViewResult Component_EmailModal(int entityId, string actionCode)
+        public PartialViewResult Component_EmailModal(int entityId, string webOrderRequestAction)
         {
             WebOrderRequestViewModel viewModel = new WebOrderRequestViewModel();
-            viewModel.Get(entityId);
-
             EmailTemplate emailTemplate = new EmailTemplate();
 
-            switch (actionCode)
-            {
-                case "NRR_APPROVE":
-                    viewModel.EventValue = "Approve Web Order Request";
-                    emailTemplate = viewModel.GetEmailTemplate("CAP");
-                    break;
-                case "NRR_REJECT":
-                    viewModel.EventValue = "Reject Web Order Request";
-                    emailTemplate = viewModel.GetEmailTemplate("RRJ");
-                    break;
-                case "NRR_REQ":
-                    viewModel.EventValue = "Request Additional Information";
-                    emailTemplate = viewModel.GetEmailTemplate("RQI");
-                    break;
-                case "NRR_CUR":
-                    viewModel.EventValue = "Email Curators";
-                    emailTemplate = viewModel.GetEmailTemplate("CUR");
-                    break;
+            try 
+            { 
+                switch (webOrderRequestAction)
+                {
+                    case "NRR_APPROVE":
+                        viewModel.EventValue = "Approve Web Order Request";
+                        emailTemplate = viewModel.GetEmailTemplate("CAP");
+                        break;
+                    case "NRR_REJECT":
+                        viewModel.EventValue = "Reject Web Order Request";
+                        emailTemplate = viewModel.GetEmailTemplate("RRJ");
+                        break;
+                    case "NRR_INFO":
+                        viewModel.EventValue = "Request Additional Information";
+                        emailTemplate = viewModel.GetEmailTemplate("RQI");
+                        break;
+                    case "NRR_CUR":
+                        viewModel.EventValue = "Email Curators";
+                        emailTemplate = viewModel.GetEmailTemplate("CUR");
+                        break;
+                    default:
+                        throw new NullReferenceException("No email template found for WOR action code " + webOrderRequestAction);
+                }
+                viewModel.Get(entityId);
+                if (viewModel.Entity == null)
+                {
+                    throw new IndexOutOfRangeException("WOR not found.");
+                }
+
+                viewModel.NewActionCode = webOrderRequestAction;
+                viewModel.Entity.ID = entityId;
+                viewModel.ActionEmailTo = viewModel.Entity.WebCooperatorEmail;
+                viewModel.ActionEmailSubject = emailTemplate.Subject;
+                viewModel.ActionEmailFrom = "gringlobal.orders@usda.gov";
+                viewModel.ActionEmailBody = emailTemplate.Body;
+                viewModel.ActionEmailBodyOriginal = emailTemplate.Body;
+
+                // REFACTOR: Replace placeholder variables with WOR data.
+                //viewModel.ActionEmailBody.Replace("@WebCooperatorFullName", viewModel.Entity.WebCooperatorFullName);
+                viewModel.ActionEmailBody = viewModel.ActionEmailBody.Replace("[ID_HERE]", entityId.ToString());
+                viewModel.ActionEmailSubject = viewModel.ActionEmailSubject.Replace("[ID_HERE]", entityId.ToString());
+                return PartialView("~/Views/WebOrderRequest/Components/_EmailEditor.cshtml", viewModel);
             }
-
-            viewModel.NewActionCode = actionCode;
-            viewModel.Entity.ID = entityId;
-            viewModel.ActionEmailTo = viewModel.Entity.WebCooperatorEmail;
-            viewModel.ActionEmailSubject = emailTemplate.Subject;
-            viewModel.ActionEmailFrom = "gringlobal.orders@usda.gov";
-            viewModel.ActionEmailBody = emailTemplate.Body;
-            viewModel.ActionEmailBodyOriginal = emailTemplate.Body;
-
-            // REFACTOR: Replace placeholder variables with WOR data.
-            //viewModel.ActionEmailBody.Replace("@WebCooperatorFullName", viewModel.Entity.WebCooperatorFullName);
-            viewModel.ActionEmailBody = viewModel.ActionEmailBody.Replace("[ID_HERE]", entityId.ToString());
-            viewModel.ActionEmailSubject = viewModel.ActionEmailSubject.Replace("[ID_HERE]", entityId.ToString());
-            return PartialView("~/Views/WebOrderRequest/Components/_EmailEditor.cshtml", viewModel);
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
         }
     }
 }
