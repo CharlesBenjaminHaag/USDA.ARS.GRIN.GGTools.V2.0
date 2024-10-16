@@ -92,6 +92,8 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             AddParameter("@city", (object)entity.City ?? DBNull.Value, true);
             AddParameter("@primary_phone", (object)entity.PrimaryPhone ?? DBNull.Value, true);
             AddParameter("@email_address", (object)entity.EmailAddress ?? DBNull.Value, true);
+            AddParameter("@primary_url", (object)entity.PrimaryURL ?? DBNull.Value, true);
+            AddParameter("@secondary_url", (object)entity.SecondaryURL ?? DBNull.Value, true);
             AddParameter("note", (object)entity.Note ?? DBNull.Value, true);
 
             if (entity.ID > 0)

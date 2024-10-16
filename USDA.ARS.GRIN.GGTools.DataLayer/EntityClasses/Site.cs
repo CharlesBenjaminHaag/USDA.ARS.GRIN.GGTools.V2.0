@@ -38,6 +38,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
         public string EmailAddress { get; set; }
         public int GeographyID { get; set; }
         public string State { get; set; }
-        
+        public string PrimaryURL { get; set; }
+        public string SecondaryURL { get; set; }
     }
 }
