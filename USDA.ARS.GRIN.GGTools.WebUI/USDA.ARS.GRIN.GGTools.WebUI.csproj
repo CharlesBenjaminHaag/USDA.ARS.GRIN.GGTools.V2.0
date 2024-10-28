@@ -161,6 +161,7 @@
     <Compile Include="Controllers\AccessionIPRController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AppUserItemListController.cs" />
+    <Compile Include="Controllers\ExplorationController.cs" />
     <Compile Include="Controllers\FamilyController.cs" />
     <Compile Include="Controllers\GOBSController.cs" />
     <Compile Include="Controllers\ImportController.cs" />
@@ -1055,6 +1056,17 @@
     <Content Include="Views\Taxonomy\GeographyMap\Components\_EditMenu.cshtml" />
     <Content Include="Views\Taxonomy\GeographyMap\Components\_SearchMenu.cshtml" />
     <Content Include="Views\Taxonomy\GeographyMap\EditBatchBACKUP.cshtml" />
+    <Content Include="Views\Exploration\_Detail.cshtml" />
+    <Content Include="Views\Exploration\_DetailExtended.cshtml" />
+    <Content Include="Views\Exploration\_List.cshtml" />
+    <Content Include="Views\Exploration\_ListFolder.cshtml" />
+    <Content Include="Views\Exploration\Edit.cshtml" />
+    <Content Include="Views\Exploration\Index.cshtml" />
+    <Content Include="Views\Exploration\Modals\_EconomicUsageTypeLookup.cshtml" />
+    <Content Include="Views\Exploration\Modals\_EconomicUsageTypeSelectList.cshtml" />
+    <Content Include="Views\Exploration\Modals\_EditBatch.cshtml" />
+    <Content Include="Views\Exploration\Modals\_Lookup.cshtml" />
+    <Content Include="Views\Exploration\Modals\_SelectList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

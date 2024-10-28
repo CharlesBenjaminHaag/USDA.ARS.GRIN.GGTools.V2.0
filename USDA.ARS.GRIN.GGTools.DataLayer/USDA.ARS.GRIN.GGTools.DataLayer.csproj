@@ -64,6 +64,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EntityClasses\ExplorationMapSearch.cs" />
+    <Compile Include="EntityClasses\ExplorationSearch.cs" />
+    <Compile Include="EntityClasses\ExplorationMap.cs" />
+    <Compile Include="EntityClasses\Exploration.cs" />
+    <Compile Include="EntityClasses\InventoryLocation.cs" />
     <Compile Include="EntityClasses\AccessionMCPD.cs" />
     <Compile Include="EntityClasses\AccessionInvAnnotationSearch.cs" />
     <Compile Include="EntityClasses\AccessionInvAnnotation.cs" />
@@ -218,6 +223,8 @@
     <Compile Include="EntityClasses\TribeSearch.cs" />
     <Compile Include="ManagerClasses\AccessionInventoryAttachmentManager.cs" />
     <Compile Include="ManagerClasses\AccessionInvAnnotationManager.cs" />
+    <Compile Include="ManagerClasses\ExplorationMapManager.cs" />
+    <Compile Include="ManagerClasses\ExplorationManager.cs" />
     <Compile Include="ManagerClasses\FamilyManager.cs" />
     <Compile Include="ManagerClasses\SysFolderCooperatorMapManager.cs" />
     <Compile Include="ManagerClasses\SysTagManager.cs" />
