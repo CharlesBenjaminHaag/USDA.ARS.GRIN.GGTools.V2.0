@@ -3,6 +3,7 @@
     <thead>
         <tr>
             <th width="5%">ID</th>
+            <th>Exploration No.</th>
             <th>Title</th>
             <th>Began Date</th>
             <th>Finished Date</th>
@@ -18,6 +19,9 @@
                     @result.ID
                 </td>
                 <td>
+                    @result.ExplorationNumber
+                </td>
+                <td>
                     @Html.Raw(result.Title)
                 </td>
                 <td>
@@ -27,7 +31,7 @@
                     @result.FinishedDate.ToShortDateString()
                 </td>
                 <td>@result.FundingSource</td>
-                
+
                 <td>
                     <a href="@Url.Action("Edit", "Exploration", new { entityId = result.ID })" class="btn btn-default btn-sm float-right row-edit">
                         <i class="fa fa-edit"></i>

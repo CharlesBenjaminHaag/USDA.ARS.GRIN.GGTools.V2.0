@@ -86,12 +86,9 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             List<Exploration> results = new List<Exploration>();
 
             SQL = "SELECT * FROM vw_GRINGlobal_Exploration ";
-            SQL += " WHERE  (@ID                 IS NULL     OR ID                =       @ID)";
-            SQL += " AND    (@SpeciesName               IS NULL     OR SpeciesName              LIKE    '%' +  @SpeciesName + '%')";
-            SQL += " AND    (@AssembledName             IS NULL     OR AssembledName            LIKE    '%' +  @AssembledName + '%')";
-            SQL += " AND    (@PlantPartCode             IS NULL     OR PlantPartCode            =       @PlantPartCode)";
-
-          
+            SQL += " WHERE  (@ID                IS NULL     OR ID           =       @ID)";
+            SQL += " AND    (@ExplorationNumber IS NULL     OR ExplorationNumber        LIKE    '%' +  @ExplorationNumber + '%')";
+            SQL += " AND    (@Title             IS NULL     OR Title        LIKE    '%' +  @Title + '%')";
           
             if (!String.IsNullOrEmpty(searchEntity.IDList))
             {
@@ -109,16 +106,8 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             var parameters = new List<IDbDataParameter> {
             
             CreateParameter("ID", searchEntity.ID > 0 ? (object)searchEntity.ID : DBNull.Value, true),
-            CreateParameter("CreatedByCooperatorID", searchEntity.CreatedByCooperatorID > 0 ? (object)searchEntity.CreatedByCooperatorID : DBNull.Value, true),
-            CreateParameter("CreatedDate", searchEntity.CreatedDate > DateTime.MinValue ? (object)searchEntity.CreatedDate : DBNull.Value, true),
-            CreateParameter("ModifiedByCooperatorID", searchEntity.ModifiedByCooperatorID > 0 ? (object)searchEntity.ModifiedByCooperatorID : DBNull.Value, true),
-            CreateParameter("ModifiedDate", searchEntity.ModifiedDate > DateTime.MinValue ? (object)searchEntity.ModifiedDate : DBNull.Value, true),
-            CreateParameter("Note", (object)searchEntity.Note ?? DBNull.Value, true),
-            CreateParameter("CitationText", (object)searchEntity.CitationText ?? DBNull.Value, true),
-            //CreateParameter("SpeciesID", searchEntity.SpeciesID > 0 ? (object)searchEntity.SpeciesID : DBNull.Value, true),
-            //CreateParameter("SpeciesName", (object)searchEntity.SpeciesName ?? DBNull.Value, true),
-            //CreateParameter("AssembledName", (object)searchEntity.AssembledName ?? DBNull.Value, true),
-            //CreateParameter("PlantPartCode", (object)searchEntity.PlantPartCode ?? DBNull.Value, true),
+            CreateParameter("ExplorationNumber", (object)searchEntity.ExplorationNumber ?? DBNull.Value, true),
+            CreateParameter("Title", (object)searchEntity.Title ?? DBNull.Value, true),
         };
 
         results = GetRecords<Exploration>(SQL, parameters.ToArray());

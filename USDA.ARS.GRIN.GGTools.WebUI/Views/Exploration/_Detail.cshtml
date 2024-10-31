@@ -30,6 +30,12 @@
                         @Html.Partial("~/Views/Components/_ShowHideButtons.cshtml")
                         <div class="col-md-3">
                             <div class="form-group">
+                                <label>Exploration No.</label>
+                                @Html.TextBoxFor(x => x.SearchEntity.ExplorationNumber, new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
                                 <label>Title</label>
                                 @Html.TextBoxFor(x => x.SearchEntity.Title, new { @class = "form-control" })
                             </div>

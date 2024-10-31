@@ -10,6 +10,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
 {
     public class ExplorationSearch: SearchEntityBase
     {
+        public string ExplorationNumber { get; set; }
         public string Title { get; set; }
         public DateTime BeganDate { get; set; }
         public DateTime FinishedDate { get; set; }

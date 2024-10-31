@@ -15,7 +15,7 @@
             <a href="#" class="nav-link ">
                 <i class="nav-icon fas fa-calendar"></i>
                 <p>
-                    Request Submitted
+                    Time Frame
                     <i class="right fas fa-angle-left"></i>
                 </p>
             </a>
@@ -27,43 +27,47 @@
                     </a>
                 </li>*@
                 <li class="nav-item">
-                    <a id="1D" data-ggtools-action="filter-by-time-frame"  data-ggtools-value="1D" href="" class="nav-link filter">
+                    <a id="1D" 
+                       data-ggtools-action="filter-by-time-frame" 
+                       data-ggtools-value="1D" 
+                       data-ggtools-title="Last Day" 
+                       href="" class="nav-link filter">
                         <i class="fas fa-calendar nav-icon"></i>
                         <p>Today</p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a id="3D" data-ggtools-action="filter-by-time-frame"  data-ggtools-value="3D" href="" class="nav-link filter">
+                    <a id="3D" data-ggtools-action="filter-by-time-frame" data-ggtools-value="3D" data-ggtools-title="Last 3 Days" href="" class="nav-link filter">
                         <i class="fas fa-calendar nav-icon"></i>
                         <p>The Last Three Days</p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a id="7D" data-ggtools-action="filter-by-time-frame" href="" data-ggtools-value="7D" class="nav-link filter">
+                    <a id="7D" data-ggtools-action="filter-by-time-frame" href="" data-ggtools-value="7D" data-ggtools-title="This Week" class="nav-link filter">
                         <i class="fas fa-calendar nav-icon"></i>
                         <p>This Week</p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a id="30D" data-ggtools-action="filter-by-time-frame" href="" data-ggtools-value="30D" class="nav-link filter">
+                    <a id="30D" data-ggtools-action="filter-by-time-frame" href="" data-ggtools-value="30D" data-ggtools-title="This Month" class="nav-link filter">
                         <i class="fas fa-calendar nav-icon"></i>
                         <p>This Month</p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a id="60D" data-ggtools-action="filter-by-time-frame" href="" data-ggtools-value="60D" class="nav-link filter">
+                    <a id="60D" data-ggtools-action="filter-by-time-frame" href="" data-ggtools-value="60D" data-ggtools-title="Last 2 Months" class="nav-link filter">
                         <i class="fas fa-calendar nav-icon"></i>
                         <p>The Last 2 Months</p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a id="90D" data-ggtools-action="filter-by-time-frame" href="" data-ggtools-value="90D" class="nav-link filter">
+                    <a id="90D" data-ggtools-action="filter-by-time-frame" href="" data-ggtools-value="90D" data-ggtools-title="Last 3 Months" class="nav-link filter">
                         <i class="fas fa-calendar nav-icon"></i>
                         <p>The Last 3 Months</p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a id="1Y" data-ggtools-action="filter-by-time-frame" href="" data-ggtools-value="1Y" class="nav-link filter">
+                    <a id="1Y" data-ggtools-action="filter-by-time-frame" href="" data-ggtools-value="1Y" data-ggtools-title="This Year" class="nav-link filter">
                         <i class="fas fa-calendar nav-icon"></i>
                         <p>The Current Year</p>
                     </a>
@@ -82,31 +86,51 @@
             </a>
             <ul class="nav nav-treeview">
                 <li class="nav-item">
-                    <a id="ANY" data-ggtools-action="filter-by-status" data-ggtools-value="" href="" class="nav-link filter">
+                    <a id="ANY" 
+                       data-ggtools-action="filter-by-status" 
+                       data-ggtools-value="" 
+                       data-ggtools-title="" 
+                       href="" class="nav-link filter">
                         <i class="fas fa-circle nav-icon"></i>
                         <p>Any Status</p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a id="ACCEPTED" data-ggtools-action="filter-by-status" data-ggtools-value="ACCEPTED" href="" class="nav-link filter">
+                    <a id="ACCEPTED" 
+                       data-ggtools-action="filter-by-status" 
+                       data-ggtools-value="ACCEPTED" 
+                       data-ggtools-title="Accepted" 
+                       href="" class="nav-link filter">
                         <i class="fas fa-circle text-green nav-icon"></i>
                         <p>Accepted</p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a id="CANCELED" data-ggtools-action="filter-by-status" data-ggtools-value="CANCELED" href="" class="nav-link filter">
+                    <a id="CANCELED" 
+                       data-ggtools-action="filter-by-status" 
+                       data-ggtools-value="CANCELED" 
+                       data-ggtools-title="Canceled" 
+                       href="" class="nav-link filter">
                         <i class="fas fa-circle text-green nav-icon"></i>
                         <p>Canceled</p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a id="SUBMITTED" data-ggtools-action="filter-by-status" data-ggtools-value="SUBMITTED" href="" class="nav-link filter">
+                    <a id="SUBMITTED" 
+                       data-ggtools-action="filter-by-status" 
+                       data-ggtools-value="SUBMITTED" 
+                       data-ggtools-title="Submitted" 
+                       href="" class="nav-link filter">
                         <i class="fas fa-circle text-green nav-icon"></i>
                         <p>Submitted</p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a id="MIXED" data-ggtools-action="filter-by-status" data-ggtools-value="MIXED" href="" class="nav-link filter">
+                    <a id="MIXED" 
+                       data-ggtools-action="filter-by-status" 
+                       data-ggtools-value="MIXED" 
+                       data-ggtools-title="Mixed" 
+                       href="" class="nav-link filter">
                         <i class="fas fa-circle text-purple nav-icon"></i>
                         <p>Mixed</p>
                     </a>
@@ -131,27 +155,43 @@
             </a>
             <ul class="nav nav-treeview">
                 <li class="nav-item">
-                    <a id="" data-ggtools-action="filter-by-most-recent-action" data-ggtools-value="" href="" class="nav-link filter">
-                        <i class="fas fa-thumbs-down text-red nav-icon"></i>
+                    <a id="" 
+                       data-ggtools-action="filter-by-most-recent-action" 
+                       data-ggtools-value="" 
+                       data-ggtools-title="" 
+                       href="" class="nav-link filter">
+                        <i class="nav-icon fas fa-circle"></i>
                         <p>Any</p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a id="NRR_REJECT" data-ggtools-action="filter-by-most-recent-action" data-ggtools-value="NRR_REJECT" href="" class="nav-link filter">
+                    <a id="NRR_REJECT" 
+                       data-ggtools-action="filter-by-most-recent-action" 
+                       data-ggtools-value="NRR_REJECT" 
+                       data-ggtools-title="Rejected" 
+                       href="" class="nav-link filter">
                         <i class="fas fa-thumbs-down text-red nav-icon"></i>
                         <p>Rejected</p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a id="NRR_APPROVE" data-ggtools-action="filter-by-most-recent-action" data-ggtools-value="NRR_APPROVE" href="" class="nav-link filter">
+                    <a id="NRR_APPROVE" 
+                       data-ggtools-action="filter-by-most-recent-action" 
+                       data-ggtools-value="NRR_APPROVE" 
+                       data-ggtools-title="Approved" 
+                       href="" class="nav-link filter">
                         <i class="fas fa-thumbs-up text-green nav-icon"></i>
                         <p>Approved</p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a id="NRR_INFO" data-ggtools-action="filter-by-most-recent-action" data-ggtools-value="NRR_INFO" href="" class="nav-link filter">
+                    <a id="NRR_INFO" 
+                       data-ggtools-action="filter-by-most-recent-action" 
+                       data-ggtools-value="NRR_INFO" 
+                       data-ggtools-title="Info. Requested" 
+                       href="" class="nav-link filter">
                         <i class="fas fa-info nav-icon"></i>
-                        <p>Info. Request</p>
+                        <p>Info. Requested</p>
                     </a>
                 </li>
             </ul>

@@ -84,12 +84,12 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 {
                     viewModel.Get(entityId);
                     viewModel.EventAction = "Edit";
-                    viewModel.PageTitle = String.Format("Edit Economic Use [{0}]: {1}", entityId, viewModel.ToTitleCase(viewModel.Entity.AssembledName));
+                    ViewBag.PageTitle = "Edit";
                 }
                 else
                 {
                     viewModel.EventAction = "Add";
-                    viewModel.PageTitle = "Add  Economic Use";
+                    ViewBag.PageTitle = "Add";
                 }
                 return View(BASE_PATH + "Edit.cshtml", viewModel);
             }

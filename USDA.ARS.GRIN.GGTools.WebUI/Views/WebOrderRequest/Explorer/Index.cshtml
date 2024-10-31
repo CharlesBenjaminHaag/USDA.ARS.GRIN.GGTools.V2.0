@@ -22,12 +22,47 @@
         }
 </style>
 
-<input type="hidden" id="filter-by-time-frame" />
-<input type="hidden" id="filter-by-status" />
-<input type="hidden" id="filter-by-most-recent-action" />
-<input type="hidden" id="filter-by-assigned-to" />
 <input type="hidden" id="txtSelectedTab" />
 <input type="hidden" id="Entity_ID" />
+
+<!-- Filters -->
+<div class="card card-default">
+    <div class="card-header">
+        <h3 class="card-title">
+            <i class="fas fa-filter"></i>
+            Filters
+        </h3>
+    </div>
+    <!-- /.card-header -->
+    <div class="card-body">
+
+        <div class="row">
+            <div class="col-md-3">
+                <label>Time Frame</label>
+                <input type="text" readonly="readonly" class="form-control" id="filter-by-time-frame-title" />
+                <input type="hidden" id="filter-by-time-frame" />
+            </div>
+            <div class="col-md-3">
+                <label>Current Status</label>
+                <input type="text" readonly="readonly" class="form-control" id="filter-by-status-title" />
+                <input type="hidden" id="filter-by-status" />
+            </div>
+            <div class="col-md-3">
+                <label>Last Action</label>
+                <input type="text" readonly="readonly" class="form-control" id="filter-by-most-recent-action-title" />
+                <input type="hidden" id="filter-by-most-recent-action" />
+            </div>
+            <div class="col-md-3">
+                <label>Assigned To</label>
+                <input type="text" readonly="readonly" class="form-control" id="filter-by-assigned-to-title" />
+                <input type="hidden" id="filter-by-assigned-to" />
+            </div>
+
+        </div>
+    </div>
+    <!-- /.card-body -->
+</div>
+
 
 <div class="row">
     <div class="col-md-4">
@@ -180,6 +215,7 @@
 
         var eventAction = $(this).attr('data-ggtools-action');
         var eventValue = $(this).attr('data-ggtools-value');
+        var title = $(this).attr('data-ggtools-title');
 
         $("#placeholder-page-title").html("Web Order Requests: " + eventValue);
 
@@ -187,17 +223,18 @@
             //TODO Handle error
         }
         else {
-            SetFilter(eventAction, eventValue);
+            SetFilter(eventAction, eventValue, title);
             LoadWebOrderRequestList();
         }
     });
 
-    function SetFilter(filterName, filterValue) {
-        var filterDisplayName = "";
-        var filterDisplayTitle = "";
+    function SetFilter(filterName, filterValue, filterTitle) {
+        
 
-        console.log("DEBUG SetFilter " + filterName + " to " + filterValue);
+        console.log("DEBUG FILTER NAME " + filterName + " FILTER TITLE " + filterTitle);
         $("#" + filterName).val(filterValue);
+        $("#" + filterName + "-title").val(filterTitle);
+
     }
 
     // Event handler for user selecting a WOR from the list.
@@ -521,28 +558,28 @@
         });
     }
 
-    $(document).ready(function () {
-        // Click event handler for dynamically created tags
-        $('#tagContainer').on('click', '.tag', function () {
-            $(this).remove(); // Remove the clicked tag
-        });
+    //$(document).ready(function () {
+    //    // Click event handler for dynamically created tags
+    //    $('#tagContainer').on('click', '.tag', function () {
+    //        $(this).remove(); // Remove the clicked tag
+    //    });
 
-        // Function to add a new tag
-        function addTag(tagName) {
-            var tag = $('<div class="tag">' + tagName + '<span class="delete"> X</span></div>');
-            $('#tagContainer').append(tag);
-        }
+    //    // Function to add a new tag
+    //    function addTag(tagName) {
+    //        var tag = $('<div class="tag">' + tagName + '<span class="delete"> X</span></div>');
+    //        $('#tagContainer').append(tag);
+    //    }
 
-        // Example: adding tags dynamically
-        addTag('Tag 1');
-        addTag('Tag 2');
-        addTag('Tag 3');
+    //    // Example: adding tags dynamically
+    //    addTag('Tag 1');
+    //    addTag('Tag 2');
+    //    addTag('Tag 3');
 
-        // Click event handler for delete button within tags
-        $('#tagContainer').on('click', '.delete', function (e) {
-            e.stopPropagation(); // Prevent tag click event from firing
-            $(this).parent().remove(); // Remove the tag containing the delete button
-        });
-    });
+    //    // Click event handler for delete button within tags
+    //    $('#tagContainer').on('click', '.delete', function (e) {
+    //        e.stopPropagation(); // Prevent tag click event from firing
+    //        $(this).parent().remove(); // Remove the tag containing the delete button
+    //    });
+    //});
 
 </script>

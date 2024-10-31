@@ -2,7 +2,7 @@
 * Name         : ggtools.js
 * Description  : Main JS application file for GGTools. This file
 *                should be included in all layout pages. 
-* Last Updated : 10/2/24
+* Last Updated : 10/30/24
 * By           : Benjamin Haag
 */
 
@@ -155,6 +155,11 @@ function InitDataTable(tableName) {
             paging: true,
             "pageLength": 10,
             select: true,
+            layout: {
+                topStart: {
+                    buttons: ['copyHtml5', 'excelHtml5', 'csvHtml5', 'pdfHtml5']
+                }
+            },
             buttons: [
                 {
                     extend: 'copyHtml5',

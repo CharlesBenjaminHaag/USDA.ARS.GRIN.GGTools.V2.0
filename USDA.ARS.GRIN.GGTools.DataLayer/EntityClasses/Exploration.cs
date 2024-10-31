@@ -10,11 +10,12 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
 {
     public class Exploration: AppEntityBase
     {
+        public string ExplorationNumber { get; set; }
         public string Title { get; set; }
         public DateTime BeganDate { get; set; }
         public DateTime FinishedDate { get; set; }
         public string FundingSource { get; set; }
-        public decimal  FundingAmount { get; set; }
+        public decimal FundingAmount { get; set; }
         public string TargetSpecies { get; set; }
         public string Permits { get; set; }
         public string Restrictions { get; set; }

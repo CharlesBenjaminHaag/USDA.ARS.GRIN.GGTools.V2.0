@@ -1,4 +1,4 @@
-﻿@model USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer.EconomicUseViewModel
+﻿@model USDA.ARS.GRIN.GGTools.ViewModelLayer.ExplorationViewModel
 @{
     ViewBag.Title = Model.PageTitle;
     Layout = null;
@@ -57,16 +57,7 @@
                     <div class="row mb-2">
                         <div class="col-sm-6">
                             <h1 class="m-0">
-                                <!-- BEGIN PAGE TITLE -->
-                                @{string controllerName = ViewContext.RouteData.Values["controller"].ToString(); }
-                                @{string actionName = ViewContext.RouteData.Values["action"].ToString(); }
-                                @actionName @controllerName
-
-                                @if (Model.Entity.ID > 0)
-                                {
-                                    <span>[@Model.Entity.ID] : @Model.Entity.AssembledName</span>
-                                }
-                                <!-- END PAGE TITLE -->
+                                @ViewBag.PageTitle 
                             </h1>
                         </div>
                         <div class="col-sm-6">
@@ -88,7 +79,7 @@
                                 </button>
                             </div>
                         </div>
-                        @using (Html.BeginForm("Edit", "EconomicUse", FormMethod.Post, new { id = "frmEditEconomicUse" }))
+                        @using (Html.BeginForm("Edit", "Exploration", FormMethod.Post, new { id = "frmMain" }))
                         {
                             <div class="card-body">
                                 @Html.Partial("~/Views/Shared/_ValidationMessages.cshtml")
@@ -116,61 +107,30 @@
                                 -->
 
                                 <div class="row">
-                                    <div class="col-md-6">
+                                    <div class="col-md-3">
                                         <div class="form-group">
-                                            <label>Species</label>
+                                            <label>Exploration No.</label>
                                             <div class="input-group">
-                                                <span id="placeholder-SpeciesName" style="background-color: #ecf0f5; border: 1px solid #ced4da; width: 100%; position: relative; -ms-flex: 1 1 auto; flex: 1 1 auto; width: 1%; min-width: 0; margin-bottom: 0; padding: 0.375rem 0.75rem; height: calc(2.25rem + 2px);">@Html.Raw(Model.Entity.SpeciesName) </span>
-                                                @Html.HiddenFor(x => x.Entity.SpeciesID)
-                                                @if (Model.Entity.SpeciesID > 0)
-                                                {
-                                                    <span class="input-group-btn">
-                                                        <a href="@Url.Action("Edit", "Species", new { @entityId = Model.Entity.SpeciesID })" class="btn btn-default btn-flat">
-                                                            <i class="fa fa-link"></i>
-                                                        </a>
-                                                    </span>
-                                                }
-                                                <span class="input-group-btn">
-                                                    <button id="btnOpenSpeciesLookupModal" type="button" class="btn btn-default btn-flat" data-ggtools-action="SpeciesID" data-ggtools-value="SpeciesName" data-toggle="modal" data-target="#modal-species-lookup">
-                                                        <i class="fa fa-search"></i>
-                                                    </button>
-                                                </span>
+                                                @Html.TextBoxFor(x => x.Entity.ExplorationNumber, new { @class = "form-control", @readonly = "readonly" })
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
                                         <div class="form-group">
-                                            <label>Usage Type</label>
-                                            <div class="input-group">
-                                                @Html.TextBoxFor(x => x.Entity.AssembledName, new { @class = "form-control", @readonly = "readonly" })
-                                                @Html.HiddenFor(x => x.Entity.EconomicUsageTypeID)
-
-                                                @if (Model.Entity.EconomicUsageTypeID > 0)
-                                                {
-                                                    <span class="input-group-btn">
-                                                        <a href="@Url.Action("Edit", "EconomicUsageType", new { @entityId = Model.Entity.EconomicUsageTypeID })" class="btn btn-default btn-flat">
-                                                            <i class="fa fa-link"></i>
-                                                        </a>
-                                                    </span>
-                                                }
-                                                <span class="input-group-btn">
-                                                    <button id="btnOpenEconomicUsageTypeLookupModal"
-                                                            type="button"
-                                                            class="btn btn-default btn-flat"
-                                                            data-ggtools-action="EconomicUsageTypeID"
-                                                            data-ggtools-value="AssembledName"
-                                                            data-toggle="modal"
-                                                            data-target="#modal-economic-usage-type-lookup">
-                                                        <i class="fa fa-search"></i>
-                                                    </button>
-                                                </span>
-                                            </div>
+                                            <label>Title</label>
+                                            @Html.TextBoxFor(x => x.Entity.Title, new { @class = "form-control", @readonly = "readonly" })
                                         </div>
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group">
-                                            <label>Plant Part</label>
-                                            @Html.DropDownListFor(x => x.Entity.PlantPartCode, Model.PlantPartCodes, "NULL", new { @class = "form-control" })
+                                            <label>Began</label>
+                                            @Html.TextBoxFor(x => x.Entity.BeganDate, new { @class = "form-control", @readonly = "readonly" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Finished</label>
+                                            @Html.TextBoxFor(x => x.Entity.FinishedDate, new { @class = "form-control", @readonly = "readonly" })
                                         </div>
                                     </div>
                                 </div>
@@ -203,15 +163,6 @@
                             </div>
                         }
                     </div>
-                    @if (Model.Entity.ID > 0)
-                    {
-                        <div id="section-species-citation-widget">
-                            @{Html.RenderAction("RenderWidget", "Citation", new { @entityId = Model.Entity.CitationID });}
-                        </div>
-                        Html.RenderAction("RenderSpeciesCitationLookupModal", "Citation", new { @tableName = Model.TableName, @speciesId = Model.Entity.SpeciesID });
-                    }
-                    @{Html.RenderAction("RenderLookupModal", "EconomicUsageType"); }
-                    @{Html.RenderAction("RenderLookupModal", "Species"); }
                     @Html.Partial("~/Views/Shared/Modals/_NoteLookup.cshtml")
                     @Html.Partial("~/Views/Taxonomy/Shared/Modals/_Delete.cshtml")
                     @{Html.RenderAction("GetEditModal", "SysFolder", new { sysTableName = Model.TableName }); }

@@ -164,15 +164,29 @@
     }
 
     $(document).on("click", "[id*='btnSaveAuthor']", function () {
-        var valueField = $("#modal-author-lookup-value-field").val();
-        var displayField = $("#modal-author-lookup-display-field").val();
-
-        $('#modal-author-lookup').modal('hide');
-        var selectedAuthor = GetSelectedEntityText("data-table-author-lookup");
-        
-        $("#" + displayField).val(selectedAuthor);
+        SaveAuthor();
     });
-   
+
+    function SaveAuthor() {
+        var idField = $("#modal-author-lookup-value-field").val();
+        var displayField = $("#modal-author-lookup-display-field").val();
+        var idList = GetSelectedEntityText("data-table-author-lookup");
+       
+        idField = "#" + idField;
+        displayField = "#" + displayField;
+
+        console.log("DEBUG idField IS " + idField + " displayField IS " + displayField + " iDList IS " + idList);
+
+        $(idField).val(idList);
+
+        // TODO: Refactor into a SetValue() method? 
+        $(displayField).val(idList);
+        $(displayField).trigger('change');
+
+        $(displayField + "-Placeholder").html(nameList);
+        $('#modal-author-lookup').modal('hide');
+    }
+
     $(".fa-info-circle").on('click', function (event) {
         event.stopPropagation();
         event.stopImmediatePropagation();

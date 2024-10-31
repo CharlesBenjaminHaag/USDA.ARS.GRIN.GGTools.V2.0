@@ -34,7 +34,7 @@
             <div class="card-body">
                 <div>
                     <div>
-                        
+
                         <div>
                             <p id="display-id"></p>
                         </div>
@@ -45,6 +45,7 @@
                                     <th>Epithet</th>
                                     <th>Authority</th>
                                     <th>Protologue</th>
+                                    <th>URL</th>
                                     <th></th>
                                 </tr>
                             </thead>
@@ -104,12 +105,31 @@
             <input type="text" class="form-control" id="txtSpeciesName" name="SpeciesName" />
         </td>
         <td width="25%">
-            <input type="text" class="form-control" id="txtSpeciesAuthority" name="SpeciesAuthority" />
+            
+
+
+            <div class="input-group">
+                <input type="text" class="form-control" id="txtSpeciesAuthority" name="SpeciesAuthority" />                <span class="input-group-append">
+                    <button id="btnOpenAuthorityLookupModal"
+                            type="button"
+                            data-toggle="modal"
+                            data-ggtools-id-field="SpeciesAuthority"
+                            data-ggtools-name-field="SpeciesAuthority"
+                            data-target="#modal-author-lookup"
+                            class="btn btn-default btn-flat">
+                        <i class="fa fa-search"></i>
+                    </button>
+                </span>
+            </div>
+
         </td>
-        <td width="25%">
+        <td width="15%">
             <input type="text" class="form-control" id="txtProtologue" name="Protologue" />
         </td>
-        <td>
+        <td width="15%">
+            <input type="text" class="form-control" id="txtProtologueVirtualPath" name="ProtologueVirtualPath" />
+        </td>
+        <td width="5%">
             <div class="btn-group">
                 <button id="btnDelete" type="button" class="btn btn-default btn-sm delete-row">
                     Delete
@@ -126,6 +146,7 @@
 
 @{Html.RenderAction("RenderLookupModal", "Genus"); }
 @{Html.RenderAction("GetEditModal", "SysFolder", new { @sysTableName = Model.TableName }); }
+@{Html.RenderAction("RenderLookupModal", "Author"); }
 
 <script>
     //function togglePanels() {
@@ -300,7 +321,7 @@
                 var note = $(row).find('input[name="Note"]').val();
 
                 //DEBUG
-                console.log("DEBUG EPITHET IS " + speciesName + " AUTH IS " + speciesAuthority + " PROTO IS " + protologue);
+                console.log("DEBUG EPITHET IS " + speciesName + " AUTH IS " + speciesAuthority + " PROTO IS " + protologue + " URL IS " + protologueVirtualPath);
 
                 if ((genusId == 0) || (genusId == null)) {
                     /* VALIDATION OPTION: Set all error fields to red */
