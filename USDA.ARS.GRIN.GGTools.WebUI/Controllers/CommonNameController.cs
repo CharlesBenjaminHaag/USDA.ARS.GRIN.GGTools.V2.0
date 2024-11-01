@@ -94,11 +94,11 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 citationViewModel.SearchEntity.SpeciesID = commonName.SpeciesID;
                 citationViewModel.Search();
                 commonName.Citations = citationViewModel.DataCollection;
-                // TODO Get species citations
+                // TODO View species citations
             }
 
             // TODO
-            // Get list of common names based on parameter
+            // View list of common names based on parameter
             // Retrieve each common name and its parent species
             //    For each species, retrieve each of its citations
 

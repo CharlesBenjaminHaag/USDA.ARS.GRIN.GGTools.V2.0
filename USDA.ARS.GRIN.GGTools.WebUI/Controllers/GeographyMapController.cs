@@ -108,7 +108,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
         //public ActionResult RunSavedSearch(int id)
         //{
         //    AppUserDynamicQueryViewModel viewModel = new AppUserDynamicQueryViewModel();
-        //    viewModel.Get(id);
+        //    viewModel.View(id);
         //    GeographyMapSearch geographyMapSearch = viewModel.Deserialize<GeographyMapSearch>(viewModel.Entity.QuerySyntax);
         //    TempData["GEO-MAP-SEARCH"] = geographyMapSearch;
         //    return RedirectToAction("Index", "GeographyMap");

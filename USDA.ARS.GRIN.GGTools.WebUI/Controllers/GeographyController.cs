@@ -343,7 +343,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             //if (speciesId > 0)
             //{
             //    SpeciesViewModel speciesViewModel = new SpeciesViewModel();
-            //    speciesViewModel.Get(speciesId);
+            //    speciesViewModel.View(speciesId);
 
             //    viewModel.SpeciesID = speciesViewModel.Entity.ID;
             //    viewModel.SpeciesName = speciesViewModel.Entity.AssembledName;

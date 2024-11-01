@@ -16,6 +16,11 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             throw new NotImplementedException();
         }
 
+        public ActionResult View(int entityId)
+        {
+            throw new NotImplementedException();
+        }
+
         public ActionResult Edit(int entityId)
         {
             throw new NotImplementedException();
@@ -55,6 +60,25 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                     }
                 }
                 return PartialView("~/Views/OrderRequest/_Detail.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
+        }
+
+        public PartialViewResult _List(int orderRequestId = 0, int webOrderRequestId = 0)
+        {
+            try
+            {
+                OrderRequestViewModel viewModel = new OrderRequestViewModel();
+                if (webOrderRequestId > 0)
+                {
+                    viewModel.SearchEntity.WebOrderRequestID = webOrderRequestId;
+                }
+                viewModel.Search();
+                return PartialView("~/Views/OrderRequest/_List.cshtml", viewModel);
             }
             catch (Exception ex)
             {
@@ -110,9 +134,6 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             throw new NotImplementedException();
         }
 
-        public ActionResult View(int entityId)
-        {
-            return View();
-        }
+        
     }
 }

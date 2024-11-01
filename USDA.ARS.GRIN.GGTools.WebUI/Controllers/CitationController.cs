@@ -683,7 +683,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
         //    CitationViewModel viewModelClone = new CitationViewModel();
         //    try
         //    {
-        //        viewModel.Get(entityId);
+        //        viewModel.View(entityId);
         //        viewModelClone.Entity = viewModel.Entity;
         //        viewModelClone.TableName = "citation";
         //        viewModelClone.TableCode = "Citation";

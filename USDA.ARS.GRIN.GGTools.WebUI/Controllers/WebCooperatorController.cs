@@ -141,7 +141,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
         //    try
         //    {
         //        WebCooperatorViewModel viewModel = new WebCooperatorViewModel();
-        //        viewModel.Get(entityId, environment);
+        //        viewModel.View(entityId, environment);
         //        return PartialView(viewModel);
         //    }
         //    catch (Exception ex)
@@ -156,7 +156,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
         //    try
         //    {
         //        WebCooperatorViewModel viewModel = new WebCooperatorViewModel();
-        //        viewModel.Get(entityId, "");
+        //        viewModel.View(entityId, "");
         //        viewModel.PageTitle = String.Format("Edit Web Cooperator [{0}]: {1}", entityId, viewModel.Entity.AssembledName);
         //        viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
         //        viewModel.AuthenticatedUser = AuthenticatedUser;

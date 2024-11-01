@@ -22,7 +22,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
         }
 
         /// <summary>
-        /// Get user credentials.
+        /// View user credentials.
         /// </summary>
         /// <param name="viewModel"></param>
         /// <returns></returns>

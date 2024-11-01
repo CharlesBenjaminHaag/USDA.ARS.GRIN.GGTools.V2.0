@@ -12,11 +12,19 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
     {
         private static readonly Logger Log = LogManager.GetCurrentClassLogger();
 
-        public ActionResult Get(int entityId)
+        public ActionResult View(int entityId)
         { 
             WebOrderRequestViewModel viewModel = new WebOrderRequestViewModel();
-            viewModel.Get(entityId);
-            return View("~/Views/WebOrderRequest/View.cshtml", viewModel);
+            try 
+            { 
+                viewModel.Get(entityId);
+                return View("~/Views/WebOrderRequest/View.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return RedirectToAction("InternalServerError", "Error");
+            }
         }
        
         public PartialViewResult _ListItems(int webOrderRequestId)
@@ -91,7 +99,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
         //public PartialViewResult RenderRejectModal(int entityId)
         //{
         //    WebOrderRequestViewModel viewModel = new WebOrderRequestViewModel();
-        //    viewModel.Get(entityId);
+        //    viewModel.View(entityId);
         //    viewModel.EventValue = "Reject Web Order Request";
 
         //    //TODO Load appropriate template

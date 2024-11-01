@@ -79,7 +79,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                     var documentPath = Path.Combine(Server.MapPath(uploadDir), viewModel.DocumentUpload.FileName);
                     var documentUrl = Path.Combine(uploadDir, viewModel.DocumentUpload.FileName);
 
-                    // Get full document URL to be saved with record.
+                    // View full document URL to be saved with record.
                     var urlBuilder =
                         new System.UriBuilder(Request.Url.AbsoluteUri)
                         {

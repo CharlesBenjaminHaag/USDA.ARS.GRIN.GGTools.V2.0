@@ -247,7 +247,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 approvalListCooperatorViewModel.SearchEntity.SysGroupTag = SYS_GROUP_TAG_GGTOOLS_MANAGE_COOPERATOR;
                 approvalListCooperatorViewModel.Search();
 
-                // Get template.
+                // View template.
                 emailTemplateViewModel.SearchEntity.CategoryCode = "CNR";
                 emailTemplateViewModel.Search();
 
@@ -294,7 +294,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
 
                 //************************************ 2. SEND REQUESTOR EMAILS ******************************************************
 
-                // Get template.
+                // View template.
                 //emailTemplateViewModel.SearchEntity.CategoryCode = "CNA";
                 //emailTemplateViewModel.Search();
 

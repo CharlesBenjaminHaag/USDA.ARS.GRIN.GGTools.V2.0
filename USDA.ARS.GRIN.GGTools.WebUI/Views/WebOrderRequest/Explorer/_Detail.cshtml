@@ -1,4 +1,13 @@
 ﻿@model USDA.ARS.GRIN.GGTools.ViewModelLayer.WebOrderRequestViewModel
+
+<style type="text/css">
+    .scrollable-display-section {
+        width: 100%; /* Flexible width */
+        max-height: 100px; /* Fixed height */
+        overflow-y: auto;
+    }
+</style>
+
 <div class="row">
     <div class="col-md-1">
         <div class="form-group">
@@ -14,14 +23,17 @@
                 string statusCssClass = String.Empty;
                 switch (Model.Entity.StatusCode.ToUpper())
                 {
+                    case "ACCEPTED":
+                        statusCssClass = "background-color: #28a745; color:white;";
+                        break;
+                    case "CANCELED":
+                        statusCssClass = "background-color: #ffc107; color:white;";
+                        break;
                     case "SUBMITTED":
                         statusCssClass = "background-color: #6f42c1; color:white;";
                         break;
-                    case "ACCEPTED":
-                        statusCssClass = "background-color: green; color:white;";
-                        break;
-                    case "CANCELED":
-                        statusCssClass = "background-color: #6f42c1; color:white;";
+                    case "MIXED":
+                        statusCssClass = "background-color: #007bff; color:white;";
                         break;
                     case "NRR_FLAG":
                         statusCssClass = "background-color: #dc3545; color:white;";
@@ -34,7 +46,12 @@
     <div class="col-md-3">
         <div class="form-group">
             <label>Submitted By</label>
-            @Html.TextBoxFor(x => x.Entity.WebCooperatorFullName, new { @class = "form-control form-control-sm", @readonly = "readonly", disabled = "disabled" })
+            <div class="input-group">
+                @Html.TextBoxFor(x => x.Entity.WebCooperatorFullName, new { @class = "form-control form-control-sm", @readonly = "readonly", disabled = "disabled" })
+                <span class="input-group-append">
+                    <a href="@Url.Action("Edit","WebCooperator", new { @entityId = Model.Entity.WebCooperatorID })" class="btn btn-default btn-sm"><i class="fa fa-search"></i></a>
+                </span>
+            </div>
         </div>
     </div>
     <div class="col-md-3">
@@ -47,7 +64,7 @@
             @Html.TextBoxFor(x => x.Entity.OrderDate, new { @class = "form-control form-control-sm", @readonly = "readonly", disabled = "disabled" })
         </div>
     </div>
-    </div>
+</div>
 <br />
 <div class="row">
     <div class="col-md-6">
@@ -66,9 +83,11 @@
     <div class="col-md-12">
         <div class="form-group">
             <label>Intended Use Note</label>
-            <p class="text-muted well well-sm no-shadow">
-                @Model.Entity.IntendedUseCode: @Html.Raw(Model.Entity.IntendedUseNote)
-            </p>
+            
+                <div class="scrollable-display-section">
+                    @Model.Entity.IntendedUseCode: @Html.Raw(Model.Entity.IntendedUseNote)
+                </div>
+            
         </div>
     </div>
 </div>
@@ -78,9 +97,7 @@
     <div class="row">
         <div class="col-md-12">
             <label>Special Instruction</label>
-            <p class="text-muted well well-sm no-shadow">
-                @Model.Entity.SpecialInstruction
-            </p>
+            <p>@Model.Entity.SpecialInstruction</p>
         </div>
     </div>
 }
@@ -90,18 +107,20 @@
     <div class="row">
         <div class="col-md-12">
             <label>Note</label>
-            <p class="text-muted well well-sm no-shadow">
-                @Model.Entity.Note
-            </p>
+            <p>@Model.Entity.Note</p>
         </div>
     </div>
 }
+<hr />
 
-<table class="table table-striped">
-    <thead></thead>
-    <tbody></tbody>
-</table>
-@foreach (var result in Model.DataCollectionItems)
-{ 
-    
-}
+@Html.Partial("~/Views/WebOrderRequestItem/_List.cshtml")
+
+
+
+@{ Html.RenderAction("_List", "OrderRequest", new { @webOrderRequestId = Model.Entity.ID}); }
+
+@*<script type="text/javascript">
+    $(document).ready(function () {
+        InitDataTable("data-table-web-order-request-items");
+    });
+</script>*@

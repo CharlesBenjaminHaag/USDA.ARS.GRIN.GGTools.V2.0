@@ -1,56 +1,32 @@
 ﻿@model USDA.ARS.GRIN.GGTools.ViewModelLayer.WebOrderRequestViewModel
-
-<div id="section-search-results" class="card card-primary">
-    <div class="card-header">
-        <h3 class="card-title">Web Order Requests (@Model.DataCollection.Count)</h3>
-        <div class="card-tools">
-            <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                <i class="fas fa-minus"></i>
-            </button>
-        </div>
-    </div>
-    <div class="card-body">
-        <table id="data-table-web-order-requests" class="table table-striped" style="width:100%;">
-            <thead>
+<h5>Items</h5>
+    <table id="data-table-web-order-request-items" class="table table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Status</th>
+                <th>Accession</th>
+                <th>Site</th>
+                <th>Shipped</th>
+                <th>Count</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var result in Model.DataCollectionItems)
+            {
                 <tr>
-                    <th></th>
-                    <th width="5%">ID</th>
-                    <th>Order Date</th>
-                    <th>Status</th>
-                    <th>Intended Use</th>
-                    <th>Requestor</th>
-                    <th>Email</th>
-                    <th>Organization</th>
-                    <th>Most Recent Action</th>
-                    <th></th>
+                    <td>@result.ID</td>
+                    <td>@result.StatusCode</td>
+                    <td><a href="https://npgsweb.ars-grin.gov/gringlobal/accessiondetail?id=@result.AccessionID">@result.AccessionText</a></td>
+                    <td><a href="https://npgsweb.ars-grin.gov/gringlobal/site?id=@result.SiteID">@result.SiteLongName</a></td>
+                    <td>@result.QuantityShipped</td>
+                    <td>@result.UnitOfQuantity</td>
                 </tr>
-            </thead>
-            <tbody>
-                @foreach (var webOrderRequest in Model.DataCollection)
-                {
-                    <tr>
-                        <td>@webOrderRequest.ID</td>
-                        <td>@webOrderRequest.ID</td>
-                        <td>@webOrderRequest.OrderDate.ToString("yyyy-MM-dd")</td>
-                        <td><span class="badge @webOrderRequest.CSSClass">@webOrderRequest.StatusCode</span></td>
-                        <td>@webOrderRequest.IntendedUseCode</td>
-                        <td>@webOrderRequest.WebCooperatorFullName</td>
-                        <td>@webOrderRequest.WebCooperatorEmail</td>
-                        <td>@webOrderRequest.WebCooperatorOrganization</td>
-                        <td>
-                            @webOrderRequest.MostRecentWebOrderAction
-                        </td>
-                        <td>
-                            <a href="@Url.Action("Get","WebOrderRequest", new { entityId = webOrderRequest.ID })" class="btn btn-default btn-sm pull-right">View</a>
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    </div>
-</div>
-<script type="text/javascript">
+            }
+        </tbody>
+    </table>
+@*<script type="text/javascript">
     $(document).ready(function () {
-        InitDataTable("data-table-web-order-requests");
+        InitDataTable("data-table-web-order-request-items");
     });
-</script>
+</script>*@
