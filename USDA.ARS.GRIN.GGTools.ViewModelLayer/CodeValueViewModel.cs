@@ -28,20 +28,20 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
                 }
             }
 
-            using (SysTableManager sysTableManager = new SysTableManager())
-            {
-                DataCollectionSysTableFields = new Collection<SysTableField>(sysTableManager.GetSysTableFieldsByGroupName(Entity.GroupName));
-            }
+            //using (SysTableManager sysTableManager = new SysTableManager())
+            //{
+            //    DataCollectionSysTableFields = new Collection<SysTableField>(sysTableManager.GetSysTableFieldsByGroupName(Entity.GroupName));
+            //}
 
-            if (DataCollectionSysTableFields.Count >= 1)
-            {
-                using (SysDynamicQueryManager sysDynamicQueryManager = new SysDynamicQueryManager()) 
-                {
-                    SysDynamicQuerySearch sysDynamicQuerySearch = new SysDynamicQuerySearch();
-                    sysDynamicQuerySearch.SQLStatement = "SELECT * FROM " + DataCollectionSysTableFields[0].SysTableName + " WHERE " + DataCollectionSysTableFields[0].FieldName + " = '" + Entity.GroupName + "'";
-                    DataCollectionDataTable = sysDynamicQueryManager.Search(sysDynamicQuerySearch);
-                }
-            }
+            //if (DataCollectionSysTableFields.Count >= 1)
+            //{
+            //    using (SysDynamicQueryManager sysDynamicQueryManager = new SysDynamicQueryManager()) 
+            //    {
+            //        SysDynamicQuerySearch sysDynamicQuerySearch = new SysDynamicQuerySearch();
+            //        sysDynamicQuerySearch.SQLStatement = "SELECT * FROM " + DataCollectionSysTableFields[0].SysTableName + " WHERE " + DataCollectionSysTableFields[0].FieldName + " = '" + Entity.GroupName + "'";
+            //        DataCollectionDataTable = sysDynamicQueryManager.Search(sysDynamicQuerySearch);
+            //    }
+            //}
         }
 
         public void GetRelatedSysTableField()

@@ -58,24 +58,30 @@ namespace USDA.ARS.GRIN.GGTools.WebUI
             //databaseName = ConfigurationManager.AppSettings["Database"];
 
             USDA.ARS.GRIN.GGTools.DataLayer.CodeValueManager mgr = new CodeValueManager();
-            if (mgr.ConnectionString.Contains("gringlobal"))
+            if (mgr.ConnectionString.Contains("gringlobal-test"))
             {
-                databaseName = "PRODUCTION";
-                if (mgr.ConnectionString.Contains("localhost"))
-                {
-                    databaseName += " (LOCAL)";
-                }
-                
+                databaseName = "TEST";
             }
             else
             {
-                databaseName = "TRAINING";
-                if (mgr.ConnectionString.Contains("localhost"))
+                if (mgr.ConnectionString.Contains("gringlobal"))
                 {
-                    databaseName += " (LOCAL)";
+                    databaseName = "PRODUCTION";
+                }
+                else
+                {
+                    if (mgr.ConnectionString.Contains("training"))
+                    {
+                        databaseName = "TRAINING";
+                    }
                 }
             }
-           
+
+            if (mgr.ConnectionString.Contains("localhost"))
+            {
+                databaseName += " (LOCAL)";
+            }
+
             return databaseName.ToUpper();
         }
         

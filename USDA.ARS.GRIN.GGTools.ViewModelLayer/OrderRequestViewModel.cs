@@ -22,18 +22,25 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
             throw new NotImplementedException();
         }
 
-        public OrderRequest Get(int entityId)
+        public void Get(int entityId)
         {
-            throw new NotImplementedException();
+            try
+            {
+                using (OrderRequestManager mgr = new OrderRequestManager())
+                {
+                    Entity = mgr.Get(entityId);
+                }
+            }
+            catch (Exception ex)
+            {
+                PublishException(ex);
+                throw (ex);
+            }
         }
 
         public List<OrderRequest> GetAll() {  throw new NotImplementedException(); }
 
-        public void HandleRequest()
-        {
-            throw new NotImplementedException();
-        }
-
+       
         public int Insert()
         {
             throw new NotImplementedException();
@@ -68,6 +75,11 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
         }
 
         public int Update()
+        {
+            throw new NotImplementedException();
+        }
+
+        OrderRequest IViewModel<OrderRequest>.Get(int entityId)
         {
             throw new NotImplementedException();
         }

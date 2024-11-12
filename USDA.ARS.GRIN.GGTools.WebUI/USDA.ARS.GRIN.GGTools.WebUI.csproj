@@ -1069,6 +1069,7 @@
     <Content Include="Views\Exploration\Modals\_Lookup.cshtml" />
     <Content Include="Views\Exploration\Modals\_SelectList.cshtml" />
     <Content Include="Views\OrderRequest\_List.cshtml" />
+    <Content Include="Views\OrderRequest\View.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

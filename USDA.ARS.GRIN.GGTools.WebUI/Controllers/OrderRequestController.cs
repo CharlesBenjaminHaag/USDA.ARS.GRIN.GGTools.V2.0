@@ -18,7 +18,18 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
 
         public ActionResult View(int entityId)
         {
-            throw new NotImplementedException();
+            OrderRequestViewModel viewModel = new OrderRequestViewModel();
+
+            try
+            {
+                viewModel.Get(entityId);
+                return View("~/Views/OrderRequest/View.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return View("~/Views/OrderRequest/View.cshtml", viewModel);
+            }
         }
 
         public ActionResult Edit(int entityId)
