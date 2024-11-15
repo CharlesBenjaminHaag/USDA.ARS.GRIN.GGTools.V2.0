@@ -45,7 +45,7 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
             {
                 try
                 {
-                    DataCollection = new Collection<Cooperator>(mgr.GetSiteCurators(siteId));
+                    DataCollection = new Collection<Cooperator>(mgr.GetSiteActiveUsers(siteId));
                     if (DataCollection.Count() == 1)
                     {
                         Entity = DataCollection[0];

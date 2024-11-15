@@ -41,13 +41,13 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
             }
         }
 
-        public void GetSiteCurators(int siteId)
+        public void GetSiteActiveUsers(int siteId)
         {
             using (CooperatorManager mgr = new CooperatorManager())
             {
                 try
                 {
-                    DataCollectionSiteCooperators = new Collection<Cooperator>(mgr.GetSiteCurators(siteId));
+                    DataCollectionSiteCooperators = new Collection<Cooperator>(mgr.GetSiteActiveUsers(siteId));
                     RowsAffected = mgr.RowsAffected;
                 }
                 catch (Exception ex)

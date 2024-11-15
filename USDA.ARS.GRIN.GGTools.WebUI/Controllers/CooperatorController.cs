@@ -505,15 +505,16 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
         [HttpPost]
         public JsonResult EditOwnership(CooperatorOwnershipViewModel viewModel)
         {
+            int result = 0;
             try 
             {
-                viewModel.Transfer();
-                return Json("OK", JsonRequestBehavior.AllowGet);
+                result = viewModel.Transfer();
+                return Json(new { success = true, data = result }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
                 Log.Error(ex);
-                return Json("ERROR", JsonRequestBehavior.AllowGet);
+                return Json(new { success = false, data = -1, message = ex.Message }, JsonRequestBehavior.AllowGet);
             }
         }
 

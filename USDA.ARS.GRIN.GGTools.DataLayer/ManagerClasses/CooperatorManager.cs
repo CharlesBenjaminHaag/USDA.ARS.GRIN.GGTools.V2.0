@@ -51,10 +51,10 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             return cooperatorStatus;
         }
         
-        public List<Cooperator> GetSiteCurators(int siteId)
+        public List<Cooperator> GetSiteActiveUsers(int siteId)
         {
             List<Cooperator> cooperators = new List<Cooperator>();
-            SQL = "usp_GRINGlobal_Site_Curators_Select";
+            SQL = "usp_GRINGlobal_Site_Active_Users_Select";
 
             var parameters = new List<IDbDataParameter> {
                     CreateParameter("site_id", (object)siteId, false)

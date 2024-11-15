@@ -8,7 +8,7 @@ using USDA.ARS.GRIN.GGTools.DataLayer;
 
 namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
 {
-    public class CooperatorOwnershipViewModel
+    public class CooperatorOwnershipViewModel: ViewModelBase
     {
         private int _DonorCooperatorID;
         private int _RecipientCooperatorID;
@@ -64,19 +64,20 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
             }
         }
 
-        public void Transfer()
+        public int Transfer()
         {
+            string[] sysTableNameArray;
             //TODO iterate through table list and call transfer for each 
             using (CooperatorManager mgr = new CooperatorManager())
             {
-                string[] sysTableNameArray;
                 sysTableNameArray = SysTableNameList.Split(',');
                 foreach (var tableName in sysTableNameArray)
                 {
                     mgr.TransferOwnership(DonorCooperatorID, RecipientCooperatorID, tableName);
                 }
+                
             }
-            //TODO
+            return sysTableNameArray.Length;
         }
     }
 }

@@ -157,14 +157,14 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             return null;
         }
 
-        public PartialViewResult RenderWidget(int siteId)
+        public PartialViewResult Components_SiteUsersWidget(int siteId)
         {
             SiteViewModel viewModel = new SiteViewModel();
             try
             {
                 viewModel.AuthenticatedUser = AuthenticatedUser;
                 viewModel.Get(siteId);
-                viewModel.GetSiteCurators(siteId);
+                viewModel.GetSiteActiveUsers(siteId);
                 return PartialView("~/Views/Site/_Widget.cshtml", viewModel);
             }
             catch (Exception ex)
@@ -201,7 +201,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             SiteViewModel viewModel = new SiteViewModel();
             try
             {
-                viewModel.GetSiteCurators(siteId);
+                viewModel.GetSiteActiveUsers(siteId);
                 return PartialView("~/Views/Cooperator/Components/_SiteCuratorList.cshtml", viewModel);
             }
             catch (Exception ex)

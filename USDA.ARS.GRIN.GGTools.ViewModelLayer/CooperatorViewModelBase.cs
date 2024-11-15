@@ -118,8 +118,9 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
             get
             {
                 if ((AuthenticatedUser.IsInRole("MANAGE_COOPERATOR")) ||
+                    (AuthenticatedUser.IsInRole("ADMINS") ||
                     (AuthenticatedUser.CooperatorID == Entity.ID)
-                    )
+                    ))
                 {
                     return "N";
                 }

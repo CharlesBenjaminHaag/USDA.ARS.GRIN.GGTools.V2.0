@@ -218,7 +218,14 @@
                         @{Html.RenderAction("_List", "CooperatorMap", new { @cooperatorId = Model.Entity.ID}); }
                     </div>
                     <div class="tab-pane fade" id="tab-content-ownership" role="tabpanel" aria-labelledby="custom-tabs-one-messages-tab">
-                        @{Html.RenderAction("_ListOwnership", "Cooperator", new { @cooperatorId = Model.Entity.ID }); }
+                        <div id="section-ownership-transfer-success" class="alert alert-success alert-dismissible" style="display:none;">
+                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                            <h5><i class="icon fas fa-check"></i> Data Tansfer Complete</h5>
+                            <span id="section-ownership-transfer-total"></span> records were transferred successfully.
+                        </div>
+                        <div id="section-ownership-list">
+                            @{Html.RenderAction("_ListOwnership", "Cooperator", new { @cooperatorId = Model.Entity.ID }); }
+                        </div>
                     </div>
                     <div class="tab-pane fade" id="custom-tabs-one-settings" role="tabpanel" aria-labelledby="custom-tabs-one-settings-tab">
                         @{Html.RenderAction("_ListAppUserGUISettings", "Cooperator", new { @cooperatorId = Model.Entity.ID }); }
@@ -234,6 +241,8 @@
 @{Html.RenderAction("RenderLookupModal", "Cooperator"); }
 @{Html.RenderAction("RenderEditModal", "SysUser"); }
 @{Html.RenderAction("RenderEditModal", "SysGroupUserMap", new { sysUserId = Model.Entity.SysUserID }); }
+
+
 
 <script type="text/javascript">
     $(document).ready(function () {
@@ -296,11 +305,12 @@
     /************************************************************ OWNERSHIP ******************************************************************/
 
     $(document).on("click", "[id*='btnTransferOwnership']", function () {
+        $("#section-ownership-transfer-success").hide();
         TransferOwnership();
     });
 
     function GetOwnershipList() {
-       
+
     }
 
     function TransferOwnership() {
@@ -310,8 +320,6 @@
         var recipientCooperatorId = GetSelectedEntityIDs("data-table-cooperator-lookup");
         var sysTableNameList = GetSelectedEntityIDs("data-table-cooperator-ownership");
 
-        //DEBUG
-        /*alert("DEBUG TRANSFER " + sysTableNameList + " FROM " + donorCooperatorId + " TO " + recipientCooperatorId);*/
 
         var formData = new FormData();
 
@@ -327,12 +335,48 @@
             processData: false,
             data: formData,
             success: function (response) {
-                GetOwnershipList();
+                if (response.success) {
+                    $("#section-ownership-transfer-total").html(response.data);
+                    $("#section-ownership-transfer-success").show();
+                    GetOwnershipList();
+                } else {
+                    HandleError(response.message);
+                }
             },
-            error: function () {
-                alert("Error");
+            error: function (xhr, status, error) {
+                var errorMessage = xhr.status + ': ' + xhr.statusText;
+                HandleError(errorMessage);
             }
         });
+
+    }
+
+    function GetOwnershipList() {
+        var link = '@Url.Action("_ListOwnership", "Cooperator")';
+        var cooperatorId = $("#Entity_ID").val();
+        var formData = new FormData();
+
+        formData.append("cooperatorId", cooperatorId);
+
+        $.ajax({
+            url: link,
+            type: 'POST',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (response) {
+                $("#section-ownership-list").html(response);
+            },
+            error: function (xhr, status, error) {
+                var errorMessage = xhr.status + ': ' + xhr.statusText;
+                HandleError(errorMessage);
+            }
+        });
+    }
+
+    function HandleError(message) {
+        alert("DEBUG ERROR " + message);
     }
 </script>
 

@@ -5,8 +5,7 @@
 }
 <div class="row">
     <div class="col-md-3">
-        @{Html.RenderAction("RenderWidget", "SysUser", new { sysUserId = Model.SysUserID }); }
-        @{Html.RenderAction("RenderWidget", "Cooperator", new { cooperatorId = Model.CooperatorID }); }
+        @{Html.RenderAction("RenderWidget", "SysUser", new { sysUserId = Model.AuthenticatedUser.SysUserID }); }
     </div>
     <div class="col-md-9">
         <!-- TODO Refactor into quicklinks section-->
@@ -15,7 +14,7 @@
             @if ((Model.AuthenticatedUser.IsInRole("ADMINS")) || (Model.AuthenticatedUser.IsInRole("MANAGE_TAXONOMY")))
             {
                 <div class="card card-success">
-                    <div class="card-header bg-success">
+                    <div class="card-header bg-blue">
                         <h4 class="card-title w-100">
                             <a class="d-block w-100 collapsed" data-toggle="collapse" href="#collapseOne" style="color:white;" aria-expanded="false">
                                 <i class="fas fa-leaf"></i> Taxonomy
@@ -44,7 +43,7 @@
             @if ((Model.AuthenticatedUser.IsInRole("ADMINS")) || (Model.AuthenticatedUser.IsInRole("MANAGE_COOPERATOR")))
             {
                 <div class="card card-default ">
-                    <div class="card-header bg-purple">
+                    <div class="card-header bg-blue">
                         <h4 class="card-title w-100">
                             <a class="d-block w-100 collapsed" data-toggle="collapse" href="#collapseTwo" style="color:white;" aria-expanded="false">
                                 <i class="fas fa-users"></i> Manage Curators and User Access
@@ -88,9 +87,9 @@
             }
 
             <div class="card card-warning ">
-                <div class="card-header bg-warning">
+                <div class="card-header bg-blue">
                     <h4 class="card-title w-100">
-                        <a class="d-block w-100" data-toggle="collapse" href="#collapseThree" aria-expanded="true">
+                        <a class="d-block w-100" data-toggle="collapse" href="#collapseThree" style="color:white;" aria-expanded="true">
                             <i class="fas fa-wrench"></i> Tools
                         </a>
                     </h4>
@@ -111,9 +110,9 @@
             </div>
         
             <div class="card card-warning ">
-                <div class="card-header bg-info">
+                <div class="card-header bg-blue">
                     <h4 class="card-title w-100">
-                        <a class="d-block w-100" data-toggle="collapse" href="#collapseDemo">
+                        <a class="d-block w-100" data-toggle="collapse" style="color:white;" href="#collapseDemo">
                             <i class="fas fa-lightbulb"></i> Demo
                         </a>
                     </h4>
@@ -130,9 +129,12 @@
         
         </div>
 
-        <!-- TODO Site coop widget -->
-        @{Html.RenderAction("RenderWidget","Site", new { siteId = Model.AuthenticatedUser.SiteID  });}
-
+       
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        @{Html.RenderAction("Components_SiteUsersWidget", "Site", new { siteId = Model.AuthenticatedUser.SiteID });}
     </div>
 </div>
 
