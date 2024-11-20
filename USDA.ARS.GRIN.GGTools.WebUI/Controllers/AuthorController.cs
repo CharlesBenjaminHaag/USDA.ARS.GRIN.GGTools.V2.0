@@ -5,10 +5,16 @@ using USDA.ARS.GRIN.GGTools.WebUI;
 using USDA.ARS.GRIN.GGTools.ViewModelLayer;
 using USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer;
 using USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer;
+using USDA.ARS.GRIN.GGTools.DataLayer.EntityClasses.UPOV;
 using NLog;
 
 namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
 {
+    public class ApiReponseContainer
+    { 
+        
+    }
+
     [GrinGlobalAuthentication]
     public class AuthorController : BaseController
     {

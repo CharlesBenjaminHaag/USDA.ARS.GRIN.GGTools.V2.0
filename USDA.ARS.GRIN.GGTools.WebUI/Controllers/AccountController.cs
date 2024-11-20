@@ -25,7 +25,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
         //            return RedirectToAction("Details", "Account");
 
         //        default:
-        //            return View("~/Views/Account/Request/Introduction.cshtml");
+        //            return Edit("~/Views/Account/Request/Introduction.cshtml");
         //    }
         //}
 
@@ -247,7 +247,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 approvalListCooperatorViewModel.SearchEntity.SysGroupTag = SYS_GROUP_TAG_GGTOOLS_MANAGE_COOPERATOR;
                 approvalListCooperatorViewModel.Search();
 
-                // View template.
+                // Edit template.
                 emailTemplateViewModel.SearchEntity.CategoryCode = "CNR";
                 emailTemplateViewModel.Search();
 
@@ -294,7 +294,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
 
                 //************************************ 2. SEND REQUESTOR EMAILS ******************************************************
 
-                // View template.
+                // Edit template.
                 //emailTemplateViewModel.SearchEntity.CategoryCode = "CNA";
                 //emailTemplateViewModel.Search();
 

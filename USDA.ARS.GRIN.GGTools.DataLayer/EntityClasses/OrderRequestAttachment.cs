@@ -10,7 +10,7 @@ using USDA.ARS.GRIN.GGTools.DataLayer;
 
 namespace USDA.ARS.GRIN.GGTools.DataLayer
 {
-    public class OrderRequest : AppEntityBase
+    public class OrderRequestAttachment : AppEntityBase
     {
         public int OriginalID { get; set; }
         public int WebOrderRequestID { get; set; }
@@ -30,14 +30,5 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
         public string OrderObtainedVIA { get; set; }
         public int FeedbackID { get; set; }
         public string SpecialInstruction { get; set; }
-
-        public List<OrderRequestItem> OrderRequestItems { get; set; }
-        public List<OrderRequestAction> OrderRequestActions { get; set; }
-
-        public OrderRequest()
-        {
-            OrderRequestItems = new List<OrderRequestItem>();
-            OrderRequestActions = new List<OrderRequestAction>();
-        }
     }
 }

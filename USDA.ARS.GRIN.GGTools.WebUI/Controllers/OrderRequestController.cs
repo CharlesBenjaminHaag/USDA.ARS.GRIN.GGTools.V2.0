@@ -16,27 +16,24 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             throw new NotImplementedException();
         }
 
-        public ActionResult View(int entityId)
+        public ActionResult Edit(int entityId)
         {
             OrderRequestViewModel viewModel = new OrderRequestViewModel();
 
             try
             {
+                ViewBag.PageTitle = "Order Request []";
                 viewModel.Get(entityId);
-                return View("~/Views/OrderRequest/View.cshtml", viewModel);
+                return View("~/Views/OrderRequest/Edit.cshtml", viewModel);
             }
             catch (Exception ex)
             {
                 Log.Error(ex);
-                return View("~/Views/OrderRequest/View.cshtml", viewModel);
+                return RedirectToAction("InternalServerError", "Error");
             }
         }
 
-        public ActionResult Edit(int entityId)
-        {
-            throw new NotImplementedException();
-        }
-
+        [HttpPost]
         public ActionResult Edit(OrderRequestViewModel viewModel)
         {
             throw new NotImplementedException();

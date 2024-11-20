@@ -10,7 +10,7 @@ using USDA.ARS.GRIN.GGTools.DataLayer;
 
 namespace USDA.ARS.GRIN.GGTools.DataLayer
 {
-    public class OrderRequestItem : AppEntityBase
+    public class OrderRequestItemAction : AppEntityBase
     {
         public int ID { get; set; }
         public int OrderRequestID { get; set; }

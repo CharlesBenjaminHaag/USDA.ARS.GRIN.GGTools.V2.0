@@ -36,7 +36,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             //    }
             //    else
             //    {
-            //        return View(viewModel);
+            //        return Edit(viewModel);
             //    }
             //}
             return View("~/Views/Home/Index.cshtml", viewModel);

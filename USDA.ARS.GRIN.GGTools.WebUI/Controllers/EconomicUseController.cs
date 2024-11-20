@@ -148,7 +148,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 citationViewModel.SearchEntity.SpeciesID = economicUse.SpeciesID;
                 citationViewModel.Search();
                 economicUse.Citations = citationViewModel.DataCollection;
-                // TODO View species citations
+                // TODO Edit species citations
             }
             return PartialView("~/Views/Taxonomy/EconomicUse/Modals/_EditBatch.cshtml", viewModel);
         }

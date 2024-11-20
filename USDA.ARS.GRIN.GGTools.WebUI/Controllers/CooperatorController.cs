@@ -171,7 +171,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             {
                 //if (!viewModel.Validate())
                 //{
-                //    if (viewModel.ValidationMessages.Count > 0) return View(viewModel);
+                //    if (viewModel.ValidationMessages.Count > 0) return Edit(viewModel);
                 //}
 
                 if (viewModel.Entity.ID == 0)
@@ -543,6 +543,22 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
         public PartialViewResult Component_PageMenu()
         {
             return PartialView("~/Views/Cooperator/Components/_EditMenu.cshtml");
+        }
+
+        public PartialViewResult Component_Widget(int cooperatorId)
+        {
+            CooperatorViewModel viewModel = new CooperatorViewModel();
+
+            try
+            {
+                viewModel.Get(cooperatorId);
+                return PartialView("~/Views/Cooperator/Components/_Widget.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
         }
 
         #endregion

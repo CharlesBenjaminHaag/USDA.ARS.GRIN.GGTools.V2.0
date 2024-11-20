@@ -84,7 +84,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
         //        viewModel.Search();
 
                 
-        //        return View(BASE_PATH + "Index.cshtml", viewModel);
+        //        return Edit(BASE_PATH + "Index.cshtml", viewModel);
         //    }
         //    catch (Exception ex)
         //    {
@@ -343,7 +343,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             //if (speciesId > 0)
             //{
             //    SpeciesViewModel speciesViewModel = new SpeciesViewModel();
-            //    speciesViewModel.View(speciesId);
+            //    speciesViewModel.Edit(speciesId);
 
             //    viewModel.SpeciesID = speciesViewModel.Entity.ID;
             //    viewModel.SpeciesName = speciesViewModel.Entity.AssembledName;

@@ -244,7 +244,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             //    viewModel.Entity.OwnedByWebUserID = AuthenticatedUser.WebUserID;
             //    viewModel.Entity.Note = viewModel.EventNote;
             //    viewModel.Update();
-            //    return RedirectToAction("View", "WebOrder", new { entityId = viewModel.Entity.ID });
+            //    return RedirectToAction("Edit", "WebOrder", new { entityId = viewModel.Entity.ID });
             //}
             //catch (Exception ex)
             //{

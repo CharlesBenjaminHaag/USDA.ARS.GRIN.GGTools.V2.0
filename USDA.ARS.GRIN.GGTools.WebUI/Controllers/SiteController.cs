@@ -34,7 +34,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             {
                 //if (!viewModel.Validate())
                 //{
-                //    if (viewModel.ValidationMessages.Count > 0) return View(viewModel);
+                //    if (viewModel.ValidationMessages.Count > 0) return Edit(viewModel);
                 //}
 
                 if (viewModel.Entity.ID == 0)

@@ -384,7 +384,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
 
         //        //if (!viewModel.Validate())
         //        //{
-        //        //    if (viewModel.ValidationMessages.Count > 0) return View(viewModel);
+        //        //    if (viewModel.ValidationMessages.Count > 0) return Edit(viewModel);
         //        //}
 
         //        if (viewModel.Entity.ID == 0)
@@ -683,7 +683,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
         //    CitationViewModel viewModelClone = new CitationViewModel();
         //    try
         //    {
-        //        viewModel.View(entityId);
+        //        viewModel.Edit(entityId);
         //        viewModelClone.Entity = viewModel.Entity;
         //        viewModelClone.TableName = "citation";
         //        viewModelClone.TableCode = "Citation";
@@ -694,7 +694,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
         //        viewModelClone.Entity.GenusName = String.Empty;
         //        viewModelClone.Entity.SpeciesID = 0;
         //        viewModelClone.Entity.SpeciesName = String.Empty;
-        //        return View(BASE_PATH + "/Clone.cshtml", viewModelClone);
+        //        return Edit(BASE_PATH + "/Clone.cshtml", viewModelClone);
         //    }
         //    catch (Exception ex)
         //    {
@@ -721,7 +721,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
         //    viewModel.CloneEntity.GenusName = String.Empty;
         //    viewModel.CloneEntity.SpeciesID = 0;
         //    viewModel.CloneEntity.SpeciesName = String.Empty;
-        //    return View(BASE_PATH + "Clone.cshtml", viewModel);
+        //    return Edit(BASE_PATH + "Clone.cshtml", viewModel);
         //}
         
         public ActionResult Delete(int entityId)

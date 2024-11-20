@@ -387,7 +387,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
         //    {
         //        viewModel.SubtribeCount = Int32.Parse(formCollection["NumSubtribes"]);
         //    }
-        //    viewModel.View();
+        //    viewModel.Edit();
         //    return PartialView("~/Views/FamilyMap/Modals/_InfrafamilialTaxonEditGrid.cshtml", viewModel);
         //}
 

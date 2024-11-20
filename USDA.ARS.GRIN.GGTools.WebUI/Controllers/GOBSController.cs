@@ -42,7 +42,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
         //    sysDynamicQueryViewModel.Search();
 
         //    //viewModel.DataCollectionDataTable = sysDynamicQueryViewModel.DataCollectionDataTable;
-        //    return View("~/Views/GOBS/Edit.cshtml", viewModel);
+        //    return Edit("~/Views/GOBS/Edit.cshtml", viewModel);
         //}
 
         public ActionResult AddDataset()
@@ -62,7 +62,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             }
             else
             {
-                ViewBag.PageTitle = "View Dataset";
+                ViewBag.PageTitle = "Edit Dataset";
             }
 
             return View("~/Views/GOBS/EditDataset.cshtml", viewModel);
@@ -104,7 +104,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             }
             else
             {
-                ViewBag.PageTitle = "View Dataset Marker";
+                ViewBag.PageTitle = "Edit Dataset Marker";
             }
 
             return View("~/Views/GOBS/EditDatasetMarker.cshtml", viewModel);

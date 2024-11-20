@@ -45,7 +45,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 viewModel.TableCode = "Accession";
                 viewModel.PageTitle = String.Format("Edit Accession [{0}]", entityId);
                 viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
-                //viewModel.View(entityId);
+                //viewModel.Edit(entityId);
                 return View("~/Views/Accession/Edit.cshtml", viewModel);
             }
             catch (Exception ex)

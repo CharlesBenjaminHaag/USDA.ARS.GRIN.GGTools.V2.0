@@ -42,7 +42,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             {
                 //if (!viewModel.Validate())
                 //{
-                //    if (viewModel.ValidationMessages.Count > 0) return View(viewModel);
+                //    if (viewModel.ValidationMessages.Count > 0) return Edit(viewModel);
                 //}
 
                 if (viewModel.Entity.ID == 0)
@@ -141,7 +141,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
         //    try
         //    {
         //        WebCooperatorViewModel viewModel = new WebCooperatorViewModel();
-        //        viewModel.View(entityId, environment);
+        //        viewModel.Edit(entityId, environment);
         //        return PartialView(viewModel);
         //    }
         //    catch (Exception ex)
@@ -156,11 +156,11 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
         //    try
         //    {
         //        WebCooperatorViewModel viewModel = new WebCooperatorViewModel();
-        //        viewModel.View(entityId, "");
+        //        viewModel.Edit(entityId, "");
         //        viewModel.PageTitle = String.Format("Edit Web Cooperator [{0}]: {1}", entityId, viewModel.Entity.AssembledName);
         //        viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
         //        viewModel.AuthenticatedUser = AuthenticatedUser;
-        //        return View(viewModel);
+        //        return Edit(viewModel);
         //    }
         //    catch (Exception ex)
         //    {

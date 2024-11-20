@@ -18,7 +18,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             try 
             { 
                 viewModel.Get(entityId);
-                return View("~/Views/WebOrderRequest/View.cshtml", viewModel);
+                return View("~/Views/WebOrderRequest/Edit.cshtml", viewModel);
             }
             catch (Exception ex)
             {
@@ -99,7 +99,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
         //public PartialViewResult RenderRejectModal(int entityId)
         //{
         //    WebOrderRequestViewModel viewModel = new WebOrderRequestViewModel();
-        //    viewModel.View(entityId);
+        //    viewModel.Edit(entityId);
         //    viewModel.EventValue = "Reject Web Order Request";
 
         //    //TODO Load appropriate template
@@ -146,7 +146,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             //    viewModel.Entity.OwnedByWebUserID = AuthenticatedUser.WebUserID;
             //    viewModel.Entity.Note = viewModel.EventNote;
             //    viewModel.Update();
-            //    return RedirectToAction("View", "WebOrder", new { entityId = viewModel.Entity.ID });
+            //    return RedirectToAction("Edit", "WebOrder", new { entityId = viewModel.Entity.ID });
             //}
             //catch (Exception ex)
             //{

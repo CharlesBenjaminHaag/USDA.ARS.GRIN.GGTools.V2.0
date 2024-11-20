@@ -78,7 +78,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
         public PartialViewResult RenderSysGroupUserMapWidget(int sysUserId = 0)
         {
             SysGroupUserMapViewModel viewModel = new SysGroupUserMapViewModel();
-            //viewModel.View(sysGroupUserMapId);
+            //viewModel.Edit(sysGroupUserMapId);
             return PartialView("~/Views/Cooperator/Wizard/_Step3.cshtml", viewModel);
 
         }

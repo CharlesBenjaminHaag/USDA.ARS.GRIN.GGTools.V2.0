@@ -23,8 +23,8 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
         //    {
         //        SysDynamicQueryViewModel viewModel = new SysDynamicQueryViewModel();
         //        viewModel.Entity.ID = entityId;
-        //        viewModel.View();
-        //        return View(viewModel);
+        //        viewModel.Edit();
+        //        return Edit(viewModel);
         //    }
         //    catch (Exception ex)
         //    {
@@ -163,7 +163,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
         //public PartialViewResult EditQuery(int entityId)
         //{
         //    SysFolderViewModel viewModel = new SysFolderViewModel();
-        //    viewModel.View(entityId);
+        //    viewModel.Edit(entityId);
         //    return PartialView("~/Views/SysFolder/_EditQuery.cshtml", viewModel);
         //}
 
@@ -204,7 +204,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
 
         //        SysDynamicQueryViewModel sysDynamicQueryViewModel = new SysDynamicQueryViewModel();
         //        sysDynamicQueryViewModel.Entity.ID = viewModel.Entity.ID;
-        //        sysDynamicQueryViewModel.View();
+        //        sysDynamicQueryViewModel.Edit();
         //        return PartialView("~/Views/SysDynamicQuery/_Edit.cshtml", sysDynamicQueryViewModel);
         //    }
         //    catch (Exception ex)

@@ -280,7 +280,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
         //            viewModel.Insert();
         //            viewModel.SendNotification("N");
         //        }
-        //        viewModel.View(viewModel.Entity.ID);
+        //        viewModel.Edit(viewModel.Entity.ID);
         //        return Json(new { sysUser = viewModel.Entity }, JsonRequestBehavior.AllowGet);
         //    }
         //    catch (Exception ex)

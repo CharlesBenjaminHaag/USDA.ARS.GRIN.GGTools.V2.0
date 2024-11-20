@@ -221,7 +221,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                     viewModel.ItemIDList = coll["ItemIDList"].ToString();
                 }
 
-                //viewModel.View();
+                //viewModel.Edit();
                 viewModel.DeleteItems();
 
                 return Json(new { success = true }, JsonRequestBehavior.AllowGet);

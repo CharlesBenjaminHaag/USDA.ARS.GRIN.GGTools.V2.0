@@ -54,6 +54,20 @@ namespace USDA.ARS.GRIN.GGTools.OrderManagement.DataLayer.ManagerClasses
             return orderRequestActions;
         }
 
+        public List<OrderRequestAttachment> GetAttachments(int entityId)
+        {
+            List<OrderRequestAttachment> orderRequestAttachments = new List<OrderRequestAttachment>();
+            //TODO
+            return orderRequestAttachments;
+        }
+
+        public List<OrderRequestAttachment> GetPhytoLog(int entityId)
+        {
+            List<OrderRequestAttachment> orderRequestAttachments = new List<OrderRequestAttachment>();
+            //TODO
+            return orderRequestAttachments;
+        }
+
         public int Insert(WebOrderRequest entity)
         {
             throw new NotImplementedException();

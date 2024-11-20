@@ -64,6 +64,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EntityClasses\InventorySearch.cs" />
+    <Compile Include="EntityClasses\Inventory.cs" />
     <Compile Include="EntityClasses\ExplorationMapSearch.cs" />
     <Compile Include="EntityClasses\ExplorationSearch.cs" />
     <Compile Include="EntityClasses\ExplorationMap.cs" />
@@ -75,6 +77,9 @@
     <Compile Include="EntityClasses\AppUserGUISetting.cs" />
     <Compile Include="EntityClasses\FamilySearch.cs" />
     <Compile Include="EntityClasses\Family.cs" />
+    <Compile Include="EntityClasses\OrderRequestPhytoLog.cs" />
+    <Compile Include="EntityClasses\OrderRequestAttachment.cs" />
+    <Compile Include="EntityClasses\OrderRequestItemAction.cs" />
     <Compile Include="EntityClasses\SpeciesDTO.cs" />
     <Compile Include="EntityClasses\SpeciesMatch.cs" />
     <Compile Include="EntityClasses\GOBS\GOBSMarker.cs" />
@@ -214,6 +219,7 @@
     <Compile Include="EntityClasses\SysTable.cs" />
     <Compile Include="EntityClasses\SysTagSearch.cs" />
     <Compile Include="EntityClasses\SysTag.cs" />
+    <Compile Include="EntityClasses\UPOV\upovCodeItem.cs" />
     <Compile Include="EntityClasses\WebUserSearch.cs" />
     <Compile Include="EntityClasses\WebUser.cs" />
     <Compile Include="EntityClasses\SysUser.cs" />
@@ -223,6 +229,7 @@
     <Compile Include="EntityClasses\TribeSearch.cs" />
     <Compile Include="ManagerClasses\AccessionInventoryAttachmentManager.cs" />
     <Compile Include="ManagerClasses\AccessionInvAnnotationManager.cs" />
+    <Compile Include="ManagerClasses\InventoryManager.cs" />
     <Compile Include="ManagerClasses\ExplorationMapManager.cs" />
     <Compile Include="ManagerClasses\ExplorationManager.cs" />
     <Compile Include="ManagerClasses\FamilyManager.cs" />

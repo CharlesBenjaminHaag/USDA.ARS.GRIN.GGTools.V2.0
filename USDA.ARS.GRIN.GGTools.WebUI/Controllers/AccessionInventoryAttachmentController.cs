@@ -79,7 +79,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                     //folderViewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
                     //folderViewModel.Insert();
                     //viewModel.FolderEntity = folderViewModel.Entity;
-                    //return View("~/Views/Attachment/FileManager.cshtml", viewModel);
+                    //return Edit("~/Views/Attachment/FileManager.cshtml", viewModel);
                 }
                 else
                 {

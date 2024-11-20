@@ -1069,7 +1069,16 @@
     <Content Include="Views\Exploration\Modals\_Lookup.cshtml" />
     <Content Include="Views\Exploration\Modals\_SelectList.cshtml" />
     <Content Include="Views\OrderRequest\_List.cshtml" />
-    <Content Include="Views\OrderRequest\View.cshtml" />
+    <Content Include="Views\OrderRequest\Edit.cshtml" />
+    <Content Include="Views\UPOV\Index.cshtml" />
+    <Content Include="Views\OrderRequest\_Edit.cshtml" />
+    <Content Include="Views\Site\_Widget - Copy.cshtml" />
+    <Content Include="Views\OrderRequest\Components\_CooperatorListWidget.cshtml" />
+    <Content Include="Views\Cooperator\Components\_Widget.cshtml" />
+    <Content Include="Views\OrderRequest\_ListActions.cshtml" />
+    <Content Include="Views\OrderRequest\_ListPhytoLog.cshtml" />
+    <Content Include="Views\OrderRequest\_ListAttachments.cshtml" />
+    <Content Include="Views\OrderRequest\_ListItems.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

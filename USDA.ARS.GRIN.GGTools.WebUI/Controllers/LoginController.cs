@@ -22,7 +22,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
         }
 
         /// <summary>
-        /// View user credentials.
+        /// Edit user credentials.
         /// </summary>
         /// <param name="viewModel"></param>
         /// <returns></returns>
@@ -38,7 +38,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 //{
                 //    ModelState.Clear();
                 //    viewModel.UserMessage = String.Format("User name invalid.");
-                //    return View(viewModel);
+                //    return Edit(viewModel);
                 //}
                 isAuthenticated = viewModel.Authenticate();
                 ModelState.Clear();
@@ -63,7 +63,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
 
         //public ActionResult Portal()
         //{
-        //    return View("~/Views/Login/Portal/Index.cshtml");
+        //    return Edit("~/Views/Login/Portal/Index.cshtml");
         //}
 
         public ActionResult Logout()
@@ -195,11 +195,11 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
         //    viewModel.GeneratePasswordResetToken(viewModel.Entity.UserName);
         //    if (!String.IsNullOrEmpty(viewModel.UserMessage))
         //    {
-        //        return View(viewModel);
+        //        return Edit(viewModel);
         //    }
         //    else
         //    {
-        //        return View("~/Views/Login/Confirmation.cshtml");
+        //        return Edit("~/Views/Login/Confirmation.cshtml");
         //    }
         //}
 
@@ -208,7 +208,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
         //{
         //    if (!viewModel.Validate())
         //    {
-        //        return View("~/Views/Login/ResetPassword.cshtml", viewModel);
+        //        return Edit("~/Views/Login/ResetPassword.cshtml", viewModel);
         //    }
         //    viewModel.UpdatePassword();
         //    return RedirectToAction("Index", "Login");

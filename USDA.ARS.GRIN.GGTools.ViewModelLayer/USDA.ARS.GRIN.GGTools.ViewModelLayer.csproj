@@ -69,6 +69,7 @@
     <Compile Include="AccessionInventoryAttachmentViewModelBase.cs" />
     <Compile Include="AccessionInvAnnotationViewModel.cs" />
     <Compile Include="AccessionInvAnnotationViewModelBase.cs" />
+    <Compile Include="UPOVViewModel.cs" />
     <Compile Include="ExplorationViewModel.cs" />
     <Compile Include="ExplorationViewModelBase.cs" />
     <Compile Include="InfraspecificOptionsViewModel.cs" />

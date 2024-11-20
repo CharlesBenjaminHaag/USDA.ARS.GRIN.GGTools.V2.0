@@ -17,5 +17,9 @@
     {
         <span>, modified by <a href="@Url.Action("Edit","Cooperator", new { @entityId = Model.Entity.ModifiedByCooperatorID })">@Model.Entity.ModifiedByCooperatorName</a> on @Model.Entity.ModifiedDate.ToShortDateString()</span>
     }
+    @if (Model.Entity.OwnedDate != DateTime.MinValue)
+    {
+        <span>, owned by <a href="@Url.Action("Edit","Cooperator", new { @entityId = Model.Entity.OwnedByCooperatorID })">@Model.Entity.OwnedByCooperatorName</a> on @Model.Entity.OwnedDate.ToShortDateString()</span>
+    }
 </div>
 }

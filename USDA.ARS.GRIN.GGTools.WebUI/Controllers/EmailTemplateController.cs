@@ -127,7 +127,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
         //        {
         //            emailTemplateHomeViewModel.CurrentID = emailTemplateHomeViewModel.EmailTemplates.First().ID;
         //        }
-        //        return View("~/Views/GRINGlobal/WebOrder/Email/Index.cshtml", emailTemplateHomeViewModel);
+        //        return Edit("~/Views/GRINGlobal/WebOrder/Email/Index.cshtml", emailTemplateHomeViewModel);
         //    }
         //    catch (Exception ex)
         //    {
@@ -138,7 +138,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
 
         //public PartialViewResult _EmailTemplateView(int id)
         //{
-        //    TempData["context"] = "View Email Template";
+        //    TempData["context"] = "Edit Email Template";
         //    GRINGlobalService grinGlobalService = new GRINGlobalService(this.AuthenticatedUserSession.Environment);
         //    EmailTemplateEditViewModel emailTemplateEditViewModel = new EmailTemplateEditViewModel();
         //    EmailTemplate emailTemplate = new EmailTemplate();
@@ -189,7 +189,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
         //        emailTemplateEditViewModel.ModifiedDate = emailTemplate.ModifiedDate;
         //        emailTemplateEditViewModel.ModifiedByCooperatorID = emailTemplate.ModifiedByCooperatorID;
         //        emailTemplateEditViewModel.ModifiedByCooperatorName = emailTemplate.ModifiedByCooperatorName;
-        //        return View("~/Views/GRINGlobal/WebOrder/Email/Edit.cshtml", emailTemplateEditViewModel);
+        //        return Edit("~/Views/GRINGlobal/WebOrder/Email/Edit.cshtml", emailTemplateEditViewModel);
         //    }
         //    catch (Exception ex)
         //    {
