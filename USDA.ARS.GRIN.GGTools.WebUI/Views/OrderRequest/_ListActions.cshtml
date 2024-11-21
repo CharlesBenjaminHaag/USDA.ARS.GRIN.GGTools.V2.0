@@ -1,39 +1,35 @@
 ﻿@model USDA.ARS.GRIN.GGTools.ViewModelLayer.OrderRequestViewModel
 <div class="scrollable-table-section">
     <h5>Order Requests</h5>
-    <table id="table_order_requests" class="table table-striped" style="width:100%">
+    <table id="table_order_request_action" class="table table-striped" style="width:100%">
         <thead>
             <tr>
                 <th>ID</th>
                 <th>
-                    Type
+                    Name
                 </th>
-                <th>Local Number</th>
-                <th>Requestor</th>
-                <th>Ship To</th>
-                <th>Ordered Date</th>
+                <th>Start Date</th>
+                <th>Completed Date</th>
+                <th>Information</th>
                 <th></th>
             </tr>
         </thead>
         <tbody>
-            @foreach (var orderRequest in Model.DataCollection)
+            @foreach (var orderRequestAction in Model.DataCollectionAction)
             {
 
                 <tr>
-                    <td>@orderRequest.ID</td>
-                    <td>@orderRequest.OrderTypeDescription</td>
+                    <td>@orderRequestAction.ID</td>
+                    <td>@orderRequestAction.ActionNameCode</td>
                     <td>
-                        @orderRequest.LocalNumber
+                        @orderRequestAction.StartedDate.ToShortDateString();
                     </td>
-                    <td>@orderRequest.RequestorCooperatorName</td>
-                    <td>@orderRequest.ShipToCooperatorName</td>
+                    <td>@orderRequestAction.CompletedDate.ToShortDateString()</td>
+                    <td>@orderRequestAction.ActionInformation</td>
                     <td>
-                        @orderRequest.OrderedDate.ToShortDateString()
-                    </td>
-                    <td>
-                        <a href="@Url.Action("Edit", "OrderRequest", new { entityId = orderRequest.ID })" class="btn btn-default btn-sm pull-right">
+                        @*<a href="@Url.Action("Edit", "OrderRequest", new { entityId = orderRequest.ID })" class="btn btn-default btn-sm pull-right">
                             <i class="fa fa-eye"></i>
-                        </a>
+                        </a>*@
                     </td>
                 </tr>
             }

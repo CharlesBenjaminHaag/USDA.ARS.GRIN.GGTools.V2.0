@@ -4,35 +4,41 @@
         <thead>
             <tr>
                 <th>ID</th>
+                <th>Name</th>
                 <th>
-                    Type
+                    Accession
                 </th>
-                <th>Local Number</th>
-                <th>Requestor</th>
-                <th>Ship To</th>
-                <th>Ordered Date</th>
+                <th>Inventory</th>
+                <th>Site</th>
+                <th>Quantity Shipped</th>
+                <th>Unit</th>
+                <th>Distribution Form</th>
                 <th></th>
             </tr>
         </thead>
         <tbody>
-            @foreach (var orderRequest in Model.DataCollection)
+            @foreach (var orderRequestItem in Model.DataCollectionItems)
             {
 
                 <tr>
-                    <td>@orderRequest.ID</td>
-                    <td>@orderRequest.OrderTypeDescription</td>
+                    <td>@orderRequestItem.ID</td>
+                    <td>@orderRequestItem.Name</td>
+                    <td>@orderRequestItem.AccessionName</td>
                     <td>
-                        @orderRequest.LocalNumber
+                        @orderRequestItem.InventoryName
                     </td>
-                    <td>@orderRequest.RequestorCooperatorName</td>
-                    <td>@orderRequest.ShipToCooperatorName</td>
+                    <td>@orderRequestItem.SiteLongName</td>
+                    <td>@orderRequestItem.QuantityShipped</td>
                     <td>
-                        @orderRequest.OrderedDate.ToShortDateString()
+                        @orderRequestItem.QuantityShippedUnitCode
                     </td>
                     <td>
-                        <a href="@Url.Action("Edit", "OrderRequest", new { entityId = orderRequest.ID })" class="btn btn-default btn-sm pull-right">
+                        @orderRequestItem.DistributionFormCode
+                    </td>
+                    <td>
+                        @*<a href="@Url.Action("Edit", "OrderRequest", new { entityId = orderRequest.ID })" class="btn btn-default btn-sm pull-right">
                             <i class="fa fa-eye"></i>
-                        </a>
+                        </a>*@
                     </td>
                 </tr>
             }

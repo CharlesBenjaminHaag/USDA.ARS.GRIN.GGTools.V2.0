@@ -12,6 +12,7 @@ using USDA.ARS.GRIN.GGTools.ViewModelLayer;
 using USDA.ARS.GRIN.GGTools.OrderManagement.DataLayer;
 using USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer;
 using USDA.ARS.GRIN.GGTools.OrderManagement.DataLayer.ManagerClasses;
+using System.Web.UI;
 
 namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
 {
@@ -40,7 +41,38 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
 
         public List<OrderRequest> GetAll() {  throw new NotImplementedException(); }
 
-       
+        public void GetItems(int orderRequestId)
+        {
+            using (OrderRequestManager mgr = new OrderRequestManager())
+            { 
+               DataCollectionItems = new Collection<OrderRequestItem>(mgr.GetItems(orderRequestId));
+            }
+        }
+
+        public void GetActions(int orderRequestId)
+        {
+            using (OrderRequestManager mgr = new OrderRequestManager())
+            {
+                DataCollectionAction = new Collection<OrderRequestAction>(mgr.GetActions(orderRequestId));
+            }
+        }
+
+        public void GetAttachments(int orderRequestId)
+        {
+            using (OrderRequestManager mgr = new OrderRequestManager())
+            {
+                DataCollectionAttachments = new Collection<OrderRequestAttachment>(mgr.GetAttachments(orderRequestId));
+            }
+        }
+
+        public void GetPhytoLog(int orderRequestId)
+        {
+            using (OrderRequestManager mgr = new OrderRequestManager())
+            {
+                DataCollectionPhytoLog = new Collection<OrderRequestPhytoLog>(mgr.GetPhytoLog(orderRequestId));
+            }
+        }
+
         public int Insert()
         {
             throw new NotImplementedException();

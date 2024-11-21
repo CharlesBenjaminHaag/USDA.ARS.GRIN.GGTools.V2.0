@@ -35,23 +35,41 @@ namespace USDA.ARS.GRIN.GGTools.OrderManagement.DataLayer.ManagerClasses
             };
 
             orderRequest = GetRecord<OrderRequest>(SQL, CommandType.StoredProcedure, parameters.ToArray());
-            orderRequest.OrderRequestItems = GetItems(orderRequest.ID);
-            orderRequest.OrderRequestActions = GetActions(orderRequest.ID);
             return orderRequest;
         }
 
-        public List<OrderRequestItem> GetItems(int entityId)
+        public List<OrderRequestItem> GetItems(int orderRequestId)
         {
-            List<OrderRequestItem> orderRequestItems = new List<OrderRequestItem>();
-            //TODO
-            return orderRequestItems; 
+            List<OrderRequestItem> results = new List<OrderRequestItem>();
+
+            SQL = " SELECT * FROM vw_GRINGlobal_Order_Request_Item ";
+            SQL += " WHERE        (@OrderRequestID         IS NULL OR  OrderRequestID       = @OrderRequestID)";
+
+            var parameters = new List<IDbDataParameter> {
+                CreateParameter("OrderRequestID", orderRequestId > 0 ? (object)orderRequestId : DBNull.Value, true),
+            };
+
+            results = GetRecords<OrderRequestItem>(SQL, parameters.ToArray());
+            RowsAffected = results.Count;
+
+            return results;
         }
         
-        public List<OrderRequestAction> GetActions(int entityId)
+        public List<OrderRequestAction> GetActions(int orderRequestId)
         {
-            List<OrderRequestAction> orderRequestActions = new List<OrderRequestAction>();
-            //TODO
-            return orderRequestActions;
+            List<OrderRequestAction> results = new List<OrderRequestAction>();
+
+            SQL = " SELECT * FROM vw_GRINGlobal_Order_Request_Action ";
+            SQL += " WHERE        (@OrderRequestID         IS NULL OR  OrderRequestID       = @OrderRequestID)";
+
+            var parameters = new List<IDbDataParameter> {
+                CreateParameter("OrderRequestID", orderRequestId > 0 ? (object)orderRequestId : DBNull.Value, true),
+            };
+
+            results = GetRecords<OrderRequestAction>(SQL, parameters.ToArray());
+            RowsAffected = results.Count;
+
+            return results;
         }
 
         public List<OrderRequestAttachment> GetAttachments(int entityId)
@@ -61,11 +79,11 @@ namespace USDA.ARS.GRIN.GGTools.OrderManagement.DataLayer.ManagerClasses
             return orderRequestAttachments;
         }
 
-        public List<OrderRequestAttachment> GetPhytoLog(int entityId)
+        public List<OrderRequestPhytoLog> GetPhytoLog(int entityId)
         {
-            List<OrderRequestAttachment> orderRequestAttachments = new List<OrderRequestAttachment>();
+            List<OrderRequestPhytoLog> orderRequestPhytoLogs = new List<OrderRequestPhytoLog>();
             //TODO
-            return orderRequestAttachments;
+            return orderRequestPhytoLogs;
         }
 
         public int Insert(WebOrderRequest entity)

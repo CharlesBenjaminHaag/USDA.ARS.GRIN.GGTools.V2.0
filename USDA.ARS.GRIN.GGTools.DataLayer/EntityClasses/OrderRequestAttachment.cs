@@ -12,23 +12,12 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
 {
     public class OrderRequestAttachment : AppEntityBase
     {
-        public int OriginalID { get; set; }
-        public int WebOrderRequestID { get; set; }
-        public string LocalNumber { get; set; }
-        public string OrderTypeCode { get; set; }
-        public string OrderTypeDescription { get; set; }
-        public DateTime OrderedDate { get; set; }
-        public string IntendedUseCode { get; set; }
-        public string IntendedUseNote { get; set; }
-        public DateTime CompletedDate { get; set; }
-        public int RequestorCooperatorID { get; set; }
-        public string RequestorCooperatorName { get; set; }
-        public int ShipToCooperatorID { get; set; }
-        public string ShipToCooperatorName { get; set; }
-        public int FinalRecipientCooperatorID { get; set; }
-        public string FinalRecipientCooperatorName { get; set; }
-        public string OrderObtainedVIA { get; set; }
-        public int FeedbackID { get; set; }
-        public string SpecialInstruction { get; set; }
+        public int OrderRequestID { get; set; }
+        public string Title { get; set; }
+        public string Description { get; set; }
+        public string ContentType { get; set; }
+        public string IsWebVisible { get; set; }
+        public string VirtualPath { get; set; }
+        public string ThumbnailVirtualPath { get; set; }
     }
 }

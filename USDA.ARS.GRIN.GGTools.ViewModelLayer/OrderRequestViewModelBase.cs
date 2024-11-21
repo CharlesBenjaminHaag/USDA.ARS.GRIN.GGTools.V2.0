@@ -14,6 +14,10 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
         private OrderRequest _Entity = new OrderRequest();
         private OrderRequestSearch _SearchEntity = new OrderRequestSearch();
         private Collection<OrderRequest> _DataCollection = new Collection<OrderRequest>();
+        private Collection<OrderRequestItem> _DataCollectionItems = new Collection<OrderRequestItem>();
+        private Collection<OrderRequestAction> _DataCollectionActions = new Collection<OrderRequestAction>();
+        private Collection<OrderRequestAttachment> _DataCollectionAttachments = new Collection<OrderRequestAttachment>();
+        private Collection<OrderRequestPhytoLog> _DataCollectionPhytoLog = new Collection<OrderRequestPhytoLog>();
 
         public OrderRequest Entity
         {
@@ -27,8 +31,33 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
         }
 
         public Collection<OrderRequest> DataCollection
-        { get { return _DataCollection; } 
-        set { _DataCollection = value; } 
+        { 
+            get { return _DataCollection; } 
+            set { _DataCollection = value; } 
+        }
+
+        public Collection<OrderRequestItem> DataCollectionItems
+        {
+            get { return _DataCollectionItems; }
+            set { _DataCollectionItems = value; }
+        }
+
+        public Collection<OrderRequestAction> DataCollectionAction
+        {
+            get { return _DataCollectionActions; }
+            set { _DataCollectionActions = value; }
+        }
+
+        public Collection<OrderRequestAttachment> DataCollectionAttachments
+        {
+            get { return _DataCollectionAttachments; }
+            set { _DataCollectionAttachments = value; }
+        }
+
+        public Collection<OrderRequestPhytoLog> DataCollectionPhytoLog
+        {
+            get { return _DataCollectionPhytoLog; }
+            set { _DataCollectionPhytoLog = value; }
         }
 
     }

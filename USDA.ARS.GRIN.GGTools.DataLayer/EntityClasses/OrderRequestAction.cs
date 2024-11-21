@@ -14,6 +14,12 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
     {
         public int OrderRequestID { get; set; }
         public string ActionNameCode { get; set; }
-
+        public DateTime StartedDate { get; set; }
+        public string StartedDateCode { get; set; }
+        public DateTime CompletedDate { get; set; }
+        public string CompletedDateCode { get; set; }
+        public string ActionInformation { get; set; }
+        public decimal ActionCost { get; set; }
+        public int CooperatorID { get; set; }
     }
 }

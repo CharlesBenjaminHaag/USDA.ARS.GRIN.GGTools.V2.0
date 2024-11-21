@@ -95,17 +95,58 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             }
         }
         
-        public PartialViewResult _ListItems(int orderRequestId, int webOrderRequestId)
+        public PartialViewResult _ListItems(int orderRequestId)
         {
             try
             {
                 OrderRequestViewModel viewModel = new OrderRequestViewModel();
-                if (webOrderRequestId > 0)
-                { 
-                    viewModel.SearchEntity.WebOrderRequestID = webOrderRequestId;
-                }
-                viewModel.Search();
-                return PartialView("~/Views/WebOrder/_ListItems.cshtml", viewModel);
+                viewModel.GetItems(orderRequestId);
+                return PartialView("~/Views/OrderRequest/_ListItems.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
+        }
+
+        public PartialViewResult _ListActions(int orderRequestId)
+        {
+            try
+            {
+                OrderRequestViewModel viewModel = new OrderRequestViewModel();
+                viewModel.GetActions(orderRequestId);
+                return PartialView("~/Views/OrderRequest/_ListActions.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
+        }
+
+        public PartialViewResult _ListAttachments(int orderRequestId)
+        {
+            try
+            {
+                OrderRequestViewModel viewModel = new OrderRequestViewModel();
+                viewModel.GetAttachments(orderRequestId);
+                return PartialView("~/Views/OrderRequest/_ListAttachments.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
+        }
+
+        public PartialViewResult _ListPhytoLog(int orderRequestId)
+        {
+            try
+            {
+                OrderRequestViewModel viewModel = new OrderRequestViewModel();
+                viewModel.GetPhytoLog(orderRequestId);
+                return PartialView("~/Views/OrderRequest/_ListPhytoLog.cshtml", viewModel);
             }
             catch (Exception ex)
             {
