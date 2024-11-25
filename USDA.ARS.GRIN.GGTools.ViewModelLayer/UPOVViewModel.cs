@@ -7,13 +7,45 @@ using USDA.ARS.GRIN.Common.Library.Security;
 using USDA.ARS.GRIN.GGTools.DataLayer;
 using USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer;
 using USDA.ARS.GRIN.GGTools.ViewModelLayer;
-using USDA.ARS.GRIN.GGTools.DataLayer.EntityClasses.UPOV;
+using USDA.ARS.GRIN.GGTools.DataLayer.UPOV;
 using System.Collections.Generic;
+using System.Web.Mvc.Ajax;
 
 namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
 {
-    public class UPOVViewModel : ViewModelBase
+    public class UPOVViewModel : UPOVViewModelBase
     {
-        public List<upovCodeItem> DataCollection { get; set; }
+        public int Insert()
+        {
+            using (UPOVManager mgr = new UPOVManager())
+            {
+                try
+                {
+                    mgr.Insert(Entity);
+                }
+                catch (Exception ex)
+                {
+                    PublishException(ex);
+                    throw ex;
+                }
+                return Entity.taxonomy_species_upov_id;
+            }
+        }
+
+        public void Search()
+        {
+            using (UPOVManager mgr = new UPOVManager())
+            {
+                try
+                {
+                    DataCollection = new Collection<UPOVEncodedSpecies>(mgr.Search(SearchEntity));
+                }
+                catch (Exception ex)
+                {
+                    PublishException(ex);
+                    throw ex;
+                }
+            }
+        }
     }
 }

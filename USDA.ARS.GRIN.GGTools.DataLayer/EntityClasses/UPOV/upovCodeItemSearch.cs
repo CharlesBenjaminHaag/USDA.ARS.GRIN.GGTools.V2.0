@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using USDA.ARS.GRIN.GGTools.AppLayer;
 
 namespace USDA.ARS.GRIN.GGTools.DataLayer.UPOV
 {
-    public class upovCodeItem
+    public class upovCodeItemSearch: SearchEntityBase
     {
         public int taxonomy_species_upov_id { get; set; }
         public int upovCodeID { get; set; }

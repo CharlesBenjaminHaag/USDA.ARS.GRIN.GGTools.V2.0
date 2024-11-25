@@ -69,7 +69,6 @@
     <Compile Include="AccessionInventoryAttachmentViewModelBase.cs" />
     <Compile Include="AccessionInvAnnotationViewModel.cs" />
     <Compile Include="AccessionInvAnnotationViewModelBase.cs" />
-    <Compile Include="UPOVViewModel.cs" />
     <Compile Include="ExplorationViewModel.cs" />
     <Compile Include="ExplorationViewModelBase.cs" />
     <Compile Include="InfraspecificOptionsViewModel.cs" />
@@ -178,6 +177,8 @@
     <Compile Include="MenuViewModel.cs" />
     <Compile Include="TaxonomyExplorerViewModel.cs" />
     <Compile Include="TrainingRosterViewModel.cs" />
+    <Compile Include="UPOVViewModel.cs" />
+    <Compile Include="UPOVViewModelBase.cs" />
     <Compile Include="ViewModelFactory.cs" />
     <Compile Include="WebUserViewModelBase.cs" />
     <Compile Include="WebUserViewModel .cs" />

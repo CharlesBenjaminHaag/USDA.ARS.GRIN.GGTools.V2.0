@@ -219,6 +219,8 @@
     <Compile Include="EntityClasses\SysTable.cs" />
     <Compile Include="EntityClasses\SysTagSearch.cs" />
     <Compile Include="EntityClasses\SysTag.cs" />
+    <Compile Include="EntityClasses\UPOVEncodedSpecies.cs" />
+    <Compile Include="EntityClasses\UPOV\upovCodeItemSearch.cs" />
     <Compile Include="EntityClasses\UPOV\upovCodeItem.cs" />
     <Compile Include="EntityClasses\WebUserSearch.cs" />
     <Compile Include="EntityClasses\WebUser.cs" />
@@ -229,6 +231,7 @@
     <Compile Include="EntityClasses\TribeSearch.cs" />
     <Compile Include="ManagerClasses\AccessionInventoryAttachmentManager.cs" />
     <Compile Include="ManagerClasses\AccessionInvAnnotationManager.cs" />
+    <Compile Include="ManagerClasses\UPOVManager.cs" />
     <Compile Include="ManagerClasses\InventoryManager.cs" />
     <Compile Include="ManagerClasses\ExplorationMapManager.cs" />
     <Compile Include="ManagerClasses\ExplorationManager.cs" />

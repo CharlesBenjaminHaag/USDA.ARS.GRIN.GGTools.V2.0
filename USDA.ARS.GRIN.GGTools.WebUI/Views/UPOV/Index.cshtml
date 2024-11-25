@@ -8,33 +8,25 @@
     <thead>
         <tr>
             <th>UPOV Code</th>
-            <th>Princ. Bot. Name</th>
-            <th>Other Bot. Name</th>
-            <th>Common Name (Eng.)</th>
-            <th></th>
-            <th></th>
-            <th></th>
-            <th></th>
-            <th></th>
-            <th></th>
-            <th></th>
+            <th>UPOV URL</th>
+            <th>UPOV Species Name</th>
+            <th>USDA Species Name</th>
+            <th>UPOV Other Species Name</th>
+            <th>UPOV Common Name</th>
+           
         </tr>
     </thead>
     <tbody>
         @foreach(var upovRecord in Model.DataCollection)
             {
                 <tr>
-                    <td>@upovRecord.upovCode</td>
-                    <td>@upovRecord.principalBotanicalName</td>
-                    <td>@upovRecord.otherBotanicalName</td>
-                    <td>@upovRecord.commonNameEN</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td><a hre@upovRecord.UPOVCode</td>
+                    <td>@upovRecord.UPOVCodeURL</td>
+                    <td>@upovRecord.UPOVPrincipalSpeciesName</td>
+                    <td>@upovRecord.USDASpeciesName</td>
+                    <td>@upovRecord.UPOVOtherSpeciesName</td>
+                    <td>@upovRecord.CommonNameText</td>
+                    
                 </tr>
             }
     </tbody>
