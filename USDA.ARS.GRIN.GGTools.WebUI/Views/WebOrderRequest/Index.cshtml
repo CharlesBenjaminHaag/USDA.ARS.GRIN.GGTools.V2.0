@@ -4,17 +4,17 @@
     Layout = "~/Views/Shared/_LayoutAdminLTE3.cshtml";
 }
 
-@using (Html.BeginForm("Search", "WebOrder", FormMethod.Post, new { id = "frmSearch" }))
+@using (Html.BeginForm("Search", "WebOrderRequest", FormMethod.Post, new { id = "frmSearch" }))
 {
     @Html.HiddenFor(x => x.EventAction)
     @Html.HiddenFor(x => x.EventValue)
     @Html.Partial("~/Views/WebOrder/_Detail.cshtml")
 }
-@Html.Partial("~/Views/WebOrder/_List.cshtml")
+@Html.Partial("~/Views/WebOrderRequest/_List.cshtml")
 @*@Html.Partial("~/Views/WebOrder/Modals/_BatchEdit.cshtml")*@
 @Html.Partial("~/Views/Shared/Modals/_SaveSearch.cshtml")
 
-<script type="text/javascript">
+@*<script type="text/javascript">
     //$(document).ready(function () {
     //    InitDataTable("data-table-web-order-requests");
     //});
@@ -64,4 +64,4 @@
         });
     });
 
-</script>
+</script>*@

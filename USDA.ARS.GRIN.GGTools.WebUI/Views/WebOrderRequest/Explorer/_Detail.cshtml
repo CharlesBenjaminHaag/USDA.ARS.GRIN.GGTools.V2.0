@@ -18,7 +18,7 @@
 
 @if(Model.Entity.IsLocked == true)
 { 
-    <div class="alert alert-warning alert-dismissible">
+    <div class="alert alert-info alert-dismissible">
         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
         <h5><i class="icon fas fa-lock"></i> Locked</h5>
         This web order request has been locked by: <strong>@Model.Entity.OwnedByWebCooperatorName</strong>
@@ -29,20 +29,23 @@
     <div class="btn-group">
         @if (Model.Entity.StatusCode == "NRR_FLAG")
         {
-            <button id="btnOpenModalApprove"
-                    data-ggtools-web-order-request-action="NRR_APPROVE"
-                    type="button"
-                    class="btn btn-default">
-                <i class="fas fa-thumbs-up text-green nav-icon"></i>
-                Approve
-            </button>
-            <button id="btnOpenModalReject"
-                    data-ggtools-web-order-request-action="NRR_REJECT"
-                    type="button"
-                    class="btn btn-default">
-                <i class="fas fa-thumbs-down text-red nav-icon"></i>
-                Reject
-            </button>
+            if (Model.Entity.IsLocked == true && Model.Entity.OwnedByWebUserID == AppInfo.GetAuthenticatedUser().WebUserID) 
+            {
+                <button id="btnOpenModalApprove"
+                        data-ggtools-web-order-request-action="NRR_APPROVE"
+                        type="button"
+                        class="btn btn-default">
+                    <i class="fas fa-thumbs-up text-green nav-icon"></i>
+                    Approve
+                </button>
+                <button id="btnOpenModalReject"
+                        data-ggtools-web-order-request-action="NRR_REJECT"
+                        type="button"
+                        class="btn btn-default">
+                    <i class="fas fa-thumbs-down text-red nav-icon"></i>
+                    Reject
+                </button>
+            }
         }
         <button id="btnOpenModalRequestInfo"
                 data-ggtools-web-order-request-action="NRR_INFO"
@@ -185,15 +188,17 @@
     </div>
 }
 <hr />
-
-@Html.Partial("~/Views/WebOrderRequestItem/_List.cshtml")
-
-
-
+<div id="section-web-order-request-items">
+    @Html.Partial("~/Views/WebOrderRequestItem/_List.cshtml")
+</div>
 @{ Html.RenderAction("_List", "OrderRequest", new { @webOrderRequestId = Model.Entity.ID }); }
+<script type="text/javascript">
+    const makeScrollable = (div) => {
+        div.style.overflowY = 'auto'; // Enables vertical scrolling
+        div.style.maxHeight = '300px'; // Sets a maximum height
+    };
 
-@*<script type="text/javascript">
-        $(document).ready(function () {
-            InitDataTable("data-table-web-order-request-items");
-        });
-    </script>*@
+    // Example usage
+    const div = document.getElementById('section-web-order-request-items');
+    makeScrollable(div);
+</script>

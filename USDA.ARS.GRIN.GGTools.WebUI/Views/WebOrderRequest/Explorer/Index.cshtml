@@ -65,23 +65,8 @@
 
 
 <div class="row">
-    <div class="col-md-4">
-        <div class="card card-outline card-primary">
-            <div class="card-header">
-                <h3 id="section-web-order-request-list-title" class="card-title">Web Order Requests [@Model.DataCollection.Count]</h3>
-                <div class="card-tools">
-                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                        <i class="fas fa-minus"></i>
-                    </button>
-                </div>
-            </div>
-            <div id="section-web-order-request-list" class="card-body">
-
-            </div>
-            <div id="section-overlay-web-order-request-list" class="overlay">
-                <i class="fas fa-2x fa-sync-alt"></i>
-            </div>
-        </div>
+    <div id="section-web-order-request-list" class="col-md-4">
+    
     </div>
     <div class="col-md-8">
         <div class="card card-primary card-tabs">
@@ -185,7 +170,7 @@
         var eventValue = $(this).attr('data-ggtools-value');
         var title = $(this).attr('data-ggtools-title');
 
-        $("#placeholder-page-title").html("Web Order Requests: " + eventValue);
+        //$("#placeholder-page-title").html("Web Order Requests: " + eventValue);
 
         if (typeof id === "undefined") {
             //TODO Handle error
@@ -215,7 +200,7 @@
 
     function Load() {
         // TODO Determine the default time frame to use to filter the WOR list.
-        SetFilter("filter-by-time-frame", "30D");
+        SetFilter("filter-by-time-frame", "30D", "This Month");
         LoadWebOrderRequestList();
         $("#txtSelectedTab").val("tab-web-order-request-detail");
     }
@@ -233,7 +218,7 @@
 
         // Show current filter in title.
         var pageMainTitle = "Web Order Request Explorer";
-        pageMainTitle += " " + GetSelectedFilter("filter-by-time-frame") + " " + GetSelectedFilter("filter-by-status") + " " + GetSelectedFilter("filter-by-assigned-to") + " " + GetSelectedFilter("filter-by-most-recent-action");
+        //pageMainTitle += " " + GetSelectedFilter("filter-by-time-frame") + " " + GetSelectedFilter("filter-by-status") + " " + GetSelectedFilter("filter-by-assigned-to") + " " + GetSelectedFilter("filter-by-most-recent-action");
         $("#placeholder-page-main-title").html(pageMainTitle);
 
         var formData = new FormData();
@@ -389,7 +374,7 @@
         var isLocked = $(this).data('ggtools-is-locked');
 
         // Your event handler logic here
-        alert('Button clicked: ' + $(this).attr('id') + " ID IS " + entityId + " ACTION IS " + isLocked);
+        //alert('Button clicked: ' + $(this).attr('id') + " ID IS " + entityId + " ACTION IS " + isLocked);
         UpdateLock(entityId, isLocked);
         LoadWebOrderRequestDetail(entityId);
     });
@@ -458,7 +443,7 @@
             processData: false,
             data: formData,
             success: function (response) {
-                alert("SUCCESS");
+                //alert("SUCCESS");
             }
         });
     }

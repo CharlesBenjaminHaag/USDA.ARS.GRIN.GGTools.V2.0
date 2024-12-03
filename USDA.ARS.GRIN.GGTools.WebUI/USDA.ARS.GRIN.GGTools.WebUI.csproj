@@ -412,6 +412,28 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Views\ReleaseNotes.html" />
+    <Content Include="Views\WebOrder\Board.cshtml" />
+    <Content Include="Views\WebOrder\Dashboard.cshtml" />
+    <Content Include="Views\WebOrder\Dashboard\_List.cshtml" />
+    <Content Include="Views\WebOrder\Dashboard\_ListByStatus.cshtml" />
+    <Content Include="Views\WebOrder\Explorer\Index - Copy.cshtml" />
+    <Content Include="Views\WebOrder\Explorer\Index.cshtml" />
+    <Content Include="Views\WebOrder\Explorer\Index2.cshtml" />
+    <Content Include="Views\WebOrder\Explorer\_Detail.cshtml" />
+    <Content Include="Views\WebOrder\Explorer\_List.cshtml" />
+    <Content Include="Views\WebOrder\Explorer\_NoteWidget.cshtml" />
+    <Content Include="Views\WebOrder\Explorer\_Timeline.cshtml" />
+    <Content Include="Views\WebOrder\Home\Index.cshtml" />
+    <Content Include="Views\WebOrder\Index.cshtml" />
+    <Content Include="Views\WebOrder\Modals\_Approve.cshtml" />
+    <Content Include="Views\WebOrder\Modals\_Email.cshtml" />
+    <Content Include="Views\WebOrder\Modals\_Note.cshtml" />
+    <Content Include="Views\WebOrder\Modals\_Reject.cshtml" />
+    <Content Include="Views\WebOrder\View.cshtml" />
+    <Content Include="Views\WebOrder\_Detail.cshtml" />
+    <Content Include="Views\WebOrder\_List.cshtml" />
+    <Content Include="Views\WebOrder\_ListItems.cshtml" />
+    <Content Include="Views\WebOrder\_TEST.cshtml" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -442,10 +464,6 @@
     <Content Include="Views\Cooperator\_List.cshtml" />
     <Content Include="Views\Cooperator\_Widget.cshtml" />
     <Content Include="Views\SysUser\_Widget.cshtml" />
-    <Content Include="Views\WebOrder\Index.cshtml" />
-    <Content Include="Views\WebOrder\View.cshtml" />
-    <Content Include="Views\WebOrder\_Detail.cshtml" />
-    <Content Include="Views\WebOrder\_List.cshtml" />
     <Content Include="Views\SysUser\Group\_Widget.cshtml" />
     <Content Include="Views\SysUser\Modals\_Edit.cshtml" />
     <Content Include="Views\SysUser\Modals\_ResetPassword.cshtml" />
@@ -490,12 +508,6 @@
     <Content Include="Views\Taxonomy\Genus\_Detail.cshtml" />
     <Content Include="Views\Taxonomy\Genus\Modals\_Lookup.cshtml" />
     <Content Include="Views\Taxonomy\Genus\Modals\_SelectList.cshtml" />
-    <Content Include="Views\WebOrder\Modals\_Approve.cshtml" />
-    <Content Include="Views\WebOrder\Modals\_Reject.cshtml" />
-    <Content Include="Views\WebOrder\Modals\_Note.cshtml" />
-    <Content Include="Views\WebOrder\Dashboard\_List.cshtml" />
-    <Content Include="Views\WebOrder\Dashboard\_ListByStatus.cshtml" />
-    <Content Include="Views\WebOrder\Dashboard.cshtml" />
     <Content Include="Views\AccessionInventoryAttachment\Edit.cshtml" />
     <Content Include="Views\AccessionInventoryAttachment\Index.cshtml" />
     <Content Include="Views\AccessionInventoryAttachment\_Detail.cshtml" />
@@ -601,7 +613,6 @@
     <Content Include="Views\Taxonomy\EconomicUse\_ARCHIVE\_Edit.cshtml" />
     <Content Include="Views\Taxonomy\EconomicUse\Modals\_Lookup.cshtml" />
     <Content Include="Views\Taxonomy\EconomicUse\Modals\_SelectList.cshtml" />
-    <Content Include="Views\WebOrder\Board.cshtml" />
     <Content Include="Views\SysUser\Edit.cshtml" />
     <Content Include="Views\SysUser\Index.cshtml" />
     <Content Include="Views\Taxonomy\SpeciesSynonymMap\_BatchList.cshtml" />
@@ -609,7 +620,6 @@
     <Content Include="Views\Portal\Login.cshtml" />
     <Content Include="Views\Portal\Overview.cshtml" />
     <Content Include="Views\Login\ResetPasswordFinal.cshtml" />
-    <Content Include="Views\WebOrder\_TEST.cshtml" />
     <Content Include="Views\CodeValue\Edit.cshtml" />
     <Content Include="Views\Login\Error.cshtml" />
     <Content Include="Views\Shared\Sidebars\_MainSidebarARM.cshtml" />
@@ -696,10 +706,6 @@
     <Content Include="Views\Cooperator\Synch\Index.cshtml" />
     <Content Include="Views\SysGroupUserMap\Modals\_Edit.cshtml" />
     <Content Include="Views\SysGroupUserMap\Modals\_Lookup.cshtml" />
-    <Content Include="Views\WebOrder\Explorer\Index.cshtml" />
-    <Content Include="Views\WebOrder\Explorer\_List.cshtml" />
-    <Content Include="Views\WebOrder\Explorer\_Detail.cshtml" />
-    <Content Include="Views\WebOrder\Explorer\_Timeline.cshtml" />
     <Content Include="Views\Cooperator\_Add.cshtml" />
     <Content Include="Views\Taxonomy\Explorer\_ListFolders.cshtml" />
     <Content Include="Views\CooperatorGroup\_List.cshtml" />
@@ -712,14 +718,12 @@
     <Content Include="Views\CooperatorMap\_Detail.cshtml" />
     <Content Include="Views\Cooperator\Modals\_Lookup.cshtml" />
     <Content Include="Views\Cooperator\Modals\_SelectList.cshtml" />
-    <Content Include="Views\WebOrder\Home\Index.cshtml" />
     <Content Include="Views\Taxonomy\Admin\SysUser\_ContactList.cshtml" />
     <Content Include="Views\Taxonomy\Home\Index.cshtml" />
     <Content Include="Views\Cooperator\Explorer\Index.cshtml" />
     <Content Include="Views\Taxonomy\Admin\Index.cshtml" />
     <Content Include="Views\SysUser\_ListTaxonomy.cshtml" />
     <Content Include="Views\SysUser\_SelectList.cshtml" />
-    <Content Include="Views\WebOrder\Modals\_Email.cshtml" />
     <Content Include="Views\Shared\_LayoutAdminLTE3Interior.cshtml" />
     <Content Include="Views\Taxonomy\Species\Edit.cshtml" />
     <Content Include="Views\Taxonomy\Shared\_RevisionHistory.cshtml" />
@@ -749,9 +753,6 @@
     <Content Include="Views\Taxonomy\Geography\Modals\_SelectListSubContinent.cshtml" />
     <Content Include="Views\Taxonomy\Geography\Modals\_SelectListAdministrativeUnits.cshtml" />
     <Content Include="Views\Taxonomy\Geography\Modals\_SelectListCountry.cshtml" />
-    <Content Include="Views\WebOrder\Explorer\Index - Copy.cshtml" />
-    <Content Include="Views\WebOrder\Explorer\_NoteWidget.cshtml" />
-    <Content Include="Views\WebOrder\_ListItems.cshtml" />
     <Content Include="Views\Taxonomy\GeographyMap\_SelectList.cshtml" />
     <Content Include="Views\Taxonomy\Species\Index.cshtml" />
     <Content Include="Views\Taxonomy\Species\Modals\_LookupParent.cshtml" />
@@ -762,7 +763,6 @@
     <Content Include="Views\Taxonomy\Reports\Detail.cshtml" />
     <Content Include="Views\Shared\_Head.cshtml" />
     <Content Include="Views\Shared\_Scripts.cshtml" />
-    <Content Include="Views\WebOrder\Explorer\Index2.cshtml" />
     <Content Include="Views\Taxonomy\EconomicUse\Modals\_EconomicUsageTypeLookup.cshtml" />
     <Content Include="Views\Taxonomy\EconomicUse\Modals\_EconomicUsageTypeSelectList.cshtml" />
     <Content Include="Views\Taxonomy\EconomicUsageType\_Detail.cshtml" />
@@ -1087,6 +1087,12 @@
     <Content Include="Views\OrderRequest\_ListAttachments.cshtml" />
     <Content Include="Views\OrderRequest\_ListItems.cshtml" />
     <Content Include="Views\UPOV\Import.cshtml" />
+    <Content Include="Views\WebOrderRequest\Components\_SearchBox.cshtml" />
+    <Content Include="Views\WebOrder\Modals\_BatchEdit.cshtml" />
+    <Content Include="Views\WebOrder\Modals\_EmailCurators.cshtml" />
+    <Content Include="Views\WebOrder\Modals\_EmailRequestor.cshtml" />
+    <Content Include="Views\WebOrder\Modals\_EndReview.cshtml" />
+    <Content Include="Views\WebOrder\Modals\_SetCooperatorStatus.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -66,7 +66,7 @@
                 </div>
             }
 
-            @if ((Model.AuthenticatedUser.IsInRole("ADMINS")) || (Model.AuthenticatedUser.IsInRole("MANAGE_NRR")))
+            @if ((Model.AuthenticatedUser.IsInRole("ADMINS")) || (Model.AuthenticatedUser.IsInRole("MANAGE_NRR")) || (Model.AuthenticatedUser.IsInRole("GGTOOLS_ORDERS")))
             {
                 <div class="card card-default ">
                     <div class="card-header bg-blue">

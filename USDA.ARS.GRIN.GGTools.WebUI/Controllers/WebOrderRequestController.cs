@@ -246,7 +246,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                     viewModel.SearchEntity.IntendedUseCode = intendedUseCode;
                     viewModel.Search();
                 }
-                return View("~/Views/WebOrder/Index.cshtml", viewModel);
+                return View("~/Views/WebOrderRequest/Index.cshtml", viewModel);
             }
             catch (Exception ex)
             {
@@ -262,7 +262,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             {
                 viewModel.Search();
                 ModelState.Clear();
-                return View("~/Views/WebOrder/Index.cshtml", viewModel);
+                return View("~/Views/WebOrderRequest/Index.cshtml", viewModel);
             }
             catch (Exception ex)
             {

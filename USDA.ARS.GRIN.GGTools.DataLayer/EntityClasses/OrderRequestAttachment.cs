@@ -16,6 +16,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
         public string Title { get; set; }
         public string Description { get; set; }
         public string ContentType { get; set; }
+        public string CategoryCode { get; set; }
         public string IsWebVisible { get; set; }
         public string VirtualPath { get; set; }
         public string ThumbnailVirtualPath { get; set; }

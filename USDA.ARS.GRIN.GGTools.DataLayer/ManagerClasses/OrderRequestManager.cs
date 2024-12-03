@@ -72,17 +72,34 @@ namespace USDA.ARS.GRIN.GGTools.OrderManagement.DataLayer.ManagerClasses
             return results;
         }
 
-        public List<OrderRequestAttachment> GetAttachments(int entityId)
+        public List<OrderRequestAttachment> GetAttachments(int orderRequestId)
         {
             List<OrderRequestAttachment> orderRequestAttachments = new List<OrderRequestAttachment>();
-            //TODO
+            
+            SQL = " SELECT order_request_id AS OrderRequestID, ISNULL(title,'[No Title]') AS Title, content_type AS ContentType, category_code AS CategoryCode, description AS Description, virtual_path AS VirtualPath, thumbnail_virtual_path AS ThumbnailVirtualPath FROM order_request_attach ";
+            SQL += " WHERE        (@OrderRequestID         IS NULL OR  order_request_id     = @OrderRequestID)";
+
+            var parameters = new List<IDbDataParameter> {
+                CreateParameter("OrderRequestID", orderRequestId > 0 ? (object)orderRequestId : DBNull.Value, true),
+            };
+
+            orderRequestAttachments = GetRecords<OrderRequestAttachment>(SQL, parameters.ToArray());
+            RowsAffected = orderRequestAttachments.Count;
             return orderRequestAttachments;
         }
 
-        public List<OrderRequestPhytoLog> GetPhytoLog(int entityId)
+        public List<OrderRequestPhytoLog> GetPhytoLog(int orderRequestId)
         {
             List<OrderRequestPhytoLog> orderRequestPhytoLogs = new List<OrderRequestPhytoLog>();
-            //TODO
+            SQL = " SELECT * FROM vw_GRINGlobal_Order_Request_Phyto_Log ";
+            SQL += " WHERE        (@OrderRequestID         IS NULL OR  OrderRequestID     = @OrderRequestID)";
+
+            var parameters = new List<IDbDataParameter> {
+                CreateParameter("OrderRequestID", orderRequestId > 0 ? (object)orderRequestId : DBNull.Value, true),
+            };
+
+            orderRequestPhytoLogs = GetRecords<OrderRequestPhytoLog>(SQL, parameters.ToArray());
+            RowsAffected = orderRequestPhytoLogs.Count;
             return orderRequestPhytoLogs;
         }
 
