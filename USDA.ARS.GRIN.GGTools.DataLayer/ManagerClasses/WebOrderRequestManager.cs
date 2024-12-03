@@ -213,6 +213,30 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             RowsAffected = ExecuteNonQuery();
             return RowsAffected;
         }
+
+        public int UpdateLock(WebOrderRequest entity)
+        {
+            Reset(CommandType.StoredProcedure);
+            Validate<WebOrderRequest>(entity);
+
+            SQL = "usp_GRINGlobal_Web_Order_Request_Lock_Update";
+
+            AddParameter("web_order_request_id", entity.ID == 0 ? DBNull.Value : (object)entity.ID, true);
+            AddParameter("web_user_id", (object)entity.WebUserID, true);
+            AddParameter("is_locked", (object)entity.IsLocked, true);
+            
+            AddParameter("@out_error_number", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
+            int errorNumber = GetParameterValue<int>("@out_error_number", -1);
+
+            if (errorNumber > 0)
+            {
+                throw new Exception(errorNumber.ToString());
+            }
+
+            RowsAffected = ExecuteNonQuery();
+            return RowsAffected;
+        }
+        
         public void BuildInsertUpdateParameters(WebOrderRequest entity)
         {
             if (entity.ID > 0)

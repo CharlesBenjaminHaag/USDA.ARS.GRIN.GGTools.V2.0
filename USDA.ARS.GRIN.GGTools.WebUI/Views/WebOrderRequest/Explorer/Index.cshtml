@@ -135,39 +135,7 @@
             </div>
             <div class="card-body">
                 <div class="tab-content">
-                    <div class="row">
-                        <div class="btn-group">
-                            <button id="btnOpenModalApprove" 
-                                    data-ggtools-web-order-request-action="NRR_APPROVE" 
-                                    type="button" 
-                                    class="btn btn-default">
-                                <i class="fas fa-thumbs-up text-green nav-icon"></i>
-                                Approve
-                            </button>
-                            <button id="btnOpenModalReject" 
-                                    data-ggtools-web-order-request-action="NRR_REJECT" 
-                                    type="button" 
-                                    class="btn btn-default">
-                                <i class="fas fa-thumbs-down text-red nav-icon"></i>
-                                Reject
-                            </button>
-                            <button id="btnOpenModalRequestInfo" 
-                                    data-ggtools-web-order-request-action="NRR_INFO" 
-                                    type="button" 
-                                    class="btn btn-default">
-                                <i class="fas fa-info text-blue nav-icon"></i>
-                                Request Additional Information
-                            </button>
-                            <button id="btnOpenModalRequestInfo" 
-                                    data-ggtools-web-order-request-action="NRR_CUR" 
-                                    type="button" 
-                                    class="btn btn-default">
-                                <i class="fas fa-tree nav-icon"></i>
-                                Email Curator(s)
-                            </button>
-                        </div>
-                    </div>
-                    <hr />
+                    
                     <div id="tab-content-web-order-request">
                         <!-- CONTENT HERE -->
                     </div>
@@ -229,7 +197,7 @@
     });
 
     function SetFilter(filterName, filterValue, filterTitle) {
-        
+
 
         console.log("DEBUG FILTER NAME " + filterName + " FILTER TITLE " + filterTitle);
         $("#" + filterName).val(filterValue);
@@ -416,6 +384,16 @@
         LoadWebOrderRequestList();
     });
 
+    $(document).on('click', '[id^="btnSetStatus"]', function () {
+        var entityId = $("#Entity_ID").val();
+        var isLocked = $(this).data('ggtools-is-locked');
+
+        // Your event handler logic here
+        alert('Button clicked: ' + $(this).attr('id') + " ID IS " + entityId + " ACTION IS " + isLocked);
+        UpdateLock(entityId, isLocked);
+        LoadWebOrderRequestDetail(entityId);
+    });
+
     $(document).on("click", "[id*='btnOpenModal']", function () {
         var webOrderRequestAction = $(this).data('ggtools-web-order-request-action');
         LoadEmailModal(webOrderRequestAction);
@@ -460,6 +438,27 @@
             error: function (xhr, status, error) {
                 var errorMessage = xhr.status + ': ' + xhr.statusText;
                 /*HandleError(errorMessage);*/
+            }
+        });
+    }
+
+    function UpdateLock(webOrderRequestId, isLocked) {
+        var link = '@Url.Action("SetLockStatus", "WebOrderRequest")';
+
+        var formData = new FormData();
+
+        formData.append("webOrderRequestId", webOrderRequestId);
+        formData.append("isLocked", isLocked);
+
+        $.ajax({
+            url: link,
+            type: 'POST',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (response) {
+                alert("SUCCESS");
             }
         });
     }

@@ -16,7 +16,8 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
         private upovCodeItem _Entity = new upovCodeItem();
         private upovCodeItemSearch _SearchEntity = new upovCodeItemSearch();
         private Collection<UPOVEncodedSpecies> _DataCollection = new Collection<UPOVEncodedSpecies>();
-       
+        private Collection<upovCodeItem> _DataCollectionImport = new Collection<upovCodeItem>();
+
         public upovCodeItem Entity
         {
             get { return _Entity; }
@@ -33,6 +34,12 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
         {
             get { return _DataCollection; }
             set { _DataCollection = value; }
+        }
+
+        public Collection<upovCodeItem> DataCollectionImport
+        {
+            get { return _DataCollectionImport; }
+            set { _DataCollectionImport = value; }
         }
     }
 }

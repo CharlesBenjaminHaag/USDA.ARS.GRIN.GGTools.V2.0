@@ -1086,6 +1086,7 @@
     <Content Include="Views\OrderRequest\_ListPhytoLog.cshtml" />
     <Content Include="Views\OrderRequest\_ListAttachments.cshtml" />
     <Content Include="Views\OrderRequest\_ListItems.cshtml" />
+    <Content Include="Views\UPOV\Import.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

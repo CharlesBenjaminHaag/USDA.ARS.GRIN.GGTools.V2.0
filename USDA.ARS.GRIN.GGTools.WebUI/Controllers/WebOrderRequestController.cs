@@ -164,7 +164,29 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 viewModel.Entity.ModifiedByCooperatorID = AuthenticatedUser.CooperatorID;
                 viewModel.Entity.WebUserID = AuthenticatedUser.WebUserID;
                 viewModel.Entity.StatusCode = viewModel.NewActionCode;
-                //viewModel.Update();
+                viewModel.Update();
+                viewModel.SendEmail();
+                return Json(new { success = true, data = viewModel.Entity.ID }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return Json(new { success = false, message = ex.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        [HttpPost]
+        public JsonResult SetLockStatus(int webOrderRequestId, string isLocked)
+        {
+            WebOrderRequestViewModel viewModel = new WebOrderRequestViewModel();
+
+            try
+            {
+                viewModel.Get(webOrderRequestId);
+                viewModel.Entity.IsLocked = (isLocked == "Y") ? true : false;
+                viewModel.Entity.WebUserID = AuthenticatedUser.WebUserID;
+                viewModel.NewActionCode = String.Empty;
+                viewModel.UpdateLock();
                 return Json(new { success = true, data = viewModel.Entity.ID }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)

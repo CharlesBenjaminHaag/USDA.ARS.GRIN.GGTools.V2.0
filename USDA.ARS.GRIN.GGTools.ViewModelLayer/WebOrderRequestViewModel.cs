@@ -153,17 +153,6 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
                 sMTPMailMessage.Subject = ActionEmailSubject;
                 sMTPMailMessage.Body = ActionEmailBody;
                 sMTPManager.SendMessage(sMTPMailMessage);
-
-                WebOrderRequestAction webOrderRequestAction = new WebOrderRequestAction();
-                webOrderRequestAction.WebOrderRequestID = Entity.ID;
-                webOrderRequestAction.ActionCode = EventAction;
-                webOrderRequestAction.CreatedByWebUserID = Entity.OwnedByWebUserID;
-                webOrderRequestAction.Note = EventNote;
-
-                using (WebOrderRequestManager mgr = new WebOrderRequestManager())
-                {
-                    mgr.InsertWebOrderRequestAction(webOrderRequestAction);
-                }
             }
             catch (Exception ex)
             {
@@ -229,6 +218,44 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
             }
         }
 
+        public void Update()
+        {
+            // Update WOR
+            using (WebOrderRequestManager mgr = new WebOrderRequestManager())
+            {
+                Entity.StatusCode = NewActionCode;
+                Entity.Note = EventNote;
+                Entity.EmailAddressList = ActionEmailTo;
+
+                mgr.Update(Entity);
+
+                // Add pertinent action
+                if (!String.IsNullOrEmpty(NewActionCode))
+                {
+                    WebOrderRequestAction webOrderRequestAction = new WebOrderRequestAction();
+                    webOrderRequestAction.WebOrderRequestID = Entity.ID;
+                    webOrderRequestAction.ActionCode = NewActionCode;
+                    webOrderRequestAction.Note = EventNote;
+                    webOrderRequestAction.CreatedByWebUserID = Entity.WebUserID;
+                    webOrderRequestAction.OwnedByWebUserID = Entity.WebUserID;
+                    mgr.InsertWebOrderRequestAction(webOrderRequestAction);
+                }
+            }
+
+            //TODO Send email
+        }
+
+        public void UpdateLock()
+        {
+            using (WebOrderRequestManager mgr = new WebOrderRequestManager())
+            {
+                Entity.StatusCode = NewActionCode;
+                Entity.Note = EventNote;
+                Entity.EmailAddressList = ActionEmailTo;
+                mgr.UpdateLock(Entity);
+            }
+        }
+
         //public int Update()
         //{
         //    string emailTemplateCode = String.Empty;
@@ -277,7 +304,7 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
         //    //        case "NRR_APPROVE":
         //    //}
 
-                
+
         //        SMTPMailMessage requestorEmailMessage = new SMTPMailMessage();
         //        EmailTemplate rejectionEmailTemplate = DataCollectionEmailTemplates.Where(x => x.CategoryCode == emailTemplateCode).First();
         //        requestorEmailMessage.From = rejectionEmailTemplate.EmailFrom;
@@ -317,145 +344,145 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
         //        //    }
         //        //}
         //    }
-            
-            // If the status of a WOR changes (ACCEPTED, REJECTED), notify all relevant cooperators
-            // to enable them to proceed.
-            //if (SendInternalNotification)
-            //{
-            //    if (Entity.StatusCode == "NRR_ACCEPT")
-            //    {
-            //        emailTemplateCode = "CAP";
-            //    }
-            //    else
-            //    {
-            //        if (Entity.StatusCode == "NRR_REJECT")
-            //        {
-            //            emailTemplateCode = "CCL";
-            //        }
-            //    }
 
-            //    SMTPMailMessage internalEmailMessage = new SMTPMailMessage();
-            //    EmailTemplate internalEmailTemplate = DataCollectionEmailTemplates.Where(x => x.CategoryCode == emailTemplateCode).First();
-            //    internalEmailMessage.From = internalEmailTemplate.EmailFrom;
-            //    internalEmailMessage.To = Entity.EmailAddressList;
-            //    internalEmailMessage.Subject = internalEmailTemplate.Subject.Replace("[ID_HERE]", Entity.ID.ToString());
-            //    internalEmailMessage.Body = internalEmailTemplate.Body.Replace("[ID_HERE]", Entity.ID.ToString());
-            //    internalEmailMessage.IsHtml = true;
-            //    sMTPManager.SendMessage(internalEmailMessage);
-            //}
+        // If the status of a WOR changes (ACCEPTED, REJECTED), notify all relevant cooperators
+        // to enable them to proceed.
+        //if (SendInternalNotification)
+        //{
+        //    if (Entity.StatusCode == "NRR_ACCEPT")
+        //    {
+        //        emailTemplateCode = "CAP";
+        //    }
+        //    else
+        //    {
+        //        if (Entity.StatusCode == "NRR_REJECT")
+        //        {
+        //            emailTemplateCode = "CCL";
+        //        }
+        //    }
 
-            // If WOR had been previously reviewed, suppress email notification.
-            //if (Entity.IsPreviouslyNRRReviewed == "Y")
-            //{
-            //    SendInternalNotification = false;
-            //    SendRequestorNotification = false;
-            //}
+        //    SMTPMailMessage internalEmailMessage = new SMTPMailMessage();
+        //    EmailTemplate internalEmailTemplate = DataCollectionEmailTemplates.Where(x => x.CategoryCode == emailTemplateCode).First();
+        //    internalEmailMessage.From = internalEmailTemplate.EmailFrom;
+        //    internalEmailMessage.To = Entity.EmailAddressList;
+        //    internalEmailMessage.Subject = internalEmailTemplate.Subject.Replace("[ID_HERE]", Entity.ID.ToString());
+        //    internalEmailMessage.Body = internalEmailTemplate.Body.Replace("[ID_HERE]", Entity.ID.ToString());
+        //    internalEmailMessage.IsHtml = true;
+        //    sMTPManager.SendMessage(internalEmailMessage);
+        //}
 
-            //using (WebOrderRequestManager mgr = new WebOrderRequestManager())
-            //{
-            //    try
-            //    {
-            //        switch (Entity.StatusCode)
-            //        {
-            //            case "NRR_REVIEW":
-            //                mgr.Update(Entity);
-            //                isLoggable = false;
-            //                break;
-            //            case "NRR_REVIEW_END":
-            //                mgr.Update(Entity);
-            //                isLoggable = false;
-            //                break;
-            //            case "NRR_REOPEN":
-            //                mgr.Update(Entity);
-            //                isLoggable = true;
-            //                break;
-            //            case "NRR_FLAG_COOP":
-            //                //TODO: Refactor --CBH, 2/10/22
-            //                WebCooperator webCooperator = new WebCooperator();
-            //                webCooperator.ID = Entity.WebCooperatorID;
-            //                webCooperator.VettedStatusCode = "FLAGGED";
-            //                webCooperator.ModifiedByWebUserID = Entity.OwnedByWebUserID;
-            //                webCooperator.Note = Entity.Note;
-            //                break;
-            //            case "NRR_VET_COOP":
-            //                //TODO: Refactor --CBH, 2/10/22
-            //                WebCooperator webCooperator2 = new WebCooperator();
-            //                webCooperator2.ID = Entity.WebCooperatorID;
-            //                webCooperator2.VettedStatusCode = "VETTED";
-            //                webCooperator2.ModifiedByWebUserID = Entity.OwnedByWebUserID;
-            //                webCooperator2.Note = Entity.Note;
-            //                break;
-            //            case "NRR_NOTE":
-            //                break;
-            //            case "NRR_INFO":
-            //                SMTPMailMessage infoRequestEmailMessage = new SMTPMailMessage();
-            //                infoRequestEmailMessage.From = ActionEmailFrom;
-            //                infoRequestEmailMessage.To = ActionEmailTo;
-            //                infoRequestEmailMessage.Subject = ActionEmailSubject;
-            //                infoRequestEmailMessage.Body = ActionEmailBody;
-            //                infoRequestEmailMessage.IsHtml = true;
-            //                sMTPManager.SendMessage(infoRequestEmailMessage);
-            //                break;
-            //            case "NRR_CUR":
-            //                SMTPMailMessage curatorEmailMessage = new SMTPMailMessage();
-            //                curatorEmailMessage.From = ActionEmailFrom;
-            //                curatorEmailMessage.To = ActionEmailTo;
-            //                curatorEmailMessage.Subject = ActionEmailSubject;
-            //                curatorEmailMessage.Body = ActionEmailBody;
-            //                curatorEmailMessage.IsHtml = true;
-            //                sMTPManager.SendMessage(curatorEmailMessage);
-            //                break;
-            //            case "NRR_APPROVE":
-            //                mgr.Update(Entity);
-            //                if (SendInternalNotification)
-            //                {
-            //                    SMTPMailMessage internalEmailMessage = new SMTPMailMessage();
-            //                    EmailTemplate rejectionEmailTemplate = DataCollectionEmailTemplates.Where(x => x.CategoryCode == "CAP").First();
-            //                    internalEmailMessage.From = rejectionEmailTemplate.EmailFrom;
-            //                    internalEmailMessage.To = Entity.EmailAddressList;
-            //                    internalEmailMessage.Subject = rejectionEmailTemplate.Subject.Replace("[ID_HERE]", Entity.ID.ToString());
-            //                    internalEmailMessage.Body = rejectionEmailTemplate.Body.Replace("[ID_HERE]", Entity.ID.ToString());
-            //                    internalEmailMessage.IsHtml = true;
-            //                    sMTPManager.SendMessage(internalEmailMessage);
-            //                }
-            //                break;
-            //            case "NRR_REJECT":
-            //                mgr.Update(Entity);
-            //                if (SendInternalNotification)
-            //                {
-            //                    SMTPMailMessage internalEmailMessage = new SMTPMailMessage();
-            //                    EmailTemplate rejectionEmailTemplate = DataCollectionEmailTemplates.Where(x => x.CategoryCode == "CCL").First();
-            //                    internalEmailMessage.From = rejectionEmailTemplate.EmailFrom;
-            //                    internalEmailMessage.To = Entity.EmailAddressList;
-            //                    internalEmailMessage.Subject = rejectionEmailTemplate.Subject.Replace("[ID_HERE]", Entity.ID.ToString());
-            //                    internalEmailMessage.Body = rejectionEmailTemplate.Body.Replace("[ID_HERE]", Entity.ID.ToString());
-            //                    internalEmailMessage.IsHtml = true;
-            //                    sMTPManager.SendMessage(internalEmailMessage);
-            //                }
+        // If WOR had been previously reviewed, suppress email notification.
+        //if (Entity.IsPreviouslyNRRReviewed == "Y")
+        //{
+        //    SendInternalNotification = false;
+        //    SendRequestorNotification = false;
+        //}
 
-            //                if (SendRequestorNotification)
-            //                {
-            //                    SMTPMailMessage requestorEmailMessage = new SMTPMailMessage();
-            //                    requestorEmailMessage.From = ActionEmailFrom;
-            //                    requestorEmailMessage.To = ActionEmailTo;
-            //                    requestorEmailMessage.Subject = ActionEmailSubject;
-            //                    requestorEmailMessage.Body = ActionEmailBody;
-            //                    requestorEmailMessage.IsHtml = true;
-            //                    sMTPManager.SendMessage(requestorEmailMessage);
-            //                }
-            //                break;
-            //        }
+        //using (WebOrderRequestManager mgr = new WebOrderRequestManager())
+        //{
+        //    try
+        //    {
+        //        switch (Entity.StatusCode)
+        //        {
+        //            case "NRR_REVIEW":
+        //                mgr.Update(Entity);
+        //                isLoggable = false;
+        //                break;
+        //            case "NRR_REVIEW_END":
+        //                mgr.Update(Entity);
+        //                isLoggable = false;
+        //                break;
+        //            case "NRR_REOPEN":
+        //                mgr.Update(Entity);
+        //                isLoggable = true;
+        //                break;
+        //            case "NRR_FLAG_COOP":
+        //                //TODO: Refactor --CBH, 2/10/22
+        //                WebCooperator webCooperator = new WebCooperator();
+        //                webCooperator.ID = Entity.WebCooperatorID;
+        //                webCooperator.VettedStatusCode = "FLAGGED";
+        //                webCooperator.ModifiedByWebUserID = Entity.OwnedByWebUserID;
+        //                webCooperator.Note = Entity.Note;
+        //                break;
+        //            case "NRR_VET_COOP":
+        //                //TODO: Refactor --CBH, 2/10/22
+        //                WebCooperator webCooperator2 = new WebCooperator();
+        //                webCooperator2.ID = Entity.WebCooperatorID;
+        //                webCooperator2.VettedStatusCode = "VETTED";
+        //                webCooperator2.ModifiedByWebUserID = Entity.OwnedByWebUserID;
+        //                webCooperator2.Note = Entity.Note;
+        //                break;
+        //            case "NRR_NOTE":
+        //                break;
+        //            case "NRR_INFO":
+        //                SMTPMailMessage infoRequestEmailMessage = new SMTPMailMessage();
+        //                infoRequestEmailMessage.From = ActionEmailFrom;
+        //                infoRequestEmailMessage.To = ActionEmailTo;
+        //                infoRequestEmailMessage.Subject = ActionEmailSubject;
+        //                infoRequestEmailMessage.Body = ActionEmailBody;
+        //                infoRequestEmailMessage.IsHtml = true;
+        //                sMTPManager.SendMessage(infoRequestEmailMessage);
+        //                break;
+        //            case "NRR_CUR":
+        //                SMTPMailMessage curatorEmailMessage = new SMTPMailMessage();
+        //                curatorEmailMessage.From = ActionEmailFrom;
+        //                curatorEmailMessage.To = ActionEmailTo;
+        //                curatorEmailMessage.Subject = ActionEmailSubject;
+        //                curatorEmailMessage.Body = ActionEmailBody;
+        //                curatorEmailMessage.IsHtml = true;
+        //                sMTPManager.SendMessage(curatorEmailMessage);
+        //                break;
+        //            case "NRR_APPROVE":
+        //                mgr.Update(Entity);
+        //                if (SendInternalNotification)
+        //                {
+        //                    SMTPMailMessage internalEmailMessage = new SMTPMailMessage();
+        //                    EmailTemplate rejectionEmailTemplate = DataCollectionEmailTemplates.Where(x => x.CategoryCode == "CAP").First();
+        //                    internalEmailMessage.From = rejectionEmailTemplate.EmailFrom;
+        //                    internalEmailMessage.To = Entity.EmailAddressList;
+        //                    internalEmailMessage.Subject = rejectionEmailTemplate.Subject.Replace("[ID_HERE]", Entity.ID.ToString());
+        //                    internalEmailMessage.Body = rejectionEmailTemplate.Body.Replace("[ID_HERE]", Entity.ID.ToString());
+        //                    internalEmailMessage.IsHtml = true;
+        //                    sMTPManager.SendMessage(internalEmailMessage);
+        //                }
+        //                break;
+        //            case "NRR_REJECT":
+        //                mgr.Update(Entity);
+        //                if (SendInternalNotification)
+        //                {
+        //                    SMTPMailMessage internalEmailMessage = new SMTPMailMessage();
+        //                    EmailTemplate rejectionEmailTemplate = DataCollectionEmailTemplates.Where(x => x.CategoryCode == "CCL").First();
+        //                    internalEmailMessage.From = rejectionEmailTemplate.EmailFrom;
+        //                    internalEmailMessage.To = Entity.EmailAddressList;
+        //                    internalEmailMessage.Subject = rejectionEmailTemplate.Subject.Replace("[ID_HERE]", Entity.ID.ToString());
+        //                    internalEmailMessage.Body = rejectionEmailTemplate.Body.Replace("[ID_HERE]", Entity.ID.ToString());
+        //                    internalEmailMessage.IsHtml = true;
+        //                    sMTPManager.SendMessage(internalEmailMessage);
+        //                }
+
+        //                if (SendRequestorNotification)
+        //                {
+        //                    SMTPMailMessage requestorEmailMessage = new SMTPMailMessage();
+        //                    requestorEmailMessage.From = ActionEmailFrom;
+        //                    requestorEmailMessage.To = ActionEmailTo;
+        //                    requestorEmailMessage.Subject = ActionEmailSubject;
+        //                    requestorEmailMessage.Body = ActionEmailBody;
+        //                    requestorEmailMessage.IsHtml = true;
+        //                    sMTPManager.SendMessage(requestorEmailMessage);
+        //                }
+        //                break;
+        //        }
 
 
 
-            //        RowsAffected = mgr.RowsAffected;
-            //    }
-            //    catch (Exception ex)
-            //    {
-            //        PublishException(ex);
-            //        throw ex;
-            //    }
-            //}
+        //        RowsAffected = mgr.RowsAffected;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        PublishException(ex);
+        //        throw ex;
+        //    }
+        //}
         //    return RowsAffected;
         //}
 
