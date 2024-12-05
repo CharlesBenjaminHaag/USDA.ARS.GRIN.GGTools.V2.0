@@ -1,6 +1,5 @@
 ﻿@model USDA.ARS.GRIN.GGTools.ViewModelLayer.OrderRequestViewModel
 <div class="scrollable-table-section">
-    <h5>Order Requests</h5>
     <table id="table_order_request_action" class="table table-striped" style="width:100%">
         <thead>
             <tr>
@@ -28,39 +27,14 @@
                     <td>@orderRequestAction.ActionInformation</td>
                     <td>
                         @*<a href="@Url.Action("Edit", "OrderRequest", new { entityId = orderRequest.ID })" class="btn btn-default btn-sm pull-right">
-                            <i class="fa fa-eye"></i>
-                        </a>*@
+                                <i class="fa fa-eye"></i>
+                            </a>*@
                     </td>
                 </tr>
             }
         </tbody>
     </table>
 </div>
-@*@foreach (var webOrderRequest in Model.DataCollection)
-            {
-
-                var cssClass = "";
-                switch (webOrderRequest.StatusCode)
-                {
-                    case "NRR_FLAG":
-                        cssClass = "bg-danger";
-                        break;
-                    case "ACCEPTED":
-                        cssClass = "bg-success";
-                        break;
-                    default:
-                        cssClass = "bg-info";
-                        break;
-                }
-    <div class="info-box">
-        <span class="info-box-icon @cssClass"><i class="far fa-address-book"></i></span>
-        <div class="info-box-content">
-            <span class="info-box-text">@webOrderRequest.WebCooperatorFullName</span>
-            <span class="info-box-number">
-                @webOrderRequest.WebCooperatorOrganization
-                <button class="btn btn-default btn-sm float-right">>></button>
-            </span>
-        </div>
-    </div>
-}*@
-
+<script type="text/javascript">
+    InitDataTable("table_order_request_action");
+</script>
