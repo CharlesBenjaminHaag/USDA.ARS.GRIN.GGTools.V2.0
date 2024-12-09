@@ -72,6 +72,8 @@
     <Compile Include="ExplorationViewModel.cs" />
     <Compile Include="ExplorationViewModelBase.cs" />
     <Compile Include="InfraspecificOptionsViewModel.cs" />
+    <Compile Include="ISTASeedSpeciesViewModel.cs" />
+    <Compile Include="ISTASeedViewModelBase.cs" />
     <Compile Include="SynonymOptionsViewModel.cs" />
     <Compile Include="FamilyViewModelBase.cs" />
     <Compile Include="FamilyViewModel.cs" />

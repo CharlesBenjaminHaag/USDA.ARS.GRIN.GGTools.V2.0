@@ -77,9 +77,11 @@
     <Compile Include="EntityClasses\AppUserGUISetting.cs" />
     <Compile Include="EntityClasses\FamilySearch.cs" />
     <Compile Include="EntityClasses\Family.cs" />
+    <Compile Include="EntityClasses\ISTASeedSearch.cs" />
     <Compile Include="EntityClasses\OrderRequestPhytoLog.cs" />
     <Compile Include="EntityClasses\OrderRequestAttachment.cs" />
     <Compile Include="EntityClasses\OrderRequestItemAction.cs" />
+    <Compile Include="EntityClasses\ISTASeed.cs" />
     <Compile Include="EntityClasses\SpeciesDTO.cs" />
     <Compile Include="EntityClasses\SpeciesMatch.cs" />
     <Compile Include="EntityClasses\GOBS\GOBSMarker.cs" />
@@ -231,6 +233,7 @@
     <Compile Include="EntityClasses\TribeSearch.cs" />
     <Compile Include="ManagerClasses\AccessionInventoryAttachmentManager.cs" />
     <Compile Include="ManagerClasses\AccessionInvAnnotationManager.cs" />
+    <Compile Include="ManagerClasses\ISTASeesdManager.cs" />
     <Compile Include="ManagerClasses\UPOVManager.cs" />
     <Compile Include="ManagerClasses\InventoryManager.cs" />
     <Compile Include="ManagerClasses\ExplorationMapManager.cs" />
