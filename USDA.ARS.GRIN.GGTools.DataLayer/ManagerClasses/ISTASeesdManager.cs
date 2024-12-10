@@ -78,7 +78,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         {
             List<ISTASeed> results = new List<ISTASeed>();
 
-            SQL = " SELECT * FROM vw_GRINGlobal_Taxonomy_ISTA_Report ORDER BY DisplayLetter ASC";
+            SQL = " SELECT * FROM vw_GRINGlobal_Taxonomy_ISTA_Report_New ORDER BY GenusName ASC, SpeciesName ASC";
          
             var parameters = new List<IDbDataParameter> {
             //    CreateParameter("CommonFertilizationCode", (object)searchEntity.CommonFertilizationCode ?? DBNull.Value, true),

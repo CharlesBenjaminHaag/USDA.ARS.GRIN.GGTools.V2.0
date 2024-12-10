@@ -1,0 +1,58 @@
+﻿@model USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer.ISTASeedViewModel
+@{
+    ViewBag.Title = ViewBag.PageTitle;
+    Layout = "~/Views/Shared/_LayoutAdminLTE3.cshtml";
+}
+<div class="card card-primary">
+    <div class="card-header">
+        <h3 class="card-title">@ViewBag.PageTitle</h3>
+        <div class="card-tools">
+            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                <i class="fas fa-minus"></i>
+            </button>
+        </div>
+    </div>
+    <!-- /.box-header -->
+    <div id="section-search-results" class="card-body">
+        <a href="@Url.Action("Export","ISTA")" class="btn btn-primary float-right m-1">
+            Generate ISTA Report
+        </a>
+        <table id="table-upov-data" class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Family Name</th>
+                    <th>Alt. Fam. Name</th>
+                    <th>Genus Name</th>
+                    <th>Species Name</th>
+                    <th>Accepted Name</th>
+                    <th>Subspecies Name</th>
+                    <th>Variety Name</th>
+                    <th>Name Status</th>
+                    <th>Authority</th>
+                    <th>UPOV Code</th>
+                    <th>Note</th>
+                    <th>Last Modified</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var istaSeed in Model.DataCollection)
+                {
+                    <tr>
+                        <td>@istaSeed.FamilyName</td>
+                        <td>@istaSeed.FamilyAlternateName</td>
+                        <td>@istaSeed.GenusName</td>
+                        <td>@istaSeed.SpeciesName</td>
+                        <td>@Html.Raw(istaSeed.AcceptedName)</td>
+                        <td>@istaSeed.SubspeciesName</td>
+                        <td>@istaSeed.VarietyName</td>
+                        <td>@istaSeed.NameStatus</td>
+                        <td>@istaSeed.Authority</td>
+                        <td><a href="https://www.upov.int/genie/details.xhtml?cropId=@istaSeed.UPOVCodeID">@istaSeed.UPOVCode</a></td>
+                        <td>@istaSeed.Note</td>
+                        <td>@istaSeed.ModifiedDate.ToShortDateString()</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

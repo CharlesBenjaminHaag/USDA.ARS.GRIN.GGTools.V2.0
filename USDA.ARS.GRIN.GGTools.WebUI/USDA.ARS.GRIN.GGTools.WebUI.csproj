@@ -168,7 +168,7 @@
     <Compile Include="Controllers\AccessionIPRController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AppUserItemListController.cs" />
-    <Compile Include="Controllers\ISTASeedController.cs" />
+    <Compile Include="Controllers\ISTAController.cs" />
     <Compile Include="Controllers\UPOVController.cs" />
     <Compile Include="Controllers\ExplorationController.cs" />
     <Compile Include="Controllers\FamilyController.cs" />
@@ -1094,6 +1094,7 @@
     <Content Include="Views\WebOrder\Modals\_EmailRequestor.cshtml" />
     <Content Include="Views\WebOrder\Modals\_EndReview.cshtml" />
     <Content Include="Views\WebOrder\Modals\_SetCooperatorStatus.cshtml" />
+    <Content Include="Views\Taxonomy\ISTA\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
