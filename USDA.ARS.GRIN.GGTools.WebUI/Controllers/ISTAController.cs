@@ -16,8 +16,10 @@ using System.Text.RegularExpressions;
 using System.Web.UI.WebControls.WebParts;
 using System.Security.Policy;
 using System.EnterpriseServices;
-using DocumentFormat.OpenXml.Vml.Spreadsheet;
+
 using System.Linq.Expressions;
+using System.Diagnostics.SymbolStore;
+
 
 namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
 {
@@ -72,6 +74,8 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 // Create a Word document
                 using (WordprocessingDocument wordDoc = WordprocessingDocument.Create(stream, WordprocessingDocumentType.Document, true))
                 {
+                    List<int> columnWidths = new List<int> { 6000, 2000, 2000 }; // 60%, 20%, 20%
+
                     // Add a main document part
                     MainDocumentPart mainPart = wordDoc.AddMainDocumentPart();
                     mainPart.Document = new Document();
@@ -98,13 +102,14 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                         {
                             RunFonts = new RunFonts { Ascii = "Arial" },
                             Bold = new Bold(),
-                            FontSize = new FontSize { Val = "28" } // 14 pt (2x)
+                            FontSize = new FontSize { Val = "56" } // 14 pt (2x)
                         });
                         body.AppendChild(heading);
 
                         var table = new Table();
 
                         TableProperties tableProperties = new TableProperties(
+                            new TableWidth { Type = TableWidthUnitValues.Pct, Width = "10000" }, // 100% in OpenXML terms
                             new TableBorders(
                                 new TopBorder { Val = BorderValues.None, Size = 6 },
                                 new BottomBorder { Val = BorderValues.None, Size = 6 },
@@ -112,10 +117,26 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                                 new RightBorder { Val = BorderValues.None, Size = 6 },
                                 new InsideHorizontalBorder { Val = BorderValues.None, Size = 6 },
                                 new InsideVerticalBorder { Val = BorderValues.None, Size = 6 }
-                            ),
-                            new TableWidth { Width = "100%", Type = TableWidthUnitValues.Pct }
+                            )
                         );
                         table.AppendChild(tableProperties);
+
+
+
+
+
+
+                        TableGrid tableGrid = new TableGrid();
+                        foreach (var width in columnWidths)
+                        {
+                            tableGrid.Append(new GridColumn { Width = width.ToString() });
+                        }
+                        table.AppendChild(tableGrid);
+
+
+
+
+
 
                         // Create a table row for each accepted name.
                         // IF NOT ACCEPTED: show formatted accepted name in a second row under the accepted one.
@@ -123,23 +144,57 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                         {
                             var tableRow = new TableRow();
                             var speciesNameCell = new TableCell();
-                            var upovCodeCell = new TableCell();
 
-                            string speciesNameHyperlinkUrl = "https://npgsweb.ars-grin.gov/gringlobal/taxon/taxonomydetail?id=" + istaSeed.AcceptedID;
+                            // Set cell properties
+                            TableCellProperties speciesNameCellProperties = new TableCellProperties(
+                                new TableCellWidth { Type = TableWidthUnitValues.Pct, Width = columnWidths[0].ToString() }
+                            );
+                            speciesNameCell.AppendChild(speciesNameCellProperties);
+
+                            var upovCodeCell = new TableCell();
+                            TableCellProperties upovCodeCellProperties = new TableCellProperties(
+                                new TableCellWidth { Type = TableWidthUnitValues.Pct, Width = columnWidths[2].ToString() }
+                            );
+                            upovCodeCell.AppendChild(upovCodeCellProperties);
+
+                            string speciesNameHyperlinkUrl = "https://npgsweb.ars-grin.gov/gringlobal/taxon/taxonomydetail?id=" + istaSeed.SpeciesID;
+                            string speciesAcceptedNameHyperlinkUrl = "https://npgsweb.ars-grin.gov/gringlobal/taxon/taxonomydetail?id=" + istaSeed.AcceptedID;
                             string upovCodeHyperlinkUrl = "https://www.upov.int/genie/details.xhtml?cropId=" + istaSeed.UPOVCodeID;
 
+                            // *******************************************************************
                             // Name/authority text
-                            speciesNameCell = CreateNameHyperlinkCell(istaSeed, speciesNameHyperlinkUrl, mainPart);
-                            tableRow.Append(speciesNameCell);
+                            // *******************************************************************
 
-                            // Family name
-                            var column2Cell = new TableCell();
+                            speciesNameCell = CreateNameHyperlinkCell(istaSeed, speciesNameHyperlinkUrl, speciesAcceptedNameHyperlinkUrl, mainPart);
+                            tableRow.AppendChild(speciesNameCell);
+
+                            // *******************************************************************
+                            // Family name(s)
+                            // *******************************************************************
+
+                            var familyNameCell = new TableCell();
+                            TableCellProperties familyNameCellProperties = new TableCellProperties(
+                                new TableCellWidth { Type = TableWidthUnitValues.Pct, Width = columnWidths[2].ToString() }
+                            );
+                            familyNameCell.AppendChild(familyNameCellProperties);
+
                             var familyNameParagraph = new Paragraph();
+                            ParagraphProperties familyNameParagraphProperties = new ParagraphProperties();
+                            SpacingBetweenLines familyNameParagraphSpacing = familyNameParagraphProperties.SpacingBetweenLines;
+                            if (familyNameParagraphSpacing == null)
+                            {
+                                familyNameParagraphSpacing = new SpacingBetweenLines();
+                                familyNameParagraphProperties.Append(familyNameParagraphSpacing);
+                            }
+                            familyNameParagraphSpacing.Before = "0";
+                            familyNameParagraphSpacing.After = "0";
+                            familyNameParagraph.Append(familyNameParagraphProperties);
+
                             var familyNameRun = new Run();
                             var familyNameRunProperties = new RunProperties();
                             familyNameRunProperties.Bold = new Bold();
                             familyNameRun.Append(familyNameRunProperties);
-                            familyNameRun.Append(new Text("(" + istaSeed.FamilyName + ")"));
+                            familyNameRun.Append(new Text(istaSeed.FamilyName));
 
                             if (!String.IsNullOrEmpty(istaSeed.FamilyAlternateName))
                             {
@@ -149,17 +204,12 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                             }
 
                             familyNameParagraph.Append(familyNameRun);
-                           
-                            //var boldParagraph = new Paragraph(
-                            //    new Run(
-                            //new RunProperties(new Bold()),
-                            //        new Text("(" + istaSeed.FamilyName + ")") 
-                            //    )
-                            //);
-                            column2Cell.Append(familyNameParagraph);
-                            tableRow.Append(column2Cell);
+                            familyNameCell.Append(familyNameParagraph);
+                            tableRow.AppendChild(familyNameCell);
 
-                            // TODO UPOV Code
+                            // *******************************************************************
+                            // UPOV Code
+                            // *******************************************************************
                             if (!String.IsNullOrEmpty(istaSeed.UPOVCode))
                             {
                                 upovCodeCell = CreateUPOVCodeHyperlinkCell(istaSeed.UPOVCode, upovCodeHyperlinkUrl, mainPart);
@@ -183,61 +233,12 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                             }
 
                             tableRow.Append(upovCodeCell);
-                            
-                            // UPOV
-                            //var column3Cell = new TableCell();
-                            //Paragraph upovCodeParagraph = new Paragraph();
-                            //Run upovCodeRun = new Run();
-                            //Text upovCodeText = new Text(istaSeed.UPOVCode);
-
-                            //var boldParagraph3 = new Paragraph(
-                            //    new Run(
-                            //new RunProperties(),
-                            //        new Text(istaSeed.UPOVCode)
-                            //    )
-                            //);
-
-                            //upovCodeRun.Append(upovCodeText);
-                            //upovCodeParagraph.Append(upovCodeRun);   
-                            //column3Cell.Append(upovCodeParagraph);
-                            //tableRow.Append(column3Cell);
-
                             table.AppendChild(tableRow);
-
-                            if (istaSeed.NameStatus == "synonym")
-                            {
-                                var tableRowAcceptedName = new TableRow();
-                                var acceptedNameCell = new TableCell();
-
-                                var acceptedNameParagraph = new Paragraph();
-                                var acceptedNameRun = new Run();
-
-                                ParagraphProperties acceptedNameParagraphProperties = new ParagraphProperties();
-                                Indentation indentation = new Indentation()
-                                {
-                                    Left = "720" // Indentation in twentieths of a point (720 = 0.5 inches)
-                                };
-                                acceptedNameParagraphProperties.Append(indentation);
-                                acceptedNameParagraph.Append(acceptedNameParagraphProperties);
-
-                                acceptedNameRun.Append(new Text("        =" + istaSeed.AcceptedName));
-                                acceptedNameParagraph.Append(acceptedNameRun);
-                                acceptedNameCell.Append(acceptedNameParagraph);
-
-                                tableRowAcceptedName.Append(acceptedNameCell);
-                                table.AppendChild(tableRowAcceptedName);
-                            }
                         }
 
                         body.Append(table);
                     }
-                    
-                    
-                    // Add data rows
-                    
                 }
-
-                // Return the Word document as a file download
                 return File(stream.ToArray(), "application/vnd.openxmlformats-officedocument.wordprocessingml.document", "ISTAReport_Draft.docx");
             }
         }
@@ -248,34 +249,36 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
         /// <param name="entityId"></param>
         /// <param name="appUserItemFolderId"></param>
         /// <returns></returns>
-        private TableCell CreateNameHyperlinkCell(ISTASeed iSTASeed, string url, MainDocumentPart mainPart)
+        private TableCell CreateNameHyperlinkCell(ISTASeed iSTASeed, string nameUrl, string acceptedNameUrl, MainDocumentPart mainPart)
         {
             TableCell tableCell = new TableCell();
-            string hyperlinkId = "rId" + (mainPart.HyperlinkRelationships.Count() + 1);
+            string nameHyperlinkId = "rId" + (mainPart.HyperlinkRelationships.Count() + 1);
+            string acceptedNameHyperlinkId = "rIdAcc" + (mainPart.HyperlinkRelationships.Count() + 1);
 
-            //Add a hyperlink relationship
-            mainPart.AddHyperlinkRelationship(new Uri(url), true, hyperlinkId);
+            mainPart.AddHyperlinkRelationship(new Uri(nameUrl), true, nameHyperlinkId);
+            mainPart.AddHyperlinkRelationship(new Uri(acceptedNameUrl), true, acceptedNameHyperlinkId);
 
-            // Create a paragraph to hold the hyperlink
-            Paragraph paragraph = new Paragraph();
+            Paragraph nameParagraph = new Paragraph();
+            ParagraphProperties nameParagraphProperties = new ParagraphProperties();
+            SpacingBetweenLines nameParagraphSpacing = nameParagraphProperties.SpacingBetweenLines;
+            if (nameParagraphSpacing == null)
+            {
+                nameParagraphSpacing = new SpacingBetweenLines();
+                nameParagraphProperties.Append(nameParagraphSpacing);
+            }
+            nameParagraphSpacing.Before = "0";
+            nameParagraphSpacing.After = "0";
 
-            // Create a new hyperlink
-            Hyperlink hyperlink = new Hyperlink();
+            nameParagraph.Append(nameParagraphProperties);
 
-            //string stringPart1 = ExtractItalicizedText(iSTASeed.AcceptedName);
+            Hyperlink nameHyperlink = new Hyperlink();
+            Hyperlink acceptedNameHyperlink = new Hyperlink();
+
             string namePart = iSTASeed.GenusName + " " + iSTASeed.SpeciesName;
-
-            //TODO
-            // Create run for each of the following
-            // Genus name + species name
-            // BASED ON RANK:
-            //  Species: species, auth
-            //  Subspecies: subsp, subsp auth
-            //  Variety: var, var auth
 
             Run nameRun = new Run();
             RunProperties nameRunProperties = new RunProperties();
-            nameRunProperties.Italic = new Italic();  // Make this text italic
+            nameRunProperties.Italic = new Italic();   
             nameRunProperties.Underline = new Underline { Val = UnderlineValues.Single };
             nameRunProperties.Color = new Color { Val = "0000FF" };
             
@@ -287,23 +290,6 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             nameRun.Append(nameRunProperties);
 
             string nameRunText = iSTASeed.GenusName + " " + iSTASeed.SpeciesName;
-
-            //switch (iSTASeed.Rank)
-            //{
-            //    case "SPECIES":
-            //        nameRunText += " " + iSTASeed.SpeciesAuthority;
-            //        break;
-            //    case "SUBSPECIES":
-            //        nameRunText += " subsp." + iSTASeed.SubspeciesName + " " + iSTASeed.SubspeciesAuthority;
-            //        break;
-            //    case "VARIETY":
-            //        nameRunText += " var." + iSTASeed.VarietyName + " " + iSTASeed.VarietyAuthority;
-            //        break;
-            //    default:
-            //        nameRunText += " " + iSTASeed.SpeciesAuthority;
-            //        break;
-            //}
-
             nameRun.Append(new Text(nameRunText));
 
             // Infra indicator
@@ -408,120 +394,177 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
 
             authorityRun.Append(textAuthority);
 
-            // Add the first part of the hyperlink text (italicized)
-            //Run italicRun = new Run();
-            //RunProperties italicRunProperties = new RunProperties();
-            //italicRunProperties.Italic = new Italic();  // Make this text italic
-            //italicRunProperties.Underline = new Underline { Val = UnderlineValues.Single };
-            //italicRunProperties.Color = new Color { Val = "0000FF" };
-            //italicRunProperties.Bold = new Bold();
-            //italicRun.Append(italicRunProperties);
-            //italicRun.Append(new Text(namePart));
+            // Add all runs to the nameHyperlink
+            nameHyperlink.Append(nameRun);
+            nameHyperlink.Append(infraspecificNameRun);
+            nameHyperlink.Append(infraspecificNameRun2);
+            nameHyperlink.Append(authorityRun);
 
-            // Add the second part of the hyperlink text (non-italicized)
-            //Run normalRun = new Run();
-            //normalRun.Append(new Text(" and this part is normal"));
+            nameHyperlink.Id = nameHyperlinkId;
+            
+            // Add the nameHyperlink to the nameParagraph
+            nameParagraph.Append(nameHyperlink);
 
-            // Add both runs to the hyperlink
-            hyperlink.Append(nameRun);
-            hyperlink.Append(infraspecificNameRun);
-            hyperlink.Append(infraspecificNameRun2);
-            hyperlink.Append(authorityRun);
+            tableCell.Append(nameParagraph);
 
-            hyperlink.Id = hyperlinkId;
+            // If the name is a synonym, add the accepted name below it and indented.
+            if (iSTASeed.NameStatus == "synonym")
+            { 
+                //TODO Retrieve syn data
+                SpeciesViewModel speciesViewModel = new SpeciesViewModel();
+                speciesViewModel.Get(iSTASeed.AcceptedID);
 
-            // Add the hyperlink to the paragraph
-            paragraph.Append(hyperlink);
+                Paragraph acceptedNameParagraph = new Paragraph();
+                ParagraphProperties acceptedNameParagraphProperties = new ParagraphProperties();
+                Indentation indentation = new Indentation { Left = "720" }; // Indentation in Twips
+                SpacingBetweenLines acceptedNameParagraphSpacing = acceptedNameParagraphProperties.SpacingBetweenLines;
+                if (acceptedNameParagraphSpacing == null)
+                {
+                    acceptedNameParagraphSpacing = new SpacingBetweenLines();
+                    acceptedNameParagraphProperties.Append(acceptedNameParagraphSpacing);
+                }
+                acceptedNameParagraphSpacing.Before = "0";
+                acceptedNameParagraphSpacing.After = "0";
+     
+                acceptedNameParagraphProperties.Append(indentation);
+                acceptedNameParagraph.Append(acceptedNameParagraphProperties);
 
-            tableCell.Append(paragraph);
+                Run acceptedNameNotationRun = new Run();
+                Text acceptedNameNotationText = new Text(" = ")
+                {
+                    Space = SpaceProcessingModeValues.Preserve
+                };
 
-            //Create the hyperlink cell
-            //return new TableCell(
-            //    new Paragraph(
-            //        new Hyperlink(
-            //            new Run(
-            //                new RunProperties(
-            //                    new Underline { Val = UnderlineValues.Single },
-            //                    new Color { Val = "0000FF" },
-            //                    new Italic { }
-            //                ),
-            //                new Text(displayText)
-            //            )
-            //        )
-            //        {
-            //            Id = hyperlinkId
-            //        }
-            //    )
-            //);
-            return tableCell;
-        }
+                acceptedNameNotationRun.Append(acceptedNameNotationText);
+                acceptedNameHyperlink.Append(acceptedNameNotationRun);
 
-        private TableCell CreateAcceptedNameHyperlinkCell(ISTASeed iSTASeed, string url, MainDocumentPart mainPart)
-        {
-            TableCell tableCell = new TableCell();
-            string hyperlinkId = "r2Id" + (mainPart.HyperlinkRelationships.Count() + 1);
+                // Genus + species name
+                Run acceptedNameRun = new Run();
+                RunProperties acceptedNameRunProperties = new RunProperties();
+                acceptedNameRunProperties.Bold = new Bold();
+                acceptedNameRunProperties.Italic = new Italic();
+                acceptedNameRunProperties.Underline = new Underline { Val = UnderlineValues.Single };
+                acceptedNameRunProperties.Color = new Color { Val = "0000FF" };
 
-            //Add a hyperlink relationship
-            mainPart.AddHyperlinkRelationship(new Uri(url), true, hyperlinkId);
+                acceptedNameRun.Append(acceptedNameRunProperties);
+                Text acceptedNameText = new Text(speciesViewModel.Entity.GenusShortName + " " + speciesViewModel.Entity.SpeciesName)
+                {
+                    Space = SpaceProcessingModeValues.Preserve
+                };
+                acceptedNameRun.Append(acceptedNameText);
+                acceptedNameHyperlink.Append(acceptedNameRun);
 
-            // Create a paragraph to hold the hyperlink
-            Paragraph paragraph = new Paragraph();
+                // Authority
+                Run acceptedNameAuthorityRun = new Run();
+                RunProperties acceptNameAuthorityRunProperties = new RunProperties();   
+                acceptNameAuthorityRunProperties.Bold = new Bold();
+                acceptNameAuthorityRunProperties.Underline = new Underline { Val = UnderlineValues.Single };
+                acceptNameAuthorityRunProperties.Color = new Color { Val = "0000FF" };
 
-            // Create a new hyperlink
-            Hyperlink hyperlink = new Hyperlink();
+                Text acceptedNameAuthorityText = new Text(" " + speciesViewModel.Entity.NameAuthority)
+                {
+                    Space = SpaceProcessingModeValues.Preserve
+                };
+                acceptedNameAuthorityRun.Append(acceptNameAuthorityRunProperties);
+                acceptedNameAuthorityRun.Append(acceptedNameAuthorityText);
+                
+                acceptedNameHyperlink.Append(acceptedNameAuthorityRun);
+                acceptedNameHyperlink.Id = acceptedNameHyperlinkId;
 
-            string namePart = ExtractItalicizedText(iSTASeed.AcceptedName);
+                acceptedNameParagraph.Append(acceptedNameHyperlink);
+                //acceptedNameParagraph.Append(acceptedNameNotationRun);
+                //acceptedNameParagraph.Append(acceptedNameRun);
+                //acceptedNameParagraph.Append(acceptedNameAuthorityRun);
 
-            //TODO
-            // Create run for each of the following
-            // Genus name + species name
-            // BASED ON RANK:
-            //  Species: species, auth
-            //  Subspecies: subsp, subsp auth
-            //  Variety: var, var auth
-
-            Run nameRun = new Run();
-            RunProperties nameRunProperties = new RunProperties();
-            nameRunProperties.Italic = new Italic();  // Make this text italic
-            nameRunProperties.Underline = new Underline { Val = UnderlineValues.Single };
-            nameRunProperties.Color = new Color { Val = "0000FF" };
-
-            if (iSTASeed.NameStatus == "accepted")
-            {
-                nameRunProperties.Bold = new Bold();
+                tableCell.Append(acceptedNameParagraph);
             }
-
-            nameRun.Append(nameRunProperties);
-
-            string nameRunText = namePart;
-
-            nameRun.Append(new Text(nameRunText));
-
-            // Add both runs to the hyperlink
-            hyperlink.Append(nameRun);
-          
-            hyperlink.Id = hyperlinkId;
-
-            // Add the hyperlink to the paragraph
-            paragraph.Append(hyperlink);
-
-            tableCell.Append(paragraph);
-
             return tableCell;
         }
+
+        //private Hyperlink CreateAcceptedNameHyperlink(string displayText, string nameUrl, MainDocumentPart mainPart)
+        //{
+        //    Hyperlink acceptedNamehyperlink = new Hyperlink();
+        //    string nameHyperlinkId = "rIdAcc" + (mainPart.HyperlinkRelationships.Count() + 1);
+
+        //    //Add a nameHyperlink relationship
+        //    mainPart.AddHyperlinkRelationship(new Uri(nameUrl), true, nameHyperlinkId);
+        //    acceptedNamehyperlink.Id = nameHyperlinkId;
+        //    Run acceptedNameNotationRun = new Run();
+        //    Run acceptedNameRun = new Run();
+
+        //    //TODO
+
+        //    acceptedNamehyperlink.Append(acceptedNameNotationRun);
+        //    acceptedNamehyperlink.Append(acceptedNameRun);
+        //    return acceptedNamehyperlink;
+        //}
+
+        //private TableCell CreateAcceptedNameHyperlinkCell(ISTASeed iSTASeed, string nameUrl, MainDocumentPart mainPart)
+        //{
+        //    TableCell tableCell = new TableCell();
+        //    string nameHyperlinkId = "r2Id" + (mainPart.HyperlinkRelationships.Count() + 1);
+
+        //    //Add a nameHyperlink relationship
+        //    mainPart.AddHyperlinkRelationship(new Uri(nameUrl), true, nameHyperlinkId);
+
+        //    // Create a nameParagraph to hold the nameHyperlink
+        //    Paragraph nameParagraph = new Paragraph();
+
+        //    // Create a new nameHyperlink
+        //    Hyperlink nameHyperlink = new Hyperlink();
+
+        //    string namePart = ExtractItalicizedText(iSTASeed.AcceptedName);
+
+        //    //TODO
+        //    // Create run for each of the following
+        //    // Genus name + species name
+        //    // BASED ON RANK:
+        //    //  Species: species, auth
+        //    //  Subspecies: subsp, subsp auth
+        //    //  Variety: var, var auth
+
+        //    Run nameRun = new Run();
+        //    RunProperties nameRunProperties = new RunProperties();
+        //    nameRunProperties.Italic = new Italic();  // Make this text italic
+        //    nameRunProperties.Underline = new Underline { Val = UnderlineValues.Single };
+        //    nameRunProperties.Color = new Color { Val = "0000FF" };
+
+        //    if (iSTASeed.NameStatus == "accepted")
+        //    {
+        //        nameRunProperties.Bold = new Bold();
+        //    }
+
+        //    nameRun.Append(nameRunProperties);
+
+        //    string nameRunText = namePart;
+
+        //    nameRun.Append(new Text(nameRunText));
+
+        //    // Add both runs to the nameHyperlink
+        //    nameHyperlink.Append(nameRun);
+          
+        //    nameHyperlink.Id = nameHyperlinkId;
+
+        //    // Add the nameHyperlink to the nameParagraph
+        //    nameParagraph.Append(nameHyperlink);
+
+        //    tableCell.Append(nameParagraph);
+
+        //    return tableCell;
+        //}
 
         private TableCell CreateUPOVCodeHyperlinkCell(string upovCode, string url, MainDocumentPart mainPart)
         {
             TableCell tableCell = new TableCell();
             string hyperlinkId = "rIdUPOV" + (mainPart.HyperlinkRelationships.Count() + 1);
 
-            //Add a hyperlink relationship
+            //Add a nameHyperlink relationship
             mainPart.AddHyperlinkRelationship(new Uri(url), true, hyperlinkId);
 
-            // Create a paragraph to hold the hyperlink
+            // Create a nameParagraph to hold the nameHyperlink
             Paragraph paragraph = new Paragraph();
 
-            // Create a new hyperlink
+            // Create a new nameHyperlink
             Hyperlink hyperlink = new Hyperlink();
 
             Run nameRun = new Run();

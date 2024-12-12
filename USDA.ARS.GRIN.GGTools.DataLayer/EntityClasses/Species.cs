@@ -51,6 +51,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         public int GenusID { get; set; }
         [AllowHtml]
         public string GenusName { get; set; }
+        public string GenusShortName { get; set; }
         public string SubgenusName { get; set; }
         public string SectionName { get; set; }
         public string SubsectionName { get; set; }
