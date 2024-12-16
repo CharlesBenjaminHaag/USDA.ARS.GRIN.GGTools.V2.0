@@ -48,6 +48,8 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         public string InfraspecificType { get; set; }
         [AllowHtml]
         public string Protologue { get; set; }
+        public int FamilyID { get; set; }
+        public string FamilyName { get; set; }
         public int GenusID { get; set; }
         [AllowHtml]
         public string GenusName { get; set; }
@@ -55,7 +57,6 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         public string SubgenusName { get; set; }
         public string SectionName { get; set; }
         public string SubsectionName { get; set; }
-        public string FamilyName { get; set; }
         public string SubfamilyName { get; set; }
         public string TribeName { get; set; }
         public string TribeAuthority { get; set; }

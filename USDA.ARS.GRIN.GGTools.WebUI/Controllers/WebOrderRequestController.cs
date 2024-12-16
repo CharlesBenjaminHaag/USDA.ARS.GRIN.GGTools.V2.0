@@ -484,5 +484,20 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 return PartialView("~/Views/Error/_InternalServerError.cshtml");
             }
         }
+    
+        public PartialViewResult Component_StatusList()
+        {
+            try
+            {
+                WebOrderRequestViewModel viewModel = new WebOrderRequestViewModel();
+                return PartialView("~/Views/WebOrderRequest/Components/_StatusList.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
+
+        }
     }
 }

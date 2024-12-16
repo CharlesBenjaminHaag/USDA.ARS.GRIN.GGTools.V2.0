@@ -32,42 +32,6 @@
             vertical-align: middle;
         }
 </style>
-
-@*<style>
-        body {
-            font-family: Arial, sans-serif;
-        }
-
-        .button-list {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .checkbox-button {
-            display: flex;
-            align-items: center;
-            padding: 10px 15px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            background-color: #f9f9f9;
-            cursor: pointer;
-            transition: background-color 0.2s ease-in-out;
-        }
-
-            .checkbox-button:hover {
-                background-color: #f0f0f0;
-            }
-
-            .checkbox-button input[type="checkbox"] {
-                margin-right: 10px;
-            }
-
-            .checkbox-button label {
-                flex: 1;
-            }
-    </style>*@
-
 <style>
     .tag {
         display: inline-block;
@@ -98,7 +62,7 @@
     <!-- /.card-header -->
     <div class="card-body">
 
-        <div class="row">
+        <div id="section-status-list" class="row">
             <div class="col-md-3">
                 <label>Time Frame</label>
                 <input type="text" readonly="readonly" class="form-control" id="filter-by-time-frame-title" />
@@ -127,34 +91,65 @@
 
 <div class="row">
     <div class="col-md-3">
-        @*<div class="button-list">
-                <div class="checkbox-button">
-                    <input type="checkbox" id="option1">
-                    <label for="option1">Option 1</label>
+
+        <div class="card card-default">
+            <div class="card-header">
+                <h3 class="card-title">
+                    <i class="fas fa-filter"></i>
+                    Current Status
+                </h3>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+
+                <div>
+                    <label class="button-checkbox">
+                        <input type="checkbox" />
+                        <span>Option 1</span>
+                    </label>
+                    <label class="button-checkbox">
+                        <input type="checkbox" />
+                        <span>Option 2</span>
+                    </label>
+                    <label class="button-checkbox">
+                        <input type="checkbox" />
+                        <span>Option 3</span>
+                    </label>
                 </div>
-                <div class="checkbox-button">
-                    <input type="checkbox" id="option2">
-                    <label for="option2">Option 2</label>
-                </div>
-                <div class="checkbox-button">
-                    <input type="checkbox" id="option3">
-                    <label for="option3">Option 3</label>
-                </div>
-            </div>*@
-        <div>
-            <label class="button-checkbox">
-                <input type="checkbox" />
-                <span>Option 1</span>
-            </label>
-            <label class="button-checkbox">
-                <input type="checkbox" />
-                <span>Option 2</span>
-            </label>
-            <label class="button-checkbox">
-                <input type="checkbox" />
-                <span>Option 3</span>
-            </label>
+            </div>
+            <!-- /.card-body -->
         </div>
+
+        <div class="card card-default">
+            <div class="card-header">
+                <h3 class="card-title">
+                    <i class="fas fa-filter"></i>
+                    Most Recent Action
+                </h3>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+
+                <div>
+                    <label class="button-checkbox">
+                        <input type="checkbox" />
+                        <span>Option 1</span>
+                    </label>
+                    <label class="button-checkbox">
+                        <input type="checkbox" />
+                        <span>Option 2</span>
+                    </label>
+                    <label class="button-checkbox">
+                        <input type="checkbox" />
+                        <span>Option 3</span>
+                    </label>
+                </div>
+            </div>
+            <!-- /.card-body -->
+        </div>
+
+
+
     </div>
     <div id="section-web-order-request-list" class="col-md-3">
 
@@ -251,6 +246,16 @@
     $(document).ready(function () {
         Load();
     });
+
+    function GetSelectedStatuses() {
+        var valueArray = [];
+        $("#section-status-list input:checked").each(function () {
+            var id = $(this).attr("id");
+            valueArray.push(id);
+            console.log("DEBUG: SEL STATUSES ARE " + valueArray);
+        });
+        return valueArray;
+    }
 
     // Fires when user selects an item from the sidebar.
     $('.filter').on('click', function () {

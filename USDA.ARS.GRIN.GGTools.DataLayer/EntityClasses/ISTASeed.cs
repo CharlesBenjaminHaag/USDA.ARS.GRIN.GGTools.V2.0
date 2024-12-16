@@ -38,5 +38,12 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         public int UPOVCodeID { get; set; }
         public int UPOVCropID { get; set; }
         public string UPOVCode { get; set; }
+
+        public Species AcceptedSpecies { get; set; }
+
+        public ISTASeed()
+        { 
+            AcceptedSpecies = new Species();
+        }
     }
 }

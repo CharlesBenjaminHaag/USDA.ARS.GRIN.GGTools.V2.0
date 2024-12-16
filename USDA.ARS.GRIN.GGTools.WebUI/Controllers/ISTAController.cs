@@ -109,7 +109,8 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                         var table = new Table();
 
                         TableProperties tableProperties = new TableProperties(
-                            new TableWidth { Type = TableWidthUnitValues.Pct, Width = "10000" }, // 100% in OpenXML terms
+                            new TableWidth { Type = TableWidthUnitValues.Pct, Width = "10000" }, 
+                            new TableLayout() { Type = TableLayoutValues.Fixed },
                             new TableBorders(
                                 new TopBorder { Val = BorderValues.None, Size = 6 },
                                 new BottomBorder { Val = BorderValues.None, Size = 6 },
@@ -121,11 +122,6 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                         );
                         table.AppendChild(tableProperties);
 
-
-
-
-
-
                         TableGrid tableGrid = new TableGrid();
                         foreach (var width in columnWidths)
                         {
@@ -133,15 +129,17 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                         }
                         table.AppendChild(tableGrid);
 
-
-
-
-
-
                         // Create a table row for each accepted name.
                         // IF NOT ACCEPTED: show formatted accepted name in a second row under the accepted one.
                         foreach (var istaSeed in group)
                         {
+                            // For each non-accepted name, retrieve the accepted species record.
+                            if (istaSeed.NameStatus == "synonym")
+                            {
+                                SpeciesViewModel speciesViewModel = new SpeciesViewModel();
+                                istaSeed.AcceptedSpecies = speciesViewModel.Get(istaSeed.AcceptedID);
+                            }
+
                             var tableRow = new TableRow();
                             var speciesNameCell = new TableCell();
 
@@ -196,11 +194,20 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                             familyNameRun.Append(familyNameRunProperties);
                             familyNameRun.Append(new Text(istaSeed.FamilyName));
 
+                            // If the related family has an alt name, display it below the primary name,
+                            // enclosed in square brackets.
                             if (!String.IsNullOrEmpty(istaSeed.FamilyAlternateName))
                             {
                                 Break lineBreak = new Break();
                                 familyNameRun.Append(lineBreak);
                                 familyNameRun.Append(new Text("[" + istaSeed.FamilyAlternateName + "]"));
+                            }
+
+                            if (istaSeed.NameStatus == "synonym")
+                            {
+                                Break lineBreak = new Break();
+                                familyNameRun.Append(lineBreak);
+                                familyNameRun.Append(new Text("(" + istaSeed.AcceptedSpecies.FamilyName + ")"));
                             }
 
                             familyNameParagraph.Append(familyNameRun);
@@ -410,10 +417,6 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             // If the name is a synonym, add the accepted name below it and indented.
             if (iSTASeed.NameStatus == "synonym")
             { 
-                //TODO Retrieve syn data
-                SpeciesViewModel speciesViewModel = new SpeciesViewModel();
-                speciesViewModel.Get(iSTASeed.AcceptedID);
-
                 Paragraph acceptedNameParagraph = new Paragraph();
                 ParagraphProperties acceptedNameParagraphProperties = new ParagraphProperties();
                 Indentation indentation = new Indentation { Left = "720" }; // Indentation in Twips
@@ -447,7 +450,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 acceptedNameRunProperties.Color = new Color { Val = "0000FF" };
 
                 acceptedNameRun.Append(acceptedNameRunProperties);
-                Text acceptedNameText = new Text(speciesViewModel.Entity.GenusShortName + " " + speciesViewModel.Entity.SpeciesName)
+                Text acceptedNameText = new Text(iSTASeed.AcceptedSpecies.GenusShortName + " " + iSTASeed.AcceptedSpecies.SpeciesName)
                 {
                     Space = SpaceProcessingModeValues.Preserve
                 };
@@ -461,7 +464,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 acceptNameAuthorityRunProperties.Underline = new Underline { Val = UnderlineValues.Single };
                 acceptNameAuthorityRunProperties.Color = new Color { Val = "0000FF" };
 
-                Text acceptedNameAuthorityText = new Text(" " + speciesViewModel.Entity.NameAuthority)
+                Text acceptedNameAuthorityText = new Text(" " + iSTASeed.AcceptedSpecies.NameAuthority)
                 {
                     Space = SpaceProcessingModeValues.Preserve
                 };
