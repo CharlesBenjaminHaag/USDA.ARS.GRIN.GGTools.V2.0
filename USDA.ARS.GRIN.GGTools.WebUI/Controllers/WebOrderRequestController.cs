@@ -347,7 +347,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             { 
                 WebOrderRequestViewModel viewModel = new WebOrderRequestViewModel();
                 ViewBag.PageTitle = "Web Order Request Explorer";
-                return View("~/Views/WebOrderRequest/Explorer/Index.cshtml", viewModel);
+                return View("~/Views/WebOrderRequest/Explorer/Index2.cshtml", viewModel);
             }
             catch (Exception ex)
             {

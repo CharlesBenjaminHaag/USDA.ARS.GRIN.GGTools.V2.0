@@ -1,0 +1,54 @@
+﻿@model USDA.ARS.GRIN.GGTools.ViewModelLayer.WebOrderRequestViewModel
+<div class="card card-default">
+    <div class="card-header">
+        <h3 class="card-title">
+            <i class="fas fa-filter"></i>
+            Most Recent Action
+        </h3>
+    </div>
+    <!-- /.card-header -->
+    <div class="card-body">
+        <div id="section-most-recent-action">
+            @foreach (var result in Model.WebOrderRequestActions)
+            {
+                <label class="button-checkbox">
+                    <input id="filter-most-recent-action-@result.Value" type="checkbox" />
+                    <span>@result.Text</span>
+                </label>
+            }
+
+            @*<label class="button-checkbox">
+                <input type="checkbox" />
+                <span>Option 2</span>
+            </label>
+
+            <label class="button-checkbox">
+                <input type="checkbox" />
+                <span>Option 3</span>
+            </label>*@
+
+        </div>
+    </div>
+    <!-- /.card-body -->
+</div>
+
+<script type="text/javascript">
+    $(function () {
+        $(".form-check-input").change(function () {
+            var selectedStatusList = MostRecentActionFilter_GetSelectedValues();
+
+            $("#hfSelectedStatusList").val(selectedStatusList);
+            $("#hfSelectedIntendedUseList").val(selectedIntendedUseList);
+            LoadChildData(selectedTimeFrame, selectedStatusList, selectedIntendedUseList);
+        });
+    });
+
+    function MostRecentActionFilter_GetSelectedValues() {
+        var valueArray = [];
+        $("#section-most-recent-action input:checked").each(function () {
+            var id = $(this).attr("id");
+            valueArray.push(id);
+        });
+        return valueArray;
+    }
+</script>

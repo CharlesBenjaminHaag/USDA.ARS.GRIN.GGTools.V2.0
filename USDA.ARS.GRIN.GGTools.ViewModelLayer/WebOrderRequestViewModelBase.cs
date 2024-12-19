@@ -4,6 +4,7 @@ using System.Web.Mvc;
 using System.Collections.ObjectModel;
 using USDA.ARS.GRIN.GGTools.AppLayer;
 using USDA.ARS.GRIN.GGTools.DataLayer;
+using System.Linq;
 
 namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
 {
@@ -39,14 +40,16 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
         {
             using (WebOrderRequestManager mgr = new WebOrderRequestManager())
             {
-                DataCollectionStatusCodes = new Collection<CodeValue>(mgr.GetCodeValues("WEB_ORDER_INTENDED_USE"));
-                DataCollectionIntendedUseCodes = new Collection<CodeValue>(mgr.GetCodeValues("WEB_ORDER_REQUEST_STATUS"));
+                //DataCollectionStatusCodes = new Collection<CodeValue>(mgr.GetCodeValues("WEB_ORDER_INTENDED_USE"));
+                //DataCollectionIntendedUseCodes = new Collection<CodeValue>(mgr.GetCodeValues("WEB_ORDER_REQUEST_STATUS"));
 
-                Cooperators = new SelectList(mgr.GetWebCooperators(), "ID", "FullName");
-                TimeFrameOptions = new SelectList(mgr.GetTimeFrameOptions(), "Value", "Title");
-                YesNoOptions = new SelectList(mgr.GetYesNoOptions(), "Key", "Value");
-                IntendedUseCodes = new SelectList(mgr.GetCodeValues("WEB_ORDER_INTENDED_USE"), "Value", "Title");
-                Statuses = new SelectList(mgr.GetCodeValues("WEB_ORDER_REQUEST_STATUS"), "Value", "Title");
+                //Cooperators = new SelectList(mgr.GetWebCooperators(), "ID", "FullName");
+                //TimeFrameOptions = new SelectList(mgr.GetTimeFrameOptions(), "Value", "Title");
+                //YesNoOptions = new SelectList(mgr.GetYesNoOptions(), "Key", "Value");
+                //IntendedUseCodes = new SelectList(mgr.GetCodeValues("WEB_ORDER_INTENDED_USE"), "Value", "Title");
+                //Statuses = new SelectList(mgr.GetCodeValues("WEB_ORDER_REQUEST_STATUS"), "Value", "Title");
+                WebOrderRequestActions = new SelectList(mgr.GetCodeValues("WEB_ORDER_REQUEST_ACTION").Where(x =>!x.Value.Contains("FLAG")), "Value", "Title");
+                WebOrderRequestStatuses = new SelectList(mgr.GetCodeValues("WEB_ORDER_REQUEST_STATUS"), "Value", "Title");
             }
             ActionEmailFrom = "gringlobal.orders@usda.gov";           
         }
@@ -195,6 +198,10 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
         
         public SelectList IntendedUseCodes { get; set; }
         
+        public SelectList WebOrderRequestStatuses { get; set; }
+
+        public SelectList WebOrderRequestActions { get; set; }
+
         #endregion
     }
 }

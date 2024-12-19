@@ -29,10 +29,12 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             WebOrderRequest webOrderRequest = GetRecord<WebOrderRequest>(SQL, CommandType.StoredProcedure, parameters.ToArray());
             return webOrderRequest;
         }
+        
         public int Insert(WebOrderRequest entity)
         {
             throw new NotImplementedException();
         }
+        
         public int InsertWebOrderRequestAction(WebOrderRequestAction entity)
         {
             Reset(CommandType.StoredProcedure);
@@ -58,6 +60,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             RowsAffected = ExecuteNonQuery();
             return RowsAffected;
         }
+        
         public List<WebOrderRequest> Search(WebOrderRequestSearch searchEntity)
         {
             List<WebOrderRequest> results = new List<WebOrderRequest>();
@@ -166,6 +169,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             RowsAffected = results.Count;
             return results;
         }
+        
         public List<WebOrderRequestItem> GetWebOrderRequestItems(int entityId)
         {
             SQL = "usp_GRINGlobal_Web_Order_Request_Items_Select";
@@ -175,6 +179,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             List<WebOrderRequestItem> webOrderRequestItems = GetRecords<WebOrderRequestItem>(SQL, CommandType.StoredProcedure, parameters.ToArray());
             return webOrderRequestItems;
         }
+        
         public List<WebOrderRequestAction> GetWebOrderRequestActions(int? entityId)
         {
             SQL = "usp_GRINGlobal_Web_Order_Request_Actions_Select";
@@ -184,6 +189,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             List<WebOrderRequestAction> webOrderRequestActions = GetRecords<WebOrderRequestAction>(SQL, CommandType.StoredProcedure, parameters.ToArray());
             return webOrderRequestActions;
         }
+        
         public CodeValue GetWebOrderRequestEmailAddresses(int entityId)
         {
             SQL = "usp_GRINGlobal_Web_Order_Request_EmailAddresses_Select";
@@ -194,6 +200,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             CodeValue siteEmailDetail = GetRecord<CodeValue>(SQL, CommandType.StoredProcedure, parameters.ToArray());
             return siteEmailDetail;
         }
+        
         public int Update(WebOrderRequest entity)
         {
             Reset(CommandType.StoredProcedure);
@@ -247,6 +254,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             AddParameter("status_code", String.IsNullOrEmpty(entity.StatusCode) ? DBNull.Value : (object)entity.StatusCode, true);
             AddParameter("note", (object)entity.Note ?? DBNull.Value, true);
         }
+        
         public List<CodeValue> GetTimeFrameOptions()
         {
             List<CodeValue> timeFrameOptions = new List<CodeValue>();
@@ -266,5 +274,27 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             return webCooperators;
         }
 
+        public List<CodeValue> GetWebOrderRequestStatuses()
+        {
+            List<CodeValue> codeValues = null;
+
+            SQL = "SELECT cv.Code, cv.CodeTitle FROM vw_GRINGlobal_Code_Value cv WHERE cv.GroupName = 'WEB_ORDER_REQUEST_STATUS'";
+            var parameters = new List<IDbDataParameter> {
+            };
+            codeValues = GetRecords<CodeValue>(SQL, CommandType.Text, parameters.ToArray());
+            return codeValues;
+        }
+
+        public List<CodeValue> GetWebOrderRequestActions()
+        {
+            List<CodeValue> codeValues = null;
+
+            SQL = "SELECT cv.Code, cv.CodeTitle FROM vw_GRINGlobal_Code_Value cv WHERE cv.GroupName = 'WEB_ORDER_REQUEST_ACTION' AND cv.Code NOT LIKE '%FLAG%'";
+            var parameters = new List<IDbDataParameter>
+            {
+            };
+            codeValues = GetRecords<CodeValue>(SQL, CommandType.Text, parameters.ToArray());
+            return codeValues;
+        }
     }
 }

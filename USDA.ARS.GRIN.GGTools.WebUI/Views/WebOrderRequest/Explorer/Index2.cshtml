@@ -6,6 +6,7 @@
 
 @Html.HiddenFor(x => x.ActionEmailFrom)
 
+<!-- Checkbox selector styles -->
 <style>
     .button-checkbox {
         display: flex;
@@ -32,187 +33,15 @@
             vertical-align: middle;
         }
 </style>
-<style>
-    .tag {
-        display: inline-block;
-        padding: 5px 10px;
-        background-color: #007bff;
-        color: white;
-        border-radius: 20px;
-        margin-right: 5px;
-        cursor: pointer;
-    }
-
-        .tag:hover {
-            background-color: #0056b3;
-        }
-</style>
-
-<input type="hidden" id="txtSelectedTab" />
-<input type="hidden" id="Entity_ID" />
-
-<!-- Filters -->
-<!--<div class="card card-default">
-    <div class="card-header">
-        <h3 class="card-title">
-            <i class="fas fa-filter"></i>
-            Filters
-        </h3>
-    </div>-->
-    <!-- /.card-header -->
-    <!--<div class="card-body">
-
-        <div id="section-status-list" class="row">
-            <div class="col-md-3">
-                <label>Time Frame</label>
-                <input type="text" readonly="readonly" class="form-control" id="filter-by-time-frame-title" />
-                <input type="hidden" id="filter-by-time-frame" />
-            </div>
-            <div class="col-md-3">
-                <label>Current Status</label>
-                <input type="text" readonly="readonly" class="form-control" id="filter-by-status-title" />
-                <input type="hidden" id="filter-by-status" />
-            </div>
-            <div class="col-md-3">
-                <label>Last Action</label>
-                <input type="text" readonly="readonly" class="form-control" id="filter-by-most-recent-action-title" />
-                <input type="hidden" id="filter-by-most-recent-action" />
-            </div>
-            <div class="col-md-3">
-                <label>Assigned To</label>
-                <input type="text" readonly="readonly" class="form-control" id="filter-by-assigned-to-title" />
-                <input type="hidden" id="filter-by-assigned-to" />
-            </div>
-
-        </div>
-    </div>-->
-    <!-- /.card-body -->
-<!--</div>-->
 
 <div class="row">
     <div class="col-md-3">
-
-        <div class="card card-default">
-            <div class="card-header">
-                <h3 class="card-title">
-                    <i class="fas fa-filter"></i>
-                    Current Status
-                </h3>
-            </div>
-            <!-- /.card-header -->
-            <div class="card-body">
-
-                <div>
-                    <label class="button-checkbox">
-                        <input type="checkbox" />
-                        <span>Option 1</span>
-                    </label>
-                    <label class="button-checkbox">
-                        <input type="checkbox" />
-                        <span>Option 2</span>
-                    </label>
-                    <label class="button-checkbox">
-                        <input type="checkbox" />
-                        <span>Option 3</span>
-                    </label>
-                </div>
-            </div>
-            <!-- /.card-body -->
-        </div>
-
-        <div class="card card-default">
-            <div class="card-header">
-                <h3 class="card-title">
-                    <i class="fas fa-filter"></i>
-                    Most Recent Action
-                </h3>
-            </div>
-            <!-- /.card-header -->
-            <div class="card-body">
-
-                <div>
-                    <label class="button-checkbox">
-                        <input type="checkbox" />
-                        <span>Option 1</span>
-                    </label>
-                    <label class="button-checkbox">
-                        <input type="checkbox" />
-                        <span>Option 2</span>
-                    </label>
-                    <label class="button-checkbox">
-                        <input type="checkbox" />
-                        <span>Option 3</span>
-                    </label>
-                </div>
-            </div>
-            <!-- /.card-body -->
-        </div>
-
-
-
+        @Html.Partial("~/Views/WebOrderRequest/Components/_CurrentStatusFilter.cshtml")
+        @Html.Partial("~/Views/WebOrderRequest/Components/_MostRecentActionFilter.cshtml")
     </div>
-    <div id="section-web-order-request-list" class="col-md-3">
-
-    </div>
+    
     <div class="col-md-8">
-        <div class="card card-primary card-tabs">
-            <div id="section-web-order-request" class="card-header p-0 pt-1">
-                <ul class="nav nav-tabs" id="tab-web-order-request" role="tablist">
-                    <li id="tab-web-order-request-detail"
-                        class="nav-item"
-                        data-ggtools-action="WebOrderRequest"
-                        data-ggtools-value="ExplorerDetail">
-                        <a class="nav-link active"
-                           data-toggle="pill"
-                           href="#tab-content-web-order-request-detail" role="tab" aria-controls="custom-tabs-two-home" aria-selected="true">
-                            <i class="fa fa-address-card"></i> Detail
-                        </a>
-                    </li>
-                    <li id="tab-web-order-request-timeline"
-                        class="nav-item"
-                        data-ggtools-action="WebOrderRequest"
-                        data-ggtools-value="ExplorerTimeline">
-                        <a class="nav-link"
-                           data-toggle="pill"
-                           href="#tab-content-web-order-request-timeline"
-                           role="tab"
-                           aria-controls="custom-tabs-two-profile"
-                           aria-selected="false"><i class="fa fa-clock"></i> Timeline</a>
-                    </li>
-                    <li id="tab-web-order-request-notes"
-                        class="nav-item"
-                        data-ggtools-action="WebOrderRequest"
-                        data-ggtools-value="ExplorerNotes">
-                        <a class="nav-link"
-                           data-toggle="pill"
-                           href="#tab-content-web-order-request-notes"
-                           role="tab"
-                           aria-controls="custom-tabs-two-messages"
-                           aria-selected="false"><i class="fa fa-sticky-note"></i> Notes</a>
-                    </li>
-
-                    @*<li id="tab-web-order-request-order-request"
-                            class="nav-item"
-                            data-ggtools-action="OrderRequest"
-                            data-ggtools-value="_Get">
-                            <a class="nav-link"
-                               data-toggle="pill"
-                               href="#tab-content-web-order-request-order-request"
-                               role="tab"
-                               aria-controls="custom-tabs-two-settings"
-                               aria-selected="false"><i class="fa fa-shopping-cart"></i> Order Request</a>
-                        </li>*@
-                </ul>
-            </div>
-            <div class="card-body">
-                <div class="tab-content">
-
-                    <div id="tab-content-web-order-request">
-                        <!-- CONTENT HERE -->
-                    </div>
-                </div>
-            </div>
-        </div>
+        
     </div>
 </div>
 

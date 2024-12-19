@@ -1095,6 +1095,9 @@
     <Content Include="Views\WebOrder\Modals\_EndReview.cshtml" />
     <Content Include="Views\WebOrder\Modals\_SetCooperatorStatus.cshtml" />
     <Content Include="Views\Taxonomy\ISTA\Index.cshtml" />
+    <Content Include="Views\WebOrderRequest\Explorer\Index2.cshtml" />
+    <Content Include="Views\WebOrderRequest\Components\_MostRecentActionFilter.cshtml" />
+    <Content Include="Views\WebOrderRequest\Components\_CurrentStatusFilter.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
