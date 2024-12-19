@@ -1098,6 +1098,7 @@
     <Content Include="Views\WebOrderRequest\Explorer\Index2.cshtml" />
     <Content Include="Views\WebOrderRequest\Components\_MostRecentActionFilter.cshtml" />
     <Content Include="Views\WebOrderRequest\Components\_CurrentStatusFilter.cshtml" />
+    <Content Include="Views\WebCooperator\Components\_ContactWidget.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

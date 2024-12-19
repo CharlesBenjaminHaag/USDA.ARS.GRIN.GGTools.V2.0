@@ -18,7 +18,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             try 
             { 
                 viewModel.Get(entityId);
-                return View("~/Views/WebOrderRequest/Edit.cshtml", viewModel);
+                return View("~/Views/WebOrderRequest/View.cshtml", viewModel);
             }
             catch (Exception ex)
             {

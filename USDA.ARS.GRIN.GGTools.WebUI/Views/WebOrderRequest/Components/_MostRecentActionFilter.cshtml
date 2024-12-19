@@ -1,4 +1,5 @@
 ﻿@model USDA.ARS.GRIN.GGTools.ViewModelLayer.WebOrderRequestViewModel
+<input type="hidden" id="hf_current_filter_most_recent_action" />
 <div class="card card-default">
     <div class="card-header">
         <h3 class="card-title">
@@ -12,43 +13,21 @@
             @foreach (var result in Model.WebOrderRequestActions)
             {
                 <label class="button-checkbox">
-                    <input id="filter-most-recent-action-@result.Value" type="checkbox" />
-                    <span>@result.Text</span>
+                    <input id="filter-most-recent-action-@result.Value" type="checkbox" data-ggtools-action="@result.Value" />
+                    <span>@result.Value</span>
                 </label>
             }
-
-            @*<label class="button-checkbox">
-                <input type="checkbox" />
-                <span>Option 2</span>
-            </label>
-
-            <label class="button-checkbox">
-                <input type="checkbox" />
-                <span>Option 3</span>
-            </label>*@
-
         </div>
     </div>
-    <!-- /.card-body -->
 </div>
-
 <script type="text/javascript">
-    $(function () {
-        $(".form-check-input").change(function () {
-            var selectedStatusList = MostRecentActionFilter_GetSelectedValues();
-
-            $("#hfSelectedStatusList").val(selectedStatusList);
-            $("#hfSelectedIntendedUseList").val(selectedIntendedUseList);
-            LoadChildData(selectedTimeFrame, selectedStatusList, selectedIntendedUseList);
-        });
-    });
-
-    function MostRecentActionFilter_GetSelectedValues() {
-        var valueArray = [];
-        $("#section-most-recent-action input:checked").each(function () {
-            var id = $(this).attr("id");
-            valueArray.push(id);
-        });
-        return valueArray;
-    }
+    //function MostRecentActionFilter_GetSelectedValues() {
+    //    var valueArray = [];
+    //    $("#section-most-recent-action input:checked").each(function () {
+    //        var id = $(this).attr("id");
+    //        valueArray.push(id);
+    //        console.log("DEBUG MOST RECENT ACTIONS " + valueArray);
+    //    });
+    //    return valueArray;
+    //}
 </script>

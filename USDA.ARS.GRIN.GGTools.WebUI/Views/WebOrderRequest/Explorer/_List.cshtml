@@ -2,44 +2,77 @@
 <table id="data-table-web-order-requests" class="table table-striped ggtools" style="width:100%;">
     <thead>
         <tr>
+
             <th style="width: 1%">
                 ID
             </th>
-
+            <th>Submitted</th>
+            <th>Status</th>
             <th style="width: 20%">
                 Requestor
             </th>
-            <th>Submitted</th>
+            <td>Email Address</td>
+            <th>Organization</th>
+            <th>Pending?</th>
+            <th></th>
+            <th>Intended Use</th>
         </tr>
     </thead>
     <tbody>
         @foreach (var result in Model.DataCollection)
         {
+            string statusFieldBackgroundColorStyle = "";
+
+            switch (result.StatusCode)
+            {
+                case "ACCEPTED":
+                    statusFieldBackgroundColorStyle = "color:white;background-color:#00a65a;";
+                    break;
+                case "CANCELED":
+                    statusFieldBackgroundColorStyle = "color:white;background-color:#f39c12;";
+                    break;
+                case "SUBMITTED":
+                    statusFieldBackgroundColorStyle = "color:white;background-color:#605ca8;";
+                    break;
+                case "MIXED":
+                    statusFieldBackgroundColorStyle = "color:white;background-color:blue;";
+                    break;
+                case "NRR_FLAG":
+                    statusFieldBackgroundColorStyle = "color:white;background-color:#e96c67;";
+                    break;
+                default:
+                    statusFieldBackgroundColorStyle = "background-color:transparent;";
+                    break;
+            }
             <tr>
+
                 <td>
                     @result.ID
                 </td>
-
+                <td>@result.CreatedDate.ToShortDateString()</td>
+                <td style="@statusFieldBackgroundColorStyle">@result.StatusCode</td>
                 <td>
                     @result.WebCooperatorFullName
-                    <br>
-
-                    @result.WebCooperatorEmail
-
-                    <br />
-
-                    @result.WebCooperatorOrganization
-
                 </td>
-                <td>@result.CreatedDate.ToString("yyyy-MM-dd")</td>
+                <td>
+                    <a href="@Url.Action("Search","WebOrderRequest", new { emailAddress = result.WebCooperatorEmail })">@result.WebCooperatorEmail</a>
+                </td>
+                <td>
+                    <a href="@Url.Action("Search","WebOrderRequest", new { organization = result.WebCooperatorOrganization })">@result.WebCooperatorOrganization</a>
+                </td>
+                <td>
+                    @{
+                        if (result.MostRecentWebOrderAction == "NRR_INFO")
+                        {
+                            <i class="fas fa-info text-info"></i>
+                        }
+                    }
+                </td>
+                <td>
+                    <a href="@Url.Action("View","WebOrderRequest", new { entityId = result.ID})" class="btn btn-default btn-flat btn-block">View</a>
+                </td>
+                <td>@result.IntendedUseNote</td>
             </tr>
         }
     </tbody>
 </table>
-
-
-<script type="text/javascript">
-    $(document).ready(function () {
-        InitWebOrderRequestDataTable("data-table-web-order-requests");
-    });
-</script>

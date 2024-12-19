@@ -190,5 +190,20 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
         {
             throw new NotImplementedException();
         }
+
+        #region Components
+
+        public PartialViewResult Component_ContactWidget(int entityId)
+        {
+            WebCooperatorViewModel viewModel = new WebCooperatorViewModel();    
+
+            if (entityId > 0)
+            {
+                viewModel.Get(entityId);
+            }
+            return PartialView("~/Views/WebCooperator/Components/_ContactWidget.cshtml", viewModel);
+        }
+
+        #endregion Components
     }
 }

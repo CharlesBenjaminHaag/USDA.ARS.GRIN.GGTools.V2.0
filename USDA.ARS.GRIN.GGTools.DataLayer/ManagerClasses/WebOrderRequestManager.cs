@@ -90,18 +90,18 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
                 SQL += "  (@IsLocked IS NULL OR IsLocked = 1)";
             }
 
-            if (searchEntity.HasOrders == "Y")
-            {
-                if (SQL.Contains("WHERE"))
-                {
-                    SQL += " AND ";
-                }
-                else
-                {
-                    SQL += " WHERE ";
-                }
-                SQL += "  (RelatedOrders > 0)";
-            }
+            //if (searchEntity.HasOrders == "Y")
+            //{
+            //    if (SQL.Contains("WHERE"))
+            //    {
+            //        SQL += " AND ";
+            //    }
+            //    else
+            //    {
+            //        SQL += " WHERE ";
+            //    }
+            //    SQL += "  (RelatedOrders > 0)";
+            //}
 
             if (!String.IsNullOrEmpty(searchEntity.TimeFrame))
             {
@@ -138,11 +138,38 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
                     break;
             }
             }
-            //if (!String.IsNullOrEmpty(searchEntity.StatusList))
-            //{
-            //    searchEntity.StatusList = String.Join(",", Array.ConvertAll(searchEntity.StatusList.Split(','), z => "'" + z + "'"));
-            //    SQL += "  StatusCode IN (" + searchEntity.StatusList + ")";
-            //}
+
+            if (!String.IsNullOrEmpty(searchEntity.StatusList))
+            {
+                searchEntity.StatusList = String.Join(",", Array.ConvertAll(searchEntity.StatusList.Split(','), z => "'" + z + "'"));
+
+                if (SQL.Contains("WHERE"))
+                {
+                    SQL += " AND ";
+                }
+                else
+                {
+                    SQL += " WHERE ";
+                }
+
+                SQL += "  StatusCode IN (" + searchEntity.StatusList + ")";
+            }
+
+            if (!String.IsNullOrEmpty(searchEntity.MostRecentActionList))
+            {
+                searchEntity.MostRecentActionList = String.Join(",", Array.ConvertAll(searchEntity.MostRecentActionList.Split(','), z => "'" + z + "'"));
+
+                if (SQL.Contains("WHERE"))
+                {
+                    SQL += " AND ";
+                }
+                else
+                {
+                    SQL += " WHERE ";
+                }
+
+                SQL += "  MostRecentWebOrderAction IN (" + searchEntity.StatusList + ")";
+            }
 
             //if (!String.IsNullOrEmpty(searchEntity.WebUserList))
             //{

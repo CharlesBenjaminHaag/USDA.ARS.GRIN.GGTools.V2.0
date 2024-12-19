@@ -40,8 +40,49 @@
         @Html.Partial("~/Views/WebOrderRequest/Components/_MostRecentActionFilter.cshtml")
     </div>
     
-    <div class="col-md-8">
-        
+    <div class="col-md-9">
+        <input type="hidden" id="hf_current_filter_time_frame" />
+        <div class="card card-default card-tabs">
+            <div id="section-time-frame" class="card-header p-0 pt-1">
+                <ul class="nav nav-tabs" id="custom-tabs-one-tab" role="tablist">
+                    <li class="nav-item" id="filter-time-frame-1D">
+                        <a class="nav-link active" data-ggtools-action="1D" data-toggle="pill" href="#custom-tabs-one-home" role="tab" aria-controls="custom-tabs-one-home" aria-selected="true">Today</a>
+                    </li>
+                    <li class="nav-item" id="filter-time-frame-3D">
+                        <a class="nav-link" data-ggtools-action="3D" data-toggle="pill" href="#custom-tabs-one-profile" role="tab" aria-controls="custom-tabs-one-profile" aria-selected="false">The Last 3 Days</a>
+                    </li>
+                    <li class="nav-item" id="filter-time-frame-7D">
+                        <a class="nav-link" data-ggtools-action="7D" data-toggle="pill" href="#custom-tabs-one-messages" role="tab" aria-controls="custom-tabs-one-messages" aria-selected="false">This Week</a>
+                    </li>
+                    <li class="nav-item" id="filter-time-frame-30D">
+                        <a class="nav-link" data-ggtools-action="30D" data-toggle="pill" href="#custom-tabs-one-settings" role="tab" aria-controls="custom-tabs-one-settings" aria-selected="false">This Month</a>
+                    </li>
+                    <li class="nav-item" id="filter-time-frame-60D">
+                        <a class="nav-link" data-ggtools-action="60D" data-toggle="pill" href="#custom-tabs-one-settings" role="tab" aria-controls="custom-tabs-one-settings" aria-selected="false">The Last 3 Months</a>
+                    </li>
+                    <li class="nav-item" id="filter-time-frame-90D">
+                        <a class="nav-link" data-ggtools-action="90D" data-toggle="pill" href="#custom-tabs-one-settings" role="tab" aria-controls="custom-tabs-one-settings" aria-selected="false">The Last 6 Months</a>
+                    </li>
+                    <li class="nav-item" id="filter-time-frame-1Y">
+                        <a class="nav-link" data-ggtools-action="1Y" data-toggle="pill" href="#custom-tabs-one-settings" role="tab" aria-controls="custom-tabs-one-settings" aria-selected="false">This Year</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="card-body">
+                <div id="web-order-request-overlay" class="overlay-wrapper">
+                    <div class="overlay">
+                        <i class="fas fa-3x fa-sync-alt fa-spin"></i>
+                        <div class="text-bold pt-2">Loading...</div>
+                    </div>
+                </div>
+                <div class="tab-content" id="section-web-order-request-list">
+
+
+
+                </div>
+            </div>
+            <!-- /.card -->
+        </div>
     </div>
 </div>
 
@@ -70,65 +111,48 @@
 <!-- ****************************************** END EMAIL MODAL *******************************************************-->
 
 <script type="text/javascript">
-
-    // Fires when page renders.
     $(document).ready(function () {
-        Load();
+        $("#hf_current_filter_time_frame").val("1D");
+        LoadWebOrderRequestList();
+        $("#web-order-request-overlay").hide();
     });
+    document.addEventListener('change', function (event) {
+        var valueArrayCurrentStatuses = [];
+        var valueArrayMostRecentActions = [];
+        var actionCode = "";
 
-    function GetSelectedStatuses() {
-        var valueArray = [];
-        $("#section-status-list input:checked").each(function () {
-            var id = $(this).attr("id");
-            valueArray.push(id);
-            console.log("DEBUG: SEL STATUSES ARE " + valueArray);
-        });
-        return valueArray;
-    }
+        if (event.target.matches('input[type="checkbox"][id^="filter-"]')) {
+            //console.log('Checkbox changed:', event.target.id, event.target.checked);
 
-    // Fires when user selects an item from the sidebar.
-    $('.filter').on('click', function () {
-        event.preventDefault();
-        var id = $(this).attr('id');
+            $("#section-current-status input:checked").each(function () {
+                var id = $(this).attr("id");
+                actionCode = $(this).data("ggtools-action");
+                valueArrayCurrentStatuses.push(actionCode);
+            });
 
-        var eventAction = $(this).attr('data-ggtools-action');
-        var eventValue = $(this).attr('data-ggtools-value');
-        var title = $(this).attr('data-ggtools-title');
+            $("#section-most-recent-action input:checked").each(function () {
+                var id = $(this).attr("id");
+                actionCode = $(this).data("ggtools-action");
+                valueArrayMostRecentActions.push(actionCode);
 
-        //$("#placeholder-page-title").html("Web Order Requests: " + eventValue);
+            });
 
-        if (typeof id === "undefined") {
-            //TODO Handle error
-        }
-        else {
-            SetFilter(eventAction, eventValue, title);
+            //console.log("DEBUG SELECTED STATUSES " + valueArrayCurrentStatuses);
+            //console.log("DEBUG SELECTED MOST RECENT ACTIONS " + valueArrayMostRecentActions);
+
+            $("#hf_current_filter_web_order_request_status").val(valueArrayCurrentStatuses);
+            $("#hf_current_filter_most_recent_action").val(valueArrayMostRecentActions);
+
             LoadWebOrderRequestList();
         }
     });
 
-    function SetFilter(filterName, filterValue, filterTitle) {
-
-
-        console.log("DEBUG FILTER NAME " + filterName + " FILTER TITLE " + filterTitle);
-        $("#" + filterName).val(filterValue);
-        $("#" + filterName + "-title").val(filterTitle);
-
-    }
-
-    // Event handler for user selecting a WOR from the list.
-    $('#section-web-order-request ul.nav li').on('click', function () {
-        var webOrderRequestId = $("#Entity_ID").val();
-        var selectedId = $(this).attr('id');
-        $("#txtSelectedTab").val(selectedId);
-        LoadWebOrderRequest(webOrderRequestId);
-    });
-
-    function Load() {
-        // TODO Determine the default time frame to use to filter the WOR list.
-        SetFilter("filter-by-time-frame", "30D", "This Month");
+    $('#section-time-frame ul.nav li').on('click', function () {
+        var selectedTimeFrame = $(this).attr('id').replace('filter-time-frame-','');
+        $("#hf_current_filter_time_frame").val(selectedTimeFrame);
+        console.log("DEBUG SEL TIME FRAME IS " + selectedTimeFrame);
         LoadWebOrderRequestList();
-        $("#txtSelectedTab").val("tab-web-order-request-detail");
-    }
+    });
 
     // Populate the list of web order requests based on the filters currently
     // stored in hidden fields.
@@ -136,26 +160,23 @@
         var link = '@Url.Action("ExplorerList","WebOrderRequest")';
 
         // Get all active filters.
-        var timeFrame = GetSelectedFilter("filter-by-time-frame");
-        var statusCode = GetSelectedFilter("filter-by-status");
-        var mostRecentAction = GetSelectedFilter("filter-by-most-recent-action");
-        var assignedTo = GetSelectedFilter("filter-by-assigned-to");
-
-        // Show current filter in title.
-        var pageMainTitle = "Web Order Request Explorer";
-        //pageMainTitle += " " + GetSelectedFilter("filter-by-time-frame") + " " + GetSelectedFilter("filter-by-status") + " " + GetSelectedFilter("filter-by-assigned-to") + " " + GetSelectedFilter("filter-by-most-recent-action");
-        $("#placeholder-page-main-title").html(pageMainTitle);
+        var timeFrame = $("#hf_current_filter_time_frame").val();
+        var statusList = $("#hf_current_filter_web_order_request_status").val();
+        var mostRecentActionList = $("#hf_current_filter_most_recent_action").val();
+        var assignedTo = "";
 
         var formData = new FormData();
 
-        console.log("DEBUG: Filtering WOR list TIME FRAME " + timeFrame + " STATUS " + statusCode + " ASSIGNED " + assignedTo + " MOST RECENT ACTION " + mostRecentAction);
+        console.log("DEBUG: Filtering WOR list TIME FRAME " + timeFrame + " STATUS " + statusList + " ASSIGNED " + assignedTo + " MOST RECENT ACTION " + mostRecentActionList);
 
         formData.append("SearchEntity.TimeFrame", timeFrame);
-        formData.append("SearchEntity.StatusCode", statusCode);
-        formData.append("SearchEntity.MostRecentAction", mostRecentAction);
-        formData.append("SearchEntity.OwnedByWebUserID", assignedTo);
+        formData.append("SearchEntity.StatusList", statusList);
+        formData.append("SearchEntity.MostRecentActionList", mostRecentActionList);
+        //formData.append("SearchEntity.OwnedByWebUserID", assignedTo);
 
         $("#section-overlay-web-order-request-list").show();
+
+        $("#web-order-request-overlay").show();
 
         $.ajax({
             url: link,
@@ -167,6 +188,8 @@
             success: function (response) {
                 $("#section-web-order-request-list").html(response);
                 $("#section-overlay-web-order-request-list").hide();
+                InitWebOrderRequestDataTable("data-table-web-order-requests");
+                $("#web-order-request-overlay").hide();
             }
         });
     }
@@ -273,14 +296,6 @@
     });
 }
 
-    function GetSelectedTab() {
-        return $("#txtSelectedTab").val();
-    }
-
-    function GetSelectedFilter(name) {
-        var selectedFilter = $("#" + name).val();
-        return selectedFilter;
-    }
 
     $(document).on("click", "[id='btnAddNote']", function () {
         event.preventDefault();
@@ -466,6 +481,19 @@
             });
         });
     }
+
+    $("#btnSearchByID").click(function () {
+        var entityId = $("#txtSearchByID").val();
+        var url = "/ggtools-orders/WebOrder/Lookup" + "?entityId=" + entityId;
+        window.location.href = url;
+    });
+
+    $(".allownumericwithoutdecimal").on("keypress keyup blur", function (event) {
+        $(this).val($(this).val().replace(/[^\d].+/, ""));
+        if ((event.which < 48 || event.which > 57)) {
+            event.preventDefault();
+        }
+    });
 
     //$(document).ready(function () {
     //    // Click event handler for dynamically created tags

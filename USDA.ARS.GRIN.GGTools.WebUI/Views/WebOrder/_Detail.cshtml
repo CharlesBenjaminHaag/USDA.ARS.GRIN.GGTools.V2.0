@@ -41,18 +41,18 @@
                             @Html.TextBoxFor(x => x.SearchEntity.WebCooperatorOrganization, new { @class = "form-control" })
                         </div>
                     </div>
-                    <div class="col-md-1">
+                    @*<div class="col-md-1">
                         <label>Has Order</label>
                         @Html.DropDownListFor(x => x.SearchEntity.HasOrders, Model.YesNoOptions, "Either", new { @class = "form-control" })
-                    </div>
+                    </div>*@
                 </div>
                 <div class="row">
-                    <div class="col-md-2">
+                    @*<div class="col-md-2">
                         <div class="form-group form-horizontal">
                             <label>Time Frame</label>
                             @Html.DropDownListFor(x => x.SearchEntity.TimeFrame, Model.TimeFrameOptions, "All time frames", new { @class = "form-control" })
                         </div>
-                    </div>
+                    </div>*@
                     <div class="col-md-1">
                         <div id="section-family-name" class="form-group form-horizontal">
                             <label>Year</label>
@@ -61,7 +61,7 @@
                     </div>
                     <div class="col-md-2">
                         <label>Intended Use</label>
-                        @Html.DropDownListFor(x => x.SearchEntity.IntendedUseCode, Model.IntendedUseCodes, "All", new { @class = "form-control" })
+                        @*@Html.DropDownListFor(x => x.SearchEntity.IntendedUseCode, Model.IntendedUseCodes, "All", new { @class = "form-control" })*@
                     </div>
                     <div class="col-md-2">
                         <label>Status</label>
