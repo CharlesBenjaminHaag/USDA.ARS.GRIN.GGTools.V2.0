@@ -54,7 +54,10 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 ISTASeedViewModel viewModel = new ISTASeedViewModel();
                 viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
                 viewModel.TableName = "taxonomy_ista_seed";
-                viewModel.Search();                
+                viewModel.Search();
+
+                ViewBag.PageTitle = "ISTA Report Data";
+
                 return View(BASE_PATH + "Index.cshtml", viewModel);
             }
             catch (Exception ex)

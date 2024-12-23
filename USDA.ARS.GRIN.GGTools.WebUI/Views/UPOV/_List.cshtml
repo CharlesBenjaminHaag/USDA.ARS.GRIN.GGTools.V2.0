@@ -25,7 +25,7 @@
                         <th>Other Bot. Name</th>
                         <th>(Matching) Species Name</th>
                         <th>UPOV Common Name</th>
-                        <th>Imported</th>
+                        
                     </tr>
                 </thead>
                 <tbody>
@@ -38,7 +38,7 @@
                             <td><a href="@Url.Action("Edit","Species", new { @entityId = upovRecord.SpeciesID })">@Html.Raw(@upovRecord.SpeciesName)</a></td>
 
                             <td>@upovRecord.CommonNameText</td>
-                            <td>@upovRecord.ImportDate.ToShortDateString()</td>
+                             
                         </tr>
                     }
                 </tbody>
