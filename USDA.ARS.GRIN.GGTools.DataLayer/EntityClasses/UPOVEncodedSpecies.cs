@@ -11,12 +11,12 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer.UPOV
         public int ID{ get; set; }
         public int UPOVCodeID { get; set; }
         public string UPOVCode { get; set; }
-        public string UPOVCodeURL { get; set; }
-        public string UPOVPrincipalSpeciesName { get; set; }
-        public string USDASpeciesName { get; set; }
-        public string USDASpeciesURL { get; set; }
-        public string UPOVOtherSpeciesName { get; set; }
+        public string PrincipalBotanicalName { get; set; }
+        public string OtherBotanicalName { get; set; }
+        public string SpeciesName { get; set; }
+        public int SpeciesID { get; set; }
         public string CommonNameText { get; set; }
         public string Note { get; set; }
+        public DateTime ImportDate { get; set; }
     }
 }

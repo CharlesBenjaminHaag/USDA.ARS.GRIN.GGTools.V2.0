@@ -3,39 +3,4 @@
     ViewBag.Title = ViewBag.PageTitle;
     Layout = "~/Views/Shared/_LayoutAdminLTE3.cshtml";
 }
-
-<table id="table-upov-data" class="table table-striped">
-    <thead>
-        <tr>
-            <th>UPOV Code</th>
-            <th>UPOV URL</th>
-            <th>UPOV Species Name</th>
-            <th>USDA Species Name</th>
-            <th>UPOV Other Species Name</th>
-            <th>UPOV Common Name</th>
-           
-        </tr>
-    </thead>
-    <tbody>
-        @foreach(var upovRecord in Model.DataCollection)
-            {
-                <tr>
-                    <td><a hre@upovRecord.UPOVCode</td>
-                    <td>@upovRecord.UPOVCodeURL</td>
-                    <td>@upovRecord.UPOVPrincipalSpeciesName</td>
-                    <td>@upovRecord.USDASpeciesName</td>
-                    <td>@upovRecord.UPOVOtherSpeciesName</td>
-                    <td>@upovRecord.CommonNameText</td>
-                    
-                </tr>
-            }
-    </tbody>
-</table>
-<script type="text/javascript">
-   
-
-    $(document).ready(function () {
-        InitDataTable("table-upov-data");
-    });
-
-</script>
+@Html.Partial("~/Views/UPOV/_List.cshtml")

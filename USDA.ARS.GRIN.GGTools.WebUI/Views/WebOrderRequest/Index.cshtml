@@ -10,58 +10,89 @@
     @Html.HiddenFor(x => x.EventValue)
     @Html.Partial("~/Views/WebOrder/_Detail.cshtml")
 }
-@Html.Partial("~/Views/WebOrderRequest/_List.cshtml")
-@*@Html.Partial("~/Views/WebOrder/Modals/_BatchEdit.cshtml")*@
+
+<div class="card card-default card-tabs">
+    <div id="section-search-results" class="card-header p-0 pt-1">
+        <ul class="nav nav-tabs" id="custom-tabs-one-tab" role="tablist">
+            <li class="nav-item" id="filter-web-order-requests">
+                <a class="nav-link active" data-ggtools-action="1D" data-toggle="pill" href="#custom-tabs-one-home" role="tab" aria-controls="custom-tabs-one-home" aria-selected="true">Web Order Requests</a>
+            </li>
+            <li class="nav-item" id="filter-web-order-request-items">
+                <a class="nav-link" data-ggtools-action="3D" data-toggle="pill" href="#custom-tabs-one-profile" role="tab" aria-controls="custom-tabs-one-profile" aria-selected="false">Items</a>
+            </li>
+            <li class="nav-item" id="filter-web-order-request-actions">
+                <a class="nav-link" data-ggtools-action="7D" data-toggle="pill" href="#custom-tabs-one-messages" role="tab" aria-controls="custom-tabs-one-messages" aria-selected="false">Actions</a>
+            </li>
+        </ul>
+    </div>
+    <div class="card-body">
+        @*<div id="web-order-request-overlay" class="overlay-wrapper">
+            <div class="overlay">
+                <i class="fas fa-3x fa-sync-alt fa-spin"></i>
+                <div class="text-bold pt-2">Loading...</div>
+            </div>
+        </div>*@
+        <div class="tab-content" id="section-web-order-request-list">
+            @Html.Partial("~/Views/WebOrderRequest/Explorer/_List.cshtml")
+
+
+        </div>
+    </div>
+    <!-- /.card -->
+</div>
+
+
+
+
+
 @Html.Partial("~/Views/Shared/Modals/_SaveSearch.cshtml")
 
-@*<script type="text/javascript">
-    //$(document).ready(function () {
-    //    InitDataTable("data-table-web-order-requests");
-    //});
-
-    $("#btnOpenBatchCancelModal").click(function () {
-        var selectedItemIdList = GetSelectedEntityIDs("data-table-web-order-requests");
-        $("#lblBatchEditModalTitle").html("Cancel Orders (" + selectedItemIdList.length + ")");
-        $("#modal-web-order-batch-edit").modal("show");
-        //DEBUG
-        //alert("SELECTED " + selectedItemIdList);
-        //    $("#lblFolderEditModalTitle").html("Add " + selectedItemIdList.length + " Selected Record(s) To Folder");
-        //    $("#modal-folder-edit").modal("show");
+<script type="text/javascript">
+    $(document).ready(function () {
+        InitDataTable("data-table-web-order-requests");
     });
 
-    function GetSelectedEntityIDs(tableName) {
-        var table = $('#' + tableName).DataTable();
-        var ids = $.map(table.rows('.selected').data(), function (item) {
-            return item[0]
+    function InitWebOrderRequestDataTable(tableName) {
+        tableName = "#" + tableName;
+        $(document).ready(function () {
+            table = $(tableName).DataTable({
+                dom: 'Blfrtip',
+                paging: false,
+                "pageLength": 25,
+                responsive: true,
+                buttons: [
+                    'csv',
+                    'excel',
+                    'pdf'
+                ],
+                search: true,
+                select: {
+                    style: 'single'
+                },
+                lengthMenu: [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],
+                //columnDefs: [
+                //    { targets: [0], visible: false }
+                //]
+
+            });
+
+            // If the table contains at least one row, select that row by default, and load the WOR data
+            // related to it.
+            //if (table.rows().count() > 0) {
+            //    // Select the first visible row
+            //    var firstVisibleRow = table.rows({ search: 'applied' }).indexes()[0];
+            //    if (firstVisibleRow !== undefined) {
+            //        table.row(firstVisibleRow).select();
+            //        LoadWebOrderRequest(table.row(':eq(0)', { page: 'current' }).data()[0]);
+            //    }
+            //}
+
+            // Call select method when user clicks a given row.
+            //$('table.ggtools').on('click', 'tr', function () {
+            //    var data = table.row(this).data();
+            //    LoadWebOrderRequest(data[0]);
+            //});
         });
-        console.log(ids)
-        return ids;
     }
 
-
-    $("#btnSaveBatchEdits").click(function () {
-        var selectedItemIdList = GetSelectedEntityIDs("data-table-web-order-requests");
-        var link = "@Url.Action("BatchEdit","WebOrder")";
-
-        var formData = new FormData();
-        formData.append("IDList", selectedItemIdList);
-        formData.append("StatusCode", "CANCELLED");
-
-        $.ajax({
-            url: link,
-            type: 'POST',
-            cache: false,
-            contentType: false,
-            processData: false,
-            data: formData,
-            success: function (result) {
-                $("#modal-family-edit").modal("hide");
-                window.location.href = refreshLink;
-            },
-            error: function () {
-                alert("Error in AddToFolder()");
-            }
-        });
-    });
-
-</script>*@
+</script>

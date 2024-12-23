@@ -10,6 +10,7 @@ using USDA.ARS.GRIN.Common.Library.Exceptions;
 using USDA.ARS.GRIN.Common.Library.Security;
 using USDA.ARS.GRIN.GGTools.DataLayer;
 using USDA.ARS.GRIN.GGTools.ViewModelLayer;
+using System.Xml.Linq;
 
 namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
 {
@@ -204,6 +205,13 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
                 try
                 {
                     DataCollection = new Collection<WebOrderRequest>(mgr.Search(SearchEntity));
+
+                    //DEBUG
+                    List<int> distinctIDs = DataCollection
+            .Select(obj => obj.ID) // Select the ID attribute
+            .Distinct()            // Get distinct values
+            .ToList();
+
                     RowsAffected = mgr.RowsAffected;
                     if (RowsAffected == 1)
                     {

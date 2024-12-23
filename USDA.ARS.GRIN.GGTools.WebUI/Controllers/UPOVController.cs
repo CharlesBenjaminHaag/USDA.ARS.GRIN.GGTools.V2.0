@@ -39,9 +39,13 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
         {
             UPOVViewModel model = new UPOVViewModel();
             model.Search();
+
+            ViewBag.PageTitle = "UPOV Data Import";
+
             return View(model);
         }
 
+        [HttpPost]
         public async Task<ActionResult> Import()
         {
             string apiUrl = "https://www.upov.int/geniews/upovcode/UpovCodeList"; // Replace with the actual API URL
@@ -49,6 +53,8 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
 
             try
             {
+                
+
                 var response = await _httpClient.GetStringAsync(apiUrl);
                 var apiResponse = JsonConvert.DeserializeObject<ApiResponse>(response);
                 viewModel.DataCollectionImport = new System.Collections.ObjectModel.Collection<upovCodeItem>(apiResponse.upovCodeList);
@@ -70,7 +76,6 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             }
         }
 
-        
     }
 
 

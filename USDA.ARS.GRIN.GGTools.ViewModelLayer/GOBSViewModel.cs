@@ -102,7 +102,7 @@ namespace USDA.ARS.GRIN.GGTools.GOBS.ViewModelLayer
             {
                 using (GRINGlobalDataManagerBase mgr = new GRINGlobalDataManagerBase())
                 {
-                   // mgr.Delete(TableName, Entity.ID);
+                   // mgr.DeleteAll(TableName, Entity.ID);
                 }
             }
             catch (Exception ex)

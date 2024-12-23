@@ -35,8 +35,8 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
 
             AddParameter("upov_code_id", entity.upovCodeID > 0 ? (object)entity.upovCodeID : DBNull.Value, true);
             AddParameter("upov_code", (object)entity.upovCode ?? DBNull.Value, true);
-            AddParameter("other_botanical_name", (object)entity.principalBotanicalName ?? DBNull.Value, true);
-            AddParameter("common_name_text", (object)entity.principalBotanicalName ?? DBNull.Value, true);
+            AddParameter("other_botanical_name", (object)entity.otherBotanicalName ?? DBNull.Value, true);
+            AddParameter("common_name_text", (object)entity.commonNameEN ?? DBNull.Value, true);
             AddParameter("principal_botanical_name", (object)entity.principalBotanicalName ?? DBNull.Value, true);
             AddParameter("note", (object)entity.note ?? DBNull.Value, true);
 
@@ -45,6 +45,40 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             RowsAffected = ExecuteNonQuery();
 
             entity.taxonomy_species_upov_id = GetParameterValue<int>("@out_taxonomy_species_upov_id", -1);
+            int errorNumber = GetParameterValue<int>("@out_error_number", -1);
+            if (errorNumber > 0)
+            {
+                throw new Exception();
+            }
+            return RowsAffected;
+        }
+
+        public int UpdateAll()
+        {
+            Reset(CommandType.StoredProcedure);
+           
+            SQL = "usp_GRINGlobal_Taxonomy_Species_UPOV_Update_All";
+
+            AddParameter("@out_error_number", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
+            RowsAffected = ExecuteNonQuery();
+
+            int errorNumber = GetParameterValue<int>("@out_error_number", -1);
+            if (errorNumber > 0)
+            {
+                throw new Exception();
+            }
+            return RowsAffected;
+        }
+
+        public int DeleteAll()
+        {
+            Reset(CommandType.StoredProcedure);
+            
+            SQL = "usp_GRINGlobal_Taxonomy_Species_UPOV_Delete_All";
+
+            AddParameter("@out_error_number", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
+            RowsAffected = ExecuteNonQuery();
+
             int errorNumber = GetParameterValue<int>("@out_error_number", -1);
             if (errorNumber > 0)
             {

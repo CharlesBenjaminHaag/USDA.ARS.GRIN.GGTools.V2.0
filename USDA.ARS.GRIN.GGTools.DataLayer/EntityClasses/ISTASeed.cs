@@ -18,6 +18,8 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         public string GenusName{ get; set; }
         public int SpeciesID { get; set; }
         public int AcceptedID { get; set; }
+        public string ISTASpeciesName { get; set; }
+        public string ISTAAcceptedName { get; set; }
         public string SpeciesName{ get; set; }
         public string SubspeciesName { get; set; }
         public string VarietyName { get; set; }

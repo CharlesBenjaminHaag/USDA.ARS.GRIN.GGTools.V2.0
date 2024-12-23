@@ -1099,6 +1099,7 @@
     <Content Include="Views\WebOrderRequest\Components\_MostRecentActionFilter.cshtml" />
     <Content Include="Views\WebOrderRequest\Components\_CurrentStatusFilter.cshtml" />
     <Content Include="Views\WebCooperator\Components\_ContactWidget.cshtml" />
+    <Content Include="Views\UPOV\_List.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -296,7 +296,8 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             
             nameRun.Append(nameRunProperties);
 
-            string nameRunText = iSTASeed.GenusName + " " + iSTASeed.SpeciesName;
+            //string nameRunText = iSTASeed.GenusName + " " + iSTASeed.SpeciesName;
+            string nameRunText = iSTASeed.ISTASpeciesName;
             nameRun.Append(new Text(nameRunText));
 
             // Infra indicator
@@ -403,9 +404,10 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
 
             // Add all runs to the nameHyperlink
             nameHyperlink.Append(nameRun);
-            nameHyperlink.Append(infraspecificNameRun);
-            nameHyperlink.Append(infraspecificNameRun2);
-            nameHyperlink.Append(authorityRun);
+            
+            //nameHyperlink.Append(infraspecificNameRun);
+            //nameHyperlink.Append(infraspecificNameRun2);
+            //nameHyperlink.Append(authorityRun);
 
             nameHyperlink.Id = nameHyperlinkId;
             
@@ -450,10 +452,19 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 acceptedNameRunProperties.Color = new Color { Val = "0000FF" };
 
                 acceptedNameRun.Append(acceptedNameRunProperties);
-                Text acceptedNameText = new Text(iSTASeed.AcceptedSpecies.GenusShortName + " " + iSTASeed.AcceptedSpecies.SpeciesName)
+
+                // NOTE: Pull accepted name text from citation.note. (BH, 12/23/24)
+
+                Text acceptedNameText = new Text(iSTASeed.ISTAAcceptedName)
                 {
                     Space = SpaceProcessingModeValues.Preserve
                 };
+
+                //Text acceptedNameText = new Text(iSTASeed.AcceptedSpecies.GenusShortName + " " + iSTASeed.AcceptedSpecies.SpeciesName)
+                //{
+                //    Space = SpaceProcessingModeValues.Preserve
+                //};
+
                 acceptedNameRun.Append(acceptedNameText);
                 acceptedNameHyperlink.Append(acceptedNameRun);
 
@@ -471,7 +482,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 acceptedNameAuthorityRun.Append(acceptNameAuthorityRunProperties);
                 acceptedNameAuthorityRun.Append(acceptedNameAuthorityText);
                 
-                acceptedNameHyperlink.Append(acceptedNameAuthorityRun);
+                //acceptedNameHyperlink.Append(acceptedNameAuthorityRun);
                 acceptedNameHyperlink.Id = acceptedNameHyperlinkId;
 
                 acceptedNameParagraph.Append(acceptedNameHyperlink);
