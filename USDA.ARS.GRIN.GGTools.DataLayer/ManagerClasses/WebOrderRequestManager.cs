@@ -90,19 +90,6 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
                 SQL += "  (@IsLocked IS NULL OR IsLocked = 1)";
             }
 
-            //if (searchEntity.HasOrders == "Y")
-            //{
-            //    if (SQL.Contains("WHERE"))
-            //    {
-            //        SQL += " AND ";
-            //    }
-            //    else
-            //    {
-            //        SQL += " WHERE ";
-            //    }
-            //    SQL += "  (RelatedOrders > 0)";
-            //}
-
             if (!String.IsNullOrEmpty(searchEntity.TimeFrame))
             {
                 if (SQL.Contains("WHERE"))
@@ -334,6 +321,142 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             return results;
         }
 
+        public List<WebOrderRequest> SearchWebOrderRequestActions(WebOrderRequestSearch searchEntity)
+        {
+            List<WebOrderRequest> results = new List<WebOrderRequest>();
+
+            SQL = " SELECT * FROM vw_GRINGlobal_Web_Order_Request_Item WHERE WebOrderRequestID IN (SELECT ID FROM vw_GRINGlobal_Web_Order_Request";
+            SQL += " WHERE (@FirstName              IS NULL     OR      WebCooperatorFirstName          LIKE        '%' + @FirstName + '%')";
+            SQL += " AND (@ID                       IS NULL     OR      ID                              =           @ID)";
+            SQL += " AND (@OwnedByWebUserID         IS NULL     OR      OwnedByWebUserID                =           @OwnedByWebUserID)";
+            SQL += " AND (@LastName                 IS NULL     OR      WebCooperatorLastName           LIKE        '%' + @LastName + '%')";
+            SQL += " AND (@EmailAddress             IS NULL     OR      WebCooperatorEmail              LIKE        '%' + @EmailAddress + '%')";
+            SQL += " AND (@Organization             IS NULL     OR      WebCooperatorOrganization       LIKE        '%' + @Organization + '%')";
+            SQL += " AND (@IntendedUseCode          IS NULL     OR      IntendedUseCode                 =           @IntendedUseCode)";
+            SQL += " AND (@StatusCode               IS NULL     OR      StatusCode                      =           @StatusCode)";
+            SQL += " AND (@MostRecentWebOrderAction IS NULL     OR      MostRecentWebOrderAction        =           @MostRecentWebOrderAction)";
+            SQL += " AND (@Year                     IS NULL     OR      YEAR(CreatedDate)               =           @Year)";
+
+            if (searchEntity.IsLocked == "Y")
+            {
+                if (SQL.Contains("WHERE"))
+                {
+                    SQL += " AND ";
+                }
+                else
+                {
+                    SQL += " WHERE ";
+                }
+                SQL += "  (@IsLocked IS NULL OR IsLocked = 1)";
+            }
+
+            //if (searchEntity.HasOrders == "Y")
+            //{
+            //    if (SQL.Contains("WHERE"))
+            //    {
+            //        SQL += " AND ";
+            //    }
+            //    else
+            //    {
+            //        SQL += " WHERE ";
+            //    }
+            //    SQL += "  (RelatedOrders > 0)";
+            //}
+
+            if (!String.IsNullOrEmpty(searchEntity.TimeFrame))
+            {
+                if (SQL.Contains("WHERE"))
+                {
+                    SQL += " AND ";
+                }
+                else
+                {
+                    SQL += " WHERE ";
+                }
+                switch (searchEntity.TimeFrame)
+                {
+                    case "1D":
+                        SQL += "  (CONVERT(date, OrderDate) = CONVERT(date, GETDATE()))";
+                        break;
+                    case "3D":
+                        SQL += "  OrderDate >= DATEADD(day,-3, GETDATE())";
+                        break;
+                    case "7D":
+                        SQL += "  OrderDate >= DATEADD(day,-7, GETDATE())";
+                        break;
+                    case "30D":
+                        SQL += "  OrderDate >= DATEADD(day,-30, GETDATE())";
+                        break;
+                    case "60D":
+                        SQL += "  OrderDate >= DATEADD(day,-60, GETDATE())";
+                        break;
+                    case "90D":
+                        SQL += "  OrderDate >= DATEADD(day,-90, GETDATE())";
+                        break;
+                    case "1Y":
+                        SQL += "  DATEPART(year, OrderDate) = DATEPART(year, GETDATE())";
+                        break;
+                }
+            }
+
+            if (!String.IsNullOrEmpty(searchEntity.StatusList))
+            {
+                searchEntity.StatusList = String.Join(",", Array.ConvertAll(searchEntity.StatusList.Split(','), z => "'" + z + "'"));
+
+                if (SQL.Contains("WHERE"))
+                {
+                    SQL += " AND ";
+                }
+                else
+                {
+                    SQL += " WHERE ";
+                }
+
+                SQL += "  StatusCode IN (" + searchEntity.StatusList + ")";
+            }
+
+            if (!String.IsNullOrEmpty(searchEntity.MostRecentActionList))
+            {
+                searchEntity.MostRecentActionList = String.Join(",", Array.ConvertAll(searchEntity.MostRecentActionList.Split(','), z => "'" + z + "'"));
+
+                if (SQL.Contains("WHERE"))
+                {
+                    SQL += " AND ";
+                }
+                else
+                {
+                    SQL += " WHERE ";
+                }
+
+                SQL += "  MostRecentWebOrderAction IN (" + searchEntity.MostRecentActionList + ")";
+            }
+
+            //if (!String.IsNullOrEmpty(searchEntity.WebUserList))
+            //{
+            //    searchEntity.WebUserList = String.Join(",", Array.ConvertAll(searchEntity.WebUserList.Split(','), z + "'"));
+            //    SQL += " AND IntendedUseCode IN (" + searchEntity.IntendedUseList + ")";
+            //}
+
+            SQL += ")";
+
+            var parameters = new List<IDbDataParameter> {
+                CreateParameter("ID", searchEntity.ID > 0 ? (object)searchEntity.ID : DBNull.Value, true),
+                CreateParameter("OwnedByWebUserID", searchEntity.OwnedByWebUserID > 0 ? (object)searchEntity.OwnedByWebUserID : DBNull.Value, true),
+                CreateParameter("FirstName", (object)searchEntity.WebCooperatorFirstName ?? DBNull.Value, true),
+                CreateParameter("LastName", (object)searchEntity.WebCooperatorLastName ?? DBNull.Value, true),
+                CreateParameter("Organization", (object)searchEntity.WebCooperatorOrganization ?? DBNull.Value, true),
+                CreateParameter("EmailAddress", (object)searchEntity.WebCooperatorEmailAddress ?? DBNull.Value, true),
+                CreateParameter("IntendedUseCode", (object)searchEntity.IntendedUseCode ?? DBNull.Value, true),
+                CreateParameter("StatusCode", (object)searchEntity.StatusCode ?? DBNull.Value, true),
+                CreateParameter("MostRecentWebOrderAction", (object)searchEntity.MostRecentAction ?? DBNull.Value, true),
+                CreateParameter("Year", searchEntity.Year > 0 ? (object)searchEntity.Year : DBNull.Value, true),
+                CreateParameter("IsLocked", (object)searchEntity.IsLocked ?? DBNull.Value, true),
+            };
+
+            results = GetRecords<WebOrderRequest>(SQL, parameters.ToArray());
+            RowsAffected = results.Count;
+            return results;
+        }
 
         public List<WebOrderRequestItem> GetWebOrderRequestItems(int entityId)
         {
@@ -398,14 +521,15 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             AddParameter("is_locked", (object)entity.IsLocked, true);
             
             AddParameter("@out_error_number", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
+
+            RowsAffected = ExecuteNonQuery();
+
             int errorNumber = GetParameterValue<int>("@out_error_number", -1);
 
             if (errorNumber > 0)
             {
                 throw new Exception(errorNumber.ToString());
             }
-
-            RowsAffected = ExecuteNonQuery();
             return RowsAffected;
         }
         
@@ -423,11 +547,11 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
         public List<CodeValue> GetTimeFrameOptions()
         {
             List<CodeValue> timeFrameOptions = new List<CodeValue>();
-            timeFrameOptions.Add(new CodeValue { Value = "TDY", Title = "Today" });
-            timeFrameOptions.Add(new CodeValue { Value = "3DY", Title = "Within the last 3 days" });
-            timeFrameOptions.Add(new CodeValue { Value = "7DY", Title = "Within the last 7 days" });
-            timeFrameOptions.Add(new CodeValue { Value = "30D", Title = "Within the last 30 days" });
-            timeFrameOptions.Add(new CodeValue { Value = "60D", Title = "Within the last 60 days" });
+            timeFrameOptions.Add(new CodeValue { Value = "1D", Title = "Today" });
+            timeFrameOptions.Add(new CodeValue { Value = "3D", Title = "Within the last 3 days" });
+            timeFrameOptions.Add(new CodeValue { Value = "7D", Title = "Within the last 7 days" });
+            timeFrameOptions.Add(new CodeValue { Value = "30", Title = "Within the last 30 days" });
+            timeFrameOptions.Add(new CodeValue { Value = "60", Title = "Within the last 60 days" });
             return timeFrameOptions;
         }
 

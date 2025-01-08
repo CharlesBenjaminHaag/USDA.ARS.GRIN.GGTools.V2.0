@@ -23,6 +23,11 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
         public string SelectedFilterAssignedTo { get; set; }
         public string EmailBodyOriginal { get; set; }
 
+        public WebOrderRequestViewModel()
+        {
+
+        }
+
         public void Delete()
         {
             throw new NotImplementedException();
@@ -208,9 +213,71 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
 
                     //DEBUG
                     List<int> distinctIDs = DataCollection
-            .Select(obj => obj.ID) // Select the ID attribute
-            .Distinct()            // Get distinct values
-            .ToList();
+                    .Select(obj => obj.ID) // Select the ID attribute
+                    .Distinct()            // Get distinct values
+                    .ToList();
+
+                    ItemIDList = string.Join(",", distinctIDs);
+
+                    RowsAffected = mgr.RowsAffected;
+                    if (RowsAffected == 1)
+                    {
+                        Entity = DataCollection[0];
+                    }
+                }
+                catch (Exception ex)
+                {
+                    PublishException(ex);
+                    throw ex;
+                }
+            }
+        }
+
+        public void SearchWebOrderRequestItems()
+        {
+            using (WebOrderRequestManager mgr = new WebOrderRequestManager())
+            {
+                try
+                {
+                    DataCollection = new Collection<WebOrderRequest>(mgr.Search(SearchEntity));
+
+                    //DEBUG
+                    List<int> distinctIDs = DataCollection
+                    .Select(obj => obj.ID) // Select the ID attribute
+                    .Distinct()            // Get distinct values
+                    .ToList();
+
+                    ItemIDList = string.Join(",", distinctIDs);
+
+                    RowsAffected = mgr.RowsAffected;
+                    if (RowsAffected == 1)
+                    {
+                        Entity = DataCollection[0];
+                    }
+                }
+                catch (Exception ex)
+                {
+                    PublishException(ex);
+                    throw ex;
+                }
+            }
+        }
+
+        public void SearchWebOrderRequestActions()
+        {
+            using (WebOrderRequestManager mgr = new WebOrderRequestManager())
+            {
+                try
+                {
+                    DataCollection = new Collection<WebOrderRequest>(mgr.Search(SearchEntity));
+
+                    //DEBUG
+                    List<int> distinctIDs = DataCollection
+                    .Select(obj => obj.ID) // Select the ID attribute
+                    .Distinct()            // Get distinct values
+                    .ToList();
+
+                    ItemIDList = string.Join(",", distinctIDs);
 
                     RowsAffected = mgr.RowsAffected;
                     if (RowsAffected == 1)

@@ -790,7 +790,7 @@
     <Content Include="Views\Taxonomy\Species\Map\Index.cshtml" />
     <Content Include="Views\Taxonomy\Citation\_DetailSearchCriteria.cshtml" />
     <Content Include="Views\Shared\_LayoutAdminLTE3NRR.cshtml" />
-    <Content Include="Views\WebOrderRequest\Explorer\Index.cshtml" />
+    <Content Include="Views\WebOrderRequest\_OBSOLETE\Index.cshtml" />
     <Content Include="Views\Shared\Sidebars\_MainSidebarNRR2.cshtml" />
     <Content Include="Views\Taxonomy\EconomicUse\_ARCHIVE\_BatchEdit.cshtml" />
     <Content Include="Views\Taxonomy\Literature\_EditBatch.cshtml" />
@@ -1095,11 +1095,13 @@
     <Content Include="Views\WebOrder\Modals\_EndReview.cshtml" />
     <Content Include="Views\WebOrder\Modals\_SetCooperatorStatus.cshtml" />
     <Content Include="Views\Taxonomy\ISTA\Index.cshtml" />
-    <Content Include="Views\WebOrderRequest\Explorer\Index2.cshtml" />
+    <Content Include="Views\WebOrderRequest\Explorer\Index.cshtml" />
     <Content Include="Views\WebOrderRequest\Components\_MostRecentActionFilter.cshtml" />
     <Content Include="Views\WebOrderRequest\Components\_CurrentStatusFilter.cshtml" />
     <Content Include="Views\WebCooperator\Components\_ContactWidget.cshtml" />
     <Content Include="Views\UPOV\_List.cshtml" />
+    <Content Include="Views\WebOrderRequest\_ListWebOrderRequestItems.cshtml" />
+    <Content Include="Views\WebOrderRequest\_ListWebOrderRequestActions.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

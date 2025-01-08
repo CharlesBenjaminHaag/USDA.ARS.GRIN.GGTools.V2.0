@@ -1,4 +1,5 @@
-﻿using NLog;
+﻿using Newtonsoft.Json;
+using NLog;
 using System;
 using System.CodeDom;
 using System.Web.Mvc;
@@ -271,6 +272,40 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             }
         }
 
+        [HttpPost]
+        public PartialViewResult SearchWebOrderRequestItems(string webOrderRequestIdList)
+        {
+            try
+            {
+                WebOrderRequestViewModel viewModel = new WebOrderRequestViewModel();
+                viewModel.SearchEntity.IDList = webOrderRequestIdList;
+                //TODO
+                return PartialView("~/Views/WebOrderRequest/_ListItems.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
+        }
+
+        [HttpPost]
+        public PartialViewResult SearchWebOrderRequestActions(string webOrderRequestIdList)
+        {
+            try
+            {
+                WebOrderRequestViewModel viewModel = new WebOrderRequestViewModel();
+                viewModel.SearchEntity.IDList = webOrderRequestIdList;
+                //TODO
+                return PartialView("~/Views/WebOrderRequest/_ListActions.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
+        }
+
         public ActionResult _Lookup(FormCollection formCollection)
         {
             WebOrderRequestViewModel viewModel = new WebOrderRequestViewModel();
@@ -347,7 +382,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             { 
                 WebOrderRequestViewModel viewModel = new WebOrderRequestViewModel();
                 ViewBag.PageTitle = "Web Order Request Explorer";
-                return View("~/Views/WebOrderRequest/Explorer/Index2.cshtml", viewModel);
+                return View("~/Views/WebOrderRequest/Explorer/Index.cshtml", viewModel);
             }
             catch (Exception ex)
             {

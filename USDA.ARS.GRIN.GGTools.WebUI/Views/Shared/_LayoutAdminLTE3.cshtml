@@ -124,9 +124,8 @@
         <nav class="main-header navbar navbar-expand navbar-white navbar-light text-sm">
             @{Html.RenderAction("GetMenu", "Menu", new { @eventAction = eventAction, @eventValue = eventValue });}
             <ul class="navbar-nav ml-auto">
-                <!-- Notifications Dropdown Menu -->
-                <li class="nav-item dropdown">
-                </li>
+                
+                
 
                 <li class="nav-item dropdown">
                     <a class="nav-link" data-toggle="dropdown" href="#">
@@ -198,6 +197,23 @@
             <!-- Content Header (Page header) -->
             <div class="content-header">
                 <div class="container-fluid">
+
+                    <!--TEST-->
+                      @if (AppInfo.IsRunningInTestMode())
+                    {
+                        <div class="row mb-2">
+                            <div class="col-md-12">
+                                <div class="alert alert-warning alert-dismissible">
+                                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                    <h5><i class="icon fas fa-exclamation-triangle"></i>NOTE!</h5>
+                                    Application is currently running in test mode. All email notifications will be sent to the designated recipient only.
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    
+
+
                     <div class="row mb-2">
                         @Html.Partial("~/Views/Taxonomy/Shared/_PageTitle.cshtml")
 

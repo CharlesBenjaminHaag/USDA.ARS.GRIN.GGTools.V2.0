@@ -255,7 +255,6 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                         editor.Field(new Field("taxonomy_regulation_map.taxonomy_genus_id"));
                         editor.Field(new Field("taxonomy_regulation_map.taxonomy_species_id"));
                         editor.Field(new Field("taxonomy_regulation_map.taxonomy_regulation_id"));
-                        editor.Field(new Field("taxonomy_regulation.regulation_lookup"));
                         editor.Field(new Field("taxonomy_regulation_map.is_exempt"));
                         editor.Field(new Field("taxonomy_regulation_map.note"));
                         editor.Field(new Field("taxonomy_regulation_map.modified_date")

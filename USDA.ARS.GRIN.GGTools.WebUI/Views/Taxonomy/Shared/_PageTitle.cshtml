@@ -7,12 +7,6 @@
 
 <div class="col-sm-9">
     <h1 id="placeholder-page-main-title" class="m-0">
-        @*@if (!String.IsNullOrEmpty(param))
-        {
-            param = "[" + param + "]";
-        }
-        @eventAction @eventValue @param*@
-    
         @Html.Raw(ViewBag.PageTitle)
     </h1>
 </div>

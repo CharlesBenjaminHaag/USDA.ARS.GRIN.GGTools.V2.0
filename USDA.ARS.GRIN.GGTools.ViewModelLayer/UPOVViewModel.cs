@@ -28,7 +28,41 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
                     PublishException(ex);
                     throw ex;
                 }
-                return Entity.taxonomy_species_upov_id;
+                return RowsAffected;
+            }
+        }
+
+        public int UpdateAll()
+        {
+            using (UPOVManager mgr = new UPOVManager())
+            {
+                try
+                {
+                    mgr.UpdateAll();
+                }
+                catch (Exception ex)
+                {
+                    PublishException(ex);
+                    throw ex;
+                }
+                return RowsAffected;
+            }
+        }
+
+        public int DeleteAll()
+        {
+            using (UPOVManager mgr = new UPOVManager())
+            {
+                try
+                {
+                    mgr.DeleteAll();
+                }
+                catch (Exception ex)
+                {
+                    PublishException(ex);
+                    throw ex;
+                }
+                return 0;
             }
         }
 

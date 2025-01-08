@@ -53,7 +53,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
 
             try
             {
-                
+                viewModel.DeleteAll();
 
                 var response = await _httpClient.GetStringAsync(apiUrl);
                 var apiResponse = JsonConvert.DeserializeObject<ApiResponse>(response);
@@ -65,8 +65,10 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                     viewModel.Insert();
                 }
 
+                viewModel.UpdateAll();
+
                 // Pass data to the view
-                return View("~/Views/UPOV/Import.cshtml", viewModel);
+                return RedirectToAction("Index", "UPOV");
             }
             catch (Exception ex)
             {

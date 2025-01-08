@@ -346,7 +346,7 @@
             var regulationMapId = controlIdArray[2];
 
             //DEBUG
-            /*alert("OPEN MODAL " + modalId + " FOR REG MAP ID " + regulationMapId);*/
+            alert("OPEN MODAL " + modalId + " FOR REG MAP ID " + regulationMapId);
 
             $("#EventAction").val("RegulationMap");
             $("#EventValue").val("EditBatch");
@@ -468,6 +468,9 @@
 
     function OpenModal(modalId) {
         var overlayId = "#search-progress-overlay-" + modalId.replace("#modal-", "");
+
+        //DEBUG
+        alert("OVERLAY ID " + overlayId);
 
         $(overlayId).hide();
         $(modalId).modal("show");

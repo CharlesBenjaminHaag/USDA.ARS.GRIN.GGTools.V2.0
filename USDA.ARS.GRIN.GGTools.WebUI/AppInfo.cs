@@ -55,24 +55,51 @@ namespace USDA.ARS.GRIN.GGTools.WebUI
         public static string GetDatabase()
         {
             string databaseName = String.Empty;
-            //databaseName = ConfigurationManager.AppSettings["Database"];
+            const string SERVER_NAME_LOCAL = "localhost";
+            const string SERVER_NAME_DEV = "199.133.201.148";
+            const string SERVER_NAME_TEST = "199.133.201.116";
+            const string SERVER_NAME_TRAINING = "199.133.201.116";
+            const string SERVER_NAME_PROD = "199.133.201.116";
+
+            const string DB_NAME_LOCAL = "gringlobal";
+            const string DB_NAME_DEV = "gringlobal";
+            const string DB_NAME_TEST = "gringlobal-test";
+            const string DB_NAME_TRAINING = "training";
+            const string DB_NAME_PROD = "gringlobal";
 
             USDA.ARS.GRIN.GGTools.DataLayer.CodeValueManager mgr = new CodeValueManager();
-            if (mgr.ConnectionString.Contains("gringlobal-test"))
+            if (mgr.ConnectionString.Contains(SERVER_NAME_DEV))
             {
-                databaseName = "TEST";
+                databaseName = "DEV";
             }
             else
             {
-                if (mgr.ConnectionString.Contains("gringlobal"))
+                if (mgr.ConnectionString.Contains(SERVER_NAME_PROD))
                 {
-                    databaseName = "PRODUCTION";
+                    if (mgr.ConnectionString.Contains(DB_NAME_PROD))
+                    {
+                        databaseName = "PRODUCTION";
+                    }
+                    else
+                    {
+                        if (mgr.ConnectionString.Contains(DB_NAME_TEST))
+                        {
+                            databaseName = "TEST";
+                        }
+                        else
+                        {
+                            if (mgr.ConnectionString.Contains(DB_NAME_TRAINING))
+                            {
+                                databaseName = "TRAINING";
+                            }
+                        }
+                    }
                 }
                 else
                 {
-                    if (mgr.ConnectionString.Contains("training"))
+                    if (mgr.ConnectionString.Contains(DB_NAME_LOCAL))
                     {
-                        databaseName = "TRAINING";
+                        databaseName = "LOCAL";
                     }
                 }
             }
@@ -90,6 +117,15 @@ namespace USDA.ARS.GRIN.GGTools.WebUI
             string emailAddress = String.Empty;
             emailAddress = ConfigurationManager.AppSettings["EmailAddressSupport"];
             return emailAddress;
+        }
+        
+        public static bool IsRunningInTestMode()
+        {
+            string response = System.Configuration.ConfigurationManager.AppSettings["RunInTestMode"];
+            if (response == "Y")
+                { return true; }
+            else
+            { return false; }
         }
     }
 }

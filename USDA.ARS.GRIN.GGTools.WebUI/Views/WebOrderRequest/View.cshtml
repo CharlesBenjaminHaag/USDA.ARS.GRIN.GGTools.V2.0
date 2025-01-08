@@ -57,16 +57,16 @@
                     </li>
 
                     @*<li id="tab-web-order-request-order-request"
-                        class="nav-item"
-                        data-ggtools-action="OrderRequest"
-                        data-ggtools-value="_Get">
-                        <a class="nav-link"
-                           data-toggle="pill"
-                           href="#tab-content-web-order-request-order-request"
-                           role="tab"
-                           aria-controls="custom-tabs-two-settings"
-                           aria-selected="false"><i class="fa fa-shopping-cart"></i> Order Request</a>
-                    </li>*@
+                    class="nav-item"
+                    data-ggtools-action="OrderRequest"
+                    data-ggtools-value="_Get">
+                    <a class="nav-link"
+                       data-toggle="pill"
+                       href="#tab-content-web-order-request-order-request"
+                       role="tab"
+                       aria-controls="custom-tabs-two-settings"
+                       aria-selected="false"><i class="fa fa-shopping-cart"></i> Order Request</a>
+                </li>*@
                 </ul>
             </div>
             <div class="card-body">
@@ -76,6 +76,9 @@
                         <!-- CONTENT HERE -->
                     </div>
                 </div>
+            </div>
+            <div id="web-order-request-overlay" class="overlay-wrapper">
+                <div class="overlay dark"><i class="fas fa-3x fa-sync-alt fa-spin"></i><div class="text-bold pt-2">Loading...</div></div>
             </div>
         </div>
     </div>
@@ -108,6 +111,7 @@
 <script type="text/javascript">
     $(document).ready(function () {
         Load();
+        $("#web-order-request-overlay").hide();
     });
 
     // Event handler for user selecting a WOR from the list.
@@ -190,22 +194,24 @@
         var link = '@Url.Action("ExplorerDetail","WebOrderRequest", new { webOrderRequestId = "WEB_ORDER_REQUEST_ID" })';
         link = link.replace("WEB_ORDER_REQUEST_ID", webOrderRequestId);
 
-    var formData = new FormData();
-    formData.append("webOrderRequestId", webOrderRequestId);
+        var formData = new FormData();
+        formData.append("webOrderRequestId", webOrderRequestId);
 
-    $.ajax({
-        url: link,
-        type: 'POST',
-        cache: false,
-        contentType: false,
-        processData: false,
-        data: formData,
-        success: function (response) {
-            $("#tab-content-web-order-request").html(response);
-        }
-    });
-    //tab-web-order-request-detail
-}
+        $("#web-order-request-overlay").show();
+
+        $.ajax({
+            url: link,
+            type: 'POST',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (response) {
+                $("#tab-content-web-order-request").html(response);
+                $("#web-order-request-overlay").hide();
+            }
+        });
+    }   
 
     function LoadWebOrderRequestTimeline(webOrderRequestId) {
     var link = '@Url.Action("ExplorerTimeline","WebOrderRequest", new { webOrderRequestId = "WEB_ORDER_REQUEST_ID" })';
@@ -337,7 +343,7 @@
     });
     }
 
-     function SubmitReview() {
+    function SubmitReview() {
      var link = '@Url.Action("Edit","WebOrderRequest")';
      var note = $("#EventNote").val();
      var entityId = $("#Entity_ID").val();
@@ -380,6 +386,35 @@
      });
     }
 
+    function UpdateLock(webOrderRequestId, isLocked) {
+        var link = '@Url.Action("SetLockStatus", "WebOrderRequest")';
+
+        var formData = new FormData();
+
+        formData.append("webOrderRequestId", webOrderRequestId);
+        formData.append("isLocked", isLocked);
+
+        $.ajax({
+            url: link,
+            type: 'POST',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (response) {
+                if (response.success) {
+                    LoadWebOrderRequestDetail(webOrderRequestId);
+                } else {
+                    HandleError(response.message);
+                }
+            },
+            error: function (xhr, status, error) {
+                var errorMessage = xhr.status + ': ' + xhr.statusText;
+                HandleError(errorMessage);
+            }
+        });
+    }
+
     function AddNote(webOrderRequestId, note) {
     var link = '@Url.Action("AddNote", "WebOrderRequest")';
     var formData = new FormData();
@@ -399,4 +434,9 @@
         }
     });
 }
+
+    function HandleError(message) {
+        alert("DEBUG ERR " + message);
+    }
+
 </script>

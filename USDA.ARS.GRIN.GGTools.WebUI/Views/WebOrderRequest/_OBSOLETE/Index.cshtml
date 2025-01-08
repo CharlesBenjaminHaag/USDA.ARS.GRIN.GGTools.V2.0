@@ -6,7 +6,6 @@
 
 @Html.HiddenFor(x => x.ActionEmailFrom)
 
-<!-- Checkbox selector styles -->
 <style>
     .button-checkbox {
         display: flex;
@@ -33,55 +32,186 @@
             vertical-align: middle;
         }
 </style>
+<style>
+    .tag {
+        display: inline-block;
+        padding: 5px 10px;
+        background-color: #007bff;
+        color: white;
+        border-radius: 20px;
+        margin-right: 5px;
+        cursor: pointer;
+    }
+
+        .tag:hover {
+            background-color: #0056b3;
+        }
+</style>
+
+<input type="hidden" id="txtSelectedTab" />
+<input type="hidden" id="Entity_ID" />
+
+<!-- Filters -->
+<!--<div class="card card-default">
+    <div class="card-header">
+        <h3 class="card-title">
+            <i class="fas fa-filter"></i>
+            Filters
+        </h3>
+    </div>-->
+    <!-- /.card-header -->
+    <!--<div class="card-body">
+
+        <div id="section-status-list" class="row">
+            <div class="col-md-3">
+                <label>Time Frame</label>
+                <input type="text" readonly="readonly" class="form-control" id="filter-by-time-frame-title" />
+                <input type="hidden" id="filter-by-time-frame" />
+            </div>
+            <div class="col-md-3">
+                <label>Current Status</label>
+                <input type="text" readonly="readonly" class="form-control" id="filter-by-status-title" />
+                <input type="hidden" id="filter-by-status" />
+            </div>
+            <div class="col-md-3">
+                <label>Last Action</label>
+                <input type="text" readonly="readonly" class="form-control" id="filter-by-most-recent-action-title" />
+                <input type="hidden" id="filter-by-most-recent-action" />
+            </div>
+            <div class="col-md-3">
+                <label>Assigned To</label>
+                <input type="text" readonly="readonly" class="form-control" id="filter-by-assigned-to-title" />
+                <input type="hidden" id="filter-by-assigned-to" />
+            </div>
+
+        </div>
+    </div>-->
+    <!-- /.card-body -->
+<!--</div>-->
 
 <div class="row">
     <div class="col-md-3">
-        @Html.Partial("~/Views/WebOrderRequest/Components/_CurrentStatusFilter.cshtml")
-        @Html.Partial("~/Views/WebOrderRequest/Components/_MostRecentActionFilter.cshtml")
+
+        <div class="card card-default">
+            <div class="card-header">
+                <h3 class="card-title">
+                    <i class="fas fa-filter"></i>
+                    Current Status
+                </h3>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+
+                <div>
+                    <label class="button-checkbox">
+                        <input type="checkbox" />
+                        <span>Option 1</span>
+                    </label>
+                    <label class="button-checkbox">
+                        <input type="checkbox" />
+                        <span>Option 2</span>
+                    </label>
+                    <label class="button-checkbox">
+                        <input type="checkbox" />
+                        <span>Option 3</span>
+                    </label>
+                </div>
+            </div>
+            <!-- /.card-body -->
+        </div>
+
+        <div class="card card-default">
+            <div class="card-header">
+                <h3 class="card-title">
+                    <i class="fas fa-filter"></i>
+                    Most Recent Action
+                </h3>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+
+                <div>
+                    <label class="button-checkbox">
+                        <input type="checkbox" />
+                        <span>Option 1</span>
+                    </label>
+                    <label class="button-checkbox">
+                        <input type="checkbox" />
+                        <span>Option 2</span>
+                    </label>
+                    <label class="button-checkbox">
+                        <input type="checkbox" />
+                        <span>Option 3</span>
+                    </label>
+                </div>
+            </div>
+            <!-- /.card-body -->
+        </div>
+
+
+
     </div>
-    
-    <div class="col-md-9">
-        <input type="hidden" id="hf_current_filter_time_frame" />
-        <div class="card card-default card-tabs">
-            <div id="section-time-frame" class="card-header p-0 pt-1">
-                <ul class="nav nav-tabs" id="custom-tabs-one-tab" role="tablist">
-                    <li class="nav-item" id="filter-time-frame-1D">
-                        <a class="nav-link active" data-ggtools-action="1D" data-toggle="pill" href="#custom-tabs-one-home" role="tab" aria-controls="custom-tabs-one-home" aria-selected="true">Today</a>
+    <div id="section-web-order-request-list" class="col-md-3">
+
+    </div>
+    <div class="col-md-8">
+        <div class="card card-primary card-tabs">
+            <div id="section-web-order-request" class="card-header p-0 pt-1">
+                <ul class="nav nav-tabs" id="tab-web-order-request" role="tablist">
+                    <li id="tab-web-order-request-detail"
+                        class="nav-item"
+                        data-ggtools-action="WebOrderRequest"
+                        data-ggtools-value="ExplorerDetail">
+                        <a class="nav-link active"
+                           data-toggle="pill"
+                           href="#tab-content-web-order-request-detail" role="tab" aria-controls="custom-tabs-two-home" aria-selected="true">
+                            <i class="fa fa-address-card"></i> Detail
+                        </a>
                     </li>
-                    <li class="nav-item" id="filter-time-frame-3D">
-                        <a class="nav-link" data-ggtools-action="3D" data-toggle="pill" href="#custom-tabs-one-profile" role="tab" aria-controls="custom-tabs-one-profile" aria-selected="false">The Last 3 Days</a>
+                    <li id="tab-web-order-request-timeline"
+                        class="nav-item"
+                        data-ggtools-action="WebOrderRequest"
+                        data-ggtools-value="ExplorerTimeline">
+                        <a class="nav-link"
+                           data-toggle="pill"
+                           href="#tab-content-web-order-request-timeline"
+                           role="tab"
+                           aria-controls="custom-tabs-two-profile"
+                           aria-selected="false"><i class="fa fa-clock"></i> Timeline</a>
                     </li>
-                    <li class="nav-item" id="filter-time-frame-7D">
-                        <a class="nav-link" data-ggtools-action="7D" data-toggle="pill" href="#custom-tabs-one-messages" role="tab" aria-controls="custom-tabs-one-messages" aria-selected="false">This Week</a>
+                    <li id="tab-web-order-request-notes"
+                        class="nav-item"
+                        data-ggtools-action="WebOrderRequest"
+                        data-ggtools-value="ExplorerNotes">
+                        <a class="nav-link"
+                           data-toggle="pill"
+                           href="#tab-content-web-order-request-notes"
+                           role="tab"
+                           aria-controls="custom-tabs-two-messages"
+                           aria-selected="false"><i class="fa fa-sticky-note"></i> Notes</a>
                     </li>
-                    <li class="nav-item" id="filter-time-frame-30D">
-                        <a class="nav-link" data-ggtools-action="30D" data-toggle="pill" href="#custom-tabs-one-settings" role="tab" aria-controls="custom-tabs-one-settings" aria-selected="false">This Month</a>
-                    </li>
-                    <li class="nav-item" id="filter-time-frame-60D">
-                        <a class="nav-link" data-ggtools-action="60D" data-toggle="pill" href="#custom-tabs-one-settings" role="tab" aria-controls="custom-tabs-one-settings" aria-selected="false">The Last 3 Months</a>
-                    </li>
-                    <li class="nav-item" id="filter-time-frame-90D">
-                        <a class="nav-link" data-ggtools-action="90D" data-toggle="pill" href="#custom-tabs-one-settings" role="tab" aria-controls="custom-tabs-one-settings" aria-selected="false">The Last 6 Months</a>
-                    </li>
-                    <li class="nav-item" id="filter-time-frame-1Y">
-                        <a class="nav-link" data-ggtools-action="1Y" data-toggle="pill" href="#custom-tabs-one-settings" role="tab" aria-controls="custom-tabs-one-settings" aria-selected="false">This Year</a>
-                    </li>
+
+                    @*<li id="tab-web-order-request-order-request"
+                            class="nav-item"
+                            data-ggtools-action="OrderRequest"
+                            data-ggtools-value="_Get">
+                            <a class="nav-link"
+                               data-toggle="pill"
+                               href="#tab-content-web-order-request-order-request"
+                               role="tab"
+                               aria-controls="custom-tabs-two-settings"
+                               aria-selected="false"><i class="fa fa-shopping-cart"></i> Order Request</a>
+                        </li>*@
                 </ul>
             </div>
             <div class="card-body">
-                <div id="web-order-request-overlay" class="overlay-wrapper">
-                    <div class="overlay">
-                        <i class="fas fa-3x fa-sync-alt fa-spin"></i>
-                        <div class="text-bold pt-2">Loading...</div>
+                <div class="tab-content">
+
+                    <div id="tab-content-web-order-request">
+                        <!-- CONTENT HERE -->
                     </div>
                 </div>
-                <div class="tab-content" id="section-web-order-request-list">
-
-
-
-                </div>
             </div>
-            <!-- /.card -->
         </div>
     </div>
 </div>
@@ -111,48 +241,65 @@
 <!-- ****************************************** END EMAIL MODAL *******************************************************-->
 
 <script type="text/javascript">
+
+    // Fires when page renders.
     $(document).ready(function () {
-        $("#hf_current_filter_time_frame").val("1D");
-        LoadWebOrderRequestList();
-        $("#web-order-request-overlay").hide();
+        Load();
     });
-    document.addEventListener('change', function (event) {
-        var valueArrayCurrentStatuses = [];
-        var valueArrayMostRecentActions = [];
-        var actionCode = "";
 
-        if (event.target.matches('input[type="checkbox"][id^="filter-"]')) {
-            //console.log('Checkbox changed:', event.target.id, event.target.checked);
+    function GetSelectedStatuses() {
+        var valueArray = [];
+        $("#section-status-list input:checked").each(function () {
+            var id = $(this).attr("id");
+            valueArray.push(id);
+            console.log("DEBUG: SEL STATUSES ARE " + valueArray);
+        });
+        return valueArray;
+    }
 
-            $("#section-current-status input:checked").each(function () {
-                var id = $(this).attr("id");
-                actionCode = $(this).data("ggtools-action");
-                valueArrayCurrentStatuses.push(actionCode);
-            });
+    // Fires when user selects an item from the sidebar.
+    $('.filter').on('click', function () {
+        event.preventDefault();
+        var id = $(this).attr('id');
 
-            $("#section-most-recent-action input:checked").each(function () {
-                var id = $(this).attr("id");
-                actionCode = $(this).data("ggtools-action");
-                valueArrayMostRecentActions.push(actionCode);
+        var eventAction = $(this).attr('data-ggtools-action');
+        var eventValue = $(this).attr('data-ggtools-value');
+        var title = $(this).attr('data-ggtools-title');
 
-            });
+        //$("#placeholder-page-title").html("Web Order Requests: " + eventValue);
 
-            //console.log("DEBUG SELECTED STATUSES " + valueArrayCurrentStatuses);
-            //console.log("DEBUG SELECTED MOST RECENT ACTIONS " + valueArrayMostRecentActions);
-
-            $("#hf_current_filter_web_order_request_status").val(valueArrayCurrentStatuses);
-            $("#hf_current_filter_most_recent_action").val(valueArrayMostRecentActions);
-
+        if (typeof id === "undefined") {
+            //TODO Handle error
+        }
+        else {
+            SetFilter(eventAction, eventValue, title);
             LoadWebOrderRequestList();
         }
     });
 
-    $('#section-time-frame ul.nav li').on('click', function () {
-        var selectedTimeFrame = $(this).attr('id').replace('filter-time-frame-','');
-        $("#hf_current_filter_time_frame").val(selectedTimeFrame);
-        console.log("DEBUG SEL TIME FRAME IS " + selectedTimeFrame);
-        LoadWebOrderRequestList();
+    function SetFilter(filterName, filterValue, filterTitle) {
+
+
+        console.log("DEBUG FILTER NAME " + filterName + " FILTER TITLE " + filterTitle);
+        $("#" + filterName).val(filterValue);
+        $("#" + filterName + "-title").val(filterTitle);
+
+    }
+
+    // Event handler for user selecting a WOR from the list.
+    $('#section-web-order-request ul.nav li').on('click', function () {
+        var webOrderRequestId = $("#Entity_ID").val();
+        var selectedId = $(this).attr('id');
+        $("#txtSelectedTab").val(selectedId);
+        LoadWebOrderRequest(webOrderRequestId);
     });
+
+    function Load() {
+        // TODO Determine the default time frame to use to filter the WOR list.
+        SetFilter("filter-by-time-frame", "30D", "This Month");
+        LoadWebOrderRequestList();
+        $("#txtSelectedTab").val("tab-web-order-request-detail");
+    }
 
     // Populate the list of web order requests based on the filters currently
     // stored in hidden fields.
@@ -160,23 +307,26 @@
         var link = '@Url.Action("ExplorerList","WebOrderRequest")';
 
         // Get all active filters.
-        var timeFrame = $("#hf_current_filter_time_frame").val();
-        var statusList = $("#hf_current_filter_web_order_request_status").val();
-        var mostRecentActionList = $("#hf_current_filter_most_recent_action").val();
-        var assignedTo = "";
+        var timeFrame = GetSelectedFilter("filter-by-time-frame");
+        var statusCode = GetSelectedFilter("filter-by-status");
+        var mostRecentAction = GetSelectedFilter("filter-by-most-recent-action");
+        var assignedTo = GetSelectedFilter("filter-by-assigned-to");
+
+        // Show current filter in title.
+        var pageMainTitle = "Web Order Request Explorer";
+        //pageMainTitle += " " + GetSelectedFilter("filter-by-time-frame") + " " + GetSelectedFilter("filter-by-status") + " " + GetSelectedFilter("filter-by-assigned-to") + " " + GetSelectedFilter("filter-by-most-recent-action");
+        $("#placeholder-page-main-title").html(pageMainTitle);
 
         var formData = new FormData();
 
-        console.log("DEBUG: Filtering WOR list TIME FRAME " + timeFrame + " STATUS " + statusList + " ASSIGNED " + assignedTo + " MOST RECENT ACTION " + mostRecentActionList);
+        console.log("DEBUG: Filtering WOR list TIME FRAME " + timeFrame + " STATUS " + statusCode + " ASSIGNED " + assignedTo + " MOST RECENT ACTION " + mostRecentAction);
 
         formData.append("SearchEntity.TimeFrame", timeFrame);
-        formData.append("SearchEntity.StatusList", statusList);
-        formData.append("SearchEntity.MostRecentActionList", mostRecentActionList);
-        //formData.append("SearchEntity.OwnedByWebUserID", assignedTo);
+        formData.append("SearchEntity.StatusCode", statusCode);
+        formData.append("SearchEntity.MostRecentAction", mostRecentAction);
+        formData.append("SearchEntity.OwnedByWebUserID", assignedTo);
 
         $("#section-overlay-web-order-request-list").show();
-
-        $("#web-order-request-overlay").show();
 
         $.ajax({
             url: link,
@@ -188,8 +338,6 @@
             success: function (response) {
                 $("#section-web-order-request-list").html(response);
                 $("#section-overlay-web-order-request-list").hide();
-                InitWebOrderRequestDataTable("data-table-web-order-requests");
-                $("#web-order-request-overlay").hide();
             }
         });
     }
@@ -296,6 +444,14 @@
     });
 }
 
+    function GetSelectedTab() {
+        return $("#txtSelectedTab").val();
+    }
+
+    function GetSelectedFilter(name) {
+        var selectedFilter = $("#" + name).val();
+        return selectedFilter;
+    }
 
     $(document).on("click", "[id='btnAddNote']", function () {
         event.preventDefault();
@@ -437,19 +593,25 @@
         tableName = "#" + tableName;
         $(document).ready(function () {
             table = $(tableName).DataTable({
-                dom: 'Blfrtip',
+                //dom: 'Blfrtip',
                 paging: false,
-                "pageLength": 25,
+                //"pageLength": 10,
                 responsive: true,
-                buttons: [
-                    'csv',
-                    'excel',
-                    'pdf'
-                ],
-                search: true,
-                select: {
-                    style: 'single'
-                },
+                //buttons: [
+                //    'selectAll',
+                //    'selectNone',
+                //    'csv',
+                //    'excel',
+                //    'pdf',
+                //    {
+                //        text: 'Edit Batch',
+                //        action: function (e, dt, node, config) {
+                //            EditBatch();
+                //        }
+                //    }
+                //],
+                search: false,
+                select: true,
                 lengthMenu: [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],
                 //columnDefs: [
                 //    { targets: [0], visible: false }
@@ -459,35 +621,22 @@
 
             // If the table contains at least one row, select that row by default, and load the WOR data
             // related to it.
-            //if (table.rows().count() > 0) {
-            //    // Select the first visible row
-            //    var firstVisibleRow = table.rows({ search: 'applied' }).indexes()[0];
-            //    if (firstVisibleRow !== undefined) {
-            //        table.row(firstVisibleRow).select();
-            //        LoadWebOrderRequest(table.row(':eq(0)', { page: 'current' }).data()[0]);
-            //    }
-            //}
+            if (table.rows().count() > 0) {
+                // Select the first visible row
+                var firstVisibleRow = table.rows({ search: 'applied' }).indexes()[0];
+                if (firstVisibleRow !== undefined) {
+                    table.row(firstVisibleRow).select();
+                    LoadWebOrderRequest(table.row(':eq(0)', { page: 'current' }).data()[0]);
+                }
+            }
 
             // Call select method when user clicks a given row.
-            //$('table.ggtools').on('click', 'tr', function () {
-            //    var data = table.row(this).data();
-            //    LoadWebOrderRequest(data[0]);
-            //});
+            $('table.ggtools').on('click', 'tr', function () {
+                var data = table.row(this).data();
+                LoadWebOrderRequest(data[0]);
+            });
         });
     }
-
-    $("#btnSearchByID").click(function () {
-        var entityId = $("#txtSearchByID").val();
-        var url = "/ggtools-orders/WebOrder/Lookup" + "?entityId=" + entityId;
-        window.location.href = url;
-    });
-
-    $(".allownumericwithoutdecimal").on("keypress keyup blur", function (event) {
-        $(this).val($(this).val().replace(/[^\d].+/, ""));
-        if ((event.which < 48 || event.which > 57)) {
-            event.preventDefault();
-        }
-    });
 
     //$(document).ready(function () {
     //    // Click event handler for dynamically created tags

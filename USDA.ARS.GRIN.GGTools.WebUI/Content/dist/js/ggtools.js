@@ -744,7 +744,6 @@ function Reset() {
     $("#SearchEntity_ModifiedDateFrom").val("");
     $("#SearchEntity_ModifiedDateTo").val("");
 
-    // Set action to "RESET" and re-submit the form -- instructing the application to also clear any cached data.
     $("#EventAction").val("RESET");
     $.fn.dataTable.tables({ api: true }).clear().draw();
 }
