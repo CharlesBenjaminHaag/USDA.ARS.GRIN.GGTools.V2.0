@@ -76,15 +76,15 @@ namespace USDA.ARS.GRIN.GGTools.WebUI
             {
                 if (mgr.ConnectionString.Contains(SERVER_NAME_PROD))
                 {
-                    if (mgr.ConnectionString.Contains(DB_NAME_PROD))
+                    if (mgr.ConnectionString.Contains(DB_NAME_TEST))
                     {
-                        databaseName = "PRODUCTION";
+                        databaseName = "TEST";
                     }
                     else
                     {
-                        if (mgr.ConnectionString.Contains(DB_NAME_TEST))
+                        if (mgr.ConnectionString.Contains(DB_NAME_PROD))
                         {
-                            databaseName = "TEST";
+                            databaseName = "PRODUCTION";
                         }
                         else
                         {

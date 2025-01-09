@@ -13,10 +13,21 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
     {
         public int OriginalID { get; set; }
         public int WebOrderRequestID { get; set; }
+        public string LocalNumber { get; set; }
         public string OrderTypeCode { get; set; }
         public string OrderTypeDescription { get; set; }
-        public DateTime OrderDate { get; set; }
+        public DateTime OrderedDate { get; set; }
         public string IntendedUseCode { get; set; }
-        public string IntendedUseDescription { get; set; }
+        public string IntendedUseNote { get; set; }
+        public DateTime CompletedDate { get; set; }
+        public int RequestorCooperatorID { get; set; }
+        public string RequestorCooperatorName { get; set; }
+        public int ShipToCooperatorID { get; set; }
+        public string ShipToCooperatorName { get; set; }
+        public int FinalRecipientCooperatorID { get; set; }
+        public string FinalRecipientCooperatorName { get; set; }
+        public string OrderObtainedVIA { get; set; }
+        public int FeedbackID { get; set; }
+        public string SpecialInstruction { get; set; }
     }
 }

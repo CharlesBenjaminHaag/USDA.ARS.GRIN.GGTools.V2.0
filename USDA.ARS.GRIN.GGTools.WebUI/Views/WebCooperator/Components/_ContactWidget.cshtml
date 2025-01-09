@@ -1,9 +1,9 @@
 ﻿@model USDA.ARS.GRIN.GGTools.ViewModelLayer.WebCooperatorViewModel
 <div class="card bg-light d-flex flex-fill">
-    <div class="card-header text-muted border-bottom-0">
+    <div class="card-header text-muted border-bottom-0"  style="background-color:white;">
         <a href="@Url.Action("Search","WebOrderRequest", new { organization = @Model.Entity.Organization })">@Model.Entity.Organization</a>
     </div>
-    <div class="card-body pt-0">
+    <div class="card-body pt-0" style="background-color:white;">
         <div class="row">
             <div class="col-7">
                 <h2 class="lead"><b>@Model.Entity.LastName, @Model.Entity.FirstName</b></h2>
@@ -24,7 +24,7 @@
     <div class="card-footer">
         <div class="text-right">
             <a href="@Url.Action("Edit","WebCooperator", new { @entityId = Model.Entity.ID})" class="btn btn-sm btn-primary">
-                <i class="fas fa-user"></i> View Profile
+                <i class="fas fa-user"></i> View Web Cooperator Record
             </a>
         </div>
     </div>

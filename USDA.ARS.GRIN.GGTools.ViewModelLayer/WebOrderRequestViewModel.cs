@@ -239,21 +239,8 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
             {
                 try
                 {
-                    DataCollection = new Collection<WebOrderRequest>(mgr.Search(SearchEntity));
-
-                    //DEBUG
-                    List<int> distinctIDs = DataCollection
-                    .Select(obj => obj.ID) // Select the ID attribute
-                    .Distinct()            // Get distinct values
-                    .ToList();
-
-                    ItemIDList = string.Join(",", distinctIDs);
-
+                    DataCollectionItems = new Collection<WebOrderRequestItem>(mgr.SearchWebOrderRequestItems(SearchEntity));
                     RowsAffected = mgr.RowsAffected;
-                    if (RowsAffected == 1)
-                    {
-                        Entity = DataCollection[0];
-                    }
                 }
                 catch (Exception ex)
                 {
@@ -269,21 +256,8 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
             {
                 try
                 {
-                    DataCollection = new Collection<WebOrderRequest>(mgr.Search(SearchEntity));
-
-                    //DEBUG
-                    List<int> distinctIDs = DataCollection
-                    .Select(obj => obj.ID) // Select the ID attribute
-                    .Distinct()            // Get distinct values
-                    .ToList();
-
-                    ItemIDList = string.Join(",", distinctIDs);
-
+                    DataCollectionActions = new Collection<WebOrderRequestAction>(mgr.SearchWebOrderRequestActions(SearchEntity));
                     RowsAffected = mgr.RowsAffected;
-                    if (RowsAffected == 1)
-                    {
-                        Entity = DataCollection[0];
-                    }
                 }
                 catch (Exception ex)
                 {

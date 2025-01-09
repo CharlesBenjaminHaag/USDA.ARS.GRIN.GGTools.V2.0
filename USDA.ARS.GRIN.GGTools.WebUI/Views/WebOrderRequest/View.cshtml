@@ -111,7 +111,7 @@
 <script type="text/javascript">
     $(document).ready(function () {
         Load();
-        $("#web-order-request-overlay").hide();
+        /*$("#web-order-request-overlay").hide();*/
     });
 
     // Event handler for user selecting a WOR from the list.
@@ -220,6 +220,8 @@
     var formData = new FormData();
     formData.append("webOrderRequestId", webOrderRequestId);
 
+    $("#web-order-request-overlay").show();
+
     $.ajax({
         url: link,
         type: 'POST',
@@ -229,6 +231,7 @@
         data: formData,
         success: function (response) {
             $("#tab-content-web-order-request").html(response);
+            $("#web-order-request-overlay").hide();
         }
     });
 }
@@ -258,6 +261,8 @@
     var formData = new FormData();
     formData.append("webOrderRequestId", webOrderRequestId);
 
+    $("#web-order-request-overlay").show();
+
     $.ajax({
         url: link,
         type: 'POST',
@@ -267,6 +272,7 @@
         data: formData,
         success: function (response) {
             $("#tab-content-web-order-request").html(response);
+            $("#web-order-request-overlay").hide();
         }
     });
 }
@@ -300,7 +306,7 @@
 
     $(document).on("click", "[id='btnSubmitReview']", function () {
         SubmitReview();
-        LoadWebOrderRequestList();
+        Load();
     });
 
     $(document).on('click', '[id^="btnSetStatus"]', function () {

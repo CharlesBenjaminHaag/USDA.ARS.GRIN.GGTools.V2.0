@@ -16,38 +16,32 @@
     <div id="section-search-results" class="card-header p-0 pt-1">
         <ul class="nav nav-tabs" id="custom-tabs-one-tab" role="tablist">
             <li class="nav-item" id="filter-web-order-requests">
-                <a class="nav-link active" data-ggtools-action="1D" data-toggle="pill" href="#custom-tabs-one-home" role="tab" aria-controls="custom-tabs-one-home" aria-selected="true">Web Order Requests</a>
+                <a class="nav-link active" data-ggtools-action="1D" data-toggle="pill" href="#section-web-order-request-list" role="tab" aria-controls="custom-tabs-one-home" aria-selected="true">Web Order Requests</a>
             </li>
             <li class="nav-item" id="filter-web-order-request-items">
-                <a class="nav-link" data-ggtools-action="3D" data-toggle="pill" href="#custom-tabs-one-profile" role="tab" aria-controls="custom-tabs-one-profile" aria-selected="false">Items</a>
+                <a class="nav-link" data-ggtools-action="3D" data-toggle="pill" href="#section-web-order-request-item-list" role="tab" aria-controls="custom-tabs-one-profile" aria-selected="false">Items</a>
             </li>
             <li class="nav-item" id="filter-web-order-request-actions">
-                <a class="nav-link" data-ggtools-action="7D" data-toggle="pill" href="#custom-tabs-one-messages" role="tab" aria-controls="custom-tabs-one-messages" aria-selected="false">Actions</a>
+                <a class="nav-link" data-ggtools-action="7D" data-toggle="pill" href="#section-web-order-request-action-list" role="tab" aria-controls="custom-tabs-one-messages" aria-selected="false">Actions</a>
             </li>
         </ul>
     </div>
+
+    <!--NEW-->
     <div class="card-body">
-        @*<div id="web-order-request-overlay" class="overlay-wrapper">
-                <div class="overlay">
-                    <i class="fas fa-3x fa-sync-alt fa-spin"></i>
-                    <div class="text-bold pt-2">Loading...</div>
-                </div>
-            </div>*@
-        <div class="tab-content" id="section-web-order-request-list">
-            @Html.Partial("~/Views/WebOrderRequest/Explorer/_List.cshtml")
-
-
+        <div class="tab-content" id="custom-tabs-one-tabContent">
+            <div class="tab-pane fade show active" id="section-web-order-request-list" role="tabpanel" aria-labelledby="custom-tabs-one-home-tab">
+                @Html.Partial("~/Views/WebOrderRequest/Explorer/_List.cshtml")
+            </div>
+            <div class="tab-pane fade" id="section-web-order-request-item-list" role="tabpanel" aria-labelledby="custom-tabs-one-profile-tab">
+            </div>
+            <div class="tab-pane fade" id="section-web-order-request-action-list" role="tabpanel" aria-labelledby="custom-tabs-one-messages-tab">
+     
+            </div>
         </div>
     </div>
-    <!-- /.card -->
 </div>
-
-
-
-
-
 @Html.Partial("~/Views/Shared/Modals/_SaveSearch.cshtml")
-
 <script type="text/javascript">
     $(document).ready(function () {
         InitDataTable("data-table-web-order-requests");
@@ -115,7 +109,7 @@
 
         var formData = new FormData();
 
-        formData.append("webOrderRequestIdList", webOrderRequestId);
+        formData.append("webOrderRequestIdList", webOrderRequestIdList);
 
         $.ajax({
             url: link,
@@ -125,11 +119,13 @@
             processData: false,
             data: formData,
             success: function (response) {
-                if (response.success) {
-                    //LoadWebOrderRequestDetail(webOrderRequestId);
-                } else {
-                    HandleError(response.message);
-                }
+                $("#section-web-order-request-item-list").html(response);
+                InitDataTable("data-table-web-order-request-items");
+                //if (response.success) {
+                   
+                //} else {
+                //    HandleError(response.message);
+                //}
             },
             error: function (xhr, status, error) {
                 var errorMessage = xhr.status + ': ' + xhr.statusText;
@@ -143,7 +139,7 @@
 
         var formData = new FormData();
 
-        formData.append("webOrderRequestIdList", webOrderRequestId);
+        formData.append("webOrderRequestIdList", webOrderRequestIdList);
 
         $.ajax({
             url: link,
@@ -153,11 +149,13 @@
             processData: false,
             data: formData,
             success: function (response) {
-                if (response.success) {
-                    //LoadWebOrderRequestDetail(webOrderRequestId);
-                } else {
-                    HandleError(response.message);
-                }
+                $("#section-web-order-request-action-list").html(response);
+                InitDataTable("data-table-web-order-request-actions");
+                //if (response.success) {
+                //    //LoadWebOrderRequestDetail(webOrderRequestId);
+                //} else {
+                //    HandleError(response.message);
+                //}
             },
             error: function (xhr, status, error) {
                 var errorMessage = xhr.status + ': ' + xhr.statusText;
@@ -166,4 +164,7 @@
         });
     }
 
+    function HandleError(message) {
+        alert("DEBUG ERROR " + message);
+    }
 </script>

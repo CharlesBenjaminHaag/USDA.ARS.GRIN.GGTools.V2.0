@@ -279,8 +279,8 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             {
                 WebOrderRequestViewModel viewModel = new WebOrderRequestViewModel();
                 viewModel.SearchEntity.IDList = webOrderRequestIdList;
-                //TODO
-                return PartialView("~/Views/WebOrderRequest/_ListItems.cshtml", viewModel);
+                viewModel.SearchWebOrderRequestItems();
+                return PartialView("~/Views/WebOrderRequest/_ListWebOrderRequestItems.cshtml", viewModel);
             }
             catch (Exception ex)
             {
@@ -296,8 +296,8 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             {
                 WebOrderRequestViewModel viewModel = new WebOrderRequestViewModel();
                 viewModel.SearchEntity.IDList = webOrderRequestIdList;
-                //TODO
-                return PartialView("~/Views/WebOrderRequest/_ListActions.cshtml", viewModel);
+                viewModel.SearchWebOrderRequestActions();
+                return PartialView("~/Views/WebOrderRequest/_ListWebOrderRequestActions.cshtml", viewModel);
             }
             catch (Exception ex)
             {

@@ -41,9 +41,20 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
 
         public ActionResult Index()
         {
-            throw new NotImplementedException();
+            try
+            {
+                OrderRequestViewModel viewModel = new OrderRequestViewModel();
+                viewModel.PageTitle = "Order Request Search";
+                return View("~/Views/OrderRequest/Index.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return RedirectToAction("InternalServerError", "Error");
+            }
         }
 
+        [HttpPost]
         public ActionResult Search(OrderRequestViewModel viewModel)
         {
             throw new NotImplementedException();
