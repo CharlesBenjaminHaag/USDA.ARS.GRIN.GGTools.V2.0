@@ -29,8 +29,54 @@
     <div class="btn-group">
         @if (Model.Entity.StatusCode == "NRR_FLAG")
         {
-            if (Model.Entity.IsLocked == true && Model.Entity.OwnedByWebUserID == AppInfo.GetAuthenticatedUser().WebUserID) 
+            if (Model.Entity.IsLocked == true && Model.Entity.OwnedByWebUserID == AppInfo.GetAuthenticatedUser().WebUserID)
             {
+                if (Model.Entity.IsOnHold == "Y")
+                {
+                    <button id="btnActionHold"
+                            data-ggtools-web-order-request-action="NRR_HOLD"
+                            data-ggtools-hold-option="N"
+                            type="button"
+                            class="btn btn-default">
+                        <i class="fas fa-unlock nav-icon"></i>
+                        Remove Hold
+                    </button>
+                }
+                else
+                {
+                    <button id="btnActionHold"
+                            data-ggtools-web-order-request-action="NRR_HOLD"
+                            data-ggtools-hold-option="Y"
+                            type="button"
+                            class="btn btn-default">
+                        <i class="fas fa-lock nav-icon"></i>
+                        On Hold
+                    </button>
+                }
+
+                if (Model.Entity.IsOnCountryHold == "Y")
+                {
+                    <button id="btnActionHold"
+                            data-ggtools-web-order-request-action="NRR_HOLD+CTRY"
+                            data-ggtools-hold-option="N"
+                            type="button"
+                            class="btn btn-default">
+                        <i class="fas fa-unlock nav-icon"></i>
+                        Remove Country Hold
+                    </button>
+                }
+                else
+                {
+                    <button id="btnActionHold"
+                            data-ggtools-web-order-request-action="NRR_HOLD_CTRY"
+                            data-ggtools-hold-option="Y"
+                            type="button"
+                            class="btn btn-default">
+                        <i class="fas fa-lock nav-icon"></i>
+                        On Country Hold
+                    </button>
+                }
+
                 <button id="btnOpenModalApprove"
                         data-ggtools-web-order-request-action="NRR_APPROVE"
                         type="button"
@@ -193,12 +239,12 @@
 </div>
 @{ Html.RenderAction("_List", "OrderRequest", new { @webOrderRequestId = Model.Entity.ID }); }
 <script type="text/javascript">
-    const makeScrollable = (div) => {
-        div.style.overflowY = 'auto'; // Enables vertical scrolling
-        div.style.maxHeight = '300px'; // Sets a maximum height
-    };
+    //const makeScrollable = (div) => {
+    //    div.style.overflowY = 'auto'; // Enables vertical scrolling
+    //    div.style.maxHeight = '300px'; // Sets a maximum height
+    //};
 
-    // Example usage
-    const div = document.getElementById('section-web-order-request-items');
-    makeScrollable(div);
+    //// Example usage
+    //const div = document.getElementById('section-web-order-request-items');
+    //makeScrollable(div);
 </script>

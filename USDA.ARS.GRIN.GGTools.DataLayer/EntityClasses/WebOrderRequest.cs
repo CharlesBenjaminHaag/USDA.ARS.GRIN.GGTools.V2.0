@@ -164,6 +164,8 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             }
         }
         public bool IsLocked { get; set; }
+        public string IsOnHold { get; set; }
+        public string IsOnCountryHold { get; set; }
         public int RelatedOrders { get; set; }
         public int OwnedByWebUserID { get; set; }
         public string OwnedByWebCooperatorName { get; set; }

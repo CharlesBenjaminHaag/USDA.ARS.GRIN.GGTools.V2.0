@@ -166,17 +166,17 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
             }
         }
 
-        public void HandleRequest()
-        {
-            throw new NotImplementedException();
-        }
+        //public void HandleRequest()
+        //{
+        //    throw new NotImplementedException();
+        //}
 
-        public int Insert()
-        {
-            throw new NotImplementedException();
-        }
+        //public int Insert()
+        //{
+        //    throw new NotImplementedException();
+        //}
 
-        public int InsertNote(int webOrderRequestId, string actionNote, int webUserId)
+        public int InsertWebOrderRequestActionNote(int webOrderRequestId, string actionNote, int webUserId)
         {
             int rowsAffected = 0;
 
@@ -193,7 +193,7 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
             return rowsAffected;
         }
         
-        public void InsertAction(WebOrderRequestAction webOrderRequestAction)
+        public void InsertWebOrderRequestAction(WebOrderRequestAction webOrderRequestAction)
         {
             int rowsAffected = 0;
 
@@ -294,6 +294,17 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
             //TODO Send email
         }
 
+        public void UpdateHold()
+        {
+            using (WebOrderRequestManager mgr = new WebOrderRequestManager())
+            {
+                Entity.StatusCode = NewActionCode;
+                Entity.Note = EventNote;
+                Entity.EmailAddressList = ActionEmailTo;
+                //mgr.UpdateLock(Entity);
+            }
+        }
+
         public void UpdateLock()
         {
             using (WebOrderRequestManager mgr = new WebOrderRequestManager())
@@ -304,6 +315,7 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
                 mgr.UpdateLock(Entity);
             }
         }
+
 
         //public int Update()
         //{

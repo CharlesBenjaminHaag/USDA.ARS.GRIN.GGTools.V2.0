@@ -113,7 +113,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             webOrderRequestAction.ActionCode = viewModel.EventAction;
             webOrderRequestAction.Note = viewModel.EventNote + "==========================================" + viewModel.ActionEmailBody;
             webOrderRequestAction.OwnedByWebUserID = AuthenticatedUser.WebUserID;
-            viewModel.InsertAction(webOrderRequestAction);
+            viewModel.InsertWebOrderRequestAction(webOrderRequestAction);
 
             // TODO Send internal notification
 
@@ -131,7 +131,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             webOrderRequestAction.ActionCode = viewModel.EventAction;
             webOrderRequestAction.Note = viewModel.EventNote + "==========================================" + viewModel.ActionEmailBody;
             webOrderRequestAction.OwnedByWebUserID = AuthenticatedUser.WebUserID;
-            viewModel.InsertAction(webOrderRequestAction);
+            viewModel.InsertWebOrderRequestAction(webOrderRequestAction);
 
             // TODO Send internal notification
 
@@ -220,7 +220,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             try 
             {
                 WebOrderRequestViewModel viewModel = new WebOrderRequestViewModel();
-                viewModel.InsertNote(webOrderRequestId, noteText, AuthenticatedUser.WebUserID);
+                viewModel.InsertWebOrderRequestActionNote(webOrderRequestId, noteText, AuthenticatedUser.WebUserID);
                 return Json(new { success = true }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
@@ -401,7 +401,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
         //{
         //    try
         //    {
-        //        viewModel.InsertNote(viewModel.Entity.ID, viewModel.Entity.Note, AuthenticatedUser.WebUserID);
+        //        viewModel.InsertWebOrderRequestActionNote(viewModel.Entity.ID, viewModel.Entity.Note, AuthenticatedUser.WebUserID);
         //        return Json(new { success = true }, JsonRequestBehavior.AllowGet);
         //    }
         //    catch (Exception ex)

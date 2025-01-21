@@ -211,7 +211,7 @@
                 $("#web-order-request-overlay").hide();
             }
         });
-    }   
+    }
 
     function LoadWebOrderRequestTimeline(webOrderRequestId) {
     var link = '@Url.Action("ExplorerTimeline","WebOrderRequest", new { webOrderRequestId = "WEB_ORDER_REQUEST_ID" })';
@@ -307,6 +307,17 @@
     $(document).on("click", "[id='btnSubmitReview']", function () {
         SubmitReview();
         Load();
+    });
+
+    $(document).on('click', '[id^="btnAction"]', function () {
+        var entityId = $("#Entity_ID").val();
+        var webOrderRequestAction = $(this).data('ggtools-web-order-request-action');
+        var holdOption = $(this).data('ggtools-hold-option');
+
+        //DEBUG
+        console.log("DEBUG SEL webOrderRequestAction IS " + webOrderRequestAction + " holdOption IS " + holdOption);
+
+        UpdateHold(entityId, webOrderRequestAction, holdOption);
     });
 
     $(document).on('click', '[id^="btnSetStatus"]', function () {
@@ -411,6 +422,37 @@
                 if (response.success) {
                     LoadWebOrderRequestDetail(webOrderRequestId);
                 } else {
+                    HandleError(response.message);
+                }
+            },
+            error: function (xhr, status, error) {
+                var errorMessage = xhr.status + ': ' + xhr.statusText;
+                HandleError(errorMessage);
+            }
+        });
+    }
+
+    function UpdateHold(webOrderRequestId, webOrderRequestAction, holdOption) {
+        var link = '@Url.Action("SetHoldStatus", "WebOrderRequest")';
+
+        var formData = new FormData();
+
+        formData.append("webOrderRequestId", webOrderRequestId);
+        formData.append("webOrderRequestAction", webOrderRequestAction);
+        formData.append("holdOption", holdOption);
+
+        $.ajax({
+            url: link,
+            type: 'POST',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (response) {
+                if (response.success) {
+                    Load();
+                }
+                else {
                     HandleError(response.message);
                 }
             },

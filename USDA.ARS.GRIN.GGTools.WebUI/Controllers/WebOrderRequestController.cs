@@ -43,43 +43,43 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             }
         }
         
-        public JsonResult Approve(WebOrderRequestViewModel viewModel)
-        {
-            viewModel.Get(viewModel.Entity.ID);
-            viewModel.Entity.StatusCode = "NRR_APPROVE";
-            viewModel.Entity.OwnedByWebUserID = AuthenticatedUser.WebUserID;
-           //viewModel.Update();
+        //public JsonResult Approve(WebOrderRequestViewModel viewModel)
+        //{
+        //    viewModel.Get(viewModel.Entity.ID);
+        //    viewModel.Entity.StatusCode = "NRR_APPROVE";
+        //    viewModel.Entity.OwnedByWebUserID = AuthenticatedUser.WebUserID;
+        //    viewModel.Update();
 
-            WebOrderRequestAction webOrderRequestAction = new WebOrderRequestAction();
-            webOrderRequestAction.WebOrderRequestID = viewModel.Entity.ID;
-            webOrderRequestAction.ActionCode = viewModel.EventAction;
-            webOrderRequestAction.Note = viewModel.EventNote + "==========================================" + viewModel.ActionEmailBody;
-            webOrderRequestAction.OwnedByWebUserID = AuthenticatedUser.WebUserID;
-            viewModel.InsertAction(webOrderRequestAction);
+        //    WebOrderRequestAction webOrderRequestAction = new WebOrderRequestAction();
+        //    webOrderRequestAction.WebOrderRequestID = viewModel.Entity.ID;
+        //    webOrderRequestAction.ActionCode = viewModel.EventAction;
+        //    webOrderRequestAction.Note = viewModel.EventNote + "==========================================" + viewModel.ActionEmailBody;
+        //    webOrderRequestAction.OwnedByWebUserID = AuthenticatedUser.WebUserID;
+        //    viewModel.InsertWebOrderRequestAction(webOrderRequestAction);
 
-            // TODO Send internal notification
+        //    // TODO Send internal notification
 
-            return null;
-        }
+        //    return null;
+        //}
         
-        public JsonResult Reject(WebOrderRequestViewModel viewModel)
-        {
-            viewModel.Get(viewModel.Entity.ID);
-            viewModel.Entity.StatusCode = "NRR_REJECT";
-            viewModel.Entity.OwnedByWebUserID = AuthenticatedUser.WebUserID;
-            //viewModel.Update();
+        //public JsonResult Reject(WebOrderRequestViewModel viewModel)
+        //{
+        //    viewModel.Get(viewModel.Entity.ID);
+        //    viewModel.Entity.StatusCode = "NRR_REJECT";
+        //    viewModel.Entity.OwnedByWebUserID = AuthenticatedUser.WebUserID;
+        //    viewModel.Update();
 
-            WebOrderRequestAction webOrderRequestAction = new WebOrderRequestAction();
-            webOrderRequestAction.WebOrderRequestID = viewModel.Entity.ID;
-            webOrderRequestAction.ActionCode = viewModel.EventAction;
-            webOrderRequestAction.Note = viewModel.EventNote + "==========================================" + viewModel.ActionEmailBody;
-            webOrderRequestAction.OwnedByWebUserID = AuthenticatedUser.WebUserID;
-            viewModel.InsertAction(webOrderRequestAction);
+        //    WebOrderRequestAction webOrderRequestAction = new WebOrderRequestAction();
+        //    webOrderRequestAction.WebOrderRequestID = viewModel.Entity.ID;
+        //    webOrderRequestAction.ActionCode = viewModel.EventAction;
+        //    webOrderRequestAction.Note = viewModel.EventNote + "==========================================" + viewModel.ActionEmailBody;
+        //    webOrderRequestAction.OwnedByWebUserID = AuthenticatedUser.WebUserID;
+        //    viewModel.InsertWebOrderRequestAction(webOrderRequestAction);
 
-            // TODO Send internal notification
+        //    // TODO Send internal notification
 
-            return null;
-        }
+        //    return null;
+        //}
 
         public JsonResult SendEmail(WebOrderRequestViewModel viewModel)
         {
@@ -126,7 +126,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             try 
             {
                 WebOrderRequestViewModel viewModel = new WebOrderRequestViewModel();
-                viewModel.InsertNote(webOrderRequestId, noteText, AuthenticatedUser.WebUserID);
+                viewModel.InsertWebOrderRequestActionNote(webOrderRequestId, noteText, AuthenticatedUser.WebUserID);
                 return Json(new { success = true }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
@@ -188,6 +188,28 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 viewModel.Entity.WebUserID = AuthenticatedUser.WebUserID;
                 viewModel.NewActionCode = String.Empty;
                 viewModel.UpdateLock();
+                return Json(new { success = true, data = viewModel.Entity.ID }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return Json(new { success = false, message = ex.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        [HttpPost]
+        public JsonResult SetHoldStatus(int webOrderRequestId, string webOrderRequestAction, string holdOption)
+        {
+            WebOrderRequestViewModel viewModel = new WebOrderRequestViewModel();
+
+            try
+            {
+                viewModel.Get(webOrderRequestId);
+                viewModel.EventAction = webOrderRequestAction;
+                viewModel.Entity.IsOnHold = holdOption;
+                viewModel.Entity.WebUserID = AuthenticatedUser.WebUserID;
+                viewModel.NewActionCode = String.Empty;
+                viewModel.UpdateHold();
                 return Json(new { success = true, data = viewModel.Entity.ID }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
@@ -335,12 +357,6 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 Log.Error(ex);
                 return PartialView("~/Views/Error/_InternalServerError.cshtml");
             }
-        }
-
-        [HttpPost]
-        public JsonResult AddWebOrderRequestAction(FormCollection formCollection)
-        {
-            return null;
         }
         
         public PartialViewResult _RenderNoteWidget(int webOrderRequestId)
