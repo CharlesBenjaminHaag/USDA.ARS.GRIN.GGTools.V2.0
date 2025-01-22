@@ -166,16 +166,6 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
             }
         }
 
-        //public void HandleRequest()
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        //public int Insert()
-        //{
-        //    throw new NotImplementedException();
-        //}
-
         public int InsertWebOrderRequestActionNote(int webOrderRequestId, string actionNote, int webUserId)
         {
             int rowsAffected = 0;

@@ -27,56 +27,55 @@
 
 <div class="row">
     <div class="btn-group">
-        @if (Model.Entity.StatusCode == "NRR_FLAG")
+
+        @if (Model.Entity.IsLocked == true && Model.Entity.OwnedByWebUserID == AppInfo.GetAuthenticatedUser().WebUserID)
         {
-            if (Model.Entity.IsLocked == true && Model.Entity.OwnedByWebUserID == AppInfo.GetAuthenticatedUser().WebUserID)
+            <!-- On Hold -->
+            if (Model.Entity.IsOnHold == "Y")
             {
-                if (Model.Entity.IsOnHold == "Y")
-                {
-                    <button id="btnActionHold"
-                            data-ggtools-web-order-request-action="NRR_HOLD"
-                            data-ggtools-hold-option="N"
-                            type="button"
-                            class="btn btn-default">
-                        <i class="fas fa-unlock nav-icon"></i>
-                        Remove Hold
-                    </button>
-                }
-                else
-                {
-                    <button id="btnActionHold"
-                            data-ggtools-web-order-request-action="NRR_HOLD"
-                            data-ggtools-hold-option="Y"
-                            type="button"
-                            class="btn btn-default">
-                        <i class="fas fa-lock nav-icon"></i>
-                        On Hold
-                    </button>
-                }
+                <button id="btnActionHold"
+                        data-ggtools-web-order-request-action="NRR_HOLD_REL"
+                        type="button"
+                        class="btn btn-default">
+                    <i class="fas fa-unlock nav-icon"></i>
+                    Remove Hold
+                </button>
+            }
+            else
+            {
+                <button id="btnActionHold"
+                        data-ggtools-web-order-request-action="NRR_HOLD"
+                        type="button"
+                        class="btn btn-default">
+                    <i class="fas fa-lock nav-icon"></i>
+                    On Hold
+                </button>
+            }
 
-                if (Model.Entity.IsOnCountryHold == "Y")
-                {
-                    <button id="btnActionHold"
-                            data-ggtools-web-order-request-action="NRR_HOLD+CTRY"
-                            data-ggtools-hold-option="N"
-                            type="button"
-                            class="btn btn-default">
-                        <i class="fas fa-unlock nav-icon"></i>
-                        Remove Country Hold
-                    </button>
-                }
-                else
-                {
-                    <button id="btnActionHold"
-                            data-ggtools-web-order-request-action="NRR_HOLD_CTRY"
-                            data-ggtools-hold-option="Y"
-                            type="button"
-                            class="btn btn-default">
-                        <i class="fas fa-lock nav-icon"></i>
-                        On Country Hold
-                    </button>
-                }
+            <!-- On Country Hold -->
+            if (Model.Entity.IsOnCountryHold == "Y")
+            {
+                <button id="btnActionHold"
+                        data-ggtools-web-order-request-action="NRR_HOLD_CTRY_REL"
+                        type="button"
+                        class="btn btn-default">
+                    <i class="fas fa-unlock nav-icon"></i>
+                    Remove Country Hold
+                </button>
+            }
+            else
+            {
+                <button id="btnOpenModalCountryHold"
+                        data-ggtools-web-order-request-action="NRR_HOLD_CTRY"
+                        type="button"
+                        class="btn btn-default">
+                    <i class="fas fa-lock nav-icon"></i>
+                    On Country Hold
+                </button>
+            }
 
+            if (Model.Entity.StatusCode == "NRR_FLAG")
+            {
                 <button id="btnOpenModalApprove"
                         data-ggtools-web-order-request-action="NRR_APPROVE"
                         type="button"
@@ -91,28 +90,30 @@
                     <i class="fas fa-thumbs-down text-red nav-icon"></i>
                     Reject
                 </button>
+                <button id="btnOpenModalRequestInfo"
+                        data-ggtools-web-order-request-action="NRR_INFO"
+                        type="button"
+                        class="btn btn-default">
+                    <i class="fas fa-info text-blue nav-icon"></i>
+                    Request Additional Information
+                </button>
+                <button id="btnOpenModalRequestInfo"
+                        data-ggtools-web-order-request-action="NRR_CUR"
+                        type="button"
+                        class="btn btn-default">
+                    <i class="fas fa-tree nav-icon"></i>
+                    Email Curator(s)
+                </button>
             }
         }
-        <button id="btnOpenModalRequestInfo"
-                data-ggtools-web-order-request-action="NRR_INFO"
-                type="button"
-                class="btn btn-default">
-            <i class="fas fa-info text-blue nav-icon"></i>
-            Request Additional Information
-        </button>
-        <button id="btnOpenModalRequestInfo"
-                data-ggtools-web-order-request-action="NRR_CUR"
-                type="button"
-                class="btn btn-default">
-            <i class="fas fa-tree nav-icon"></i>
-            Email Curator(s)
-        </button>
+
+
         @if (Model.Entity.IsLocked)
         {
             <button id="btnSetStatusUnLock"
                     type="button"
                     data-ggtools-is-locked="N"
-                    class="btn btn-default">
+                    class="btn btn-default float-right">
                 <i class="fas fa-unlock nav-icon"></i>
                 Unlock
             </button>
@@ -122,7 +123,7 @@
             <button id="btnSetStatusLock"
                     type="button"
                     data-ggtools-is-locked="Y"
-                    class="btn btn-default">
+                    class="btn btn-default float-right">
                 <i class="fas fa-lock nav-icon"></i>
                 Lock For Editing
             </button>
@@ -142,27 +143,30 @@
             <label>Status</label>
 
             @{
-                string statusCssClass = String.Empty;
-                switch (Model.Entity.StatusCode.ToUpper())
-                {
-                    case "ACCEPTED":
-                        statusCssClass = "background-color: #28a745; color:white;";
-                        break;
-                    case "CANCELED":
-                        statusCssClass = "background-color: #ffc107; color:white;";
-                        break;
-                    case "SUBMITTED":
-                        statusCssClass = "background-color: #6f42c1; color:white;";
-                        break;
-                    case "MIXED":
-                        statusCssClass = "background-color: #007bff; color:white;";
-                        break;
-                    case "NRR_FLAG":
-                        statusCssClass = "background-color: #dc3545; color:white;";
-                        break;
-                }
-            }
-            @Html.TextBoxFor(x => x.Entity.StatusCode, new { @class = "form-control form-control-sm", @readonly = "readonly", disabled = "disabled", @style = statusCssClass })
+                            string statusCssClass = String.Empty;
+                            switch (Model.Entity.StatusCode.ToUpper())
+                            {
+                                case "ACCEPTED":
+                                    statusCssClass = "background-color: #28a745; color:white;";
+                                    break;
+                                case "CANCELED":
+                                    statusCssClass = "background-color: #ffc107; color:white;";
+                                    break;
+                                case "SUBMITTED":
+                                    statusCssClass = "background-color: #6f42c1; color:white;";
+                                    break;
+                                case "MIXED":
+                                    statusCssClass = "background-color: #007bff; color:white;";
+                                    break;
+                                case "NRR_FLAG":
+                                    statusCssClass = "background-color: #dc3545; color:white;";
+                                    break;
+                                case "NRR_HOLD":
+                                    statusCssClass = "background-color: #magenta; color:white;";
+                                    break;
+                            }
+                        }
+                        @Html.TextBoxFor(x => x.Entity.StatusCode, new { @class = "form-control form-control-sm", @readonly = "readonly", disabled = "disabled", @style = statusCssClass })
         </div>
     </div>
     <div class="col-md-3">
@@ -171,7 +175,7 @@
             <div class="input-group">
                 @Html.TextBoxFor(x => x.Entity.WebCooperatorFullName, new { @class = "form-control form-control-sm", @readonly = "readonly", disabled = "disabled" })
                 <span class="input-group-append">
-                    <a href="@Url.Action("Edit","WebCooperator", new { @entityId = Model.Entity.WebCooperatorID })" class="btn btn-default btn-sm"><i class="fa fa-search"></i></a>
+                    <a href="@Url.Action("SetStatus","WebCooperator", new { @entityId = Model.Entity.WebCooperatorID })" class="btn btn-default btn-sm"><i class="fa fa-search"></i></a>
                 </span>
             </div>
         </div>
