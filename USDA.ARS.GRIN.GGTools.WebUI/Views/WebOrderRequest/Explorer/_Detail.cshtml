@@ -31,9 +31,9 @@
         @if (Model.Entity.IsLocked == true && Model.Entity.OwnedByWebUserID == AppInfo.GetAuthenticatedUser().WebUserID)
         {
             <!-- On Hold -->
-            if (Model.Entity.IsOnHold == "Y")
+            if (Model.Entity.StatusCode == "NRR_HOLD")
             {
-                <button id="btnActionHold"
+                <button id="btnActionHoldRel"
                         data-ggtools-web-order-request-action="NRR_HOLD_REL"
                         type="button"
                         class="btn btn-default">
@@ -43,7 +43,7 @@
             }
             else
             {
-                <button id="btnActionHold"
+                <button id="btnOpenModalHold"
                         data-ggtools-web-order-request-action="NRR_HOLD"
                         type="button"
                         class="btn btn-default">
@@ -53,7 +53,7 @@
             }
 
             <!-- On Country Hold -->
-            if (Model.Entity.IsOnCountryHold == "Y")
+            if (Model.Entity.StatusCode == "NRR_HOLD_CTRY")
             {
                 <button id="btnActionHold"
                         data-ggtools-web-order-request-action="NRR_HOLD_CTRY_REL"
@@ -141,32 +141,34 @@
     <div class="col-md-2">
         <div class="form-group">
             <label>Status</label>
-
             @{
-                            string statusCssClass = String.Empty;
-                            switch (Model.Entity.StatusCode.ToUpper())
-                            {
-                                case "ACCEPTED":
-                                    statusCssClass = "background-color: #28a745; color:white;";
-                                    break;
-                                case "CANCELED":
-                                    statusCssClass = "background-color: #ffc107; color:white;";
-                                    break;
-                                case "SUBMITTED":
-                                    statusCssClass = "background-color: #6f42c1; color:white;";
-                                    break;
-                                case "MIXED":
-                                    statusCssClass = "background-color: #007bff; color:white;";
-                                    break;
-                                case "NRR_FLAG":
-                                    statusCssClass = "background-color: #dc3545; color:white;";
-                                    break;
-                                case "NRR_HOLD":
-                                    statusCssClass = "background-color: #magenta; color:white;";
-                                    break;
-                            }
-                        }
-                        @Html.TextBoxFor(x => x.Entity.StatusCode, new { @class = "form-control form-control-sm", @readonly = "readonly", disabled = "disabled", @style = statusCssClass })
+                string statusCssClass = String.Empty;
+                switch (Model.Entity.StatusCode.ToUpper())
+                {
+                    case "ACCEPTED":
+                        statusCssClass = "background-color: #28a745; color:white;";
+                        break;
+                    case "CANCELED":
+                        statusCssClass = "background-color: #ffc107; color:white;";
+                        break;
+                    case "SUBMITTED":
+                        statusCssClass = "background-color: #6f42c1; color:white;";
+                        break;
+                    case "MIXED":
+                        statusCssClass = "background-color: #007bff; color:white;";
+                        break;
+                    case "NRR_FLAG":
+                        statusCssClass = "background-color: #dc3545; color:white;";
+                        break;
+                    case "NRR_HOLD":
+                        statusCssClass = "background-color: teal; color:white;";
+                        break;
+                    case "NRR_HOLD_CTRY":
+                        statusCssClass = "background-color: teal; color:white;";
+                        break;
+                }
+            }
+            @Html.TextBoxFor(x => x.Entity.StatusCode, new { @class = "form-control form-control-sm", @readonly = "readonly", disabled = "disabled", @style = statusCssClass })
         </div>
     </div>
     <div class="col-md-3">

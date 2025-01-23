@@ -80,11 +80,16 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
         {
             try
             {
+                viewModel.Get(viewModel.Entity.ID);
                 viewModel.Entity.ModifiedByCooperatorID = AuthenticatedUser.CooperatorID;
                 viewModel.Entity.WebUserID = AuthenticatedUser.WebUserID;
                 viewModel.Entity.StatusCode = viewModel.NewActionCode;
                 viewModel.Update();
-                viewModel.SendEmail();
+
+                if (viewModel.Entity.StatusCode != "NRR_HOLD")
+                {
+                    viewModel.SendEmail();
+                }              
                 return Json(new { success = true, data = viewModel.Entity.ID }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
@@ -406,32 +411,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             EmailTemplate emailTemplate = new EmailTemplate();
 
             try 
-            { 
-                switch (webOrderRequestAction)
-                {
-                    case "NRR_APPROVE":
-                        viewModel.EventValue = "Approve Web Order Request";
-                        emailTemplate = viewModel.GetEmailTemplate("CAP");
-                        break;
-                    case "NRR_REJECT":
-                        viewModel.EventValue = "Reject Web Order Request";
-                        emailTemplate = viewModel.GetEmailTemplate("RRJ");
-                        break;
-                    case "NRR_INFO":
-                        viewModel.EventValue = "Request Additional Information";
-                        emailTemplate = viewModel.GetEmailTemplate("RQI");
-                        break;
-                    case "NRR_CUR":
-                        viewModel.EventValue = "Email Curators";
-                        emailTemplate = viewModel.GetEmailTemplate("CUR");
-                        break;
-                    case "NRR_HOLD_CTRY":
-                        viewModel.EventValue = "Country Hold Notification";
-                        emailTemplate = viewModel.GetEmailTemplate("HLC");
-                        break;
-                    default:
-                        throw new NullReferenceException("No email template found for WOR action code " + webOrderRequestAction);
-                }
+            {
                 viewModel.Get(entityId);
                 if (viewModel.Entity == null)
                 {
@@ -440,16 +420,44 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
 
                 viewModel.NewActionCode = webOrderRequestAction;
                 viewModel.Entity.ID = entityId;
-                viewModel.ActionEmailTo = viewModel.Entity.WebCooperatorEmail;
-                viewModel.ActionEmailSubject = emailTemplate.Subject;
-                viewModel.ActionEmailFrom = "gringlobal.orders@usda.gov";
-                viewModel.ActionEmailBody = emailTemplate.Body;
-                viewModel.ActionEmailBodyOriginal = emailTemplate.Body;
 
-                // REFACTOR: Replace placeholder variables with WOR data.
-                //viewModel.ActionEmailBody.Replace("@WebCooperatorFullName", viewModel.Entity.WebCooperatorFullName);
-                viewModel.ActionEmailBody = viewModel.ActionEmailBody.Replace("[ID_HERE]", entityId.ToString());
-                viewModel.ActionEmailSubject = viewModel.ActionEmailSubject.Replace("[ID_HERE]", entityId.ToString());
+                if (webOrderRequestAction != "NRR_HOLD")
+                {
+                    switch (webOrderRequestAction)
+                    {
+                        case "NRR_APPROVE":
+                            viewModel.EventValue = "Approve Web Order Request";
+                            emailTemplate = viewModel.GetEmailTemplate("CAP");
+                            break;
+                        case "NRR_REJECT":
+                            viewModel.EventValue = "Reject Web Order Request";
+                            emailTemplate = viewModel.GetEmailTemplate("RRJ");
+                            break;
+                        case "NRR_INFO":
+                            viewModel.EventValue = "Request Additional Information";
+                            emailTemplate = viewModel.GetEmailTemplate("RQI");
+                            break;
+                        case "NRR_CUR":
+                            viewModel.EventValue = "Email Curators";
+                            emailTemplate = viewModel.GetEmailTemplate("CUR");
+                            break;
+                        case "NRR_HOLD_CTRY":
+                            viewModel.EventValue = "Country Hold Notification";
+                            emailTemplate = viewModel.GetEmailTemplate("HLC");
+                            break;
+                        default:
+                            throw new NullReferenceException("No email template found for WOR action code " + webOrderRequestAction);
+                    }
+
+                    viewModel.ActionEmailTo = viewModel.Entity.WebCooperatorEmail;
+                    viewModel.ActionEmailSubject = emailTemplate.Subject;
+                    viewModel.ActionEmailFrom = "gringlobal.orders@usda.gov";
+                    viewModel.ActionEmailBody = emailTemplate.Body;
+                    viewModel.ActionEmailBodyOriginal = emailTemplate.Body;
+                    viewModel.ActionEmailBody = viewModel.ActionEmailBody.Replace("[ID_HERE]", entityId.ToString());
+                    viewModel.ActionEmailSubject = viewModel.ActionEmailSubject.Replace("[ID_HERE]", entityId.ToString());
+
+                }
                 return PartialView("~/Views/WebOrderRequest/Components/_EmailEditor.cshtml", viewModel);
             }
             catch (Exception ex)
