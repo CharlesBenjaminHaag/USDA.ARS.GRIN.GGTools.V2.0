@@ -86,7 +86,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 viewModel.Entity.StatusCode = viewModel.NewActionCode;
                 viewModel.Update();
 
-                if (viewModel.Entity.StatusCode != "NRR_HOLD")
+                if ((viewModel.Entity.StatusCode != "NRR_HOLD") && (!viewModel.Entity.StatusCode.Contains("_REL")))
                 {
                     viewModel.SendEmail();
                 }              

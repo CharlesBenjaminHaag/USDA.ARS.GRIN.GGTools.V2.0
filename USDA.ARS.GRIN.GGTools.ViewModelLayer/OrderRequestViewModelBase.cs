@@ -60,5 +60,12 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
             set { _DataCollectionPhytoLog = value; }
         }
 
+        #region Select Lists
+
+        public SelectList Statuses { get; set; }
+
+        public SelectList IntendedUseCodes { get; set; }
+
+        #endregion
     }
 }

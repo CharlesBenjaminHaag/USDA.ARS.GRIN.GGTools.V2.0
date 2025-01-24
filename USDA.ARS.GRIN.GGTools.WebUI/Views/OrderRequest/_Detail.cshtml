@@ -17,6 +17,13 @@
                             @Html.TextBoxFor(x => x.SearchEntity.ID, new { @class = "form-control" })
                         </div>
                     </div>
+                    <div class="col-md-1">
+                        <div class="form-group form-horizontal">
+                            <label>Local No.</label>
+                            @Html.TextBoxFor(x => x.SearchEntity.LocalNumber, new { @class = "form-control" })
+                        </div>
+                    </div>
+
                     <div class="col-md-2">
                         <div id="section-alternate-name" class="form-group form-horizontal">
                             <label>Requestor Name</label>
@@ -25,13 +32,14 @@
                     </div>
                     <div class="col-md-2">
                         <div id="section-alternate-name" class="form-group form-horizontal">
-                            <label>Requestor Last Name</label>
+                            <label>Ship-To Cooperator Name</label>
+                            @Html.TextBoxFor(x => x.SearchEntity.ShipToCooperatorName, new { @class = "form-control" })
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div id="section-alternate-name" class="form-group form-horizontal">
-                            <label>Requestor Email</label>
-                             
+                            <label>Final Recipient</label>
+                            @Html.TextBoxFor(x => x.SearchEntity.FinalRecipientCooperatorName, new { @class = "form-control" })
                         </div>
                     </div>
                     <div class="col-md-3">

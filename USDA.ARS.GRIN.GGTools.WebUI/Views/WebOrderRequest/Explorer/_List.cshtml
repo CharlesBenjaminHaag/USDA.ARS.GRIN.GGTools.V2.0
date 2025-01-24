@@ -10,7 +10,7 @@
             </th>
             <td>Email Address</td>
             <th>Organization</th>
-            <th>Pending?</th>
+            <th>Locked</th>
             <th></th>
             
         </tr>
@@ -64,15 +64,16 @@
                     <a href="@Url.Action("Search","WebOrderRequest", new { organization = result.WebCooperatorOrganization })">@result.WebCooperatorOrganization</a>
                 </td>
                 <td>
-                    @{
-                        if (result.MostRecentWebOrderAction == "NRR_INFO")
-                        {
-                            <span class="right badge badge-info">
-                                <i class="fas fa-info" style="color:white;"></i> Info
-                            </span>
-                        }
-                    }
-                </td>
+                    
+                                @{
+                                    if (result.IsLocked)
+                                    {
+                                        <span class="right badge badge-info">
+                                            <i class="fas fa-lock" style="color:white;"></i> @result.OwnedByWebCooperatorName
+                                        </span>
+                                    }
+                                }
+                            </td>
                 <td>
                     <a href="@Url.Action("View","WebOrderRequest", new { entityId = result.ID})" class="btn btn-default btn-flat btn-block">View</a>
                 </td>

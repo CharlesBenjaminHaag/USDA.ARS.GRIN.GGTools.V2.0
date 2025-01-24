@@ -1,6 +1,8 @@
 ﻿@model USDA.ARS.GRIN.GGTools.ViewModelLayer.WebOrderRequestViewModel
 <div class="timeline timeline-inverse">
 
+    
+
     @if (Model.DataCollectionActionGroups.Count() > 0)
     {
         foreach (var actionGroup in Model.DataCollectionActionGroups)
@@ -36,7 +38,7 @@
         </div>
     }
     else
-    { 
+    {
         <div class="alert alert-info alert-dismissible">
             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
             <h5><i class="icon fas fa-info"></i> No Actions Taken</h5>

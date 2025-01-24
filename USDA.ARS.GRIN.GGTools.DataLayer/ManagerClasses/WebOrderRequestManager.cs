@@ -305,10 +305,11 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
         {
             List<CodeValue> timeFrameOptions = new List<CodeValue>();
             timeFrameOptions.Add(new CodeValue { Value = "1D", Title = "Today" });
-            timeFrameOptions.Add(new CodeValue { Value = "3D", Title = "Within the last 3 days" });
-            timeFrameOptions.Add(new CodeValue { Value = "7D", Title = "Within the last 7 days" });
-            timeFrameOptions.Add(new CodeValue { Value = "30", Title = "Within the last 30 days" });
-            timeFrameOptions.Add(new CodeValue { Value = "60", Title = "Within the last 60 days" });
+            timeFrameOptions.Add(new CodeValue { Value = "3D", Title = "The last 3 days" });
+            timeFrameOptions.Add(new CodeValue { Value = "7D", Title = "This Week" });
+            timeFrameOptions.Add(new CodeValue { Value = "30D", Title = "This Month" });
+            timeFrameOptions.Add(new CodeValue { Value = "60D", Title = "The Last 2 Months" });
+            timeFrameOptions.Add(new CodeValue { Value = "90D", Title = "The Last 3 Months" });
             return timeFrameOptions;
         }
 
