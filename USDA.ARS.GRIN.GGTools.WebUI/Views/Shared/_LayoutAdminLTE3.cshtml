@@ -17,6 +17,12 @@
     <link rel="stylesheet" type="text/css" href="https://editor.datatables.net/extensions/Editor/css/editor.dataTables.css" />
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.3.0/css/responsive.dataTables.min.css">
 
+    <!-- Include stylesheet -->
+    <link href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css" rel="stylesheet" />
+
+    <!-- Include the Quill library -->
+    <script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
+
     <!--jQuery UI-->
     <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
 
@@ -124,8 +130,8 @@
         <nav class="main-header navbar navbar-expand navbar-white navbar-light text-sm">
             @{Html.RenderAction("GetMenu", "Menu", new { @eventAction = eventAction, @eventValue = eventValue });}
             <ul class="navbar-nav ml-auto">
-                
-                
+
+
 
                 <li class="nav-item dropdown">
                     <a class="nav-link" data-toggle="dropdown" href="#">
@@ -178,8 +184,8 @@
                         </a>
                     </div>
                 </div>
-                
-                @Html.Partial("~/Views/WebOrderRequest/Components/_SearchBox.cshtml") 
+
+                @Html.Partial("~/Views/WebOrderRequest/Components/_SearchBox.cshtml")
 
                 @switch (controllerName)
                 {
@@ -199,7 +205,7 @@
                 <div class="container-fluid">
 
                     <!--TEST-->
-                      @if (AppInfo.IsRunningInTestMode())
+                    @if (AppInfo.IsRunningInTestMode())
                     {
                         <div class="row mb-2">
                             <div class="col-md-12">
@@ -211,7 +217,7 @@
                             </div>
                         </div>
                     }
-                    
+
 
 
                     <div class="row mb-2">
@@ -270,6 +276,7 @@
 <!-- Date range picker -->
 <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+
 
 
 <script>
@@ -428,7 +435,7 @@
         //DEBUG
         console.log("CALLED FROM BatchEdit() section is " + contentSectionId + " table is " + dataTableId);
 
-       /* dataTableId = dataTableId.replace("data_table_", "");*/
+        /* dataTableId = dataTableId.replace("data_table_", "");*/
 
         var idList = GetSelectedEntityIDs(dataTableId);
 

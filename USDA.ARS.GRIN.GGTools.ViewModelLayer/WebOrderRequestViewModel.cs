@@ -22,6 +22,8 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
         public string SelectedFilterMostRecentAction { get; set; }
         public string SelectedFilterAssignedTo { get; set; }
         public string EmailBodyOriginal { get; set; }
+        public bool IsEmailRequested { get; set; }
+        public bool IsBCCRequested { get; set; }
 
         public WebOrderRequestViewModel()
         {

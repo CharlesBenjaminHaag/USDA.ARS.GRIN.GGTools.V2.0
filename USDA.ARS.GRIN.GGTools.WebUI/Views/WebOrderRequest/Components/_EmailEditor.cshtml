@@ -4,6 +4,10 @@
     @Html.HiddenFor(x => x.NewActionCode)
     @Html.HiddenFor(x => x.EventValue)
     @Html.HiddenFor(x => x.Entity.ID)
+    @Html.HiddenFor(x => x.ActionEmailFrom)
+    @Html.HiddenFor(x => x.IsEmailRequested)
+    @Html.HiddenFor(x => x.IsBCCRequested)
+
     <div class="row">
         <div class="col-md-12">
             <div class="form-group">
@@ -13,14 +17,14 @@
         </div>
     </div>
     <div id="section-email-edit">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="form-group">
-                    <label>From</label>
-                    @Html.TextBoxFor(x => x.ActionEmailFrom, new { @class = "form-control", @readonly = "readonly" })
+        @*<div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label>From</label>
+                        @Html.TextBoxFor(x => x.ActionEmailFrom, new { @class = "form-control", @readonly = "readonly" })
+                    </div>
                 </div>
-            </div>
-        </div>
+            </div>*@
         <div class="row">
             <div class="col-md-12">
                 <div class="form-group">
@@ -29,7 +33,7 @@
                 </div>
             </div>
         </div>
-        <div class="row">
+        <div id="section-action-email-bcc" class="row">
             <div class="col-md-12">
                 <div class="form-group">
                     <label>BCC</label>
@@ -49,8 +53,38 @@
             <div class="col-md-12">
                 <div class="form-group">
                     <label>Body</label>
-                    @Html.TextAreaFor(x => x.ActionEmailBody, new { @class = "form-control", @rows = "15" })
+                    @Html.TextAreaFor(x => x.ActionEmailBody, new { @class = "form-control", @rows = "10" })
                     @Html.HiddenFor(x => x.ActionEmailBodyOriginal)
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <br />
+                <div class="form-group">
+                    <div class="input-group">
+                        <input type="text" class="form-control" value="Send BCC" readonly="readonly" />
+                        <div class="input-group-append">
+                            <span class="input-group-text" style="background-color:white;">
+                                @Html.CheckBoxFor(x => x.IsBCCRequested)
+                                &nbsp;
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <br />
+                <div class="form-group">
+                    <div class="input-group">
+                        <input type="text" class="form-control" value="Send email to requestor" readonly="readonly" />
+                        <div class="input-group-append">
+                            <span class="input-group-text" style="background-color:white;">
+                                @Html.CheckBoxFor(x => x.IsEmailRequested)
+                                &nbsp;
+                            </span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

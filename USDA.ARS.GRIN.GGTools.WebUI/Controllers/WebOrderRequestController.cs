@@ -420,9 +420,10 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
 
                 viewModel.NewActionCode = webOrderRequestAction;
                 viewModel.Entity.ID = entityId;
-
+               
                 if (webOrderRequestAction != "NRR_HOLD")
                 {
+                    viewModel.IsEmailRequested = true;
                     switch (webOrderRequestAction)
                     {
                         case "NRR_APPROVE":
