@@ -149,7 +149,7 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
             return emailTemplate;
         }
 
-        public void SendEmail()
+        public void SendEmail(string emailTo = "")
         {
             try
             {

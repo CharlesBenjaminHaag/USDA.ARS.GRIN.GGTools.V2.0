@@ -86,10 +86,19 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 viewModel.Entity.StatusCode = viewModel.NewActionCode;
                 viewModel.Update();
 
-                if ((viewModel.Entity.StatusCode != "NRR_HOLD") && (!viewModel.Entity.StatusCode.Contains("_REL")))
+                if (viewModel.IsEmailRequested)
                 {
-                    viewModel.SendEmail();
-                }              
+                    if ((viewModel.Entity.StatusCode != "NRR_HOLD") && (!viewModel.Entity.StatusCode.Contains("_REL")))
+                    {
+                        viewModel.SendEmail();
+                    }
+                }
+                
+                if (viewModel.IsBCCRequested)
+                {
+                    viewModel.SendEmail(viewModel.ActionEmailBCC);
+                }
+
                 return Json(new { success = true, data = viewModel.Entity.ID }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
@@ -158,7 +167,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             }
         }
 
-        public ActionResult Search(int id=0, string status="", string requestorName="", string emailAddress="", string organization="", string intendedUseCode="")
+        public ActionResult Search(int id=0, string status="", string requestorName="", string emailAddress="", string organization="", string countryDescription = "", string intendedUseCode="")
         {
             WebOrderRequestViewModel viewModel = new WebOrderRequestViewModel();
 
@@ -179,6 +188,12 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 if (!String.IsNullOrEmpty(organization))
                 {
                     viewModel.SearchEntity.WebCooperatorOrganization = organization;
+                    viewModel.Search();
+                }
+
+                if (!String.IsNullOrEmpty(countryDescription))
+                {
+                    viewModel.SearchEntity.WebCooperatorAddressCountryDescription = countryDescription;
                     viewModel.Search();
                 }
 
@@ -453,6 +468,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                     viewModel.ActionEmailTo = viewModel.Entity.WebCooperatorEmail;
                     viewModel.ActionEmailSubject = emailTemplate.Subject;
                     viewModel.ActionEmailFrom = "gringlobal.orders@usda.gov";
+                    viewModel.ActionEmailBCC = AuthenticatedUser.EmailAddress;
                     viewModel.ActionEmailBody = emailTemplate.Body;
                     viewModel.ActionEmailBodyOriginal = emailTemplate.Body;
                     viewModel.ActionEmailBody = viewModel.ActionEmailBody.Replace("[ID_HERE]", entityId.ToString());

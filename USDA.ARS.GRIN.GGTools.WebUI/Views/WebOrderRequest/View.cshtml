@@ -391,6 +391,20 @@
                     $("#section-email-edit").hide();
                 }
 
+                // Get references to the checkbox and div
+                const checkbox = document.getElementById('cbxIsBCCRequested');
+                const contentDiv = document.getElementById('section-action-email-bcc');
+
+                // Add an event listener to toggle visibility when the checkbox is changed
+                checkbox.addEventListener('change', function () {
+                    // Toggle the visibility based on the checkbox state
+                    if (checkbox.checked) {
+                        contentDiv.style.display = 'block'; // Show the div
+                    } else {
+                        contentDiv.style.display = 'none'; // Hide the div
+                    }
+                });
+
                 //const quill = new Quill('#editor', {
                 //    theme: 'snow'
                 //});
@@ -439,19 +453,25 @@
      var newActionCode = $("#NewActionCode").val();
      var actionEmailFrom = $("#ActionEmailFrom").val();
      var actionEmailTo = $("#ActionEmailTo").val();
+     var actionEmailBcc = $("#ActionEmailBCC").val();
      var actionEmailSubject = $("#ActionEmailSubject").val();
      var actionEmailBody = $("#ActionEmailBody").val();
      var actionEmailBodyOriginal = $("#ActionEmailBodyOriginal").val();
-
+     var isEmailRequested = GetCheckboxValue("cbxIsEmailRequested");
+     var isBCCRequested = GetCheckboxValue("cbxIsBCCRequested");
      var formData = new FormData();
+
      formData.append("Entity.ID", entityId);
      formData.append("EventNote", note);
      formData.append("NewActionCode", newActionCode);
      formData.append("ActionEmailFrom", actionEmailFrom);
      formData.append("ActionEmailTo", actionEmailTo);
+     formData.append("ActionEmailBCC", actionEmailBcc);
      formData.append("ActionEmailSubject", actionEmailSubject);
      formData.append("ActionEmailBody", actionEmailBody);
      formData.append("ActionEmailBodyOriginal", actionEmailBodyOriginal);
+     formData.append("IsEmailRequested", isEmailRequested);
+     formData.append("isBCCRequested", isEmailRequested);
 
      $.ajax({
          url: link,
@@ -475,15 +495,24 @@
      });
     }
 
+    function GetCheckboxValue(checkBoxId) {
+        const checkbox = document.getElementById(checkBoxId);
+        const isChecked = checkbox.checked;
+        /*alert(isChecked ? 'Checkbox is checked' : 'Checkbox is unchecked');*/
+        return isChecked;
+    }
+
     function UpdateLock(webOrderRequestId, isLocked) {
         var link = '@Url.Action("SetLockStatus", "WebOrderRequest")';
         var isEmailRequested = $("#IsEmailRequested");
+        var isBCCRequested = $("#IsBCCRequested");
 
         var formData = new FormData();
 
         formData.append("webOrderRequestId", webOrderRequestId);
         formData.append("isLocked", isLocked);
         formData.append("isEmailRequested", isEmailRequested);
+        formData.append("isBCCRequested", isEmailRequested);
 
         $.ajax({
             url: link,

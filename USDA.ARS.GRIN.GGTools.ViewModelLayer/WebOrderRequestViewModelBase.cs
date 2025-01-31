@@ -43,6 +43,7 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
                 DataCollectionStatusCodes = new Collection<CodeValue>(mgr.GetCodeValues("WEB_ORDER_INTENDED_USE"));
                 DataCollectionIntendedUseCodes = new Collection<CodeValue>(mgr.GetCodeValues("WEB_ORDER_REQUEST_STATUS"));
 
+                Countries = new SelectList(mgr.GetCodeValues("GEOGRAPHY_COUNTRY_CODE"), "Value", "Title");
                 Cooperators = new SelectList(mgr.GetWebCooperators(), "ID", "FullName");
                 TimeFrameOptions = new SelectList(mgr.GetTimeFrameOptions(), "Value", "Title");
                 YesNoOptions = new SelectList(mgr.GetYesNoOptions(), "Key", "Value");
@@ -202,6 +203,8 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
         public SelectList WebOrderRequestStatuses { get; set; }
 
         public SelectList WebOrderRequestActions { get; set; }
+
+        public SelectList Countries { get; set; }
 
         #endregion
     }

@@ -28,6 +28,8 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
         public string WebCooperatorAddressCity  { get; set; }
         public string WebCooperatorAddressPostalIndex  { get; set; }
         public string WebCooperatorAddressState  { get; set; }
+        public string WebCooperatorAddressCountry { get; set; }
+        public string WebCooperatorAddressCountryDescription { get; set; }
         public string ShippingAddress1  { get; set; }
         public string ShippingAddress2  { get; set; }
         public string ShippingAddress3  { get; set; }

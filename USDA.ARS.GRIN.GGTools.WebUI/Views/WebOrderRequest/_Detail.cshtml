@@ -41,8 +41,12 @@
                             @Html.TextBoxFor(x => x.SearchEntity.WebCooperatorOrganization, new { @class = "form-control" })
                         </div>
                     </div>
-                </div>
-                <div class="row">
+                    <div class="col-md-2">
+                        <div class="form-group form-horizontal">
+                            <label>Country</label>
+                            @Html.DropDownListFor(x => x.SearchEntity.WebCooperatorAddressCountry, Model.Countries, "All countries", new { @class = "form-control" })
+                        </div>
+                    </div>
                     <div class="col-md-2">
                         <div class="form-group form-horizontal">
                             <label>Time Frame</label>

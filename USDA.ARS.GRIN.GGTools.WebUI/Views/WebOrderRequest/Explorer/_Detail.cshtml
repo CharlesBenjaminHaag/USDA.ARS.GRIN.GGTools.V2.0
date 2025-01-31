@@ -21,7 +21,7 @@
     <div class="alert alert-info alert-dismissible">
         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
         <h5><i class="icon fas fa-lock"></i> Locked</h5>
-        This web order request has been locked by: <strong>@Model.Entity.OwnedByWebCooperatorName</strong>
+        This web order request is being reviewed by <strong>@Model.Entity.OwnedByWebCooperatorName</strong> as of @Model.Entity.OwnedDate
     </div>
 }
 
@@ -115,7 +115,7 @@
                     data-ggtools-is-locked="N"
                     class="btn btn-default float-right">
                 <i class="fas fa-unlock nav-icon"></i>
-                Unlock
+                End Review
             </button>
         }
         else
@@ -125,7 +125,7 @@
                     data-ggtools-is-locked="Y"
                     class="btn btn-default float-right">
                 <i class="fas fa-lock nav-icon"></i>
-                Lock For Editing
+                Review/Edit
             </button>
         }
     </div>

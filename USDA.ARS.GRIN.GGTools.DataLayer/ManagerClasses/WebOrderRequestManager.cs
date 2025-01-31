@@ -72,6 +72,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             SQL += " AND (@LastName                 IS NULL     OR      WebCooperatorLastName           LIKE        '%' + @LastName + '%')";
             SQL += " AND (@EmailAddress             IS NULL     OR      WebCooperatorEmail              LIKE        '%' + @EmailAddress + '%')";
             SQL += " AND (@Organization             IS NULL     OR      WebCooperatorOrganization       LIKE        '%' + @Organization + '%')";
+            SQL += " AND (@WebCooperatorAddressCountryDescription       IS NULL                         OR          WebCooperatorAddressCountryDescription     =   @WebCooperatorAddressCountryDescription )";
             SQL += " AND (@IntendedUseCode          IS NULL     OR      IntendedUseCode                 =           @IntendedUseCode)";
             SQL += " AND (@StatusCode               IS NULL     OR      StatusCode                      =           @StatusCode)";
             SQL += " AND (@MostRecentWebOrderAction IS NULL     OR      MostRecentWebOrderAction        =           @MostRecentWebOrderAction)";
@@ -171,6 +172,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
                 CreateParameter("FirstName", (object)searchEntity.WebCooperatorFirstName ?? DBNull.Value, true),
                 CreateParameter("LastName", (object)searchEntity.WebCooperatorLastName ?? DBNull.Value, true),
                 CreateParameter("Organization", (object)searchEntity.WebCooperatorOrganization ?? DBNull.Value, true),
+                CreateParameter("WebCooperatorAddressCountryDescription", (object)searchEntity.WebCooperatorAddressCountryDescription ?? DBNull.Value, true),
                 CreateParameter("EmailAddress", (object)searchEntity.WebCooperatorEmailAddress ?? DBNull.Value, true),
                 CreateParameter("IntendedUseCode", (object)searchEntity.IntendedUseCode ?? DBNull.Value, true),
                 CreateParameter("StatusCode", (object)searchEntity.StatusCode ?? DBNull.Value, true),
