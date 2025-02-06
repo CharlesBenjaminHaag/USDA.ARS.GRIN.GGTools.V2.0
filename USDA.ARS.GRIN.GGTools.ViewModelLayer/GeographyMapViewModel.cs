@@ -64,6 +64,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
             }
             return Entity;
         }
+        
         public void GetFolderItems()
         {
             using (GeographyMapManager mgr = new GeographyMapManager())
@@ -84,6 +85,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
                 }
             }
         }
+        
         public void GetList()
         {
             using (GeographyMapManager mgr = new GeographyMapManager())
@@ -138,6 +140,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
                 }
             }
         }
+        
         public List<GeographyMap> InsertMultiple()
         {
             int geographyMapId = 0;
@@ -173,6 +176,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
             DataCollection = new Collection<GeographyMap>(geographyMaps);
             return geographyMaps;
         }
+        
         public void Map()
         {
             var itemIdList = ItemIDList.Split(',');
@@ -202,6 +206,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
                 }
             }
         }
+        
         public JsonResult AddCitation(int citationId, string idList)
         {
             string[] idCollection;
@@ -240,6 +245,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
                 }
             }
         }
+        
         public void RunSearch(int appUserItemFolderId)
         {
             AppUserItemListViewModel appUserItemListViewModel = new AppUserItemListViewModel();
@@ -248,36 +254,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
             SearchEntity = Deserialize<GeographyMapSearch>(appUserItemListViewModel.Entity.Properties);
             Search();
         }
-        //public void SaveSearch()
-        //{
-        //    AppUserItemFolderViewModel appUserItemFolderViewModel = new AppUserItemFolderViewModel();
-        //    appUserItemFolderViewModel.Entity.FolderName = SearchEntity.SearchTitle;
-        //    appUserItemFolderViewModel.Entity.Description = SearchEntity.SearchDescription;
-        //    appUserItemFolderViewModel.Entity.Category = "";
-        //    appUserItemFolderViewModel.Entity.FolderType = "DYNAMIC";
-        //    appUserItemFolderViewModel.Entity.DataType = TableName;
-        //    appUserItemFolderViewModel.Entity.CreatedByCooperatorID = AuthenticatedUserCooperatorID;
-        //    appUserItemFolderViewModel.Insert();
-
-        //    if (appUserItemFolderViewModel.Entity.ID <= 0)
-        //    {
-        //        throw new IndexOutOfRangeException("Error adding new folder.");
-        //    }
-
-        //    AppUserItemListViewModel appUserItemListViewModel = new AppUserItemListViewModel();
-        //    appUserItemListViewModel.Entity.AppUserItemFolderID = appUserItemFolderViewModel.Entity.ID;
-        //    appUserItemListViewModel.Entity.CooperatorID = AuthenticatedUserCooperatorID;
-        //    appUserItemListViewModel.Entity.TabName = "GGTools Taxon Editor";
-        //    appUserItemListViewModel.Entity.ListName = appUserItemFolderViewModel.Entity.FolderName;
-        //    appUserItemListViewModel.Entity.IDNumber = 0;
-        //    appUserItemListViewModel.Entity.IDType = "FOLDER";
-        //    appUserItemListViewModel.Entity.SortOrder = 0;
-        //    appUserItemListViewModel.Entity.Title = appUserItemFolderViewModel.Entity.FolderName;
-        //    appUserItemListViewModel.Entity.Description = "Added in GGTools Taxonomy Editor";
-        //    appUserItemListViewModel.Entity.CreatedByCooperatorID = AuthenticatedUserCooperatorID;
-        //    appUserItemListViewModel.Entity.Properties = SerializeToXml(SearchEntity);
-        //    appUserItemListViewModel.Insert();
-        //}
+        
         public void SearchFolderItems()
         {
             using (GeographyMapManager mgr = new GeographyMapManager())
@@ -324,22 +301,5 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
             throw new NotImplementedException();
         }
 
-        //public void SaveSearch()
-        //{
-        //    AppUserDynamicQuery appUserDynamicQuery = new AppUserDynamicQuery();
-        //    appUserDynamicQuery.CreatedByCooperatorID = AuthenticatedUserCooperatorID;
-        //    appUserDynamicQuery.Title = SearchEntity.SaveSearchTitle;
-        //    appUserDynamicQuery.Description = SearchEntity.SaveSearchDescription;
-        //    appUserDynamicQuery.DataSource = TableName;
-        //    appUserDynamicQuery.QuerySyntax = SerializeToXml(SearchEntity);
-        //    using (AppUserDynamicQueryManager mgr = new AppUserDynamicQueryManager())
-        //    {
-        //        mgr.Insert(appUserDynamicQuery);
-        //    }
-        //    //TODO
-        //    //Serialize search entity
-        //    //Save to DB
-
-        //}
     }
 }

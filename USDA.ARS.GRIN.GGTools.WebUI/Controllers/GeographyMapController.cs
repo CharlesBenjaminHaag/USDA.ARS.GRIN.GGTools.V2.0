@@ -105,14 +105,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 return RedirectToAction("InternalServerError", "Error");
             }
         }
-        //public ActionResult RunSavedSearch(int id)
-        //{
-        //    AppUserDynamicQueryViewModel viewModel = new AppUserDynamicQueryViewModel();
-        //    viewModel.Edit(id);
-        //    GeographyMapSearch geographyMapSearch = viewModel.Deserialize<GeographyMapSearch>(viewModel.Entity.QuerySyntax);
-        //    TempData["GEO-MAP-SEARCH"] = geographyMapSearch;
-        //    return RedirectToAction("Index", "GeographyMap");
-        //}
+                
         public PartialViewResult _List(string eventValue = "", int geographyId = 0, int speciesId = 0)
         {
             try
@@ -129,6 +122,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 return PartialView("~/Views/Error/_InternalServerError.cshtml");
             }
         }
+        
         public PartialViewResult _SelectList(int speciesId = 0)
         {
             try
@@ -192,21 +186,22 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             }
         }
 
-        public ActionResult AddBatch()
+        [HttpPost]
+        public PartialViewResult AddBatch(GeographyMapViewModel viewModel)
         {
             try
             {
-                GeographyMapViewModel viewModel = new GeographyMapViewModel();
-                viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
-                return View(BASE_PATH + "EditBatch.cshtml", viewModel);
+                viewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
+                viewModel.InsertBatch();
+                return PartialView("~/Views/Taxonomy/GeographyMap/_ListBatch.cshtml", viewModel);
             }
             catch (Exception ex)
             {
                 Log.Error(ex);
-                return RedirectToAction("InternalServerError", "Error");
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
             }
         }
-        
+
         [HttpPost]
         public PartialViewResult Add(FormCollection formCollection)
         {
@@ -267,8 +262,8 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
         {
             try
             {
-                viewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
-                viewModel.InsertBatch();
+                //viewModel.Entity.CreatedByCooperatorID = AuthenticatedUser.CooperatorID;
+                //viewModel.InsertBatch();
                 return Json(viewModel.Entity, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
@@ -365,25 +360,6 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             throw new NotImplementedException();
         }
  
-        //public PartialViewResult FolderItems(int folderId)
-        //{
-        //    try
-        //    {
-        //        GeographyMapViewModel viewModel = new GeographyMapViewModel();
-        //        viewModel.EventAction = "SEARCH";
-        //        viewModel.EventValue = "FOLDER";
-        //        viewModel.SearchEntity.FolderID = sysFolderId;
-        //        viewModel.SearchFolderItems();
-        //        ModelState.Clear();
-        //        return PartialView("~/Views/GeographyMap/_List.cshtml", viewModel);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Log.Error(ex);
-        //        return PartialView("~/Views/Error/_InternalServerError.cshtml");
-        //    }
-        //}
-
         public ActionResult RenderLookupModal()
         {
             GeographyMapViewModel viewModel = new GeographyMapViewModel();
@@ -406,13 +382,6 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             }
         }
 
-        //public PartialViewResult RenderEditModal(int speciesId)
-        //{
-        //    GeographyMapViewModel viewModel = new GeographyMapViewModel();
-        //    viewModel.TableName = "taxonomy_geography_map";
-        //    return PartialView(BASE_PATH + "_Edit.cshtml", viewModel);
-        //}
-
         [HttpPost]
         public PartialViewResult FolderItems(FormCollection formCollection)
         {
@@ -423,6 +392,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
         {
             throw new NotImplementedException();
         }
+        
         [HttpPost]
         public JsonResult DeleteEntity(FormCollection formCollection)
         {
@@ -466,6 +436,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
             }
             return PartialView("~/Views/Taxonomy/GeographyMap/Modals/_EditBatch.cshtml", viewModel);
         }
+        
         [HttpPost]
         public JsonResult BatchEdit(string keyList)
         {
@@ -491,5 +462,22 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 return Json("FALSE", JsonRequestBehavior.AllowGet);
             }
         }
+
+        #region Components
+
+        public PartialViewResult Component_Edit()
+        {
+            try {
+                GeographyMapViewModel viewModel = new GeographyMapViewModel();
+                return PartialView("~/Views/Taxonomy/GeographyMap/Components/_Edit.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
+        }
+
+        #endregion
     }
 }

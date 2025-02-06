@@ -41,9 +41,11 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer
                 YesNoOptions = new SelectList(mgr.GetYesNoOptions(), "Key", "Value");
                 Admin1Types = new SelectList(mgr.GetCodeValues("GEOGRAPHY_ADMIN1_TYPE"), "Value", "Title");
                 Admin2Types = new SelectList(mgr.GetCodeValues("GEOGRAPHY_ADMIN2_TYPE"), "Value", "Title");
-                Regions = new SelectList(mgr.GetRegions(), "ID", "RegionText");
-                //SubContinents = new SelectList(mgr.GetSubContinents(), "ID", "SubContinent");
-                Countries = new SelectList(mgr.GetCountries(), "CountryCode", "CountryDescription");
+                //Regions = new SelectList(mgr.GetRegions(), "ID", "RegionText");
+                DataCollectionContinents = new Collection<Region>(mgr.GetContinents());
+                DataCollectionSubContinents = new Collection<Region>(mgr.GetSubContinents());
+                DataCollectionCountries = new Collection<Country>(mgr.GetCountries());
+                //Countries = new SelectList(mgr.GetCountries(), "CountryCode", "CountryDescription");
             }
         }
         public int SpeciesID

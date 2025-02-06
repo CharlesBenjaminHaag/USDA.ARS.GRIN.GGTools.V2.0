@@ -7,6 +7,7 @@ using USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer;
 using USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer;
 using USDA.ARS.GRIN.GGTools.WebUI;
 using NLog;
+using DocumentFormat.OpenXml.Office2016.Drawing.ChartDrawing;
 
 namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
 {
@@ -416,5 +417,30 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                 return Json(new { errorMessage = ex.Message }, JsonRequestBehavior.AllowGet);
             }
         }
+
+        #region Explorer
+
+        public ActionResult Explorer()
+        {
+            GeographyViewModel viewModel = new GeographyViewModel();
+            return View("~/Views/Taxonomy/Geography/Explorer/Index.cshtml", viewModel);
+        }
+
+        [HttpPost]
+        public PartialViewResult ExplorerList(GeographyViewModel viewModel)
+        {
+            try
+            {
+                viewModel.Search();
+                return PartialView("~/Views/Taxonomy/Geography/_List.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
+        }
+
+        #endregion Explorer
     }
 }

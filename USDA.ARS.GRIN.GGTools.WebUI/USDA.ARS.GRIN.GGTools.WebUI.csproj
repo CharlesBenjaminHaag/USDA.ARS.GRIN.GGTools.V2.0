@@ -1102,6 +1102,11 @@
     <Content Include="Views\UPOV\_List.cshtml" />
     <Content Include="Views\WebOrderRequest\_ListWebOrderRequestItems.cshtml" />
     <Content Include="Views\WebOrderRequest\_ListWebOrderRequestActions.cshtml" />
+    <Content Include="Views\Taxonomy\Geography\Explorer\Index.cshtml" />
+    <Content Include="Views\Taxonomy\Geography\Explorer\_ContinentFilter.cshtml" />
+    <Content Include="Views\Taxonomy\Geography\Explorer\_SubcontinentFilter.cshtml" />
+    <Content Include="Views\Taxonomy\Geography\Explorer\_CountryFilter.cshtml" />
+    <Content Include="Views\Taxonomy\GeographyMap\Components\_Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -54,7 +54,6 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             string whereClause = String.Empty;
 
             SQL = " SELECT * FROM vw_GRINGlobal_Geography ";
-            // EXTENDED
             SQL += " WHERE  (@ID                            IS NULL OR ID                       =       @ID)";
             SQL += " AND    (@CreatedByCooperatorID         IS NULL OR  CreatedByCooperatorID   =       @CreatedByCooperatorID)";
             SQL += " AND    (@CreatedDate                   IS NULL OR  CreatedDate             =       @CreatedDate)";
@@ -70,7 +69,6 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             SQL += " AND    (@IsValid                       IS NULL OR  IsValid                 =       @IsValid)";
             SQL += " AND    (@IsRegionMapped                IS NULL OR  IsRegionMapped          =       @IsRegionMapped)";
 
-            // EXTENDED
             SQL += " AND    (@Admin1 IS NULL OR Admin1 COLLATE Latin1_General_CI_AI LIKE '%' + @Admin1 + '%')";
             SQL += " AND    (@Admin1Abbrev IS NULL OR Admin1Abbrev LIKE '%' + @Admin1Abbrev + '%')";
             SQL += " AND    (@Admin1TypeCode IS NULL OR Admin1TypeCode = @Admin1TypeCode)";
@@ -91,25 +89,36 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
                 SQL += " ID IN (" + searchEntity.IDList + ")";
             }
 
-            if (!String.IsNullOrEmpty(searchEntity.ContinentIDList))
+            if (!String.IsNullOrEmpty(searchEntity.SubContinentIDList))
             {
-                whereClause += " AND (RegionID IN (" + searchEntity.ContinentIDList + ")";
+                if (SQL.Contains("WHERE"))
+                {
+                    SQL += " AND ";
+                }
+                else
+                {
+                    SQL += " WHERE ";
+                }
+                whereClause += " (RegionID IN (" + searchEntity.SubContinentIDList + ")";
             }
 
             if (!String.IsNullOrEmpty(searchEntity.CountryCodeList))
             {
-                if (!String.IsNullOrEmpty(searchEntity.ContinentIDList))
+                searchEntity.CountryCodeList = String.Join(",", Array.ConvertAll(searchEntity.CountryCodeList.Split(','), z => "'" + z + "'"));
+
+                if (SQL.Contains("WHERE"))
                 {
-                    whereClause += " OR ";
+                    SQL += " AND ";
                 }
                 else
                 {
-                    whereClause += " AND ";
+                    SQL += " WHERE ";
                 }
-                whereClause += " CountryCode IN (" + searchEntity.CountryCodeList + ")";
+
+                SQL += "  CountryCode IN (" + searchEntity.CountryCodeList + ")";
             }
 
-            if (!String.IsNullOrEmpty(searchEntity.ContinentIDList))
+            if (!String.IsNullOrEmpty(searchEntity.SubContinentIDList))
             {
                 whereClause += ")";
             }

@@ -27,106 +27,109 @@
 
 <div class="row">
     <div class="btn-group">
-
-        @if (Model.Entity.IsLocked == true && Model.Entity.OwnedByWebUserID == AppInfo.GetAuthenticatedUser().WebUserID)
+        @if (Model.Entity.StatusCode.Contains("NRR"))
         {
-            <!-- On Hold -->
-            if (Model.Entity.StatusCode == "NRR_HOLD")
+            if (Model.Entity.IsLocked == true && Model.Entity.OwnedByWebUserID == AppInfo.GetAuthenticatedUser().WebUserID)
             {
-                <button id="btnActionHoldRel"
-                        data-ggtools-web-order-request-action="NRR_HOLD_REL"
+                <!-- On Hold -->
+                if (Model.Entity.StatusCode == "NRR_HOLD")
+                {
+                    <button id="btnActionHoldRel"
+                            data-ggtools-web-order-request-action="NRR_HOLD_REL"
+                            type="button"
+                            class="btn btn-default">
+                        <i class="fas fa-unlock nav-icon"></i>
+                        Remove Hold
+                    </button>
+                }
+                else
+                {
+                    <button id="btnOpenModalHold"
+                            data-ggtools-web-order-request-action="NRR_HOLD"
+                            type="button"
+                            class="btn btn-default">
+                        <i class="fas fa-lock nav-icon"></i>
+                        On Hold
+                    </button>
+                }
+
+                <!-- On Country Hold -->
+                if (Model.Entity.StatusCode == "NRR_HOLD_CTRY")
+                {
+                    <button id="btnActionHold"
+                            data-ggtools-web-order-request-action="NRR_HOLD_CTRY_REL"
+                            type="button"
+                            class="btn btn-default">
+                        <i class="fas fa-unlock nav-icon"></i>
+                        Remove Country Hold
+                    </button>
+                }
+                else
+                {
+                    <button id="btnOpenModalCountryHold"
+                            data-ggtools-web-order-request-action="NRR_HOLD_CTRY"
+                            type="button"
+                            class="btn btn-default">
+                        <i class="fas fa-lock nav-icon"></i>
+                        On Country Hold
+                    </button>
+                }
+
+                if (Model.Entity.StatusCode == "NRR_FLAG")
+                {
+                    <button id="btnOpenModalApprove"
+                            data-ggtools-web-order-request-action="NRR_APPROVE"
+                            type="button"
+                            class="btn btn-default">
+                        <i class="fas fa-thumbs-up text-green nav-icon"></i>
+                        Approve
+                    </button>
+                    <button id="btnOpenModalReject"
+                            data-ggtools-web-order-request-action="NRR_REJECT"
+                            type="button"
+                            class="btn btn-default">
+                        <i class="fas fa-thumbs-down text-red nav-icon"></i>
+                        Reject
+                    </button>
+                    <button id="btnOpenModalRequestInfo"
+                            data-ggtools-web-order-request-action="NRR_INFO"
+                            type="button"
+                            class="btn btn-default">
+                        <i class="fas fa-info text-blue nav-icon"></i>
+                        Request Additional Information
+                    </button>
+                    <button id="btnOpenModalRequestInfo"
+                            data-ggtools-web-order-request-action="NRR_CUR"
+                            type="button"
+                            class="btn btn-default">
+                        <i class="fas fa-tree nav-icon"></i>
+                        Email Curator(s)
+                    </button>
+                }
+            }
+
+            if (Model.Entity.IsLocked)
+            {
+                <button id="btnSetStatusUnLock"
                         type="button"
-                        class="btn btn-default">
+                        data-ggtools-is-locked="N"
+                        class="btn btn-default float-right">
                     <i class="fas fa-unlock nav-icon"></i>
-                    Remove Hold
+                    End Review
                 </button>
             }
             else
             {
-                <button id="btnOpenModalHold"
-                        data-ggtools-web-order-request-action="NRR_HOLD"
+                <button id="btnSetStatusLock"
                         type="button"
-                        class="btn btn-default">
+                        data-ggtools-is-locked="Y"
+                        class="btn btn-default float-right">
                     <i class="fas fa-lock nav-icon"></i>
-                    On Hold
+                    Review/Edit
                 </button>
             }
 
-            <!-- On Country Hold -->
-            if (Model.Entity.StatusCode == "NRR_HOLD_CTRY")
-            {
-                <button id="btnActionHold"
-                        data-ggtools-web-order-request-action="NRR_HOLD_CTRY_REL"
-                        type="button"
-                        class="btn btn-default">
-                    <i class="fas fa-unlock nav-icon"></i>
-                    Remove Country Hold
-                </button>
-            }
-            else
-            {
-                <button id="btnOpenModalCountryHold"
-                        data-ggtools-web-order-request-action="NRR_HOLD_CTRY"
-                        type="button"
-                        class="btn btn-default">
-                    <i class="fas fa-lock nav-icon"></i>
-                    On Country Hold
-                </button>
-            }
 
-            if (Model.Entity.StatusCode == "NRR_FLAG")
-            {
-                <button id="btnOpenModalApprove"
-                        data-ggtools-web-order-request-action="NRR_APPROVE"
-                        type="button"
-                        class="btn btn-default">
-                    <i class="fas fa-thumbs-up text-green nav-icon"></i>
-                    Approve
-                </button>
-                <button id="btnOpenModalReject"
-                        data-ggtools-web-order-request-action="NRR_REJECT"
-                        type="button"
-                        class="btn btn-default">
-                    <i class="fas fa-thumbs-down text-red nav-icon"></i>
-                    Reject
-                </button>
-                <button id="btnOpenModalRequestInfo"
-                        data-ggtools-web-order-request-action="NRR_INFO"
-                        type="button"
-                        class="btn btn-default">
-                    <i class="fas fa-info text-blue nav-icon"></i>
-                    Request Additional Information
-                </button>
-                <button id="btnOpenModalRequestInfo"
-                        data-ggtools-web-order-request-action="NRR_CUR"
-                        type="button"
-                        class="btn btn-default">
-                    <i class="fas fa-tree nav-icon"></i>
-                    Email Curator(s)
-                </button>
-            }
-        }
-
-
-        @if (Model.Entity.IsLocked)
-        {
-            <button id="btnSetStatusUnLock"
-                    type="button"
-                    data-ggtools-is-locked="N"
-                    class="btn btn-default float-right">
-                <i class="fas fa-unlock nav-icon"></i>
-                End Review
-            </button>
-        }
-        else
-        {
-            <button id="btnSetStatusLock"
-                    type="button"
-                    data-ggtools-is-locked="Y"
-                    class="btn btn-default float-right">
-                <i class="fas fa-lock nav-icon"></i>
-                Review/Edit
-            </button>
         }
     </div>
 </div>

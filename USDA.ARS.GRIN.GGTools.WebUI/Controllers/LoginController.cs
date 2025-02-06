@@ -34,12 +34,12 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             bool isAuthenticated = false;
             try
             {
-                //if (!viewModel.IsAlphaNumeric(viewModel.Entity.UserName))
-                //{
-                //    ModelState.Clear();
-                //    viewModel.UserMessage = String.Format("User name invalid.");
-                //    return Edit(viewModel);
-                //}
+                if (!viewModel.IsAlphaNumeric(viewModel.Entity.UserName))
+                {
+                    ModelState.Clear();
+                    viewModel.UserMessage = String.Format("User name invalid.");
+                    return View(viewModel);
+                }
                 isAuthenticated = viewModel.Authenticate();
                 ModelState.Clear();
             }

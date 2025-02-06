@@ -570,7 +570,7 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
             // names.
             input = input.Replace('.', 'X').Replace('@','X').Trim();
 
-            string pattern = @"^[a-zA-Z0-9]*$";
+            string pattern = @"^[A-Za-z0-9]+(-[A-Za-z0-9]+)?$";
             if (Regex.IsMatch(input, pattern))
             {
                 return true;

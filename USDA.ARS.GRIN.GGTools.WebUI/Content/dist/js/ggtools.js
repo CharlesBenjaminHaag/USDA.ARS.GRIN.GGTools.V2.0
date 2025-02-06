@@ -2,7 +2,7 @@
 * Name         : ggtools.js
 * Description  : Main JS application file for GGTools. This file
 *                should be included in all layout pages. 
-* Last Updated : 10/30/24
+* Last Updated : 2/6/25
 * By           : Benjamin Haag
 */
 
@@ -59,6 +59,8 @@ function OpenLookupModal(type, value_field, display_field) {
     $("#" + displayHiddenFieldName).val(display_field);
 
     $(overlayName).hide();
+    // Ensure that the overlays in each modal are hidden by default
+    $(".overlay").hide();
 
     // Clear modal
     $("#section-search-criteria input[type=text]").val("");
