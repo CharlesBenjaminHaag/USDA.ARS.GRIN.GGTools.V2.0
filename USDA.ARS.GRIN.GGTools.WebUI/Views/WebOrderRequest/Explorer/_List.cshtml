@@ -36,13 +36,13 @@
                     statusFieldBackgroundColorStyle = "color:white;background-color:blue;";
                     break;
                 case "NRR_FLAG":
-                    statusFieldBackgroundColorStyle = "color:white;background-color:#e96c67;";
+                    statusFieldBackgroundColorStyle = "color:white;background-color:red;";
                     break;
                 case "NRR_HOLD":
-                   statusFieldBackgroundColorStyle = "background-color: teal; color:white;";
+                   statusFieldBackgroundColorStyle = "background-color:mediumvioletred; color:white;";
                     break;
                 case "NRR_HOLD_CTRY":
-                    statusFieldBackgroundColorStyle = "background-color: teal; color:white;";
+                    statusFieldBackgroundColorStyle = "background-color:indigo; color:white;";
                     break;
                 default:
                     statusFieldBackgroundColorStyle = "background-color:transparent;";
@@ -54,7 +54,7 @@
                     @result.ID
                 </td>
                 <td>@result.CreatedDate.ToShortDateString()</td>
-                <td style="@statusFieldBackgroundColorStyle">@result.StatusCode</td>
+                <td style="@statusFieldBackgroundColorStyle">@result.StatusTitle</td>
                 <td>
                     @result.WebCooperatorFullName
                 </td>

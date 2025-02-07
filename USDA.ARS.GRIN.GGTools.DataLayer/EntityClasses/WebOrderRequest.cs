@@ -133,6 +133,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
         public string IntendedUseCode { get; set; }
         public string IntendedUseNote { get; set; }
         public string StatusCode { get; set; }
+        public string StatusTitle { get; set; }
         public string MostRecentOrderAction { get; set; }
         public string MostRecentWebOrderAction { get; set; }
         public string IsPreviouslyNRRReviewed { get; set; }

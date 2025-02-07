@@ -161,17 +161,17 @@
                         statusCssClass = "background-color: #007bff; color:white;";
                         break;
                     case "NRR_FLAG":
-                        statusCssClass = "background-color: #dc3545; color:white;";
+                        statusCssClass = "background-color: #red; color:white;";
                         break;
                     case "NRR_HOLD":
-                        statusCssClass = "background-color: teal; color:white;";
+                        statusCssClass = "background-color:mediumvioletred; color:white;";
                         break;
                     case "NRR_HOLD_CTRY":
-                        statusCssClass = "background-color: teal; color:white;";
+                        statusCssClass = "background-color:indigo; color:white;";
                         break;
                 }
             }
-            @Html.TextBoxFor(x => x.Entity.StatusCode, new { @class = "form-control form-control-sm", @readonly = "readonly", disabled = "disabled", @style = statusCssClass })
+            @Html.TextBoxFor(x => x.Entity.StatusTitle, new { @class = "form-control form-control-sm", @readonly = "readonly", disabled = "disabled", @style = statusCssClass })
         </div>
     </div>
     <div class="col-md-3">
