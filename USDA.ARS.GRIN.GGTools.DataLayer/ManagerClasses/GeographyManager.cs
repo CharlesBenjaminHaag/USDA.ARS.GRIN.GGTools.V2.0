@@ -51,8 +51,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         public List<Geography> Search(GeographySearch searchEntity)
         {
             List<Geography> results = new List<Geography>();
-            string whereClause = String.Empty;
-
+           
             SQL = " SELECT * FROM vw_GRINGlobal_Geography ";
             SQL += " WHERE  (@ID                            IS NULL OR ID                       =       @ID)";
             SQL += " AND    (@CreatedByCooperatorID         IS NULL OR  CreatedByCooperatorID   =       @CreatedByCooperatorID)";
@@ -99,7 +98,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
                 {
                     SQL += " WHERE ";
                 }
-                whereClause += " (RegionID IN (" + searchEntity.SubContinentIDList + ")";
+                SQL +=  " RegionID IN (" + searchEntity.SubContinentIDList + ")";
             }
 
             if (!String.IsNullOrEmpty(searchEntity.CountryCodeList))
@@ -118,15 +117,15 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
                 SQL += "  CountryCode IN (" + searchEntity.CountryCodeList + ")";
             }
 
-            if (!String.IsNullOrEmpty(searchEntity.SubContinentIDList))
-            {
-                whereClause += ")";
-            }
+            //if (!String.IsNullOrEmpty(searchEntity.SubContinentIDList))
+            //{
+            //    whereClause += ")";
+            //}
 
-            if (!String.IsNullOrEmpty(whereClause))
-            {
-                SQL += whereClause;
-            }
+            //if (!String.IsNullOrEmpty(whereClause))
+            //{
+            //    SQL += whereClause;
+            //}
 
             SQL += " ORDER BY Continent, SubContinent, CountryDescription ";
 

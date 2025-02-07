@@ -56,7 +56,7 @@
             <div class="modal-footer justify-content-between">
                 <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
                 <div class="col-md-12">
-                    <button id="btnSave" type="button" class="btn btn-default float-right" data-dismiss="modal">Save</button>
+                    <button id="btnSaveFolder" type="button" class="btn btn-default float-right" data-dismiss="modal">Save</button>
                 </div>
             </div>
         </div>
@@ -92,7 +92,7 @@ Modal that appears if no record is selected for folder addition.
         InitDataTableLookupFormat("data_table_app_user_item_folder_list");
     });
 
-    $("#btnSave").click(function () {
+    $("#btnSaveFolder").click(function () {
         var activeLink = $('#section-folder-options a.active');
         console.log(activeLink.attr('id')); // Outputs the href of the active link
 

@@ -13,6 +13,7 @@
     <div class="card-body">
         @using (Html.BeginForm("Edit", "GeographyMap", FormMethod.Post, new { id = "frmGeographyMap" }))
         {
+            @Html.HiddenFor(x=>x.Entity.SpeciesID)
             <div class="row">
                 <div class="col-md-12">
                     <div class="form-group">
@@ -29,7 +30,7 @@
                                 <button id="btnOpenSpeciesLookupModal"
                                         type="button"
                                         data-toggle="modal"
-                                        data-ggtools-id-field="Entity_AcceptedID"
+                                        data-ggtools-id-field="Entity_SpeciesID"
                                         data-ggtools-name-field="Entity_AcceptedName"
                                         data-target="#modal-species-lookup"
                                         class="btn btn-default btn-flat">

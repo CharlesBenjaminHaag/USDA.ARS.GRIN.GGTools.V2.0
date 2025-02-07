@@ -1,5 +1,5 @@
 ﻿@model USDA.ARS.GRIN.GGTools.Taxonomy.ViewModelLayer.GeographyMapViewModel
-<div class="card card-primary">
+<div class="card card-default">
     <div class="card-header">
         <h3 class="card-title">
             Distribution (@Model.DataCollectionBatch.Count)
@@ -61,13 +61,6 @@
                                     <a href="@Url.Action("Edit", "GeographyMap", new { entityId = result.ID })" class="btn btn-default btn-sm pull-right row-edit">
                                         <i class="fa fa-edit"></i>
                                     </a>
-                                    @if (Model.EventAction == "FOLDER")
-                                    {
-                                        <a href="@Url.Action("DeleteItem", "AppUserItemFolder", new { @folderId = result.FolderID, @sysFolderItemMapId = result.SysFolderItemMapId })"
-                                           class="btn btn-danger btn-sm float-right row-edit margin-r-5">
-                                            <i class="fa fa-trash"></i>
-                                        </a>
-                                    }
                                 </td>
                             </tr>
                         }

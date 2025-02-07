@@ -17,18 +17,18 @@
         transition: background-color 0.3s;
     }
 
-    .button-checkbox-level1:hover {
-        background-color: #e9e9e9;
-    }
+        .button-checkbox-level1:hover {
+            background-color: #e9e9e9;
+        }
 
-    .button-checkbox-level1 input[type="checkbox"] {
-        margin-right: 10px;
-    }
+        .button-checkbox-level1 input[type="checkbox"] {
+            margin-right: 10px;
+        }
 
-    .button-checkbox-level1 label {
-        margin: 0;
-        vertical-align: middle;
-    }
+        .button-checkbox-level1 label {
+            margin: 0;
+            vertical-align: middle;
+        }
 
     .scroll-container-level1 {
         /*height: 250px;*/
@@ -63,29 +63,16 @@
         }
 
     .scroll-container-level2 {
-        height: 250px;        
+        height: 250px;
         overflow-y: auto; /* Enable vertical scrollbar */
         margin: 5px;
         padding: 10px;
     }
 </style>
 
-<div class="row">
-    <div class="col-md-12">
-        <input type="text" id="hfContinents" class="form-control" />
-    </div>
-</div>
-<div class="row">
-    <div class="col-md-12">
-        <input type="text" id="hfSubContinents" class="form-control" />
-    </div>
-</div>
-<div class="row">
-    <div class="col-md-12">
-        <input type="text" id="hfCountries" class="form-control" />
-    </div>
-</div>
-
+<input type="hidden" id="hfContinents" class="form-control" />
+<input type="hidden" id="hfSubContinents" class="form-control" />
+<input type="hidden" id="hfCountries" class="form-control" />
 
 <div class="row">
     <div class="col-md-12">
@@ -111,6 +98,11 @@
     </div>
     <div class="col-md-3">
         @{ Html.RenderAction("Component_Edit", "GeographyMap"); }
+    </div>
+</div>
+<div class="row">
+    <div id="section-geography-maps" class="col-md-12">
+
     </div>
 </div>
 
@@ -235,10 +227,42 @@
     });
 
     function GenerateGeographyMaps() {
-        var speciesId = $("#frmGeographyMap Entity.AcceptedID").val();
+        var link = '@Url.Action("Add", "GeographyMap")';
+        var speciesId = $("#Entity_SpeciesID").val();
         var geographyIdList = GetSelectedEntityIDs("data-table-geography");
         var status = $("#ddlGeographyStatusCode").val();
-        console.log("DEBUG " + speciesId + ", " + geographyIdList + ", " + status);
-    }
+        var formData = new FormData();
+
+        // Ensure that all params are present.
+        //if ((selectedSpeciesIDList.length == 0) ||
+        //    (selectedGeographyIDList.length == 0)) {
+        //    (selectedStatusCode.length == 0)
+        //    $("#section-validation-errors").show();
+        //    return;
+        //}
+        //else {
+        //    $("#section-validation-errors").hide();
+        //}
+
+        formData.append("StatusCode", status);
+        formData.append("SpeciesIDList", speciesId);
+        formData.append("GeographyIDList", geographyIdList);
+
+        $.ajax({
+            url: link,
+            type: 'POST',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (response) {
+                $("#section-geography-maps").html(response);
+                InitDataTableSingleSelect("data-table-geography-maps");
+            },
+            error: function () {
+                alert("Error");
+            }
+        });
+ }
 
 </script>
