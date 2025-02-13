@@ -15,6 +15,7 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
         private Exploration _Entity = new Exploration();
         private ExplorationSearch _SearchEntity = new ExplorationSearch();
         private Collection<Exploration> _DataCollection = new Collection<Exploration>();
+        private Collection<ExplorationMap> _DataCollectionExplorationMaps = new Collection<ExplorationMap>();
 
         public ExplorationViewModelBase()
         {
@@ -47,23 +48,27 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
             get { return _Entity; }
             set { _Entity = value; }
         }
+        
         public ExplorationSearch SearchEntity
         {
             get { return _SearchEntity; }
             set { _SearchEntity = value; }
         }
-        
-
+       
         public Collection<Exploration> DataCollection
         {
             get { return _DataCollection; }
             set { _DataCollection = value; }
         }
 
-     
+        public Collection<ExplorationMap> DataCollectionExplorationMaps
+        {
+            get { return _DataCollectionExplorationMaps; }
+            set { _DataCollectionExplorationMaps = value; }
+        }
 
         #region Select Lists
-        
+
         #endregion
     }
 }

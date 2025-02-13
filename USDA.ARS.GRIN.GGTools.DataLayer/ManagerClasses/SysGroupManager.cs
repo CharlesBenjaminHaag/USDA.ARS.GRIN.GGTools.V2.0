@@ -26,9 +26,38 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             throw new NotImplementedException();
         }
 
-        public int Insert(SysGroup entity)
+        public List<SysGroupUserMap> GetSysGroupUserMaps(int sysGroupId)
         {
-            throw new NotImplementedException();
+            List<SysGroupUserMap> sysGroupUserMaps = new List<SysGroupUserMap>();
+
+            SQL = " SELECT * FROM vw_GRINGlobal_Sys_Group_User_Map";
+            SQL += " WHERE  (@SysGroupID            IS NULL OR  SysGroupID      = @SysGroupID)";
+            SQL += " ORDER BY FullName ";
+
+            var parameters = new List<IDbDataParameter> {
+                CreateParameter("SysGroupID", sysGroupId > 0 ? (object)sysGroupId : DBNull.Value, true),
+            };
+
+            sysGroupUserMaps = GetRecords<SysGroupUserMap>(SQL, parameters.ToArray());
+            parameters.Clear();
+            return sysGroupUserMaps;
+        }
+
+        public List<SysPermission> GetSysPermissions(int sysGroupId)
+        {
+            List <SysPermission> sysPermissions = new List<SysPermission>();
+
+            SQL = " SELECT * FROM vw_GRINGlobal_Sys_Permission";
+            SQL += " WHERE  (@SysGroupID            IS NULL OR  SysGroupID      = @SysGroupID)";
+            SQL += " ORDER BY PermissionTag ";
+
+            var parameters = new List<IDbDataParameter> {
+                CreateParameter("SysGroupID", sysGroupId > 0 ? (object)sysGroupId : DBNull.Value, true),
+            };
+
+            sysPermissions = GetRecords<SysPermission>(SQL, parameters.ToArray());
+            parameters.Clear();
+            return sysPermissions;
         }
 
         public List<SysGroup> Search(SysGroupSearch searchEntity)
@@ -38,16 +67,25 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             SQL = " SELECT * FROM vw_GRINGlobal_Sys_Group";
             SQL += " WHERE  (@ID            IS NULL OR  ID              = @ID)";
             SQL += " AND    (@GroupTag      IS NULL OR  GroupTag        = @GroupTag)";
-            SQL += " ORDER BY GroupTag ";
+            SQL += " AND    (@GroupTitle    IS NULL OR  GroupTitle      LIKE '' + @GroupTag = '%')";
+
+            SQL += " ORDER BY GroupTitle ";
 
             var parameters = new List<IDbDataParameter> {
                 CreateParameter("ID", searchEntity.ID > 0 ? (object)searchEntity.ID : DBNull.Value, true),
                 CreateParameter("GroupTag", (object)searchEntity.GroupTag ?? DBNull.Value, true),
+                CreateParameter("GroupTitle", (object)searchEntity.GroupTitle ?? DBNull.Value, true),
+
             };
 
             sysGroups = GetRecords<SysGroup>(SQL, parameters.ToArray());
             parameters.Clear();
             return sysGroups;
+        }
+
+        public int Insert(SysGroup entity)
+        {
+            throw new NotImplementedException();
         }
 
         public int Update(SysGroup entity)

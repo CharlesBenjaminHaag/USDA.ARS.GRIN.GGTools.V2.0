@@ -10,12 +10,13 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
     public class SysGroupController : BaseController, IController<SysGroup>
     {
         private static readonly Logger Log = LogManager.GetCurrentClassLogger();
+
+        #region Explorer
+
         public ActionResult Explorer()
         {
-            try 
-            { 
-                SysGroupViewModel viewModel = new SysGroupViewModel();
-                viewModel.Search();
+            try
+            {
                 return View("~/Views/SysGroup/Explorer/Index.cshtml");
             }
             catch (Exception ex)
@@ -24,6 +25,57 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 return RedirectToAction("InternalServerError", "Error");
             }
         }
+
+        public PartialViewResult Explorer_ListSysGroups()
+        {
+            try
+            {
+                SysGroupViewModel viewModel = new SysGroupViewModel();
+                viewModel.Search();
+                return PartialView("~/Views/SysGroup/Explorer/_ListSysGroups.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
+        }
+
+        public PartialViewResult Explorer_Detail(int sysGroupId)
+        {
+            SysGroupViewModel viewModel = new SysGroupViewModel();
+            try
+            {
+                viewModel.SearchEntity.ID = sysGroupId;
+                viewModel.Get(sysGroupId);
+                
+                return PartialView("~/Views/SysGroup/Explorer/_Detail.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
+        }
+
+        public PartialViewResult Explorer_Filter(string searchText) 
+        {
+            try
+            {
+                SysGroupViewModel viewModel = new SysGroupViewModel();
+                viewModel.SearchEntity.GroupTitle = searchText;
+                viewModel.Search();
+                return PartialView("~/Views/SysGroup/Explorer/_ListSysGroups.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
+        }
+
+        #endregion
+
         public PartialViewResult _ListFolderItems(int sysFolderId)
         {
             try
@@ -36,6 +88,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 return PartialView("~/Views/Error/_InternalServerError.cshtml");
             }
         }
+        
         public ActionResult Delete(int entityId)
         {
             throw new NotImplementedException();
@@ -113,20 +166,6 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
         {
             throw new NotImplementedException();
         }
-        public PartialViewResult RenderWidget(int sysGroupId)
-        {
-            SysGroupViewModel viewModel = new SysGroupViewModel();
-            try
-            {
-                viewModel.SearchEntity.ID = sysGroupId;
-                viewModel.Search();
-                return PartialView("~/Views/SysGroup/_Widget.cshtml", viewModel);
-            }
-            catch (Exception ex)
-            {
-                Log.Error(ex);
-                return PartialView("~/Views/Error/_InternalServerError.cshtml");
-            }
-        }
+        
     }
 }

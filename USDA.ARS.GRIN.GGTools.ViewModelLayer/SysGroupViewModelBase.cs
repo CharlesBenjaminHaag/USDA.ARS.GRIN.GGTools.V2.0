@@ -11,6 +11,8 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
         private SysGroup _Entity = new SysGroup();
         private SysGroupSearch _SearchEntity = new SysGroupSearch();
         private Collection<SysGroup> _DataCollection = new Collection<SysGroup>();
+        private Collection<SysGroupUserMap> _DataCollectionSysGroupUserMap = new Collection<SysGroupUserMap>();
+        private Collection<SysPermission> _DataCollectionSysPermission = new Collection<SysPermission>();
 
         public SysGroup Entity
         {
@@ -28,6 +30,18 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
         {
             get { return _DataCollection; }
             set { _DataCollection = value; }
+        }
+
+        public Collection<SysGroupUserMap> DataCollectionSysGroupUserMap
+        {
+            get { return _DataCollectionSysGroupUserMap; }
+            set { _DataCollectionSysGroupUserMap = value; }
+        }
+
+        public Collection<SysPermission> DataCollectionSysPermission
+        {
+            get { return _DataCollectionSysPermission; }
+            set { _DataCollectionSysPermission = value; }
         }
     }
 }

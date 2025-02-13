@@ -626,7 +626,7 @@
     <Content Include="Views\Shared\Sidebars\_MainSidebarARM.cshtml" />
     <Content Include="Views\SysGroup\Index.cshtml" />
     <Content Include="Views\SysGroup\Edit.cshtml" />
-    <Content Include="Views\SysGroup\_Detail.cshtml" />
+    <Content Include="Views\SysGroup\Explorer\_Detail.cshtml" />
     <Content Include="Views\SysGroup\_List.cshtml" />
     <Content Include="Views\SysGroupUserMap\_List.cshtml" />
     <Content Include="Views\Taxonomy\Citation\Modals\_Detail.cshtml" />
@@ -1107,6 +1107,9 @@
     <Content Include="Views\Taxonomy\Geography\Explorer\_SubcontinentFilter.cshtml" />
     <Content Include="Views\Taxonomy\Geography\Explorer\_CountryFilter.cshtml" />
     <Content Include="Views\Taxonomy\GeographyMap\Components\_Edit.cshtml" />
+    <Content Include="Views\SysGroup\Explorer\_ListSysGroups.cshtml" />
+    <Content Include="Views\SysGroup\Explorer\_ListSysGroupUserMaps.cshtml" />
+    <Content Include="Views\SysGroup\Explorer\_ListSYsPermissions.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

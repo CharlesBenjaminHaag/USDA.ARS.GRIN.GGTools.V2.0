@@ -17,9 +17,29 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
             throw new NotImplementedException();
         }
 
-        public SysGroupUserMap Get(int entityId)
+        public SysGroup Get(int sysGroupId)
         {
-            throw new NotImplementedException();
+            SearchEntity.ID = sysGroupId;
+            Search();
+            GetSysGroupUserMaps(sysGroupId);
+            GetSysPermissions(sysGroupId);  
+            return this.Entity;
+        }
+
+        public void GetSysGroupUserMaps(int sysGroupId)
+        {
+            using (SysGroupManager mgr = new SysGroupManager())
+            {
+               DataCollectionSysGroupUserMap = new Collection<SysGroupUserMap>(mgr.GetSysGroupUserMaps(sysGroupId));
+            }
+        }
+
+        public void GetSysPermissions(int sysGroupId)
+        {
+            using (SysGroupManager mgr = new SysGroupManager())
+            {
+            DataCollectionSysPermission = new Collection<SysPermission>(mgr.GetSysPermissions(sysGroupId));
+            }
         }
 
         public void HandleRequest()

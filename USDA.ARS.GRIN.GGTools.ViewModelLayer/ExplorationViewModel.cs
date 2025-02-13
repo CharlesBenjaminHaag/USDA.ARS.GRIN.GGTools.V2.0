@@ -62,6 +62,15 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
             return Entity;
         }
         
+        public void GetExplorationMaps(int explorationId)
+        {
+            ExplorationMapSearch explorationMapSearch = new ExplorationMapSearch();
+            explorationMapSearch.ExplorationID = explorationId;
+            using (ExplorationMapManager mgr = new ExplorationMapManager())
+            {
+                DataCollectionExplorationMaps = new Collection<ExplorationMap>(mgr.Search(explorationMapSearch));
+            }
+        }
 
         public void GetFolderItems()
         {

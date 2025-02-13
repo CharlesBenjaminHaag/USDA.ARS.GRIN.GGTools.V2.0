@@ -5,73 +5,34 @@
 }
 
 <div class="row">
-    <div class="col-md-3">
-        @{Html.RenderAction("_List","SysGroup");}
-        @*<div class="card card-primary">
-            <div class="card-header">
-                Groups
-            </div>
-            <div class="card-body">
-
-            </div>
-        </div>*@
+    <div id="section-sys-group-list" class="col-md-3">
+        @{Html.RenderAction("Explorer_ListSysGroups","SysGroup");}
+        
     </div>
-    <div class="col-md-9">
-
-        <div id="section-sys-group">
-
-        </div>
-
-        <div class="card card-primary">
-            <div class="card-header">
-                Permissions
-            </div>
-            <div id="section-sys-permission" class="card-body">
-
-            </div>
-        </div>
-        <div class="card card-primary">
-            <div class="card-header">
-                Users
-            </div>
-            <div id="section-sys-group-user-map" class="card-body">
-
-            </div>
-        </div>
+    <div id="section-sys-group" class="col-md-9">
     </div>
 </div>
 <script type="text/javascript">
-    $(document).ready(function () {
-        tableName = "#data_table_sys_group";
-        table = $(tableName).DataTable({
-            paging: false,
-            responsive: true,
-            select: {
-                style: 'single'
-            },
-            searching: true,
-            columnDefs: [
-                { targets: [0], visible: false }
-            ]
-        });
 
-        //Select first row by default; load related data.
-        table.row(':eq(0)', { page: 'current' }).select();
-        var firstRowData = table.row(':eq(0)', { page: 'current' }).data();
-        LoadGroup(firstRowData[0]);
-        LoadPermissions(firstRowData[0]);
-        LoadUsers(firstRowData[0]);
+    $(window).on('load', function () {
+        // Select the first <li> inside the <ul> with the specific ID 'my-list'
+        var sysGroupId = $('#sys-group-list li:first').attr('id');
 
-        $('#data_table_sys_group tbody').on('click', 'tr', function () {
-            var data = table.row(this).data();
-            LoadGroup(data[0]);
-            LoadPermissions(data[0]);
-            LoadUsers(data[0]);
-        });
+        // Check if the ID exists and log it
+        if (sysGroupId) {
+            LoadSysGroup(sysGroupId);
+        } else {
+            console.log('No <li> elements found or ID not assigned.');
+        }
     });
 
-    function LoadGroup(sysGroupId) {
-        link = '@Url.Action("_RenderWidget","SysGroup")';
+    $(document).on('click', '#sys-group-list li', function () {
+        var sysGroupId = $(this).attr('id');
+        LoadSysGroup(sysGroupId);
+    });
+
+    function LoadSysGroup(sysGroupId) {
+        link = '@Url.Action("Explorer_Detail","SysGroup")';
         var formData = new FormData();
 
         formData.append("sysGroupId", sysGroupId);
@@ -89,42 +50,35 @@
         });
     }
 
-    function LoadPermissions(sysGroupId) {
-        link = '@Url.Action("_List","SysPermission")';
-        var formData = new FormData();
+    $(document).ready(function() {
 
-        formData.append("sysGroupId", sysGroupId);
+        $('#search-box').on('input', function () {
+            var query = $(this).val().trim();
 
-        $.ajax({
-            url: link,
-            type: 'POST',
-            cache: false,
-            contentType: false,
-            processData: false,
-            data: formData,
-            success: function (response) {
-                $("#section-sys-permission").html(response);
+            // If the query is empty, hide the suggestion box
+            if (query.length === 0) {
+                $('#suggestions').hide();
+                return;
             }
+
+
+            // Example: Trigger AJAX request to fetch the data
+            $.ajax({
+                url: '@Url.Action("Explorer_Filter","SysGroup")',  // Replace with your actual endpoint URL
+                type: 'GET',
+                data: { searchText: query },
+                dataType: 'json',
+                success: function (response) {
+                    
+                },
+                error: function () {
+                    // Handle AJAX request error
+                    $('#items-container').append('<p>An error occurred while fetching data.</p>');
+                }
+            });
         });
-    }
+});
 
-    function LoadUsers(sysGroupId) {
-        link = '@Url.Action("_List","SysGroupUserMap")';
-        var formData = new FormData();
 
-        formData.append("sysGroupId", sysGroupId);
-
-        $.ajax({
-            url: link,
-            type: 'POST',
-            cache: false,
-            contentType: false,
-            processData: false,
-            data: formData,
-            success: function (response) {
-                $("#section-sys-group-user-map").html(response);
-            }
-        });
-    }
 
 </script>

@@ -78,11 +78,13 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             try
             {
                 ExplorationViewModel viewModel = new ExplorationViewModel();
+                
                 viewModel.TableName = "exploration";
                 viewModel.TableCode = "Exploration";
                 if (entityId > 0)
                 {
                     viewModel.Get(entityId);
+                    viewModel.GetExplorationMaps(entityId);
                     viewModel.EventAction = "Edit";
                     ViewBag.PageTitle = "Edit";
                 }
