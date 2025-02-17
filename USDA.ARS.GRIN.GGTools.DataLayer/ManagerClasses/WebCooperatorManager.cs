@@ -23,7 +23,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
         public WebCooperator Get(int entityId)
         {
             WebCooperator webCooperator = new WebCooperator();
-
+           
             SQL = "usp_GRINGlobal_Web_Cooperator_Select";
 
             var parameters = new List<IDbDataParameter> {
@@ -31,8 +31,34 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             };
 
             webCooperator = GetRecord<WebCooperator>(SQL, CommandType.StoredProcedure, parameters.ToArray());
+
+            // Address(es)
+            SQL = "SELECT * FROM vw_GRINGlobal_Web_User_Shipping_Address";
+
+            // Cart(s)
+
+            // Pref(s)
+
             return webCooperator;
         }
+
+        public List<WebUserShippingAddress> GetWebUserShippingAddresses(int webUserId)
+        {
+            List<WebUserShippingAddress> webUserShippingAddresses = new List<WebUserShippingAddress>();
+
+            SQL = " SELECT * FROM vw_GRINGlobal_Web_User_Shipping_Address ";
+            SQL += " WHERE  (@WebUserID               IS NULL     OR     WebUserID    =            @WebUserID)";
+
+            var parameters = new List<IDbDataParameter> {
+              
+                CreateParameter("WebUserID", webUserId> 0 ? (object)webUserId : DBNull.Value, true)
+            };
+
+            webUserShippingAddresses = GetRecords<WebUserShippingAddress>(SQL, parameters.ToArray());
+            RowsAffected = webUserShippingAddresses.Count;
+            return webUserShippingAddresses;
+        }
+
         public List<State> GetStates()
         {
             List<State> states = new List<State>();
@@ -40,6 +66,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             states = GetRecords<State>(SQL);
             return states;
         }
+        
         public WebCooperator GetByCooperatorID(int cooperatorId)
         {
             WebCooperator webCooperator = new WebCooperator();
@@ -52,7 +79,6 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             parameters.Clear();
             return webCooperator;
         }
-
 
         public int Insert(WebCooperator entity)
         {
@@ -74,6 +100,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
 
             return entity.ID;
         }
+        
         public List<WebCooperator> Search(WebCooperatorSearch searchEntity)
         {
             List<WebCooperator> results = new List<WebCooperator>();
@@ -95,6 +122,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             RowsAffected = results.Count;
             return results;
         }
+        
         public int Update(WebCooperator entity)
         {
             Reset(CommandType.StoredProcedure);
@@ -111,6 +139,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
                 throw new Exception(errorNumber.ToString());
             return RowsAffected;
         }
+        
         public int Copy(int cooperatorId)
         {
             int entityId = 0;

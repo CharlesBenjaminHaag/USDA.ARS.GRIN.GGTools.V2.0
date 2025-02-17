@@ -92,12 +92,14 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 return RedirectToAction("InternalServerError", "Error");
             }
         }
+        
         public ActionResult Edit(int entityId)
         {
             try
             {
                 WebCooperatorViewModel viewModel = new WebCooperatorViewModel();
                 viewModel.Get(entityId);
+                viewModel.GetWebUserShippingAddresses(viewModel.Entity.WebUserID);
                 viewModel.PageTitle = String.Format("Edit Web Cooperator [{0}]: {1}, {2}", entityId, viewModel.Entity.LastName, viewModel.Entity.FirstName);
                 viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
                 viewModel.AuthenticatedUser = AuthenticatedUser;

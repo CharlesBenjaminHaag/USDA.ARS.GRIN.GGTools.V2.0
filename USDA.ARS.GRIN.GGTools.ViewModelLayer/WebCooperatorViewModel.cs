@@ -36,6 +36,14 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
             return Entity;
         }
 
+        public void GetWebUserShippingAddresses(int webUserId)
+        {
+            using (WebCooperatorManager mgr = new WebCooperatorManager())
+            {
+                DataCollectionWebUserShippingAddress = new Collection<WebUserShippingAddress>(mgr.GetWebUserShippingAddresses(webUserId));
+            }
+        }
+
         public void HandleRequest()
         {
             throw new NotImplementedException();

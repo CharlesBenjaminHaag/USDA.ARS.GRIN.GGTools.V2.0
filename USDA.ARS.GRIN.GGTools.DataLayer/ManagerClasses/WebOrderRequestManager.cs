@@ -121,7 +121,10 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
                 case "90D":
                     SQL += "  OrderDate >= DATEADD(day,-90, GETDATE())";
                     break;
-                case "1Y":
+                case "180D":
+                    SQL += "  OrderDate >= DATEADD(day,-180, GETDATE())";
+                    break;
+                    case "1Y":
                     SQL += "  DATEPART(year, OrderDate) = DATEPART(year, GETDATE())";
                     break;
             }

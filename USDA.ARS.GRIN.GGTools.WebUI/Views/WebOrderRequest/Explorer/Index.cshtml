@@ -63,6 +63,9 @@
                     <li class="nav-item" id="filter-time-frame-90D">
                         <a class="nav-link" data-ggtools-action="90D" data-toggle="pill" href="#custom-tabs-one-settings" role="tab" aria-controls="custom-tabs-one-settings" aria-selected="false">The Last 3 Months</a>
                     </li>
+                    <li class="nav-item" id="filter-time-frame-180D">
+                        <a class="nav-link" data-ggtools-action="180D" data-toggle="pill" href="#custom-tabs-one-settings" role="tab" aria-controls="custom-tabs-one-settings" aria-selected="false">The Last 6 Months</a>
+                    </li>
                 </ul>
             </div>
             <div class="card-body">
@@ -436,7 +439,7 @@
         $(document).ready(function () {
             table = $(tableName).DataTable({
                 dom: 'Blfrtip',
-                paging: false,
+                paging: true,
                 "pageLength": 25,
                 responsive: true,
                 buttons: [

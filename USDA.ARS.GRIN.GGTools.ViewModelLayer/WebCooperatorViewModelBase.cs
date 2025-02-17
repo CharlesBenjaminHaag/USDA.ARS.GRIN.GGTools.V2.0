@@ -13,7 +13,7 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
         private WebCooperator _Entity = new WebCooperator();
         private WebCooperatorSearch _SearchEntity = new WebCooperatorSearch();
         private Collection<WebCooperator> _DataCollection = new Collection<WebCooperator>();
-        private Collection<WebCooperator> _DataCollectionDashboard = new Collection<WebCooperator>();
+        private Collection<WebUserShippingAddress> _DataCollectionWebUserShippingAddress = new Collection<WebUserShippingAddress>();
 
         public WebCooperatorViewModelBase()
         {
@@ -48,10 +48,11 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
             get { return _DataCollection; }
             set { _DataCollection = value; }
         }
-        public Collection<WebCooperator> DataCollectionDashboard
+        
+        public Collection<WebUserShippingAddress> DataCollectionWebUserShippingAddress
         {
-            get { return _DataCollectionDashboard; }
-            set { _DataCollectionDashboard = value; }
+            get { return _DataCollectionWebUserShippingAddress; }
+            set { _DataCollectionWebUserShippingAddress = value; }
         }
 
         #region Select Lists

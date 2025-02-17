@@ -26,13 +26,13 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             WebUser webUser = new WebUser();
             List<WebUser> webUsers = new List<WebUser>();
 
-            SQL = " SELECT * FROM vw_GRINGLobal_Web_User";
-            SQL += " WHERE  (@UserName  IS NULL OR  UserName = @UserName)";
-            SQL += " AND    (@ID        IS NULL OR  ID = @ID)";
+            SQL = " SELECT * FROM vw_GRINGLobal_Web_Cooperator";
+            SQL += " WHERE  (@WebUserName       IS NULL OR  WebUserName     = @WebUserName)";
+            SQL += " AND    (@WebUserID         IS NULL OR  WebUserID       = @WebUserID)";
 
             var parameters = new List<IDbDataParameter> {
-                CreateParameter("UserName", (object)searchEntity.WebUserName ?? DBNull.Value, true),
-                CreateParameter("ID", searchEntity.ID > 0 ? (object)searchEntity.ID : DBNull.Value, true)
+                CreateParameter("WebUserName", (object)searchEntity.WebUserName ?? DBNull.Value, true),
+                CreateParameter("WebUserID", searchEntity.ID > 0 ? (object)searchEntity.ID : DBNull.Value, true)
             };
 
             webUser = GetRecord<WebUser>(SQL, parameters.ToArray());
@@ -69,6 +69,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             return entity.ID;
 
         }
+        
         public int Update(WebUser entity)
         {
             Reset(CommandType.StoredProcedure);
@@ -90,6 +91,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
 
             return entity.ID;
         }
+        
         public int Copy(int sysUserId, int webCooperatorId)
         {
             int entityId = 0;

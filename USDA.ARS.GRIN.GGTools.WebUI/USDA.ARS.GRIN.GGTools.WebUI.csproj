@@ -1110,6 +1110,7 @@
     <Content Include="Views\SysGroup\Explorer\_ListSysGroups.cshtml" />
     <Content Include="Views\SysGroup\Explorer\_ListSysGroupUserMaps.cshtml" />
     <Content Include="Views\SysGroup\Explorer\_ListSYsPermissions.cshtml" />
+    <Content Include="Views\WebUserShippingAddress\_List.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -15,6 +15,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
         public string WebUserName { get; set; }
         public string IsActive { get; set; }
         public DateTime WebUserCreatedDate { get; set; }
+        public DateTime LastLoginDate { get; set; }
         public string Title { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
@@ -38,5 +39,6 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
         public int TotalOrderItems { get; set; }
         public string VettedStatusCode { get; set; }
         public int ModifiedByWebUserID { get; set; }
+        
     }
 }

@@ -2,7 +2,7 @@
 * Name         : ggtools.js
 * Description  : Main JS application file for GGTools. This file
 *                should be included in all layout pages. 
-* Last Updated : 2/6/25
+* Last Updated : 2/14/25
 * By           : Benjamin Haag
 */
 
@@ -155,7 +155,7 @@ function InitDataTable(tableName) {
             stateSave: true,
             responsive: true,
             paging: true,
-            "pageLength": 10,
+            "pageLength": 25,
             select: true,
             layout: {
                 topStart: {

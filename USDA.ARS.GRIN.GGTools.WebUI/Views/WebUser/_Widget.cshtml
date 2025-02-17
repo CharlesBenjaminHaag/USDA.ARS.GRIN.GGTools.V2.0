@@ -9,7 +9,7 @@
 @if (Model.Entity.ID > 0)
 {
     @Html.HiddenFor(x => x.Entity.ID)
-    <div class="card card-primary card-outline">
+    <div class="card card-default card-outline">
         <div class="card-body box-profile">
             <div class="text-center">
                 <img class="profile-user-imgDEBUG img-fluid img-circle" src="~/dist/img/user-default.png" alt="User profile picture">
@@ -17,7 +17,7 @@
                 @*<img class="profile-user-img img-fluid img-circle" src="~/dist/img/user-default.png" alt="User profile picture">*@
             </div>
             <h3 class="profile-username text-center">
-                @Model.Entity.WebUserName
+                @Model.Entity.WebUserName DEBUG
             </h3>
             <p style="border-bottom: 1px solid #ddd; padding-bottom: 15px;" class="text-muted text-center">
             </p>
@@ -39,22 +39,20 @@
 
             <strong><i class="fa fa-calendar margin-r-5"></i> Created</strong>
             <p style="border-bottom: 1px solid #ddd; padding-bottom: 5px;" class="text-muted">
-                @Model.Entity.CreatedDate
+                @Model.Entity.WebUserCreatedDate
             </p>
-            @if (Model.Entity.ModifiedDate > DateTime.MinValue)
-            {
+           
                 <strong><i class="fa fa-calendar margin-r-5"></i> Last Modified</strong>
                 <p style="border-bottom: 1px solid #ddd; padding-bottom: 5px;" class="text-muted">
                     @Model.Entity.ModifiedDate
                 </p>
-            }
-            @if (Model.Entity.LastLoginDate > DateTime.MinValue)
-            {
+            
+            
                 <strong><i class="fa fa-calendar margin-r-5"></i> Last Logged In</strong>
                 <p style="border-bottom: 1px solid #ddd; padding-bottom: 5px;" class="text-muted">
                     @Model.Entity.LastLoginDate
                 </p>
-            }
+            
 
         </div>
 

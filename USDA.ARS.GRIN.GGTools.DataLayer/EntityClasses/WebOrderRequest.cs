@@ -36,96 +36,22 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
         public string ShippingAddressCity  { get; set; }
         public string ShippingAddressPostalIndex  { get; set; }
         public string ShippingAddressState  { get; set; }
-
-        public string WebCooperatorAddressFormatted
-        {
-            get 
-            { 
-                StringBuilder sbAddress = new StringBuilder();
-                
-                if (!String.IsNullOrEmpty(WebCooperatorAddress1))
-                {
-                    sbAddress.Append(WebCooperatorAddress1);
-                    sbAddress.Append("<br>");
-                }
-
-                if (!String.IsNullOrEmpty(WebCooperatorAddress2))
-                {
-                    sbAddress.Append(WebCooperatorAddress2);
-                    sbAddress.Append("<br>");
-                }
-
-                if (!String.IsNullOrEmpty(WebCooperatorAddress3))
-                {
-                    sbAddress.Append(WebCooperatorAddress3);
-                    sbAddress.Append("<br>");
-                }
-
-                if (!String.IsNullOrEmpty(WebCooperatorAddressCity))
-                {
-                    sbAddress.Append(WebCooperatorAddressCity);
-                    sbAddress.Append(", ");
-                }
-
-                if (!String.IsNullOrEmpty(WebCooperatorAddressState))
-                {
-                    sbAddress.Append(WebCooperatorAddressState);
-                    sbAddress.Append(" ");
-                }
-
-                if (!String.IsNullOrEmpty(WebCooperatorAddressPostalIndex))
-                {
-                    sbAddress.Append(WebCooperatorAddressPostalIndex);
-                }
-
-
-                return sbAddress.ToString();
-            }
-        }
+        public string ShippingAddressCountryCode { get; set; }
+        public string ShippingAddressCountryDescription { get; set; }
 
         public string ShippingAddressFormatted
         {
             get
             {
-                StringBuilder sbAddress = new StringBuilder();
+                return GetFormattedAddress(ShippingAddress1, ShippingAddress2, ShippingAddress3, ShippingAddressCity, ShippingAddressState, ShippingAddressPostalIndex, ShippingAddressCountryCode, ShippingAddressCountryDescription);
+            }
+        }
 
-                if (!String.IsNullOrEmpty(ShippingAddress1))
-                {
-                    sbAddress.Append(ShippingAddress1);
-                    sbAddress.Append("<br>");
-                }
-
-                if (!String.IsNullOrEmpty(ShippingAddress2))
-                {
-                    sbAddress.Append(ShippingAddress2);
-                    sbAddress.Append("<br>");
-                }
-
-                if (!String.IsNullOrEmpty(ShippingAddress3))
-                {
-                    sbAddress.Append(ShippingAddress3);
-                    sbAddress.Append("<br>");
-                }
-
-                if (!String.IsNullOrEmpty(ShippingAddressCity))
-                {
-                    sbAddress.Append(ShippingAddressCity);
-                    sbAddress.Append(", ");
-                }
-
-                if (!String.IsNullOrEmpty(ShippingAddressState))
-                {
-                    sbAddress.Append(ShippingAddressState);
-                    sbAddress.Append(" ");
-                }
-
-                if (!String.IsNullOrEmpty(ShippingAddressPostalIndex))
-                {
-                    sbAddress.Append(ShippingAddressPostalIndex);
-                }
-
-
-                return sbAddress.ToString();
+        public string WebCooperatorAddressFormatted
+        {
+            get
+            {
+                return GetFormattedAddress(WebCooperatorAddress1, WebCooperatorAddress2, WebCooperatorAddress3, WebCooperatorAddressCity, WebCooperatorAddressState, WebCooperatorAddressPostalIndex, WebCooperatorAddressCountry, WebCooperatorAddressCountryDescription);
             }
         }
 
@@ -173,5 +99,60 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
         public int OwnedByWebUserID { get; set; }
         public string OwnedByWebCooperatorName { get; set; }
         public DateTime OwnedByDate { get; set; }
+
+        public string GetFormattedAddress(string add1, string add2, string add3,string cityOrProvince, string stateOrProvince, string postalCode, string countryCode, string CountryDescription)
+        {
+            var addressParts = new List<string>();
+
+            // Add address lines if they are not null or empty
+            if (!string.IsNullOrEmpty(ShippingAddress1))
+            {
+                addressParts.Add(add1);
+            }
+            if (!string.IsNullOrEmpty(add2))
+            {
+                addressParts.Add(add2);
+            }
+            if (!string.IsNullOrEmpty(add3))
+            {
+                addressParts.Add(add3);
+            }
+
+            // Add city and state or province (only for US format)
+            if (countryCode == "USA")
+            {
+                if (!string.IsNullOrEmpty(cityOrProvince))
+                {
+                    addressParts.Add($"{cityOrProvince}, {stateOrProvince} {postalCode}");
+                }
+                else
+                {
+                    addressParts.Add($"{stateOrProvince} {postalCode}");
+                }
+            }
+            else
+            {
+                // For international addresses, add city, state/province, postal code, and countryCode
+                if (!string.IsNullOrEmpty(cityOrProvince))
+                {
+                    addressParts.Add(cityOrProvince);
+                }
+                if (!string.IsNullOrEmpty(stateOrProvince))
+                {
+                    addressParts.Add(stateOrProvince);
+                }
+                if (!string.IsNullOrEmpty(postalCode))
+                {
+                    addressParts.Add(postalCode);
+                }
+                if (!string.IsNullOrEmpty(CountryDescription))
+                {
+                    addressParts.Add(CountryDescription);
+                }
+            }
+
+            // Join the address parts with newlines and return the formatted address
+            return $"<div>{string.Join("<br>", addressParts)}</div>";
+        }
     }
 }

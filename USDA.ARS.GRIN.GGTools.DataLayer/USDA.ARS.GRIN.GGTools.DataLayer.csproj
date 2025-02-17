@@ -224,6 +224,7 @@
     <Compile Include="EntityClasses\UPOVEncodedSpecies.cs" />
     <Compile Include="EntityClasses\UPOV\upovCodeItemSearch.cs" />
     <Compile Include="EntityClasses\UPOV\upovCodeItem.cs" />
+    <Compile Include="EntityClasses\WebUserShipppingAddress.cs" />
     <Compile Include="EntityClasses\WebUserSearch.cs" />
     <Compile Include="EntityClasses\WebUser.cs" />
     <Compile Include="EntityClasses\SysUser.cs" />
