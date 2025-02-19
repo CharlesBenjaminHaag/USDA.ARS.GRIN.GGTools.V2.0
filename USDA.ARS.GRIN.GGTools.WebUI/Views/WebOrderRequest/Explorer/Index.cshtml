@@ -123,27 +123,10 @@
         var actionCode = "";
 
         if (event.target.matches('input[type="checkbox"][id^="filter-"]')) {
-            //console.log('Checkbox changed:', event.target.id, event.target.checked);
 
-            $("#section-current-status input:checked").each(function () {
-                var id = $(this).attr("id");
-                actionCode = $(this).data("ggtools-action");
-                valueArrayCurrentStatuses.push(actionCode);
-            });
-
-            $("#section-most-recent-action input:checked").each(function () {
-                var id = $(this).attr("id");
-                actionCode = $(this).data("ggtools-action");
-                valueArrayMostRecentActions.push(actionCode);
-
-            });
-
-            //console.log("DEBUG SELECTED STATUSES " + valueArrayCurrentStatuses);
-            //console.log("DEBUG SELECTED MOST RECENT ACTIONS " + valueArrayMostRecentActions);
-
-            $("#hf_current_filter_web_order_request_status").val(valueArrayCurrentStatuses);
-            $("#hf_current_filter_most_recent_action").val(valueArrayMostRecentActions);
-
+            GetSelectedValues("section-current-status","hf_current_filter_web_order_request_status");
+            GetSelectedValues("section-most-recent-action","hf_current_filter_most_recent_action");
+           
             LoadWebOrderRequestList();
         }
     });
@@ -154,6 +137,17 @@
         console.log("DEBUG SEL TIME FRAME IS " + selectedTimeFrame);
         LoadWebOrderRequestList();
     });
+
+    function GetSelectedValues(listName, hiddenFieldName) {
+        var valueArray = [];
+
+        $("#" + listName + " input:checked").each(function () {
+            var id = $(this).attr("id");
+            var actionCode = $(this).data("ggtools-action");
+            valueArray.push(actionCode);
+        });
+        $("#"+ hiddenFieldName).val(valueArray);
+    }
 
     // Populate the list of web order requests based on the filters currently
     // stored in hidden fields.
@@ -296,7 +290,6 @@
         }
     });
 }
-
 
     $(document).on("click", "[id='btnAddNote']", function () {
         event.preventDefault();
@@ -489,4 +482,25 @@
             event.preventDefault();
         }
     });
+
+    $(document).ready(function () {
+        $('#ckSelectDeselectAllWebOrderRequestStatuses').on('change', function () {
+            var isChecked = $(this).prop('checked');
+
+            // Select/Deselect all checkboxes inside the specified div and ul
+            $('#section-current-status input[type="checkbox"]').each(function () {
+                $(this).prop('checked', isChecked).trigger('change');
+            });
+
+            // Toggle the label of 'ckControl' based on its state
+            if (isChecked) {
+                $('#ckControl').next('label').text('Deselect All');
+            } else {
+                $('#ckControl').next('label').text('Select All');
+            }
+            LoadWebOrderRequestList();
+        });
+    });
+
+
 </script>

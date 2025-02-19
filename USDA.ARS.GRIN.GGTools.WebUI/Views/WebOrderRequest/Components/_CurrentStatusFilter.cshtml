@@ -1,5 +1,5 @@
 ﻿@model USDA.ARS.GRIN.GGTools.ViewModelLayer.WebOrderRequestViewModel
-<input type="hidden" id="hf_current_filter_web_order_request_status" />
+<input type="text" id="hf_current_filter_web_order_request_status" />
 
 <div class="card card-default">
     <div class="card-header">
@@ -47,6 +47,12 @@
                 </label>
             }
         </div>
+    </div>  
+    <div class="card-footer">
+        <label>
+            <input type="checkbox" id="ckSelectDeselectAllWebOrderRequestStatuses" />
+            <span>Select All</span>
+        </label>
     </div>
 </div>
 <script type="text/javascript">

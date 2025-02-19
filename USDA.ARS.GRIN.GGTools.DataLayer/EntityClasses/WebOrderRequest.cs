@@ -145,10 +145,12 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
                 {
                     addressParts.Add(postalCode);
                 }
-                if (!string.IsNullOrEmpty(CountryDescription))
-                {
-                    addressParts.Add(CountryDescription);
-                }
+                
+            }
+
+            if (!string.IsNullOrEmpty(CountryDescription))
+            {
+                addressParts.Add(CountryDescription);
             }
 
             // Join the address parts with newlines and return the formatted address
