@@ -121,14 +121,21 @@
         var valueArrayCurrentStatuses = [];
         var valueArrayMostRecentActions = [];
         var actionCode = "";
+        var controlId = event.target.id;
 
         if (event.target.matches('input[type="checkbox"][id^="filter-"]')) {
-
             GetSelectedValues("section-current-status","hf_current_filter_web_order_request_status");
             GetSelectedValues("section-most-recent-action","hf_current_filter_most_recent_action");
-           
             LoadWebOrderRequestList();
         }
+
+        // If the user checks or unchecks an individual filter, reset the corresponding "select all"
+        // filter.
+        if (controlId.includes("filter-current-status")) {
+            $('#ckSelectDeselectAllWebOrderRequestStatuses').prop('checked', false);
+            $('#label-current_filter_web_order_request_status').html('Select All');
+        }
+
     });
 
     $('#section-time-frame ul.nav li').on('click', function () {
@@ -161,13 +168,10 @@
         var assignedTo = "";
 
         var formData = new FormData();
-
-        console.log("DEBUG: Filtering WOR list TIME FRAME " + timeFrame + " STATUS " + statusList + " ASSIGNED " + assignedTo + " MOST RECENT ACTION " + mostRecentActionList);
-
+        
         formData.append("SearchEntity.TimeFrame", timeFrame);
         formData.append("SearchEntity.StatusList", statusList);
         formData.append("SearchEntity.MostRecentActionList", mostRecentActionList);
-        //formData.append("SearchEntity.OwnedByWebUserID", assignedTo);
 
         $("#section-overlay-web-order-request-list").show();
 
@@ -494,10 +498,31 @@
 
             // Toggle the label of 'ckControl' based on its state
             if (isChecked) {
-                $('#ckControl').next('label').text('Deselect All');
+                $('#label-current_filter_web_order_request_status').html('Deselect All');
             } else {
-                $('#ckControl').next('label').text('Select All');
+                $('#label-current_filter_web_order_request_status').html('Select All');
             }
+            GetSelectedValues("section-current-status", "hf_current_filter_web_order_request_status");
+            LoadWebOrderRequestList();
+        });
+    });
+
+    $(document).ready(function () {
+        $('#ckSelectDeselectAllWebOrderRequestMostRecentAction').on('change', function () {
+            var isChecked = $(this).prop('checked');
+
+            // Select/Deselect all checkboxes inside the specified div and ul
+            $('#section-most-recent-action input[type="checkbox"]').each(function () {
+                $(this).prop('checked', isChecked).trigger('change');
+            });
+
+            // Toggle the label of 'ckControl' based on its state
+            if (isChecked) {
+                $('#label-current_filter_web_order_request_most-recent-action').html('Deselect All');
+            } else {
+                $('#label-current_filter_web_order_request_most-recent-action').html('Select All');
+            }
+            GetSelectedValues("section-most-recent-action", "hf_current_filter_most_recent_action");
             LoadWebOrderRequestList();
         });
     });
