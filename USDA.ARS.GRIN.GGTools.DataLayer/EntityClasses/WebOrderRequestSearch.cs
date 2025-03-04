@@ -24,6 +24,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
         public string WebCooperatorOrganization { get; set; }
         public string WebCooperatorAddressCountry { get; set; }
         public string WebCooperatorAddressCountryDescription { get; set; }
+        public string ShippingAddressCountryCode { get; set; }
         public string TimeFrame { get; set; }
         public string StatusList { get; set; }
         public string MostRecentActionList { get; set; }

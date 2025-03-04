@@ -72,7 +72,8 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             SQL += " AND (@LastName                 IS NULL     OR      WebCooperatorLastName           LIKE        '%' + @LastName + '%')";
             SQL += " AND (@EmailAddress             IS NULL     OR      WebCooperatorEmail              LIKE        '%' + @EmailAddress + '%')";
             SQL += " AND (@Organization             IS NULL     OR      WebCooperatorOrganization       LIKE        '%' + @Organization + '%')";
-            SQL += " AND (@WebCooperatorAddressCountryDescription       IS NULL                         OR          WebCooperatorAddressCountryDescription     =   @WebCooperatorAddressCountryDescription )";
+            SQL += " AND (@WebCooperatorAddressCountry       IS NULL    OR          WebCooperatorAddressCountry     =   @WebCooperatorAddressCountry )";
+            SQL += " AND (@ShippingAddressCountryCode       IS NULL    OR         ShippingAddressCountryCode     =   @ShippingAddressCountryCode )";
             SQL += " AND (@IntendedUseCode          IS NULL     OR      IntendedUseCode                 =           @IntendedUseCode)";
             SQL += " AND (@StatusCode               IS NULL     OR      StatusCode                      =           @StatusCode)";
             SQL += " AND (@MostRecentWebOrderAction IS NULL     OR      MostRecentWebOrderAction        =           @MostRecentWebOrderAction)";
@@ -113,7 +114,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
                     SQL += "  OrderDate >= DATEADD(day,-7, GETDATE())";
                     break;
                 case "30D":
-                    SQL += "  OrderDate >= DATEADD(day,-30, GETDATE())";
+                    SQL += "  OrderDate >= DATEADD(MONTH,-1, GETDATE())";
                     break;
                 case "60D":
                     SQL += "  OrderDate >= DATEADD(day,-60, GETDATE())";
@@ -124,8 +125,8 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
                 case "180D":
                     SQL += "  OrderDate >= DATEADD(day,-180, GETDATE())";
                     break;
-                    case "1Y":
-                    SQL += "  DATEPART(year, OrderDate) = DATEPART(year, GETDATE())";
+                case "1Y":
+                    SQL += "  OrderDate >= DATEADD(YEAR ,-1, GETDATE())";
                     break;
             }
             }
@@ -175,7 +176,8 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
                 CreateParameter("FirstName", (object)searchEntity.WebCooperatorFirstName ?? DBNull.Value, true),
                 CreateParameter("LastName", (object)searchEntity.WebCooperatorLastName ?? DBNull.Value, true),
                 CreateParameter("Organization", (object)searchEntity.WebCooperatorOrganization ?? DBNull.Value, true),
-                CreateParameter("WebCooperatorAddressCountryDescription", (object)searchEntity.WebCooperatorAddressCountryDescription ?? DBNull.Value, true),
+                CreateParameter("WebCooperatorAddressCountry", (object)searchEntity.WebCooperatorAddressCountry ?? DBNull.Value, true),
+                CreateParameter("ShippingAddressCountryCode", (object)searchEntity.ShippingAddressCountryCode ?? DBNull.Value, true),
                 CreateParameter("EmailAddress", (object)searchEntity.WebCooperatorEmailAddress ?? DBNull.Value, true),
                 CreateParameter("IntendedUseCode", (object)searchEntity.IntendedUseCode ?? DBNull.Value, true),
                 CreateParameter("StatusCode", (object)searchEntity.StatusCode ?? DBNull.Value, true),
@@ -315,6 +317,8 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             timeFrameOptions.Add(new CodeValue { Value = "30D", Title = "This Month" });
             timeFrameOptions.Add(new CodeValue { Value = "60D", Title = "The Last 2 Months" });
             timeFrameOptions.Add(new CodeValue { Value = "90D", Title = "The Last 3 Months" });
+            timeFrameOptions.Add(new CodeValue { Value = "180D", Title = "The Last 6 Months" });
+            timeFrameOptions.Add(new CodeValue { Value = "1Y", Title = "This Year" });
             return timeFrameOptions;
         }
 
