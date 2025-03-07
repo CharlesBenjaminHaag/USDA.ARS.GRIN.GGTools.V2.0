@@ -280,8 +280,8 @@
         formData.append("EmailMessage.To", $("#EmailMessage_To").val());
         formData.append("EmailMessage.Subject", $("#EmailMessage_Subject").val());
 
-        // Get edited text from Summernote control.
-        var editedEmailBody = $("#EmailMessage_Body").summernote("code");
+        // Get edited text from  control.
+        var editedEmailBody = $("#EmailMessage_Body").("code");
         formData.append("EmailMessage.Body", editedEmailBody);
 
         $.ajax({

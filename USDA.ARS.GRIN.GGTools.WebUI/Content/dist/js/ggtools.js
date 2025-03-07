@@ -2,7 +2,7 @@
 * Name         : ggtools.js
 * Description  : Main JS application file for GGTools. This file
 *                should be included in all layout pages. 
-* Last Updated : 2/14/25
+* Last Updated : 3/7/25
 * By           : Benjamin Haag
 */
 
@@ -748,6 +748,21 @@ function Reset() {
 
     $("#EventAction").val("RESET");
     $.fn.dataTable.tables({ api: true }).clear().draw();
+}
+
+function Reset2() { 
+    $('#frmEdit').find(':input').each(function () {
+        // Check if the input is not readonly
+        if (!$(this).prop('readonly')) {
+            // Clear the value of the input (except for readonly ones)
+            $(this).val('');
+
+            // Optionally, you can reset the selected options for select inputs
+            if ($(this).is('select')) {
+                $(this).prop('selectedIndex', 0); // Reset to the first option
+            }
+        }
+    });
 }
 
 $("#btnModifiedByDateClear").on('click', function (event) {
