@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "USDA.ARS.GRIN.GGTools.DataL
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "USDA.ARS.GRIN.GGTools.ViewModelLayer", "..\USDA.ARS.GRIN.GGTools.ViewModelLayer\USDA.ARS.GRIN.GGTools.ViewModelLayer.csproj", "{9460DC16-3013-4028-9403-3541E1235771}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "USDA.ARS.GRIN.GRINGlobal.DataManager.WebUI", "..\USDA.ARS.GRIN.GRINGlobal.DataManager.WebUI\USDA.ARS.GRIN.GRINGlobal.DataManager.WebUI.csproj", "{DD47C595-9A50-4A73-B101-FEC202BBBA10}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,10 @@ Global
 		{9460DC16-3013-4028-9403-3541E1235771}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9460DC16-3013-4028-9403-3541E1235771}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9460DC16-3013-4028-9403-3541E1235771}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DD47C595-9A50-4A73-B101-FEC202BBBA10}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DD47C595-9A50-4A73-B101-FEC202BBBA10}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DD47C595-9A50-4A73-B101-FEC202BBBA10}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DD47C595-9A50-4A73-B101-FEC202BBBA10}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
