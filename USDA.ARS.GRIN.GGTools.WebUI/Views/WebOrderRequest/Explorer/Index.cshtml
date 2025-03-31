@@ -8,6 +8,13 @@
 
 <!-- Checkbox selector styles -->
 <style>
+    .card-body-filter {
+        -ms-flex: 1 1 auto;
+        flex: 1 1 auto;
+        min-height: 1px;
+        padding-top: 0rem; padding-bottom:1rem; padding-left:1rem; padding-right:1rem;
+    }
+
     .button-checkbox {
         display: flex;
         align-items: center;
@@ -28,9 +35,27 @@
             margin-right: 10px;
         }
 
+
+
         .button-checkbox label {
             margin: 0;
             vertical-align: middle;
+        }
+
+    .select-all-checkbox {
+        display: flex;
+        align-items: center;
+        padding: 5px 5px;
+        /*border: 1px solid #ccc;
+        border-radius: 5px;*/
+        /*background-color: #f9f9f9;*/
+        cursor: pointer;
+        /*margin-bottom: 10px;*/
+        transition: background-color 0.3s;
+    }
+
+        .select-all-checkbox input[type="checkbox"] {
+            margin-right: 10px;
         }
 </style>
 
@@ -39,14 +64,16 @@
         @Html.Partial("~/Views/WebOrderRequest/Components/_CurrentStatusFilter.cshtml")
         @Html.Partial("~/Views/WebOrderRequest/Components/_MostRecentActionFilter.cshtml")
     </div>
-    
+
     <div class="col-md-9">
         <input type="hidden" id="hf_current_filter_time_frame" />
         <div class="card card-default card-tabs">
             <div id="section-time-frame" class="card-header p-0 pt-1">
                 <ul class="nav nav-tabs" id="custom-tabs-one-tab" role="tablist">
-                    <li class="pt-2 px-3"><h3 class="card-title">
-                        <i class="fas fa-calendar"></i> Submitted Date</h3>
+                    <li class="pt-2 px-3">
+                        <h3 class="card-title">
+                            <i class="fas fa-calendar"></i> Submitted Date
+                        </h3>
                     </li>
                     <li class="nav-item" id="filter-time-frame-1D">
                         <a class="nav-link active" data-ggtools-action="1D" data-toggle="pill" href="#custom-tabs-one-home" role="tab" aria-controls="custom-tabs-one-home" aria-selected="true">Today</a>
@@ -174,7 +201,7 @@
         var assignedTo = "";
 
         var formData = new FormData();
-        
+
         formData.append("SearchEntity.TimeFrame", timeFrame);
         formData.append("SearchEntity.StatusList", statusList);
         formData.append("SearchEntity.MostRecentActionList", mostRecentActionList);
@@ -455,9 +482,9 @@
                     style: 'single'
                 },
                 lengthMenu: [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],
-                //columnDefs: [
-                //    { targets: [0], visible: false }
-                //]
+                columnDefs: [
+                    { targets: [0], visible: false }
+                ]
 
             });
 

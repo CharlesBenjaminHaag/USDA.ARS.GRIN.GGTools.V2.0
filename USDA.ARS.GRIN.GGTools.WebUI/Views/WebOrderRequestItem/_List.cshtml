@@ -6,9 +6,11 @@
                 <th>ID</th>
                 <th>Status</th>
                 <th>Accession</th>
+                <th>Owner</th>
+                <th>Taxon</th>
                 <th>Site</th>
                 <th>Shipped</th>
-                <th>Count</th>
+                <th>Dist. Unit.</th>
             </tr>
         </thead>
         <tbody>
@@ -17,7 +19,21 @@
                 <tr>
                     <td>@result.ID</td>
                     <td>@result.StatusCode</td>
-                    <td><a href="https://npgsweb.ars-grin.gov/gringlobal/accessiondetail?id=@result.AccessionID">@result.AccessionText</a></td>
+                    <td>
+                        <a href="https://npgsweb.ars-grin.gov/gringlobal/accessiondetail?id=@result.AccessionID">
+                            @result.AccessionText
+                        </a>
+                    </td>
+                    <td>
+                        <a href="@Url.Action("Edit","Cooperator", new { @entityId = result.AccessionOwnedByCooperatorID})">
+                            @result.AccessionOwnedByCooperatorName
+                        </a>
+                    </td>
+                    <td>
+                        <a href="https://npgsweb.ars-grin.gov/gringlobal/taxon/taxonomydetail?id=@result.SpeciesID">
+                            @result.SpeciesName
+                        </a>
+                    </td>
                     <td><a href="https://npgsweb.ars-grin.gov/gringlobal/site?id=@result.SiteID">@result.SiteLongName (@result.SiteShortName)</a></td>
                     <td>@result.QuantityShipped</td>
                     <td>@result.UnitOfQuantity</td>
@@ -27,6 +43,56 @@
     </table>
 <script type="text/javascript">
     $(document).ready(function () {
-        InitDataTable("data-table-web-order-request-items");
+        InitWebOrderRequestItemDataTable("data-table-web-order-request-items");
     });
+
+
+    function InitWebOrderRequestItemDataTable(tableName) {
+        tableName = "#" + tableName;
+
+        $(document).ready(function () {
+            table = $(tableName).DataTable({
+                dom: "Bflrtip",
+                stateSave: true,
+                responsive: true,
+                paging: true,
+                "pageLength": 25,
+                select: true,
+                layout: {
+                    topStart: {
+                        buttons: ['copyHtml5', 'excelHtml5', 'csvHtml5', 'pdfHtml5']
+                    }
+                },
+                buttons: [
+                    {
+                        extend: 'copyHtml5',
+                        exportOptions: {
+                            columns: [0, ':visible']
+                        }
+                    },
+                    {
+                        extend: 'excelHtml5',
+                        exportOptions: {
+                            columns: ':visible'
+                        }
+                    },
+                    {
+                        extend: 'pdfHtml5',
+                        exportOptions: {
+                            columns: [0, 1, 2, 5]
+                        }
+                    },
+                    'colvis'
+                ],
+                columnDefs: [
+                    { targets: [0], visible: false }
+                ]
+            });
+
+            $('table.ggtools').on('click', 'tr', function () {
+                var data = table.row(this).data();
+                /*alert('You clicked on ' + data[0] + "'s row");*/
+            });
+        });
+    }
 </script>

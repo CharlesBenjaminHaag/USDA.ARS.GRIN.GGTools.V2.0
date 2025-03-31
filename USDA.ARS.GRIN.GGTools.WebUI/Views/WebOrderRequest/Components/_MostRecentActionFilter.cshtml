@@ -1,4 +1,8 @@
 ﻿@model USDA.ARS.GRIN.GGTools.ViewModelLayer.WebOrderRequestViewModel
+
+
+
+
 <input type="hidden" id="hf_current_filter_most_recent_action" />
 <div class="card card-default">
     <div class="card-header">
@@ -8,7 +12,11 @@
         </h3>
     </div>
     <!-- /.card-header -->
-    <div class="card-body">
+    <div class="card-body-filter">
+        <label class="select-all-checkbox">
+            <input type="checkbox" id="ckSelectDeselectAllWebOrderRequestMostRecentAction" />
+            <span id="label-current_filter_web_order_request_most-recent-action">   Select All</span>
+        </label>
         <div id="section-most-recent-action">
             @foreach (var result in Model.WebOrderRequestActions)
             {
@@ -19,12 +27,9 @@
             }
         </div>
     </div>
-    <div class="card-footer">
-        <label>
-            <input type="checkbox" id="ckSelectDeselectAllWebOrderRequestMostRecentAction" />
-            <span id="label-current_filter_web_order_request_most-recent-action">Select All</span>
-        </label>
-    </div>
+    @*<div class="card-footer">
+        
+    </div>*@
 </div>
 <script type="text/javascript">
     //function MostRecentActionFilter_GetSelectedValues() {

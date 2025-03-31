@@ -14,6 +14,8 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
         public int WebOrderRequestID { get; set; }
         public int SequenceNumber { get; set; }
         public int AccessionID { get; set; }
+        public int AccessionOwnedByCooperatorID { get; set; }
+        public string AccessionOwnedByCooperatorName { get; set; }
         public string PINumber { get; set; }
         public string AccessionText { get; set; }
         public string StatusCode { get; set; }
