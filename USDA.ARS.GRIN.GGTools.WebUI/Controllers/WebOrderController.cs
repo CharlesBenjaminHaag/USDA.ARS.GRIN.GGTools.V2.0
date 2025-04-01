@@ -177,21 +177,21 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             return PartialView("~/Views/WebOrder/Modals/_Email.cshtml", viewModel);
         }
 
-        public JsonResult SendEmail(WebOrderRequestViewModel viewModel)
-        {
-            try
-            {
-                viewModel.Entity.OwnedByWebUserID = AuthenticatedUser.WebUserID;
-                viewModel.SendEmail();
+        //public JsonResult SendEmail(WebOrderRequestViewModel viewModel)
+        //{
+        //    try
+        //    {
+        //        viewModel.Entity.OwnedByWebUserID = AuthenticatedUser.WebUserID;
+        //        viewModel.SendEmail();
                 
-                return Json(new { success = true }, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception ex)
-            {
-                Log.Error(ex);
-                return Json(new { success = false }, JsonRequestBehavior.AllowGet);
-            }
-        }
+        //        return Json(new { success = true }, JsonRequestBehavior.AllowGet);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Log.Error(ex);
+        //        return Json(new { success = false }, JsonRequestBehavior.AllowGet);
+        //    }
+        //}
 
         public PartialViewResult RenderRejectModal(int entityId)
         {

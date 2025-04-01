@@ -71,6 +71,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
         public int TotalGenera { get; set; }
         public int TotalItems { get; set; }
         public int TotalSites { get; set; }
+        public string CuratorEmailAddressList { get; set; }
         public string CSSClass
         {
             get

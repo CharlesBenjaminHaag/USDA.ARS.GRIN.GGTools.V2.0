@@ -149,17 +149,17 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
             return emailTemplate;
         }
 
-        public void SendEmail(string emailTo = "")
+        public void SendEmail(EmailTemplate emailMessage)
         {
             try
             {
                 SMTPManager sMTPManager = new SMTPManager();
                 SMTPMailMessage sMTPMailMessage = new SMTPMailMessage();
-                sMTPMailMessage.To = ActionEmailTo;
-                sMTPMailMessage.CC = ActionEmailBCC;
-                sMTPMailMessage.From = ActionEmailFrom;
-                sMTPMailMessage.Subject = ActionEmailSubject;
-                sMTPMailMessage.Body = ActionEmailBody;
+                sMTPMailMessage.To = emailMessage.EmailTo;
+                sMTPMailMessage.CC = emailMessage.EmailBCC;
+                sMTPMailMessage.From = emailMessage.EmailFrom;
+                sMTPMailMessage.Subject = emailMessage.Subject;
+                sMTPMailMessage.Body = emailMessage.Body;
                 sMTPManager.SendMessage(sMTPMailMessage);
             }
             catch (Exception ex)
@@ -264,11 +264,16 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
             // Update WOR
             using (WebOrderRequestManager mgr = new WebOrderRequestManager())
             {
+                // Update WOR status.
                 Entity.StatusCode = NewActionCode;
                 Entity.Note = EventNote;
                 Entity.EmailAddressList = ActionEmailTo;
-
                 mgr.Update(Entity);
+
+                if ((Entity.StatusCode == "NRR_APPROVE") || (Entity.StatusCode == "NRR_REJECT"))
+                {
+                    //TODO
+                }
 
                 // Add pertinent action
                 if (!String.IsNullOrEmpty(NewActionCode))
@@ -282,8 +287,54 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
                     mgr.InsertWebOrderRequestAction(webOrderRequestAction);
                 }
             }
+            GenerateNotifications();            
+        }
 
-            //TODO Send email
+        public void GenerateNotifications()
+        {
+            EmailTemplate secondaryEmailNotification = new EmailTemplate();
+
+            // Exit if the user has chosen to suppress notifications.
+            if (!IsEmailRequested)
+            {
+                return;
+            }
+
+            //if ((Entity.StatusCode != "NRR_HOLD") && (Entity.StatusCode.Contains("_REL")))
+            //{
+            //    SendEmail();
+            //}
+
+            // Add the "Action" -prefixed fields, based on the current workflow in which the user
+            // will submit all fields of an email message.
+            EmailTemplate actionEmailTemplate = new EmailTemplate();
+            actionEmailTemplate.EmailFrom = ActionEmailFrom;
+            actionEmailTemplate.EmailTo = ActionEmailTo;
+            actionEmailTemplate.Subject = ActionEmailSubject;
+            actionEmailTemplate.Body = ActionEmailBody;
+            actionEmailTemplate.EmailBCC = ActionEmailBCC;
+            DataCollectionNotifications.Add(actionEmailTemplate);
+
+            // Determine what if any additional notifications must be sent.
+            switch (Entity.StatusCode)
+            {
+                case "NRR_ACCEPT":
+                    secondaryEmailNotification = GetEmailTemplate("CAP");
+                    secondaryEmailNotification.EmailTo = Entity.CuratorEmailAddressList;
+                    DataCollectionNotifications.Add(secondaryEmailNotification);
+                    break;
+                case "NRR_REJECT":
+                    secondaryEmailNotification = GetEmailTemplate("CCL");
+                    secondaryEmailNotification.EmailTo = Entity.CuratorEmailAddressList;
+                    DataCollectionNotifications.Add(secondaryEmailNotification);
+                    break;
+            }
+
+            // Send all emails in queue.
+            foreach(var emailNotification in DataCollectionNotifications)
+            {
+                SendEmail(emailNotification);
+            }
         }
 
         public void UpdateHold()
@@ -307,7 +358,7 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
                 mgr.UpdateLock(Entity);
             }
         }
-       
+
         public string GetCSSClass(string statusCode)
         {
             string cssClass = String.Empty;

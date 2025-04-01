@@ -35,6 +35,7 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
         private Collection<CodeValue> _DataCollectionIntendedUseCodes = new Collection<CodeValue>();
         private Collection<ReportItem> _DataCollectionReportItems = new Collection<ReportItem>();
         private Collection<EmailTemplate> _DataCollectionEmailTemplates = new Collection<EmailTemplate>();
+        private Collection<EmailTemplate> _DataCollectionNotifications = new Collection<EmailTemplate>();
 
         public WebOrderRequestViewModelBase()
         {
@@ -120,6 +121,12 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
         {
             get { return _DataCollectionEmailTemplates; }
             set { _DataCollectionEmailTemplates = value; }
+        }
+
+        public Collection<EmailTemplate> DataCollectionNotifications
+        {
+            get { return _DataCollectionNotifications; }
+            set { _DataCollectionNotifications = value; }
         }
 
         public string WebCooperatorVettedStatusCode
