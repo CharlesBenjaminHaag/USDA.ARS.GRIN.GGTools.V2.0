@@ -1,6 +1,6 @@
 ﻿@model USDA.ARS.GRIN.GGTools.ViewModelLayer.CooperatorViewModel
 @{
-    ViewBag.Title = Model.PageTitle;
+    ViewBag.Title = ViewBag.PageTitle;
     Layout = "~/Views/Shared/_LayoutAdminLTE3.cshtml";
 }
 
@@ -270,7 +270,7 @@
         SetStatusWithEmail();
     });
 
-    function SetStatusWithEmail() {
+    @*function SetStatusWithEmail() {
         var link = '@Url.Action("SetStatus", "Cooperator")';
         var formData = new FormData();
 
@@ -300,7 +300,7 @@
             }
         });
         $("#modal-folder-edit").modal("hide");
-    }
+    }*@
 
     /************************************************************ OWNERSHIP ******************************************************************/
 

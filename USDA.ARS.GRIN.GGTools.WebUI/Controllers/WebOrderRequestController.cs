@@ -19,6 +19,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             try 
             { 
                 viewModel.Get(entityId);
+                ViewBag.PageTitle = String.Format("View Web Order Request #{0}", viewModel.Entity.ID);
                 return View("~/Views/WebOrderRequest/View.cshtml", viewModel);
             }
             catch (Exception ex)

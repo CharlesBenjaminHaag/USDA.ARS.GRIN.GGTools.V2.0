@@ -312,7 +312,12 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
             actionEmailTemplate.EmailTo = ActionEmailTo;
             actionEmailTemplate.Subject = ActionEmailSubject;
             actionEmailTemplate.Body = ActionEmailBody;
-            actionEmailTemplate.EmailBCC = ActionEmailBCC;
+
+            if (!IsBCCRequested)
+            {
+                actionEmailTemplate.EmailBCC = ActionEmailBCC;
+            }
+
             DataCollectionNotifications.Add(actionEmailTemplate);
 
             // Determine what if any additional notifications must be sent.
