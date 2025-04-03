@@ -9,6 +9,7 @@
                 <th>Owner</th>
                 <th>Taxon</th>
                 <th>Site</th>
+                <th>Site Long Name</th>
                 <th>Shipped</th>
                 <th>Dist. Unit.</th>
             </tr>
@@ -34,7 +35,8 @@
                             @result.SpeciesName
                         </a>
                     </td>
-                    <td><a href="https://npgsweb.ars-grin.gov/gringlobal/site?id=@result.SiteID">@result.SiteLongName (@result.SiteShortName)</a></td>
+                    <td><a href="https://npgsweb.ars-grin.gov/gringlobal/site?id=@result.SiteID">@result.SiteShortName</a></td>
+                    <td><a href="https://npgsweb.ars-grin.gov/gringlobal/site?id=@result.SiteID">@result.SiteLongName</a></td>
                     <td>@result.QuantityShipped</td>
                     <td>@result.UnitOfQuantity</td>
                 </tr>
@@ -85,7 +87,15 @@
                     'colvis'
                 ],
                 columnDefs: [
-                    { targets: [0], visible: false }
+                    {
+                        target: 0,
+                        visible: false,
+                        searchable: false
+                    },
+                    {
+                        target: 6,
+                        visible: false
+                    }
                 ]
             });
 

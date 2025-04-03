@@ -270,11 +270,6 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
                 Entity.EmailAddressList = ActionEmailTo;
                 mgr.Update(Entity);
 
-                if ((Entity.StatusCode == "NRR_APPROVE") || (Entity.StatusCode == "NRR_REJECT"))
-                {
-                    //TODO
-                }
-
                 // Add pertinent action
                 if (!String.IsNullOrEmpty(NewActionCode))
                 {
@@ -287,7 +282,11 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
                     mgr.InsertWebOrderRequestAction(webOrderRequestAction);
                 }
             }
-            GenerateNotifications();            
+
+            if ((Entity.StatusCode != "NRR_APPROVE"))
+            {
+                GenerateNotifications();
+            }
         }
 
         public void GenerateNotifications()

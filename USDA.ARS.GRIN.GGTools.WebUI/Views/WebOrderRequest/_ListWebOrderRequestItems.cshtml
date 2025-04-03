@@ -7,6 +7,7 @@
                     <th>Accession</th>
                     <th>Status</th>
                     <th>Site</th>
+                    <th>Site Long Name</th>
                     <th>Quant. Shipped</th>
                     <th>Unit of Quant.</th>
                     <th>Dist. Form</th>
@@ -23,9 +24,11 @@
                             <a href="" target="_blank"></a>
                             @webOrderRequest.AccessionText</td>
                         <td>@webOrderRequest.StatusCode</td>
+                        <td>@webOrderRequest.SiteShortName</td>
                         <td>
                             <a href="" target="_blank"></a>
-                            @webOrderRequest.SiteLongName (@webOrderRequest.SiteShortName)</td>
+                            @webOrderRequest.SiteLongName
+                        </td>
                         
                         <td>@webOrderRequest.QuantityShipped</td>
                         <td>@webOrderRequest.UnitOfQuantity</td>

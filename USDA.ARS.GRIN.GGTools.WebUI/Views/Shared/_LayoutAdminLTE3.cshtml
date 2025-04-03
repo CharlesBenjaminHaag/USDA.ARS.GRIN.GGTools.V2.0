@@ -7,15 +7,22 @@
     <link rel="stylesheet" href="~/Content/dist/css/fonts.googleapis.com.css">
     <link rel="stylesheet" href="~/plugins/fontawesome-free/css/all.min.css">
     <link rel="stylesheet" href="~/dist/css/adminlte.css">
-    <link rel="stylesheet" href="~/Content/dist/css/icheck-bootstrap.min.css" />
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css">
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.4.2/css/buttons.dataTables.min.css">
+    @*<link rel="stylesheet" href="~/Content/dist/css/icheck-bootstrap.min.css" />*@
+
+    @*<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css">*@
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/2.2.2/css/dataTables.dataTables.min.css" />
+
+    @*<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.4.2/css/buttons.dataTables.min.css">*@
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/3.2.2/css/buttons.dataTables.min.css" />
+
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/select/1.7.0/css/select.dataTables.min.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/autofill/2.7.0/css/autoFill.dataTables.min.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/datetime/1.5.1/css/dataTables.dateTime.min.css">
     <link rel="stylesheet" type="text/css" href="~/Content/dist/css/DataTables/editor.dataTables.css">
     <link rel="stylesheet" type="text/css" href="https://editor.datatables.net/extensions/Editor/css/editor.dataTables.css" />
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.3.0/css/responsive.dataTables.min.css">
+    
+    @*<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.3.0/css/responsive.dataTables.min.css">*@
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/3.0.4/css/responsive.dataTables.min.css" />
 
     <!-- Include stylesheet -->
     <link href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css" rel="stylesheet" />
@@ -99,6 +106,36 @@
 
         .external-event {
             cursor: default;
+        }
+
+        .dataTables_filter {
+            width: 50%;
+            float: right;
+            text-align: right;
+        }
+
+        .dt-search {
+            float: right;
+        }
+
+        div.dt-buttons {
+            float:left;
+        }
+
+        div.dt-length {
+            float: left;
+            padding-left:10px;
+            padding-right:10px;
+        }
+
+        div.dt-container .dt-search input {
+            border: 1px solid #aaa;
+            border-radius: 3px;
+            padding: 5px;
+            background-color: transparent;
+            color: inherit;
+            margin-left: 3px;
+            float: right;
         }
     </style>
 
@@ -252,13 +289,24 @@
 <script src="~/dist/js/adminlte.js"></script>
 
 <!-- Datatables -->
-<script type="text/javascript" src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
-<script type="text/javascript" src="https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js"></script>
-@*<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>*@
+<!--<script type="text/javascript" src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>-->
+<script type="text/javascript" src="https://cdn.datatables.net/2.2.2/js/dataTables.js"></script>
+
+@*<script type="text/javascript" src="https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js"></script>*@
+<script type="text/javascript" src="https://cdn.datatables.net/buttons/3.2.2/js/dataTables.buttons.min.js"></script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 @*<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>*@
+
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
-<script type="text/javascript" src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js"></script>
-<script type="text/javascript" src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.colVis.min.js"></script>
+
+@*<script type="text/javascript" src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js"></script>*@
+<script type="text/javascript" src="https://cdn.datatables.net/buttons/3.2.2/js/buttons.html5.min.js"></script>
+
+
+@*<script type="text/javascript" src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.colVis.min.js"></script>*@
+<script type="text/javascript" src="https://cdn.datatables.net/buttons/3.2.2/js/buttons.colVis.min.js"></script>
+
 <script type="text/javascript" src="https://cdn.datatables.net/select/1.7.0/js/dataTables.select.min.js"></script>
 
 
@@ -266,7 +314,9 @@
 <script type="text/javascript" src="https://cdn.datatables.net/keytable/2.12.0/js/keyTable.dataTables.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/autofill/2.7.0/js/dataTables.autoFill.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/autofill/2.7.0/js/autoFill.dataTables.js"></script>
-<script src="https://cdn.datatables.net/responsive/2.3.0/js/dataTables.responsive.min.js"></script>
+
+@*<script src="https://cdn.datatables.net/responsive/2.3.0/js/dataTables.responsive.min.js"></script>*@
+<script type="text/javascript" src="https://cdn.datatables.net/responsive/3.0.4/js/dataTables.responsive.min.js"></script>
 
 <script type="text/javascript" src="~/Content/dist/js/DataTables/dataTables.editor.js"></script>
 

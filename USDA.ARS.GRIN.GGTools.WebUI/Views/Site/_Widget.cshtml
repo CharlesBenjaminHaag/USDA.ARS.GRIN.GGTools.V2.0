@@ -21,7 +21,7 @@
                                     <ul class="ml-4 mb-0 fa-ul text-muted">
                                         @*<li class="small"><span class="fa-li"><i class="fas fa-lg fa-building"></i></span> Address: @cooperator.AddressLine1 @cooperator.City @cooperator.StateName @cooperator.PostalIndex</li>*@
                                         <li class="small"><span class="fa-li"><i class="fas fa-lg fa-phone"></i></span> Phone #: @cooperator.PrimaryPhone</li>
-                                        <li class="small"><span class="fa-li"><i class="fas fa-lg fa-building"></i></span> Site: @cooperator.SiteShortName</li>
+                                        <li class="small"><span class="fa-li"><i class="fas fa-lg fa-building"></i></span> Site: @cooperator.SiteName</li>
                                     </ul>
                                 </div>
                                 <div class="col-5 text-center">
@@ -31,11 +31,11 @@
                         </div>
                         <div class="card-footer">
                             <div class="text-right">
-                                <a href="#" class="btn btn-sm btn-danger">
+                                @*<a href="#" class="btn btn-sm btn-danger">
                                     <i class="fas fa-remove"></i>Deactivate
-                                </a>
+                                </a>*@
                                 <a href="@Url.Action("Edit", "Cooperator", new { @entityId = cooperator.ID })" class="btn btn-sm btn-default">
-                                    <i class="fas fa-user"></i> View Profile
+                                    <i class="fas fa-user"></i> View Cooperator Record
                                 </a>
                             </div>
                         </div>
