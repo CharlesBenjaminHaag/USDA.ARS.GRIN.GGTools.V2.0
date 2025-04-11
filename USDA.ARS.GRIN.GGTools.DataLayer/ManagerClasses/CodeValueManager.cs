@@ -41,7 +41,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
         public List<CodeValue> GetGroups()
         {
             List<CodeValue> results = new List<CodeValue>();
-            SQL = "SELECT DISTINCT GroupName AS Value, GroupName AS Title FROM vw_GRINGlobal_Code_Value ORDER BY GroupName ASC";
+            SQL = "SELECT DISTINCT GroupName AS Value, GroupName AS GroupTitle FROM vw_GRINGlobal_Code_Value ORDER BY GroupName ASC";
             results = GetRecords<CodeValue>(SQL);
             RowsAffected = results.Count;
             return results;
@@ -49,7 +49,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
         public List<CodeValue> GetSysLangs()
         {
             List<CodeValue> results = new List<CodeValue>();
-            SQL = "SELECT CONVERT(NVARCHAR, sys_lang_id) AS Value, title AS Title FROM sys_lang ORDER BY Title ASC";
+            SQL = "SELECT CONVERT(NVARCHAR, sys_lang_id) AS Value, title AS GroupTitle FROM sys_lang ORDER BY GroupTitle ASC";
             results = GetRecords<CodeValue>(SQL);
             RowsAffected = results.Count;
             return results;

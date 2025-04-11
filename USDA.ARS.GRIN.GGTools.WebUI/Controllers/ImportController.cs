@@ -96,7 +96,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                                     //        //    for (int i = 0; i < reader.FieldCount; i++)
                                     //        //    {
                                     //        //        //Console.Write(reader.GetValue(i) + "\t");
-                                    //        //        viewModel.DataCollectionFields.Add(new CodeValue { ID=i, Value = reader.GetValue(i).ToString(), Title = reader.GetValue(i).ToString() });
+                                    //        //        viewModel.DataCollectionFields.Add(new CodeValue { ID=i, Value = reader.GetValue(i).ToString(), GroupTitle = reader.GetValue(i).ToString() });
                                     //        //    }
                                     //        //    Console.WriteLine(); // Move to the next line for the next row
 
@@ -111,7 +111,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.WebUI.Controllers
                                     //            var DEBUG = reader.GetValue(i);
                                     //            if (DEBUG != null)
                                     //            {
-                                    //                viewModel.DataCollectionFields.Add(new CodeValue { ID = i, Value = reader.GetValue(i).ToString(), Title = reader.GetValue(i).ToString() });
+                                    //                viewModel.DataCollectionFields.Add(new CodeValue { ID = i, Value = reader.GetValue(i).ToString(), GroupTitle = reader.GetValue(i).ToString() });
                                     //            }
                                     //        }
                                     //        Console.WriteLine(); // Move to the next line for the next row

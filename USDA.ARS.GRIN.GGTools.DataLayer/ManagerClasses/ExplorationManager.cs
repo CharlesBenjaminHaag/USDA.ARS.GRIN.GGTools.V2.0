@@ -88,7 +88,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             SQL = "SELECT * FROM vw_GRINGlobal_Exploration ";
             SQL += " WHERE  (@ID                IS NULL     OR ID           =       @ID)";
             SQL += " AND    (@ExplorationNumber IS NULL     OR ExplorationNumber        LIKE    '%' +  @ExplorationNumber + '%')";
-            SQL += " AND    (@Title             IS NULL     OR Title        LIKE    '%' +  @Title + '%')";
+            SQL += " AND    (@GroupTitle             IS NULL     OR GroupTitle        LIKE    '%' +  @GroupTitle + '%')";
           
             if (!String.IsNullOrEmpty(searchEntity.IDList))
             {
@@ -107,7 +107,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             
             CreateParameter("ID", searchEntity.ID > 0 ? (object)searchEntity.ID : DBNull.Value, true),
             CreateParameter("ExplorationNumber", (object)searchEntity.ExplorationNumber ?? DBNull.Value, true),
-            CreateParameter("Title", (object)searchEntity.Title ?? DBNull.Value, true),
+            CreateParameter("GroupTitle", (object)searchEntity.Title ?? DBNull.Value, true),
         };
 
         results = GetRecords<Exploration>(SQL, parameters.ToArray());

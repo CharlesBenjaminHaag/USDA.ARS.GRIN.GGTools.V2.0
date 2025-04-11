@@ -272,7 +272,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
 
             SQL = "SELECT " +
                 "taxonomy_folder_id AS ID, " +
-                "title AS Title,	" +
+                "title AS GroupTitle,	" +
                 "category AS Category, " +
                 "description AS Description," +
                 "note AS Note," +

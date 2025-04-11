@@ -1,0 +1,21 @@
+﻿@{ 
+    string eventAction = @ViewContext.RouteData.Values["controller"].ToString();
+    string eventValue = @ViewContext.RouteData.Values["action"].ToString();
+}
+<ul class="navbar-nav">
+    <li class="nav-item">
+        <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+    </li>
+    <li class="nav-item d-none d-sm-inline-block">
+        <a href="@Url.Action("Explorer", "WebOrderRequest")" class="nav-link">Home</a>
+    </li>
+    @*<li class="nav-item dropdown">
+        <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Action</a>
+        <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow" style="left: 0px; right: inherit;">
+            <li><a id="btnAddSynonymBasionym" data-ggtools-synonym-code="B" href="#" class="dropdown-item synonym-link">Approve </a></li>
+            <li><a id="btnAddSynonymHeterotypic" data-ggtools-synonym-code="S" href="#" class="dropdown-item synonym-link">Reject </a></li>
+            <li><a id="btnAddSynonymHomotypic" data-ggtools-synonym-code="=" href="#" class="dropdown-item synonym-link">Request Information </a></li>
+            <li><a id="btnAddSynonymInvalid" data-ggtools-synonym-code="I" href="#" class="dropdown-item synonym-link">Hold, General </a></li>
+        </ul>
+    </li>*@
+</ul>

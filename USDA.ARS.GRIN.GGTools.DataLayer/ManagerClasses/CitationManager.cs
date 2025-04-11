@@ -149,7 +149,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             SQL += " AND        (@Reference                     IS NULL OR Reference        LIKE    '%' + @Reference + '%')";
             SQL += " AND        (@DOIReference                  IS NULL OR DOIReference     LIKE    '%' + @DOIReference + '%')";
             SQL += " AND        (@URL                           IS NULL OR URL              LIKE    '%' + @URL + '%')";
-            SQL += " AND        (@Title                         IS NULL OR Title            LIKE    '%' + @Title + '%')";
+            SQL += " AND        (@GroupTitle                         IS NULL OR GroupTitle            LIKE    '%' + @GroupTitle + '%')";
             SQL += " AND        (@Description                   IS NULL OR Description      LIKE    '%' + @Description + '%')";
             // OMITTED
             // AccessionID
@@ -207,7 +207,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
                 CreateParameter("Reference", (object)searchEntity.Reference ?? DBNull.Value, true),
                 CreateParameter("DOIReference", (object)searchEntity.DOIReference ?? DBNull.Value, true),
                 CreateParameter("URL", (object)searchEntity.URL ?? DBNull.Value, true),
-                CreateParameter("Title", (object)searchEntity.Title ?? DBNull.Value, true),
+                CreateParameter("GroupTitle", (object)searchEntity.Title ?? DBNull.Value, true),
                 CreateParameter("Description", (object)searchEntity.Title ?? DBNull.Value, true),
                 // RESERVED
                 // AccessionID
@@ -341,7 +341,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         {
             List<CodeValue> codeValues = new List<CodeValue>();
 
-            SQL = "SELECT standard_abbreviation AS Value, standard_abbreviation AS Title " + 
+            SQL = "SELECT standard_abbreviation AS Value, standard_abbreviation AS GroupTitle " + 
                   " FROM literature " +
                   " WHERE standard_abbreviation IS NOT NULL " +
                   " ORDER BY standard_abbreviation";
@@ -353,7 +353,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
         {
             List<CodeValue> codeValues = new List<CodeValue>();
 
-            SQL = "SELECT abbreviation AS Value, abbreviation AS Title " +
+            SQL = "SELECT abbreviation AS Value, abbreviation AS GroupTitle " +
                   " FROM literature " +
                   " WHERE abbreviation IS NOT NULL " +
                   " ORDER BY abbreviation";

@@ -13,7 +13,6 @@
         <table id="data-table-web-order-requests" class="table table-striped" style="width:100%;">
             <thead>
                 <tr>
-                    <th></th>
                     <th width="5%">ID</th>
                     <th>Order Date</th>
                     <th>Status</th>
@@ -22,14 +21,17 @@
                     <th>Email</th>
                     <th>Organization</th>
                     <th>Most Recent Action</th>
-                    <th></th>
                 </tr>
             </thead>
             <tbody>
                 @foreach (var webOrderRequest in Model.DataCollection)
                 {
                     <tr>
-                        <td>@webOrderRequest.ID</td>
+                        <td>
+                            <a href="@Url.Action("Get","WebOrderRequest", new { entityId = webOrderRequest.ID })">
+                                [@webOrderRequest.ID]
+                            </a>
+                        </td>
                         <td>@webOrderRequest.ID</td>
                         <td>@webOrderRequest.OrderDate.ToString("yyyy-MM-dd")</td>
                         <td><span class="badge @webOrderRequest.CSSClass">@webOrderRequest.StatusCode</span></td>
@@ -39,9 +41,6 @@
                         <td>@webOrderRequest.WebCooperatorOrganization</td>
                         <td>
                             @webOrderRequest.MostRecentWebOrderAction
-                        </td>
-                        <td>
-                            <a href="@Url.Action("Get","WebOrderRequest", new { entityId = webOrderRequest.ID })" class="btn btn-default btn-sm pull-right">View</a>
                         </td>
                     </tr>
                 }

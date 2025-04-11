@@ -81,7 +81,6 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
         {
             try
             {
-                
                 viewModel.Get(viewModel.Entity.ID);
                 viewModel.Entity.ModifiedByCooperatorID = AuthenticatedUser.CooperatorID;
                 viewModel.Entity.WebUserID = AuthenticatedUser.WebUserID;

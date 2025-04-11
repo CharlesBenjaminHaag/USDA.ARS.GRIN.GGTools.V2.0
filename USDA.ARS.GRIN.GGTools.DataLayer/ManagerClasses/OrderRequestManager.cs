@@ -76,7 +76,7 @@ namespace USDA.ARS.GRIN.GGTools.OrderManagement.DataLayer.ManagerClasses
         {
             List<OrderRequestAttachment> orderRequestAttachments = new List<OrderRequestAttachment>();
             
-            SQL = " SELECT order_request_id AS OrderRequestID, ISNULL(title,'[No Title]') AS Title, content_type AS ContentType, category_code AS CategoryCode, description AS Description, virtual_path AS VirtualPath, thumbnail_virtual_path AS ThumbnailVirtualPath FROM order_request_attach ";
+            SQL = " SELECT order_request_id AS OrderRequestID, ISNULL(title,'[No GroupTitle]') AS GroupTitle, content_type AS ContentType, category_code AS CategoryCode, description AS Description, virtual_path AS VirtualPath, thumbnail_virtual_path AS ThumbnailVirtualPath FROM order_request_attach ";
             SQL += " WHERE        (@OrderRequestID         IS NULL OR  order_request_id     = @OrderRequestID)";
 
             var parameters = new List<IDbDataParameter> {

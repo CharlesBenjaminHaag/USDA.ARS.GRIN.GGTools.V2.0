@@ -6,7 +6,7 @@ using USDA.ARS.GRIN.GGTools.DataLayer;
 
 namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
 {
-    public class EmailTemplateViewModelBase : AppViewModelBase
+    public class EmailTemplateViewModelBase : AuthenticatedViewModelBase
     {
         private EmailTemplate _Entity = new EmailTemplate();
         private EmailTemplateSearch _SearchEntity = new EmailTemplateSearch();

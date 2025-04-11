@@ -14,25 +14,16 @@
     <!-- /.mailbox-read-info -->
     <div class="mailbox-controls with-border text-center">
         <div class="btn-group">
-            <a href="@Url.Action("Edit","EmailTemplate", new { @entityId = Model.Entity.ID})" id="btnEdit" class="btn btn-default btn-sm"><i class="far fa-edit"></i></a>
-            @*<button type="button" id="btnEdit" class="btn btn-default btn-sm" data-container="body" title="Edit Template">
-                <i class="far fa-edit"></i>
-            </button>*@
-            @*<button type="button" class="btn btn-default btn-sm" data-container="body" title="Reply">
-                <i class="fas fa-reply"></i>
-            </button>
-            <button type="button" class="btn btn-default btn-sm" data-container="body" title="Forward">
-                <i class="fas fa-share"></i>
-            </button>*@
+            @if (Model.AuthenticatedUser.IsInRole("NRR_ADMINS"))
+            {                       
+                <a href = "@Url.Action("Edit","EmailTemplate", new { @entityId = Model.Entity.ID})" id = "btnEdit" class="btn btn-default btn-sm"><i class="far fa-edit"></i></a>
+            }
         </div>
-        <!-- /.btn-group -->
         <button type="button" class="btn btn-default btn-sm" title="Print">
             <i class="fas fa-print"></i>
         </button>
     </div>
-    <!-- /.mailbox-controls -->
     <div class="mailbox-read-message">
         @Html.Raw(Model.Entity.Body)
     </div>
-    <!-- /.mailbox-read-message -->
 </div>

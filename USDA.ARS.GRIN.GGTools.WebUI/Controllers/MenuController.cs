@@ -52,7 +52,18 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 }
             }
 
-
+            if(eventAction == "weborderrequest")
+            {
+                if (eventValue == "explorer")
+                {
+                    viewName = "~/Views/WebOrderRequest/Components/_MainMenu.cshtml";
+                }
+                else
+                    if (eventValue == "view")
+                {
+                    viewName = "~/Views/WebOrderRequest/Components/_EditMenu.cshtml";
+                }
+            }
 
             if ((eventValue == "add") || (eventValue == "edit"))
             {

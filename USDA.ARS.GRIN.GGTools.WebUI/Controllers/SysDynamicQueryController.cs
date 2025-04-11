@@ -186,7 +186,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
         //            // Update folder.
         //            appUserItemFolderViewModel.SearchEntity.ID = viewModel.Entity.ID;
         //            appUserItemFolderViewModel.Search();
-        //            appUserItemFolderViewModel.Entity.FolderName = viewModel.Entity.Title;
+        //            appUserItemFolderViewModel.Entity.FolderName = viewModel.Entity.GroupTitle;
         //            appUserItemFolderViewModel.Entity.Description = viewModel.Entity.Description;
         //            appUserItemFolderViewModel.Entity.IsFavorite = viewModel.Entity.IsFavorite;
         //            appUserItemFolderViewModel.Entity.CreatedByCooperatorID = viewModel.Entity.CreatedByCooperatorID;

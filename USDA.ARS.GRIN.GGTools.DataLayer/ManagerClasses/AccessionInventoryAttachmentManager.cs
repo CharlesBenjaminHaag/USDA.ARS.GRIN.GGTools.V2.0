@@ -143,7 +143,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             //SQL += " WHERE  (@CreatedByCooperatorID         IS NULL OR CreatedByCooperatorID        =     @CreatedByCooperatorID)";
             //SQL += " AND    (@OwnedByCooperatorID           IS NULL OR OwnedByCooperatorID          =     @OwnedByCooperatorID)";
             //SQL += " AND    (@InventoryText                 IS NULL OR InventoryText                LIKE  '%' + @InventoryText + '%')";
-            //SQL += " AND    (@Title                         IS NULL OR Title                        =     @Title)";
+            //SQL += " AND    (@GroupTitle                         IS NULL OR GroupTitle                        =     @GroupTitle)";
             //SQL += " AND    (@AttachmentDescription         IS NULL OR AttachmentDescription        =     @AttachmentDescription)";
             //SQL += " AND    (@AttachmentDescriptionCode     IS NULL OR AttachmentDescriptionCode    =     @AttachmentDescriptionCode)";
             //SQL += " AND    (@ContentType                   IS NULL OR ContentType                  =     @ContentType)";
@@ -158,7 +158,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
                 CreateParameter("OwnedByCooperatorID", searchEntity.OwnedByCooperatorID > 0 ? (object)searchEntity.OwnedByCooperatorID : DBNull.Value, true),
                 CreateParameter("OwnedByCooperatorSiteID", searchEntity.OwnedByCooperatorSiteID > 0 ? (object)searchEntity.OwnedByCooperatorSiteID : DBNull.Value, true),
                 CreateParameter("InventoryText", (object)searchEntity.InventoryText ?? DBNull.Value, true),
-                CreateParameter("Title", (object)searchEntity.Title ?? DBNull.Value, true),
+                CreateParameter("GroupTitle", (object)searchEntity.Title ?? DBNull.Value, true),
                 CreateParameter("AttachmentDescription", (object)searchEntity.AttachmentDescription ?? DBNull.Value, true),
                 CreateParameter("AttachmentDescriptionCode", (object)searchEntity.AttachnmentDescriptionCode ?? DBNull.Value, true),
                 CreateParameter("ContentType", (object)searchEntity.ContentType ?? DBNull.Value, true),

@@ -317,6 +317,11 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
                 actionEmailTemplate.EmailBCC = ActionEmailBCC;
             }
 
+            // Replace substitution variables with values.
+            actionEmailTemplate.Body.Replace("[ID_HERE]", Entity.ID.ToString());
+            actionEmailTemplate.Body.Replace("[FIRST_NAME]", Entity.WebCooperatorFirstName);
+            actionEmailTemplate.Body.Replace("[LAST_NAME]", Entity.WebCooperatorLastName);
+
             DataCollectionNotifications.Add(actionEmailTemplate);
 
             // Determine what if any additional notifications must be sent.
@@ -325,11 +330,21 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
                 case "NRR_ACCEPT":
                     secondaryEmailNotification = GetEmailTemplate("CAP");
                     secondaryEmailNotification.EmailTo = Entity.CuratorEmailAddressList;
+
+                    secondaryEmailNotification.Body.Replace("[ID_HERE]", Entity.ID.ToString());
+                    secondaryEmailNotification.Body.Replace("[FIRST_NAME]", Entity.WebCooperatorFirstName);
+                    secondaryEmailNotification.Body.Replace("[LAST_NAME]", Entity.WebCooperatorLastName);
+
                     DataCollectionNotifications.Add(secondaryEmailNotification);
                     break;
                 case "NRR_REJECT":
                     secondaryEmailNotification = GetEmailTemplate("CCL");
                     secondaryEmailNotification.EmailTo = Entity.CuratorEmailAddressList;
+
+                    secondaryEmailNotification.Body.Replace("[ID_HERE]", Entity.ID.ToString());
+                    secondaryEmailNotification.Body.Replace("[FIRST_NAME]", Entity.WebCooperatorFirstName);
+                    secondaryEmailNotification.Body.Replace("[LAST_NAME]", Entity.WebCooperatorLastName);
+
                     DataCollectionNotifications.Add(secondaryEmailNotification);
                     break;
             }

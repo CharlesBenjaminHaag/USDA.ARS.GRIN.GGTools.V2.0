@@ -1,8 +1,7 @@
 ﻿@model USDA.ARS.GRIN.GGTools.ViewModelLayer.SysGroupUserMapViewModel
-<table id="data-table-assigned-sys-groups" class="table table-striped" style="width:100%;">
+<table id="data-table-current-sys-groups" class="table table-striped" style="width:100%;">
     <thead>
         <tr>
-            <th></th>
             <th>ID</th>
             <th>Name</th>
         </tr>
@@ -11,9 +10,6 @@
         @foreach (var result in Model.DataCollectionUnavailable)
         {
             <tr>
-                <td>
-                    @result.ID
-                </td>
                 <td>
                     @result.ID
                 </td>
@@ -27,6 +23,6 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
-        InitDataTableLightMultiSelect("data-table-assigned-sys-groups");
+        InitDataTableLightMultiSelect("data-table-current-sys-groups");
     });
 </script>

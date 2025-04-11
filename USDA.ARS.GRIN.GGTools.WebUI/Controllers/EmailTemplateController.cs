@@ -17,6 +17,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
 
             try
             {
+                viewModel.AuthenticatedUser = AuthenticatedUser;
                 viewModel.Search();
                 viewModel.PageTitle = "Email Templates";
                 viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
@@ -36,6 +37,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             EmailTemplateViewModel viewModel = new EmailTemplateViewModel();
             try
             {
+                viewModel.AuthenticatedUser = AuthenticatedUser;
                 viewModel.PageTitle = String.Format("Edit Email Template [{0}]", entityId);
                 viewModel.Get(entityId);
                 return PartialView("~/Views/EmailTemplate/_View.cshtml", viewModel);

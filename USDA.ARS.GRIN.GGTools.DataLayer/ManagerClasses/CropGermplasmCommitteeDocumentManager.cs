@@ -79,14 +79,14 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             // Create SQL to search for rows
             SQL = "SELECT * FROM vw_GRINGlobal_Crop_Germplasm_Committee_Document";
             SQL += " WHERE (@CreatedByCooperatorID  IS NULL OR CreatedByCooperatorID    =       @CreatedByCooperatorID) ";
-            SQL += " AND   (@Title                  IS NULL OR Title                    LIKE    '%' + @Title + '%') ";
+            SQL += " AND   (@GroupTitle                  IS NULL OR GroupTitle                    LIKE    '%' + @GroupTitle + '%') ";
             SQL += " AND   (@CategoryCode           IS NULL OR CategoryCode             =       @CategoryCode) ";
             SQL += " AND   (@Year                   IS NULL OR DocumentYear             =       @Year) ";
             SQL += " AND   (@ID                     IS NULL OR ID                       =       @ID)";
 
             var parameters = new List<IDbDataParameter> {
                 CreateParameter("CreatedByCooperatorID", search.CreatedByCooperatorID > 0 ? (object)search.CreatedByCooperatorID : DBNull.Value, true),
-                CreateParameter("Title", (object)search.Title ?? DBNull.Value, true),
+                CreateParameter("GroupTitle", (object)search.Title ?? DBNull.Value, true),
                 CreateParameter("CategoryCode", (object)search.CategoryCode ?? DBNull.Value, true),
                 CreateParameter("Year", search.Year > 0 ? (object)search.Year : DBNull.Value, true),
                 CreateParameter("ID", search.ID > 0 ? (object)search.ID : DBNull.Value, true),

@@ -60,13 +60,13 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             List<SysFolder> results = new List<SysFolder>();
 
             SQL = " SELECT * FROM vw_GRINGlobal_Sys_Folder";
-            SQL += " WHERE  (@Title                     IS NULL OR   Title                  LIKE    '%' + @Title + '%')";
+            SQL += " WHERE  (@GroupTitle                     IS NULL OR   GroupTitle                  LIKE    '%' + @GroupTitle + '%')";
             SQL += " AND    (@Description               IS NULL OR   Description            LIKE    '%' + @Description + '%')";
             SQL += " AND    (@TypeCode                  IS NULL OR   TypeCode               =       @TypeCode)";
             SQL += " AND    (@CreatedByCooperatorID     IS NULL OR   CreatedByCooperatorID  =       @CreatedByCooperatorID)";
            
             var parameters = new List<IDbDataParameter> {
-                CreateParameter("Title", !String.IsNullOrEmpty(searchEntity.Title) ? (object)searchEntity.Title : DBNull.Value, true),
+                CreateParameter("GroupTitle", !String.IsNullOrEmpty(searchEntity.Title) ? (object)searchEntity.Title : DBNull.Value, true),
                 CreateParameter("Description", !String.IsNullOrEmpty(searchEntity.Description) ? (object)searchEntity.Description : DBNull.Value, true),
                 CreateParameter("TypeCode", !String.IsNullOrEmpty(searchEntity.TypeCode) ? (object)searchEntity.TypeCode : DBNull.Value, true),
                 CreateParameter("CreatedByCooperatorID", searchEntity.CreatedByCooperatorID > 0 ? (object)searchEntity.CreatedByCooperatorID : DBNull.Value, true),
@@ -206,7 +206,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
                 AddParameter("sys_folder_id", (object)entity.ID, false);
             }
 
-            //AddParameter("title", (object)entity.Title, false);
+            //AddParameter("title", (object)entity.GroupTitle, false);
             //AddParameter("description", (object)entity.Description ?? DBNull.Value, true);
             //AddParameter("type_code", (object)entity.TypeCode ?? DBNull.Value, true);
 

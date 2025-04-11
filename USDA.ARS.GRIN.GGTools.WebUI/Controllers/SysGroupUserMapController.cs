@@ -171,7 +171,12 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                 {
                     viewModel.ItemIDList = coll["IDList"];
                 }
-                // TODO
+                string[] sysGroupIdListArray = viewModel.ItemIDList.Split(',');
+                foreach (var sysGroupId in sysGroupIdListArray)
+                {
+                    viewModel.Entity.ID = Int32.Parse(sysGroupId.ToString());
+                    viewModel.Delete();
+                }
                 return Json(new { success = true }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)

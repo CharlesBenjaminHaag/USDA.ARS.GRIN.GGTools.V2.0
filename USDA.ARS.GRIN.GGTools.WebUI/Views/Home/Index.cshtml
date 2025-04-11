@@ -73,7 +73,7 @@
                 </div>
             }
 
-            @if ((Model.AuthenticatedUser.IsInRole("ADMINS")) || (Model.AuthenticatedUser.IsInRole("MANAGE_NRR")) || (Model.AuthenticatedUser.IsInRole("GGTOOLS_ORDERS")))
+            @if ((Model.AuthenticatedUser.IsInRole("ADMINS")) || (Model.AuthenticatedUser.IsInRole("NRR_REVIEWERS")))
             {
                 <div class="card card-default ">
                     <div class="card-header bg-blue">
@@ -91,10 +91,10 @@
                             <a class="btn btn-app" href="@Url.Action("Index","WebOrderRequest")">
                                 <i class="fas fa-search"></i>Search Web Order Requests
                             </a>
-                            <a class="btn btn-app" href="@Url.Action("Index","EmailTemplate")">
-                                <i class="fas fa-tools"></i>Manage Email Templates
-                            </a>
-                        </div>
+                                <a class="btn btn-app" href="@Url.Action("Index", "EmailTemplate")">
+                                    <i class="fas fa-tools"></i>Email Templates
+                                </a>
+                            </div>
                     </div>
                 </div>
             }

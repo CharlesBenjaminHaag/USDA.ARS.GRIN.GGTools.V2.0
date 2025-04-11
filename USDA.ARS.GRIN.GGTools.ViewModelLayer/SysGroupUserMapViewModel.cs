@@ -14,7 +14,10 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
     {
         public void Delete()
         {
-            throw new NotImplementedException();
+            using (SysGroupUserMapManager mgr = new SysGroupUserMapManager())
+            {
+                mgr.Delete(Entity);
+            }
         }
 
         public SysGroupUserMap Get(int entityId)

@@ -14,13 +14,13 @@
             <div class="modal-body">
                 <div class="row">
                     <div class="col-md-6">
-                        <button id="btnAddSysGroups" class="btn btn-default btn-block">>></button>
+                        <button id="btnAddSysGroups" class="btn btn-success btn-block">>></button>
                         <div id="section-available-sys-groups">
                             @Html.Partial("~/Views/SysGroupUserMap/Modals/_ListAvailable.cshtml")
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <button id="btnRemoveSysGroups" class="btn btn-default btn-block"><<</button>
+                        <button id="btnRemoveSysGroups" class="btn btn-danger btn-block"><<</button>
                         <div id="section-current-sys-groups">
                             @Html.Partial("~/Views/SysGroupUserMap/Modals/_ListCurrent.cshtml")
                         </div>
@@ -42,8 +42,6 @@
     $("#btnRemoveSysGroups").click(function () {
         var sysUserId = $("#Entity_SysUserID").val();
         RemoveSysGroups();
-        LoadAvailableSysGroups(sysUserId);
-        LoadCurrentSysGroups(sysUserId);
     });
 
     $("#btnCloseEditSysGroupUserMapModal").click(function () {
@@ -79,11 +77,11 @@
 
     function RemoveSysGroups() {
         var link = '@Url.Action("DeleteSysGroups", "SysGroupUserMap")';
-        var entityId = $("#Entity_ID").val();
+        var sysUserId = $("#Entity_SysUserID").val();
         var selectedItemIdList = GetSelectedEntityIDs("data-table-current-sys-groups");
         var formData = new FormData();
 
-        formData.append("FolderID", entityId);
+        formData.append("SysUserID", sysUserId);
         formData.append("IDList", selectedItemIdList);
 
         $.ajax({
@@ -95,6 +93,8 @@
             processData: false,
             data: formData,
             success: function (data) {
+                LoadAvailableSysGroups(sysUserId);
+                LoadCurrentSysGroups(sysUserId);
             },
             error: function (ex) {
             }

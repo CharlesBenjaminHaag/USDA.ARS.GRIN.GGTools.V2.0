@@ -105,8 +105,8 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
         {
             List<SysFolder> results = new List<SysFolder>();
 
-            SQL = " SELECT ID, Title, Description, TypeCode, IsShared, 'N' AS IsSharedWithMe, CreatedDate, CreatedByCooperatorID, CreatedByCooperatorName, ModifiedDate, ModifiedByCooperatorID, ModifiedByCooperatorName FROM vw_GRINGlobal_Sys_Folder";
-            SQL += " WHERE  (@Title                     IS NULL OR   Title                  LIKE    '%' + @Title + '%')";
+            SQL = " SELECT ID, GroupTitle, Description, TypeCode, IsShared, 'N' AS IsSharedWithMe, CreatedDate, CreatedByCooperatorID, CreatedByCooperatorName, ModifiedDate, ModifiedByCooperatorID, ModifiedByCooperatorName FROM vw_GRINGlobal_Sys_Folder";
+            SQL += " WHERE  (@GroupTitle                     IS NULL OR   GroupTitle                  LIKE    '%' + @GroupTitle + '%')";
             SQL += " AND    (@Description               IS NULL OR   Description            LIKE    '%' + @Description + '%')";
             SQL += " AND    (@TypeCode                  IS NULL OR   TypeCode               =       @TypeCode)";
             SQL += " AND    (@CreatedByCooperatorID     IS NULL OR   CreatedByCooperatorID  =       @CreatedByCooperatorID)";
@@ -114,14 +114,14 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             // Use UNION to include folders shared with current user.
             // TODO
             SQL += " UNION ";
-            SQL += " SELECT ID, Title, Description, TypeCode, IsShared, 'Y' AS IsSharedWithMe, CreatedDate, CreatedByCooperatorID, CreatedByCooperatorName, ModifiedDate, ModifiedByCooperatorID, ModifiedByCooperatorName FROM vw_GRINGlobal_Sys_Folder WHERE ID IN ";
+            SQL += " SELECT ID, GroupTitle, Description, TypeCode, IsShared, 'Y' AS IsSharedWithMe, CreatedDate, CreatedByCooperatorID, CreatedByCooperatorName, ModifiedDate, ModifiedByCooperatorID, ModifiedByCooperatorName FROM vw_GRINGlobal_Sys_Folder WHERE ID IN ";
             SQL += " (SELECT SysFolderID FROM vw_GRINGlobal_Sys_Folder_Cooperator_Map WHERE CooperatorID = @CreatedByCooperatorID AND CreatedByCooperatorID <> @CreatedByCooperatorID) ";
-            SQL += " AND    (@Title                     IS NULL OR   Title                  LIKE    '%' + @Title + '%')";
+            SQL += " AND    (@GroupTitle                     IS NULL OR   GroupTitle                  LIKE    '%' + @GroupTitle + '%')";
             SQL += " AND    (@Description               IS NULL OR   Description            LIKE    '%' + @Description + '%')";
             SQL += " AND    (@TypeCode                  IS NULL OR   TypeCode               =       @TypeCode)";
             
             var parameters = new List<IDbDataParameter> {
-                CreateParameter("Title", !String.IsNullOrEmpty(searchEntity.Title) ? (object)searchEntity.Title : DBNull.Value, true),
+                CreateParameter("GroupTitle", !String.IsNullOrEmpty(searchEntity.Title) ? (object)searchEntity.Title : DBNull.Value, true),
                 CreateParameter("Description", !String.IsNullOrEmpty(searchEntity.Description) ? (object)searchEntity.Description : DBNull.Value, true),
                 CreateParameter("TypeCode", !String.IsNullOrEmpty(searchEntity.TypeCode) ? (object)searchEntity.TypeCode : DBNull.Value, true),
                 CreateParameter("CreatedByCooperatorID", searchEntity.CreatedByCooperatorID > 0 ? (object)searchEntity.CreatedByCooperatorID : DBNull.Value, true),

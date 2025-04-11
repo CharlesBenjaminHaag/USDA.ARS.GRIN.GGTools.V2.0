@@ -15,7 +15,9 @@
     @*<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.4.2/css/buttons.dataTables.min.css">*@
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/3.2.2/css/buttons.dataTables.min.css" />
 
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/select/1.7.0/css/select.dataTables.min.css">
+    @*<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/select/1.7.0/css/select.dataTables.min.css">*@
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/select/3.0.0/css/select.dataTables.min.css" />
+
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/autofill/2.7.0/css/autoFill.dataTables.min.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/datetime/1.5.1/css/dataTables.dateTime.min.css">
     <link rel="stylesheet" type="text/css" href="~/Content/dist/css/DataTables/editor.dataTables.css">
@@ -167,9 +169,6 @@
         <nav class="main-header navbar navbar-expand navbar-white navbar-light text-sm">
             @{Html.RenderAction("GetMenu", "Menu", new { @eventAction = eventAction, @eventValue = eventValue });}
             <ul class="navbar-nav ml-auto">
-
-
-
                 <li class="nav-item dropdown">
                     <a class="nav-link" data-toggle="dropdown" href="#">
                         <i class="far fa-user"></i>&nbsp
@@ -199,7 +198,6 @@
         @{ string controllerName = ViewContext.RouteData.Values["controller"].ToString();
             string actionName = ViewContext.RouteData.Values["action"].ToString();
             string sidebarCssClass;
-
             sidebarCssClass = "sidebar-dark-primary";
         }
 
@@ -241,7 +239,6 @@
             <div class="content-header">
                 <div class="container-fluid">
 
-                    <!--TEST-->
                     @if (AppInfo.IsRunningInTestMode())
                     {
                         <div class="row mb-2">
@@ -255,13 +252,11 @@
                         </div>
                     }
 
-
-
                     <div class="row mb-2">
                         @Html.Partial("~/Views/Taxonomy/Shared/_PageTitle.cshtml")
 
                         <div class="col-sm-3">
-                            @Html.Partial("~/Views/Taxonomy/Shared/_Breadcrumbs.cshtml")
+                            @*@Html.Partial("~/Views/Taxonomy/Shared/_Breadcrumbs.cshtml")*@
                         </div><!-- /.col -->
                     </div><!-- /.row -->
                 </div><!-- /.container-fluid -->
@@ -307,8 +302,8 @@
 @*<script type="text/javascript" src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.colVis.min.js"></script>*@
 <script type="text/javascript" src="https://cdn.datatables.net/buttons/3.2.2/js/buttons.colVis.min.js"></script>
 
-<script type="text/javascript" src="https://cdn.datatables.net/select/1.7.0/js/dataTables.select.min.js"></script>
-
+@*<script type="text/javascript" src="https://cdn.datatables.net/select/1.7.0/js/dataTables.select.min.js"></script>*@
+<script type="text/javascript" src="https://cdn.datatables.net/select/3.0.0/js/dataTables.select.min.js"></script>
 
 <script type="text/javascript" src="https://cdn.datatables.net/keytable/2.12.0/js/dataTables.keyTable.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/keytable/2.12.0/js/keyTable.dataTables.js"></script>

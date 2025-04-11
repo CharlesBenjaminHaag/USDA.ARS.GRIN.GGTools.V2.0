@@ -2,7 +2,7 @@
 * Name         : ggtools.js
 * Description  : Main JS application file for GGTools. This file
 *                should be included in all layout pages. 
-* Last Updated : 3/7/25
+* Last Updated : 4/7/25
 * By           : Benjamin Haag
 */
 
@@ -405,7 +405,7 @@ function InitDataTableSingleSelect(tableName) {
             searching: true,
             lengthMenu: [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],
             columnDefs: [
-                { targets: [0], visible: false }
+                { targets: [0], visible: true }
             ]
         });
     });
@@ -426,7 +426,7 @@ function InitDataTableLookupFormat(tableName) {
             },
             searching: true,
             columnDefs: [
-                { targets: [0], visible: false }
+                { targets: [0], visible: true }
             ]
         });
         table.row(':eq(0)', { page: 'current' }).select();
@@ -449,7 +449,7 @@ function InitDataTableLookupFormatWithMultiSelect(tableName) {
             },
             searching: true,
             columnDefs: [
-                { targets: [0], visible: false }
+                { targets: [0], visible: true }
             ]
         });
         /*table.row(':eq(0)', { page: 'current' }).select();*/
@@ -470,7 +470,7 @@ function InitDataTableLight(tableName) {
             select: true,
             searching: false,
             columnDefs: [
-                { targets: [0], visible: false }
+                { targets: [0], visible: true }
             ]
         });
         /*table.row(':eq(0)', { page: 'current' }).select();*/
@@ -493,12 +493,12 @@ function InitDataTableWithAssembledName(tableName) {
             columnDefs: [
                 {
                     target: 0,
-                    visible: false,
+                    visible: true,
                     searchable: false,
                 },
                 {
                     target: 1,
-                    visible: false,
+                    visible: true,
                 },
             ]
         });
@@ -532,7 +532,7 @@ function InitDataTableByClass() {
             select: true,
             lengthMenu: [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],
             columnDefs: [
-                { targets: [0], visible: false }
+                { targets: [0], true: false }
             ]
         });
 
@@ -562,7 +562,7 @@ function InitDataTableLightMultiSelect(tableName) {
             columnDefs: [
                 {
                     target: 0,
-                    visible: false,
+                    visible: true,
                     searchable: false,
                 }
             ]
@@ -589,7 +589,7 @@ function InitDataTableDualSelectFormat(tableName) {
             columnDefs: [
                 {
                     target: 0,
-                    visible: false,
+                    visible: true,
                     searchable: false,
                 }
             ]

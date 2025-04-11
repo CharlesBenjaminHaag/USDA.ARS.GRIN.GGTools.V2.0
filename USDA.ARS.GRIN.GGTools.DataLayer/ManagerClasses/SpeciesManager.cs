@@ -291,7 +291,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             // Replace whitespace with wildcard character(s).
             protologue = protologue.Replace(" ", "%");
 
-            SQL = " SELECT DISTINCT LTRIM(RTRIM(protologue)) AS Value, '' AS Title " +
+            SQL = " SELECT DISTINCT LTRIM(RTRIM(protologue)) AS Value, '' AS GroupTitle " +
                     " FROM taxonomy_species " +
                     " WHERE protologue IS NOT NULL ";
             SQL += " AND    (@Protologue       IS NULL OR  Protologue     LIKE     '%' + @Protologue + '%' )";

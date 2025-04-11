@@ -28,7 +28,7 @@
 <div class="row">
     <div class="col-md-8">
         <div class="btn-group">
-            @if (Model.Entity.StatusCode.Contains("NRR"))
+            @if (Model.Entity.StatusCode.Contains("NRR") || (Model.Entity.OwnedByWebUserID == AppInfo.GetAuthenticatedUser().WebUserID))
             {
                 if (Model.Entity.IsLocked == true && Model.Entity.OwnedByWebUserID == AppInfo.GetAuthenticatedUser().WebUserID)
                 {

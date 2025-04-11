@@ -821,7 +821,6 @@
     <Content Include="Views\Taxonomy\CWRMap\Modals\_EditBatch.cshtml" />
     <Content Include="Views\Taxonomy\CWRTrait\Modals\_EditBatch.cshtml" />
     <Content Include="Views\Taxonomy\CWRTrait\Modals\_Clone.cshtml" />
-    <Content Include="Views\SysGroupUserMap\Modals\_Edit - Copy.cshtml" />
     <Content Include="Views\SysGroupUserMap\Modals\_ListCurrent.cshtml" />
     <Content Include="Views\SysGroupUserMap\Modals\_ListAvailable.cshtml" />
     <Content Include="Views\Taxonomy\EconomicUse\Modals\_EditBatch.cshtml" />
@@ -1111,6 +1110,8 @@
     <Content Include="Views\SysGroup\Explorer\_ListSysGroupUserMaps.cshtml" />
     <Content Include="Views\SysGroup\Explorer\_ListSYsPermissions.cshtml" />
     <Content Include="Views\WebUserShippingAddress\_List.cshtml" />
+    <Content Include="Views\WebOrderRequest\Components\_MainMenu.cshtml" />
+    <Content Include="Views\WebOrderRequest\Components\_EditMenu.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
