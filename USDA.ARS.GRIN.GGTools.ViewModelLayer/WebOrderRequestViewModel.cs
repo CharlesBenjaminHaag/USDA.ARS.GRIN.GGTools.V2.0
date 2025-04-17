@@ -330,20 +330,19 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
                 case "NRR_ACCEPT":
                     secondaryEmailNotification = GetEmailTemplate("CAP");
                     secondaryEmailNotification.EmailTo = Entity.CuratorEmailAddressList;
-
-                    secondaryEmailNotification.Body.Replace("[ID_HERE]", Entity.ID.ToString());
-                    secondaryEmailNotification.Body.Replace("[FIRST_NAME]", Entity.WebCooperatorFirstName);
-                    secondaryEmailNotification.Body.Replace("[LAST_NAME]", Entity.WebCooperatorLastName);
-
+                    secondaryEmailNotification.Subject = secondaryEmailNotification.Subject.Replace("[ID_HERE]", Entity.ID.ToString());
+                    secondaryEmailNotification.Body = secondaryEmailNotification.Body.Replace("[ID_HERE]", Entity.ID.ToString());
+                    secondaryEmailNotification.Body = secondaryEmailNotification.Body.Replace("[FIRST_NAME]", Entity.WebCooperatorFirstName);
+                    secondaryEmailNotification.Body = secondaryEmailNotification.Body.Replace("[LAST_NAME]", Entity.WebCooperatorLastName);
                     DataCollectionNotifications.Add(secondaryEmailNotification);
                     break;
                 case "NRR_REJECT":
                     secondaryEmailNotification = GetEmailTemplate("CCL");
                     secondaryEmailNotification.EmailTo = Entity.CuratorEmailAddressList;
-
-                    secondaryEmailNotification.Body.Replace("[ID_HERE]", Entity.ID.ToString());
-                    secondaryEmailNotification.Body.Replace("[FIRST_NAME]", Entity.WebCooperatorFirstName);
-                    secondaryEmailNotification.Body.Replace("[LAST_NAME]", Entity.WebCooperatorLastName);
+                    secondaryEmailNotification.Subject = secondaryEmailNotification.Subject.Replace("[ID_HERE]", Entity.ID.ToString());
+                    secondaryEmailNotification.Body = secondaryEmailNotification.Body.Replace("[ID_HERE]", Entity.ID.ToString());
+                    secondaryEmailNotification.Body = secondaryEmailNotification.Body.Replace("[FIRST_NAME]", Entity.WebCooperatorFirstName);
+                    secondaryEmailNotification.Body = secondaryEmailNotification.Body.Replace("[LAST_NAME]", Entity.WebCooperatorLastName);
 
                     DataCollectionNotifications.Add(secondaryEmailNotification);
                     break;

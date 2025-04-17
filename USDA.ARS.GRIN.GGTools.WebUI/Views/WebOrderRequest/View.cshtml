@@ -159,7 +159,7 @@
     function LoadWebOrderRequest(id) {
         var selectedTab = GetSelectedTab();
 
-        console.log * ("DEBUG LOADING WOR " + id + " SEL TAB IS " + selectedTab);
+        console.log("DEBUG LOADING WOR " + id + " SEL TAB IS " + selectedTab);
 
         $("#Entity_ID").val(id);
 
@@ -302,7 +302,7 @@
         var entityId = $("#Entity_ID").val();
         var webOrderRequestAction = $(this).data('ggtools-web-order-request-action');
         SetStatus(webOrderRequestAction);
-        Load();
+        /*Load();*/
     });
 
     $(document).on('click', '[id^="btnSetStatus"]', function () {
@@ -421,7 +421,7 @@
             data: formData,
             success: function (response) {
                 if (response.success) {
-
+                    Load();
 
                 } else {
                     HandleError(response.message);

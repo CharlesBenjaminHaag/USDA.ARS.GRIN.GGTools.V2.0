@@ -8,6 +8,9 @@
     @Html.HiddenFor(x => x.IsEmailRequested)
     @Html.HiddenFor(x => x.IsBCCRequested)
 
+
+    <h3>@Model.NewActionCode</h3>
+
     <div class="row">
         <div class="col-md-12">
             <div class="form-group">
@@ -17,14 +20,6 @@
         </div>
     </div>
     <div id="section-email-edit">
-        @*<div class="row">
-                <div class="col-md-12">
-                    <div class="form-group">
-                        <label>From</label>
-                        @Html.TextBoxFor(x => x.ActionEmailFrom, new { @class = "form-control", @readonly = "readonly" })
-                    </div>
-                </div>
-            </div>*@
         <div class="row">
             <div class="col-md-12">
                 <div class="form-group">
@@ -73,20 +68,24 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-6">
-                <br />
-                <div class="form-group">
-                    <div class="input-group">
-                        <input type="text" class="form-control" value="Send email to requestor" readonly="readonly" />
-                        <div class="input-group-append">
-                            <span class="input-group-text" style="background-color:white;">
-                                @Html.CheckBoxFor(x => x.IsEmailRequested, new { @id = "cbxIsEmailRequested" })
-                                &nbsp;
-                            </span>
+
+            @if (Model.NewActionCode == "NRR_HOLD_CTRY")
+            {
+                <div class="col-md-6">
+                    <br />
+                    <div class="form-group">
+                        <div class="input-group">
+                            <input type="text" class="form-control" value="Send email to requestor" readonly="readonly" />
+                            <div class="input-group-append">
+                                <span class="input-group-text" style="background-color:white;">
+                                    @Html.CheckBoxFor(x => x.IsEmailRequested, new { @id = "cbxIsEmailRequested" })
+                                    &nbsp;
+                                </span>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            }
         </div>
     </div>
 }
