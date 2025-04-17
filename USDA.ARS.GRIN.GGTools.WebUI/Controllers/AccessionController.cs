@@ -11,7 +11,7 @@ using USDA.ARS.GRIN.GGTools.ViewModelLayer;
 namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
 {
     [GrinGlobalAuthentication]
-    public class AccessionController : BaseController
+    public class AccessionController : BaseController     
     {
         private static readonly Logger Log = LogManager.GetCurrentClassLogger();
         // GET: Accession
