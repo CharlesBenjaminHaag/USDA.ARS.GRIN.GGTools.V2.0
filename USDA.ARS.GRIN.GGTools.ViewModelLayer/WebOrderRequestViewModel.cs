@@ -299,11 +299,6 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
                 return;
             }
 
-            //if ((Entity.StatusCode != "NRR_HOLD") && (Entity.StatusCode.Contains("_REL")))
-            //{
-            //    SendEmail();
-            //}
-
             // Add the "Action" -prefixed fields, based on the current workflow in which the user
             // will submit all fields of an email message.
             EmailTemplate actionEmailTemplate = new EmailTemplate();
@@ -318,6 +313,7 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
             }
 
             // Replace substitution variables with values.
+            actionEmailTemplate.Subject = actionEmailTemplate.Subject.Replace("[ID_HERE]", Entity.ID.ToString());
             actionEmailTemplate.Body.Replace("[ID_HERE]", Entity.ID.ToString());
             actionEmailTemplate.Body.Replace("[FIRST_NAME]", Entity.WebCooperatorFirstName);
             actionEmailTemplate.Body.Replace("[LAST_NAME]", Entity.WebCooperatorLastName);

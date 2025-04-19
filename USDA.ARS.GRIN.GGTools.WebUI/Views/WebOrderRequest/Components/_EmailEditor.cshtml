@@ -64,24 +64,20 @@
                     </div>
                 </div>
             </div>
-
-            @if (Model.NewActionCode == "NRR_HOLD_CTRY")
-            {
-                <div class="col-md-6">
-                    <br />
-                    <div class="form-group">
-                        <div class="input-group">
-                            <input type="text" class="form-control" value="Send email to requestor" readonly="readonly" />
-                            <div class="input-group-append">
-                                <span class="input-group-text" style="background-color:white;">
-                                    @Html.CheckBoxFor(x => x.IsEmailRequested, new { @id = "cbxIsEmailRequested" })
-                                    &nbsp;
-                                </span>
-                            </div>
+            <div class="col-md-6">
+                <br />
+                <div class="form-group">
+                    <div class="input-group">
+                        <input type="text" class="form-control" value="Send email to requestor" readonly="readonly" />
+                        <div class="input-group-append">
+                            <span class="input-group-text" style="background-color:white;">
+                                @Html.CheckBoxFor(x => x.IsEmailRequested, new { @id = "cbxIsEmailRequested" })
+                                &nbsp;
+                            </span>
                         </div>
                     </div>
                 </div>
-            }
+            </div>
         </div>
     </div>
 }

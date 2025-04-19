@@ -329,39 +329,6 @@
         
         $("#modal-email").modal("show");
 
-        // Set title based on WOR action.
-        switch (webOrderRequestAction) {
-            case "NRR_APPROVE":
-                modalTitle = "Approve Web Order Request";
-                break;
-            case "NRR_REJECT":
-                modalTitle = "Reject Web Order Request";
-                break;
-            case "NRR_INFO":
-                modalTitle = "Request Additional Information";
-                break;
-            case "NRR_CUR":
-                modalTitle = "Email Curators";
-                break;
-            case "NRR_HOLD":
-                modalTitle = "Set Hold";
-                break;
-            case "NRR_HOLD_CTRY":
-                modalTitle = "Set Country Hold";
-                break;
-            case "NRR_CUR":
-                modalTitle = "Email Curators";
-                break;
-            default:
-                modalTitle = "SET TITLE HERE";
-                break;
-        }
-
-        modalTitle += " [" + webOrderRequestId + "]";
-
-        $("#section-modal-title").html(modalTitle);
-
-
         formData.append("entityId", webOrderRequestId);
         formData.append("webOrderRequestAction", webOrderRequestAction);
         formData.append("actionEmailTo", actionEmailTo);
@@ -394,9 +361,43 @@
                     }
                 });
 
-                //const quill = new Quill('#editor', {
-                //    theme: 'snow'
-                //});
+                // Set title based on WOR action.
+                switch (webOrderRequestAction) {
+                    case "NRR_APPROVE":
+                        modalTitle = "Approve Web Order Request";
+                        $("#cbxIsEmailRequested").prop("disabled", true);
+                        break;
+                    case "NRR_REJECT":
+                        modalTitle = "Reject Web Order Request";
+                        $("#cbxIsEmailRequested").prop("disabled", true);
+                        break;
+                    case "NRR_INFO":
+                        modalTitle = "Request Additional Information";
+                        $("#cbxIsEmailRequested").prop("disabled", true);
+                        break;
+                    case "NRR_CUR":
+                        modalTitle = "Email Curators";
+                        $("#cbxIsEmailRequested").prop("disabled", true);
+                        break;
+                    case "NRR_HOLD":
+                        modalTitle = "Set Hold";
+                        break;
+                    case "NRR_HOLD_CTRY":
+                        modalTitle = "Set Country Hold";
+                        $("#cbxIsEmailRequested").prop("disabled", false);
+                        break;
+                    case "NRR_CUR":
+                        modalTitle = "Email Curators";
+                        $("#cbxIsEmailRequested").prop("disabled", true);
+                        break;
+                    default:
+                        modalTitle = "SET TITLE HERE";
+                        break;
+                }
+
+                modalTitle += " [" + webOrderRequestId + "]";
+
+                $("#section-modal-title").html(modalTitle);
 
             }
         });
@@ -446,7 +447,7 @@
      var actionEmailSubject = $("#ActionEmailSubject").val();
      var actionEmailBody = $("#ActionEmailBody").val();
      var actionEmailBodyOriginal = $("#ActionEmailBodyOriginal").val();
-     var isEmailRequested = GetCheckboxValue("cbxIsEmailRequested");
+    var isEmailRequested = GetCheckboxValue("cbxIsEmailRequested");
      var isBCCRequested = GetCheckboxValue("cbxIsBCCRequested");
      var formData = new FormData();
 
@@ -459,8 +460,8 @@
      formData.append("ActionEmailSubject", actionEmailSubject);
      formData.append("ActionEmailBody", actionEmailBody);
      formData.append("ActionEmailBodyOriginal", actionEmailBodyOriginal);
-     formData.append("IsEmailRequested", isEmailRequested);
      formData.append("isBCCRequested", isEmailRequested);
+     formData.append("IsEmailRequested", isEmailRequested);
 
      $.ajax({
          url: link,
