@@ -53,9 +53,15 @@ namespace USDA.ARS.GRIN.GGTools.WebUI
             string databaseName = String.Empty;
             const string SERVER_NAME_LOCAL = "localhost";
             const string SERVER_NAME_DEV = "199.133.201.148";
-            const string SERVER_NAME_TEST = "199.133.201.116";
+
+            
+            const string SERVER_NAME_TEST = "199.133.201.136";
+            //ARSGCAZU3WS452.edc.ds1.usda.gov
+
             const string SERVER_NAME_TRAINING = "199.133.201.116";
             const string SERVER_NAME_PROD = "199.133.201.116";
+
+            
 
             const string DB_NAME_LOCAL = "gringlobal";
             const string DB_NAME_DEV = "gringlobal";

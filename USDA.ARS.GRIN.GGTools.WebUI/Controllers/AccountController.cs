@@ -167,7 +167,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                     }
                     else
                     {
-                        sysUserViewModel.Entity.UserName = sessionCooperatorViewModel.Entity.FirstName.ToLower() + "." + sessionCooperatorViewModel.Entity.LastName.ToLower();
+                        sysUserViewModel.Entity.UserName = sessionCooperatorViewModel.Entity.FirstName.Trim().ToLower() + "." + sessionCooperatorViewModel.Entity.LastName.Trim().ToLower();
                     }
 
                     sysUserViewModel.Entity.SysUserName = sysUserViewModel.Entity.UserName;                   

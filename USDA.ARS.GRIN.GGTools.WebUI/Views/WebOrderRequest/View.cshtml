@@ -295,7 +295,7 @@
 
     $(document).on("click", "[id='btnSubmitReview']", function () {
         SubmitReview();
-        Load();
+       
     });
 
     $(document).on('click', '[id^="btnAction"]', function () {
@@ -343,7 +343,7 @@
             success: function (response) {
                 $("#section-modal-email-content").html(response);
 
-                if ((webOrderRequestAction == "NRR_HOLD") || (webOrderRequestAction == "NRR_APPROVE")) {
+                if ((webOrderRequestAction == "NRR_HOLD")) {
                     $("#section-email-edit").hide();
                 }
 
@@ -472,8 +472,7 @@
          data: formData,
          success: function (response) {
              if (response.success) {
-
-
+                 Load();
              } else {
                  HandleError(response.message);
              }

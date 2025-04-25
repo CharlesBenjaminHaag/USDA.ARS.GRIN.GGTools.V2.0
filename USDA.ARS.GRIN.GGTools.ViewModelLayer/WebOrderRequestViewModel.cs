@@ -282,11 +282,7 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
                     mgr.InsertWebOrderRequestAction(webOrderRequestAction);
                 }
             }
-
-            if ((Entity.StatusCode != "NRR_APPROVE"))
-            {
-                GenerateNotifications();
-            }
+            GenerateNotifications();
         }
 
         public void GenerateNotifications()
