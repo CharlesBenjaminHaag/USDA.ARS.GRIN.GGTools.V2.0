@@ -145,10 +145,39 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
-        $("#hf_current_filter_time_frame").val("1D");
+        setTimeFrameFilter("filter-time-frame-3D");
+        setCurrentStatusFilter("filter-current-status-NRR_FLAG");
         LoadWebOrderRequestList();
         $("#web-order-request-overlay").hide();
     });
+
+    function setTimeFrameFilter(liId) {
+        const liElement = document.getElementById(liId);
+        if (liElement) {
+            // Remove 'active' from all nav-links first
+            document.querySelectorAll('#custom-tabs-one-tab .nav-link').forEach(link => {
+                link.classList.remove('active');
+            });
+
+            const link = liElement.querySelector('.nav-link');
+            if (link) {
+                link.classList.add('active');
+                var timeFrameCode = liId.replace("filter-time-frame-","");
+                $("#hf_current_filter_time_frame").val(timeFrameCode);
+            }
+        }
+    }
+
+    function setCurrentStatusFilter(checkboxId) {
+        const checkbox = document.getElementById(checkboxId);
+        if (checkbox) {
+            checkbox.checked = true;
+
+            // Create and dispatch the change event
+            const event = new Event('change', { bubbles: true });
+            checkbox.dispatchEvent(event);
+        }
+    }
 
     document.addEventListener('change', function (event) {
         var valueArrayCurrentStatuses = [];
@@ -172,9 +201,7 @@
     });
 
     $('#section-time-frame ul.nav li').on('click', function () {
-        var selectedTimeFrame = $(this).attr('id').replace('filter-time-frame-','');
-        $("#hf_current_filter_time_frame").val(selectedTimeFrame);
-        console.log("DEBUG SEL TIME FRAME IS " + selectedTimeFrame);
+        setTimeFrameFilter($(this).attr('id'));
         LoadWebOrderRequestList();
     });
 
