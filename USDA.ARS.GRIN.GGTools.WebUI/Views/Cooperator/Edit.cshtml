@@ -270,7 +270,7 @@
         SetStatusWithEmail();
     });
 
-    @*function SetStatusWithEmail() {
+    function SetStatusWithEmail() {
         var link = '@Url.Action("SetStatus", "Cooperator")';
         var formData = new FormData();
 
@@ -281,7 +281,7 @@
         formData.append("EmailMessage.Subject", $("#EmailMessage_Subject").val());
 
         // Get edited text from  control.
-        var editedEmailBody = $("#EmailMessage_Body").("code");
+        var editedEmailBody = $("#EmailMessage_Body").val();
         formData.append("EmailMessage.Body", editedEmailBody);
 
         $.ajax({
@@ -300,7 +300,7 @@
             }
         });
         $("#modal-folder-edit").modal("hide");
-    }*@
+    }
 
     /************************************************************ OWNERSHIP ******************************************************************/
 

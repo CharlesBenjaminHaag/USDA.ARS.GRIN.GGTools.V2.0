@@ -163,7 +163,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
 
                     if (verificationSysUserViewModel.Entity.ID > 0)
                     {
-                        sysUserViewModel.Entity.UserName = verificationSysUserViewModel.Entity.UserName + DateTime.Now.Date.ToString();
+                        sysUserViewModel.Entity.UserName = verificationSysUserViewModel.Entity.UserName;
                     }
                     else
                     {
