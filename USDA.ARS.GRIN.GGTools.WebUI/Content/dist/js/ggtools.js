@@ -2,7 +2,7 @@
 * Name         : ggtools.js
 * Description  : Main JS application file for GGTools. This file
 *                should be included in all layout pages. 
-* Last Updated : 4/7/25
+* Last Updated : 5/7/25
 * By           : Benjamin Haag
 */
 
@@ -700,6 +700,9 @@ function SetReadOnly() {
     $("#section-edit-controls").hide();
     $(".edit-controls").hide();
 
+    // Disable textareas configured with Summernote
+    $('.summernote').summernote('disable');
+
     // Hide all buttons that are explicitly used to make changes.
     $('button').each(function () {
         if ($(this).hasClass('edit-enabled')) {
@@ -707,9 +710,11 @@ function SetReadOnly() {
         }
     });
 
-    $("#btnSaveEdits").hide();
-    $("#btnReset").hide();
-    $("#btnDelete").hide();
+    // Hide all submit controls.
+    $('button[type="submit"], input[type="submit"]').prop('disabled', true);
+    $("#btnReset").prop('disabled', true);
+    $("#btnSaveEdits").prop('disabled', true);
+    $("#btnDelete").prop('disabled', true);
 }
 
 /* ========================================================================================

@@ -22,7 +22,7 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/datetime/1.5.1/css/dataTables.dateTime.min.css">
     <link rel="stylesheet" type="text/css" href="~/Content/dist/css/DataTables/editor.dataTables.css">
     <link rel="stylesheet" type="text/css" href="https://editor.datatables.net/extensions/Editor/css/editor.dataTables.css" />
-    
+
     @*<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.3.0/css/responsive.dataTables.min.css">*@
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/3.0.4/css/responsive.dataTables.min.css" />
 
@@ -33,11 +33,8 @@
     <script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
 
     <!--jQuery UI-->
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
-
-    <!-- Date range picker -->
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
-
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.14.1/themes/base/jquery-ui.css">
+    
     <style type="text/css">
         .table-col-align-right {
             text-align: right;
@@ -61,10 +58,6 @@
             box-shadow: inset 0 0 0 9999px rgb(176, 190, 217);
             color: white;
         }
-
-        /* .margin {
-            margin-top: 15px;
-        }*/
 
         .social-auth-links {
             margin: 0px;
@@ -97,10 +90,6 @@
             margin-top: 25px;
         }
 
-        /*#section-extended-search-fields {
-            margin-top: 15px;
-        }*/
-
         .section-checkbox {
             margin-top: 10px;
             margin-bottom: 10px;
@@ -121,13 +110,13 @@
         }
 
         div.dt-buttons {
-            float:left;
+            float: left;
         }
 
         div.dt-length {
             float: left;
-            padding-left:10px;
-            padding-right:10px;
+            padding-left: 10px;
+            padding-right: 10px;
         }
 
         div.dt-container .dt-search input {
@@ -145,6 +134,7 @@
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
 
     @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jquery-ui")
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/adminlte/js")
     @Scripts.Render("~/ggtools/js")
@@ -319,10 +309,8 @@
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
 
 <!-- Date range picker -->
-<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-
-
+@*<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>*@
 
 <script>
     $(document).on({
@@ -342,42 +330,42 @@
      * Date range logic
      ************************************************************************************************/
     $(document).ready(function () {
-        ConfigureDatePickerField("#SearchEntity_CreatedDateText");
-        ConfigureDatePickerField("#SearchEntity_ModifiedDateText");
-        ConfigureDatePickerField("#SearchEntity_NameVerifiedDate");
+        //ConfigureDatePickerField("#SearchEntity_CreatedDate");
+        //ConfigureDatePickerField("#SearchEntity_ModifiedDate");
+        //ConfigureDatePickerField("#SearchEntity_NameVerifiedDate");
 
         /* Created Date */
-        $('#SearchEntity_CreatedDateText').on('apply.daterangepicker', function (ev, picker) {
-            $("#SearchEntity_CreatedDateFrom").val(picker.startDate.format('YYYY-MM-DD HH:mm'));
-            $("#SearchEntity_CreatedDateTo").val(picker.endDate.format('YYYY-MM-DD HH:mm'));
-            $("#SearchEntity_CreatedDateText").val(picker.startDate.format('YYYY-MM-DD HH:mm') + "--" + picker.endDate.format('YYYY-MM-DD HH:mm'));
-        });
+        //$('#SearchEntity_CreatedDateText').on('apply.daterangepicker', function (ev, picker) {
+        //    $("#SearchEntity_CreatedDateFrom").val(picker.startDate.format('YYYY-MM-DD HH:mm'));
+        //    $("#SearchEntity_CreatedDateTo").val(picker.endDate.format('YYYY-MM-DD HH:mm'));
+        //    $("#SearchEntity_CreatedDateText").val(picker.startDate.format('YYYY-MM-DD HH:mm') + "--" + picker.endDate.format('YYYY-MM-DD HH:mm'));
+        //});
 
-        $('input[name="SearchEntity_CreatedDateFrom"]').on('cancel.daterangepicker', function (ev, picker) {
-            $(this).val('');
-        });
+        //$('input[name="SearchEntity_CreatedDateFrom"]').on('cancel.daterangepicker', function (ev, picker) {
+        //    $(this).val('');
+        //});
 
         /* Modified Date */
-        $('#SearchEntity_ModifiedDateText').on('apply.daterangepicker', function (ev, picker) {
-            $("#SearchEntity_ModifiedDateFrom").val(picker.startDate.format('YYYY-MM-DD HH:mm'));
-            $("#SearchEntity_ModifiedDateTo").val(picker.endDate.format('YYYY-MM-DD HH:mm'));
-            $("#SearchEntity_ModifiedDateText").val(picker.startDate.format('YYYY-MM-DD HH:mm') + "--" + picker.endDate.format('YYYY-MM-DD HH:mm'));
-        });
+        //$('#SearchEntity_ModifiedDateText').on('apply.daterangepicker', function (ev, picker) {
+        //    $("#SearchEntity_ModifiedDateFrom").val(picker.startDate.format('YYYY-MM-DD HH:mm'));
+        //    $("#SearchEntity_ModifiedDateTo").val(picker.endDate.format('YYYY-MM-DD HH:mm'));
+        //    $("#SearchEntity_ModifiedDateText").val(picker.startDate.format('YYYY-MM-DD HH:mm') + "--" + picker.endDate.format('YYYY-MM-DD HH:mm'));
+        //});
 
-        $('input[name="SearchEntity_ModifiedDateText"]').on('cancel.daterangepicker', function (ev, picker) {
-            $(this).val('');
-        });
+        //$('input[name="SearchEntity_ModifiedDateText"]').on('cancel.daterangepicker', function (ev, picker) {
+        //    $(this).val('');
+        //});
 
         /* Name Verified Date */
-        $('#SearchEntity_NameVerifiedDate').on('apply.daterangepicker', function (ev, picker) {
-            $("#SearchEntity_NameVerifiedDateFrom").val(picker.startDate.format('YYYY-MM-DD HH:mm'));
-            $("#SearchEntity_NameVerifiedDateTo").val(picker.endDate.format('YYYY-MM-DD HH:mm'));
-            $("#SearchEntity_NameVerifiedDate").val(picker.startDate.format('YYYY-MM-DD HH:mm') + "--" + picker.endDate.format('YYYY-MM-DD HH:mm'));
-        });
+        //$('#SearchEntity_NameVerifiedDate').on('apply.daterangepicker', function (ev, picker) {
+        //    $("#SearchEntity_NameVerifiedDateFrom").val(picker.startDate.format('YYYY-MM-DD HH:mm'));
+        //    $("#SearchEntity_NameVerifiedDateTo").val(picker.endDate.format('YYYY-MM-DD HH:mm'));
+        //    $("#SearchEntity_NameVerifiedDate").val(picker.startDate.format('YYYY-MM-DD HH:mm') + "--" + picker.endDate.format('YYYY-MM-DD HH:mm'));
+        //});
 
-        $('input[name="SearchEntity_NameVerifiedDate"]').on('cancel.daterangepicker', function (ev, picker) {
-            $(this).val('');
-        });
+        //$('input[name="SearchEntity_NameVerifiedDate"]').on('cancel.daterangepicker', function (ev, picker) {
+        //    $(this).val('');
+        //});
 
         /* Set first edit field active in any edit form. */
         $("#section-search-criteria :input[type='text']:visible:enabled:first").focus();
@@ -509,4 +497,3 @@
 
 </script>
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
-@*<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>*@

@@ -91,7 +91,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             SQL += " WHERE  (@ExplorationID      IS NULL     OR ExplorationID   =       @ExplorationID)";
 
             var parameters = new List<IDbDataParameter> {
-                CreateParameter("ExplorationID", searchEntity.ExplorationID > 0 ? (object)searchEntity.ID : DBNull.Value, true),
+                CreateParameter("ExplorationID", searchEntity.ExplorationID > 0 ? (object)searchEntity.ExplorationID : DBNull.Value, true),
             };
 
             results = GetRecords<ExplorationMap>(SQL, parameters.ToArray());

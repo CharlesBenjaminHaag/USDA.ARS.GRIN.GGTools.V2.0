@@ -36,11 +36,12 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             RowsAffected = results.Count;
             return results;
         }
+
         public virtual int Insert(Exploration entity)
         {
             Reset(CommandType.StoredProcedure);
             Validate<Exploration>(entity);
-            SQL = "usp_GRINGlobal_Taxonomy_Economic_Use_Insert";
+            SQL = "usp_GRINGlobal_Taxonomy_Exploration_Map_Insert";
 
             BuildInsertUpdateParameters(entity);
 
@@ -66,7 +67,7 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             Reset(CommandType.StoredProcedure);
             Validate<Exploration>(entity);
 
-            SQL = "usp_GRINGlobal_Taxonomy_Economic_Use_Update";
+            SQL = "usp_GRINGlobal_Taxonomy_Exploration_Map_Update";
 
             BuildInsertUpdateParameters(entity);
             AddParameter("@out_error_number", -1, true, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
@@ -88,8 +89,12 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             SQL = "SELECT * FROM vw_GRINGlobal_Exploration ";
             SQL += " WHERE  (@ID                IS NULL     OR ID           =       @ID)";
             SQL += " AND    (@ExplorationNumber IS NULL     OR ExplorationNumber        LIKE    '%' +  @ExplorationNumber + '%')";
-            SQL += " AND    (@GroupTitle             IS NULL     OR GroupTitle        LIKE    '%' +  @GroupTitle + '%')";
-          
+            SQL += " AND    (@Title             IS NULL     OR Title                    LIKE    '%' +  @Title + '%')";
+            SQL += " AND    (@BeganDate         IS NULL     OR BeganDate                >=             @BeganDate)";
+            SQL += " AND    (@FinishedDate      IS NULL     OR FinishedDate             >=             @FinishedDate)";
+            SQL += " AND    (@Title             IS NULL     OR Title                    LIKE    '%' +  @Title + '%')";
+            SQL += " AND    (@FundingSource     IS NULL     OR FundingSource            LIKE    '%' +  @FundingSource + '%')";
+
             if (!String.IsNullOrEmpty(searchEntity.IDList))
             {
                 if (SQL.Contains("WHERE"))
@@ -107,7 +112,10 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             
             CreateParameter("ID", searchEntity.ID > 0 ? (object)searchEntity.ID : DBNull.Value, true),
             CreateParameter("ExplorationNumber", (object)searchEntity.ExplorationNumber ?? DBNull.Value, true),
-            CreateParameter("GroupTitle", (object)searchEntity.Title ?? DBNull.Value, true),
+            CreateParameter("Title", (object)searchEntity.Title ?? DBNull.Value, true),
+            CreateParameter("BeganDate", (object)searchEntity.BeganDate ?? DBNull.Value, true),
+            CreateParameter("FinishedDate", (object)searchEntity.FinishedDate ?? DBNull.Value, true),
+            CreateParameter("FundingSource", (object)searchEntity.FundingSource ?? DBNull.Value, true),
         };
 
         results = GetRecords<Exploration>(SQL, parameters.ToArray());
@@ -136,20 +144,6 @@ namespace USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer
             results = GetRecords<Exploration>(SQL, parameters.ToArray());
             RowsAffected = results.Count;
             return results;
-        }
-
-        public virtual List<EconomicUsageType> GetEconomicUsageTypes(string economicUsageCode = "")
-        {
-            SQL = "SELECT * FROM vw_GRINGlobal_Taxonomy_Economic_Usage_Type ";
-
-            if (!String.IsNullOrWhiteSpace(economicUsageCode))
-            {
-                SQL += " WHERE EconomicUsageCode = '" + economicUsageCode + "'";
-            }
-
-            SQL += " ORDER BY UsageType ASC "; 
-            List<EconomicUsageType> usageTypes = GetRecords<EconomicUsageType>(SQL);
-            return usageTypes;
         }
 
         protected virtual void BuildInsertUpdateParameters(Exploration entity)

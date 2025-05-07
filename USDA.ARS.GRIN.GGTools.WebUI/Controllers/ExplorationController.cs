@@ -5,6 +5,7 @@ using USDA.ARS.GRIN.GGTools.WebUI;
 using USDA.ARS.GRIN.GGTools.ViewModelLayer;
 using USDA.ARS.GRIN.GGTools.DataLayer;
 using NLog;
+using System.Linq;
 
 namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
 {
@@ -78,15 +79,32 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             try
             {
                 ExplorationViewModel viewModel = new ExplorationViewModel();
-                
-                viewModel.TableName = "exploration";
-                viewModel.TableCode = "Exploration";
+               
                 if (entityId > 0)
                 {
                     viewModel.Get(entityId);
                     viewModel.GetExplorationMaps(entityId);
                     viewModel.EventAction = "Edit";
+                    viewModel.TableName = "exploration";
                     ViewBag.PageTitle = "Edit";
+                    viewModel.AuthenticatedUserCooperatorID = AuthenticatedUser.CooperatorID;
+                    viewModel.AuthenticatedUser = AuthenticatedUser;
+
+                    int startYear = 2000;
+                    int currentYear = DateTime.Now.Year;
+
+                    // REFACTOR POST-DEMO
+                    List<SelectListItem> years = Enumerable
+                        .Range(startYear, currentYear - startYear + 1)
+                        .Select(y => new SelectListItem
+                        {
+                            Value = y.ToString(),
+                            Text = y.ToString()
+                        })
+                        .Reverse() // Optional: show newest first
+                        .ToList();
+
+                    ViewBag.YearList = years;
                 }
                 else
                 {
@@ -234,6 +252,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             }
         }
 
+   
         
         public ActionResult RenderLookupModal(int speciesId = 0)
         {

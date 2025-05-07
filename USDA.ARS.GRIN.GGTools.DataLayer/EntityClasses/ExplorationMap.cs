@@ -12,5 +12,6 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
     {
         public int ExplorationID { get; set; }
         public int CooperatorID { get; set; }
+        public string CooperatorName { get; set; }
     }
 }

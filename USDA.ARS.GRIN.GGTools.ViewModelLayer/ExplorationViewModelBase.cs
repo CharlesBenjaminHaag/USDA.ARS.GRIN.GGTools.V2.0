@@ -9,7 +9,7 @@ using USDA.ARS.GRIN.GGTools.DataLayer;
 
 namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
 {
-    public class ExplorationViewModelBase : AppViewModelBase
+    public class ExplorationViewModelBase : AuthenticatedViewModelBase
     {
         private string _SpeciesIDList;
         private Exploration _Entity = new Exploration();
@@ -65,6 +65,24 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
         {
             get { return _DataCollectionExplorationMaps; }
             set { _DataCollectionExplorationMaps = value; }
+        }
+
+        public string IsReadOnly
+        {
+            get
+            {
+                if ((AuthenticatedUser.IsInRole("MANAGE_EXPLORATION")) ||
+                    (AuthenticatedUser.IsInRole("ADMINS") ||
+                    (AuthenticatedUser.CooperatorID == Entity.ID)
+                    ))
+                {
+                    return "N";
+                }
+                else
+                {
+                    return "Y";
+                }
+            }
         }
 
         #region Select Lists

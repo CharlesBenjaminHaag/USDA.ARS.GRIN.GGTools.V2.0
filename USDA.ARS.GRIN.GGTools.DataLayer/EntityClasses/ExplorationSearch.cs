@@ -12,8 +12,10 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
     {
         public string ExplorationNumber { get; set; }
         public string Title { get; set; }
-        public DateTime BeganDate { get; set; }
-        public DateTime FinishedDate { get; set; }
+        [DataType(DataType.Date)]
+        public DateTime? BeganDate { get; set; }
+        [DataType(DataType.Date)]
+        public DateTime? FinishedDate { get; set; }
         public string FundingSource { get; set; }
         public decimal  FundingAmount { get; set; }
         public string TargetSpecies { get; set; }

@@ -210,18 +210,7 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
             }
         }
 
-        public List<Exploration> SearchNotes(string searchText)
-        {
-            throw new NotImplementedException();
-        }
-        public List<EconomicUsageType> GetEconomicUsageTypes(string economicUsageCode)
-        {
-            List<EconomicUsageType> economicUsageTypes = new List<EconomicUsageType>();
-            using (ExplorationManager mgr = new ExplorationManager())
-            {
-                economicUsageTypes = mgr.GetEconomicUsageTypes(economicUsageCode);
-            }
-            return economicUsageTypes;
-        }
+        
+        
     }
 }

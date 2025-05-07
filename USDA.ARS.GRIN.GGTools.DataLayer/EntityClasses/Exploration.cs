@@ -15,6 +15,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
         public DateTime BeganDate { get; set; }
         public DateTime FinishedDate { get; set; }
         public string FundingSource { get; set; }
+        [DisplayFormat(DataFormatString = "{0:C}", ApplyFormatInEditMode = false)]
         public decimal FundingAmount { get; set; }
         public string TargetSpecies { get; set; }
         public string Permits { get; set; }

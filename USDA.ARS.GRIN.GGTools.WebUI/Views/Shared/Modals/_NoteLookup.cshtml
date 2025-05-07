@@ -83,6 +83,6 @@
     $(document).on("click", "[id*='btnSaveNote']", function () {
         $('#modal-note-lookup').modal('hide');
         var selectedNote = GetSelectedEntityText("data-table-note-lookup");
-        $('#txtNote').('code', selectedNote);
+        $("#txtNote").summernote('code', selectedNote);
     });
 </script>

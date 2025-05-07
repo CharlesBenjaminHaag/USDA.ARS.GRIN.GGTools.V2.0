@@ -11,6 +11,9 @@ namespace USDA.ARS.GRIN.GGTools.WebUI
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
                         "~/Content/bower_components/jquery/dist/jquery.min.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/jquery-ui").Include(
+                       "~/Content/bower_components/jquery-ui/jquery-ui.min.js"));
+
             //bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
             //            "~/Scripts/jquery.validate*"));
 
