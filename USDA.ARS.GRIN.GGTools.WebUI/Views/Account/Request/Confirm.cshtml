@@ -32,10 +32,13 @@
                 <div class="card-footer">
                     <div class="row">
                         <div class="col-md-6">
-                            <button class="btn btn-default btn-block btn-flat" type="button"><< Back</button>
+                            <a href="@Url.Action("Index","Login")"
+                               class="btn btn-danger btn-block btn-flat">
+                                <i class="fas fa-backward"></i> Cancel
+                            </a>
                         </div>
                         <div class="col-md-6">
-                            <a href="@Url.Action("Final","Account")" class="btn btn-default btn-block btn-flat">Continue >></a>
+                            <a href="@Url.Action("Final","Account")" class="btn btn-default btn-block btn-flat">Continue <i class="fas fa-forward"></i></a>
                         </div>
                     </div>
                     @*<div class="text-right">

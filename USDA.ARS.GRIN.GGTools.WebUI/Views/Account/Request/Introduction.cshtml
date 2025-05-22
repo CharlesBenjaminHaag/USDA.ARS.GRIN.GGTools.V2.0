@@ -12,34 +12,26 @@
             <p>Please note the following:</p>
             <ul>
                 <li>
-                    <strong>You no longer need to create a curator account separately.</strong>
-                    This process will automatically create a curator account,
-                    in pending status, based on the information that you will provide.
-                    This account will be activated once an administrator has reviewed
-                    and approved it.
+                    This process will create a new Curator Tool (CT) account, based on the information that you provide.
                 </li>
                 <li>
-                    <strong>
-                        You will also no longer need to create a Public Website web
-                        account.
-                    </strong> This process will also create a linked web account,
-                    allowing the new curator to
-                    have access to Web Tools.
+                    This account will become activated after an administrator has approved it.
+                </li>
+                <li>Simultaneously, a separate Public Website (PW) user account will also be created. This PW account will be linked to the new CT account and will allow access to the PW’s staff-only features under Reports and Web Tools.</li>
+                <li>
+                    The new account owner will receive a confirmation email containing their account credentials.
                 </li>
             </ul>
-            <p>
-                Once the request has been approved, and the new account activated, the owner
-                will receive an email containing their account credentials.
-            </p>
+            
             <div class="row">
                 <div class="col-md-6">
                     <a href="@Url.Action("Index","Login")"
-                       class="btn btn-default btn-block btn-flat">
-                        Return to Login Page
+                       class="btn btn-danger btn-block btn-flat">
+                        <i class="fas fa-backward"></i> Cancel
                     </a>
                 </div>
                 <div class="col-md-6">
-                    <a href="@Url.Action("Details", "Account", new { @seq=1 })" class="btn btn-default btn-flat btn-block">Continue >></a>
+                    <a href="@Url.Action("Details", "Account", new { @seq=1 })" class="btn btn-default btn-flat btn-block">Continue <i class="fas fa-forward"></i></a>
                 </div>
             </div>
         </div>
