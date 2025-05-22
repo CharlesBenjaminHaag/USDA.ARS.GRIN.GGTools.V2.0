@@ -430,7 +430,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
                     {
                         case "NRR_APPROVE":
                             viewModel.EventValue = "Approve Web Order Request";
-                            viewModel.ActionEmailTo = viewModel.Entity.WebCooperatorEmail;
+                            viewModel.ActionEmailTo = viewModel.Entity.CuratorEmailAddressList;
                             emailTemplate = viewModel.GetEmailTemplate("CAP");
                             break;
                         case "NRR_REJECT":
