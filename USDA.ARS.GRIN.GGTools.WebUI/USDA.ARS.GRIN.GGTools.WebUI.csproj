@@ -1156,6 +1156,9 @@
     <Content Include="Views\WebUserShippingAddress\_List.cshtml" />
     <Content Include="Views\WebOrderRequest\Components\_MainMenu.cshtml" />
     <Content Include="Views\WebOrderRequest\Components\_EditMenu.cshtml" />
+    <Content Include="Views\WebOrderRequest\Explorer\_WebOrderRequestItemList.cshtml" />
+    <Content Include="Views\OrderRequestItem\_List - Copy.cshtml" />
+    <Content Include="Views\WebOrderRequest\Explorer\_OrderRequestList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -1,20 +1,27 @@
 ﻿@model USDA.ARS.GRIN.GGTools.ViewModelLayer.WebOrderRequestViewModel
 
+@*<style type="text/css">
+        .scrollable-display-section {
+            width: 100%; /* Flexible width */
+            max-height: 100px; /* Fixed height */
+            overflow-y: auto;
+        }
+    </style>
+
+    <style type="text/css">
+        .scrollable-table-section {
+            width: 100%; /* Flexible width */
+            max-height: 200px; /* Fixed height */
+            overflow-y: auto;
+        }
+    </style>*@
+
 <style type="text/css">
-    .scrollable-display-section {
-        width: 100%; /* Flexible width */
-        max-height: 100px; /* Fixed height */
-        overflow-y: auto;
+    .card.card-tabs .card-tools {
+        margin:0px;
     }
 </style>
 
-<style type="text/css">
-    .scrollable-table-section {
-        width: 100%; /* Flexible width */
-        max-height: 200px; /* Fixed height */
-        overflow-y: auto;
-    }
-</style>
 
 @if ((Model.Entity.IsLocked == true) && (Model.Entity.OwnedByWebUserID != AppInfo.GetAuthenticatedUser().WebUserID))
 {
@@ -36,35 +43,35 @@
                     <!-- On Hold -->
                     if (Model.Entity.StatusCode == "NRR_HOLD")
                     {
-                    <button id="btnActionHoldRel"
-                            data-ggtools-web-order-request-action="NRR_HOLD_REL"
-                            type="button"
-                            class="btn btn-default">
-                        <i class="fas fa-unlock nav-icon"></i>
-                        Remove Hold
-                    </button>
+                        <button id="btnActionHoldRel"
+                                data-ggtools-web-order-request-action="NRR_HOLD_REL"
+                                type="button"
+                                class="btn btn-default">
+                            <i class="fas fa-unlock nav-icon"></i>
+                            Remove Hold
+                        </button>
                     }
                     else
                     {
-                    <button id="btnOpenModalHold"
-                            data-ggtools-web-order-request-action="NRR_HOLD"
-                            type="button"
-                            class="btn btn-default">
-                        <i class="fas fa-lock nav-icon"></i>
-                        On Hold
-                    </button>
+                        <button id="btnOpenModalHold"
+                                data-ggtools-web-order-request-action="NRR_HOLD"
+                                type="button"
+                                class="btn btn-default">
+                            <i class="fas fa-lock nav-icon"></i>
+                            On Hold
+                        </button>
                     }
 
                     <!-- On Country Hold -->
                     if (Model.Entity.StatusCode == "NRR_HOLD_CTRY")
                     {
-                    <button id="btnActionHold"
-                            data-ggtools-web-order-request-action="NRR_HOLD_CTRY_REL"
-                            type="button"
-                            class="btn btn-default">
-                        <i class="fas fa-unlock nav-icon"></i>
-                        Remove Country Hold
-                    </button>
+                        <button id="btnActionHold"
+                                data-ggtools-web-order-request-action="NRR_HOLD_CTRY_REL"
+                                type="button"
+                                class="btn btn-default">
+                            <i class="fas fa-unlock nav-icon"></i>
+                            Remove Country Hold
+                        </button>
                     }
                     else
                     {
@@ -77,38 +84,38 @@
                         </button>
                     }
 
-                if (Model.Entity.StatusCode == "NRR_FLAG")
-                {
-                    <button id="btnOpenModalApprove"
-                            data-ggtools-web-order-request-action="NRR_APPROVE"
-                            type="button"
-                            class="btn btn-default">
-                        <i class="fas fa-thumbs-up text-green nav-icon"></i>
-                        Approve
-                    </button>
-                    <button id="btnOpenModalReject"
-                            data-ggtools-web-order-request-action="NRR_REJECT"
-                            type="button"
-                            class="btn btn-default">
-                        <i class="fas fa-thumbs-down text-red nav-icon"></i>
-                        Reject
-                    </button>
-                    <button id="btnOpenModalRequestInfo"
-                            data-ggtools-web-order-request-action="NRR_INFO"
-                            type="button"
-                            class="btn btn-default">
-                        <i class="fas fa-info text-blue nav-icon"></i>
-                        Request Additional Information
-                    </button>
-                    <button id="btnOpenModalRequestInfo"
-                            data-ggtools-web-order-request-action="NRR_CUR"
-                            type="button"
-                            class="btn btn-default">
-                        <i class="fas fa-tree nav-icon"></i>
-                        Email Curator(s)
-                    </button>
+                    if (Model.Entity.StatusCode == "NRR_FLAG")
+                    {
+                        <button id="btnOpenModalApprove"
+                                data-ggtools-web-order-request-action="NRR_APPROVE"
+                                type="button"
+                                class="btn btn-default">
+                            <i class="fas fa-thumbs-up text-green nav-icon"></i>
+                            Approve
+                        </button>
+                        <button id="btnOpenModalReject"
+                                data-ggtools-web-order-request-action="NRR_REJECT"
+                                type="button"
+                                class="btn btn-default">
+                            <i class="fas fa-thumbs-down text-red nav-icon"></i>
+                            Reject
+                        </button>
+                        <button id="btnOpenModalRequestInfo"
+                                data-ggtools-web-order-request-action="NRR_INFO"
+                                type="button"
+                                class="btn btn-default">
+                            <i class="fas fa-info text-blue nav-icon"></i>
+                            Request Additional Information
+                        </button>
+                        <button id="btnOpenModalRequestInfo"
+                                data-ggtools-web-order-request-action="NRR_CUR"
+                                type="button"
+                                class="btn btn-default">
+                            <i class="fas fa-tree nav-icon"></i>
+                            Email Curator(s)
+                        </button>
+                    }
                 }
-            }
             </div>
         </div>
         <div class="col-md-4">
@@ -141,7 +148,8 @@
     </div>
     <hr />
 }
-    
+
+<!-- DETAIL PRIMARY ROW-->
 <div class="row">
     <div class="col-md-1">
         <div class="form-group">
@@ -149,116 +157,126 @@
             <input type="text" value="@Model.Entity.ID" class="form-control form-control-sm" readonly="readonly" />
         </div>
     </div>
-        <div class="col-md-2">
-            <div class="form-group">
-                <label>Status</label>
-                @{
-                    string statusCssClass = String.Empty;
-                    switch (Model.Entity.StatusCode.ToUpper())
-                    {
-                        case "ACCEPTED":
-                            statusCssClass = "background-color: #28a745; color:white;";
-                            break;
-                        case "CANCELED":
-                            statusCssClass = "background-color: #ffc107; color:white;";
-                            break;
-                        case "SUBMITTED":
-                            statusCssClass = "background-color: #6f42c1; color:white;";
-                            break;
-                        case "MIXED":
-                            statusCssClass = "background-color: #007bff; color:white;";
-                            break;
-                        case "NRR_FLAG":
-                            statusCssClass = "background-color: red; color:white;";
-                            break;
-                        case "NRR_HOLD":
-                            statusCssClass = "background-color:mediumvioletred; color:white;";
-                            break;
-                        case "NRR_HOLD_CTRY":
-                            statusCssClass = "background-color:indigo; color:white;";
-                            break;
-                    }
+    <div class="col-md-2">
+        <div class="form-group">
+            <label>Status</label>
+            @{
+                string statusCssClass = String.Empty;
+                switch (Model.Entity.StatusCode.ToUpper())
+                {
+                    case "ACCEPTED":
+                        statusCssClass = "background-color: #28a745; color:white;";
+                        break;
+                    case "CANCELED":
+                        statusCssClass = "background-color: #ffc107; color:white;";
+                        break;
+                    case "SUBMITTED":
+                        statusCssClass = "background-color: #6f42c1; color:white;";
+                        break;
+                    case "MIXED":
+                        statusCssClass = "background-color: #007bff; color:white;";
+                        break;
+                    case "NRR_FLAG":
+                        statusCssClass = "background-color: red; color:white;";
+                        break;
+                    case "NRR_HOLD":
+                        statusCssClass = "background-color:mediumvioletred; color:white;";
+                        break;
+                    case "NRR_HOLD_CTRY":
+                        statusCssClass = "background-color:indigo; color:white;";
+                        break;
                 }
-                @Html.TextBoxFor(x => x.Entity.StatusTitle, new { @class = "form-control form-control-sm", @readonly = "readonly", disabled = "disabled", @style = statusCssClass })
+            }
+            @Html.TextBoxFor(x => x.Entity.StatusTitle, new { @class = "form-control form-control-sm", @readonly = "readonly", disabled = "disabled", @style = statusCssClass })
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="form-group">
+            <label>Submitted By</label>
+            <div>
+                @Html.TextBoxFor(x => x.Entity.WebCooperatorFullName, new { @class = "form-control form-control-sm", @readonly = "readonly", disabled = "disabled" })
             </div>
         </div>
-        <div class="col-md-3">
-            <div class="form-group">
-                <label>Submitted By</label>
-                <div>
-                    @Html.TextBoxFor(x => x.Entity.WebCooperatorFullName, new { @class = "form-control form-control-sm", @readonly = "readonly", disabled = "disabled" })
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3">
+    </div>
+    <div class="col-md-3">
+        <div class="form-group">
             <label>Email</label>
-            @Html.TextBoxFor(x => x.Entity.WebCooperatorEmail, new { @class = "form-control form-control-sm", @readonly = "readonly", disabled = "disabled" })
-        </div>
-        <div class="col-md-2">
-            <div class="form-group">
-                <label>Submitted</label>
-                @Html.TextBoxFor(x => x.Entity.OrderDate, new { @class = "form-control form-control-sm", @readonly = "readonly", disabled = "disabled" })
+            <div class="input-group">
+                @Html.TextBoxFor(x => x.Entity.WebCooperatorEmail, new { @class = "form-control form-control-sm", @readonly = "readonly", disabled = "disabled" })
+                <span class="input-group-append">
+                    <a href="@Url.Action("Search", "WebOrderRequest", new { @emailAddress = Model.Entity.WebCooperatorEmail })" class="btn btn-default btn-sm btn-flat">
+                        @*<i class="fa fa-link"></i>*@WOR
+                    </a>
+                    <a href="@Url.Action("Search", "OrderRequest", new { @emailAddress = Model.Entity.WebCooperatorEmail })" class="btn btn-default btn-sm btn-flat">
+                        @*<i class="fa fa-link"></i>*@ORD
+                    </a>
+                </span>
             </div>
         </div>
     </div>
-    <br />
-    <div class="row">
-        <div class="col-md-6">
-            <label>Requestor Address</label>
-            <br />
-            @Html.Raw(Model.Entity.WebCooperatorAddressFormatted)
-        </div>
-        <div class="col-md-6">
-            <label>Shipping Address</label>
-            <br />
-            @Html.Raw(Model.Entity.ShippingAddressFormatted)
+    <div class="col-md-2">
+        <div class="form-group">
+            <label>Submitted</label>
+            @Html.TextBoxFor(x => x.Entity.OrderDate, new { @class = "form-control form-control-sm", @readonly = "readonly", disabled = "disabled" })
         </div>
     </div>
-    <br />
+</div>
+<br />
+
+<!--DETAIL ADDRESS ROW-->
+<div class="row">
+    <div class="col-md-6">
+        <label>Requestor Address</label>
+        <br />
+        @Html.Raw(Model.Entity.WebCooperatorAddressFormatted)
+    </div>
+    <div class="col-md-6">
+        <label>Shipping Address</label>
+        <br />
+        @Html.Raw(Model.Entity.ShippingAddressFormatted)
+    </div>
+</div>
+<br />
+
+<!-- DETAIL INTENDED USE ROW-->
+<div class="row">
+    <div class="col-md-12">
+        <div class="form-group">
+            <label>Intended Use Note</label>
+
+            <div class="scrollable-display-section">
+                @Model.Entity.IntendedUseCode: @Html.Raw(Model.Entity.IntendedUseNote)
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- DETAIL SPEC. INST. ROW-->
+@if (!String.IsNullOrEmpty(Model.Entity.SpecialInstruction))
+{
     <div class="row">
         <div class="col-md-12">
-            <div class="form-group">
-                <label>Intended Use Note</label>
-
-                <div class="scrollable-display-section">
-                    @Model.Entity.IntendedUseCode: @Html.Raw(Model.Entity.IntendedUseNote)
-                </div>
-
-            </div>
+            <label>Special Instruction</label>
+            <p>@Model.Entity.SpecialInstruction</p>
         </div>
     </div>
+}
 
-    @if (!String.IsNullOrEmpty(Model.Entity.SpecialInstruction))
-    {
-        <div class="row">
-            <div class="col-md-12">
-                <label>Special Instruction</label>
-                <p>@Model.Entity.SpecialInstruction</p>
-            </div>
+<!-- DETAIL NOTE ROW-->
+@if (!String.IsNullOrEmpty(Model.Entity.Note))
+{
+    <div class="row">
+        <div class="col-md-12">
+            <label>Note</label>
+            <p>@Model.Entity.Note</p>
         </div>
-    }
-
-    @if (!String.IsNullOrEmpty(Model.Entity.Note))
-    {
-        <div class="row">
-            <div class="col-md-12">
-                <label>Note</label>
-                <p>@Model.Entity.Note</p>
-            </div>
-        </div>
-    }
-    <hr />
-    <div id="section-web-order-request-items">
-        @Html.Partial("~/Views/WebOrderRequestItem/_List.cshtml")
     </div>
-    @{ Html.RenderAction("_List", "OrderRequest", new { @webOrderRequestId = Model.Entity.ID }); }
-    <script type="text/javascript">
-        //const makeScrollable = (div) => {
-        //    div.style.overflowY = 'auto'; // Enables vertical scrolling
-        //    div.style.maxHeight = '300px'; // Sets a maximum height
-        //};
+}
+<br />
+<!--WOR ITEMS LIST-->
+@Html.Partial("~/Views/WebOrderRequest/Explorer/_WebOrderRequestItemList.cshtml")
 
-        //// Example usage
-        //const div = document.getElementById('section-web-order-request-items');
-        //makeScrollable(div);
-    </script>
+<!--ORDER LIST-->
+@{ Html.RenderAction("ExplorerOrderRequestList", "WebOrderRequest", new { @webOrderRequestId = Model.Entity.ID }); }
+

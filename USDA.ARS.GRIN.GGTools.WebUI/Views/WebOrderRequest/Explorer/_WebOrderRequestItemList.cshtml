@@ -1,0 +1,121 @@
+﻿@model USDA.ARS.GRIN.GGTools.ViewModelLayer.WebOrderRequestViewModel
+
+<div class="card card-default">
+    <div class="card-header">
+        <h3 class="card-title">Items Requested (@Model.DataCollectionItems.Count)</h3>
+        <div class="card-tools">
+            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                <i class="fas fa-minus"></i>
+            </button>
+        </div>
+    </div>
+    <div class="card-body" style="display: block;">
+        <table id="data-table-web-order-request-items" class="table table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Status</th>
+                    <th>Accession</th>
+                    <th>Owner</th>
+                    <th>Taxon</th>
+                    <th>Site</th>
+                    <th>Site Long Name</th>
+                    <th>Shipped</th>
+                    <th>Dist. Unit.</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var result in Model.DataCollectionItems)
+                {
+                    <tr>
+                        <td>@result.ID</td>
+                        <td>@result.StatusCode</td>
+                        <td>
+                            <a href="https://npgsweb.ars-grin.gov/gringlobal/accessiondetail?id=@result.AccessionID">
+                                @result.AccessionText
+                            </a>
+                        </td>
+                        <td>
+                            <a href="@Url.Action("Edit","Cooperator", new { @entityId = result.AccessionOwnedByCooperatorID})">
+                                @result.AccessionOwnedByCooperatorName
+                            </a>
+                        </td>
+                        <td>
+                            <a href="https://npgsweb.ars-grin.gov/gringlobal/taxon/taxonomydetail?id=@result.SpeciesID">
+                                @result.SpeciesName
+                            </a>
+                        </td>
+                        <td><a href="https://npgsweb.ars-grin.gov/gringlobal/site?id=@result.SiteID">@result.SiteShortName</a></td>
+                        <td><a href="https://npgsweb.ars-grin.gov/gringlobal/site?id=@result.SiteID">@result.SiteLongName</a></td>
+                        <td>@result.QuantityShipped</td>
+                        <td>@result.UnitOfQuantity</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+   
+<script type="text/javascript">
+    $(document).ready(function () {
+        InitWebOrderRequestItemDataTable("data-table-web-order-request-items");
+    });
+
+
+    function InitWebOrderRequestItemDataTable(tableName) {
+        tableName = "#" + tableName;
+
+        $(document).ready(function () {
+            table = $(tableName).DataTable({
+                dom: "Bflrtip",
+                stateSave: true,
+                responsive: true,
+                paging: true,
+                "pageLength": 25,
+                select: true,
+                layout: {
+                    topStart: {
+                        buttons: ['copyHtml5', 'excelHtml5', 'csvHtml5', 'pdfHtml5']
+                    }
+                },
+                buttons: [
+                    {
+                        extend: 'copyHtml5',
+                        exportOptions: {
+                            columns: [0, ':visible']
+                        }
+                    },
+                    {
+                        extend: 'excelHtml5',
+                        exportOptions: {
+                            columns: ':visible'
+                        }
+                    },
+                    {
+                        extend: 'pdfHtml5',
+                        exportOptions: {
+                            columns: [0, 1, 2, 5]
+                        }
+                    },
+                    'colvis'
+                ],
+                columnDefs: [
+                    {
+                        target: 0,
+                        visible: false,
+                        searchable: false
+                    },
+                    {
+                        target: 6,
+                        visible: false
+                    }
+                ]
+            });
+
+            $('table.ggtools').on('click', 'tr', function () {
+                var data = table.row(this).data();
+                /*alert('You clicked on ' + data[0] + "'s row");*/
+            });
+        });
+    }
+</script>
