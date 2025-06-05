@@ -11,6 +11,33 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
     {
         private static readonly Logger Log = LogManager.GetCurrentClassLogger();
 
+        public ActionResult Search(int id = 0, string status = "", string requestorName = "", string requestorEmailAddress = "", string requestorOrganization = "", string shipToName = "", string finalRecipientName = "", string mostRecentOrderAction = "", int siteID = 0, string specialInstruction = "", string note = "")
+        {
+            OrderRequestViewModel viewModel = new OrderRequestViewModel();
+
+            try
+            {
+                viewModel.SearchEntity.ID = id;
+                viewModel.SearchEntity.RequestorCooperatorName = requestorName;
+                viewModel.SearchEntity.RequestorEmailAddress = requestorEmailAddress;
+                viewModel.SearchEntity.RequestorOrganizationName = requestorOrganization;
+                viewModel.SearchEntity.ShipToCooperatorName = shipToName;
+                viewModel.SearchEntity.FinalRecipientCooperatorName = finalRecipientName;
+                viewModel.SearchEntity.MostRecentOrderActionCode = mostRecentOrderAction;
+                viewModel.SearchEntity.SiteID = siteID;
+                viewModel.SearchEntity.SpecialInstruction = specialInstruction;
+                viewModel.SearchEntity.Note = note;
+                viewModel.Search();
+                return View("~/Views/OrderRequest/Index.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return RedirectToAction("InternalServerError", "Error");
+            }
+        }
+
+
         public ActionResult Delete(FormCollection formCollection)
         {
             throw new NotImplementedException();
@@ -57,7 +84,8 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
         [HttpPost]
         public ActionResult Search(OrderRequestViewModel viewModel)
         {
-            throw new NotImplementedException();
+            viewModel.Search();
+            return View("~/Views/OrderRequest/Index.cshtml", viewModel);
         }
 
         public PartialViewResult _Get(int entityId = 0, int webOrderRequestId = 0)

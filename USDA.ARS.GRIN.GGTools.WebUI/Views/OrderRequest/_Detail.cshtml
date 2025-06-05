@@ -19,59 +19,69 @@
                     </div>
                     <div class="col-md-1">
                         <div class="form-group form-horizontal">
-                            <label>Local No.</label>
-                            @Html.TextBoxFor(x => x.SearchEntity.LocalNumber, new { @class = "form-control" })
+                            <label>WOR ID</label>
+                            @Html.TextBoxFor(x => x.SearchEntity.WebOrderRequestID, new { @class = "form-control" })
                         </div>
                     </div>
-
-                    <div class="col-md-2">
-                        <div id="section-alternate-name" class="form-group form-horizontal">
+                    <div class="col-md-3">
+                        <div class="form-group form-horizontal">
+                            <label>Order Type</label>
+                            @Html.DropDownListFor(x => x.SearchEntity.OrderTypeCode, Model.OrderRequestTypeCodes, "All Types", new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group form-horizontal">
+                            <label>Last Action</label>
+                            @Html.DropDownListFor(x => x.SearchEntity.MostRecentOrderActionCode, Model.OrderRequestActionCodes, "All Actions", new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group form-horizontal">
                             <label>Requestor Name</label>
                             @Html.TextBoxFor(x => x.SearchEntity.RequestorCooperatorName, new { @class = "form-control" })
                         </div>
                     </div>
-                    <div class="col-md-2">
-                        <div id="section-alternate-name" class="form-group form-horizontal">
-                            <label>Ship-To Cooperator Name</label>
+                    <div class="col-md-4">
+                        <div class="form-group form-horizontal">
+                            <label>Requestor Email</label>
+                            @Html.TextBoxFor(x => x.SearchEntity.RequestorEmailAddress, new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group form-horizontal">
+                            <label>Requestor Organization</label>
+                            @Html.TextBoxFor(x => x.SearchEntity.RequestorOrganizationName, new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group form-horizontal">
+                            <label>Ship-To Name</label>
                             @Html.TextBoxFor(x => x.SearchEntity.ShipToCooperatorName, new { @class = "form-control" })
                         </div>
                     </div>
-                    <div class="col-md-3">
-                        <div id="section-alternate-name" class="form-group form-horizontal">
-                            <label>Final Recipient</label>
+                    <div class="col-md-4">
+                        <div class="form-group form-horizontal">
+                            <label>Final Recipient Name</label>
                             @Html.TextBoxFor(x => x.SearchEntity.FinalRecipientCooperatorName, new { @class = "form-control" })
                         </div>
                     </div>
-                    <div class="col-md-3">
-                        <div id="section-alternate-name" class="form-group form-horizontal">
-                            <label>Requestor Organization</label>
+                    <div class="col-md-2">
+                        <div class="form-group form-horizontal">
+                            <label>Calendar Year</label>
+                            @Html.TextBoxFor(x => x.SearchEntity.OrderedYear, new { @class = "form-control" })
                         </div>
                     </div>
-                </div>
-                <div class="row">
                     <div class="col-md-2">
                         <div class="form-group form-horizontal">
                             <label>Time Frame</label>
+                            @Html.DropDownListFor(x => x.SearchEntity.OrderedDateTimeFrame, Model.TimeFrameOptions, "Any time period", new { @class = "form-control" })
                         </div>
-                    </div>
-                    <div class="col-md-1">
-                        <div id="section-family-name" class="form-group form-horizontal">
-                            <label>Year</label>
-                        </div>
-                    </div>
-                    <div class="col-md-2">
-                        <label>Intended Use</label>
-                    </div>
-                    <div class="col-md-2">
-                        <label>Status</label>
                     </div>
                     <div class="col-md-2">
                         <div class="form-group form-horizontal">
-                            <label>Owned By</label>
+                            <label>Intended Use</label>
+                            @Html.DropDownListFor(x => x.SearchEntity.IntendedUseCode, Model.IntendedUseCodes, "All codes", new { @class = "form-control" })
                         </div>
-                    </div>
-                    <div class="col-md-1">
-                        <label>Locked</label>
                     </div>
                 </div>
                 <div>

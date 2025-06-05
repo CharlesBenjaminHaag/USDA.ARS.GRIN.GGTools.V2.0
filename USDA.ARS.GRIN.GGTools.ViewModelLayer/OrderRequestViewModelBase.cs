@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Web;
 using System.Web.Mvc;
-using System.Linq;
-using System.Collections;
 using System.Collections.ObjectModel;
 using USDA.ARS.GRIN.GGTools.AppLayer;
 using USDA.ARS.GRIN.GGTools.DataLayer;
+using System.Linq;
 
 namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
 {
@@ -18,6 +17,19 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
         private Collection<OrderRequestAction> _DataCollectionActions = new Collection<OrderRequestAction>();
         private Collection<OrderRequestAttachment> _DataCollectionAttachments = new Collection<OrderRequestAttachment>();
         private Collection<OrderRequestPhytoLog> _DataCollectionPhytoLog = new Collection<OrderRequestPhytoLog>();
+
+        public OrderRequestViewModelBase()
+        {
+            using (OrderRequestManager mgr = new OrderRequestManager())
+            {
+                OrderRequestTypeCodes = new SelectList(mgr.GetCodeValues("ORDER_REQUEST_TYPE"), "Value","Title");
+                OrderRequestActionCodes = new SelectList(mgr.GetCodeValues("ORDER_REQUEST_ACTION"), "Value", "Title");
+                IntendedUseCodes = new SelectList(mgr.GetCodeValues("ORDER_INTENDED_USE"), "Value", "Title");
+                Cooperators = new SelectList(mgr.GetCooperators("order_request"), "ID", "FullName");
+                TimeFrameOptions = new SelectList(mgr.GetTimeFrameOptions(), "Value", "Title");
+                YesNoOptions = new SelectList(mgr.GetYesNoOptions(), "Key", "Value");
+            }
+        }
 
         public OrderRequest Entity
         {
@@ -62,10 +74,9 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
 
         #region Select Lists
 
-        public SelectList Statuses { get; set; }
-
+        public SelectList OrderRequestTypeCodes { get; set; }
+        public SelectList OrderRequestActionCodes { get; set; }
         public SelectList IntendedUseCodes { get; set; }
-
         #endregion
     }
 }

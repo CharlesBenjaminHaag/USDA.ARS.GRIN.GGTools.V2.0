@@ -5,10 +5,12 @@ using System.Data;
 using USDA.ARS.GRIN.Common.DataLayer;
 using USDA.ARS.GRIN.GGTools.AppLayer;
 using USDA.ARS.GRIN.GGTools.DataLayer;
+using USDA.ARS.GRIN.GGTools.Taxonomy.DataLayer;
+using System.Security.Cryptography.X509Certificates;
 
-namespace USDA.ARS.GRIN.GGTools.OrderManagement.DataLayer.ManagerClasses
+namespace USDA.ARS.GRIN.GGTools.DataLayer
 {
-    public class OrderRequestManager : GRINGlobalDataManagerBase, IManager<OrderRequest, OrderRequestSearch>
+    public class OrderRequestManager : GRINGlobalDataManagerBase, Common.DataLayer.IManager<OrderRequest, OrderRequestSearch>
     {
         public void BuildInsertUpdateParameters()
         {
@@ -42,11 +44,10 @@ namespace USDA.ARS.GRIN.GGTools.OrderManagement.DataLayer.ManagerClasses
         {
             List<OrderRequestItem> results = new List<OrderRequestItem>();
 
-            SQL = " SELECT * FROM vw_GRINGlobal_Order_Request_Item ";
-            SQL += " WHERE        (@OrderRequestID         IS NULL OR  OrderRequestID       = @OrderRequestID)";
+            SQL = "usp_GRINGlobal_Order_Request_Items_Select";
 
             var parameters = new List<IDbDataParameter> {
-                CreateParameter("OrderRequestID", orderRequestId > 0 ? (object)orderRequestId : DBNull.Value, true),
+                CreateParameter("@order_request_id", (object)orderRequestId, false)
             };
 
             results = GetRecords<OrderRequestItem>(SQL, parameters.ToArray());
@@ -117,20 +118,25 @@ namespace USDA.ARS.GRIN.GGTools.OrderManagement.DataLayer.ManagerClasses
         {
             List<OrderRequest> results = new List<OrderRequest>();
 
-            SQL = " SELECT * FROM vw_GRINGlobal_Order_Request ";
-            SQL += " WHERE      (@ID                        IS NULL OR  ID = @ID) ";
-            SQL += " AND        (@CreatedByCooperatorID     IS NULL OR  CreatedByCooperatorID   = @CreatedByCooperatorID)";
-            SQL += " AND        (@WebOrderRequestID         IS NULL OR  WebOrderRequestID       = @WebOrderRequestID)";
-
+            SQL = "usp_GRINGlobal_Order_Request_Search";
+           
             var parameters = new List<IDbDataParameter> {
-                CreateParameter("ID", searchEntity.ID > 0 ? (object)searchEntity.ID : DBNull.Value, true),
-                CreateParameter("CreatedByCooperatorID", searchEntity.CreatedByCooperatorID > 0 ? (object)searchEntity.CreatedByCooperatorID : DBNull.Value, true),
-                CreateParameter("WebOrderRequestID", searchEntity.WebOrderRequestID > 0 ? (object)searchEntity.WebOrderRequestID : DBNull.Value, true),
+                CreateParameter("order_request_id", searchEntity.ID > 0 ? (object)searchEntity.ID : DBNull.Value, true),
+                CreateParameter("web_order_request_id", searchEntity.WebOrderRequestID > 0 ? (object)searchEntity.WebOrderRequestID : DBNull.Value, true),
+                CreateParameter("order_type_code", (object)searchEntity.OrderTypeCode ?? DBNull.Value, true),
+                CreateParameter("most_recent_order_request_action_code", (object)searchEntity.MostRecentOrderActionCode ?? DBNull.Value, true),
+                CreateParameter("requestor_name", (object)searchEntity.RequestorCooperatorName ?? DBNull.Value, true),
+                CreateParameter("requestor_email", (object)searchEntity.RequestorEmailAddress ?? DBNull.Value, true),
+                CreateParameter("requestor_organization", (object)searchEntity.RequestorOrganizationName ?? DBNull.Value, true),
+                CreateParameter("ordered_date", searchEntity.OrderedDate == DateTime.MinValue ? DBNull.Value : (object)searchEntity.OrderedDate,
+                true),
+                CreateParameter("ordered_year", searchEntity.OrderedYear > 0 ? (object)searchEntity.OrderedYear : DBNull.Value, true),
+                CreateParameter("time_frame", (object)searchEntity.OrderedDateTimeFrame ?? DBNull.Value, true),
+                CreateParameter("intended_use_code", (object)searchEntity.IntendedUseCode ?? DBNull.Value, true),
             };
 
-            results = GetRecords<OrderRequest>(SQL, parameters.ToArray());
+            results = GetRecords<OrderRequest>(SQL, CommandType.StoredProcedure, parameters.ToArray());
             RowsAffected = results.Count;
-
             return results;
         }
 

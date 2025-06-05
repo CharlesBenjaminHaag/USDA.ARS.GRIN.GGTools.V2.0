@@ -4,19 +4,53 @@
     Layout = "~/Views/Shared/_LayoutAdminLTE3.cshtml";
 }
 
-<style>
-    .invoice-info {
-        margin-top: 25px;
-    }
-
-    .section-modal-reject-email-fields {
-        margin-top: 15px;
-    }
-</style>
+<div class="row">
+    <div class="col-md-3">
+        @{Html.RenderAction("Component_Widget", "Cooperator", new { cooperatorId = Model.Entity.RequestorCooperatorID }); }
+    </div>
+    <div class="col-md-9">
+        <div class="card card-default card-tabs">
+            <div id="section-order-request" class="card-header p-0 pt-1">
+                <ul class="nav nav-tabs" id="tab-order-request" role="tablist">
+                    <li id="tab-web-order-request-detail"
+                        class="nav-item"
+                        data-ggtools-action="OrderRequest"
+                        data-ggtools-value="ExplorerDetail">
+                        <a class="nav-link active"
+                           data-toggle="pill"
+                           href="#tab-content-web-order-request-detail" role="tab" aria-controls="custom-tabs-two-home" aria-selected="true">
+                            <i class="fa fa-address-card"></i> Detail
+                        </a>
+                    </li>
+                    <li id="tab-order-request-timeline"
+                        class="nav-item"
+                        data-ggtools-action="OrderRequest"
+                        data-ggtools-value="ExplorerTimeline">
+                        <a class="nav-link"
+                           data-toggle="pill"
+                           href="#tab-content-web-order-request-timeline"
+                           role="tab"
+                           aria-controls="custom-tabs-two-profile"
+                           aria-selected="false"><i class="fa fa-clock"></i> Timeline</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="card-body">
+                <div class="tab-content">
+                    <div id="tab-content-order-request">
+                        <!-- CONTENT HERE -->
+                    </div>
+                </div>
+            </div>
+            <div id="order-request-overlay" class="overlay-wrapper">
+                <div class="overlay dark"><i class="fas fa-3x fa-sync-alt fa-spin"></i><div class="text-bold pt-2">Loading...</div></div>
+            </div>
+        </div>
+    </div>
+</div>
 
 <!-- Main fields -->
-@Html.Partial("~/Views/Shared/_RevisionHistory.cshtml")
-<div class="card card-outline card-primary">
+<div class="card card-outline card-default">
     <div class="card-header">
         <h3 class="card-title">Order Request Detail</h3>
 
@@ -31,33 +65,18 @@
     </div>
 </div>
 
-<!-- Coops -->
-<div class="card card-outline card-primary collapsed-card">
-    <div class="card-header">
-        <h3 class="card-title">
-            <i class="fas fa-users"></i>
-        Cooperators</h3>
-
-        <div class="card-tools">
-            <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                <i class="fas fa-plus"></i>
-            </button>
-        </div>
-    </div>
-    <div class="card-body" style="display:none;">
-        @Html.Partial("~/Views/OrderRequest/Components/_CooperatorListWidget.cshtml")
-    </div>
-</div>
-
 
 <!-- Related data -->
-<div class="card card-primary card-tabs">
+<div class="card card-default card-tabs">
     <div class="card-header p-0 pt-1">
         <ul class="nav nav-tabs" id="custom-tabs-one-tab" role="tablist">
-            <div class="tab-pane fade" id="custom-tabs-one-settings" role="tabpanel" aria-labelledby="custom-tabs-one-settings-tab">
-            </div>
             <li class="nav-item">
-                <a class="nav-link active" id="custom-tabs-one-settings-tab" data-toggle="pill" href="#tab-items" role="tab" aria-controls="custom-tabs-one-settings" aria-selected="true">
+                <a class="nav-link active" 
+                   id="custom-tabs-one-settings-tab"
+                   data-toggle="pill" 
+                   href="#tab-items" 
+                   role="tab" 
+                   aria-controls="custom-tabs-one-settings" aria-selected="true">
                     <i class="fas fa-list"></i>
                     Items
                 </a>
@@ -99,3 +118,143 @@
         </div>
     </div>
 </div>
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        Load();
+    });
+
+    // Event handler for user selecting a WOR from the list.
+    $('#section-order-request ul.nav li').on('click', function () {
+        var orderRequestId = $("#Entity_ID").val();
+        var selectedId = $(this).attr('id');
+        $("#txtSelectedTab").val(selectedId);
+        LoadOrderRequest(webOrderRequestId);
+    });
+
+    function Load() {
+        var orderRequestId = $("#Entity_ID").val();
+
+        SetFilter("filter-by-time-frame", "30D", "This Month");
+        $("#txtSelectedTab").val("tab-order-request-detail");
+        LoadOrderRequest(webOrderRequestId);
+    }
+
+    function LoadWebOrderRequestList() {
+        var link = '@Url.Action("ExplorerList","WebOrderRequest")';
+
+        // Get all active filters.
+        var timeFrame = GetSelectedFilter("filter-by-time-frame");
+        var statusCode = GetSelectedFilter("filter-by-status");
+        var mostRecentAction = GetSelectedFilter("filter-by-most-recent-action");
+        var assignedTo = GetSelectedFilter("filter-by-assigned-to");
+
+        // Show current filter in title.
+        var pageMainTitle = "Web Order Request Explorer";
+        //pageMainTitle += " " + GetSelectedFilter("filter-by-time-frame") + " " + GetSelectedFilter("filter-by-status") + " " + GetSelectedFilter("filter-by-assigned-to") + " " + GetSelectedFilter("filter-by-most-recent-action");
+        $("#placeholder-page-main-title").html(pageMainTitle);
+
+        var formData = new FormData();
+
+        //console.log("DEBUG: Filtering WOR list TIME FRAME " + timeFrame + " STATUS " + statusCode + " ASSIGNED " + assignedTo + " MOST RECENT ACTION " + mostRecentAction);
+
+        formData.append("SearchEntity.TimeFrame", timeFrame);
+        formData.append("SearchEntity.StatusCode", statusCode);
+        formData.append("SearchEntity.MostRecentAction", mostRecentAction);
+        formData.append("SearchEntity.OwnedByWebUserID", assignedTo);
+
+        $("#section-overlay-web-order-request-list").show();
+
+        $.ajax({
+            url: link,
+            type: 'POST',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (response) {
+                $("#section-web-order-request-list").html(response);
+                $("#section-overlay-web-order-request-list").hide();
+            }
+        });
+    }
+
+    function LoadOrderRequest(id) {
+        var selectedTab = GetSelectedTab();
+        $("#Entity_ID").val(id);
+
+        switch (selectedTab) {
+            case "tab-order-request-detail":
+                LoadWebOrderRequestDetail(id);
+                break;
+            case "tab-order-request-timeline":
+                LoadWebOrderRequestTimeline(id);
+                break;
+        }
+    }
+
+    function LoadOrderRequestDetail(webOrderRequestId) {
+        var link = '@Url.Action("ExplorerDetail","WebOrderRequest", new { webOrderRequestId = "WEB_ORDER_REQUEST_ID" })';
+        link = link.replace("WEB_ORDER_REQUEST_ID", webOrderRequestId);
+
+        var formData = new FormData();
+        formData.append("webOrderRequestId", webOrderRequestId);
+
+        $("#web-order-request-overlay").show();
+
+        $.ajax({
+            url: link,
+            type: 'POST',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (response) {
+                $("#tab-content-web-order-request").html(response);
+                $("#web-order-request-overlay").hide();
+            }
+        });
+    }
+
+    function LoadOrderRequestTimeline(webOrderRequestId) {
+    var link = '@Url.Action("ExplorerTimeline","WebOrderRequest", new { webOrderRequestId = "WEB_ORDER_REQUEST_ID" })';
+    link = link.replace("WEB_ORDER_REQUEST_ID", webOrderRequestId);
+
+    var formData = new FormData();
+    formData.append("webOrderRequestId", webOrderRequestId);
+
+    $("#web-order-request-overlay").show();
+
+    $.ajax({
+        url: link,
+        type: 'POST',
+        cache: false,
+        contentType: false,
+        processData: false,
+        data: formData,
+        success: function (response) {
+            $("#tab-content-web-order-request").html(response);
+            $("#web-order-request-overlay").hide();
+        }
+    });
+}
+
+    function GetSelectedTab() {
+        return $("#txtSelectedTab").val();
+    }
+
+    function GetSelectedFilter(name) {
+        var selectedFilter = $("#" + name).val();
+        return selectedFilter;
+    }
+
+    function SetFilter(filterName, filterValue, filterTitle) {
+
+
+        //console.log("DEBUG FILTER NAME " + filterName + " FILTER TITLE " + filterTitle);
+        $("#" + filterName).val(filterValue);
+        $("#" + filterName + "-title").val(filterTitle);
+
+    }
+</script>

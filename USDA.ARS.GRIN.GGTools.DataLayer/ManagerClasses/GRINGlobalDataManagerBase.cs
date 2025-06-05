@@ -81,6 +81,20 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
             return sql;
         }
 
+        public List<CodeValue> GetTimeFrameOptions()
+        {
+            List<CodeValue> timeFrameOptions = new List<CodeValue>();
+            timeFrameOptions.Add(new CodeValue { Value = "1D", Title = "Today" });
+            timeFrameOptions.Add(new CodeValue { Value = "3D", Title = "The last 3 days" });
+            timeFrameOptions.Add(new CodeValue { Value = "7D", Title = "This Week" });
+            timeFrameOptions.Add(new CodeValue { Value = "30D", Title = "This Month" });
+            timeFrameOptions.Add(new CodeValue { Value = "60D", Title = "The Last 2 Months" });
+            timeFrameOptions.Add(new CodeValue { Value = "90D", Title = "The Last 3 Months" });
+            timeFrameOptions.Add(new CodeValue { Value = "180D", Title = "The Last 6 Months" });
+            timeFrameOptions.Add(new CodeValue { Value = "1Y", Title = "This Year" });
+            return timeFrameOptions;
+        }
+
         #endregion SQL Utilities
     }
 }
