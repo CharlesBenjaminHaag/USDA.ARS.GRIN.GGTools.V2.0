@@ -1,0 +1,129 @@
+﻿@model USDA.ARS.GRIN.GGTools.ViewModelLayer.OrderRequestViewModel
+
+<div class="card card-default">
+    <div class="card-header">
+        <h3 class="card-title">@Model.DataCollectionItems.Count Items</h3>
+        <div class="card-tools">
+            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                <i class="fas fa-minus"></i>
+            </button>
+        </div>
+    </div>
+    <div class="card-body" style="display: block;">
+
+        <div class="scrollable-table-section">
+            <table id="table_order_request_items" class="table table-striped" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>
+                            Accession
+                        </th>
+                        <th>Inventory</th>
+                        <th>Site</th>
+                        <th>Quantity Shipped</th>
+                        <th>Unit</th>
+                        <th>Distribution Form</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var orderRequestItem in Model.DataCollectionItems)
+                    {
+
+                        <tr>
+                            <td>@orderRequestItem.ID</td>
+                            <td>@orderRequestItem.Name</td>
+                            <td>
+                                <a href="https://npgsweb.ars-grin.gov/gringlobal/accessiondetail?id=@orderRequestItem.AccessionID" target="_blank" rel="noreferrer">
+                                    @orderRequestItem.AccessionName</a>
+                            </td>
+                            <td>
+                                @orderRequestItem.InventoryName
+                            </td>
+                            <td><a href="https://npgsweb.ars-grin.gov/gringlobal/site?id=@orderRequestItem.SiteID" target="_blank" rel="noreferrer">@orderRequestItem.SiteLongName</a></td>
+                            <td>@orderRequestItem.QuantityShipped</td>
+                            <td>
+                                @orderRequestItem.QuantityShippedUnitCode
+                            </td>
+                            <td>
+                                @orderRequestItem.DistributionFormCode
+                            </td>
+                            <td>
+                                @*<a href="@Url.Action("Edit", "OrderRequest", new { entityId = orderRequest.ID })" class="btn btn-default btn-sm pull-right">
+                                        <i class="fa fa-eye"></i>
+                                    </a>*@
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+        <script type="text/javascript">
+            $(document).ready(function () {
+                InitOrderRequestItemDataTable("table_order_request_items");
+            });
+
+            function InitOrderRequestItemDataTable(tableName) {
+                tableName = "#" + tableName;
+                $(document).ready(function () {
+                    table = $(tableName).DataTable({
+                        dom: 'Blfrtip',
+                        paging: true,
+                        "pageLength": 25,
+                        responsive: true,
+                        layout: {
+                            topStart: {
+                                pageLength: {
+                                    menu: [10, 25, 50, 100]
+                                }
+                            },
+                            topEnd: {
+                                search: {
+                                    placeholder: 'Type search here'
+                                }
+                            },
+                            bottomEnd: {
+                                paging: {
+                                    buttons: 3
+                                }
+                            }
+                        },
+                        buttons: [
+                            'csv',
+                            'excelHtml5',
+                            'pdf'
+                        ],
+                        search: true,
+                        select: {
+                            style: 'single'
+                        },
+                        lengthMenu: [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],
+                        //columnDefs: [
+                        //    { targets: [0], visible: false }
+                        //]
+
+                    });
+
+                    // If the table contains at least one row, select that row by default, and load the WOR data
+                    // related to it.
+                    //if (table.rows().count() > 0) {
+                    //    // Select the first visible row
+                    //    var firstVisibleRow = table.rows({ search: 'applied' }).indexes()[0];
+                    //    if (firstVisibleRow !== undefined) {
+                    //        table.row(firstVisibleRow).select();
+                    //        LoadWebOrderRequest(table.row(':eq(0)', { page: 'current' }).data()[0]);
+                    //    }
+                    //}
+
+                    // Call select method when user clicks a given row.
+                    //$('table.ggtools').on('click', 'tr', function () {
+                    //    var data = table.row(this).data();
+                    //    LoadWebOrderRequest(data[0]);
+                    //});
+                });
+            }
+        </script>

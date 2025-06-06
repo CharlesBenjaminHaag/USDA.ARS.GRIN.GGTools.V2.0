@@ -44,10 +44,12 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
         {
             List<OrderRequestItem> results = new List<OrderRequestItem>();
 
-            SQL = "usp_GRINGlobal_Order_Request_Items_Select";
+            SQL = " SELECT * FROM vw_GRINGlobal_Order_Request_Item ";
+            SQL += " WHERE        (@OrderRequestID         IS NULL OR  OrderRequestID     = @OrderRequestID)";
+
 
             var parameters = new List<IDbDataParameter> {
-                CreateParameter("@order_request_id", (object)orderRequestId, false)
+                CreateParameter("@OrderRequestID", (object)orderRequestId, false)
             };
 
             results = GetRecords<OrderRequestItem>(SQL, parameters.ToArray());
@@ -77,7 +79,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
         {
             List<OrderRequestAttachment> orderRequestAttachments = new List<OrderRequestAttachment>();
             
-            SQL = " SELECT order_request_id AS OrderRequestID, ISNULL(title,'[No GroupTitle]') AS GroupTitle, content_type AS ContentType, category_code AS CategoryCode, description AS Description, virtual_path AS VirtualPath, thumbnail_virtual_path AS ThumbnailVirtualPath FROM order_request_attach ";
+            SQL = " SELECT order_request_attach_id AS ID, order_request_id AS OrderRequestID, ISNULL(title,'[No GroupTitle]') AS Title, content_type AS ContentType, category_code AS CategoryCode, description AS Description, virtual_path AS VirtualPath, thumbnail_virtual_path AS ThumbnailVirtualPath, attach_date AS AttachDate FROM order_request_attach ";
             SQL += " WHERE        (@OrderRequestID         IS NULL OR  order_request_id     = @OrderRequestID)";
 
             var parameters = new List<IDbDataParameter> {
@@ -92,6 +94,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
         public List<OrderRequestPhytoLog> GetPhytoLog(int orderRequestId)
         {
             List<OrderRequestPhytoLog> orderRequestPhytoLogs = new List<OrderRequestPhytoLog>();
+
             SQL = " SELECT * FROM vw_GRINGlobal_Order_Request_Phyto_Log ";
             SQL += " WHERE        (@OrderRequestID         IS NULL OR  OrderRequestID     = @OrderRequestID)";
 

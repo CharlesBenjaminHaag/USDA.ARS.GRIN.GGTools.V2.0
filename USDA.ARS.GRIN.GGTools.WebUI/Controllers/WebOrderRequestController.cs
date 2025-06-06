@@ -398,22 +398,6 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             }
         }
 
-        public PartialViewResult ExplorerOrderRequestList(int webOrderRequestId)
-        {
-            try
-            {
-                OrderRequestViewModel viewModel = new OrderRequestViewModel();
-                viewModel.SearchEntity.WebOrderRequestID = webOrderRequestId;
-                viewModel.Search();
-                return PartialView("~/Views/WebOrderRequest/Explorer/_OrderRequestList.cshtml", viewModel);
-            }
-            catch (Exception ex)
-            {
-                Log.Error(ex);
-                return PartialView("~/Views/Error/_InternalServerError.cshtml");
-            }
-        }
-
         #endregion Explorer
 
         /// <summary>

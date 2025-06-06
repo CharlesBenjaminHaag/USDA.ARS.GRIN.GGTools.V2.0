@@ -22,13 +22,12 @@
                     <th>Organization</th>
                     <th>Ship To</th>
                     <th>Ordered Date</th>
-                    <th></th>
+                    <th>Items</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach (var orderRequest in Model.DataCollection)
                 {
-
                     <tr>
                         <td><a href="@Url.Action("View","OrderRequest", new { @entityId = orderRequest.ID})">@orderRequest.ID</a></td>
                         <td>
@@ -51,9 +50,7 @@
                             @orderRequest.OrderedDate.ToShortDateString()
                         </td>
                         <td>
-                            <a href="@Url.Action("Edit", "OrderRequest", new { entityId = orderRequest.ID })" class="btn btn-default btn-sm pull-right">
-                                <i class="fa fa-eye"></i>
-                            </a>
+                            @orderRequest.OrderRequestItemCount
                         </td>
                     </tr>
                 }
@@ -61,70 +58,69 @@
         </table>
     </div>
 </div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        InitOrderRequestDataTable("data-table-order-requests");
+    });
 
-    @*<script type="text/javascript">
+    function InitOrderRequestDataTable(tableName) {
+        tableName = "#" + tableName;
         $(document).ready(function () {
-            InitOrderRequestDataTable("data-table-order-requests");
-        });
-
-        function InitOrderRequestDataTable(tableName) {
-            tableName = "#" + tableName;
-            $(document).ready(function () {
-                table = $(tableName).DataTable({
-                    dom: 'Blfrtip',
-                    paging: true,
-                    "pageLength": 25,
-                    responsive: true,
-                    layout: {
-                        topStart: {
-                            pageLength: {
-                                menu: [10, 25, 50, 100]
-                            }
-                        },
-                        topEnd: {
-                            search: {
-                                placeholder: 'Type search here'
-                            }
-                        },
-                        bottomEnd: {
-                            paging: {
-                                buttons: 3
-                            }
+            table = $(tableName).DataTable({
+                dom: 'Blfrtip',
+                paging: true,
+                "pageLength": 25,
+                responsive: true,
+                layout: {
+                    topStart: {
+                        pageLength: {
+                            menu: [10, 25, 50, 100]
                         }
                     },
-                    buttons: [
-                        'csv',
-                        'excelHtml5',
-                        'pdf'
-                    ],
-                    search: true,
-                    select: {
-                        style: 'single'
+                    topEnd: {
+                        search: {
+                            placeholder: 'Type search here'
+                        }
                     },
-                    lengthMenu: [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],
-                    //columnDefs: [
-                    //    { targets: [0], visible: false }
-                    //]
+                    bottomEnd: {
+                        paging: {
+                            buttons: 3
+                        }
+                    }
+                },
+                buttons: [
+                    'csv',
+                    'excelHtml5',
+                    'pdf'
+                ],
+                search: true,
+                select: {
+                    style: 'single'
+                },
+                lengthMenu: [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],
+                //columnDefs: [
+                //    { targets: [0], visible: false }
+                //]
 
-                });
-
-                // If the table contains at least one row, select that row by default, and load the WOR data
-                // related to it.
-                //if (table.rows().count() > 0) {
-                //    // Select the first visible row
-                //    var firstVisibleRow = table.rows({ search: 'applied' }).indexes()[0];
-                //    if (firstVisibleRow !== undefined) {
-                //        table.row(firstVisibleRow).select();
-                //        LoadWebOrderRequest(table.row(':eq(0)', { page: 'current' }).data()[0]);
-                //    }
-                //}
-
-                // Call select method when user clicks a given row.
-                //$('table.ggtools').on('click', 'tr', function () {
-                //    var data = table.row(this).data();
-                //    LoadWebOrderRequest(data[0]);
-                //});
             });
-        }
-    </script>*@
+
+            // If the table contains at least one row, select that row by default, and load the WOR data
+            // related to it.
+            //if (table.rows().count() > 0) {
+            //    // Select the first visible row
+            //    var firstVisibleRow = table.rows({ search: 'applied' }).indexes()[0];
+            //    if (firstVisibleRow !== undefined) {
+            //        table.row(firstVisibleRow).select();
+            //        LoadWebOrderRequest(table.row(':eq(0)', { page: 'current' }).data()[0]);
+            //    }
+            //}
+
+            // Call select method when user clicks a given row.
+            //$('table.ggtools').on('click', 'tr', function () {
+            //    var data = table.row(this).data();
+            //    LoadWebOrderRequest(data[0]);
+            //});
+        });
+    }
+</script>
 

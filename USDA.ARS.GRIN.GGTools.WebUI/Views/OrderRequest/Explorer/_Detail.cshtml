@@ -1,0 +1,109 @@
+﻿@model USDA.ARS.GRIN.GGTools.ViewModelLayer.OrderRequestViewModel
+
+<style type="text/css">
+    .card.card-tabs .card-tools {
+        margin:0px;
+    }
+</style>
+
+<!-- DETAIL PRIMARY ROW-->
+<div class="row">
+    <div class="col-md-1">
+        <div class="form-group">
+            <label>ID</label>
+            <input type="text" value="@Model.Entity.ID" class="form-control form-control-sm" readonly="readonly" />
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="form-group">
+            <label>Submitted By</label>
+            <div>
+                @Html.TextBoxFor(x => x.Entity.RequestorCooperatorName, new { @class = "form-control form-control-sm", @readonly = "readonly", disabled = "disabled" })
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="form-group">
+            <label>Email</label>
+            <div class="input-group">
+                @Html.TextBoxFor(x => x.Entity.RequestorEmailAddress, new { @class = "form-control form-control-sm", @readonly = "readonly", disabled = "disabled" })
+                <span class="input-group-append">
+                    <a href="@Url.Action("Search", "WebOrderRequest", new { @emailAddress = Model.Entity.RequestorEmailAddress })" class="btn btn-default btn-sm btn-flat">
+                        @*<i class="fa fa-link"></i>*@WOR
+                    </a>
+                    <a href="@Url.Action("Search", "OrderRequest", new { @emailAddress = Model.Entity.RequestorEmailAddress })" class="btn btn-default btn-sm btn-flat">
+                        @*<i class="fa fa-link"></i>*@ORD
+                    </a>
+                </span>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="form-group">
+            <label>Submitted</label>
+            @Html.TextBoxFor(x => x.Entity.OrderedDate, new { @class = "form-control form-control-sm", @readonly = "readonly", disabled = "disabled" })
+        </div>
+    </div>
+</div>
+<br />
+
+<!--DETAIL ADDRESS ROW-->
+<div class="row">
+    <div class="col-md-4">
+        <label>Requestor Address</label>
+        <br />
+        @Html.Raw(Model.Entity.RequestorCooperatorName)
+    </div>
+    <div class="col-md-4">
+        <label>Shipping Address</label>
+        <br />
+        @Html.Raw(Model.Entity.ShipToCooperatorName)
+    </div>
+    <div class="col-md-4">
+        <label>Final Recipient Address</label>
+        <br />
+        @Html.Raw(Model.Entity.FinalRecipientCooperatorName)
+    </div>
+</div>
+<br />
+
+<!-- DETAIL INTENDED USE ROW-->
+<div class="row">
+    <div class="col-md-12">
+        <div class="form-group">
+            <label>Intended Use Note</label>
+
+            <div class="scrollable-display-section">
+                @Model.Entity.IntendedUseCode: @Html.Raw(Model.Entity.IntendedUseNote)
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- DETAIL SPEC. INST. ROW-->
+@if (!String.IsNullOrEmpty(Model.Entity.SpecialInstruction))
+{
+    <div class="row">
+        <div class="col-md-12">
+            <label>Special Instruction</label>
+            <p>@Model.Entity.SpecialInstruction</p>
+        </div>
+    </div>
+}
+
+<!-- DETAIL NOTE ROW-->
+@if (!String.IsNullOrEmpty(Model.Entity.Note))
+{
+    <div class="row">
+        <div class="col-md-12">
+            <label>Note</label>
+            <p>@Model.Entity.Note</p>
+        </div>
+    </div>
+}
+<br />
+
+<!--ITEMS LIST-->
+@Html.Partial("~/Views/OrderRequest/Explorer/_ListItems.cshtml")
+

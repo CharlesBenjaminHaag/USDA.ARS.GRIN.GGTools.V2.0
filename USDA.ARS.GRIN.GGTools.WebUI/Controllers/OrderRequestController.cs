@@ -60,6 +60,23 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             }
         }
 
+        public ActionResult View(int entityId)
+        {
+            OrderRequestViewModel viewModel = new OrderRequestViewModel();
+
+            try
+            {
+                viewModel.Get(entityId);
+                ViewBag.PageTitle = String.Format("Order Request [{0}]: {1}", viewModel.Entity.ID, viewModel.Entity.RequestorCooperatorName);
+                return View("~/Views/OrderRequest/View.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return RedirectToAction("InternalServerError", "Error");
+            }
+        }
+
         [HttpPost]
         public ActionResult Edit(OrderRequestViewModel viewModel)
         {
@@ -222,6 +239,74 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             throw new NotImplementedException();
         }
 
-        
+        #region Explorer
+
+        [HttpPost]
+        public PartialViewResult ExplorerDetail(int orderRequestId)
+        {
+            try
+            {
+                OrderRequestViewModel viewModel = new OrderRequestViewModel();
+                viewModel.SearchEntity.ID = orderRequestId;
+                viewModel.Search();
+                viewModel.GetItems(orderRequestId);
+                return PartialView("~/Views/OrderRequest/Explorer/_Detail.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
+        }
+
+        [HttpPost]
+        public PartialViewResult ExplorerTimeline(int orderRequestId)
+        {
+            try
+            {
+                OrderRequestViewModel viewModel = new OrderRequestViewModel();
+                viewModel.GetActions(orderRequestId);
+                return PartialView("~/Views/OrderRequest/Explorer/_ListActions.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
+        }
+
+        [HttpPost]
+        public PartialViewResult ExplorerAttachments(int orderRequestId)
+        {
+            try
+            {
+                OrderRequestViewModel viewModel = new OrderRequestViewModel();
+                viewModel.GetAttachments(orderRequestId);
+                return PartialView("~/Views/OrderRequest/Explorer/_ListAttachments.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
+        }
+
+        [HttpPost]
+        public PartialViewResult ExplorerPhytoLog(int orderRequestId)
+        {
+            try
+            {
+                OrderRequestViewModel viewModel = new OrderRequestViewModel();
+                viewModel.GetPhytoLog(orderRequestId);  
+                return PartialView("~/Views/OrderRequest/Explorer/_ListPhytoLog.cshtml", viewModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return PartialView("~/Views/Error/_InternalServerError.cshtml");
+            }
+        }
+
+        #endregion
     }
 }

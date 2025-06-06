@@ -1,72 +1,43 @@
 ﻿@model USDA.ARS.GRIN.GGTools.ViewModelLayer.OrderRequestViewModel
+<div class="scrollable-table-section">
+    <h5>Order Requests</h5>
+    <table id="table_order_request_phyto_log" class="table table-striped" style="width:100%">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Received</th>
+                <th>Opened</th>
+                <th>Num. Pkg.</th>
+                <th>Num. Items</th>
+                <th>Maj. Genus</th>
+                <th>Import Permit Identifier</th>
+                <th>Inspected By</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var result in Model.DataCollectionPhytoLog)
+            {
 
-@if (Model.DataCollection.Count > 0)
-{
-<div class="card card-default">
-    <div class="card-header">
-        <h3 class="card-title">Related Orders (@Model.DataCollection.Count)</h3>
-        <div class="card-tools">
-            <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                <i class="fas fa-minus"></i>
-            </button>
-        </div>
-    </div>
-    <div class="card-body" style="display: block;">
-        <table id="data-table-order-requests" class="table table-striped" style="width:100%">
-            <thead>
                 <tr>
-                    <th>ID</th>
-                    <th>
-                        Type
-                    </th>
-                    <th>Local Number</th>
-                    <th>Requestor</th>
-                    <th>Ship To</th>
-                    <th>Ordered Date</th>
-                    <th></th>
+                    <td>@result.ID</td>
+                    <td>@result.ReceivedDate.ToShortDateString()</td>
+                    <td>@result.OpenedDate.ToShortDateString()</td>
+                    <td>@result.NumberOfPackages</td>
+                    <td>@result.NumberOfItems</td>
+                    <td>@result.MajorGenus</td>
+                    <td>@result.ImportPermitIdentifier</td>
+                    <td>@result.InspectedByCooperatorID</td>
                 </tr>
-            </thead>
-            <tbody>
-                @foreach (var orderRequest in Model.DataCollection)
-                {
-
-                    <tr>
-                        <td>
-                            <a href="@Url.Action("View","OrderRequest", new {@entityId = orderRequest.ID})">
-                                @orderRequest.ID
-                            </a>
-                        </td>
-                        <td>@orderRequest.OrderTypeDescription</td>
-                        <td>
-                            @orderRequest.LocalNumber
-                        </td>
-                        <td>@orderRequest.RequestorCooperatorName</td>
-                        <td>@orderRequest.ShipToCooperatorName</td>
-                        <td>
-                            @orderRequest.OrderedDate.ToShortDateString()
-                        </td>
-                        <td>
-                            <a href="@Url.Action("Edit", "OrderRequest", new { entityId = orderRequest.ID })" class="btn btn-default btn-sm pull-right">
-                                <i class="fa fa-eye"></i>
-                            </a>
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    </div>
+            }
+        </tbody>
+    </table>
 </div>
-}
-
-
-  
- 
 <script type="text/javascript">
     $(document).ready(function () {
-        InitOrderRequestDataTable("data-table-order-requests");
+        InitOrderRequestPhytoLogDataTable("table_order_request_phyto_log");
     });
 
-    function InitOrderRequestDataTable(tableName) {
+    function InitOrderRequestPhytoLogDataTable(tableName) {
         tableName = "#" + tableName;
         $(document).ready(function () {
             table = $(tableName).DataTable({
@@ -126,4 +97,3 @@
         });
     }
 </script>
-

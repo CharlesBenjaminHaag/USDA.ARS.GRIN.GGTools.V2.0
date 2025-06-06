@@ -1,0 +1,298 @@
+﻿@model USDA.ARS.GRIN.GGTools.ViewModelLayer.OrderRequestViewModel
+@{
+    ViewBag.Title = ViewBag.PageTitle;
+    Layout = "~/Views/Shared/_LayoutAdminLTE3.cshtml";
+}
+
+<div class="row">
+    <div class="col-md-3">
+        @{Html.RenderAction("Component_Widget", "Cooperator", new { cooperatorId = Model.Entity.RequestorCooperatorID }); }
+    </div>
+    <div class="col-md-9">
+        @Html.HiddenFor(x => x.Entity.ID)
+        <input type="hidden" id="txtSelectedTab" />
+        <div class="card card-default card-tabs">
+            <div id="section-order-request" class="card-header p-0 pt-1">
+                <ul class="nav nav-tabs" id="tab-order-request" role="tablist">
+                    <li id="tab-order-request-detail"
+                        class="nav-item active"
+                        data-ggtools-action="OrderRequest"
+                        data-ggtools-value="ExplorerDetail">
+                        <a id="order-request-detail" 
+                           class="nav-link active"
+                           data-toggle="pill"
+                           href="#tab-content-web-order-request-detail" 
+                           role="tab" 
+                           aria-controls="custom-tabs-two-home" 
+                           aria-selected="true">
+                            <i class="fa fa-address-card"></i> Detail
+                        </a>
+                    </li>
+                    <li id="tab-order-request-timeline"
+                        class="nav-item"
+                        data-ggtools-action="OrderRequest"
+                        data-ggtools-value="ExplorerTimeline">
+                        <a id="order-request-timeline"
+                           class="nav-link"
+                           data-toggle="pill"
+                           href="#tab-content-web-order-request-timeline"
+                           role="tab"
+                           aria-controls="custom-tabs-two-profile"
+                           aria-selected="false"><i class="fa fa-clock"></i> Timeline</a>
+                    </li>
+                    <li id="tab-order-request-attachments"
+                        class="nav-item"
+                        data-ggtools-action="OrderRequest"
+                        data-ggtools-value="ExplorerTimeline">
+                        <a id="order-request-attachments" 
+                           class="nav-link"
+                           data-toggle="pill"
+                           href="#tab-content-web-order-request-attachments"
+                           role="tab"
+                           aria-controls="custom-tabs-two-profile"
+                           aria-selected="false"><i class="fa fa-paperclip"></i> Attachments</a>
+                    </li>
+                    <li id="tab-order-request-phyto-log"
+                        class="nav-item"
+                        data-ggtools-action="OrderRequest"
+                        data-ggtools-value="ExplorerTimeline">
+                        <a id="order-request-phyto-log" 
+                           class="nav-link"
+                           data-toggle="pill"
+                           href="#tab-content-order-request-phyto-log"
+                           role="tab"
+                           aria-controls="custom-tabs-two-profile"
+                           aria-selected="false"><i class="fa fa-bug"></i> Phyto Log</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="card-body">
+                <div class="tab-content">
+                    <div id="tab-content-order-request">
+                        <!-- CONTENT HERE -->
+                    </div>
+                </div>
+            </div>
+            <div id="order-request-overlay" class="overlay-wrapper">
+                <div class="overlay dark"><i class="fas fa-3x fa-sync-alt fa-spin"></i><div class="text-bold pt-2">Loading...</div></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#order-request-overlay").hide();
+
+        // If a tab had previously been selected, load its content.
+        var lastActiveTab = getCookie("lastActiveTab");
+
+        if (lastActiveTab) {
+            var tabLink = $('#tab-order-request a[href="' + decodeURIComponent(lastActiveTab) + '"]');
+
+            if (tabLink.length) {
+                tabLink.tab('show'); // Programmatically activate tab
+            }
+        }
+
+        var activeLink = $('#tab-order-request a.nav-link.active');
+        var activeLi = activeLink.closest('li');
+
+        console.log('Initial active <a> href:', activeLink.attr('href'));
+        console.log('Initial active tab text:', activeLink.text().trim());
+        console.log('Initial active <li> id:', activeLi.attr('id'));
+
+        Load(activeLi.attr('id'));
+    });
+
+    function getCookie(name) {
+        var match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
+        if (match) return match[2];
+        return null;
+    }
+
+    $('#tab-order-request a[data-toggle="pill"]').on('shown.bs.tab', function (e) {
+
+        var activeLink = $(e.target);
+        var activeLi = activeLink.closest('li');
+
+        console.log('Active <a> href:', activeLink.attr('href'));
+        console.log('Active tab text:', activeLink.text().trim());
+        console.log('Active <li> id:', activeLi.attr('id'));
+
+        // Store tab for later use; will be shown when user
+        var activeTabHref = $(e.target).attr('href');
+        document.cookie = "lastActiveTab=" + encodeURIComponent(activeTabHref) + "; path=/";
+
+        Load(activeLi.attr('id'));
+    });
+
+    function Load(tabId) {
+        var orderRequestID = $("#Entity_ID").val();
+
+        switch (tabId) {
+            case "tab-order-request-detail":
+                LoadOrderRequestDetail(orderRequestID);
+                break;
+            case "tab-order-request-timeline":
+                LoadOrderRequestTimeline(orderRequestID);
+                break;
+            case "tab-order-request-attachments":
+                LoadOrderRequestAttachments(orderRequestID);
+                break;
+            case "tab-order-request-phyto-log":
+                LoadOrderRequestPhytoLog(orderRequestID);
+                break;
+        }
+    }
+
+    function LoadOrderRequestDetail(orderRequestId) {
+        var link = '@Url.Action("ExplorerDetail","OrderRequest", new { orderRequestId = "ORDER_REQUEST_ID" })';
+        link = link.replace("ORDER_REQUEST_ID", orderRequestId);
+
+        var formData = new FormData();
+        formData.append("orderRequestId", orderRequestId);
+
+        $("#order-request-overlay").show();
+
+        $.ajax({
+            url: link,
+            type: 'POST',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (response) {
+                $("#tab-content-order-request").html(response);
+                $("#order-request-overlay").hide();
+            },
+            error: function (xhr, status, error) {
+                // Basic error message
+                console.error("AJAX Error:", error);
+                console.error("Status:", status);
+
+                // Full response text (if server returned any HTML or JSON)
+                console.error("Response Text:", xhr.responseText);
+
+                // Optionally show an alert to the user
+                alert("An error occurred:\nStatus: " + status + "\nError: " + error + "\nDetails: " + xhr.responseText);
+
+                // Hide overlay if it was showing
+                $("#order-request-overlay").hide();
+            }
+        });
+    }
+
+    function LoadOrderRequestTimeline(orderRequestId) {
+
+        var link = '@Url.Action("ExplorerTimeline","OrderRequest", new { orderRequestId = "ORDER_REQUEST_ID" })';
+        link = link.replace("ORDER_REQUEST_ID", orderRequestId);
+
+        var formData = new FormData();
+        formData.append("orderRequestId", orderRequestId);
+
+        $("#order-request-overlay").show();
+
+        $.ajax({
+            url: link,
+            type: 'POST',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (response) {
+                $("#tab-content-order-request").html(response);
+                $("#order-request-overlay").hide();
+            },
+            error: function (xhr, status, error) {
+                // Basic error message
+                console.error("AJAX Error:", error);
+                console.error("Status:", status);
+
+                // Full response text (if server returned any HTML or JSON)
+                console.error("Response Text:", xhr.responseText);
+
+                // Optionally show an alert to the user
+                alert("An error occurred:\nStatus: " + status + "\nError: " + error + "\nDetails: " + xhr.responseText);
+
+                // Hide overlay if it was showing
+                $("#order-request-overlay").hide();
+            }
+        });
+    }
+
+    function LoadOrderRequestAttachments(orderRequestId) {
+        var link = '@Url.Action("ExplorerAttachments","OrderRequest", new { orderRequestId = "ORDER_REQUEST_ID" })';
+        link = link.replace("ORDER_REQUEST_ID", orderRequestId);
+
+        var formData = new FormData();
+        formData.append("orderRequestId", orderRequestId);
+
+        $("#order-request-overlay").show();
+
+        $.ajax({
+            url: link,
+            type: 'POST',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (response) {
+                $("#tab-content-order-request").html(response);
+                $("#order-request-overlay").hide();
+            },
+            error: function (xhr, status, error) {
+                // Basic error message
+                console.error("AJAX Error:", error);
+                console.error("Status:", status);
+
+                // Full response text (if server returned any HTML or JSON)
+                console.error("Response Text:", xhr.responseText);
+
+                // Optionally show an alert to the user
+                alert("An error occurred:\nStatus: " + status + "\nError: " + error + "\nDetails: " + xhr.responseText);
+
+                // Hide overlay if it was showing
+                $("#order-request-overlay").hide();
+            }
+        });
+    }
+
+    function LoadOrderRequestPhytoLog(orderRequestId) {
+        var link = '@Url.Action("ExplorerPhytoLog","OrderRequest", new { orderRequestId = "ORDER_REQUEST_ID" })';
+        link = link.replace("ORDER_REQUEST_ID", orderRequestId);
+
+        var formData = new FormData();
+        formData.append("orderRequestId", orderRequestId);
+
+        $("#order-request-overlay").show();
+
+        $.ajax({
+            url: link,
+            type: 'POST',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (response) {
+                $("#tab-content-order-request").html(response);
+                $("#order-request-overlay").hide();
+            },
+            error: function (xhr, status, error) {
+                // Basic error message
+                console.error("AJAX Error:", error);
+                console.error("Status:", status);
+
+                // Full response text (if server returned any HTML or JSON)
+                console.error("Response Text:", xhr.responseText);
+
+                // Optionally show an alert to the user
+                alert("An error occurred:\nStatus: " + status + "\nError: " + error + "\nDetails: " + xhr.responseText);
+
+                // Hide overlay if it was showing
+                $("#order-request-overlay").hide();
+            }
+        });
+    }
+
+</script>

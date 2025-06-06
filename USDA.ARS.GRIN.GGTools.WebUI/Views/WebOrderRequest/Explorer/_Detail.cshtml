@@ -278,5 +278,5 @@
 @Html.Partial("~/Views/WebOrderRequest/Explorer/_WebOrderRequestItemList.cshtml")
 
 <!--ORDER LIST-->
-@{ Html.RenderAction("ExplorerOrderRequestList", "WebOrderRequest", new { @webOrderRequestId = Model.Entity.ID }); }
+@{ Html.RenderAction("_List", "OrderRequest", new { @webOrderRequestId = Model.Entity.ID }); }
 

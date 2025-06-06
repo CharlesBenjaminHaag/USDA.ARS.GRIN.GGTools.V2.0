@@ -4,16 +4,6 @@
     Layout = "~/Views/Shared/_LayoutAdminLTE3.cshtml";
 }
 
-@*<style>
-    .invoice-info {
-        margin-top: 25px;
-    }
-
-    .section-modal-reject-email-fields {
-        margin-top: 15px;
-    }
-</style>*@
-
 <div class="row">
     <div class="col-md-3">
         @{Html.RenderAction("Component_ContactWidget", "WebCooperator", new { entityId = Model.Entity.WebCooperatorID }); }
@@ -60,7 +50,7 @@
             </div>
             <div class="card-body">
                 <div class="tab-content">
-                    <div id="tab-content-web-order-request">
+                    <div id="tab-content-order-request">
                         <!-- CONTENT HERE -->
                     </div>
                 </div>
@@ -196,7 +186,7 @@
             processData: false,
             data: formData,
             success: function (response) {
-                $("#tab-content-web-order-request").html(response);
+                $("#tab-content-order-request").html(response);
                 $("#web-order-request-overlay").hide();
             }
         });
