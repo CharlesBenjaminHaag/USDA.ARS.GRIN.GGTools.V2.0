@@ -11,23 +11,55 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
     {
         private static readonly Logger Log = LogManager.GetCurrentClassLogger();
 
-        public ActionResult Search(int id = 0, string status = "", string requestorName = "", string requestorEmailAddress = "", string requestorOrganization = "", string shipToName = "", string finalRecipientName = "", string mostRecentOrderAction = "", int siteID = 0, string specialInstruction = "", string note = "")
+        public ActionResult Search(int id = 0, string requestorName = "", string emailAddress = "", string organization = "", string shipToName = "", string finalRecipientName = "", string mostRecentOrderRequestAction = "", string siteName = "", string countryDescription = "", string specialInstruction = "", string note = "")
         {
             OrderRequestViewModel viewModel = new OrderRequestViewModel();
 
             try
             {
-                viewModel.SearchEntity.ID = id;
-                viewModel.SearchEntity.RequestorCooperatorName = requestorName;
-                viewModel.SearchEntity.RequestorEmailAddress = requestorEmailAddress;
-                viewModel.SearchEntity.RequestorOrganizationName = requestorOrganization;
-                viewModel.SearchEntity.ShipToCooperatorName = shipToName;
-                viewModel.SearchEntity.FinalRecipientCooperatorName = finalRecipientName;
-                viewModel.SearchEntity.MostRecentOrderActionCode = mostRecentOrderAction;
-                viewModel.SearchEntity.SiteID = siteID;
-                viewModel.SearchEntity.SpecialInstruction = specialInstruction;
-                viewModel.SearchEntity.Note = note;
-                viewModel.Search();
+                if (id > 0)
+                {
+                    viewModel.SearchEntity.ID = id;
+                    viewModel.Search();
+                }
+
+                if (!String.IsNullOrEmpty(requestorName))
+                {
+                    viewModel.SearchEntity.RequestorCooperatorName = requestorName;
+                    viewModel.Search();
+                }
+
+                if (!String.IsNullOrEmpty(emailAddress))
+                {
+                    viewModel.SearchEntity.RequestorEmailAddress = emailAddress;
+                    viewModel.Search();
+                }
+
+                if (!String.IsNullOrEmpty(organization))
+                {
+                    viewModel.SearchEntity.RequestorOrganizationName = organization;
+                    viewModel.Search();
+                }
+
+
+                if (!String.IsNullOrEmpty(shipToName))
+                {
+                    viewModel.SearchEntity.ShipToCooperatorName = shipToName;
+                    viewModel.Search();
+                }
+
+                if (!String.IsNullOrEmpty(finalRecipientName))
+                {
+                    viewModel.SearchEntity.FinalRecipientCooperatorName = finalRecipientName;
+                    viewModel.Search();
+                }
+
+                if (!String.IsNullOrEmpty(mostRecentOrderRequestAction))
+                {
+                    viewModel.SearchEntity.MostRecentOrderActionCode = mostRecentOrderRequestAction;
+                    viewModel.Search();
+                }
+
                 return View("~/Views/OrderRequest/Index.cshtml", viewModel);
             }
             catch (Exception ex)
@@ -88,7 +120,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
             try
             {
                 OrderRequestViewModel viewModel = new OrderRequestViewModel();
-                viewModel.PageTitle = "Order Request Search";
+                ViewBag.PageTitle = "Order Request Search";
                 return View("~/Views/OrderRequest/Index.cshtml", viewModel);
             }
             catch (Exception ex)
@@ -101,6 +133,7 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
         [HttpPost]
         public ActionResult Search(OrderRequestViewModel viewModel)
         {
+
             viewModel.Search();
             return View("~/Views/OrderRequest/Index.cshtml", viewModel);
         }
