@@ -18,12 +18,12 @@
             <li class="nav-item" id="filter-web-order-requests">
                 <a class="nav-link active" data-ggtools-action="1D" data-toggle="pill" href="#section-web-order-request-list" role="tab" aria-controls="custom-tabs-one-home" aria-selected="true">Web Order Requests</a>
             </li>
-            <li class="nav-item" id="filter-web-order-request-items">
+            @*<li class="nav-item" id="filter-web-order-request-items">
                 <a class="nav-link" data-ggtools-action="3D" data-toggle="pill" href="#section-web-order-request-item-list" role="tab" aria-controls="custom-tabs-one-profile" aria-selected="false">Items</a>
             </li>
             <li class="nav-item" id="filter-web-order-request-actions">
                 <a class="nav-link" data-ggtools-action="7D" data-toggle="pill" href="#section-web-order-request-action-list" role="tab" aria-controls="custom-tabs-one-messages" aria-selected="false">Actions</a>
-            </li>
+            </li>*@
         </ul>
     </div>
 
@@ -33,11 +33,11 @@
             <div class="tab-pane fade show active" id="section-web-order-request-list" role="tabpanel" aria-labelledby="custom-tabs-one-home-tab">
                 @Html.Partial("~/Views/WebOrderRequest/Explorer/_List.cshtml")
             </div>
-            <div class="tab-pane fade" id="section-web-order-request-item-list" role="tabpanel" aria-labelledby="custom-tabs-one-profile-tab">
+            @*<div class="tab-pane fade" id="section-web-order-request-item-list" role="tabpanel" aria-labelledby="custom-tabs-one-profile-tab">
             </div>
             <div class="tab-pane fade" id="section-web-order-request-action-list" role="tabpanel" aria-labelledby="custom-tabs-one-messages-tab">
      
-            </div>
+            </div>*@
         </div>
     </div>
 </div>
@@ -52,7 +52,7 @@
         $(document).ready(function () {
             table = $(tableName).DataTable({
                 dom: 'Blfrtip',
-                paging: false,
+                paging: true,
                 "pageLength": 25,
                 responsive: true,
                 buttons: [
@@ -90,19 +90,19 @@
         });
     }
 
-    $('#section-web-order-request-list ul.nav li').on('click', function () {
-        var selectedListId = $(this).attr('id');
-        var webOrderRequestIdList = $("#ItemIDList").val();
+    //$('#section-web-order-request-list ul.nav li').on('click', function () {
+    //    var selectedListId = $(this).attr('id');
+    //    var webOrderRequestIdList = $("#ItemIDList").val();
 
-        if (selectedListId == "filter-web-order-request-items") {
-            GetWebOrderRequestItems(webOrderRequestIdList);
-        }
-        else {
-            if (selectedListId == "filter-web-order-request-actions") {
-                GetWebOrderRequestActions(webOrderRequestIdList);
-            }
-        }
-    });
+    //    if (selectedListId == "filter-web-order-request-items") {
+    //        GetWebOrderRequestItems(webOrderRequestIdList);
+    //    }
+    //    else {
+    //        if (selectedListId == "filter-web-order-request-actions") {
+    //            GetWebOrderRequestActions(webOrderRequestIdList);
+    //        }
+    //    }
+    //});
 
     function GetWebOrderRequestItems(webOrderRequestIdList) {
         var link = '@Url.Action("SearchWebOrderRequestItems", "WebOrderRequest")';

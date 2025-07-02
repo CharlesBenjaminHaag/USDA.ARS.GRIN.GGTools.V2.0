@@ -204,10 +204,10 @@
             <div class="input-group">
                 @Html.TextBoxFor(x => x.Entity.WebCooperatorEmail, new { @class = "form-control form-control-sm", @readonly = "readonly", disabled = "disabled" })
                 <span class="input-group-append">
-                    <a href="@Url.Action("Search", "WebOrderRequest", new { @emailAddress = Model.Entity.WebCooperatorEmail })" class="btn btn-default btn-sm btn-flat">
+                    <a href="@Url.Action("Search", "WebOrderRequest", new { @emailAddress = Model.Entity.WebCooperatorEmail })" class="btn btn-default btn-sm btn-flat" target="_blank">
                         <i class="fa fa-search"></i> WOR
                     </a>
-                    <a href="@Url.Action("Search", "OrderRequest", new { @emailAddress = Model.Entity.WebCooperatorEmail })" class="btn btn-default btn-sm btn-flat">
+                    <a href="@Url.Action("Search", "OrderRequest", new { @emailAddress = Model.Entity.WebCooperatorEmail })" class="btn btn-default btn-sm btn-flat" target="_blank">
                         <i class="fa fa-search"></i> ORD
                     </a>
                 </span>
