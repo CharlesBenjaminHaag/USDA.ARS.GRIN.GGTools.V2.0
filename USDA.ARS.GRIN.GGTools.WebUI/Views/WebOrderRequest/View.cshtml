@@ -10,7 +10,7 @@
     </div>
     <div class="col-md-9">
         @Html.HiddenFor(x => x.Entity.ID)
-        <input type="hidden" id="txtSelectedTab" />
+        <input type="text" id="txtSelectedTab" />
         <div class="card card-default card-tabs">
             <div id="section-web-order-request" class="card-header p-0 pt-1">
                 <ul class="nav nav-tabs" id="tab-web-order-request" role="tablist">
@@ -50,7 +50,7 @@
             </div>
             <div class="card-body">
                 <div class="tab-content">
-                    <div id="tab-content-order-request">
+                    <div id="tab-content-web-order-request">
                         <!-- CONTENT HERE -->
                     </div>
                 </div>
@@ -186,7 +186,7 @@
             processData: false,
             data: formData,
             success: function (response) {
-                $("#tab-content-order-request").html(response);
+                $("#tab-content-web-order-request").html(response);
                 $("#web-order-request-overlay").hide();
             }
         });
