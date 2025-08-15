@@ -33,6 +33,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
         public string WebUserList { get; set; }
         public int Year { get; set; }
         public string IsLocked { get; set; }
+        public string IsSMTARestricted { get; set; }
         public string HasOrders { get; set; }
     }
 }

@@ -16,6 +16,7 @@
                     <th>ID</th>
                     <th>Status</th>
                     <th>Accession</th>
+                    <th>Flag</th>
                     <th>Owner</th>
                     <th>Taxon</th>
                     <th>Site</th>
@@ -34,6 +35,12 @@
                             <a href="https://npgsweb.ars-grin.gov/gringlobal/accessiondetail?id=@result.AccessionID">
                                 @result.AccessionText
                             </a>
+                        </td>
+                        <td>
+                            @if (result.IsSMTARestricted == "Y")
+                            {
+                                <span class="badge badge-danger">SMTA</span>
+                            }
                         </td>
                         <td>
                             <a href="@Url.Action("Edit","Cooperator", new { @entityId = result.AccessionOwnedByCooperatorID})">

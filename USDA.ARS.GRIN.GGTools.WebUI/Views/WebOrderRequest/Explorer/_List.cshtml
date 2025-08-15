@@ -5,7 +5,8 @@
             <th>ID</th>
             <th>Submitted</th>
             <th>Status</th>
-            <th style="width: 20%">
+            <th>Flag</th>
+            <th>
                 Requestor
             </th>
             <th>Email Address</th>
@@ -49,12 +50,17 @@
                     break;
             }
             <tr>
-
                 <td>
                     @result.ID
                 </td>
                 <td>@result.CreatedDate.ToShortDateString()</td>
                 <td style="@statusFieldBackgroundColorStyle">@result.StatusTitle</td>
+                <td>
+                    @if (result.IsSMTARestricted == "Y")
+                    {
+                        <span class="badge badge-danger">SMTA</span>
+                    }
+                </td>
                 <td>
                     @result.WebCooperatorFullName
                 </td>

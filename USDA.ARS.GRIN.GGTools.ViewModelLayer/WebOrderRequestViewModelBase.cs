@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using USDA.ARS.GRIN.GGTools.AppLayer;
 using USDA.ARS.GRIN.GGTools.DataLayer;
 using System.Linq;
+using System.Security.Cryptography;
 
 namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
 {
@@ -52,6 +53,7 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
                 Statuses = new SelectList(mgr.GetCodeValues("WEB_ORDER_REQUEST_STATUS"), "Value", "Title");
                 WebOrderRequestActions = new SelectList(mgr.GetCodeValues("WEB_ORDER_REQUEST_ACTION").Where(x =>!x.Value.Contains("FLAG")), "Value", "Title");
                 WebOrderRequestStatuses = new SelectList(mgr.GetCodeValues("WEB_ORDER_REQUEST_STATUS"), "Value", "Title");
+                AccessionRestrictionTypes = new SelectList(mgr.GetCodeValues("ACCESSION_RESTRICTION_TYPE"), "Value", "Title");
             }
             ActionEmailFrom = "gringlobal.orders@usda.gov";           
         }
@@ -212,6 +214,8 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
         public SelectList WebOrderRequestActions { get; set; }
 
         public SelectList Countries { get; set; }
+
+        public SelectList AccessionRestrictionTypes { get; set; }
 
         #endregion
     }

@@ -83,6 +83,10 @@
                         <label>Locked</label>
                         @Html.DropDownListFor(x => x.SearchEntity.IsLocked, Model.YesNoOptions, "Either", new { @class = "form-control" })
                     </div>
+                    <div class="col-md-1">
+                        <label>SMTA</label>
+                        @Html.DropDownListFor(x => x.SearchEntity.IsSMTARestricted, Model.YesNoOptions, "Either", new { @class = "form-control" })
+                    </div>
                 </div>
                 <div>
                     <button id="btnReset" type="button" class="btn btn-default">Reset</button>

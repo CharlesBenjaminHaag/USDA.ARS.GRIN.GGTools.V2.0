@@ -19,6 +19,7 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
         public string PINumber { get; set; }
         public string AccessionText { get; set; }
         public string StatusCode { get; set; }
+        public string IPRTypeCode { get; set; }
         public string TypeCode { get; set; }
         public int SiteID { get; set; }
         public string SiteLongName { get; set; }
@@ -30,6 +31,6 @@ namespace USDA.ARS.GRIN.GGTools.DataLayer
         public int SpeciesID { get; set; }
         public string SpeciesName { get; set; }
         public string ItemName { get; set; }
-     
+        public string IsSMTARestricted { get; set; }
     }
 }
