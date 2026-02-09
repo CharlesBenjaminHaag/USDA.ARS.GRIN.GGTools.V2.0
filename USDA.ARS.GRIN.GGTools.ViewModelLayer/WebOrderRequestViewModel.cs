@@ -309,6 +309,7 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
             }
 
             // Replace substitution variables with values.
+            // THIS BELONGS IN A DATA STORE 
             actionEmailTemplate.Subject = actionEmailTemplate.Subject.Replace("[ID_HERE]", Entity.ID.ToString());
             actionEmailTemplate.Body.Replace("[ID_HERE]", Entity.ID.ToString());
             actionEmailTemplate.Body.Replace("[FIRST_NAME]", Entity.WebCooperatorFirstName);
@@ -319,9 +320,9 @@ namespace USDA.ARS.GRIN.GGTools.ViewModelLayer
             // Determine what if any additional notifications must be sent.
             switch (Entity.StatusCode)
             {
-                case "NRR_ACCEPT":
-                    secondaryEmailNotification = GetEmailTemplate("CAP");
-                    secondaryEmailNotification.EmailTo = Entity.CuratorEmailAddressList;
+                case "NRR_APPROVE":
+                    secondaryEmailNotification = GetEmailTemplate("RAP");
+                    secondaryEmailNotification.EmailTo = Entity.WebCooperatorEmail;
                     secondaryEmailNotification.Subject = secondaryEmailNotification.Subject.Replace("[ID_HERE]", Entity.ID.ToString());
                     secondaryEmailNotification.Body = secondaryEmailNotification.Body.Replace("[ID_HERE]", Entity.ID.ToString());
                     secondaryEmailNotification.Body = secondaryEmailNotification.Body.Replace("[FIRST_NAME]", Entity.WebCooperatorFirstName);
