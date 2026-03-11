@@ -62,9 +62,6 @@
                             <a class="btn btn-app" href="@Url.Action("New","Account")">
                                 <i class="fas fa-plus"></i> Add a new user
                             </a>
-                            <a class="btn btn-app" href="@Url.Action("Index","Cooperator")">
-                                <i class="fas fa-search"></i>Search curators
-                            </a>
                             <a class="btn btn-app" href="@Url.Action("Explorer","SysGroup")">
                                 <i class="fas fa-users"></i>Manage Groups
                             </a>
@@ -112,15 +109,21 @@
                 </div>
                 <div id="collapseThree" class="collapse show" data-parent="#accordion" style="">
                     <div class="card-body">
-                        <a class="btn btn-app disabled" href="@Url.Action("Index","Import")">
-                            <i class="fas fa-toolbox"></i> Data Import
+                        <a class="btn btn-app" href="@Url.Action("Index","Cooperator")">
+                            <i class="fas fa-search"></i>Search curators
                         </a>
+                        @*<a class="btn btn-app disabled" href="@Url.Action("Index","Import")">
+                            <i class="fas fa-toolbox"></i> Data Import
+                        </a>*@
                         <a class="btn btn-app" href="@Url.Action("Index","SysDynamicQuery")">
                             <i class="fas fa-search"></i>SQL Query Tool
                         </a>
-                        <a class="btn btn-app disabled" href="@Url.Action("Index","SysDataview")">
-                            <i class="fas fa-table"></i>Dataview Explorer
+                        <a class="btn btn-app" href="@Url.Action("Index","File")">
+                            <i class="fas fa-file"></i>File Manager
                         </a>
+                        @*<a class="btn btn-app disabled" href="@Url.Action("Index","SysDataview")">
+            <i class="fas fa-table"></i>Dataview Explorer
+        </a>*@
                     </div>
                 </div>
             </div>
