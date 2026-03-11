@@ -1163,6 +1163,7 @@
     <Content Include="Views\OrderRequest\Explorer\_Detail.cshtml" />
     <Content Include="Views\OrderRequest\Explorer\Index.cshtml" />
     <Content Include="Views\OrderRequest\Explorer\_Timeline.cshtml" />
+    <Content Include="Views\File\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -18,7 +18,7 @@
             {
                 @Html.AntiForgeryToken()
                 <input type="file" name="file" />
-                <button type="submit" class="btn btn-primary">Upload</button>
+                <button type="submit" class="btn btn-primary float-right">Upload</button>
             }
     </div>
 </div>
@@ -32,7 +32,7 @@
     <tbody>
         @foreach (var file in Model)
         {
-            @using (Html.BeginForm("Delete", "File", FormMethod.Post))
+            using (Html.BeginForm("Delete", "File", FormMethod.Post))
             {
                 @Html.AntiForgeryToken()
                 <tr>
