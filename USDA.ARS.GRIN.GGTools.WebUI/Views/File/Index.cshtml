@@ -26,6 +26,8 @@
     <thead>
         <tr>
             <th>File</th>
+            <th>Size</th>
+            <th>Uploaded</th>
             <th></th>
         </tr>
     </thead>
@@ -37,11 +39,11 @@
                 @Html.AntiForgeryToken()
                 <tr>
                     <td>
-                        @file
+                        <a href="/gringlobal/documents/@file" target="_blank">@file</a>
                         <input type="hidden" name="fileName" value="@file" />
                     </td>
                     <td>
-                        <button type="submit" class="btn btn-danger">Delete</button>
+                        <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i> Delete File</button>
                     </td>
                 </tr>
             }
