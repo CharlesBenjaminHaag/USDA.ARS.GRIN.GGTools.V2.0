@@ -1,6 +1,7 @@
 ﻿using NLog;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -14,7 +15,8 @@ namespace USDA.ARS.GRIN.GGTools.WebUI.Controllers
     {
         private static readonly Logger Log = LogManager.GetCurrentClassLogger();
         //private readonly string _uploadPath = Path.Combine(HttpRuntime.AppDomainAppPath, "uploads");
-        private readonly string _uploadPath = @"C:\inetpub\wwwroot\gringlobal\documents";
+        //private readonly string _uploadPath = @"C:\inetpub\wwwroottraining\gringlobal\documents";
+        private readonly string _uploadPath = ConfigurationManager.AppSettings["UploadPath"];
 
         [HttpPost]
         [ValidateAntiForgeryToken]

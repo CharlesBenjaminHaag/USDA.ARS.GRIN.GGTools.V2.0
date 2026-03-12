@@ -1,4 +1,4 @@
-﻿@model List<string>
+﻿@model List<System.IO.FileInfo>
 
 @if (ViewBag.Message != null)
 {
@@ -15,11 +15,11 @@
     <div class="card-body">
         @using (Html.BeginForm("Upload", "File", FormMethod.Post,
             new { enctype = "multipart/form-data" }))
-            {
-                @Html.AntiForgeryToken()
-                <input type="file" name="file" />
-                <button type="submit" class="btn btn-primary float-right">Upload</button>
-            }
+        {
+            @Html.AntiForgeryToken()
+            <input type="file" name="file" />
+            <button type="submit" class="btn btn-primary float-right">Upload</button>
+        }
     </div>
 </div>
 <table class="table table-bordered">
@@ -27,6 +27,7 @@
         <tr>
             <th>File</th>
             <th>Size</th>
+            <th>Created</th>
             <th>Uploaded</th>
             <th></th>
         </tr>
@@ -39,16 +40,66 @@
                 @Html.AntiForgeryToken()
                 <tr>
                     <td>
-                        <a href="/gringlobal/documents/@file" target="_blank">@file</a>
-                        <input type="hidden" name="fileName" value="@file" />
+                        <a href="/gringlobal/documents/@file.Name" target="_blank">@file.Name</a>
+                        <input type="hidden" name="fileName" value="@file.Name" />
                     </td>
+                    <td>@(Math.Round(file.Length / 1024.0, 1)) KB</td>
+                    <td>@file.CreationTime.ToString("MM/dd/yyyy hh:mm tt")</td>
+                    <td>@file.LastWriteTime.ToString("MM/dd/yyyy hh:mm tt")</td>
                     <td>
-                        <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i> Delete File</button>
+                        @*<button type="submit" class="btn btn-danger float-right"><i class="fas fa-trash"></i> Delete File</button>*@
+                    
+                    
+                        <button type="button" class="btn btn-danger float-right"
+                                data-toggle="modal"
+                                data-target="#confirmDelete"
+                                data-filename="@file.Name">
+                            <i class="fas fa-trash"></i> Delete File
+                        </button>
+                    
                     </td>
                 </tr>
             }
         }
     </tbody>
 </table>
+<div class="modal fade" id="confirmDelete" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Confirm Delete</h5>
+                <button type="button" class="close" data-bs-dismiss="modal">
+                    <span>&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <i class="fas fa-exclamation-triangle text-warning"></i>
+                Are you sure you want to delete <strong id="fileNameDisplay"></strong>?
+                <br /><br />
+                Because once it's gone, it's gone.
+                <br /><br />
+                Forever.
+                <br />
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                    <i class="fas fa-times"></i> Cancel
+                </button>
+                @using (Html.BeginForm("Delete", "File", FormMethod.Post, new { id = "deleteForm" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" name="fileName" id="deleteFileName" value="" />
+                    <button type="submit" class="btn btn-danger">
+                        <i class="fas fa-trash"></i> Delete
+                    </button>
+                }
+            </div>
+        </div>
+    </div>
+</div>
 
-
+<script>$('#confirmDelete').on('show.bs.modal', function (e) {
+        var fileName = $(e.relatedTarget).data('filename');
+        $('#fileNameDisplay').text(fileName);
+        $('#deleteFileName').val(fileName);
+    });</script>
